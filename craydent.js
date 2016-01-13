@@ -8,584 +8,121 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
+var _craydent_version = '0.4.0';
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
 $g.$c = {};
-function Craydent(req, res) {
+function Craydent (req, res) {
 	var self = this;
 
-	var cookies, sessionid,
-			fs = require('fs'),
-			session;
+	var fs = require('fs');
 
+	this.sessionid;
+	this.session;
 	this.request = req;
 	this.response = res;
 	this.$l;
 	this.location;
 	this.navigator = {};
 
-	//this.sessionid = "";
-	this.getSessionID = function () {
-		return sessionid;
-	};
-	this.getSession = function (sid, callback) {
-		if (arguments.length == 0) {
-			return self.getSessionSync(sid);
-		}
-		//sid = sid || sessionid;
-		return self._getSession(callback, sid);
-	};
-	this.getSessionSync = function (sid) {
-		return self._getSession(sid);
-	};
-	this._sessionFileCreatAndRetrieve = function (dir, path, sync, callback) {
-		if (sync) {
-			if(!fs.existsSync(path)){
-				if (!fs.existsSync(dir)) {
-					var dirPath = "";
-					// create all missing parent directories sync
-					for (var i = 0, dirs = dir.split('/'),dir = dirs[i]; dir; dir = dirs[++i]) {
-						dirPath += dir + '/';
-						if (!fs.existsSync(dirPath)) {
-							fs.mkdirSync(dirPath);
-						}
-					}
-				}
-				// creates the file
-				fs.openSync(path,'w+');
-			}
-			return tryEval(fs.readFileSync(path).toString()) || {};
-		} else {
-			fs.exists(path, function (exists) {
-				if (!exists) {
-					// create all missing parent directories async
-					mkdirRecursive(dir,function () {
-						// create the file
-						fs.open(path,'w+',function () {
-							callback({});
-						});
-					});
-				} else {
-					fs.readFile(path,function (err,data) {
-						callback(tryEval(data));
-					});
-				}
-			});
-		}
-		return;
-	};
-	this._getSession = function (callback, sid) {
-		try {
-			var request = self.request;
-			if (session || __GLOBALSESSION[sessionid]) {
-				session = session ? (__GLOBALSESSION[sessionid] = session) : (__GLOBALSESSION[sessionid]);
-				return callback ? callback(session) : session;
-			}
-			var sync = !callback;
+	// instance dependent methods
+	var $COOKIE = $COOKIE.bind(this),
+		$GET = $GET.bind(this),
+		ChromeVersion = ChromeVersion.bind(this),
+		FirefoxVersion = FirefoxVersion.bind(this),
+		IEVersion = IEVersion.bind(this),
+		OperaVersion = OperaVersion.bind(this),
+		SafariVersion = SafariVersion.bind(this),
+		echo = echo.bind(this),
+		end = end.bind(this),
+		getSessionID = getSessionID.bind(this),
+		getSession = getSession.bind(this),
+		getSesionSync = getSessionSync.bind(this),
+		header = header.bind(this),
+		isAmaya = isAmaya.bind(this),
+		isAndroid = isAndroid.bind(this),
+		isBlackBerry = isBlackBerry.bind(this),
+		isChrome = isChrome.bind(this),
+		isFirefox = isFirefox.bind(this),
+		isGecko = isGecko.bind(this),
+		isIE6 = isIE6.bind(this),
+		isIE = isIE.bind(this),
+		isIPad = isIPad.bind(this),
+		isIPhone = isIPhone.bind(this),
+		isIPod = isIPod.bind(this),
+		isKHTML = isKHTML.bind(this),
+		isLinux = isLinux.bind(this),
+		isMac = isMac.bind(this),
+		isMobile = isMobile.bind(this),
+		isOpera = isOpera.bind(this),
+		isPalmOS = isPalmOS.bind(this),
+		isPresto = isPresto.bind(this),
+		isPrince = isPrince.bind(this),
+		isSafari = isSafari.bind(this),
+		isSymbian = isSymbian.bind(this),
+		isTrident = isTrident.bind(this),
+		isWebkit = isWebkit.bind(this),
+		isWindows = isWindows.bind(this),
+		isWindowsMobile = isWindowsMobile.bind(this),
+		var_dump = var_dump.bind(this),
+		writeSession = writeSession.bind(this);
 
-			var cookies, sessionCookieKey = "NODEJSSESSION";
-			cookies = (request.propertyValue('headers.cookie') || '').split('; ');
-			// get thes session cookie cuid from the cookie
-			var sessionCookie = cookies.filter(function (c) {return c.contains(sessionCookieKey + "=");})[0];
-			if (sessionCookie) {
-				sessionid = sessionCookie.substring(sessionCookieKey.length + 1);
-			} else {
-				sessionid = cuid();
-			}
+	this.getSessionID = getSessionID;
+	this.getSession = getSession;
+	this.getSessionSync = getSessionSync;
+	this._sessionFileCreatAndRetrieve = _sessionFileCreatAndRetrievefunction;
+	this._getSession = _getSession;
 
-			if (true || !__GLOBALSESSION[sessionid] && __GLOBALSESSION.length > 1000000) {
-				// make room for this session to be store globally
-				for (var prop in __GLOBALSESSION) {
-					delete __GLOBALSESSION[prop];
-					break;
-				}
-
-				var dir = 'craydent/session',
-						path = dir + "/" + sessionid;
-
-				var csession = self._sessionFileCreatAndRetrieve(dir, path, sync, function(retrievedSession){
-					__GLOBALSESSION[sessionid] = session = retrievedSession;
-					callback && callback(session);
-				});
-				if (csession) {
-					return __GLOBALSESSION[sessionid] = session = csession;
-				}
-			} else {
-				return callback ? callback(__GLOBALSESSION[sessionid]) : __GLOBALSESSION[sessionid];
-			}
-		} catch(e) {
-			logit(e);
-		}
-	};
-
-	this.end = function (output, encoding) {
-		output = output || "";
-		var response = self.response;
-		if (encoding && !encoding.isString()) {
-			response = encoding;
-		}
-		if (!response) {// response already ended
-			return;
-		}
-
-		try {
-			// Release memory for objects
-			var obj;
-			while (obj = $g.GarbageCollector.splice(0,1)[0]) {
-				obj.destruct();
-			}
-			self.writeSession();
-			var heads = typeof header != "undefined" ? header : {headers:{}},
-					eco = (typeof echo != "undefined" ? echo : self.echo);
-
-			var headers = $c.merge(heads.headers, self.header.headers),
-					code = heads.code || self.header.code,
-					eco = (typeof echo != "undefined" && echo.out || "") + (self.echo.out || "");
-
-
-			!response.headersSent && response.writeHead(code, headers);
-			response.end(eco + output, encoding);
-			logit('end*******************************************************');
-			//logit(echo.out);
-		} catch(e) {
-			response.writeHead(500, this.header.headers);
-			response.end($c.DEBUG_MODE ? e.toString() : "");
-		} finally {
-			logit("response ended");
-		}
-	};
-	this.writeSession = function () {
-		var fs = require('fs');
-		if (sessionid) {
-			if($c.BALANCE_SERVER_LIST) {
-				var otherServers = $c.BALANCE_SERVER_LIST.filter(function (ip) {
-					return $c.PUBLIC_IP != ip;
-				});
-				// save session to other load balanced servers
-				for (var i = 0, len = otherServers.length; i < len; i++) {
-					if (self.propertyValue('response.setHeader') && !self.propertyValue('response.headersSent')) {
-						self.response.setHeader("Set-Cookie", ["NODEJSSESSION=" + sessionid + "; path=/"]);
-					}
-					fs.writeFile('craydent/session/' + sessionid, JSON.stringify(session), foo);
-				}
-			}
-			// save session to this server
-			if (self.propertyValue('response.setHeader') && !self.propertyValue('response.headersSent')) {
-				self.response.setHeader("Set-Cookie", ["NODEJSSESSION=" + sessionid + "; path=/"]);
-			}
-			fs.writeFile('craydent/session/' + sessionid, JSON.stringify(session), foo);
-		}
-	};
-	this.header = function (headers, code) {
-		if (headers.isString() && !code) {
-			if (!headers.contains(':')) {
-				code = parseInt(headers.replace(/.*?([\d]{3}).*/,'$1'));
-			}
-			if (headers.toLowerCase().indexOf('http/') == 0) {
-				headers = {'Content-Type':'text/html'};
-			} else {
-				var parts = headers.split(':');
-				headers = {};
-				headers[parts[0].trim()] = parts[1].trim();
-			}
-		}
-		self.header.headers = self.header.headers.merge(headers);
-		if (code && code.isInt()) {
-			self.header.code = code;
-		}
-	};
+	this.end = end;
+	this.writeSession = writeSession;
+	this.header = header;
 	this.header.headers = {'Content-Type': 'text/plain'};
 	this.header.code = 200;
-	this.echo = function (output) {
-		echo.out += output;
-	};
+	this.echo = echo;
 	this.echo.out = "";
-	this.var_dump = function () {
-		var type = "", value;
-		for (var i = 0, len = arguments.length; i < len; i++) {
-			value = type = arguments[i];
-			if (type !== undefined || type !== null ) {
-				type = arguments[i].constructor.toString().replace(/function (.*)?\(.*/, '$1');
-				switch(type) {
-					case "String":
-					case "Array":
-						type += " (" + value.length + ") " + JSON.stringify(value);
-						break;
-					case "Date":
-					case "Number":
-					case "Boolean":
-						type += " (" + JSON.stringify(value) + ") ";
-						break;
-					default:
-						type += JSON.stringify(value);
-				}
-			}
-			echo.out += type + " ";
-		}
-	};
+	this.var_dump = var_dump;
 
-	this.$COOKIE = function (key, value, options) {
-		options = options || {};
-		var c = self.propertyValue('request.headers.cookie');
-		if (options.cookie) {
-			c = options.cookie;
-		}
-		if (!c) {
-			return;
-		}
-		if(key.isObject) {
-			for (var prop in key) {
-				value = key[prop];
-				key = prop;
-				options = value;
-				break;
-			}
-		}
-		var cookies = {},
-				arr = c.split(/[,;]/);
-		if (value) {
-			var expires = "", path = "";
-			if (options.expiration.isInt()) {
-				var dt = new Date();
-				dt.setDate(dt.getDate() + options.expiration);
-				expires = "; expires=" + dt.toUTCString();
-			}
-			if (options.path.isString()) {
-				path = "; path=/" + options.path;
-			}
-			key = encodeURIComponent(key);
-			value = encodeURIComponent(value);
-			self.response.setHeader("Set-Cookie", [key + "=" + value + expires + path]);
-			return;
-		}
-		for (var i = 0, len = arr.length; i < len; i++) {
-			var cookie = arr[i],
-					parts = cookie.split(/=/, 2),
-					name = decodeURIComponent($c.ltrim(parts[0])),
-					value = parts.length > 1 ? decodeURIComponent($c.rtrim(parts[1])) : null;
-			cookies[name] = value;
-			if (key && key == name) {
-				return value;
-			}
-		}
+	this.$COOKIE = $COOKIE;
+	this.$GET = $GET;
+	this.isIE6 = isIE6;
+	this.isIE = isIE;
+	this.IEVersion = IEVersion;
+	this.isChrome = isChrome;
+	this.isSafari = isSafari;
+	this.isOpera = isOpera;
+	this.isFirefox = isFirefox;
 
-		if (key) {
-			return false;
-		}
-		return cookies;
-	};
-	this.$GET = function (variable, options) {//used to retrieve variables in the url
-		try {
-			if (!variable) {
-				var allkeyvalues = {},
-						mapFunc = function(value){
-							if (value == "") {
-								return;
-							}
-							var keyvalue = value.split('='),
-									len = keyvalue.length;
-							if (len > 2) {
-								for (var i = 2; i < len; i++) {
-									keyvalue[1] += keyvalue[i];
-								}
-							}
-							return allkeyvalues[keyvalue[0]] = keyvalue[1];
-						};
+	this._getBrowserVersion = _getBrowserVersion;
+	this.ChromeVersion = ChromeVersion;
+	this.SafariVersion = SafariVersion;
+	this.OperaVersion = OperaVersion;
+	this.FirefoxVersion = FirefoxVersion;
 
-				(self.$l.search[0] == "?" ? self.$l.search.substr(1) : self.$l.search).split('&').map(mapFunc);
-				(self.$l.hash[0] == "#" ? self.$l.hash.substr(1) : self.$l.hash).split('@').map(mapFunc);
-				return allkeyvalues;
-			}
-			options = options || {};
-			var ignoreCase = options.ignoreCase || options == "ignoreCase" ? "i" : "",
-//            defer = typeof $COMMIT != "undefined" && !!$COMMIT.update && (options.defer || options == "defer"),
-					regex = new RegExp("[\?|&|@]?" + variable + "=", ignoreCase),
-					attr = "search",
-					location = {};
-			location.hash = self.$l.hash;
-			location.search = self.$l.search;
-
-			/*if (defer) {
-			 location.hash = $COMMIT.hash || "";
-			 location.search = $COMMIT.search || "";
-			 } else*/ if (options.url || $c && $c.isString && ($c.isString(options) && (options.indexOf("?") != -1 || options.indexOf("#") != -1))) {
-				var query = options.url || options,
-						hindex, qindex = query.indexOf("?");
-
-				qindex != -1 && (query = query.substr(qindex));
-
-				hindex = query.indexOf("#");
-				if (hindex != -1) {
-					location.hash = query.substr(hindex);
-					query = query.substr(0,hindex);
-				}
-				location.search = query;
-			}
-			if (regex.test(location.hash)) {
-				attr = 'hash';
-			} else if (!regex.test(location.search)){
-				return false;
-			}
-			regex = new RegExp('(.*)?(' + variable +'=)(.*?)(([&]|[@])(.*)|$)', ignoreCase);
-			return decodeURI(location[attr].replace(regex, '$3'));
-		} catch (e) {
-			logit('$GET');
-			logit(e);
-		}
-	};
-	this.isIE6 = function () {
-		try {
-			var rv = self.IEVersion();
-			return (rv != -1 && rv < 7.0);
-		} catch (e) {
-			error('isIE6', e);
-		}
-	};
-	this.isIE = function () {
-		try {
-			return (self.IEVersion() != -1);
-		} catch (e) {
-			error('isIE', e);
-		}
-	};
-	this.IEVersion = function  () {
-		try {
-			var rv = -1;
-			if (self.navigator.appName == 'Microsoft Internet Explorer') {
-				var ua = self.navigator.userAgent,
-						re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-				if (re.exec(ua) != null) {
-					rv = parseFloat(RegExp.$1);
-				}
-			}
-			return rv;
-		} catch (e) {
-			error('IEVersion', e);
-		}
-	};
-	this.isChrome = function (){
-		try {
-			return (self.navigator.userAgent.indexOf("Chrome") != -1);
-		} catch(e){
-			error('isChrome', e);
-		}
-	};
-	this.isSafari = function (){
-		try {
-			return (self.navigator.userAgent.indexOf("Chrome") == -1) && (self.navigator.userAgent.indexOf("Apple") != -1);
-		} catch(e){
-			error('isSafari', e);
-		}
-	};
-	this.isOpera = function (){
-		try {
-			return (self.navigator.userAgent.indexOf("Chrome") == -1)
-					&& (self.navigator.userAgent.indexOf("Apple") == -1)
-					&& (self.navigator.userAgent.indexOf("Opera") != -1);
-		} catch(e){
-			error('isOpera', e);
-		}
-	};
-	this.isFirefox = function (){
-		try {
-			return (self.navigator.userAgent.indexOf("Chrome") == -1)
-					&& (self.navigator.userAgent.indexOf("Apple") == -1)
-					&& (self.navigator.userAgent.indexOf("Opera") == -1)
-					&& (self.navigator.userAgent.indexOf("Firefox") != -1);
-		} catch(e){
-			error('isFirefox', e);
-		}
-	};
-
-	this._getBrowserVersion = function (browser){
-		try {
-			var index = self.navigator.userAgent.indexOf(browser);
-			if (index == -1 && self["is"+browser]()) return -1;
-			return parseFloat(self.navigator.userAgent.substring(index+browser.length+1));
-		} catch(e){
-			error('_getBrowserVersion', e);
-		}
-	};
-	this.ChromeVersion = function  (){
-		try {
-			var browser = "Chrome"
-			return self._getBrowserVersion(browser);
-		} catch(e){
-			error('ChromeVersion', e);
-		}
-	};
-	this.SafariVersion = function  (){
-		try {
-			var browser = "Safari"
-			return self._getBrowserVersion(browser);
-		} catch(e){
-			error('SafariVersion', e);
-		}
-	};
-	this.OperaVersion = function  (){
-		try {
-			var browser = "Opera"
-			return self._getBrowserVersion(browser);
-		} catch(e){
-			error('OperaVersion', e);
-		}
-	};
-	this.FirefoxVersion = function  (){
-		try {
-			var browser = "Firefox"
-			return self._getBrowserVersion(browser);
-		} catch(e){
-			error('FirefoxVersion', e);
-		}
-	};
-
-	this.isIPhone = function (){
-		try{
-			return !self.isIPad() && self.navigator.userAgent.indexOf("iPhone") != -1;
-		} catch (e) {
-			error('isIPhone', e);
-		}
-	};
-	this.isIPod = function () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/ipod/i.test(navUserAgent));
-		} catch (e) {
-			error('isIPod', e);
-		}
-	};
-	this.isIPad = function () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/iPad|iPhone OS 3_[1|2]_2/i.test(navUserAgent));
-		} catch (e) {
-			error('isIPad', e);
-		}
-	};
-	this.isAndroid = function (){
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/android/i.test(navUserAgent));
-		} catch (e) {
-			error('isAndroid', e);
-		}
-	};
-	this.isWindowsMobile = function () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/windows ce/i.test(navUserAgent));
-		} catch (e) {
-			error('isWindowsMobile', e);
-		}
-	};
-	this.isBlackBerry = function () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/blackberry/i.test(navUserAgent));
-		} catch (e) {
-			error('isBlackBerry', e);
-		}
-	};
-	this.isPalmOS = function (){
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/palm/i.test(navUserAgent));
-		} catch (e) {
-			error('isIPad', e);
-		}
-	};
-	this.isSymbian = function  () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (self.isWebkit() && (/series60/i.test(navUserAgent) || /symbian/i.test(navUserAgent)));
-		} catch (e) {
-			error('isIPad', e);
-		}
-	};
-	this.isWebkit = function () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/webkit/i.test(navUserAgent));
-		} catch (e) {
-			error('isWebkit', e);
-		}
-	};
-	this.isAmaya = function () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/amaya/i.test(navUserAgent));
-		} catch (e) {
-			error('isAmaya', e);
-		}
-	};
-	this.isGecko = function () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/gecko/i.test(navUserAgent));
-		} catch (e) {
-			error('isGecko', e);
-		}
-	};
-	this.isKHTML = function () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/khtml/i.test(navUserAgent));
-		} catch (e) {
-			error('isKHTML', e);
-		}
-	};
-	this.isPresto = function () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/presto/i.test(navUserAgent));
-		} catch (e) {
-			error('isPresto', e);
-		}
-	};
-	this.isPrince = function () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/prince/i.test(navUserAgent));
-		} catch (e) {
-			error('isPrince', e);
-		}
-	};
-	this.isTrident = function () {
-		try {
-			var navUserAgent = self.navigator.userAgent;
-			return (/trident/i.test(navUserAgent));
-		} catch (e) {
-			error('isTrident', e);
-		}
-	};
-	this.isWindows = function (){
-		try{
-			return self.navigator.platform.indexOf("Win") != -1;
-		} catch (e) {
-			error('isWindows', e);
-		}
-	};
-	this.isMac = function (){
-		try{
-			return self.navigator.platform.indexOf("Mac") != -1;
-		} catch (e) {
-			error('isMac', e);
-		}
-	};
-	this.isLinux = function (){
-		try{
-			return self.navigator.platform.indexOf("Linux") != -1;
-		} catch (e) {
-			error('isLinux', e);
-		}
-	};
+	this.isIPhone = isIPhone;
+	this.isIPod = isIPod;
+	this.isIPad = isIPad;
+	this.isAndroid = isAndroid;
+	this.isWindowsMobile = isWindowsMobile;
+	this.isBlackBerry = isBlackBerry;
+	this.isPalmOS = isPalmOS;
+	this.isSymbian = isSymbian;
+	this.isWebkit = isWebkit;
+	this.isAmaya = isAmaya;
+	this.isGecko = isGecko;
+	this.isKHTML = isKHTML;
+	this.isPresto = isPresto;
+	this.isPrince = isPrince;
+	this.isTrident = isTrident;
+	this.isWindows = isWindows;
+	this.isMac = isMac;
+	this.isLinux = isLinux;
 
 	var parts = req.headers.host.split(":"),
-			queryparts = req.url.split("?"),
-			query = queryparts.length > 1 ? queryparts[1] : queryparts[0],
-			protocol = "http" + (req.connection.encrypted ? "s" : ""),
-			cookies = (req.headers.cookie || "").split('; '),
-			hash = "";
+		queryparts = req.url.split("?"),
+		query = queryparts.length > 1 ? queryparts[1] : queryparts[0],
+		protocol = "http" + (req.connection.encrypted ? "s" : ""),
+		cookies = (req.headers.cookie || "").split('; '),
+		hash = "";
 
 	for (var i = 0, len = cookies.length; i < len; i++) {
 		if(cookies[i].contains("CRAYDENTHASH=")){
@@ -616,7 +153,6 @@ function Craydent(req, res) {
 		var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/(.*)?\?.*/gi,'$1');
 		return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
 	})();
-	$c.DEBUG_MODE = $c.DEBUG_MODE || false;//!!$GET("debug", this.$l.href);
 	this.PROTOCOL = self.$l.protocol;
 	this.SERVER = self.$l.host;
 	this.SERVER_PATH = self.$l.pathname;
@@ -627,59 +163,40 @@ function Craydent(req, res) {
 	this.ACCEPT_LANGUAGE = req.headers["accept-language"];
 	this.REFERER_IP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	this.PUBLIC_IP = $c.PUBLIC_IP;
-	this.LOCAL_IP =$c.LOCAL_IP;
+	this.LOCAL_IP = $c.LOCAL_IP;
 
+	var _ie = this.IEVersion(),_chrm = this.ChromeVersion(),_ff = this.FirefoxVersion(),_op = this.OperaVersion(),_saf = this.SafariVersion(),
+		_droid = this.isAndroid(),_bbery = this.isBlackBerry(),_ipad = this.isIPad(),_ifon = this.isIPhone(),_ipod = this.isIPod(),_linx = this.isLinux(),_mac = this.isMac(),_palm = this.isPalmOS(),_symb = this.isSymbian(),_win = this.isWindows(),_winm = this.isWindowsMobile(),
+		_amay = this.isAmaya(),_gekk = this.isGecko(),_khtm = this.isKHTML(),_pres = this.isPresto(),_prin = this.isPrince(),_trid = this.isTrident(),_webk = this.isWebkit(),
+		_browser = (_ie != -1 && 'Internet Explorer') || (_chrm != -1 && 'Chrome') || (_ff != -1 && 'Firefox') || (_saf != -1 && 'Safari'),
+		_os = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_linx && 'Linux') || ((_ipad || _ifon || _ipod) && 'iOS') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
+		_device = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_ipad && 'iPad') || (_ifon && 'iPhone') || (_ipod && 'iPod') || (_linx && 'Linux') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
+		_engine = (_amay && 'Amaya') || (_gekk && 'Gekko') || (_khtm && 'KHTML') || (_pres && 'Presto') || (_prin && 'Prince') || (_trid && 'Trident') || (_webk && 'WebKit');
 
-	var _amay = self.isAmaya(),
-			_bbery = self.isBlackBerry(),
-			_chrm = self.ChromeVersion(),
-			_droid = self.isAndroid(),
-			_ff = self.FirefoxVersion(),
-			_ie = self.IEVersion(),
-			_gekk = self.isGecko(),
-			_ifon = self.isIPhone(),
-			_ipad = self.isIPad(),
-			_ipod = self.isIPod(),
-			_khtm = self.isKHTML(),
-			_linx = self.isLinux(),
-			_mac = self.isMac(),
-			_op = self.OperaVersion(),
-			_palm = self.isPalmOS(),
-			_pres = self.isPresto(),
-			_prin = self.isPrince(),
-			_saf = self.SafariVersion(),
-			_trid = self.isTrident(),
-			_symb = self.isSymbian(),
-			_webk = self.isWebkit(),
-			_win = self.isWindows(),
-			_winm = self.isWindowsMobile(),
-
-			_browser = (_ie != -1 && 'Internet Explorer') || (_chrm != -1 && 'Chrome') || (_ff != -1 && 'Firefox') || (_saf != -1 && 'Safari'),
-			_os = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_linx && 'Linux') || ((_ipad || _ifon || _ipod) && 'iOS') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
-			_device = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_ipad && 'iPad') || (_ifon && 'iPhone') || (_ipod && 'iPod') || (_linx && 'Linux') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
-			_engine = (_amay && 'Amaya') || (_gekk && 'Gekko') || (_khtm && 'KHTML') || (_pres && 'Presto') || (_prin && 'Prince') || (_trid && 'Trident') || (_webk && 'WebKit');
+	// constants
 	this.browser = {
 		CURRENT: _browser,
 		CURRENT_VERSION:(_ie != -1 && _ie) || (_chrm != -1 && _chrm) || (_ff != -1 && _ff) || (_saf != -1 && _saf),
-		IE:self.isIE(),
+		IE:isIE(),
 		IE_VERSION:_ie,
 		IE6:(_ie < 7.0 && _ie >= 6.0),
 		IE7:(_ie < 8.0 && _ie >= 7.0),
 		IE8:(_ie < 9.0 && _ie >= 8.0),
-		CHROME:self.isChrome(),
+		CHROME:isChrome(),
 		CHROME_VERSION:_chrm,
-		FIREFOX:self.isFirefox(),
+		FIREFOX:isFirefox(),
 		FIREFOX_VERSION:_ff,
-		OPERA:self.isOpera(),
+		OPERA:isOpera(),
 		OPERA_VERSION:_op,
-		SAFARI:self.isSafari(),
+		SAFARI:isSafari(),
 		SAFARI_VERSION:_saf
 	};
 	this.client = {
-		browser: _browser,
-		device: _device,
-		engine: _engine,
-		os:_os
+		BROWSER: _browser,
+		CORES_SUPPORT: true,
+		DEVICE: _device,
+		ENGINE: _engine,
+		OS:_os
 	};
 	this.engine = {
 		CURRENT:_engine,
@@ -720,42 +237,539 @@ function Craydent(req, res) {
 	this.ANDROID = _droid;
 	this.AMAYA = _amay;
 	this.BLACKBERRY = _bbery;
-	this.CHROME = self.isChrome();
+	this.CHROME = isChrome();
 	this.CHROME_VERSION = _chrm;
-	this.FIREFOX = self.isFirefox();
-	this.FIREFOX_VERSION = self.FirefoxVersion();
-	this.FIREFOX = self.isFirefox();
-	this.GEKKO = self.isGecko();
-	this.IE = self.isIE();
+	this.CLICK = "click";
+	this.CORES_SUPPORT = true;
+	this.DEBUG_MODE = !!$GET("debug");
+	this.FIREFOX = isFirefox();
+	this.FIREFOX_VERSION = FirefoxVersion();
+	this.FIREFOX = isFirefox();
+	this.GEKKO = isGecko();
+	this.HANDPOINT = "pointer";
+	this.HIDDEN = "hidden";
+	this.IE = isIE();
 	this.IE_VERSION = _ie;
 	this.IE6 = (_ie < 7.0 && _ie >= 6.0);
 	this.IE7 = (_ie < 8.0 && _ie >= 7.0);
 	this.IE8 = (_ie < 9.0 && _ie >= 8.0);
-	this.IPAD = self.isIPad();
-	this.IPHONE = self.isIPhone();
-	this.IPOD =  self.isIPod();
-	this.KHTML = self.isKHTML();
-	this.LINUX = self.isLinux();
-	this.MAC = self.isMac();
-	this.OPERA = self.isOpera();
-	this.OPERA_VERSION = self.OperaVersion();
+	this.IPAD = isIPad();
+	this.IPHONE = isIPhone();
+	this.IPOD = isIPod();
+	this.KHTML = isKHTML();
+	this.LINUX = isLinux();
+	this.MAC = isMac();
+	this.OBSERVE_CHECK_INTERVAL = 200;
+	this.ONMOUSEDOWN = "onmousedown";
+	this.ONMOUSEUP = "onmouseup";
+	this.OPERA = isOpera();
+	this.OPERA_VERSION = OperaVersion();
+	this.PAGE_NAME = (function () {
+		var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/([^#^?]*).*/gi,'$1');
+		return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
+	})();
+	this.PAGE_NAME_RAW = (function () {
+		var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/(.*)?\?.*/gi,'$1');
+		return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
+	})();
+	this.PALM = isPalmOS();
+	this.POINTER = "default";
+	this.PRESTO = isPresto();
+	this.PRINCE = isPrince();
+	this.PROTOCOL = $l.protocol;
+	this.SAFARI = isSafari();
+	this.SAFARI_VERSION = SafariVersion();
+	this.SERVER = $l.host;
+	this.SERVER_PATH = $l.pathname;
+	this.SYMBIAN = isSymbian();
+	this.TEMPLATE_VARS = [];
+	this.TEMPLATE_TAG_CONFIG = {
+		IGNORE_CHARS:['\n'],
+			/* loop config */
+		FOR:{
+			"begin":/(?:\$\{for (.*?);(.*?);(.*?\}?)\})|(?:\{\{for (.*?);(.*?);(.*?\}?)\}\})/i,
+			"end":/(\$\{end for\})|(\{\{end for\}\})/i,
+			"helper":function(code, body){
+				var ttc = $c.TEMPLATE_TAG_CONFIG,
+						mresult = code.match(ttc.FOR.begin),
+						condition, exec, dvars, vars = "", ovars = {},code_result = "";
 
-	this.PALM = self.isPalmOS();
-	this.PRESTO = self.isPresto();
-	this.PRINCE = self.isPrince();
-	this.SAFARI = self.isSafari();
-	this.SAFARI_VERSION = self.SafariVersion();
-	this.SYMBIAN = self.isSymbian();
-//    this.TEMPLATE_VARS = [];
-	this.TRIDENT = self.isTrident();
-	this.WEBKIT = self.isWebkit();
-	this.WINDOWS = self.isWindows();
-	this.WINDOWS_MOBILE = self.isWindowsMobile();
+				for (var j = 1, jlen = mresult.length; j < jlen; j++) {
+					if (!mresult[j]) {
+						continue;
+					}
+					mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+				}
 
+				condition = mresult[2] || mresult[5];
+				exec = mresult[3] || mresult[6];
+				dvars = (mresult[1] || mresult[4]).split(',');
+				for (var i = 0, len = dvars.length; i < len; i++) {
+					var parts = ttc.VARIABLE_NAME(dvars[i]).split('=');
+					vars += "var " + parts[0] + "=" + parts[1] + ";";
+					ovars[parts[0]] = parts[0];
+				}
+				eval(vars);
+				while (eval(fillTemplate(condition,ovars))) {
+					code_result += body;
+					eval(ttc.VARIABLE_NAME(exec));
+				}
+
+				return code_result;
+			},
+			"parser":function (code, oobj, bind){
+				var FOR = $c.TEMPLATE_TAG_CONFIG.FOR,
+						blocks = __processBlocks(FOR.begin, FOR.end, code),
+						code_result = "";
+
+				for (var i = 0, len = blocks.length; i < len; i++) {
+					var obj = blocks[i],
+							block = obj.block,
+							id = obj.id;
+
+					code_result = code_result || obj.code;
+					if (!code_result.contains(obj.id)) { continue; }
+					code_result = code_result.replace_all(id,FOR.helper(block,obj.body));
+				}
+
+				return __logic_parser(code_result);
+			}
+		},
+		FOREACH:{
+			"begin":/(?:\$\{foreach (.*?)\s+in\s+(.*?)\s*\})|(?:\{\{foreach (.*?)\s+in\s+(.*?)\s*\}\})/i,
+			"end":/(?:\$\{end foreach\})|(?:\{\{end foreach\}\})/i,
+			"helper":function (code, body,rtnObject,uid, obj, bind, ref_obj) {
+				var ttc = $c.TEMPLATE_TAG_CONFIG,
+						FOREACH = ttc.FOREACH,
+						mresult = code.match(FOREACH.begin),
+						objs, var_name,
+						code_result = "";
+
+				for (var j = 1, jlen = mresult.length; j < jlen; j++) {
+					if (!mresult[j]) {
+						continue;
+					}
+					mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+				}
+				objs = tryEval(mresult[2] || mresult[4]);
+				var_name = ttc.VARIABLE_NAME(mresult[1] || mresult[3]);
+
+				//fillTemplate.binding.original.push(bind+"."+var_name);
+				//fillTemplate.binding.replacer.push(fillTemplate.refs["ref_" + fillTemplate.refs.indexOf(objs)]);
+
+				rtnObject = rtnObject || {};
+				rtnObject[uid] += "var " + var_name + "s," + var_name + ";";
+				rtnObject[var_name+"s"] = objs;
+				if ($c.isArray(objs)) {
+					fillTemplate.binding.original.push(bind + "." + var_name);
+					var bindingCuids = "";
+					for (var i = 0, len = objs.length; i < len; i++) {
+						if (typeof objs[i] == "object") {
+
+							bindingCuids += "," + fillTemplate._observing["hash_" + fillTemplate._observing.indexOf(objs[i])];
+						}
+						code_result += "${i="+i+","+var_name+"="+var_name+"s[i],null}" + body;
+					}
+					fillTemplate.binding.replacer.push(bindingCuids.substring(1));
+				}
+
+				return code_result;
+
+			},
+			"parser":function (code, ref_obj, bind){
+				var ttc = $c.TEMPLATE_TAG_CONFIG,
+						FOREACH = ttc.FOREACH,
+						uid = "##"+suid()+"##",
+						result_obj = {},
+						code_result = "", post = "",
+						blocks = __processBlocks(FOREACH.begin, FOREACH.end, code);
+				//bindReplacers = {original:[],treplacer:[]};
+
+				result_obj[uid] = "";
+
+				for (var i = 0, len = blocks.length; i < len; i++) {
+					var obj = blocks[i],
+							block = obj.block,
+							id = obj.id, index;
+					if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
+						post = obj.code.substring(index + 2);
+						obj.code = obj.code.substring(0,index + 2);
+					}
+					code_result = code_result || obj.code;
+					if (!code_result.contains(obj.id)) { continue; }
+					code_result = code_result.replace_all(id,FOREACH.helper(block,obj.body,result_obj,uid,obj,bind,ref_obj));
+				}
+				eval(result_obj[uid]);
+				delete result_obj[uid];
+				for (var prop in result_obj) {
+					if (!result_obj.has(prop)) { continue; }
+					eval(prop + "=" + "result_obj['" + prop + "']");
+				}
+
+				var matches = code_result.match(ttc.VARIABLE);
+				matches.map(function (var_match) {
+					var var_match_name = ttc.VARIABLE_NAME(var_match),
+							str = "";
+					try { str = eval(var_match_name); } catch(e){ return; }
+
+					code_result = code_result.replace(var_match,str||"");
+
+				});
+
+				return __logic_parser(code_result + post, obj, bind);
+			}
+		},
+		WHILE: {
+			"begin": /(?:\$\{while\s*\((.*?)\)\s*\})|(?:\{\{while\s*\((.*?)\)\s*\}\})/i,
+			"end": /(?:\$\{end while\})|(?:\{\{end while\}\})/i,
+			"helper": function (code,body) {
+				var ttc = $c.TEMPLATE_TAG_CONFIG,
+						WHILE = ttc.WHILE,
+						mresult = code.match(WHILE.begin),
+						vars = "", ovars = {},code_result = "",
+						declared = fillTemplate.declared,
+						loop_limit = 100000;
+				for (var prop in declared) {
+					if (!code.contains("${"+prop+"}") || !declared.has(prop)) { continue; }
+					var val = declared[prop];
+					vars += "var " + prop + "=" + val + ";";
+					ovars[prop] = prop;
+				}
+				eval(vars);
+				while (eval(fillTemplate(mresult[1] || mresult[2],ovars))) {
+					loop_limit--;
+					if (loop_limit < 1) {
+						var msg = "fillTemplate While only support up to 100,000 iterations.  Possible infinite loop?";
+						console.error(msg);
+						throw msg;
+					}
+					code_result += body;
+					(body.match(ttc.VARIABLE)||[]).map(function(var_matches){ eval(ttc.VARIABLE_NAME(var_matches)); });
+				}
+				fillTemplate.declared = declared;
+
+				for (var prop in ovars) {
+					if (!ovars.has(prop)) { continue; }
+					//var ovar = ovars[prop];
+					code_result += "${" + prop + "=" + declared[prop] + ",null}";
+					//declared[prop] = eval(ovars[prop]);
+				}
+
+				return code_result;
+			},
+			"parser": function (code, ref_obj, bind) {
+				var ttc = $c.TEMPLATE_TAG_CONFIG,
+						WHILE = ttc.WHILE,
+						lookups = {},
+						blocks = __processBlocks(WHILE.begin, WHILE.end, code, lookups),
+						code_result = "", vars = "", declared = fillTemplate.declared, post = "";
+
+				for (var i = 0, len = blocks.length; i < len; i++) {
+					var obj = blocks[i],
+							block = obj.block,
+							id = obj.id, index;
+
+					if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
+						post = obj.code.substring(index + 2);
+						obj.code = obj.code.substring(0,index + 2);
+					}
+
+					code_result = code_result || obj.code;
+					if (!code_result.contains(obj.id)) { continue; }
+					code_result = code_result.replace_all(id,WHILE.helper(block,obj.body));
+				}
+
+				for (var prop in declared) {
+					if (!code.contains("${"+prop+"}")) { continue; }
+					vars += "var " + prop + "=" + declared[prop] + ";";
+				}
+				eval(vars);
+				var matches = code_result.match(ttc.VARIABLE);
+				matches.map(function (var_match) {
+					var var_match_name = ttc.VARIABLE_NAME(var_match),
+						var_match_index = code_result.indexOf(var_match),
+						before, after;
+					if (tryEval("var "+ var_match_name +";") !== null) {
+						var_match_index += var_match.length;
+					}
+
+					before = code_result.substring(0,var_match_index).replace_all(var_match,eval(var_match_name));
+					after = code_result.substring(code_result.indexOf(var_match) + var_match.length);
+					code_result = before + after;
+				});
+
+				return __logic_parser(code_result + post);
+
+			}
+		},
+		/* end loop config*/
+
+		/* conditional config*/
+		IF:{
+			"begin":/\$\{if\s+\((.*?)(?!\{)\)\s*\}|\{\{if\s+\((.*?)(?!\{)\)\s*\}\}/i,
+			"elseif":/\$\{elseif\s+\((.*?)(?!\{)\)\s*\}|\{\{elseif\s+\((.*?)(?!\{)\)\s*\}\}/i,
+			"else":/\$\{else\}|\{\{else\}\}/i,
+			"end":/\$\{end if\}|\{\{end if\}\}/i,
+			"helper":function (code) {
+				var IF = $c.TEMPLATE_TAG_CONFIG.IF,
+						ifmatch = (code.match(IF.begin) || []).condense(),
+						endlength = code.match(IF.end)[0].length,
+						startindex = code.indexOfAlt(IF.begin),
+						endindex = code.indexOfAlt(IF.end);
+
+				if (ifmatch.length) {
+					for (var j = 1, jlen = ifmatch.length; j < jlen; j++) {
+						ifmatch[j] = ifmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+					}
+					var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
+							ifsyntax = new RegExp(IF.begin.source+"|"+IF.elseif.source+"|"+IF["else"].source,'i');
+
+					if (!code.match(new RegExp(IF.elseif.source+"|"+IF["else"].source,'ig'))) {
+						if ("undefined" == ifmatch[1] || !tryEval(ifmatch[1])) {
+							return pre + post;
+						}
+						return pre + code.substring(startindex + ifmatch[0].length, endindex) + post;
+					}
+					ifmatch = (code.match(ifsyntax.addFlags('g')) || []).condense();
+					for (var i = 0, len = ifmatch.length; i < len; i++) {
+						var ife = ifmatch[i].match(ifsyntax).condense(),
+								condition = ife[1],
+								value = "undefined" == condition ? false : tryEval(condition),
+								sindex = code.indexOf(ifmatch[i]) + ifmatch[i].length;
+
+						if (value !== undefined && value) {
+							var eindex = code.indexOf(ifmatch[i + 1]);
+							if (eindex == -1) {
+								return pre + code.substring(sindex) + post;
+							}
+							return pre + code.substring(sindex, eindex) + post;
+						} else if (ifmatch[i].match(IF["else"])) {
+							return pre + code.substring(sindex,endindex) + post;
+						}
+					}
+					return pre + post;
+				}
+				return code;
+			},
+			"parser":function (code, oobj, bind){
+				var IF = $c.TEMPLATE_TAG_CONFIG.IF,
+					blocks = __processBlocks(IF.begin, IF.end, code),
+					code_result = "";
+				for (var i = 0, len = blocks.length; i < len; i++) {
+					var obj = blocks[i],
+							block = obj.block,
+							id = obj.id;
+
+					code_result = code_result || obj.code;
+					if (!code_result.contains(obj.id)) { continue; }
+					code_result = IF.helper(code_result.replace(id, block));
+				}
+				return __logic_parser(code_result);
+			}
+		},
+		SWITCH: {
+			"begin": /(\$\{switch\s+\((.*?)\)\s*\})|(\{\{switch\s+\((.*?)\)\s*\}\})/i,
+			"end": /(\$\{end switch\})|(\{\{end switch\}\})/i,
+			"case": /(?:\$\{case\s+(.*?)\s*?:\})|(?:\{\{case\s+(.*?)\s*?:\}\})/i,
+			"default": /(\$\{default\})|(\{\{default\}\})/i,
+			"break": /(\$\{break\})|(\{\{break\}\})/i,
+			"helper": function (code) {
+				var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
+						//csyntax = SWITCH["case"],
+						switchmatch = (code.match(SWITCH.begin) || []).condense(),
+						endlength = code.match(SWITCH.end)[0].length,
+						startindex = code.indexOfAlt(SWITCH.begin),
+						endindex = code.indexOfAlt(SWITCH.end),
+						brk = SWITCH["break"], dflt = SWITCH["default"];
+
+
+				if (switchmatch.length) {
+
+					for (var j = 1, jlen = switchmatch.length; j < jlen; j++) {
+						switchmatch[j] = switchmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+					}
+					var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
+							val = tryEval(switchmatch[2]) || switchmatch[2],
+							cgsyntax = SWITCH["case"].addFlags("g"),
+							cases = code.match(cgsyntax);
+					code = code.substring(startindex + (switchmatch[0] || "").length, endindex);
+
+					if (!cases) {
+						return pre + code.cut(startindex, endindex + endlength) + post;
+					}
+					for (var i = 0, len = cases.length; i < len; i++) {
+						var cs = cases[i].match(SWITCH["case"]),
+								cvalue = cs[1] || cs[2];
+						if (val == cvalue) {
+							var cindex = code.indexOf(cases[i]),
+									bindex = code.indexOfAlt(brk, cindex);
+							bindex = bindex == -1 ? code.length : bindex;
+							return pre + code.substring(cindex + cases[i].length, bindex).replace(cgsyntax, '') + post;
+						}
+					}
+					var dindex = code.indexOfAlt(dflt);
+					if (dindex != -1) {
+						return pre + code.substring(dindex + code.match(dflt)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
+					}
+
+				}
+				return code;
+			},
+			"parser": function (code, oobj, bind) {
+				var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
+						blocks = __processBlocks(SWITCH.begin, SWITCH.end, code),
+						code_result = "";
+
+				for (var i = 0, len = blocks.length; i < len; i++) {
+					var obj = blocks[i],
+							block = obj.block,
+							id = obj.id;
+
+					code_result = code_result || obj.code;
+					if (!code_result.contains(obj.id)) { continue; }
+					code_result = SWITCH.helper(code_result.replace(id, block));
+				}
+				return __logic_parser(code_result);
+			}
+
+		},
+		/* end conditional config*/
+
+		/* error handling and execution config */
+		SCRIPT: {
+			"begin": /(\$\{script\})|(\{\{script\}\})/i,
+			"end": /(\$\{end script\})|(\{\{end script\}\})/i,
+			"parser": function (code, obj, bind) {
+				var SCRIPT = $c.TEMPLATE_TAG_CONFIG.SCRIPT,
+						sindex = code.indexOfAlt(SCRIPT.begin),
+						slen = code.match(SCRIPT.begin)[0].length,
+						eindex = code.indexOfAlt(SCRIPT.end),
+						elen = code.match(SCRIPT.end)[0].length;
+
+				if (eindex == -1) { eindex = undefined; }
+				var block = code.substring(sindex + slen,eindex), str = "",
+						echo = function (value) { echo.out += value; };
+				echo.out = "";
+				str = eval("(function(){"+block+";return echo.out;})()");
+
+				return __logic_parser(code.cut(sindex,eindex+elen, str));
+			}
+
+		},
+		TRY: {
+			"begin": /(\$\{try\})|(\{\{try\}\})/i,
+			"catch": /(?:\$\{catch\s+\((.*)?\)\s*\})|(?:\{\{catch\s+\((.*)?\)\s*\}\})/i,
+			"finally": /(\$\{finally\})|(\{\{finally\}\})/i,
+			"end": /(\$\{end try\})|(\{\{end try\}\})/i,
+			"helper": function (code, lookups, exec) {
+				var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
+						cindex = code.indexOfAlt(TRY["catch"]),
+						findex = code.indexOfAlt(TRY["finally"]),
+						eindex = code.indexOfAlt(TRY["end"]),
+						tend = cindex;
+
+				if (tend == -1) {
+					tend = findex != -1 ? findex : eindex;
+				}
+
+				var tindex = code.indexOfAlt(TRY.begin),
+						body = code.substring(tindex + code.match(TRY.begin)[0].length, tend),
+						pre = code.substring(0,tindex), post = code.substring(eindex + code.match(TRY.end)[0].length),
+						regex = /##[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}##/i,
+						match = body.match(regex), str = "", id,
+						echo = function (value) {
+							echo.out += value;
+						};
+				echo.out = "";
+				while(match && match.length){
+					id = match.splice(0)[0];
+					body = body.replace(id, ";echo('" + TRY.helper(lookups[id], lookups) + "');");
+				}
+				match = pre.match(regex);
+				while(match && match.length) {
+					id = match.splice(0)[0];
+					pre = pre.replace(id, TRY.helper(lookups[id], lookups));
+				}
+				match = post.match(regex);
+				while(match && match.length) {
+					id = match.splice(0)[0];
+					post = post.replace(id, TRY.helper(lookups[id], lookups));
+				}
+				exec && eval(exec);
+				try {
+					str = eval("(function(){" + body + ";return echo.out; })()");
+				} catch (e) {
+					if (cindex != -1) {
+						echo.out = "";
+						tend = findex != -1 ? findex : eindex;
+						var catchBlock = code.substring(cindex, tend),
+							catchLine = catchBlock.match(TRY["catch"]),
+							errorString = JSON.stringify(e);
+						catchBlock = catchBlock.replace(catchLine[0], '');
+
+						match = catchBlock.match(regex);
+						while(match && match.length) {
+							id = match.splice(0)[0];
+							catchBlock = catchBlock.replace(id, ";echo('" + TRY.helper(lookups[id], lookups,"var " + catchLine[1] + "=" + errorString + ";") + "');");
+						}
+						str += eval("(function(" + catchLine[1] + "){" + catchBlock + ";return echo.out;})('" + errorString + "')");
+					}
+				} finally {
+					if (findex != -1) {
+						echo.out = "";
+						str += eval("(function(){" + code.substring(findex + code.match(TRY["finally"])[0].length, eindex) + ";return echo.out; })()");
+					}
+				}
+				return pre + str + post;
+			},
+			"parser": function (code, oobj, bind) {
+				var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
+						lookups = {},
+						blocks = __processBlocks(TRY.begin, TRY.end, code, lookups);
+
+				var obj = blocks[0],
+						block = obj.block,
+						id = obj.id;
+
+				return __logic_parser(TRY.helper(obj.code.replace(id, block), lookups));
+				//return __logic_parser(code_result);
+			}
+
+		},
+		/* end error handling config */
+
+		/* tokens config */
+		VARIABLE:/(?:\$\{((?!\$)\S)*?\})|(?:\{\{((?!\{\{)\S)*?\}\})/gi,
+		VARIABLE_NAME:function(match){
+			return  match.slice(2,match.contains('}}') ? -2 : -1);
+		},
+		DECLARE:{
+			"syntax": /(?:\$\{DECLARE (.*?);?\})|(?:\{\{DECLARE (.*?);?\}\})/i,
+			"parser": function (htmlTemplate, declare){
+				var matches = declare.match($c.TEMPLATE_TAG_CONFIG.DECLARE.syntax);/*,
+						var_nameValue = (matches[1]||matches[2]).strip(';').split("=");
+
+				fillTemplate.declared[var_nameValue[0]] = var_nameValue[1];*/
+				$c.merge(fillTemplate.declared, tryEval("({"+matches[1].replace_all('=',":")+"})"));
+				return htmlTemplate.replace_all(declare,'');
+			}
+		}
+		/* end tokens config */
+	};
+	this.TRIDENT = isTrident();
+	this.VERBOSE_LOGS = !!$GET("verbose");
+	this.VERSION = _craydent_version;
+	this.VISIBLE = "visible";
+	this.WAIT = "wait";
+	this.WEBKIT = isWebkit();
+	this.WINDOWS = isWindows();
+	this.WINDOWS_MOBILE = isWindowsMobile();
+
+	$c.DEBUG_MODE = $c.DEBUG_MODE || !!$GET("debug");
 }
-exports.createServer = function(callback, createServer) {
+Craydent.createServer = function(callback, createServer) {
 	var http = (createServer || require('http').createServer)(function(request, response) {
-		var cray = new Craydent(request, response);
+		var cray = new Craydent(request, response), body = "";
 
 		$g.GarbageCollector = [];
 		if (request.url == '/favicon.ico') {
@@ -815,37 +829,15 @@ exports.createServer = function(callback, createServer) {
 	};
 	return http;
 };
-exports.Craydent = Craydent;
-
-function __cleanUp() {
-	try {
-		delete $w.__current;
-		delete $w.__thisVersion;
-		delete $w.__thisIsNewer;
-		delete $w.__isNewer;
-		delete $w.__version;
-		delete $w._ie;
-		delete $w._droid;
-		delete $w._amay;
-		delete $w._browser;
-		delete $w._os;
-		delete $w._device;
-		delete $w._engine;
+Craydent.globalize = function() {
+	try{
+		__contextualizeMethods($g);
 	} catch(e) {
-		$w.__current = undefined;
-		$w.__thisVersion = undefined;
-		$w.__thisIsNewer = undefined;
-		$w.__isNewer = undefined;
-		$w.__version = undefined;
-		$w._ie = undefined;
-		$w._droid = undefined;
-		$w._amay = undefined;
-		$w._browser = undefined;
-		$w._os = undefined;
-		$w._device = undefined;
-		$w._engine = undefined;
+		error('globalize', e);
 	}
-}
+};
+__contextualizeMethods(Craydent);
+module.exports = $c = Craydent;
 
 var _ao, _df, _irregularNouns = {
 	"addendum":"addenda",
@@ -937,7 +929,7 @@ function __andNotHelper (record, query, operands, index) {
 	try {
 		for (var i = 0, len = query.length; i < len; i++) {
 			for (var prop in query[i]) {
-				if (!query[i].hasOwnProperty(prop)) {
+				if (!query[i].has(prop)) {
 					continue;
 				}
 				if (!(prop in operands
@@ -951,6 +943,41 @@ function __andNotHelper (record, query, operands, index) {
 		return true;
 	} catch (e) {
 		error('where.__andNotHelper', e);
+	}
+}
+function __contextualizeMethods (ctx) {
+	try {
+		ctx = ctx || {};
+		ctx.Benchmarker = Benchmarker;
+		ctx.Cursor = Cursor;
+		ctx.OrderedList = OrderedList;
+		ctx.Queue = Queue;
+		ctx.Set = Set;
+		ctx.addObjectPrototype = addObjectPrototype;
+		ctx.ajax = ajax;
+		ctx.cout = cout;
+		ctx.cuid = cuid;
+		ctx.error = error;
+		ctx.fillTemplate = fillTemplate;
+		ctx.foo = foo;
+		ctx.isNull = isNull;
+		ctx.logit = logit;
+		ctx.md5 = md5;
+		ctx.mkdirRecursive = mkdirRecursive;
+		ctx.namespace = namespace;
+		ctx.now = now;
+		ctx.parseBoolean = parseBoolean;
+		ctx.parseRaw = parseRaw;
+		ctx.rand = rand;
+		ctx.requireDirectory = requireDirectory;
+		ctx.suid = suid;
+		ctx.tryEval = tryEval;
+		ctx.wait = wait;
+		ctx.xmlToJson = xmlToJson;
+		ctx.zipit = zipit;
+		return ctx;
+	} catch (e) {
+		error('__contextualizeMethods', e);
 	}
 }
 function __convert_regex_safe(reg_str) {
@@ -994,7 +1021,7 @@ function __enum(obj, delimiter, prePost){
 		}
 		if ($c.isObject(obj)) {
 			for (var prop in obj) {
-				if (obj.hasOwnProperty(prop)) {
+				if (obj.has(prop)) {
 					props.push(prop);
 				}
 			}
@@ -1263,7 +1290,7 @@ function __parseDateExpr (doc,expr,field) {
 				return dt.getFullYear();
 			case "$month":
 				return dt.getMonth() + 1;
-			case "$week":
+			case "$geek":
 				return dt.getWeek();
 			case "$hour":
 				return dt.getHours();
@@ -1451,7 +1478,7 @@ function __parseVariableExpr (doc,expr,field) {
 				var vars = expr[field].vars,
 					rmProps = [], rtn = null;
 				for (var prop in vars) {
-					if (!vars.hasOwnProperty(prop)) {
+					if (!vars.has(prop)) {
 						continue;
 					}
 					doc["$" + prop] = __processExpression(doc, vars[prop]);
@@ -1510,7 +1537,7 @@ function __processExpression (doc,expr) {
 			return expr;
 		}
 		for (var field in expr) {
-			if (!expr.hasOwnProperty(field)) {
+			if (!expr.has(field)) {
 				continue;
 			}
 			var value = expr[field],
@@ -1523,7 +1550,7 @@ function __processExpression (doc,expr) {
 			//searchKeys = ["meta"],
 				arrayKeys = ["$size"],
 				variableKeys = ["$map", "$let"],
-				dateKeys = ["$dayOfYear", "$dayOfMonth", "$dayOfWeek", "$year", "$month", "$week", "$hour", "$minute", "$second", "$millisecond", "$dateToString"],
+				dateKeys = ["$dayOfYear", "$dayOfMonth", "$dayOfWeek", "$year", "$month", "$geek", "$hour", "$minute", "$second", "$millisecond", "$dateToString"],
 				conditionalKeys = ["$cond", "$ifNull"];
 			//accumulatorKeys = ["$sum", "$avg", "$first", "$last", "$max", "$min", "$push", "$addToSet"];
 
@@ -1563,14 +1590,14 @@ function __processExpression (doc,expr) {
 }
 function __processGroup (docs, expr) {
 	try {
-		var _ids = expr._id, doc, i = 0, groupings = {}, results = [], meta = {index:0,length:docs.length/*,stop:false*/};
+		var _ids = expr._id, i = 0, groupings = {}, results = [], meta = {index:0,length:docs.length/*,stop:false*/};
 		//while(doc = docs[i++]) {
 		for (var i = 0, len = docs.length; i < len; i++,meta.index = i) {
 			var doc = docs[i],result, key = "null", keys;
 			if (_ids) {
 				keys = {};
 				for (var prop in _ids) {
-					if (!_ids.hasOwnProperty(prop)) { continue; }
+					if (!_ids.has(prop)) { continue; }
 					keys[prop] = __processExpression(doc, _ids[prop]);
 				}
 				key = JSON.stringify(keys);
@@ -1582,7 +1609,7 @@ function __processGroup (docs, expr) {
 				result = groupings[key];
 			}
 			for (var prop in expr) {
-				if (!expr.hasOwnProperty(prop) || prop == "_id") { continue; }
+				if (!expr.has(prop) || prop == "_id") { continue; }
 				result[prop] = __processAccumulator(doc, expr[prop],result[prop], meta);
 				//if (meta.stop) { break; }
 			}
@@ -1596,7 +1623,7 @@ function __processStage(docs, stage) {
 	try {
 		var operator = "", value = {};
 		for (var opts in stage) {
-			if (!stage.hasOwnProperty(opts)) {
+			if (!stage.has(opts)) {
 				continue;
 			}
 			if (operator) {
@@ -1611,7 +1638,7 @@ function __processStage(docs, stage) {
 				for (var i = 0, len = docs.length; i < len; i++) {
 					var doc = {};
 					for (var prop in value) {
-						if (!value.hasOwnProperty(prop)) {
+						if (!value.has(prop)) {
 							continue;
 						}
 						if ($c.parseBoolean(value[prop])) {
@@ -1638,7 +1665,7 @@ function __processStage(docs, stage) {
 			case "$sort":
 				var sorter = [];
 				for (var prop in value) {
-					if (!value.hasOwnProperty(prop)) { continue; }
+					if (!value.has(prop)) { continue; }
 					var pre = "";
 					if (value[prop] == -1) {
 						pre = "!";
@@ -1651,7 +1678,7 @@ function __processStage(docs, stage) {
 			case "$out":
 				var rtnDocs = $c.duplicate(docs,true);
 				if ($c.isString(value)) {
-					$w[value] = rtnDocs;
+					$g[value] = rtnDocs;
 				} else if ($c.isArray(value)) {
 					value.removeAll();
 					$c.merge(value,rtnDocs);
@@ -1691,7 +1718,7 @@ function __run_replace (reg, template, use_run, obj) {
 
 			template = template.contains(match[1]) ? template.replace(match[1], (match[1] = match[1].replace_all(['\\[', '\\]'], ['[', ']']))) : template;
 			template = template.replace_all("${" + pre + match[1] + post +"}",
-				$w.getProperty(func) ? $w.getProperty(func).apply(obj, funcValue) : (tryEval("("+func+")")||foo)() || "");
+				$g.getProperty(func) ? $g.getProperty(func).apply(obj, funcValue) : (tryEval("("+func+")")||foo)() || "");
 		}
 		return template;
 	} catch (e) {
@@ -1805,12 +1832,10 @@ function _defineFunction (name, func, override) {
 	try {
 		var args = _getFuncArgs(func),
 			fstr = func.toString().replace(/this/g,'obj'),
-			exec = "",
 
-		// extra code to account for when this == window
+		// extra code to account for when this == global
 			extra_code = "if(isNull(obj) && this == $c){return;}",
 			fnew = args.length === 0 || (args.length === 1 && !_trim(args[0])) ?
-				//    fstr.toString().replace(/(\(\s*?\)\s*?\{)/, ' ' + name + '(obj){'+extra_code) :
 				fstr.toString().replace(/(\(\s*?\)\s*?\{)/, ' (obj){'+extra_code) :
 			"(" + fstr.toString().replace(/\((.*?)\)\s*?\{/, '(obj,$1){'+extra_code) + ")";
 
@@ -1839,13 +1864,13 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/){
 		(arguments[argIndex+2] || (arguments[argIndex+2] = {})) && (arguments[argIndex+2].command = arguments[argIndex+2].command || "");
 		if (!(ref.objects.length == 1)) {
 			for (var prop in obj){
-				if (obj.hasOwnProperty(prop)) {
+				if (obj.has(prop)) {
 					delete obj[prop];
 				}
 			}
 		}
 		var loop_func = function (prop, original) {
-			if (original.hasOwnProperty(prop) && original[prop] && (!$c.isFunction(original[prop]) || !recursive)) {
+			if (original.has(prop) && original[prop] && (!$c.isFunction(original[prop]) || !recursive)) {
 				var index = ref.objects.indexOfAlt(original[prop],function(obj,value){
 						return obj.obj===value;
 					}),
@@ -1862,7 +1887,7 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/){
 					_duplicate(obj[prop], original[prop], true, ref, new_path, arguments[argIndex+1]);
 					return;
 				}
-			} else if (!original.hasOwnProperty(prop)) {
+			} else if (!original.has(prop)) {
 				return;
 			}
 			obj[prop] = original[prop];
@@ -1873,7 +1898,7 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/){
 			}
 		} else {
 			for (var prop in original){
-				if (!original.hasOwnProperty(prop)) { continue; }
+				if (!original.has(prop)) { continue; }
 				loop_func.call(obj, prop, original, ref, current_path, arguments[argIndex+2]);
 			}
 		}
@@ -1935,9 +1960,9 @@ function _even (num) {
 
 function _getBrowserVersion(browser){
 	try {
-		var index = self.navigator.userAgent.indexOf(browser);
-		if (index == -1 && self["is"+browser]()) return -1;
-		return parseFloat(self.navigator.userAgent.substring(index+browser.length+1));
+		var index = this.navigator.userAgent.indexOf(browser);
+		if (index == -1 && this["is"+browser]()) return -1;
+		return parseFloat(this.navigator.userAgent.substring(index+browser.length+1));
 	} catch(e){
 		error('_getBrowserVersion', e);
 	}
@@ -1961,6 +1986,49 @@ function _getGMTOffset () {
 		return this.getHours() - 24 - this.getUTCHours();
 	} catch (e) {
 		error('_getGMTOffset', e);
+	}
+}
+function _getSession(sid, callback) {
+	try {
+		var ctx = this, request = ctx.request;
+		if (ctx.session || __GLOBALSESSION[ctx.sessionid]) {
+			ctx.session = ctx.session ? (__GLOBALSESSION[sid] = ctx.session) : (__GLOBALSESSION[ctx.sessionid]);
+			return callback ? callback(ctx.session) : ctx.session;
+		}
+		var sync = !callback;
+
+		var cookies, sessionCookieKey = "NODEJSSESSION";
+		cookies = ($c.getProperty(request, 'headers.cookie') || '').split('; ');
+		// get thes session cookie cuid from the cookie
+		var sessionCookie = cookies.filter(function (c) {return c.contains(sessionCookieKey + "=");})[0];
+		if (sessionCookie) {
+			ctx.sessionid = sessionCookie.substring(sessionCookieKey.length + 1);
+		} else {
+			ctx.sessionid = cuid();
+		}
+
+		if (true || !__GLOBALSESSION[ctx.sessionid] && __GLOBALSESSION.length > 1000000) {
+			// make room for this session to be store globally
+			for (var prop in __GLOBALSESSION) {
+				delete __GLOBALSESSION[prop];
+				break;
+			}
+
+			var dir = 'craydent/session',
+					path = dir + "/" + ctx.sessionid;
+
+			var csession = this._sessionFileCreatAndRetrieve(dir, path, sync, function(retrievedSession){
+				__GLOBALSESSION[ctx.sessionid] = ctx.session = retrievedSession;
+				callback && callback(ctx.session);
+			});
+			if (csession) {
+				return __GLOBALSESSION[ctx.sessionid] = ctx.session = csession;
+			}
+		} else {
+			return callback ? callback(__GLOBALSESSION[ctx.sessionid]) : __GLOBALSESSION[ctx.sessionid];
+		}
+	} catch(e) {
+		error('_getSession', e);
 	}
 }
 function _groupFieldHelper (obj, fields) {
@@ -2013,7 +2081,7 @@ function _joinHelper (obj, arr, on, exclusive) {
 	}
 
 	for (var prop in objRef) {
-		if (objRef.hasOwnProperty(prop)) {
+		if (objRef.has(prop)) {
 			propRef.push(prop);
 		}
 	}
@@ -2141,7 +2209,7 @@ function _redact(docs, expr) {
 			} else if (action == "$$DESCEND") { // return all fields at current document without embedded documents
 				result.push(doc);
 				for (var prop in doc) {
-					if (!doc.hasOwnProperty(prop) || $c.isArray(doc[prop]) && !$c.isObject(doc[prop][0]) || !$c.isArray(doc[prop]) && !$c.isObject(doc[prop])) {
+					if (!doc.has(prop) || $c.isArray(doc[prop]) && !$c.isObject(doc[prop][0]) || !$c.isArray(doc[prop]) && !$c.isObject(doc[prop])) {
 						continue;
 					}
 					doc[prop] = _redact(doc[prop], expr);
@@ -2191,6 +2259,47 @@ function _run_func_array(funcs, args) {
 		error("_run_func_array", e);
 	}
 }
+function _sessionFileCreatAndRetrievefunction (dir, path, sync, callback) {
+	try {
+		if (sync) {
+			if (!fs.existsSync(path)) {
+				if (!fs.existsSync(dir)) {
+					var dirPath = "";
+					// create all missing parent directories sync
+					for (var i = 0, dirs = dir.split('/'), dir = dirs[i]; dir; dir = dirs[++i]) {
+						dirPath += dir + '/';
+						if (!fs.existsSync(dirPath)) {
+							fs.mkdirSync(dirPath);
+						}
+					}
+				}
+				// creates the file
+				fs.openSync(path, 'w+');
+			}
+			return tryEval(fs.readFileSync(path).toString()) || {};
+		} else {
+			fs.exists(path, function (exists) {
+				if (!exists) {
+					// create all missing parent directories async
+					mkdirRecursive(dir, function () {
+						// create the file
+						fs.open(path, 'w+', function () {
+							callback({});
+						});
+					});
+				} else {
+					fs.readFile(path, function (err, data) {
+						callback(tryEval(data));
+					});
+				}
+			});
+		}
+		return;
+
+	} catch (e) {
+		error('_sessionFileCreateAndRetrieve', e);
+	}
+}
 function _startsWith (/*str, str1*/) {
 	/*|{
 		"info": "String class extension to check if the string starts with the given string",
@@ -2231,7 +2340,7 @@ function _subFieldHelper(obj, operands) {
 		}
 
 		for (var prop in obj) {
-			if (!obj.hasOwnProperty(prop)) { continue; }
+			if (!obj.has(prop)) { continue; }
 			if (prop in operands) {
 				return prop;
 			}
@@ -2266,7 +2375,7 @@ function _subQuery(record, query, operator, field, index) {
 				"$mod":1,
 				"$all":1,
 				"$size":1,
-				"$where":1,
+				"$ghere":1,
 				"$elemMatch":1,
 				"$not":1},
 			value = $c.getProperty(record, field || ""),
@@ -2275,7 +2384,7 @@ function _subQuery(record, query, operator, field, index) {
 
 		// prep multiple subqueries
 		for (var prop in query) {
-			if (query.hasOwnProperty(prop) && prop in operands) {
+			if (query.has(prop) && prop in operands) {
 				if(!$c.isArray(opt)) {
 					opt = [];
 				}
@@ -2298,7 +2407,7 @@ function _subQuery(record, query, operator, field, index) {
 					if (isNull(query) || isNull(value)) {
 						return false;
 					}
-					var q = $c.getValue(query.hasOwnProperty("$equals") ? query['$equals'] : query);
+					var q = $c.getValue(query.has("$equals") ? query['$equals'] : query);
 
 					rtn = $c.isRegExp(q) ? q.test(value) :
 						($c.isFunction(q) ? q(record, field, index) : value == q);
@@ -2391,7 +2500,7 @@ function _subQuery(record, query, operator, field, index) {
 					}
 					rtn = value.length == val;
 					break;
-				case "$where":
+				case "$ghere":
 					rtn = $c.isFunction(query) ? query.call(record) : tryEval.call(record, "(function(){"+query+"}).call(this)");
 					break;
 				case "$elemMatch":
@@ -2403,7 +2512,7 @@ function _subQuery(record, query, operator, field, index) {
 						var obj = value[i],
 							val, operand;
 						for (var prop in query) {
-							if (!query.hasOwnProperty(prop)) {
+							if (!query.has(prop)) {
 								continue;
 							}
 							if ($c.isObject(query[prop])) {
@@ -2429,7 +2538,7 @@ function _subQuery(record, query, operator, field, index) {
 					var satisfied = false;
 					for (var i = 0, len = query.length; i < len && !satisfied; i++) {
 						for (var prop in query[i]) {
-							if (!query[i].hasOwnProperty(prop)) {
+							if (!query[i].has(prop)) {
 								continue;
 							}
 							var subprop = _subFieldHelper(query[i][prop], operands);
@@ -2460,7 +2569,7 @@ function _subQuery(record, query, operator, field, index) {
 					var isNIN = operator == "$nin";
 					rtn = isNIN;
 					for (var fieldProp in query) {
-						if (!query.hasOwnProperty(fieldProp)) {
+						if (!query.has(fieldProp)) {
 							continue;
 						}
 						value = $c.getProperty(record, field);
@@ -2544,7 +2653,7 @@ function _unwind(docs, path) {
 function _whereHelper(objs,condition,callback) {
 	var returnAll = true;
 	for (var prop in condition) {
-		if (condition.hasOwnProperty(prop)) {
+		if (condition.has(prop)) {
 			returnAll = false;
 			break;
 		}
@@ -2675,7 +2784,7 @@ function Cursor (records) {
 			arr = $c.copyObject(records || []);
 		if ($c.isObject(arr)) {
 			for (var prop in arr) {
-				if (!arr.hasOwnProperty(prop)) { continue; }
+				if (!arr.has(prop)) { continue; }
 				props.push(prop);
 			}
 			props.sort();
@@ -2822,7 +2931,6 @@ function ajax(params){
 		params.onerror = params.onerror || params.onresponse || foo;
 		params.onsuccess = params.onsuccess || params.onresponse || foo;
 		params.query = params.data || params.query || "";
-		params.jsonp = (params.jsonp || "callback") + "=";
 		// commented line below is a valid parameter value
 		/*
 		 params.shard_data = params.shard_data;
@@ -2847,161 +2955,57 @@ function ajax(params){
 		 params.onsuccess = params.onsuccess;
 		 params.onloadstart = params.onloadstart;
 		 params.run = params.run;
-		 params.jsonp = params.jsonp;
-		 params.jsonpCallback = params.jsonpCallback
 		 */
 		params.thiss = this;
 		params.url = params.url || "";
 
-		if (params.dataType.toLowerCase() == 'jsonp') {
-			var head = $d.getElementsByTagName('head')[0],
-				func = params.jsonpCallback || '_cjson' + Math.floor(Math.random() * 1000000),
-				insert = 'insertBefore',
-				tag = $d.createElement('script');
-			while (!params.jsonpCallback && $w[func]) {
-				func = '_cjson' + Math.floor(Math.random() * 1000000);
-			}
-			params.jsonpCallback && (params.onsuccess = $w[func]);
-			$w[func] = function (data) {
-				if (params.query) {
-					var thiss = params.thiss;
-					delete params.thiss;
-					ajax.call(thiss, params);
-				} else {
-					(!data.hasErrors &&
-					(_run_func_array.call((params.context||params.thiss),params.onsuccess, [data, params.hitch, params.thiss, params.context]) || true)) ||
-					_run_func_array.call((params.context||params.thiss),params.onerror,[data, params.hitch, params.thiss, params.context]);
+		var httpRequest = new Request(),
+			fileUpload = httpRequest.upload || {};
+		params.method = params.method || "POST";
+		params.headers = params.headers || [];
 
-					_run_func_array.call((params.context||this),params.oncomplete);
-					if (params.jsonpCallback) {
-						$w[func] = params.onsuccess;
-					} else {
-						try { delete $w[func] } catch(e){ $w[func] = undefined; }
-					}
-				}
-			};
-			if (params.shard_data && params.query && !$c.isObject(params.query) && params.query.length > browser_url_limit) {
-				need_to_shard = true;
-				var query_parts = params.query;
-				params.query = {};
-				query_parts = query_parts.indexOf('?') == 0 ? query_parts.substr(1) : query_parts;
-				query_parts = query_parts.split("&");
-				// params.query now has the object representation of the query
-				query_parts.map(function(str){
-					var name_value = str.split('=');
-					this[encodeURIComponent(name_value[0])] = encodeURIComponent(name_value[1]);
-				},params.query);
-			} else if (params.query && $c.isObject(params.query)) {
-				query = $c.toStringAlt(params.query, '=', '&',true);
-				if (query.length > browser_url_limit) {
-					need_to_shard = true;
-				} else {
-					params.query = query;
-				}
-			}
-
-			// if need_to_shard is true then params.query is an object
-			// and if if need_to_shard is false, params.query is a string ready by sent
-			query = params.query;
-			url = params.url;
-			if (need_to_shard) {
-				params.__FIRST = isNull(params.__FIRST);
-				params.__EOF = true;
-				query = "&EOQ=false";
-				for (var prop in params.query) {
-					if ((query + prop +"xxx").length > browser_url_limit) {
-						break;
-					}
-					query += '&' + encodeURIComponent(prop) + "=" + encodeURIComponent(params.query[prop]);
-					if (query.length > browser_url_limit) {
-						var left_over = query.substr(browser_url_limit);
-						query = query.substr(0, browser_url_limit);
-						params.query[prop] = left_over;
-						break;
-					}
-					delete params.query[prop];
-				}
-			} else {
-				params.__EOF && (params.__EOF = "true");
-				delete params.query;
-			}
-			query = (params.run ? "&run=" + params.run :"") +
-				(query || "") +
-				((params.__EOF && params.__EOF === "true" && ("&EOQ=true")) || "") +
-				((params.__FIRST && ("&FIRST=true")) || "");
-			url += (params.url.indexOf('?') != -1 ? "&" : "?") + (params.jsonp || "callback=") + func + (query || "");
-
-			tag['type'] = "text/javascript";
-			tag.async = "async";
-			tag['src'] = url;
-
-			// Attach handlers for all browsers
-			tag.onload = tag.onreadystatechange = function(ev) {
-				try {
-					if (!this.readyState || /complete|loaded/.test( this.readyState.toString() ) ) {
-						// Handle memory leak in IE
-						this.onload = this.onreadystatechange = null;
-
-						// Remove the script
-						if ( head && this.parentNode && IEVersion () == -1) {
-							head.removeChild( this );
-						}
-					}
-				} catch (e) {
-					error('ajax.tag.statechange', e);
-				}
-			};
-			_run_func_array.call((params.context||this),params.onbefore, [tag, this]);
-			head[insert](tag, head.firstChild);
-			rtn = tag;
-		} else {
-			var httpRequest = new Request(),
-				fileUpload = httpRequest.upload || {};
-			params.method = params.method || "POST";
-			params.headers = params.headers || [];
-
-			if (params.query && $c.isObject(params.query)) {
-				params.query = $c.toStringAlt(params.query, '=', '&', true);
-			}
-			params.query = (params.run ? "run=" + params.run :"") + (params.query || "");
-			params.contentType = params.contentType || "application/x-www-form-urlencoded";
-			params.onstatechange = params.onstatechange || foo;
-
-			fileUpload.onload = params.onfileload || foo;
-			fileUpload.onprogress = params.onprogress || foo;
-			fileUpload.onabort = params.onabort || foo;
-			fileUpload.onerror = params.onerror || foo;
-			fileUpload.onloadstart = params.onloadstart || foo;
-
-			if (params.method == "GET") {
-				params.url += params.query ? "?" + params.query : "";
-				params.query = undefined;
-			}
-			_run_func_array.call((params.context||this),params.onbefore, [httpRequest, this]);
-			httpRequest.onreadystatechange = function (xp) {
-				params.onstatechange(xp);
-				var data = _ajaxServerResponse(this);
-				if (data) {
-					_run_func_array.call((params.context||this),params.onsuccess, [data, params.hitch, params.thiss, params.context, this.status]);
-				} else if (this.readyState == 4) {
-					try {
-						_run_func_array.call((params.context||this),params.onerror, [eval(this.responseText), params.hitch, params.thiss, params.context, this.status]);
-					} catch (e) {
-						_run_func_array.call((params.context||this),params.onerror, [this.responseText, params.hitch, params.thiss, params.context, this.status]);
-					}
-				}
-				_run_func_array.call((params.context||this),params.oncomplete);
-			};
-			httpRequest.open(params.method, params.url, true);
-			httpRequest.setRequestHeader("Content-type", params.contentType);
-
-			for (var i = 0; i < params.headers.length; i++) {
-				var header = params.headers[i];
-				httpRequest.setRequestHeader(header.type, header.value);
-			}
-			httpRequest.send(params.query);
-			rtn = httpRequest;
+		if (params.query && $c.isObject(params.query)) {
+			params.query = $c.toStringAlt(params.query, '=', '&', true);
 		}
+		params.query = (params.run ? "run=" + params.run :"") + (params.query || "");
+		params.contentType = params.contentType || "application/x-www-form-urlencoded";
+		params.onstatechange = params.onstatechange || foo;
+
+		fileUpload.onload = params.onfileload || foo;
+		fileUpload.onprogress = params.onprogress || foo;
+		fileUpload.onabort = params.onabort || foo;
+		fileUpload.onerror = params.onerror || foo;
+		fileUpload.onloadstart = params.onloadstart || foo;
+
+		if (params.method == "GET") {
+			params.url += params.query ? "?" + params.query : "";
+			params.query = undefined;
+		}
+		_run_func_array.call((params.context||this),params.onbefore, [httpRequest, this]);
+		httpRequest.onreadystatechange = function (xp) {
+			params.onstatechange(xp);
+			var data = _ajaxServerResponse(this);
+			if (data) {
+				_run_func_array.call((params.context||this),params.onsuccess, [data, params.hitch, params.thiss, params.context, this.status]);
+			} else if (this.readyState == 4) {
+				try {
+					_run_func_array.call((params.context||this),params.onerror, [eval(this.responseText), params.hitch, params.thiss, params.context, this.status]);
+				} catch (e) {
+					_run_func_array.call((params.context||this),params.onerror, [this.responseText, params.hitch, params.thiss, params.context, this.status]);
+				}
+			}
+			_run_func_array.call((params.context||this),params.oncomplete);
+		};
+		httpRequest.open(params.method, params.url, true);
+		httpRequest.setRequestHeader("Content-type", params.contentType);
+
+		for (var i = 0; i < params.headers.length; i++) {
+			var header = params.headers[i];
+			httpRequest.setRequestHeader(header.type, header.value);
+		}
+		httpRequest.send(params.query);
+		rtn = httpRequest;
+
 		rtn.then = function (callback) { //noinspection CommaExpressionJS
 			return params.onsuccess.push(callback),this; };
 		rtn.otherwise = function (callback) { //noinspection CommaExpressionJS
@@ -3076,15 +3080,12 @@ function $COOKIE(key, value, options) {
 	 }|*/
 	try {
 		options = options || {};
-		var c = $d.cookie, path = "", domain = "",keys = [], values=[];
+		var c = $c.getProperty(this, 'request.headers.cookie');
 		options.cookie && (c = options.cookie);
 		if($c.isObject(key)) {
 			options = value;
 			for (var prop in key) {
-				if (!key.hasOwnProperty(prop)) { continue; }
-				//value = key[prop];
-				//key = prop;
-				//break;
+				if (!key.has(prop)) { continue; }
 				value.push(JSON.stringify(key[prop]));
 				keys.push(prop);
 			}
@@ -3097,7 +3098,7 @@ function $COOKIE(key, value, options) {
 		if (options.path && $c.isString(options.path)) {path = 'path=' + options.path + ';'}
 		if (options.domain && $c.isString(options.domain)) {domain = 'domain=' + options.domain + ';'}
 		if (options["delete"]) {
-			$d.cookie = key + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;' + path + domain;
+			this.response.setHeader("Set-Cookie", [key + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;' + path + domain]);
 			return true;
 		}
 
@@ -3111,7 +3112,7 @@ function $COOKIE(key, value, options) {
 			for (var j = 0, jlen = keys.length; j < jlen; j++) {
 				//key = encodeURIComponent(keys[i]);
 				//value = encodeURIComponent(values[i]);
-				$d.cookie = encodeURIComponent(keys[j]) + "=" + encodeURIComponent(values[j]) + expires + path + domain;
+				this.response.setHeader("Set-Cookie", [encodeURIComponent(keys[j]) + "=" + encodeURIComponent(values[j]) + expires + path + domain]);
 			}
 			return true;
 		}
@@ -3178,23 +3179,19 @@ function $GET(variable, options) {
 					return allkeyvalues[keyvalue[0]] = keyvalue[1];
 				};
 
-			($l.search[0] == "?" ? $l.search.substr(1) : $l.search).split('&').map(mapFunc);
-			($l.hash[0] == "#" ? $l.hash.substr(1) : $l.hash).split('@').map(mapFunc);
+			(this.$l.search[0] == "?" ? this.$l.search.substr(1) : this.$l.search).split('&').map(mapFunc);
+			(this.$l.hash[0] == "#" ? this.$l.hash.substr(1) : this.$l.hash).split('@').map(mapFunc);
 			return allkeyvalues;
 		}
 		options = options || {};
 		var ignoreCase = options.ignoreCase || options == "ignoreCase" ? "i" : "",
-			defer = !!$COMMIT.update && (options.defer || options == "defer"),
 			regex = new RegExp("[\?|&|@]" + variable + "=", ignoreCase),
 			attr = "search",
 			location = {};
-		location.hash = $l.hash;
-		location.search = $l.search;
+		location.hash = this.$l.hash;
+		location.search = this.$l.search;
 
-		if (defer) {
-			location.hash = $COMMIT.hash || "";
-			location.search = $COMMIT.search || "";
-		} else if (options.url || $c && $c.isString && ($c.isString(options) && (options.indexOf("?") != -1 || options.indexOf("#") != -1))) {
+		if (options.url || $c && $c.isString && ($c.isString(options) && (options.indexOf("?") != -1 || options.indexOf("#") != -1))) {
 			var query = options.url || options,
 				hindex, qindex = query.indexOf("?");
 
@@ -3268,6 +3265,45 @@ function cuid(msFormat) {
 		error('cuid', e);
 	}
 }
+function echo (output) {
+	try { echo.out += output; } catch (e) { error('echo', e); }
+}
+function end(output, encoding) {
+	output = output || "";
+	var response = this.response;
+	if (encoding && !encoding.isString()) {
+		response = encoding;
+	}
+	if (!response) {// response already ended
+		return;
+	}
+
+	try {
+		// Release memory for objects
+		var obj;
+		while (obj = $g.GarbageCollector.splice(0,1)[0]) {
+			obj.destruct();
+		}
+		this.writeSession();
+		var heads = typeof header != "undefined" ? header : {headers:{}},
+				eco = (typeof echo != "undefined" ? echo : this.echo);
+
+		var headers = $c.merge(heads.headers, this.header.headers),
+				code = heads.code || this.header.code,
+				eco = (typeof echo != "undefined" && echo.out || "") + (this.echo.out || "");
+
+
+		!response.headersSent && response.writeHead(code, headers);
+		response.end(eco + output, encoding);
+		logit('end*******************************************************');
+		//logit(echo.out);
+	} catch(e) {
+		response.writeHead(500, this.header.headers);
+		response.end($c.DEBUG_MODE ? e.toString() : "");
+	} finally {
+		logit("response ended");
+	}
+}
 function error(fname, e) {
 	/*|{
 		"info": "User implemented place holder function to handle errors",
@@ -3305,36 +3341,23 @@ function fillTemplate (htmlTemplate, objs, offset, max, bound) {
 				{"htmlTemplate": "(String) Template to be used"},
 				{"objs": "(Objects[]) Objects to fill the template variables"},
 				{"offset": "(Int) The start index of the Object array"},
-				{"max": "(Int) The maximum number of records to process"}]},
-			{"parameters":[
-				{"htmlTemplate": "(String) Template to be used"},
-				{"objs": "(Objects[]) Objects to fill the template variables"},
-				{"offset": "(Int) The start index of the Object array"},
-				{"max": "(Int) The maximum number of records to process"},
-				{"bound": "(Boolean) Flag to automatically bind the object to the rendered DOM"}]}],
+				{"max": "(Int) The maximum number of records to process"}]}],
 
 		"description": "http://www.craydent.com/library/1.8.0/docs#fillTemplate",
 		"returnType": "(String)"
 	}|*/
 	try {
 		var nested = true;
-		if (!fillTemplate.binding && !fillTemplate.declared && !fillTemplate.refs) {
+		if (!fillTemplate.declared && !fillTemplate.refs) {
 			nested = false;
-			fillTemplate.binding = {original:[],replacer:[]};
 			fillTemplate.declared = {};
 			fillTemplate.refs = [];
 		}
 		if (!htmlTemplate) { return ""; }
-		if ($c.isBoolean(offset)) {
-			bound = offset;
-			max = offset = 0;
-		} else if (!isNull(offset) && isNull(max)) {
+		if (!isNull(offset) && isNull(max)) {
 			max = offset;
 			offset = 0;
 		}
-
-		var domRef;
-		$c.isDomElement(htmlTemplate) && (domRef = htmlTemplate, htmlTemplate = htmlTemplate.toString());
 		if (htmlTemplate.trim() == "") {
 			return "";
 		}
@@ -3369,62 +3392,12 @@ function fillTemplate (htmlTemplate, objs, offset, max, bound) {
 		offset = offset || 0;
 
 		var props = (htmlTemplate.match(vsyntax) || []).condense(true);
-		// prep template to allow binding
-		if (bound) {
-			var nodes = htmlTemplate.toDomElement();
-			function __setBindAttribute(n,value,id) {
-				var prop, k = 0;
-				while (prop = props[k++]) {
-					if (value.contains(prop)) {
-						var ca = n.getAttribute("data-craydent-bind") || "",
-							property = $c.isFunction(vnsyntax) ? vnsyntax(prop) : vnsyntax.exec && vnsyntax.exec(prop);
-						!ca.contains("${craydent_bind}." + property) &&
-						n.setAttribute("data-craydent-bind", (ca ? ca + "," : id+":") + "${craydent_bind}." + property);
-					}
-				}
-			}
-			function __processNodes(n) {
-				var id = suid();
-				for (var i = 0, len = n.attributes.length; i < len; i++) {
-					__setBindAttribute(n,n.attributes[i].value,id);
-				}
-				var child, j = 0;
-				while (child = n.childNodes[j++]) {
-					if (child.nodeType == 3) { // is text node
-						__setBindAttribute(n,child.nodeValue,id);
-					} else {
-						__processNodes(child);
-					}
-				}
-				fillTemplate._micro_templates[id] = {template:n.toString()};
-
-			}
-			if (!nodes.length) { nodes = [nodes]; }
-			var node, i = 0;
-			while (node = nodes[i++]) {
-				__processNodes(node);
-			}
-			htmlTemplate = "";
-			i = 0;
-			while (node = nodes[i++]) {
-				htmlTemplate += node.toString();
-			}
-		}
-		var bindTemplate = {html: htmlTemplate}, _observing = fillTemplate._observing;
 
 		for (var i = offset; i < max; i++) {
 			var obj = objs[i], regex, template = htmlTemplate, match, bind = "";
 
-			if (bound) {
-				$c.observe(obj);
-				bind = _observing["hash_"+_observing.indexOf(obj)];
-				_observing[bind] = {item:obj,template:bindTemplate};
-				template = template.replace_all("${craydent_bind}", bind);
-			}
-
 			if (template.contains("${this}")) {
 				var uid = __add_fillTemplate_ref(obj);
-				//template = template.replace_all(["${this}","${index}"],[parseRaw(obj, true).replace_all([';','[',']'], [';\\','\\[','\\]']),i]);
 				template = template.replace_all(["${this}","${index}"],["fillTemplate.refs['" + uid + "']",i]);
 			}
 
@@ -3436,15 +3409,12 @@ function fillTemplate (htmlTemplate, objs, offset, max, bound) {
 				} else {
 					value = parseRaw(value, $c.isString(value));
 				}
-				//value = parseRaw($c.getProperty(obj, match[1]), true);
-
-				//template= template.replace_all("${this."+match[1]+"}", value);
 				template= template.replace_all("${this."+match[1]+"}", value);
 			}
 			var objval;
 			for (var j = 0, jlen = props.length; j < jlen; j++) {
 				var property = $c.isFunction(vnsyntax) ? vnsyntax(props[j]) : vnsyntax.exec && vnsyntax.exec(props[j]);
-				if (!obj.hasOwnProperty(property)) { continue; }
+				if (!obj.has(property)) { continue; }
 				var expression = props[j];
 				if (template.contains(expression) && !isNull(objval = $c.getProperty(obj,property,null,{noInheritance:true}))) {
 					if (typeof objval == "object") {
@@ -3497,12 +3467,8 @@ function fillTemplate (htmlTemplate, objs, offset, max, bound) {
 			html += (template.contains(vsyntax) ? template.replace(vsyntax,"") : template).replace_all(';\\', ';');
 		}
 
-		if (domRef) {
-			domRef.parentNode.replaceChild(html.toDomElement(),domRef);
-		}
-		html = html.replace_all(fillTemplate.binding.original, fillTemplate.binding.replacer);
 		if (!nested) {
-			fillTemplate.binding = fillTemplate.declared = fillTemplate.refs = undefined;
+			fillTemplate.declared = fillTemplate.refs = undefined;
 		}
 		return html;
 	} catch (e) {
@@ -3520,6 +3486,54 @@ function foo () {
 		"description": "http://www.craydent.com/library/1.8.0/docs#foo",
 		"returnType": "(void)"
 	}|*/
+}
+function getSessionID() {
+	try {
+		return this.sessionid;
+	} catch (e) {
+		error('getSessionID', e);
+	}
+}
+function getSession(sid, callback) {
+	try {
+		if (arguments.length == 0) {
+			return this.getSessionSync(sid);
+		}
+		//sid = sid || sessionid;
+		return this._getSession(sid,callback);
+	} catch (e) {
+		error('getSession', e);
+	}
+}
+function getSessionSync(sid) {
+	try {
+		return this._getSession(sid);
+	} catch (e) {
+		error('getSessionSync', e);
+	}
+}
+function header(headers, code) {
+	try {
+		if (headers.isString() && !code) {
+			if (!headers.contains(':')) {
+				code = parseInt(headers.replace(/.*?([\d]{3}).*/, '$1'));
+			}
+			if (headers.toLowerCase().indexOf('http/') == 0) {
+				headers = {'Content-Type': 'text/html'};
+			} else {
+				var parts = headers.split(':');
+				headers = {};
+				headers[parts[0].trim()] = parts[1].trim();
+			}
+		}
+		header.headers = header.headers.merge(headers);
+		if (code && code.isInt()) {
+			header.code = code;
+		}
+
+	} catch (e) {
+		error('header', e);
+	}
 }
 function logit(){
 	/*|{
@@ -3548,6 +3562,41 @@ function logit(){
 		error('logit', e);
 	}
 }
+function md5(str) {
+	try {
+		var crypto = require('crypto'),
+				md5sum = crypto.createHash('md5');
+		md5sum.update(str);
+		return md5sum.digest('hex');
+	} catch (e) {
+		error('md5', e);
+	}
+}
+function mkdirRecursive(path, callback, _processedPath) {
+	try {
+		_processedPath = _processedPath || "";
+		var fs = require('fs'),
+				dirparts = path.split("/");
+		dir = dirparts[0],
+				dirPath = _processedPath + dir;
+
+		if (!dir && dirparts <= 1) {
+			return callback();
+		}
+
+		fs.exists(dirPath, function (exists) {
+			if (!exists) {
+				fs.mkdir(dirPath, function () {
+					mkdirRecursive(dirparts.splice(1, dirparts.length - 1).join('/'), callback, _processedPath + "/" + dir);
+				});
+			} else {
+				mkdirRecursive(dirparts.splice(1, dirparts.length - 1).join('/'), callback, _processedPath + "/" + dir);
+			}
+		});
+	} catch(e) {
+		error('mkdirRecursive', e);
+	}
+}
 function namespace (name, clazz, fn) {
 	/*|{
 		"info": "Adds the class to a namespace instead of the global space",
@@ -3567,8 +3616,8 @@ function namespace (name, clazz, fn) {
 	}|*/
 	try {
 		var className = clazz.getName();
-		$w[className] = namespace[className] || clazz;
-		$w.setProperty(name + "." + className, clazz);
+		$g[className] = namespace[className] || clazz;
+		$g.setProperty(name + "." + className, clazz);
 		fn && fn.call(clazz);
 	} catch (e) {
 		error('namespace', e);
@@ -3653,12 +3702,12 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
 				__windowVars = [];
 				__windowVarNames = [];
 				if (saveCircular) {
-					for (var prop in $w) {
-						if (!$w.hasOwnProperty(prop)) {
+					for (var prop in $g) {
+						if (!$g.has(prop)) {
 							continue;
 						}
-						if (value.hasOwnProperty(prop)) {
-							__windowVars.push($w[prop]);
+						if (value.has(prop)) {
+							__windowVars.push($g[prop]);
 							__windowVarNames.push(prop);
 						}
 					}
@@ -3672,16 +3721,16 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
 				}
 				raw = "{";
 				for (var prop in value) {
-					if (value.hasOwnProperty(prop)) {
+					if (value.has(prop)) {
 						raw += "\"" + prop + "\": " + parseRaw(value[prop], skipQuotes, saveCircular, __windowVars, __windowVarNames) + ",";
 					}
 				}
-				raw = raw.slice(0,-1) + "}";
+				raw += raw.slice(0,-1) + "}";
 			} else {
 				if (!saveCircular) {
 					raw = "{}";
 				} else {
-					raw = "$w['" + __windowVarNames[index ] +"']";
+					raw = "$g['" + __windowVarNames[index ] +"']";
 				}
 			}
 		} else {
@@ -3710,19 +3759,57 @@ function rand(num1, num2, inclusive) {
 		"returnType": "(Number)"
 	}|*/
 	try {
+		var val = (num2 - num1)*Math.random() + num1;
 		if (inclusive) {
-			if (num1 < num2) {
-				num1 -= 0.1;
-				num2 += 0.1;
-			} else if (num1 > num2) {
-				num1 += 0.1;
-				num2 -= 0.1;
+			if(val == Math.max(num1,num2)) {
+				val -= 0.1
+			} else if (val == Math.min(num1,num2)) {
+				val += 0.1
 			}
 		}
-		return (num2 - num1)*Math.random() + num1;
+		return val;
 	} catch (e) {
 		error('rand', e);
 	}
+}
+function requireDirectory(path, options, __basepath, __objs, __fs){
+	var callingPath = "",
+			delimiter = "/";
+
+	// first clause is for linux based files systems, second clause is for windows based file system
+	if (!(path.startsWith('/') || /^[a-zA-Z]:\/|^\/\/.*/.test(path))) {
+		callingPath = new Error().stack.split('\n')[2].replace(/.*?\((.*)/,'$1');
+		if (callingPath.indexOf('\\') != -1) {
+			callingPath = callingPath.replace(/\\/g,'/');
+			//delimiter = "\\";
+		}
+		path = callingPath.substring(0,callingPath.lastIndexOf(delimiter) + 1) + path;
+	}
+
+	options = options || {};
+	__basepath = __basepath || path;
+	__objs = __objs || {};
+	__fs = __fs || require('fs');
+	if (!path.endsWith(delimiter)) {
+		path += delimiter;
+	}
+	var files = __fs.readdirSync(path);
+	for(var i = 0, len = files.length; i < len; i++) {
+		var rpath = path+files[i];
+		if (__fs.statSync(rpath).isDirectory()) {
+			if (options == "r" || options.recursive) {
+				if (!rpath.endsWith(delimiter)) {
+					rpath += delimiter;
+				}
+				$g.requireDirectory(rpath,options,__basepath,__objs,__fs);
+			}
+			continue;
+		}
+		if (rpath.indexOf("_") == -1) {
+			__objs[rpath.replace(__basepath, '')] = require(rpath);
+		}
+	}
+	return __objs;
 }
 function suid(length) {
 	/*|{
@@ -3766,13 +3853,44 @@ function tryEval(expression, evaluator) {
 		"returnType": "(Mixed)"
 	}|*/
 	try {
-		return (evaluator || eval)(expression);
+		var value = (evaluator || eval)(expression);
+		if (value === undefined && expression != "undefined") {
+			throw '';
+		}
+		return value;
 	} catch(e) {
 		try {
 			return eval("("+expression+")");
 		} catch(e) {
 			return null;
 		}
+	}
+}
+function var_dump() {
+	try {
+		var type = "", value;
+		for (var i = 0, len = arguments.length; i < len; i++) {
+			value = type = arguments[i];
+			if (type !== undefined || type !== null) {
+				type = arguments[i].constructor.toString().replace(/function (.*)?\(.*/, '$1');
+				switch (type) {
+					case "String":
+					case "Array":
+						type += " (" + value.length + ") " + JSON.stringify(value);
+						break;
+					case "Date":
+					case "Number":
+					case "Boolean":
+						type += " (" + JSON.stringify(value) + ") ";
+						break;
+					default:
+						type += JSON.stringify(value);
+				}
+			}
+			echo.out += type + " ";
+		}
+	} catch (e) {
+		error('var_dump', e);
 	}
 }
 /*timing functions*/
@@ -3847,6 +3965,33 @@ function wait(condition) { // TODO: allow for nested wait calls
 		error('wait', e);
 	}
 }
+function writeSession() {
+	try {
+		var fs = require('fs'), sessionid = this.sessionid, session = this.session;
+		if (sessionid) {
+			if ($c.BALANCE_SERVER_LIST) {
+				var otherServers = $c.BALANCE_SERVER_LIST.filter(function (ip) {
+					return $c.PUBLIC_IP != ip;
+				});
+				// save session to other load balanced servers
+				for (var i = 0, len = otherServers.length; i < len; i++) {
+					if ($c.getProperty(this,'response.setHeader') && !$c.getProperty(this,'response.headersSent')) {
+						this.response.setHeader("Set-Cookie", ["NODEJSSESSION=" + sessionid + "; path=/"]);
+					}
+					fs.writeFile('craydent/session/' + sessionid, JSON.stringify(session), foo);
+				}
+			}
+			// save session to this server
+			if ($c.getProperty(this,'response.setHeader') && !$c.getProperty(this,'response.headersSent')) {
+				this.response.setHeader("Set-Cookie", ["NODEJSSESSION=" + sessionid + "; path=/"]);
+			}
+			fs.writeFile('craydent/session/' + sessionid, JSON.stringify(session), foo);
+		}
+
+	} catch (e) {
+		error('writeSession', e);
+	}
+}
 function xmlToJson(xml, ignoreAttributes) {
 	// TODO: implement updated version
 	/*|{
@@ -3868,7 +4013,7 @@ function xmlToJson(xml, ignoreAttributes) {
 		var obj = {};
 		if ($c.isString(xml)) {
 			xml = xml.replace(/&(?!amp;)/gi, '&amp;');
-			if ($w.DOMParser) {
+			if ($g.DOMParser) {
 				xml = (new DOMParser()).parseFromString(xml, 'text/xml');
 			} else {
 				var doc;
@@ -3935,9 +4080,9 @@ function zipit(files, content/*=NULL*/) {
 	}|*/
 	try {
 		files = (content && $c.isString(files) && [{
-				name:files,
-				content:content
-			}]) || $c.isObject(files) && [files] || $c.isArray(files) && files;
+			name:files,
+			content:content
+		}]) || $c.isObject(files) && [files] || $c.isArray(files) && files;
 		var zip = new JSZip();
 		for (var i = 0, len = files.length; i < len; i++) {
 			var file = files[i];
@@ -4006,8 +4151,8 @@ function IEVersion () {
 	}|*/
 	try {
 		var rv = -1;
-		if (navigator.appName == 'Microsoft Internet Explorer') {
-			var ua = navigator.userAgent,
+		if (this.navigator.appName == 'Microsoft Internet Explorer') {
+			var ua = this.navigator.userAgent,
 				re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
 			if (re.exec(ua) != null) {
 				rv = parseFloat(RegExp.$1);
@@ -4065,7 +4210,7 @@ function isAmaya() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/amaya/i.test(navigator.userAgent));
+		return (/amaya/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isAmaya', e);
 	}
@@ -4082,7 +4227,7 @@ function isAndroid(){
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/android/i.test(navigator.userAgent));
+		return (/android/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isAndroid', e);
 	}
@@ -4099,7 +4244,7 @@ function isBlackBerry() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/blackberry/i.test(navigator.userAgent));
+		return (/blackberry/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isBlackBerry', e);
 	}
@@ -4116,7 +4261,7 @@ function isChrome(){
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/chrome/i.test(navigator.userAgent));
+		return (/chrome/i.test(this.navigator.userAgent));
 	} catch(e){
 		error('isChrome', e);
 	}
@@ -4133,7 +4278,7 @@ function isFirefox(){
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		var nu = navigator.userAgent;
+		var nu = this.navigator.userAgent;
 		return (!/chrome/i.test(nu)
 		&& !/apple/i.test(nu)
 		&& !/opera/i.test(nu)
@@ -4154,7 +4299,7 @@ function isGecko() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/gecko/i.test(navigator.userAgent));
+		return (/gecko/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isGecko', e);
 	}
@@ -4206,7 +4351,7 @@ function isIPad() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/iPad|iPhone OS 3_[1|2]_2/i.test(navigator.userAgent));
+		return (/iPad|iPhone OS 3_[1|2]_2/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isIPad', e);
 	}
@@ -4223,7 +4368,7 @@ function isIPhone(){
 		"returnType": "(Bool)"
 	}|*/
 	try{
-		return !isIPad() && /iphone/i.test(navigator.userAgent);
+		return !isIPad() && /iphone/i.test(this.navigator.userAgent);
 	} catch (e) {
 		error('isIPhone', e);
 	}
@@ -4240,7 +4385,7 @@ function isIPod() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/ipod/i.test(navigator.userAgent));
+		return (/ipod/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isIPod', e);
 	}
@@ -4257,7 +4402,7 @@ function isKHTML() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/khtml/i.test(navigator.userAgent));
+		return (/khtml/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isKHTML', e);
 	}
@@ -4274,7 +4419,7 @@ function isLinux(){
 	"returnType": "(Bool)"
 }|*/
 	try{
-		return /linux/i.test(navigator.platform);
+		return /linux/i.test(this.navigator.platform);
 	} catch (e) {
 		error('isLinux', e);
 	}
@@ -4291,7 +4436,7 @@ function isMac(){
 		"returnType": "(Bool)"
 	}|*/
 	try{
-		return /mac/i.test(navigator.platform);
+		return /mac/i.test(this.navigator.platform);
 	} catch (e) {
 		error('isMac', e);
 	}
@@ -4346,7 +4491,7 @@ function isOpera(){
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		var nu = navigator.userAgent;
+		var nu = this.navigator.userAgent;
 		return /chrome/i.test(nu)
 			&& /apple/i.test(nu)
 			&& /opera/i.test(nu);
@@ -4366,7 +4511,7 @@ function isPalmOS(){
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/palm/i.test(navigator.userAgent));
+		return (/palm/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isIPad', e);
 	}
@@ -4383,7 +4528,7 @@ function isPresto() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/presto/i.test(navigator.userAgent));
+		return (/presto/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isPresto', e);
 	}
@@ -4400,7 +4545,7 @@ function isPrince() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/prince/i.test(navigator.userAgent));
+		return (/prince/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isPrince', e);
 	}
@@ -4417,7 +4562,7 @@ function isSafari(){
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		var nu = navigator.userAgent;
+		var nu = this.navigator.userAgent;
 		return (/chrome/i.test(nu)) && (/apple/i.test(nu));
 	} catch(e){
 		error('isSafari', e);
@@ -4435,7 +4580,7 @@ function isSymbian () {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		var nu = navigator.userAgent;
+		var nu = this.navigator.userAgent;
 		return (isWebkit() && (/series60/i.test(nu) || /symbian/i.test(nu)));
 	} catch (e) {
 		error('isIPad', e);
@@ -4453,7 +4598,7 @@ function isTrident() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/trident/i.test(navigator.userAgent));
+		return (/trident/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isTrident', e);
 	}
@@ -4470,7 +4615,7 @@ function isWebkit() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/webkit/i.test(navigator.userAgent));
+		return (/webkit/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isWebkit', e);
 	}
@@ -4487,7 +4632,7 @@ function isWindows(){
 		"returnType": "(Bool)"
 	}|*/
 	try{
-		return /win/i.test(navigator.platform);
+		return /win/i.test(this.navigator.platform);
 	} catch (e) {
 		error('isWindows', e);
 	}
@@ -4504,692 +4649,11 @@ function isWindowsMobile() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/windows ce/i.test(navigator.userAgent));
+		return (/windows ce/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isWindowsMobile', e);
 	}
 }
-
-var _ie = IEVersion(),
-	_ie = IEVersion(),_chrm = ChromeVersion(),_ff = FirefoxVersion(),_op = OperaVersion(),_saf = SafariVersion(),
-	_droid = isAndroid(),_bbery = isBlackBerry(),_ipad = isIPad(),_ifon = isIPhone(),_ipod = isIPod(),_linx = isLinux(),_mac = isMac(),_palm = isPalmOS(),_symb = isSymbian(),_win = isWindows(),_winm = isWindowsMobile(),
-	_amay = isAmaya(),_gekk = isGecko(),_khtm = isKHTML(),_pres = isPresto(),_prin = isPrince(),_trid = isTrident(),_webk = isWebkit(),
-	console = $w.console,
-	_browser = (_ie != -1 && 'Internet Explorer') || (_chrm != -1 && 'Chrome') || (_ff != -1 && 'Firefox') || (_saf != -1 && 'Safari'),
-	_os = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_linx && 'Linux') || ((_ipad || _ifon || _ipod) && 'iOS') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
-	_device = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_ipad && 'iPad') || (_ifon && 'iPhone') || (_ipod && 'iPod') || (_linx && 'Linux') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
-	_engine = (_amay && 'Amaya') || (_gekk && 'Gekko') || (_khtm && 'KHTML') || (_pres && 'Presto') || (_prin && 'Prince') || (_trid && 'Trident') || (_webk && 'WebKit');
-
-
-	var Craydent = {
-			browser:{
-				CURRENT: _browser,
-				CURRENT_VERSION:(_ie != -1 && _ie) || (_chrm != -1 && _chrm) || (_ff != -1 && _ff) || (_saf != -1 && _saf),
-				IE:isIE(),
-				IE_VERSION:_ie,
-				IE6:(_ie < 7.0 && _ie >= 6.0),
-				IE7:(_ie < 8.0 && _ie >= 7.0),
-				IE8:(_ie < 9.0 && _ie >= 8.0),
-				CHROME:isChrome(),
-				CHROME_VERSION:_chrm,
-				FIREFOX:isFirefox(),
-				FIREFOX_VERSION:_ff,
-				OPERA:isOpera(),
-				OPERA_VERSION:_op,
-				SAFARI:isSafari(),
-				SAFARI_VERSION:_saf
-			},
-			client: {
-				BROWSER: _browser,
-				CORES_SUPPORT: _cors,
-				DEVICE: _device,
-				ENGINE: _engine,
-				OS:_os
-			},
-			engine:{
-				CURRENT:_engine,
-				AMAYA:_amay,
-				GEKKO:_gekk,
-				KHTML:_khtm,
-				PRESTO:_pres,
-				PRINCE:_prin,
-				TRIDENT:_trid,
-				WEBKIT:_webk
-			},
-			os:{
-				CURRENT:_os,
-				ANDROID:_droid,
-				BLACKBERRY:_bbery,
-				LINUX:_linx,
-				IOS:(_ipad || _ifon || _ipod),
-				MAC:_mac,
-				PALM:_palm,
-				SYMBIAN:_symb,
-				WINDOWS:_win,
-				WINDOWS_MOBILE:_winm
-			},
-			device:{
-				CURRENT:_device,
-				ANDROID:_droid,
-				BLACKBERRY:_bbery,
-				IPAD:_ipad,
-				IPHONE:_ifon,
-				IPOD: _ipod,
-				LINUX:_linx,
-				MAC:_mac,
-				PALM:_palm,
-				SYMBIAN:_symb,
-				WINDOWS:_win,
-				WINDOWS_MOBILE:_winm
-			},
-			ANDROID:_droid,
-			AMAYA:_amay,
-			BLACKBERRY:_bbery,
-			CHROME:isChrome(),
-			CHROME_VERSION:_chrm,
-			CLICK: "click",
-			CORES_SUPPORT: _cors,
-			DEBUG_MODE: !!$GET("debug"),
-			FIREFOX:isFirefox(),
-			FIREFOX_VERSION:FirefoxVersion(),
-			FIREFOX:isFirefox(),
-			GEKKO:isGecko(),
-			HANDPOINT: "pointer",
-			HIDDEN: "hidden",
-			IE:isIE(),
-			IE_VERSION:_ie,
-			IE6:(_ie < 7.0 && _ie >= 6.0),
-			IE7:(_ie < 8.0 && _ie >= 7.0),
-			IE8:(_ie < 9.0 && _ie >= 8.0),
-			IPAD:isIPad(),
-			IPHONE:isIPhone(),
-			IPOD: isIPod(),
-			KHTML:isKHTML(),
-			LINUX:isLinux(),
-			MAC:isMac(),
-			OBSERVE_CHECK_INTERVAL: 200,
-			ONMOUSEDOWN: "onmousedown",
-			ONMOUSEUP: "onmouseup",
-			OPERA:isOpera(),
-			OPERA_VERSION:OperaVersion(),
-			PAGE_NAME: (function () {
-				var pn = $l.href.substring($l.href.lastIndexOf('/') + 1).replace(/([^#^?]*).*/gi,'$1');
-				return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
-			})(),
-			PAGE_NAME_RAW: (function () {
-				var pn = $l.href.substring($l.href.lastIndexOf('/') + 1).replace(/(.*)?\?.*/gi,'$1');
-				return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
-			})(),
-			PALM:isPalmOS(),
-			POINTER: "default",
-			PRESTO:isPresto(),
-			PRINCE:isPrince(),
-			PROTOCOL: $l.protocol,
-			SAFARI:isSafari(),
-			SAFARI_VERSION:SafariVersion(),
-			SERVER: $l.host,
-			SERVER_PATH: $l.pathname,
-			SYMBIAN:isSymbian(),
-			TEMPLATE_VARS: [],
-			TEMPLATE_TAG_CONFIG: {
-				IGNORE_CHARS:['\n'],
-				/* loop config */
-				FOR:{
-					"begin":/(?:\$\{for (.*?);(.*?);(.*?\}?)\})|(?:\{\{for (.*?);(.*?);(.*?\}?)\}\})/i,
-					"end":/(\$\{end for\})|(\{\{end for\}\})/i,
-					"helper":function(code, body){
-						var ttc = $c.TEMPLATE_TAG_CONFIG,
-							mresult = code.match(ttc.FOR.begin),
-							condition, exec, dvars, vars = "", ovars = {},code_result = "";
-
-						for (var j = 1, jlen = mresult.length; j < jlen; j++) {
-							if (!mresult[j]) {
-								continue;
-							}
-							mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-						}
-
-						condition = mresult[2] || mresult[5];
-						exec = mresult[3] || mresult[6];
-						dvars = (mresult[1] || mresult[4]).split(',');
-						for (var i = 0, len = dvars.length; i < len; i++) {
-							var parts = ttc.VARIABLE_NAME(dvars[i]).split('=');
-							vars += "var " + parts[0] + "=" + parts[1] + ";";
-							ovars[parts[0]] = parts[0];
-						}
-						eval(vars);
-						while (eval(fillTemplate(condition,ovars))) {
-							code_result += body;
-							eval(ttc.VARIABLE_NAME(exec));
-						}
-
-						return code_result;
-					},
-					"parser":function (code, obj, bind){
-						var FOR = $c.TEMPLATE_TAG_CONFIG.FOR,
-							blocks = __processBlocks(FOR.begin, FOR.end, code),
-							code_result = "";
-
-						for (var i = 0, len = blocks.length; i < len; i++) {
-							var obj = blocks[i],
-								block = obj.block,
-								id = obj.id;
-
-							code_result = code_result || obj.code;
-							if (!code_result.contains(obj.id)) { continue; }
-							code_result = code_result.replace_all(id,FOR.helper(block,obj.body));
-						}
-
-						return __logic_parser(code_result);
-					}
-				},
-				FOREACH:{
-					"begin":/(?:\$\{foreach (.*?)\s+in\s+(.*?)\s*\})|(?:\{\{foreach (.*?)\s+in\s+(.*?)\s*\}\})/i,
-					//begin:/(?:\$\{foreach (.*?)\s+in\s+(.*?\}?)\s*\})|(?:\{\{foreach (.*?)\s+in\s+(\\?\[\s*\{.*:.*?\}\s*\\?\])\s*\}\})/i,
-					"end":/(?:\$\{end foreach\})|(?:\{\{end foreach\}\})/i,
-					"helper":function (code, body,rtnObject,uid, obj, bind, ref_obj) {
-						var ttc = $c.TEMPLATE_TAG_CONFIG,
-							FOREACH = ttc.FOREACH,
-							mresult = code.match(FOREACH.begin),
-							objs, var_name,
-							code_result = "";
-
-						for (var j = 1, jlen = mresult.length; j < jlen; j++) {
-							if (!mresult[j]) {
-								continue;
-							}
-							mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-						}
-						objs = tryEval(mresult[2] || mresult[4]);
-						var_name = ttc.VARIABLE_NAME(mresult[1] || mresult[3]);
-
-						//fillTemplate.binding.original.push(bind+"."+var_name);
-						//fillTemplate.binding.replacer.push(fillTemplate.refs["ref_" + fillTemplate.refs.indexOf(objs)]);
-
-						rtnObject = rtnObject || {};
-						rtnObject[uid] += "var " + var_name + "s," + var_name + ";";
-						rtnObject[var_name+"s"] = objs;
-						if ($c.isArray(objs)) {
-							fillTemplate.binding.original.push(bind + "." + var_name);
-							var bindingCuids = "";
-							for (var i = 0, len = objs.length; i < len; i++) {
-								if (typeof objs[i] == "object") {
-
-									bindingCuids += "," + fillTemplate._observing["hash_" + fillTemplate._observing.indexOf(objs[i])];
-								}
-								code_result += "${i="+i+","+var_name+"="+var_name+"s[i],null}" + body;
-							}
-							fillTemplate.binding.replacer.push(bindingCuids.substring(1));
-						}
-
-						return code_result;
-
-					},
-					"parser":function (code, ref_obj, bind){
-						var ttc = $c.TEMPLATE_TAG_CONFIG,
-							FOREACH = ttc.FOREACH,
-							uid = "##"+suid()+"##",
-							result_obj = {},
-							code_result = "", post = "",
-							blocks = __processBlocks(FOREACH.begin, FOREACH.end, code);
-						//bindReplacers = {original:[],treplacer:[]};
-
-						result_obj[uid] = "";
-
-						for (var i = 0, len = blocks.length; i < len; i++) {
-							var obj = blocks[i],
-								block = obj.block,
-								id = obj.id, index;
-							if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
-								post = obj.code.substring(index + 2);
-								obj.code = obj.code.substring(0,index + 2);
-							}
-							code_result = code_result || obj.code;
-							if (!code_result.contains(obj.id)) { continue; }
-							code_result = code_result.replace_all(id,FOREACH.helper(block,obj.body,result_obj,uid,obj,bind,ref_obj));
-						}
-						eval(result_obj[uid]);
-						delete result_obj[uid];
-						for (var prop in result_obj) {
-							if (!result_obj.has(prop)) { continue; }
-							eval(prop + "=" + "result_obj['" + prop + "']");
-						}
-
-						var matches = code_result.match(ttc.VARIABLE);
-						matches.map(function (var_match) {
-							var var_match_name = ttc.VARIABLE_NAME(var_match),
-								str = "";
-							try { str = eval(var_match_name); } catch(e){ return; }
-
-							code_result = code_result.replace(var_match,str||"");
-
-						});
-
-						return __logic_parser(code_result + post, obj, bind);
-					}
-				},
-				WHILE: {
-					"begin": /(?:\$\{while\s*\((.*?)\)\s*\})|(?:\{\{while\s*\((.*?)\)\s*\}\})/i,
-					"end": /(?:\$\{end while\})|(?:\{\{end while\}\})/i,
-					"helper": function (code,body) {
-						var ttc = $c.TEMPLATE_TAG_CONFIG,
-							WHILE = ttc.WHILE,
-							mresult = code.match(WHILE.begin),
-							vars = "", ovars = {},code_result = "",
-							declared = fillTemplate.declared,
-							loop_limit = 100000;
-						for (var prop in declared) {
-							if (!code.contains("${"+prop+"}") || !declared.hasOwnProperty(prop)) { continue; }
-							var val = declared[prop];
-							vars += "var " + prop + "=" + val + ";";
-							ovars[prop] = prop;
-						}
-						eval(vars);
-						while (eval(fillTemplate(mresult[1] || mresult[2],ovars))) {
-							loop_limit--;
-							if (loop_limit < 1) {
-								var msg = "fillTemplate While only support up to 100,000 iterations.  Possible infinite loop?";
-								console.error(msg);
-								throw msg;
-							}
-							code_result += body;
-							(body.match(ttc.VARIABLE)||[]).map(function(var_matches){ eval(ttc.VARIABLE_NAME(var_matches)); });
-						}
-						fillTemplate.declared = declared;
-
-						for (var prop in ovars) {
-							if (!ovars.hasOwnProperty(prop)) { continue; }
-							//var ovar = ovars[prop];
-							code_result += "${" + prop + "=" + declared[prop] + ",null}";
-							//declared[prop] = eval(ovars[prop]);
-						}
-
-						return code_result;
-					},
-					"parser": function (code, ref_obj, bind) {
-						var ttc = $c.TEMPLATE_TAG_CONFIG,
-							WHILE = ttc.WHILE,
-							lookups = {},
-							blocks = __processBlocks(WHILE.begin, WHILE.end, code, lookups),
-							code_result = "", vars = "", declared = fillTemplate.declared, post = "";
-
-						for (var i = 0, len = blocks.length; i < len; i++) {
-							var obj = blocks[i],
-								block = obj.block,
-								id = obj.id;
-
-							if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
-								post = obj.code.substring(index + 2);
-								obj.code = obj.code.substring(0,index + 2);
-							}
-
-							code_result = code_result || obj.code;
-							if (!code_result.contains(obj.id)) { continue; }
-							code_result = code_result.replace_all(id,WHILE.helper(block,obj.body));
-						}
-
-						for (var prop in declared) {
-							if (!code.contains("${"+prop+"}")) { continue; }
-							vars += "var " + prop + "=" + declared[prop] + ";";
-						}
-						eval(vars);
-						var matches = code_result.match(ttc.VARIABLE);
-						matches.map(function (var_match) {
-							var var_match_name = ttc.VARIABLE_NAME(var_match),
-								var_match_index = code_result.indexOf(var_match),
-								before, after;
-							if (tryEval("var "+ var_match_name +";") !== null) {
-								var_match_index += var_match.length;
-							}
-
-
-							before = code_result.substring(0,var_match_index).replace_all(var_match,eval(var_match_name));
-							after = code_result.substring(code_result.indexOf(var_match) + var_match.length);
-							code_result = before + after;
-						});
-
-
-						return __logic_parser(code_result + post);
-
-					}
-				},
-				/* end loop config*/
-
-				/* conditional config*/
-				IF:{
-					"begin":/\$\{if\s+\((.*?)(?!\{)\)\s*\}|\{\{if\s+\((.*?)(?!\{)\)\s*\}\}/i,
-					"elseif":/\$\{elseif\s+\((.*?)(?!\{)\)\s*\}|\{\{elseif\s+\((.*?)(?!\{)\)\s*\}\}/i,
-					"else":/\$\{else\}|\{\{else\}\}/i,
-					"end":/\$\{end if\}|\{\{end if\}\}/i,
-					"helper":function (code) {
-						var IF = $c.TEMPLATE_TAG_CONFIG.IF,
-							ifmatch = (code.match(IF.begin) || []).condense(),
-							endlength = code.match(IF.end)[0].length,
-							startindex = code.indexOfAlt(IF.begin),
-							endindex = code.indexOfAlt(IF.end);
-
-						if (ifmatch.length) {
-							for (var j = 1, jlen = ifmatch.length; j < jlen; j++) {
-								ifmatch[j] = ifmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-							}
-							var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
-								ifsyntax = new RegExp(IF.begin.source+"|"+IF.elseif.source+"|"+IF["else"].source,'i');
-
-							if (!code.match(new RegExp(IF.elseif.source+"|"+IF["else"].source,'ig'))) {
-								if ("undefined" == ifmatch[1] || !tryEval(ifmatch[1])) {
-									return pre + post;
-								}
-								return pre + code.substring(startindex + ifmatch[0].length, endindex) + post;
-							}
-							ifmatch = (code.match(ifsyntax.addFlags('g')) || []).condense();
-							for (var i = 0, len = ifmatch.length; i < len; i++) {
-								var ife = ifmatch[i].match(ifsyntax).condense(),
-									condition = ife[1],
-									value = "undefined" == condition ? false : tryEval(condition),
-									sindex = code.indexOf(ifmatch[i]) + ifmatch[i].length;
-
-								if (value !== undefined && value) {
-									var eindex = code.indexOf(ifmatch[i + 1]);
-									if (eindex == -1) {
-										return pre + code.substring(sindex) + post;
-									}
-									return pre + code.substring(sindex, eindex) + post;
-								} else if (ifmatch[i].match(IF["else"])) {
-									return pre + code.substring(sindex,endindex) + post;
-								}
-							}
-							return pre + post;
-						}
-						return code;
-					},
-					"parser":function (code, obj, bind){
-						var IF = $c.TEMPLATE_TAG_CONFIG.IF,
-							blocks = __processBlocks(IF.begin, IF.end, code),
-							code_result = "";
-						for (var i = 0, len = blocks.length; i < len; i++) {
-							var obj = blocks[i],
-								block = obj.block,
-								id = obj.id;
-
-							code_result = code_result || obj.code;
-							if (!code_result.contains(obj.id)) { continue; }
-							code_result = IF.helper(code_result.replace(id, block));
-						}
-						return __logic_parser(code_result);
-					}
-				},
-				SWITCH: {
-					"begin": /(\$\{switch\s+\((.*?)\)\s*\})|(\{\{switch\s+\((.*?)\)\s*\}\})/i,
-					"end": /(\$\{end switch\})|(\{\{end switch\}\})/i,
-					"case": /(?:\$\{case\s+(.*?)\s*?:\})|(?:\{\{case\s+(.*?)\s*?:\}\})/i,
-					"default": /(\$\{default\})|(\{\{default\}\})/i,
-					"break": /(\$\{break\})|(\{\{break\}\})/i,
-					"helper": function (code) {
-						var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
-							csyntax = SWITCH["case"],
-							switchmatch = (code.match(SWITCH.begin) || []).condense(),
-							endlength = code.match(SWITCH.end)[0].length,
-							startindex = code.indexOfAlt(SWITCH.begin),
-							endindex = code.indexOfAlt(SWITCH.end),
-							brk = SWITCH["break"], dflt = SWITCH["default"];
-
-
-						if (switchmatch.length) {
-
-							for (var j = 1, jlen = switchmatch.length; j < jlen; j++) {
-								switchmatch[j] = switchmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-							}
-							var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
-								val = tryEval(switchmatch[2]) || switchmatch[2],
-								cgsyntax = SWITCH["case"].addFlags("g"),
-								cases = code.match(cgsyntax);
-							code = code.substring(startindex + (switchmatch[0] || "").length, endindex);
-
-							if (!cases) {
-								return pre + code.cut(startindex, endindex + endlength) + post;
-							}
-							for (var i = 0, len = cases.length; i < len; i++) {
-								var cs = cases[i].match(SWITCH["case"]),
-									cvalue = cs[1] || cs[2];
-								if (val == cvalue) {
-									var cindex = code.indexOf(cases[i]),
-										bindex = code.indexOfAlt(brk, cindex);
-									bindex = bindex == -1 ? code.length : bindex;
-									return pre + code.substring(cindex + cases[i].length, bindex).replace(cgsyntax, '') + post;
-								}
-							}
-							var dindex = code.indexOfAlt(dflt);
-							if (dindex != -1) {
-								return pre + code.substring(dindex + code.match(dflt)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
-							}
-
-						}
-						return code;
-					},
-					"parser": function (code, obj, bind) {
-						var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
-							blocks = __processBlocks(SWITCH.begin, SWITCH.end, code),
-							code_result = "";
-
-						for (var i = 0, len = blocks.length; i < len; i++) {
-							var obj = blocks[i],
-								block = obj.block,
-								id = obj.id;
-
-							code_result = code_result || obj.code;
-							if (!code_result.contains(obj.id)) { continue; }
-							code_result = SWITCH.helper(code_result.replace(id, block));
-						}
-						return __logic_parser(code_result);
-					}
-
-				},
-				/* end conditional config*/
-
-				/* error handling and execution config */
-				SCRIPT: {
-					"begin": /(\$\{script\})|(\{\{script\}\})/i,
-					"end": /(\$\{end script\})|(\{\{end script\}\})/i,
-					"parser": function (code, obj, bind) {
-						var SCRIPT = $c.TEMPLATE_TAG_CONFIG.SCRIPT,
-							sindex = code.indexOfAlt(SCRIPT.begin),
-							slen = code.match(SCRIPT.begin)[0].length,
-							eindex = code.indexOfAlt(SCRIPT.end),
-							elen = code.match(SCRIPT.end)[0].length;
-
-						if (eindex == -1) { eindex = undefined; }
-						var block = code.substring(sindex + slen,eindex), str = "",
-							echo = function (value) { echo.out += value; };
-						echo.out = "";
-						str = eval("(function(){"+block+";return echo.out;})()");
-
-						return __logic_parser(code.cut(sindex,eindex+elen, str));
-					}
-
-				},
-				TRY: {
-					"begin": /(\$\{try\})|(\{\{try\}\})/i,
-					"catch": /(?:\$\{catch\s+\((.*)?\)\s*\})|(?:\{\{catch\s+\((.*)?\)\s*\}\})/i,
-					"finally": /(\$\{finally\})|(\{\{finally\}\})/i,
-					"end": /(\$\{end try\})|(\{\{end try\}\})/i,
-					"helper": function (code, lookups, exec) {
-						var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
-							cindex = code.indexOfAlt(TRY["catch"]),
-							findex = code.indexOfAlt(TRY["finally"]),
-							eindex = code.indexOfAlt(TRY["end"]),
-							tend = cindex;
-
-						if (tend == -1) {
-							tend = findex != -1 ? findex : eindex;
-						}
-
-						var tindex = code.indexOfAlt(TRY.begin),
-							body = code.substring(tindex + code.match(TRY.begin)[0].length, tend),
-							pre = code.substring(0,tindex), post = code.substring(eindex + code.match(TRY.end)[0].length),
-							regex = /##[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}##/i,
-							match = body.match(regex), str = "", id,
-							echo = function (value) {
-								echo.out += value;
-							};
-						echo.out = "";
-						while(match && match.length){
-							id = match.splice(0)[0];
-							body = body.replace(id, ";echo('" + TRY.helper(lookups[id], lookups) + "');");
-						}
-						match = pre.match(regex);
-						while(match && match.length) {
-							id = match.splice(0)[0];
-							pre = pre.replace(id, TRY.helper(lookups[id], lookups));
-						}
-						match = post.match(regex);
-						while(match && match.length) {
-							id = match.splice(0)[0];
-							post = post.replace(id, TRY.helper(lookups[id], lookups));
-						}
-						exec && eval(exec);
-						try {
-							str = eval("(function(){" + body + ";return echo.out; })()");
-						} catch (e) {
-							if (cindex != -1) {
-								echo.out = "";
-								tend = findex != -1 ? findex : eindex;
-								var catchBlock = code.substring(cindex, tend),
-									catchLine = catchBlock.match(TRY["catch"]);
-								catchBlock = catchBlock.replace(catchLine[0], ''),
-									errorString = JSON.stringify(e);
-
-								match = catchBlock.match(regex);
-								while(match && match.length) {
-									id = match.splice(0)[0];
-									catchBlock = catchBlock.replace(id, ";echo('" + TRY.helper(lookups[id], lookups,"var " + catchLine[1] + "=" + errorString + ";") + "');");
-								}
-								str += eval("(function(" + catchLine[1] + "){" + catchBlock + ";return echo.out;})('" + errorString + "')");
-							}
-						} finally {
-							if (findex != -1) {
-								echo.out = "";
-								str += eval("(function(){" + code.substring(findex + code.match(TRY["finally"])[0].length, eindex) + ";return echo.out; })()");
-							}
-						}
-						return pre + str + post;
-					},
-					"parser": function (code, obj, bind) {
-						var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
-							lookups = {}, code_result,
-							blocks = __processBlocks(TRY.begin, TRY.end, code, lookups);
-
-						var obj = blocks[0],
-							block = obj.block,
-							id = obj.id;
-
-						return __logic_parser(TRY.helper(obj.code.replace(id, block), lookups));
-						//return __logic_parser(code_result);
-					}
-
-				},
-				/* end error handling config */
-
-				/* tokens config */
-				VARIABLE:/(?:\$\{((?!\$)\S)*?\})|(?:\{\{((?!\{\{)\S)*?\}\})/gi,
-				VARIABLE_NAME:function(match){
-					return  match.slice(2,match.contains('}}') ? -2 : -1);
-				},
-				DECLARE:{
-					"syntax": /(?:\$\{DECLARE (.*?);?\})|(?:\{\{DECLARE (.*?);?\}\})/i,
-					"parser": function (htmlTemplate, declare){
-						var matches = declare.match($c.TEMPLATE_TAG_CONFIG.DECLARE.syntax),
-							var_nameValue = (matches[1]||matches[2]).strip(';').split("=");
-
-						//fillTemplate.declared[var_nameValue[0]] = var_nameValue[1];
-						$c.merge(fillTemplate.declared, tryEval("({"+matches[1].replace_all('=',":")+"})"));
-						return htmlTemplate.replace_all(declare,'');
-					}
-				}
-				/* end tokens config */
-			},
-			TRIDENT:isTrident(),
-			VERBOSE_LOGS:!!$GET("verbose"),
-			VERSION: $w.__craydentVersion,
-			VISIBLE: "visible",
-			WAIT: "wait",
-			WEBKIT:isWebkit(),
-			WINDOWS:isWindows(),
-			WINDOWS_MOBILE:isWindowsMobile(),
-			noConflict:function (setTo) {
-				var tmp = $;
-				$ = setTo || _$overwrite;
-				return tmp;
-			},
-
-			// methods
-
-			$COOKIE:$COOKIE,
-			$GET:$GET,
-			$SET:$SET,
-			$DEL:$DEL,
-			$COMMIT:$COMMIT,
-			$ROLLBACK:$ROLLBACK,
-			ChromeVersion:ChromeVersion,
-			Benchmarker:Benchmarker,
-			FirefoxVersion:FirefoxVersion,
-			IEVersion:IEVersion,
-			OperaVersion:OperaVersion,
-			SafariVersion:SafariVersion,
-			Cursor:Cursor,
-			OrderedList:OrderedList,
-			Queue:Queue,
-			Request:Request,
-			Set:Set,
-			addObjectPrototype:addObjectPrototype,
-			addHTMLPrototype:addHTMLPrototype,
-			ajax:ajax,
-			cacheImages:cacheImages,
-			cout:cout,
-			cuid:cuid,
-			error:error,
-			fillTemplate:fillTemplate,
-			foo:foo,
-			getUniqueId:getUniqueId,
-			isAmaya:isAmaya,
-			isAndroid:isAndroid,
-			isBlackBerry:isBlackBerry,
-			isChrome:isChrome,
-			isFirefox:isFirefox,
-			isGecko:isGecko,
-			isIE6:isIE6,
-			isIE:isIE,
-			isIPad:isIPad,
-			isIPhone:isIPhone,
-			isIPod:isIPod,
-			isKHTML:isKHTML,
-			isLinux:isLinux,
-			isMac:isMac,
-			isMobile:isMobile,
-			isNull:isNull,
-			isOpera:isOpera,
-			isPalmOS:isPalmOS,
-			isPresto:isPresto,
-			isPrince:isPrince,
-			isSafari:isSafari,
-			isSymbian:isSymbian,
-			isTrident:isTrident,
-			isWebkit:isWebkit,
-			isWindows:isWindows,
-			isWindowsMobile:isWindowsMobile,
-			killPropagation:killPropagation,
-			logit:logit,
-			now:now,
-			observe:observe,
-			parseBoolean:parseBoolean,
-			parseRaw:parseRaw,
-			rand:rand,
-			tryEval:tryEval,
-			wait:wait,
-			xmlToJson:xmlToJson,
-			zipit:zipit
-		},
-		$c = Craydent;
-
 
 /*----------------------------------------------------------------------------------------------------------------
  /-	String class Extensions
@@ -5294,8 +4758,11 @@ _ext(String, 'cut', function (si, ei, replacement) {
 		"returnType": "(String)"
 	}|*/
 	try {
-		if (isNull(si) || isNull(si)) {
+		if (isNull(si) || isNull(ei)) {
 			return this;
+		}
+		if (ei == 0 && si != 0) {
+			ei = si;
 		}
 		return this.slice(0, si) + (replacement || "")+ this.slice(ei);
 	} catch (e) {
@@ -5712,7 +5179,7 @@ _ext(String, 'singularize', function () {
 	}
 });
 _ext(String, 'startsWith', _startsWith);
-_ext(String, 'startWithAny', _startsWith);
+_ext(String, 'startsWithAny', _startsWith);
 _ext(String, 'strip', function(character) {
 	/*|{
 		"info": "String class extension to remove characters from the beginning and end of the string",
@@ -5926,7 +5393,7 @@ _ext(Array, 'buildTree', function (parentFinder,childFinder,options) {
 			}
 		}
 		for (var prop in singles) {
-			if (!singles.hasOwnProperty(prop)) { continue; }
+			if (!singles.has(prop)) { continue; }
 			for (var j = 0, len = singles[prop].length; j < len; j++) {
 				singles[prop][j].children = [];
 
@@ -6592,7 +6059,7 @@ _ext(Array, 'normalize', function () {
 				continue;
 			}
 			for(var prop in json) {
-				if (json.hasOwnProperty(prop)) {
+				if (json.has(prop)) {
 					allProps[prop] = '';
 				}
 			}
@@ -7077,14 +6544,14 @@ _ext(Array, 'where', function(condition, projection) {
 		}
 
 		// check if there is query MongoDB syntax
-		if (!projection && !/"\$or":|"\$and":|"\$in":|"\$nin":|"\$regex":|"\$gt":|"\$lt":|"\$gte":|"\$lte":|"\$exists":|"\$equals":|"\$ne":|"\$nor":|"\$type":|"\$text":|"\$mod":|"\$all":|"\$size":|"\$where":|"\$elemMatch":|"\$not":/.test(JSON.stringify(condition))) {
+		if (!projection && !/"\$or":|"\$and":|"\$in":|"\$nin":|"\$regex":|"\$gt":|"\$lt":|"\$gte":|"\$lte":|"\$exists":|"\$equals":|"\$ne":|"\$nor":|"\$type":|"\$text":|"\$mod":|"\$all":|"\$size":|"\$ghere":|"\$elemMatch":|"\$not":/.test(JSON.stringify(condition))) {
 			var props=[],
 				ncheck = function (o,c,p) {return $c.getProperty(o,p.prop) != c[p.prop]},
 				rcheck = function (o,c,p) {return ncheck(o,c,p) && p.isReg && !c[p.prop].test($c.getProperty(o,p.prop))},
 				check = ncheck;
 			for (var p in condition) {
 				var isReg = false;
-				if (condition.hasOwnProperty(p)) {
+				if (condition.has(p)) {
 					if ($c.isRegExp(condition[p])) {
 						isReg = true;
 						check = rcheck;
@@ -7563,14 +7030,14 @@ _ext(Function, 'extends',function(extendee, inheritAsOwn){
 	try {
 		var className = this.getName(),
 			cls = new extendee();
-		namespace[className] = $w[className];
+		namespace[className] = $g[className];
 		if (inheritAsOwn) {
 			for (var prop in cls) {
-				if (!cls.hasOwnProperty(prop)) { continue; }
+				if (!cls.has(prop)) { continue; }
 				this.prototype[prop] = /*this[prop] ||*/ this.prototype[prop] || cls[prop];//function(){return $c.getValue(cls[prop],arguments);};
 			}
 			for (var prop in extendee) {
-				if (!extendee.hasOwnProperty(prop)) { continue; }
+				if (!extendee.has(prop)) { continue; }
 				this[prop] = this[prop] || extendee[prop];
 			}
 		}
@@ -7633,8 +7100,8 @@ _ao("changes", function(compare){
 		var rtn = {$length:0,$add:[],$update:[],$delete:[]};
 		// loop through each property of the original
 		for (var prop in this) {
-			if (this.hasOwnProperty(prop)) {
-				if (!compare.hasOwnProperty(prop)) {
+			if (this.has(prop)) {
+				if (!compare.has(prop)) {
 					rtn[prop] = null;
 					rtn.$delete.push(prop);
 					rtn.$length++;
@@ -7648,7 +7115,7 @@ _ao("changes", function(compare){
 		// loop through each property of the compare to make sure
 		// there are no properties from compare missing from the original
 		for (var prop in compare) {
-			if (compare.hasOwnProperty(prop) && !this.hasOwnProperty(prop)) {
+			if (compare.has(prop) && !this.has(prop)) {
 				rtn[prop] = compare[prop];
 				rtn.$add.push(prop);
 				rtn.$length++;
@@ -7696,7 +7163,7 @@ _ao("contains", function(val, func){
 				return ($c.isRegExp(val) ? this.search(val) : this.indexOf(val)) != -1;
 			case $c.isObject(this):
 				for (var prop in this) {
-					if (!this.hasOwnProperty(prop)) { continue; }
+					if (!this.has(prop)) { continue; }
 					if ((func && func(this[prop])) || this[prop] == val) {
 						return true;
 					}
@@ -7786,15 +7253,15 @@ _ao("equals", function (compare, props){
 		if ($c.isArray(props)) {
 			var j = 0;
 			while (prop = props[j++]) {
-				if (this.hasOwnProperty(prop) && compare.hasOwnProperty(prop) && this[prop] != compare[prop]
-					|| (!this.hasOwnProperty(prop) && compare.hasOwnProperty(prop)) || (this.hasOwnProperty(prop) && !compare.hasOwnProperty(prop))) {
+				if (this.has(prop) && compare.has(prop) && this[prop] != compare[prop]
+					|| (!this.has(prop) && compare.has(prop)) || (this.has(prop) && !compare.has(prop))) {
 					return false;
 				}
 			}
 		}
 		if (($c.isObject(this) && $c.isObject(compare)) || ($c.isArray(this) && $c.isArray(compare))) {
 			for (var prop in compare){
-				if (!compare.hasOwnProperty(prop)) {
+				if (!compare.has(prop)) {
 					continue;
 				}
 				if (this[prop] !== compare[prop]) {
@@ -7802,7 +7269,7 @@ _ao("equals", function (compare, props){
 				}
 			}
 			for (var prop in this){
-				if (!this.hasOwnProperty(prop)) {
+				if (!this.has(prop)) {
 					continue;
 				}
 				if (this[prop] !== compare[prop]) {
@@ -7887,7 +7354,7 @@ _ao("getProperty", function (path, delimiter, options) {
 		var value = this;
 		for (var i = 0, len = props.length; i < len; i++) {
 			if (isNull(value[props[i]])
-				|| (options.noInheritance && !value.hasOwnProperty(props[i]))) {
+				|| (options.noInheritance && !value.has(props[i]))) {
 				return undefined;
 			}
 			value = value[props[i]];
@@ -8199,10 +7666,10 @@ _ao("isSubset", function (compare, sharesAny){
 		if (($c.isObject(this) && $c.isObject(compare)) || isArray) {
 
 			for (var prop in this){
-				if (!this.hasOwnProperty(prop)) {
+				if (!this.has(prop)) {
 					continue;
 				}
-				if (!isArray && !compare.hasOwnProperty(prop) || isArray && !compare.contains(this[prop])) {
+				if (!isArray && !compare.has(prop) || isArray && !compare.contains(this[prop])) {
 					return false;
 				}
 				if (sharesAny) {
@@ -8233,7 +7700,7 @@ _ao("itemCount", function () {
 		if ($c.isObject(this)) {
 			var count = 0;
 			for (var prop in this){
-				if (this.hasOwnProperty(prop)) {
+				if (this.has(prop)) {
 					count++;
 				}
 			}
@@ -8258,7 +7725,7 @@ _ao("keyOf", function (value) {
 	}|*/
 	try {
 		for(var prop in this) {
-			if(this.hasOwnProperty(prop)) {
+			if(this.has(prop)) {
 				if(this[prop] === value)
 					return prop;
 			}
@@ -8285,7 +7752,7 @@ _ao("keys", function () {
 		}
 		var arr = [];
 		for(var prop in this) {
-			if(this.hasOwnProperty(prop)) {
+			if(this.has(prop)) {
 				arr.push(prop);
 			}
 		}
@@ -8312,7 +7779,7 @@ _ao("map", function(callback, thisObject) {
 	try {
 		thisObject = thisObject || this;
 		for (var prop in this) {
-			if (this.hasOwnProperty(prop)) {
+			if (this.has(prop)) {
 				this[prop] = callback.call(thisObject, this[prop]);
 			}
 		}
@@ -8343,7 +7810,7 @@ _ao("merge", function (secondary, condition) {//shareOnly) {
 			compareFunction = $c.isFunction(condition) ? condition : condition.compareFunction;
 
 		for (var prop in secondary){
-			if (secondary.hasOwnProperty(prop)) {
+			if (secondary.has(prop)) {
 				if (shared) {
 					// passing share Only
 					if (objtmp[prop]) {
@@ -8370,7 +7837,7 @@ _ao("merge", function (secondary, condition) {//shareOnly) {
 			var args = [],
 				removeCount = 1;
 			for (var aprop in arguments) {
-				if (!arguments.hasOwnProperty(aprop)) { continue; }
+				if (!arguments.has(aprop)) { continue; }
 				if ($c.isInt(aprop)) {
 					args.push(arguments[aprop]);
 				}
@@ -8456,7 +7923,7 @@ _ao("toStringAlt", function (delimiter, prefix, urlEncode) {
 		prefix = prefix || '&';
 		var str = '';
 		for (var prop in this) {
-			if (this.hasOwnProperty(prop)) {
+			if (this.has(prop)) {
 				urlEncode &&
 				(str += prefix + encodeURIComponent(prop) + delimiter + encodeURIComponent(this[prop])) || (str += prefix + prop + delimiter + this[prop]);
 			}
@@ -8467,947 +7934,492 @@ _ao("toStringAlt", function (delimiter, prefix, urlEncode) {
 	}
 }, true);
 
-/**
-
- JSZip - A Javascript class for generating Zip files
- <http://jszip.stuartk.co.uk>
-
- (c) 2009 Stuart Knightley <stuart [at] stuartk.co.uk>
- Licenced under the GPLv3 and the MIT licences
-
- Usage:
- zip = new JSZip();
- zip.add("hello.txt", "Hello, World!").add("tempfile", "nothing");
- zip.folder("images").add("smile.gif", base64Data, {base64: true});
- zip.add("Xmas.txt", "Ho ho ho !", {date : new Date("December 25, 2007 00:00:01")});
- zip.remove("tempfile");
-
- base64zip = zip.generate();
-
- **/
-
-function JSZip(compression) {
-	// default : no compression
-	this.compression = (compression || "STORE").toUpperCase();
-	this.files = [];
-
-	// Where we are in the hierarchy
-	this.root = "";
-
-	// Default properties for a new file
-	this.d = {
-		base64: false,
-		binary: false,
-		dir: false,
-		date: null
-	};
-
-	if (!JSZip.compressions[this.compression]) {
-		throw compression + " is not a valid compression method !";
+// retrieve public and local IP Addresses
+var nics = require('os').networkInterfaces();
+for (var nic in nics) {
+	if (!nics.has(nic)) {
+		continue;
 	}
-}
-/**
- * Add a file to the zip file
- * @param   name  The name of the file
- * @param   data  The file data, either raw or base64 encoded
- * @param   o     File options
- * @return  this JSZip object
- */
-JSZip.prototype.add = function(name, data, o){
-	o = o || {};
-	name = this.root+name;
-	if (o.base64 === true && o.binary == null) o.binary = true;
-	for (var opt in this.d){
-		o[opt] = o[opt] || this.d[opt];
-	}
-
-	// date
-	// @see http://www.delorie.com/djgpp/doc/rbinter/it/52/13.html
-	// @see http://www.delorie.com/djgpp/doc/rbinter/it/65/16.html
-	// @see http://www.delorie.com/djgpp/doc/rbinter/it/66/16.html
-
-	o.date = o.date || new Date();
-	var dosTime, dosDate;
-
-	dosTime = o.date.getHours();
-	dosTime = dosTime << 6;
-	dosTime = dosTime | o.date.getMinutes();
-	dosTime = dosTime << 5;
-	dosTime = dosTime | o.date.getSeconds() / 2;
-
-	dosDate = o.date.getFullYear() - 1980;
-	dosDate = dosDate << 4;
-	dosDate = dosDate | (o.date.getMonth() + 1);
-	dosDate = dosDate << 5;
-	dosDate = dosDate | o.date.getDate();
-
-	if (o.base64 === true) data = JSZipBase64.decode(data);
-	// decode UTF-8 strings if we are dealing with text data
-	if(o.binary === false) data = this.utf8encode(data);
-
-
-	var compression    = JSZip.compressions[this.compression];
-	var compressedData = compression.compress(data);
-
-	var header = "";
-
-	// version needed to extract
-	header += "\x0A\x00";
-	// general purpose bit flag
-	header += "\x00\x00";
-	// compression method
-	header += compression.magic;
-	// last mod file time
-	header += this.decToHex(dosTime, 2);
-	// last mod file date
-	header += this.decToHex(dosDate, 2);
-	// crc-32
-	header += this.decToHex(this.crc32(data), 4);
-	// compressed size
-	header += this.decToHex(compressedData.length, 4);
-	// uncompressed size
-	header += this.decToHex(data.length, 4);
-	// file name length
-	header += this.decToHex(name.length, 2);
-	// extra field length
-	header += "\x00\x00";
-
-	// file name
-
-	this.files[name] = {
-		header: header,
-		data: compressedData,
-		dir: o.dir
-	};
-
-	return this;
-};
-
-/**
- * Add a directory to the zip file
- * @param   name  The name of the directory to add
- * @return  JSZip object with the new directory as the root
- */
-JSZip.prototype.folder = function(name){
-	// Check the name ends with a /
-	if (name.substr(-1) != "/") name += "/";
-
-	// Does this folder already exist?
-	if (typeof this.files[name] === "undefined") this.add(name, '', {
-		dir:true
-	});
-
-	// Allow chaining by returning a new object with this folder as the root
-	var ret = this.clone();
-	ret.root = this.root+name;
-	return ret;
-};
-
-/**
- * Compare a string or regular expression against all of the filenames and
- * return an informational object for each that matches.
- * @param  needle string/regex The regular expression to test against
- * @return  An array of objects representing the matched files. In the form
- *          {name: "filename", data: "file data", dir: true/false}
- */
-JSZip.prototype.find = function(needle) {
-	var result = [], re;
-	if (typeof needle === "string")
-	{
-		re = new RegExp("^"+needle+"$");
-	}
-	else
-	{
-		re = needle;
-	}
-
-	for (var filename in this.files)
-	{
-		if (re.test(filename))
-		{
-			var file = this.files[filename];
-			result.push({
-				name: filename,
-				data: file.data,
-				dir: !!file.dir
-			});
+	// filter for address that is IPv4
+	var iface = nics[nic].filter(function (ic) {return ic.family=='IPv4';})[0];
+	if (iface) {
+		if (nic.startsWith('lo')) {
+			$c.LOCAL_IP = iface.address;
+		} else if (nic.startsWith('eth') || nic.startsWith('en')) {
+			$c.PUBLIC_IP = iface.address
 		}
 	}
-
-	return result;
-};
-
-/**
- * Delete a file, or a directory and all sub-files, from the zip
- * @param   name  the name of the file to delete
- * @return  this JSZip object
- */
-JSZip.prototype.remove = function(name) {
-	var file = this.files[name];
-	if (!file)
-	{
-		// Look for any folders
-		if (name.substr(-1) != "/") name += "/";
-		file = this.files[name];
+	// break if local and public ips are found
+	if ($c.LOCAL_IP && $c.PUBLIC_IP) {
+		break
 	}
+}
 
-	if (file)
+$g.JSZip;
+try {
+	// load node jszip module if available;
+	$g.JSZip = require('jszip');
+} catch (e) {
+	/**
+
+	 JSZip - A Javascript class for generating Zip files
+	 <http://jszip.stuartk.co.uk>
+
+	 (c) 2009 Stuart Knightley <stuart [at] stuartk.co.uk>
+	 Licenced under the GPLv3 and the MIT licences
+
+	 Usage:
+	 zip = new JSZip();
+	 zip.add("hello.txt", "Hello, World!").add("tempfile", "nothing");
+	 zip.folder("images").add("smile.gif", base64Data, {base64: true});
+	 zip.add("Xmas.txt", "Ho ho ho !", {date : new Date("December 25, 2007 00:00:01")});
+	 zip.remove("tempfile");
+
+	 base64zip = zip.generate();
+
+	 **/
+
+	$g.JSZip = function (compression)
 	{
-		if (name.match("/") === null)
+		// default : no compression
+		this.compression = (compression || "STORE").toUpperCase();
+		this.files = [];
+
+		// Where we are in the hierarchy
+		this.root = "";
+
+		// Default properties for a new file
+		this.d = {
+			base64: false,
+			binary: false,
+			dir: false,
+			date: null
+		};
+
+		if (!$g.JSZip.compressions[this.compression]) {
+			throw compression + " is not a valid compression method !";
+		}
+	}
+	/**
+	 * Add a file to the zip file
+	 * @param   name  The name of the file
+	 * @param   data  The file data, either raw or base64 encoded
+	 * @param   o     File options
+	 * @return  this JSZip object
+	 */
+	$g.JSZip.prototype.file = function(name, data, o){
+		o = o || {};
+		name = this.root+name;
+		if (o.base64 === true && o.binary == null) o.binary = true;
+		for (var opt in this.d){
+			o[opt] = o[opt] || this.d[opt];
+		}
+
+		// date
+		// @see http://www.delorie.com/djgpp/doc/rbinter/it/52/13.html
+		// @see http://www.delorie.com/djgpp/doc/rbinter/it/65/16.html
+		// @see http://www.delorie.com/djgpp/doc/rbinter/it/66/16.html
+
+		o.date = o.date || new Date();
+		var dosTime, dosDate;
+
+		dosTime = o.date.getHours();
+		dosTime = dosTime << 6;
+		dosTime = dosTime | o.date.getMinutes();
+		dosTime = dosTime << 5;
+		dosTime = dosTime | o.date.getSeconds() / 2;
+
+		dosDate = o.date.getFullYear() - 1980;
+		dosDate = dosDate << 4;
+		dosDate = dosDate | (o.date.getMonth() + 1);
+		dosDate = dosDate << 5;
+		dosDate = dosDate | o.date.getDate();
+
+		if (o.base64 === true) data = JSZipBase64.decode(data);
+		// decode UTF-8 strings if we are dealing with text data
+		if(o.binary === false) data = this.utf8encode(data);
+
+
+		var compression    = $g.JSZip.compressions[this.compression];
+		var compressedData = compression.compress(data);
+
+		var header = "";
+
+		// version needed to extract
+		header += "\x0A\x00";
+		// general purpose bit flag
+		header += "\x00\x00";
+		// compression method
+		header += compression.magic;
+		// last mod file time
+		header += this.decToHex(dosTime, 2);
+		// last mod file date
+		header += this.decToHex(dosDate, 2);
+		// crc-32
+		header += this.decToHex(this.crc32(data), 4);
+		// compressed size
+		header += this.decToHex(compressedData.length, 4);
+		// uncompressed size
+		header += this.decToHex(data.length, 4);
+		// file name length
+		header += this.decToHex(name.length, 2);
+		// extra field length
+		header += "\x00\x00";
+
+		// file name
+
+		this.files[name] = {
+			header: header,
+			data: compressedData,
+			dir: o.dir
+		};
+
+		return this;
+	};
+
+	/**
+	 * Add a directory to the zip file
+	 * @param   name  The name of the directory to add
+	 * @return  JSZip object with the new directory as the root
+	 */
+	$g.JSZip.prototype.folder = function(name)
+	{
+		// Check the name ends with a /
+		if (name.substr(-1) != "/") name += "/";
+
+		// Does this folder already exist?
+		if (typeof this.files[name] === "undefined") this.add(name, '', {
+			dir:true
+		});
+
+		// Allow chaining by returning a new object with this folder as the root
+		var ret = this.clone();
+		ret.root = this.root+name;
+		return ret;
+	};
+
+	/**
+	 * Compare a string or regular expression against all of the filenames and
+	 * return an informational object for each that matches.
+	 * @param  needle string/regex The regular expression to test against
+	 * @return  An array of objects representing the matched files. In the form
+	 *          {name: "filename", data: "file data", dir: true/false}
+	 */
+	$g.JSZip.prototype.find = function(needle)
+	{
+		var result = [], re;
+		if (typeof needle === "string")
 		{
-			// file
-			delete this.files[name];
+			re = new RegExp("^"+needle+"$");
 		}
 		else
 		{
-			// folder
-			var kids = this.find(new RegExp("^"+name));
-			for (var i = 0; i < kids.length; i++)
-			{
-				if (kids[i].name == name)
-				{
-					// Delete this folder
-					delete this.files[name];
-				}
-				else
-				{
-					// Remove a child of this folder
-					this.remove(kids[i].name);
-				}
-			}
-		}
-	}
-
-	return this;
-};
-
-/**
- * Generate the complete zip file
- * @return  A base64 encoded string of the zip file
- */
-JSZip.prototype.generate = function(asBytes) {
-	asBytes = asBytes || false;
-
-	// The central directory, and files data
-	var directory = [], files = [], fileOffset = 0;
-
-	for (var name in this.files)
-	{
-		if( !this.files.hasOwnProperty(name) ) {
-			continue;
+			re = needle;
 		}
 
-		var fileRecord = "", dirRecord = "";
-		fileRecord = "\x50\x4b\x03\x04" + this.files[name].header + name + this.files[name].data;
-
-		dirRecord = "\x50\x4b\x01\x02" +
-				// version made by (00: DOS)
-			"\x14\x00" +
-				// file header (common to file and central directory)
-			this.files[name].header +
-				// file comment length
-			"\x00\x00" +
-				// disk number start
-			"\x00\x00" +
-				// internal file attributes TO DO
-			"\x00\x00" +
-				// external file attributes
-			(this.files[name].dir===true?"\x10\x00\x00\x00":"\x00\x00\x00\x00")+
-				// relative offset of local header
-			this.decToHex(fileOffset, 4) +
-				// file name
-			name;
-
-		fileOffset += fileRecord.length;
-
-		files.push(fileRecord);
-		directory.push(dirRecord);
-	}
-
-	var fileData = files.join("");
-	var dirData = directory.join("");
-
-	var dirEnd = "";
-
-	// end of central dir signature
-	dirEnd = "\x50\x4b\x05\x06" +
-			// number of this disk
-		"\x00\x00" +
-			// number of the disk with the start of the central directory
-		"\x00\x00" +
-			// total number of entries in the central directory on this disk
-		this.decToHex(files.length, 2) +
-			// total number of entries in the central directory
-		this.decToHex(files.length, 2) +
-			// size of the central directory   4 bytes
-		this.decToHex(dirData.length, 4) +
-			// offset of start of central directory with respect to the starting disk number
-		this.decToHex(fileData.length, 4) +
-			// .ZIP file comment length
-		"\x00\x00";
-
-	var zip = fileData + dirData + dirEnd;
-	return (asBytes) ? zip : JSZipBase64.encode(zip);
-
-};
-
-/*
- * Compression methods
- * This object is filled in as follow :
- * name : {
- *    magic // the 2 bytes indentifying the compression method
- *    compress // function, take the uncompressed content and return it compressed.
- * }
- *
- * STORE is the default compression method, so it's included in this file.
- * Other methods should go to separated files : the user wants modularity.
- */
-JSZip.compressions = {
-	"STORE" : {
-		magic : "\x00\x00",
-		compress : function (content) {
-			return content; // no compression
-		}
-	}
-};
-
-// Utility functions
-
-JSZip.prototype.decToHex = function(dec, bytes) {
-	var hex = "";
-	for(var i=0;i<bytes;i++) {
-		hex += String.fromCharCode(dec&0xff);
-		dec=dec>>>8;
-	}
-	return hex;
-};
-
-/**
- *
- *  Javascript crc32
- *  http://www.webtoolkit.info/
- *
- **/
-
-JSZip.prototype.crc32 = function(str, crc) {
-
-	if (str === "") return "\x00\x00\x00\x00";
-
-	var table = "00000000 77073096 EE0E612C 990951BA 076DC419 706AF48F E963A535 9E6495A3 0EDB8832 79DCB8A4 E0D5E91E 97D2D988 09B64C2B 7EB17CBD E7B82D07 90BF1D91 1DB71064 6AB020F2 F3B97148 84BE41DE 1ADAD47D 6DDDE4EB F4D4B551 83D385C7 136C9856 646BA8C0 FD62F97A 8A65C9EC 14015C4F 63066CD9 FA0F3D63 8D080DF5 3B6E20C8 4C69105E D56041E4 A2677172 3C03E4D1 4B04D447 D20D85FD A50AB56B 35B5A8FA 42B2986C DBBBC9D6 ACBCF940 32D86CE3 45DF5C75 DCD60DCF ABD13D59 26D930AC 51DE003A C8D75180 BFD06116 21B4F4B5 56B3C423 CFBA9599 B8BDA50F 2802B89E 5F058808 C60CD9B2 B10BE924 2F6F7C87 58684C11 C1611DAB B6662D3D 76DC4190 01DB7106 98D220BC EFD5102A 71B18589 06B6B51F 9FBFE4A5 E8B8D433 7807C9A2 0F00F934 9609A88E E10E9818 7F6A0DBB 086D3D2D 91646C97 E6635C01 6B6B51F4 1C6C6162 856530D8 F262004E 6C0695ED 1B01A57B 8208F4C1 F50FC457 65B0D9C6 12B7E950 8BBEB8EA FCB9887C 62DD1DDF 15DA2D49 8CD37CF3 FBD44C65 4DB26158 3AB551CE A3BC0074 D4BB30E2 4ADFA541 3DD895D7 A4D1C46D D3D6F4FB 4369E96A 346ED9FC AD678846 DA60B8D0 44042D73 33031DE5 AA0A4C5F DD0D7CC9 5005713C 270241AA BE0B1010 C90C2086 5768B525 206F85B3 B966D409 CE61E49F 5EDEF90E 29D9C998 B0D09822 C7D7A8B4 59B33D17 2EB40D81 B7BD5C3B C0BA6CAD EDB88320 9ABFB3B6 03B6E20C 74B1D29A EAD54739 9DD277AF 04DB2615 73DC1683 E3630B12 94643B84 0D6D6A3E 7A6A5AA8 E40ECF0B 9309FF9D 0A00AE27 7D079EB1 F00F9344 8708A3D2 1E01F268 6906C2FE F762575D 806567CB 196C3671 6E6B06E7 FED41B76 89D32BE0 10DA7A5A 67DD4ACC F9B9DF6F 8EBEEFF9 17B7BE43 60B08ED5 D6D6A3E8 A1D1937E 38D8C2C4 4FDFF252 D1BB67F1 A6BC5767 3FB506DD 48B2364B D80D2BDA AF0A1B4C 36034AF6 41047A60 DF60EFC3 A867DF55 316E8EEF 4669BE79 CB61B38C BC66831A 256FD2A0 5268E236 CC0C7795 BB0B4703 220216B9 5505262F C5BA3BBE B2BD0B28 2BB45A92 5CB36A04 C2D7FFA7 B5D0CF31 2CD99E8B 5BDEAE1D 9B64C2B0 EC63F226 756AA39C 026D930A 9C0906A9 EB0E363F 72076785 05005713 95BF4A82 E2B87A14 7BB12BAE 0CB61B38 92D28E9B E5D5BE0D 7CDCEFB7 0BDBDF21 86D3D2D4 F1D4E242 68DDB3F8 1FDA836E 81BE16CD F6B9265B 6FB077E1 18B74777 88085AE6 FF0F6A70 66063BCA 11010B5C 8F659EFF F862AE69 616BFFD3 166CCF45 A00AE278 D70DD2EE 4E048354 3903B3C2 A7672661 D06016F7 4969474D 3E6E77DB AED16A4A D9D65ADC 40DF0B66 37D83BF0 A9BCAE53 DEBB9EC5 47B2CF7F 30B5FFE9 BDBDF21C CABAC28A 53B39330 24B4A3A6 BAD03605 CDD70693 54DE5729 23D967BF B3667A2E C4614AB8 5D681B02 2A6F2B94 B40BBE37 C30C8EA1 5A05DF1B 2D02EF8D";
-
-	if (typeof(crc) == "undefined") {
-		crc = 0;
-	}
-	var x = 0;
-	var y = 0;
-
-	crc = crc ^ (-1);
-	for( var i = 0, iTop = str.length; i < iTop; i++ ) {
-		y = ( crc ^ str.charCodeAt( i ) ) & 0xFF;
-		x = "0x" + table.substr( y * 9, 8 );
-		crc = ( crc >>> 8 ) ^ x;
-	}
-
-	return crc ^ (-1);
-
-};
-
-// Inspired by http://my.opera.com/GreyWyvern/blog/show.dml/1725165
-JSZip.prototype.clone = function() {
-	var newObj = new JSZip();
-	for (var i in this)
-	{
-		if (typeof this[i] !== "function")
+		for (var filename in this.files)
 		{
-			newObj[i] = this[i];
-
-		}
-	}
-
-	return newObj;
-};
-
-
-JSZip.prototype.utf8encode = function(input) {
-	input = encodeURIComponent(input);
-
-	input = input.replace(/%.{2,2}/g, function(m) {
-
-		var hex = m.substring(1);
-
-		return String.fromCharCode(parseInt(hex,16));
-
-	});
-	return input;
-
-};
-
-/**
-
- *
- *  Base64 encode / decode
-
- *  http://www.webtoolkit.info/
-
- *
- *  Hacked so that it doesn't utf8 en/decode everything
-
- **/
-
-var JSZipBase64 = function() {
-	// private property
-	var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-
-	return {
-		// public method for encoding
-		encode : function(input, utf8) {
-			var output = "",
-				chr1, chr2, chr3, enc1, enc2, enc3, enc4,
-				i = 0;
-
-			while (i < input.length) {
-				chr1 = input.charCodeAt(i++);
-				chr2 = input.charCodeAt(i++);
-				chr3 = input.charCodeAt(i++);
-
-				enc1 = chr1 >> 2;
-				enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-				enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-				enc4 = chr3 & 63;
-
-				if (isNaN(chr2)) {
-					enc3 = enc4 = 64;
-				} else if (isNaN(chr3)) {
-					enc4 = 64;
-				}
-				output = output +
-					_keyStr.charAt(enc1) + _keyStr.charAt(enc2) +
-					_keyStr.charAt(enc3) + _keyStr.charAt(enc4);
-			}
-			return output;
-		},
-		// public method for decoding
-
-		decode : function(input, utf8) {
-			var output = "",
-				chr1, chr2, chr3,
-				enc1, enc2, enc3, enc4,
-				i = 0;
-
-			input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-
-			while (i < input.length) {
-				enc1 = _keyStr.indexOf(input.charAt(i++));
-				enc2 = _keyStr.indexOf(input.charAt(i++));
-				enc3 = _keyStr.indexOf(input.charAt(i++));
-				enc4 = _keyStr.indexOf(input.charAt(i++));
-
-				chr1 = (enc1 << 2) | (enc2 >> 4);
-				chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-				chr3 = ((enc3 & 3) << 6) | enc4;
-
-				output = output + String.fromCharCode(chr1);
-
-				if (enc3 != 64) {
-					output = output + String.fromCharCode(chr2);
-				}
-				if (enc4 != 64) {
-					output = output + String.fromCharCode(chr3);
-				}
-			}
-			return output;
-		}
-	};
-}();
-/*
- json2.js
- 2011-10-19
-
- Public Domain.
-
- NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
-
- See http://www.JSON.org/js.html
-
-
- This code should be minified before deployment.
- See http://javascript.crockford.com/jsmin.html
-
- USE YOUR OWN COPY. IT IS EXTREMELY UNWISE TO LOAD CODE FROM SERVERS YOU DO
- NOT CONTROL.
-
-
- This file creates a global JSON object containing two methods: stringify
- and parse.
-
- JSON.stringify(value, replacer, space)
- value       any JavaScript value, usually an object or array.
-
- replacer    an optional parameter that determines how object
- values are stringified for objects. It can be a
- function or an array of strings.
-
- space       an optional parameter that specifies the indentation
- of nested structures. If it is omitted, the text will
- be packed without extra whitespace. If it is a number,
- it will specify the number of spaces to indent at each
- level. If it is a string (such as '\t' or '&nbsp;'),
- it contains the characters used to indent at each level.
-
- This method produces a JSON text from a JavaScript value.
-
- When an object value is found, if the object contains a toJSON
- method, its toJSON method will be called and the result will be
- stringified. A toJSON method does not serialize: it returns the
- value represented by the name/value pair that should be serialized,
- or undefined if nothing should be serialized. The toJSON method
- will be passed the key associated with the value, and this will be
- bound to the value
-
- For example, this would serialize Dates as ISO strings.
-
- Date.prototype.toJSON = function (key) {
- function f(n) {
- // Format integers to have at least two digits.
- return n < 10 ? '0' + n : n;
- }
-
- return this.getUTCFullYear()   + '-' +
- f(this.getUTCMonth() + 1) + '-' +
- f(this.getUTCDate())      + 'T' +
- f(this.getUTCHours())     + ':' +
- f(this.getUTCMinutes())   + ':' +
- f(this.getUTCSeconds())   + 'Z';
- };
-
- You can provide an optional replacer method. It will be passed the
- key and value of each member, with this bound to the containing
- object. The value that is returned from your method will be
- serialized. If your method returns undefined, then the member will
- be excluded from the serialization.
-
- If the replacer parameter is an array of strings, then it will be
- used to select the members to be serialized. It filters the results
- such that only members with keys listed in the replacer array are
- stringified.
-
- Values that do not have JSON representations, such as undefined or
- functions, will not be serialized. Such values in objects will be
- dropped; in arrays they will be replaced with null. You can use
- a replacer function to replace those with JSON values.
- JSON.stringify(undefined) returns undefined.
-
- The optional space parameter produces a stringification of the
- value that is filled with line breaks and indentation to make it
- easier to read.
-
- If the space parameter is a non-empty string, then that string will
- be used for indentation. If the space parameter is a number, then
- the indentation will be that many spaces.
-
- Example:
-
- text = JSON.stringify(['e', {pluribus: 'unum'}]);
- // text is '["e",{"pluribus":"unum"}]'
-
-
- text = JSON.stringify(['e', {pluribus: 'unum'}], null, '\t');
- // text is '[\n\t"e",\n\t{\n\t\t"pluribus": "unum"\n\t}\n]'
-
- text = JSON.stringify([new Date()], function (key, value) {
- return this[key] instanceof Date ?
- 'Date(' + this[key] + ')' : value;
- });
- // text is '["Date(---current time---)"]'
-
-
- JSON.parse(text, reviver)
- This method parses a JSON text to produce an object or array.
- It can throw a SyntaxError exception.
-
- The optional reviver parameter is a function that can filter and
- transform the results. It receives each of the keys and values,
- and its return value is used instead of the original value.
- If it returns what it received, then the structure is not modified.
- If it returns undefined then the member is deleted.
-
- Example:
-
- // Parse the text. Values that look like ISO date strings will
- // be converted to Date objects.
-
- myData = JSON.parse(text, function (key, value) {
- var a;
- if (typeof value === 'string') {
- a =
- /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(value);
- if (a) {
- return new Date(Date.UTC(+a[1], +a[2] - 1, +a[3], +a[4],
- +a[5], +a[6]));
- }
- }
- return value;
- });
-
- myData = JSON.parse('["Date(09/09/2001)"]', function (key, value) {
- var d;
- if (typeof value === 'string' &&
- value.slice(0, 5) === 'Date(' &&
- value.slice(-1) === ')') {
- d = new Date(value.slice(5, -1));
- if (d) {
- return d;
- }
- }
- return value;
- });
-
-
- This is a reference implementation. You are free to copy, modify, or
- redistribute.
- */
-
-/*jslint evil: true, regexp: true */
-
-/*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON, "\\", apply,
- call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
- getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join,
- lastIndex, length, parse, prototype, push, replace, slice, stringify,
- test, toJSON, toString, valueOf
- */
-
-
-// Create a JSON object only if one does not already exist. We create the
-// methods in a closure to avoid creating global variables.
-
-var JSON;
-if (!JSON) {
-	JSON = {};
-}
-
-(function () {
-	//    'use strict';
-
-	function f(n) {
-		// Format integers to have at least two digits.
-		return n < 10 ? '0' + n : n;
-	}
-
-	if (typeof Date.prototype.toJSON !== 'function') {
-
-		Date.prototype.toJSON = function (key) {
-
-			return isFinite(this.valueOf())
-				? this.getUTCFullYear()     + '-' +
-			f(this.getUTCMonth() + 1) + '-' +
-			f(this.getUTCDate())      + 'T' +
-			f(this.getUTCHours())     + ':' +
-			f(this.getUTCMinutes())   + ':' +
-			f(this.getUTCSeconds())   + 'Z'
-				: null;
-		};
-
-		String.prototype.toJSON      =
-			Number.prototype.toJSON  =
-				Boolean.prototype.toJSON = function (key) {
-					return this.valueOf();
-				};
-	}
-
-	var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-		escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-		gap,
-		indent,
-		meta = {    // table of character substitutions
-			'\b': '\\b',
-			'\t': '\\t',
-			'\n': '\\n',
-			'\f': '\\f',
-			'\r': '\\r',
-			'"' : '\\"',
-			'\\': '\\\\'
-		},
-		rep;
-
-
-	function quote(string) {
-
-		// If the string contains no control characters, no quote characters, and no
-		// backslash characters, then we can safely slap some quotes around it.
-		// Otherwise we must also replace the offending characters with safe escape
-		// sequences.
-
-		escapable.lastIndex = 0;
-		return escapable.test(string) ? '"' + string.replace(escapable, function (a) {
-			var c = meta[a];
-			return typeof c === 'string'
-				? c
-				: '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
-		}) + '"' : '"' + string + '"';
-	}
-
-
-	function str(key, holder) {
-
-		// Produce a string from holder[key].
-
-		var i,          // The loop counter.
-			k,          // The member key.
-			v,          // The member value.
-			length,
-			mind = gap,
-			partial,
-			value = holder[key];
-
-		// If the value has a toJSON method, call it to obtain a replacement value.
-
-		if (value && typeof value === 'object' &&
-			typeof value.toJSON === 'function') {
-			value = value.toJSON(key);
-		}
-
-		// If we were called with a replacer function, then call the replacer to
-		// obtain a replacement value.
-
-		if (typeof rep === 'function') {
-			value = rep.call(holder, key, value);
-		}
-
-		// What happens next depends on the value's type.
-
-		switch (typeof value) {
-			case 'string':
-				return quote(value);
-
-			case 'number':
-
-				// JSON numbers must be finite. Encode non-finite numbers as null.
-
-				return isFinite(value) ? String(value) : 'null';
-
-			case 'boolean':
-			case 'null':
-
-				// If the value is a boolean or null, convert it to a string. Note:
-				// typeof null does not produce 'null'. The case is included here in
-				// the remote chance that this gets fixed someday.
-
-				return String(value);
-
-			// If the type is 'object', we might be dealing with an object or an array or
-			// null.
-
-			case 'object':
-
-				// Due to a specification blunder in ECMAScript, typeof null is 'object',
-				// so watch out for that case.
-
-				if (!value) {
-					return 'null';
-				}
-
-				// Make an array to hold the partial results of stringifying this object value.
-
-				gap += indent;
-				partial = [];
-
-				// Is the value an array?
-
-				if (Object.prototype.toString.apply(value) === '[object Array]') {
-
-					// The value is an array. Stringify every element. Use null as a placeholder
-					// for non-JSON values.
-
-					length = value.length;
-					for (i = 0; i < length; i += 1) {
-						partial[i] = str(i, value) || 'null';
-					}
-
-					// Join all of the elements together, separated with commas, and wrap them in
-					// brackets.
-
-					v = partial.length === 0
-						? '[]'
-						: gap
-						? '[\n' + gap + partial.join(',\n' + gap) + '\n' + mind + ']'
-						: '[' + partial.join(',') + ']';
-					gap = mind;
-					return v;
-				}
-
-				// If the replacer is an array, use it to select the members to be stringified.
-
-				if (rep && typeof rep === 'object') {
-					length = rep.length;
-					for (i = 0; i < length; i += 1) {
-						if (typeof rep[i] === 'string') {
-							k = rep[i];
-							v = str(k, value);
-							if (v) {
-								partial.push(quote(k) + (gap ? ': ' : ':') + v);
-							}
-						}
-					}
-				} else {
-
-					// Otherwise, iterate through all of the keys in the object.
-
-					for (k in value) {
-						if (Object.prototype.hasOwnProperty.call(value, k)) {
-							v = str(k, value);
-							if (v) {
-								partial.push(quote(k) + (gap ? ': ' : ':') + v);
-							}
-						}
-					}
-				}
-
-				// Join all of the member texts together, separated with commas,
-				// and wrap them in braces.
-
-				v = partial.length === 0
-					? '{}'
-					: gap
-					? '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}'
-					: '{' + partial.join(',') + '}';
-				gap = mind;
-				return v;
-		}
-	}
-
-	// If the JSON object does not yet have a stringify method, give it one.
-
-	if (typeof JSON.stringify !== 'function') {
-		JSON.stringify = function (value, replacer, space) {
-
-			// The stringify method takes a value and an optional replacer, and an optional
-			// space parameter, and returns a JSON text. The replacer can be a function
-			// that can replace values, or an array of strings that will select the keys.
-			// A default replacer method can be provided. Use of the space parameter can
-			// produce text that is more easily readable.
-
-			var i;
-			gap = '';
-			indent = '';
-
-			// If the space parameter is a number, make an indent string containing that
-			// many spaces.
-
-			if (typeof space === 'number') {
-				for (i = 0; i < space; i += 1) {
-					indent += ' ';
-				}
-
-				// If the space parameter is a string, it will be used as the indent string.
-
-			} else if (typeof space === 'string') {
-				indent = space;
-			}
-
-			// If there is a replacer, it must be a function or an array.
-			// Otherwise, throw an error.
-
-			rep = replacer;
-			if (replacer && typeof replacer !== 'function' && (typeof replacer === 'string' && replacer.trim()) &&
-				(typeof replacer !== 'object' || typeof replacer.length !== 'number')) {
-				throw new Error('JSON.stringify');
-			}
-
-			// Make a fake root object containing our value under the key of ''.
-			// Return the result of stringifying the value.
-
-			return str('', {
-				'': value
-			});
-		};
-	}
-
-
-	// If the JSON object does not yet have a parse method, give it one.
-
-	if (typeof JSON.parse !== 'function') {
-		JSON.parse = function (text, reviver) {
-
-			// The parse method takes a text and an optional reviver function, and returns
-			// a JavaScript value if the text is a valid JSON text.
-
-			var j;
-
-			function walk(holder, key) {
-
-				// The walk method is used to recursively walk the resulting structure so
-				// that modifications can be made.
-
-				var k, v, value = holder[key];
-				if (value && typeof value === 'object') {
-					for (k in value) {
-						if (Object.prototype.hasOwnProperty.call(value, k)) {
-							v = walk(value, k);
-							if (v !== undefined) {
-								value[k] = v;
-							} else {
-								delete value[k];
-							}
-						}
-					}
-				}
-				return reviver.call(holder, key, value);
-			}
-
-
-			// Parsing happens in four stages. In the first stage, we replace certain
-			// Unicode characters with escape sequences. JavaScript handles many characters
-			// incorrectly, either silently deleting them, or treating them as line endings.
-
-			text = String(text);
-			cx.lastIndex = 0;
-			if (cx.test(text)) {
-				text = text.replace(cx, function (a) {
-					return '\\u' +
-						('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+			if (re.test(filename))
+			{
+				var file = this.files[filename];
+				result.push({
+					name: filename,
+					data: file.data,
+					dir: !!file.dir
 				});
 			}
+		}
 
-			// In the second stage, we run the text against regular expressions that look
-			// for non-JSON patterns. We are especially concerned with '()' and 'new'
-			// because they can cause invocation, and '=' because it can cause mutation.
-			// But just to be safe, we want to reject all unexpected forms.
+		return result;
+	};
 
-			// We split the second stage into 4 regexp operations in order to work around
-			// crippling inefficiencies in IE's and Safari's regexp engines. First we
-			// replace the JSON backslash pairs with '@' (a non-JSON character). Second, we
-			// replace all simple value tokens with ']' characters. Third, we delete all
-			// open brackets that follow a colon or comma or that begin the text. Finally,
-			// we look to see that the remaining characters are only whitespace or ']' or
-			// ',' or ':' or '{' or '}'. If that is so, then the text is safe for eval.
+	/**
+	 * Delete a file, or a directory and all sub-files, from the zip
+	 * @param   name  the name of the file to delete
+	 * @return  this JSZip object
+	 */
+	$g.JSZip.prototype.remove = function(name)
+	{
+		var file = this.files[name];
+		if (!file)
+		{
+			// Look for any folders
+			if (name.substr(-1) != "/") name += "/";
+			file = this.files[name];
+		}
 
-			if (/^[\],:{}\s]*$/
-					.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@')
-						.replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
-						.replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+		if (file)
+		{
+			if (name.match("/") === null)
+			{
+				// file
+				delete this.files[name];
+			}
+			else
+			{
+				// folder
+				var kids = this.find(new RegExp("^"+name));
+				for (var i = 0; i < kids.length; i++)
+				{
+					if (kids[i].name == name)
+					{
+						// Delete this folder
+						delete this.files[name];
+					}
+					else
+					{
+						// Remove a child of this folder
+						this.remove(kids[i].name);
+					}
+				}
+			}
+		}
 
-				// In the third stage we use the eval function to compile the text into a
-				// JavaScript structure. The '{' operator is subject to a syntactic ambiguity
-				// in JavaScript: it can begin a block or an object literal. We wrap the text
-				// in parens to eliminate the ambiguity.
+		return this;
+	};
 
-				j = eval('(' + text + ')');
+	/**
+	 * Generate the complete zip file
+	 * @return  A base64 encoded string of the zip file
+	 */
+	$g.JSZip.prototype.generate = function(asBytes)
+	{
+		asBytes = asBytes || false;
 
-				// In the optional fourth stage, we recursively walk the new structure, passing
-				// each name/value pair to a reviver function for possible transformation.
+		// The central directory, and files data
+		var directory = [], files = [], fileOffset = 0;
 
-				return typeof reviver === 'function'
-					? walk({
-					'': j
-				}, '')
-					: j;
+		for (var name in this.files)
+		{
+			if( !this.files.has(name) ) {
+				continue;
 			}
 
-			// If the text is not JSON parseable, then a SyntaxError is thrown.
+			var fileRecord = "", dirRecord = "";
+			fileRecord = "\x50\x4b\x03\x04" + this.files[name].header + name + this.files[name].data;
 
-			throw new SyntaxError('JSON.parse');
+			dirRecord = "\x50\x4b\x01\x02" +
+						// version made by (00: DOS)
+					"\x14\x00" +
+						// file header (common to file and central directory)
+					this.files[name].header +
+						// file comment length
+					"\x00\x00" +
+						// disk number start
+					"\x00\x00" +
+						// internal file attributes TODO
+					"\x00\x00" +
+						// external file attributes
+					(this.files[name].dir===true?"\x10\x00\x00\x00":"\x00\x00\x00\x00")+
+						// relative offset of local header
+					this.decToHex(fileOffset, 4) +
+						// file name
+					name;
+
+			fileOffset += fileRecord.length;
+
+			files.push(fileRecord);
+			directory.push(dirRecord);
+		}
+
+		var fileData = files.join("");
+		var dirData = directory.join("");
+
+		var dirEnd = "";
+
+		// end of central dir signature
+		dirEnd = "\x50\x4b\x05\x06" +
+					// number of this disk
+				"\x00\x00" +
+					// number of the disk with the start of the central directory
+				"\x00\x00" +
+					// total number of entries in the central directory on this disk
+				this.decToHex(files.length, 2) +
+					// total number of entries in the central directory
+				this.decToHex(files.length, 2) +
+					// size of the central directory   4 bytes
+				this.decToHex(dirData.length, 4) +
+					// offset of start of central directory with respect to the starting disk number
+				this.decToHex(fileData.length, 4) +
+					// .ZIP file comment length
+				"\x00\x00";
+
+		var zip = fileData + dirData + dirEnd;
+		return (asBytes) ? zip : JSZipBase64.encode(zip);
+
+	};
+
+	/*
+	 * Compression methods
+	 * This object is filled in as follow :
+	 * name : {
+	 *    magic // the 2 bytes indentifying the compression method
+	 *    compress // function, take the uncompressed content and return it compressed.
+	 * }
+	 *
+	 * STORE is the default compression method, so it's included in this file.
+	 * Other methods should go to separated files : the user wants modularity.
+	 */
+	$g.JSZip.compressions = {
+		"STORE" : {
+			magic : "\x00\x00",
+			compress : function (content) {
+				return content; // no compression
+			}
+		}
+	};
+
+	// Utility functions
+
+	$g.JSZip.prototype.decToHex = function(dec, bytes)
+	{
+		var hex = "";
+		for(var i=0;i<bytes;i++) {
+			hex += String.fromCharCode(dec&0xff);
+			dec=dec>>>8;
+		}
+		return hex;
+	};
+
+	/**
+	 *
+	 *  Javascript crc32
+	 *  http://www.webtoolkit.info/
+	 *
+	 **/
+
+	$g.JSZip.prototype.crc32 = function(str, crc)
+	{
+
+		if (str === "") return "\x00\x00\x00\x00";
+
+		var table = "00000000 77073096 EE0E612C 990951BA 076DC419 706AF48F E963A535 9E6495A3 0EDB8832 79DCB8A4 E0D5E91E 97D2D988 09B64C2B 7EB17CBD E7B82D07 90BF1D91 1DB71064 6AB020F2 F3B97148 84BE41DE 1ADAD47D 6DDDE4EB F4D4B551 83D385C7 136C9856 646BA8C0 FD62F97A 8A65C9EC 14015C4F 63066CD9 FA0F3D63 8D080DF5 3B6E20C8 4C69105E D56041E4 A2677172 3C03E4D1 4B04D447 D20D85FD A50AB56B 35B5A8FA 42B2986C DBBBC9D6 ACBCF940 32D86CE3 45DF5C75 DCD60DCF ABD13D59 26D930AC 51DE003A C8D75180 BFD06116 21B4F4B5 56B3C423 CFBA9599 B8BDA50F 2802B89E 5F058808 C60CD9B2 B10BE924 2F6F7C87 58684C11 C1611DAB B6662D3D 76DC4190 01DB7106 98D220BC EFD5102A 71B18589 06B6B51F 9FBFE4A5 E8B8D433 7807C9A2 0F00F934 9609A88E E10E9818 7F6A0DBB 086D3D2D 91646C97 E6635C01 6B6B51F4 1C6C6162 856530D8 F262004E 6C0695ED 1B01A57B 8208F4C1 F50FC457 65B0D9C6 12B7E950 8BBEB8EA FCB9887C 62DD1DDF 15DA2D49 8CD37CF3 FBD44C65 4DB26158 3AB551CE A3BC0074 D4BB30E2 4ADFA541 3DD895D7 A4D1C46D D3D6F4FB 4369E96A 346ED9FC AD678846 DA60B8D0 44042D73 33031DE5 AA0A4C5F DD0D7CC9 5005713C 270241AA BE0B1010 C90C2086 5768B525 206F85B3 B966D409 CE61E49F 5EDEF90E 29D9C998 B0D09822 C7D7A8B4 59B33D17 2EB40D81 B7BD5C3B C0BA6CAD EDB88320 9ABFB3B6 03B6E20C 74B1D29A EAD54739 9DD277AF 04DB2615 73DC1683 E3630B12 94643B84 0D6D6A3E 7A6A5AA8 E40ECF0B 9309FF9D 0A00AE27 7D079EB1 F00F9344 8708A3D2 1E01F268 6906C2FE F762575D 806567CB 196C3671 6E6B06E7 FED41B76 89D32BE0 10DA7A5A 67DD4ACC F9B9DF6F 8EBEEFF9 17B7BE43 60B08ED5 D6D6A3E8 A1D1937E 38D8C2C4 4FDFF252 D1BB67F1 A6BC5767 3FB506DD 48B2364B D80D2BDA AF0A1B4C 36034AF6 41047A60 DF60EFC3 A867DF55 316E8EEF 4669BE79 CB61B38C BC66831A 256FD2A0 5268E236 CC0C7795 BB0B4703 220216B9 5505262F C5BA3BBE B2BD0B28 2BB45A92 5CB36A04 C2D7FFA7 B5D0CF31 2CD99E8B 5BDEAE1D 9B64C2B0 EC63F226 756AA39C 026D930A 9C0906A9 EB0E363F 72076785 05005713 95BF4A82 E2B87A14 7BB12BAE 0CB61B38 92D28E9B E5D5BE0D 7CDCEFB7 0BDBDF21 86D3D2D4 F1D4E242 68DDB3F8 1FDA836E 81BE16CD F6B9265B 6FB077E1 18B74777 88085AE6 FF0F6A70 66063BCA 11010B5C 8F659EFF F862AE69 616BFFD3 166CCF45 A00AE278 D70DD2EE 4E048354 3903B3C2 A7672661 D06016F7 4969474D 3E6E77DB AED16A4A D9D65ADC 40DF0B66 37D83BF0 A9BCAE53 DEBB9EC5 47B2CF7F 30B5FFE9 BDBDF21C CABAC28A 53B39330 24B4A3A6 BAD03605 CDD70693 54DE5729 23D967BF B3667A2E C4614AB8 5D681B02 2A6F2B94 B40BBE37 C30C8EA1 5A05DF1B 2D02EF8D";
+
+		if (typeof(crc) == "undefined") {
+			crc = 0;
+		}
+		var x = 0;
+		var y = 0;
+
+		crc = crc ^ (-1);
+		for( var i = 0, iTop = str.length; i < iTop; i++ ) {
+			y = ( crc ^ str.charCodeAt( i ) ) & 0xFF;
+			x = "0x" + table.substr( y * 9, 8 );
+			crc = ( crc >>> 8 ) ^ x;
+		}
+
+		return crc ^ (-1);
+
+	};
+
+	// Inspired by http://my.opera.com/GreyWyvern/blog/show.dml/1725165
+	$g.JSZip.prototype.clone = function()
+	{
+		var newObj = new JSZip();
+		for (var i in this)
+		{
+			if (typeof this[i] !== "function")
+			{
+				newObj[i] = this[i];
+
+			}
+		}
+
+		return newObj;
+	};
+
+
+	$g.JSZip.prototype.utf8encode = function(input)
+
+	{
+		input = encodeURIComponent(input);
+
+		input = input.replace(/%.{2,2}/g, function(m) {
+
+			var hex = m.substring(1);
+
+			return String.fromCharCode(parseInt(hex,16));
+
+		});
+		return input;
+
+	};
+
+	/**
+
+	 *
+	 *  Base64 encode / decode
+
+	 *  http://www.webtoolkit.info/
+
+	 *
+	 *  Hacked so that it doesn't utf8 en/decode everything
+
+	 **/
+
+	var JSZipBase64 = function() {
+		// private property
+		var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+		return {
+			// public method for encoding
+			encode : function(input, utf8) {
+				var output = "",
+						chr1, chr2, chr3, enc1, enc2, enc3, enc4,
+						i = 0;
+
+				while (i < input.length) {
+					chr1 = input.charCodeAt(i++);
+					chr2 = input.charCodeAt(i++);
+					chr3 = input.charCodeAt(i++);
+
+					enc1 = chr1 >> 2;
+					enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+					enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+					enc4 = chr3 & 63;
+
+					if (isNaN(chr2)) {
+						enc3 = enc4 = 64;
+					} else if (isNaN(chr3)) {
+						enc4 = 64;
+					}
+					output = output +
+							_keyStr.charAt(enc1) + _keyStr.charAt(enc2) +
+							_keyStr.charAt(enc3) + _keyStr.charAt(enc4);
+				}
+				return output;
+			},
+			// public method for decoding
+
+			decode : function(input, utf8) {
+				var output = "",
+						chr1, chr2, chr3,
+						enc1, enc2, enc3, enc4,
+						i = 0;
+
+				input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+				while (i < input.length) {
+					enc1 = _keyStr.indexOf(input.charAt(i++));
+					enc2 = _keyStr.indexOf(input.charAt(i++));
+					enc3 = _keyStr.indexOf(input.charAt(i++));
+					enc4 = _keyStr.indexOf(input.charAt(i++));
+
+					chr1 = (enc1 << 2) | (enc2 >> 4);
+					chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+					chr3 = ((enc3 & 3) << 6) | enc4;
+
+					output = output + String.fromCharCode(chr1);
+
+					if (enc3 != 64) {
+						output = output + String.fromCharCode(chr2);
+					}
+					if (enc4 != 64) {
+						output = output + String.fromCharCode(chr3);
+					}
+				}
+				return output;
+			}
 		};
-	}
-}());
-
-__cleanUp();
+	}();
+}
