@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.4.0                                /*/
+/*/ Craydent LLC node-v0.4.2                                /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -8,7 +8,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.4.0';
+var _craydent_version = '0.4.1';
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
 $g.$c = {};
@@ -26,46 +26,46 @@ function Craydent (req, res) {
 	this.navigator = {};
 
 	// instance dependent methods
-	var $COOKIE = $COOKIE.bind(this),
-		$GET = $GET.bind(this),
-		ChromeVersion = ChromeVersion.bind(this),
-		FirefoxVersion = FirefoxVersion.bind(this),
-		IEVersion = IEVersion.bind(this),
-		OperaVersion = OperaVersion.bind(this),
-		SafariVersion = SafariVersion.bind(this),
-		echo = echo.bind(this),
-		end = end.bind(this),
-		getSessionID = getSessionID.bind(this),
-		getSession = getSession.bind(this),
-		getSesionSync = getSessionSync.bind(this),
-		header = header.bind(this),
-		isAmaya = isAmaya.bind(this),
-		isAndroid = isAndroid.bind(this),
-		isBlackBerry = isBlackBerry.bind(this),
-		isChrome = isChrome.bind(this),
-		isFirefox = isFirefox.bind(this),
-		isGecko = isGecko.bind(this),
-		isIE6 = isIE6.bind(this),
-		isIE = isIE.bind(this),
-		isIPad = isIPad.bind(this),
-		isIPhone = isIPhone.bind(this),
-		isIPod = isIPod.bind(this),
-		isKHTML = isKHTML.bind(this),
-		isLinux = isLinux.bind(this),
-		isMac = isMac.bind(this),
-		isMobile = isMobile.bind(this),
-		isOpera = isOpera.bind(this),
-		isPalmOS = isPalmOS.bind(this),
-		isPresto = isPresto.bind(this),
-		isPrince = isPrince.bind(this),
-		isSafari = isSafari.bind(this),
-		isSymbian = isSymbian.bind(this),
-		isTrident = isTrident.bind(this),
-		isWebkit = isWebkit.bind(this),
-		isWindows = isWindows.bind(this),
-		isWindowsMobile = isWindowsMobile.bind(this),
-		var_dump = var_dump.bind(this),
-		writeSession = writeSession.bind(this);
+	//var $COOKIE = $COOKIE.bind(this),
+	//	$GET = $GET.bind(this),
+	//	ChromeVersion = ChromeVersion.bind(this),
+	//	FirefoxVersion = FirefoxVersion.bind(this),
+	//	IEVersion = IEVersion.bind(this),
+	//	OperaVersion = OperaVersion.bind(this),
+	//	SafariVersion = SafariVersion.bind(this),
+	//	echo = echo.bind(this),
+	//	end = end.bind(this),
+	//	getSessionID = getSessionID.bind(this),
+	//	getSession = getSession.bind(this),
+	//	getSesionSync = getSessionSync.bind(this),
+	//	header = header.bind(this),
+	//	isAmaya = isAmaya.bind(this),
+	//	isAndroid = isAndroid.bind(this),
+	//	isBlackBerry = isBlackBerry.bind(this),
+	//	isChrome = isChrome.bind(this),
+	//	isFirefox = isFirefox.bind(this),
+	//	isGecko = isGecko.bind(this),
+	//	isIE6 = isIE6.bind(this),
+	//	isIE = isIE.bind(this),
+	//	isIPad = isIPad.bind(this),
+	//	isIPhone = isIPhone.bind(this),
+	//	isIPod = isIPod.bind(this),
+	//	isKHTML = isKHTML.bind(this),
+	//	isLinux = isLinux.bind(this),
+	//	isMac = isMac.bind(this),
+	//	isMobile = isMobile.bind(this),
+	//	isOpera = isOpera.bind(this),
+	//	isPalmOS = isPalmOS.bind(this),
+	//	isPresto = isPresto.bind(this),
+	//	isPrince = isPrince.bind(this),
+	//	isSafari = isSafari.bind(this),
+	//	isSymbian = isSymbian.bind(this),
+	//	isTrident = isTrident.bind(this),
+	//	isWebkit = isWebkit.bind(this),
+	//	isWindows = isWindows.bind(this),
+	//	isWindowsMobile = isWindowsMobile.bind(this),
+	//	var_dump = var_dump.bind(this),
+	//	writeSession = writeSession.bind(this);
 
 	this.getSessionID = getSessionID;
 	this.getSession = getSession;
@@ -174,7 +174,7 @@ function Craydent (req, res) {
 		_engine = (_amay && 'Amaya') || (_gekk && 'Gekko') || (_khtm && 'KHTML') || (_pres && 'Presto') || (_prin && 'Prince') || (_trid && 'Trident') || (_webk && 'WebKit');
 
 	// constants
-	this.browser = {
+	this.BROWSER = {
 		CURRENT: _browser,
 		CURRENT_VERSION:(_ie != -1 && _ie) || (_chrm != -1 && _chrm) || (_ff != -1 && _ff) || (_saf != -1 && _saf),
 		IE:isIE(),
@@ -191,14 +191,14 @@ function Craydent (req, res) {
 		SAFARI:isSafari(),
 		SAFARI_VERSION:_saf
 	};
-	this.client = {
+	this.CLIENT = {
 		BROWSER: _browser,
 		CORES_SUPPORT: true,
 		DEVICE: _device,
 		ENGINE: _engine,
 		OS:_os
 	};
-	this.engine = {
+	this.ENGINE = {
 		CURRENT:_engine,
 		AMAYA:_amay,
 		GEKKO:_gekk,
@@ -208,7 +208,7 @@ function Craydent (req, res) {
 		TRIDENT:_trid,
 		WEBKIT:_webk
 	};
-	this.os = {
+	this.OS = {
 		CURRENT:_os,
 		ANDROID:_droid,
 		BLACKBERRY:_bbery,
@@ -220,7 +220,7 @@ function Craydent (req, res) {
 		WINDOWS:_win,
 		WINDOWS_MOBILE:_winm
 	};
-	this.device = {
+	this.DEVICE = {
 		CURRENT:_device,
 		ANDROID:_droid,
 		BLACKBERRY:_bbery,
@@ -276,11 +276,11 @@ function Craydent (req, res) {
 	this.POINTER = "default";
 	this.PRESTO = isPresto();
 	this.PRINCE = isPrince();
-	this.PROTOCOL = $l.protocol;
+	this.PROTOCOL = this.$l.protocol;
 	this.SAFARI = isSafari();
 	this.SAFARI_VERSION = SafariVersion();
-	this.SERVER = $l.host;
-	this.SERVER_PATH = $l.pathname;
+	this.SERVER = this.$l.host;
+	this.SERVER_PATH = this.$l.pathname;
 	this.SYMBIAN = isSymbian();
 	this.TEMPLATE_VARS = [];
 	this.TEMPLATE_TAG_CONFIG = {
@@ -766,8 +766,23 @@ function Craydent (req, res) {
 	this.WINDOWS_MOBILE = isWindowsMobile();
 
 	$c.DEBUG_MODE = $c.DEBUG_MODE || !!$GET("debug");
+	return this;
 }
 Craydent.createServer = function(callback, createServer) {
+	/*|{
+		"info": "Array class extension to do an inner join on arrays",
+		"category": "Array",
+		"parameters":[
+			{"callback": "(Function) Function to callback when a request is received"}],
+
+		"overloads":[{
+			"parameters":[
+	 			{"callback": "(Function) Function to callback when a request is received"},
+				{"createServer": "(Function) Method to create a server that takes in a method as an argument"}]}],
+
+		"description": "http://www.craydent.com/library/1.8.0/docs#array.innerJoin",
+		"returnType": "(Array)"
+	}|*/
 	var http = (createServer || require('http').createServer)(function(request, response) {
 		var cray = new Craydent(request, response), body = "";
 
@@ -830,6 +845,16 @@ Craydent.createServer = function(callback, createServer) {
 	return http;
 };
 Craydent.globalize = function() {
+	/*|{
+		"info": "Module method to globalize functions",
+		"category": "Module",
+		"parameters":[],
+
+		"overloads":[],
+
+		"description": "http://www.craydent.com/library/1.8.0/docs#array.innerJoin",
+		"returnType": "(Array)"
+	}|*/
 	try{
 		__contextualizeMethods($g);
 	} catch(e) {
@@ -2696,18 +2721,19 @@ function addObjectPrototype(name, fn, override) {
 		"returnType": "(void)"
 	}|*/
 	try {
-		var shouldOverride = false;
-		if (eval("typeof("+name+")") == "undefined") {
-			shouldOverride = true;
+		if (isNull($g.__craydentNoConflict) || !$g.__craydentNoConflict) {
+			var shouldOverride = false;
+			if (eval("typeof(" + name + ")") == "undefined") {
+				shouldOverride = true;
+			}
+			(!override && Object.prototype[name]) || Object.defineProperty(Object.prototype, name, {
+				writable: true,
+				enumerable: false,
+				configurable: true,
+				value: fn
+			});
+			override = shouldOverride;
 		}
-		(!override && Object.prototype[name]) || Object.defineProperty(Object.prototype, name, {
-			writable: true,
-			enumerable: false,
-			configurable: true,
-			value: fn
-		});
-		override = shouldOverride;
-
 	} catch (e) {
 		error("addPrototype", e);
 		try {
@@ -3147,7 +3173,7 @@ function $GET(variable, options) {
 
 		"overloads":[
 			{"parameters":[
-				{"keyValue": "(Object) specify the key value pair"}]}
+				{"keyValue": "(Object) specify the key value pair"}]},
 			{"parameters":[
 				{"keyValue": "(Object) specify the key value pair"},
 				{"options": "(Object) options to defer, ignore case, etc"}]},
@@ -3563,6 +3589,17 @@ function logit(){
 	}
 }
 function md5(str) {
+	/*|{
+		"info": "MD5 encode a string.",
+		"category": "Global",
+		"parameters":[
+			{"str": "(String) String to encode."}],
+
+		"overloads":[],
+
+		"description": "http://www.craydent.com/library/1.8.0/docs#md5",
+		"returnType": "(String)"
+	}|*/
 	try {
 		var crypto = require('crypto'),
 				md5sum = crypto.createHash('md5');
@@ -3573,6 +3610,18 @@ function md5(str) {
 	}
 }
 function mkdirRecursive(path, callback, _processedPath) {
+	/*|{
+		"info": "Recursively create folders.",
+		"category": "Global",
+		"parameters":[
+			{"path": "(String) Path to create."},
+			{"callback": "(Function) Method to call when directories are created."}],
+
+		"overloads":[],
+
+		"description": "http://www.craydent.com/library/1.8.0/docs#mkdirRecursive",
+		"returnType": "(void)"
+	}|*/
 	try {
 		_processedPath = _processedPath || "";
 		var fs = require('fs'),
@@ -3642,7 +3691,7 @@ function now (format) {
 }
 function parseBoolean(value) {
 	/*|{
-		"info: "Try to parse value to a Boolean",
+		"info": "Try to parse value to a Boolean",
 		"category": "Global",
 		"parameters":[
 			{"value": "(Mixed) value to parse as boolean"}],
@@ -3773,6 +3822,20 @@ function rand(num1, num2, inclusive) {
 	}
 }
 function requireDirectory(path, options, __basepath, __objs, __fs){
+	/*|{
+		"info": "Recursively require the entire directory and returns an object containing the required modules.",
+		"category": "Global",
+		"parameters":[
+			{"path": "(String) Path to directory."}],
+
+		"overloads":[
+			{"parameters":[
+				{"path": "(String) Path to directory."},
+				{"options": "(Char) 'r' Flag to use to indicate recursively require"}]}],
+
+		"description": "http://www.craydent.com/library/1.8.0/docs#requireDirectory",
+		"returnType": "(Object)"
+	}|*/
 	var callingPath = "",
 			delimiter = "/";
 
@@ -3819,7 +3882,7 @@ function suid(length) {
 
 		"overloads":[
 			{"parameters":[
-				{"length": ("Integer) Custom length of the short unique identifier"}]}],
+				{"length": "(Integer) Custom length of the short unique identifier"}]}],
 
 		"description": "http://www.craydent.com/library/1.8.0/docs#suid",
 		"returnType": "(String)"
@@ -4808,7 +4871,7 @@ _ext(String, 'fillTemplate', function (arr_objs, offset, max, bound) {
 			{"parameters":[
 				{"objs": "(Objects[]) Objects to fill the template variables"},
 				{"offset": "(Int) The start index of the Object array"},
-				{"max": "(Int) The maximum number of records to process"}]}
+				{"max": "(Int) The maximum number of records to process"}]},
 			{"parameters":[
 				{"objs": "(Objects[]) Objects to fill the template variables"},
 				{"max": "(Int) The maximum number of records to process"}]}],
@@ -4839,7 +4902,7 @@ _ext(String, 'highlight', function (search, clazz, tag) {
 			{"parameters":[
 				{"search": "(String) String to search"},
 				{"clazz": "(String) Class to add for highlighting"},
-				{"tag": "(String) Tag to use to surround the search"}]}
+				{"tag": "(String) Tag to use to surround the search"}]},
 			{"parameters":[
 				{"search": "(String) String to search"},
 				{"clazz": "(String) Class to add for highlighting"},
@@ -5671,8 +5734,8 @@ _ext(Array, 'group', function(params) {
 			key = tmp;
 		}
 
-		var props = $c.keys(initial),
-			key = $c.keys(key),
+		var props = $c.getKeys(initial),
+			key = $c.getKeys(key),
 			arr = [], result = {}, id = suid();
 		_whereHelper(this, condition,function (obj, i) {
 			// _groupFieldHelper creates a grouping string based on the field value pairs
@@ -5718,7 +5781,7 @@ _ext(Array, 'groupBy', function(clause){ // TODO: reconsider this with .group
 	try {
 		var props = [];
 		if ($c.isObject(clause)) {
-			props = $c.keys(clause);
+			props = $c.getKeys(clause);
 		}
 		if ($c.isString(clause)) {
 			props = clause.split(',');
@@ -6597,7 +6660,7 @@ _ext(Date, 'format', function (format, options) {
 		"overloads":[
 			{"parameters":[
 				{"format": "(String) Format syntax to use to to format date"},
-				{"options": "(Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset]}],
+				{"options": "(Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset"}]}],
 
 		"description": "http://www.craydent.com/library/1.8.0/docs#date.format",
 		"returnType": "(String)"
@@ -7024,7 +7087,7 @@ _ext(Function, 'extends',function(extendee, inheritAsOwn){
 				{"extendee":"(Object) Class to extend"},
 				{"inheritAsOwn":"(Boolean) Flag to inherit and for values hasOwnProperty to be true."}]}],
 
-		"description": "http://www.craydent.com/library/1.8.0/docs#function.getName",
+		"description": "http://www.craydent.com/library/1.8.0/docs#function.extends",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -7136,11 +7199,11 @@ _ao("contains", function(val, func){
 
 		"overloads":[
 			{"parameters":[
-				{"val" "(Mixed) Value to check"},
+				{"val": "(Mixed) Value to check"},
 				{"func": "(Function) Callback function used to do the comparison"}]},
 
 			{"parameters":[
-				{"val" "(Mixed) Value to check"},
+				{"val": "(Mixed) Value to check"},
 				{"arr": "(Array) Array of values to return first matching value"}]}],
 
 		"description": "http://www.craydent.com/library/1.8.0/docs#object.contains",
@@ -7735,7 +7798,7 @@ _ao("keyOf", function (value) {
 		error('Object.keyOf', e);
 	}
 });
-_ao("keys", function () {
+_ao("getKeys", function () {
 	/*|{
 		"info": "Object class extension to get the keys of the object",
 		"category": "Object",
@@ -7743,7 +7806,7 @@ _ao("keys", function () {
 
 		"overloads":[],
 
-		"description": "http://www.craydent.com/library/1.8.0/docs#object.keys",
+		"description": "http://www.craydent.com/library/1.8.0/docs#object.getKeys",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7758,7 +7821,7 @@ _ao("keys", function () {
 		}
 		return arr;
 	} catch (e) {
-		error('Object.keys', e);
+		error('Object.getKeys', e);
 	}
 });
 _ao("map", function(callback, thisObject) {
@@ -7904,11 +7967,11 @@ _ao("toStringAlt", function (delimiter, prefix, urlEncode) {
 
 		"overloads":[
 			{"parameters":[
-				{"delimiter": "(Char) Character to separate the property from the value"}]}
+				{"delimiter": "(Char) Character to separate the property from the value"}]},
 
 			{"parameters":[
 				{"delimiter": "(Char) Character to separate the property from the value"},
-				{"prefix": ""(Char) Character to prefix the property name}]}
+				{"prefix": "(Char) Character to prefix the property name"}]},
 
 			{"parameters":[
 				{"delimiter": "(Char) Character to separate the property from the value"},

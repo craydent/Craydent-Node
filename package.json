@@ -1,12 +1,11 @@
 {
   "name": "craydent",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "description": "node library based on craydent-1.8.0",
   "main": "craydent.js",
   "scripts": {
-    "lint": "standard",
-    "test": "node test/unit_test.js",
-    "posttest": "npm run lint"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "node _createReadme"
   },
   "repository": {
     "type": "git",
@@ -17,8 +16,5 @@
   ],
   "author": "Clark Inada",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/craydent/craydent-npm-library#readme",
-  "devDependencies": {
-    "standard": "^5.4.1"
-  }
+  "homepage": "https://bitbucket.org/craydent/craydent-npm-library#readme"
 }

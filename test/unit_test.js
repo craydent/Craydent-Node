@@ -181,4 +181,4 @@ if ("    cal    ".trim() != "cal") {
 	throw "trim";
 }
 
-b = [{hi:"a"},{hi:"a"},{hi:"b"}];
+var EventEmitter = require('events').EventEmitter,b = [{hi:"a"},{hi:"a"},{hi:"b"}];
