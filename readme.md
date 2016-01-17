@@ -1,1159 +1,2317 @@
 #Craydent
 **by Clark Inada**
 
+
+
 ### Constants ###
+
 LOCAL_IP
+
 PUBLIC_IP
+
 DEBUG_MODE
+
 PAGE_NAME
+
 PAGE_NAME_RAW
+
 PROTOCOL
+
 SERVER
+
 SERVER_PATH
+
 REFERER
+
 ORIGIN
+
 PRAGMA
+
 ACCEPT_ENCODING
+
 ACCEPT_LANGUAGE
+
 REFERER_IP
+
 PUBLIC_IP
+
 LOCAL_IP
+
 BROWSER
+
 CLIENT
+
 ENGINE
+
 OS
+
 DEVICE
+
 ANDROID
+
 AMAYA
+
 BLACKBERRY
+
 CHROME
+
 CHROME_VERSION
+
 CLICK
+
 CORES_SUPPORT
+
 DEBUG_MODE
+
 FIREFOX
+
 FIREFOX_VERSION
+
 GEKKO
+
 HANDPOINT
+
 HIDDEN
+
 IE
+
 IE_VERSION
+
 IE6
+
 IE7
+
 IE8
+
 IPAD
+
 IPHONE
+
 IPOD
+
 KHTML
+
 LINUX
+
 MAC
+
 OBSERVE_CHECK_INTERVAL
+
 ONMOUSEDOWN
+
 ONMOUSEUP
+
 OPERA
+
 OPERA_VERSION
+
 PALM
+
 POINTER
+
 PRESTO
+
 PRINCE
+
 SAFARI
+
 SAFARI_VERSION
+
 SYMBIAN
+
 TEMPLATE_VARS
+
 TEMPLATE_TAG_CONFIG
+
 TRIDENT
+
 VERBOSE_LOGS
+
 VERSION
+
 VISIBLE
+
 WAIT
+
 WEBKIT
+
 WINDOWS
+
 WINDOWS_MOBILE
 
+
+
 ### fillTemplate ###
-	**Info:** String class extension to fill template based on template syntax
-	**Return:** (String)
-	**Parameters:**
-		objs: (Objects[]) Objects to fill the template variables
-	**Overloads:**
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to fill template based on template syntax
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objs: (Objects[]) Objects to fill the template variables
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### zipit ###
-	**Info:** Download a zip of files from file contents
-	**Return:** (void)
-	**Parameters:**
-		files: (Object[]) Objects containing properties name for file name and content for file content
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Download a zip of files from file contents
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;files: (Object[]) Objects containing properties name for file name and content for file content
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### $COOKIE ###
-	**Info:** Get/set Cookies
-	**Return:** (Mixed)
-	**Parameters:**
-		key: (String) Key for cookie value
-	**Overloads:**
-		None
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Get/set Cookies
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Mixed)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key: (String) Key for cookie value
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### $GET ###
-	**Info:** Retrieve all or specific variables in the url
-	**Return:** (Mixed)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
-		None
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Retrieve all or specific variables in the url
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Mixed)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### aggregate ###
-	**Info:** Array class extension to perform mongo style aggregation
-	**Return:** (Array)
-	**Parameters:**
-		pipelines: (Object[]) Array of stages defined in mongodb
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to perform mongo style aggregation
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pipelines: (Object[]) Array of stages defined in mongodb
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### where ###
-	**Info:** Array class extension to use mongo or sql queries
-	**Return:** (Array)
-	**Parameters:**
-		condition: (Mixed) Query following find/where clause syntax
-	**Overloads:**
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to use mongo or sql queries
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: (Mixed) Query following find/where clause syntax
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### format ###
-	**Info:** Date class extension to convert to formatted string
-	**Return:** (String)
-	**Parameters:**
-		format: (String) Format syntax to use to to format date
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Date class extension to convert to formatted string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format: (String) Format syntax to use to to format date
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### getProperty ###
-	**Info:** Object class extension to retrieve nested properties without error when property path does not exist
-	**Return:** (Mixed)
-	**Parameters:**
-		path: (String) Path to nested property
-	**Overloads:**
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to retrieve nested properties without error when property path does not exist
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Mixed)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: (String) Path to nested property
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+
 
 ### createServer ###
-	**Info:** Array class extension to do an inner join on arrays
-	**Return:** (Array)
-	**Parameters:**
-		callback: (Function) Function to callback when a request is received
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to do an inner join on arrays
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback: (Function) Function to callback when a request is received
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### count ###
-	**Info:** Array class extension to count the length and optionally filter items first
-	**Return:** (Int)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to count the length and optionally filter items first
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Int)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### indexOfAlt ###
-	**Info:** Array class extension to find index of a value based on a callback function
-	**Return:** (Array)
-	**Parameters:**
-		value: (Mixed) value to find
-		func: (Function) Callback function used to do the comparison
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to find index of a value based on a callback function
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) value to find
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;func: (Function) Callback function used to do the comparison
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### trim ###
-	**Info:** Array class extension to remove all white space from the beginning and end of all string values in the array
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to remove all white space from the beginning and end of all string values in the array
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### buildTree ###
-	**Info:** Array class extension to create a parent/child hierarchy
-	**Return:** (Array)
-	**Parameters:**
-		rootFinder: (Function) Function to determine the parent.   Should return a boolean value.
-		childFinder: (String) Property name of the object to use as a grouping.
-	**Overloads:**
-		None
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to create a parent/child hierarchy
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rootFinder: (Function) Function to determine the parent.   Should return a boolean value.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;childFinder: (String) Property name of the object to use as a grouping.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### complexSort ###
-	**Info:** Array class extension to sort using lookups
-	**Return:** (Array)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to sort using lookups
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### condense ###
-	**Info:** Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls
-	**Return:** (Array)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### delete ###
-	**Info:** Array class extension to delete records
-	**Return:** (Array)
-	**Parameters:**
-		condition: (Mixed) Query following find/where clause syntax
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to delete records
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: (Mixed) Query following find/where clause syntax
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### distinct ###
-	**Info:** Array class extension to get all unique records by fields specified
-	**Return:** (Array)
-	**Parameters:**
-		fields: (Mixed) Fields to use as the projection and unique comparison
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to get all unique records by fields specified
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fields: (Mixed) Fields to use as the projection and unique comparison
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### filter ###
-	**Info:** Array class extension to implement filter
-	**Return:** (Array)
-	**Parameters:**
-		func: (Function) Callback function used to determine if value should be returned
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to implement filter
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;func: (Function) Callback function used to determine if value should be returned
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### group ###
-	**Info:** Array class extension to group records by fields
-	**Return:** (Array)
-	**Parameters:**
-		params: (Object) specs with common properties:<br />(Object) key<br />(Mixed) cond<br />(Function) reduce<br />(Object) initial
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to group records by fields
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;params: (Object) specs with common properties:<br />(Object) key<br />(Mixed) cond<br />(Function) reduce<br />(Object) initial
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### groupBy ###
-	**Info:** Array class extension to 
-	**Return:** (Array)
-	**Parameters:**
-		clause: (Mixed) 
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clause: (Mixed) 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### indexOf ###
-	**Info:** Array class extension to implement indexOf
-	**Return:** (Int)
-	**Parameters:**
-		value: (Mixed) value to find
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to implement indexOf
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Int)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) value to find
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### innerJoin ###
-	**Info:** Array class extension to do an inner join on arrays
-	**Return:** (Array)
-	**Parameters:**
-		arr: (Array) Array to be joined with
-		on: (String) Condition to join on
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to do an inner join on arrays
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr: (Array) Array to be joined with
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on: (String) Condition to join on
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### insert ###
-	**Info:** Array class extension to add to the array
-	**Return:** (Bool)
-	**Parameters:**
-		value: (Mixed) value to add
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to add to the array
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) value to add
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### insertAfter ###
-	**Info:** Array class extension to add to the array after a specific index
-	**Return:** (Bool)
-	**Parameters:**
-		index: (Int) Index to add after
-		value: (Mixed) Value to add
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to add to the array after a specific index
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: (Int) Index to add after
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) Value to add
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### insertBefore ###
-	**Info:** Array class extension to add to the array before a specific index
-	**Return:** (Bool)
-	**Parameters:**
-		index: (Int) Index to add before
-		value: (Mixed) Value to add
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to add to the array before a specific index
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: (Int) Index to add before
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) Value to add
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isEmpty ###
-	**Info:** Array class extension to check if the array is empty
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to check if the array is empty
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### joinLeft ###
-	**Info:** Array class extension to do an outer left join on arrays
-	**Return:** (Array)
-	**Parameters:**
-		arr: (Array) Secondary array to be joined with
-		on: (String) Condition to join on
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to do an outer left join on arrays
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr: (Array) Secondary array to be joined with
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on: (String) Condition to join on
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### joinRight ###
-	**Info:** Array class extension to do an outer right join on arrays
-	**Return:** (Array)
-	**Parameters:**
-		arr: (Array) Primary array to be joined with
-		on: (String) Condition to join on
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to do an outer right join on arrays
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr: (Array) Primary array to be joined with
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on: (String) Condition to join on
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### limit ###
-	**Info:** Array class extension to return a limited amount of items
-	**Return:** (Array)
-	**Parameters:**
-		max: (Int) Maximum number of items to return
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to return a limited amount of items
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max: (Int) Maximum number of items to return
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### mapReduce ###
-	**Info:** Array class extension to run map-reduce aggregation over records
-	**Return:** (Array)
-	**Parameters:**
-		condition: (Mixed) Query following find/where clause syntax
-		condition: (Mixed) Query following find/where clause syntax
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to run map-reduce aggregation over records
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: (Mixed) Query following find/where clause syntax
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: (Mixed) Query following find/where clause syntax
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### normalize ###
-	**Info:** Array class extension to normalize all properties in the object array
-	**Return:** (Array)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to normalize all properties in the object array
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### remove ###
-	**Info:** Array class extension to remove an item by value
-	**Return:** (Mixed)
-	**Parameters:**
-		value: (Mixed) Value to remove
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to remove an item by value
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Mixed)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) Value to remove
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### removeAll ###
-	**Info:** Array class extension to remove all items by value
-	**Return:** (Array)
-	**Parameters:**
-		value: (Mixed) Value to remove
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to remove all items by value
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) Value to remove
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### removeAt ###
-	**Info:** Array class extension to remove item at a specific index
-	**Return:** (Mixed)
-	**Parameters:**
-		index: (Int) Index of the item to remove
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to remove item at a specific index
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Mixed)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: (Int) Index of the item to remove
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### replaceAt ###
-	**Info:** Array class extension to replace item at a specific index
-	**Return:** (Array)
-	**Parameters:**
-		index: (Int) Index of the item to remove
-		value: (Mixed) Value to replace with
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to replace item at a specific index
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: (Int) Index of the item to remove
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) Value to replace with
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### sortBy ###
-	**Info:** Array class extension to sort the array
-	**Return:** (Array)
-	**Parameters:**
-		props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
-	**Overloads:**
-		None
-		None
-		None
-		None
-		None
-		None
-		None
-		None
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to sort the array
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### toSet ###
-	**Info:** Array class extension to convert the array to a set
-	**Return:** (Array)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to convert the array to a set
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### update ###
-	**Info:** Array class extension to update records in the array
-	**Return:** (Array)
-	**Parameters:**
-		condition: (Mixed) Query following find/where clause syntax
-		setClause: (Mixed) Set clause used to update the records
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to update records in the array
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: (Mixed) Query following find/where clause syntax
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setClause: (Mixed) Set clause used to update the records
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### upsert ###
-	**Info:** Array class extension to upsert records to array
-	**Return:** (Object)
-	**Parameters:**
-		records: (Array) Records to use to insert/update array
-	**Overloads:**
-		None
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Array class extension to upsert records to array
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Object)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;records: (Array) Records to use to insert/update array
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### globalize ###
-	**Info:** Module method to globalize functions
-	**Return:** (Array)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Module method to globalize functions
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### Benchmarker ###
-	**Info:** Class used to measure the run time of code
-	**Return:** (void)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Class used to measure the run time of code
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### Cursor ###
-	**Info:** Cursor class to facilitate iteration
-	**Return:** (Cursor)
-	**Parameters:**
-		records: (Array) Array used to create the iterator to iterate each item
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Cursor class to facilitate iteration
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Cursor)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;records: (Array) Array used to create the iterator to iterate each item
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### OrderedList ###
-	**Info:** Collection class that filters out duplicate values and maintains an ordered list
-	**Return:** (OrderedList)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Collection class that filters out duplicate values and maintains an ordered list
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (OrderedList)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### Queue ###
-	**Info:** Collection class that follows FIFO
-	**Return:** (Queue)
-	**Parameters:**
-		records: (Array) Array used to create the iterator to iterate each item
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Collection class that follows FIFO
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Queue)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;records: (Array) Array used to create the iterator to iterate each item
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### Set ###
-	**Info:** Collection class that filters out duplicate values
-	**Return:** (Set)
-	**Parameters:**
-		records: (Array) Array used to create the iterator to iterate each item
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Collection class that filters out duplicate values
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Set)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;records: (Array) Array used to create the iterator to iterate each item
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### addObjectPrototype ###
-	**Info:** Method to extend the Object Class
-	**Return:** (void)
-	**Parameters:**
-		name: (String) name of the method to add
-		fn: (Function) method implementation
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Method to extend the Object Class
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: (String) name of the method to add
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fn: (Function) method implementation
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### ajax ###
-	**Info:** Method to make ajax calls
-	**Return:** (void)
-	**Parameters:**
-		params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Method to make ajax calls
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### cout ###
-	**Info:** Log to console when DEBUG_MODE is true and when the console is available
-	**Return:** (void)
-	**Parameters:**
-		infinite: any number of arguments can be passed.
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Log to console when DEBUG_MODE is true and when the console is available
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;infinite: any number of arguments can be passed.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### cuid ###
-	**Info:** Creates a Craydent/Global Unique Identifier
-	**Return:** (String)
-	**Parameters:**
-		msFormat: (Bool) use microsoft format if true
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Creates a Craydent/Global Unique Identifier
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msFormat: (Bool) use microsoft format if true
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### error ###
-	**Info:** User implemented place holder function to handle errors
-	**Return:** (void)
-	**Parameters:**
-		fname: (String) The function name the error was thrown
-		e: (Error) Exception object thrown
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** User implemented place holder function to handle errors
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fname: (String) The function name the error was thrown
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e: (Error) Exception object thrown
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### foo ###
-	**Info:** Place holder function for a blank function
-	**Return:** (void)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Place holder function for a blank function
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isNull ###
-	**Info:** Check if a value is Null
-	**Return:** ()
-	**Parameters:**
-		value: (Mixed) Value to check
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if a value is Null
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** ()
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) Value to check
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### logit ###
-	**Info:** Log to console when DEBUG_MODE is true and when the console is available
-	**Return:** (void)
-	**Parameters:**
-		infinite: any number of arguments can be passed.
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Log to console when DEBUG_MODE is true and when the console is available
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;infinite: any number of arguments can be passed.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### md5 ###
-	**Info:** MD5 encode a string.
-	**Return:** (String)
-	**Parameters:**
-		str: (String) String to encode.
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** MD5 encode a string.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str: (String) String to encode.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### mkdirRecursive ###
-	**Info:** Recursively create folders.
-	**Return:** (void)
-	**Parameters:**
-		path: (String) Path to create.
-		callback: (Function) Method to call when directories are created.
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Recursively create folders.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: (String) Path to create.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback: (Function) Method to call when directories are created.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### namespace ###
-	**Info:** Adds the class to a namespace instead of the global space
-	**Return:** (void)
-	**Parameters:**
-		name: (String) Name of the namespace to add to.
-		clazz: (Class) Class to add to the given namespace
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Adds the class to a namespace instead of the global space
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: (String) Name of the namespace to add to.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clazz: (Class) Class to add to the given namespace
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### now ###
-	**Info:** Get the DateTime of now
-	**Return:** (Mixed)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Get the DateTime of now
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Mixed)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### parseBoolean ###
-	**Info:** Try to parse value to a Boolean
-	**Return:** (Mixed)
-	**Parameters:**
-		value: (Mixed) value to parse as boolean
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Try to parse value to a Boolean
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Mixed)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) value to parse as boolean
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### parseRaw ###
-	**Info:** Creates an evaluable string
-	**Return:** (String)
-	**Parameters:**
-		value: value to parse
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Creates an evaluable string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: value to parse
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### rand ###
-	**Info:** Create a random number between two numbers
-	**Return:** (Number)
-	**Parameters:**
-		num1: (Number) Lower bound
-		num2: (Number) Upper bound
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Create a random number between two numbers
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Number)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num1: (Number) Lower bound
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num2: (Number) Upper bound
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### requireDirectory ###
-	**Info:** Recursively require the entire directory and returns an object containing the required modules.
-	**Return:** (Object)
-	**Parameters:**
-		path: (String) Path to directory.
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Recursively require the entire directory and returns an object containing the required modules.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Object)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: (String) Path to directory.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### suid ###
-	**Info:** Creates a short Craydent/Global Unique Identifier
-	**Return:** (String)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Creates a short Craydent/Global Unique Identifier
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### tryEval ###
-	**Info:** Evaluates an expression without throwing an error
-	**Return:** (Mixed)
-	**Parameters:**
-		expression: (Mixed) Expression to evaluate
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Evaluates an expression without throwing an error
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Mixed)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;expression: (Mixed) Expression to evaluate
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### wait ###
-	**Info:** Stops execution until the condition is satisfied
-	**Return:** (void)
-	**Parameters:**
-		condition: (Mixed) Condition equivalent to js true to resume execution
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Stops execution until the condition is satisfied
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: (Mixed) Condition equivalent to js true to resume execution
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### xmlToJson ###
-	**Info:** Converts XML to JSON
-	**Return:** (Object)
-	**Parameters:**
-		xml: (Mixed) XML string or XML DOM
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Converts XML to JSON
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Object)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml: (Mixed) XML string or XML DOM
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### isIE6 ###
-	**Info:** Check if browser is Internet Explorer 6
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if browser is Internet Explorer 6
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isIE ###
-	**Info:** Check if browser is Internet Explorer
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if browser is Internet Explorer
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### IEVersion ###
-	**Info:** Get Internet Explorer version
-	**Return:** (Float)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Get Internet Explorer version
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Float)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isChrome ###
-	**Info:** Check if browser is Chrome
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if browser is Chrome
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isSafari ###
-	**Info:** Check if browser is Safari
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if browser is Safari
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isOpera ###
-	**Info:** Check if browser is Opera
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if browser is Opera
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isFirefox ###
-	**Info:** Check if browser is Firefox
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if browser is Firefox
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### ChromeVersion ###
-	**Info:** Get Chrome version
-	**Return:** (Float)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Get Chrome version
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Float)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### SafariVersion ###
-	**Info:** Get Safari version
-	**Return:** (Float)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Get Safari version
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Float)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### OperaVersion ###
-	**Info:** Get Opera version
-	**Return:** (Float)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Get Opera version
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Float)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### FirefoxVersion ###
-	**Info:** Get Firefox version
-	**Return:** (Float)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Get Firefox version
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Float)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isIPhone ###
-	**Info:** Check if device is IPhone
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if device is IPhone
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isIPod ###
-	**Info:** Check if device is IPod
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if device is IPod
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isIPad ###
-	**Info:** Check if device is iPad
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if device is iPad
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isAndroid ###
-	**Info:** Check if device is Android
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if device is Android
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isWindowsMobile ###
-	**Info:** Check if device is Windows Mobile
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if device is Windows Mobile
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isBlackBerry ###
-	**Info:** Check if device is BlackBerry
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if device is BlackBerry
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isPalmOS ###
-	**Info:** Check if OS is PalmOS
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if OS is PalmOS
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isSymbian ###
-	**Info:** Check if OS is Symbian
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if OS is Symbian
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isWebkit ###
-	**Info:** Check if engine is Webkit
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if engine is Webkit
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isAmaya ###
-	**Info:** Check if browser is Amaya
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if browser is Amaya
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isGecko ###
-	**Info:** Check if engine is Gecko
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if engine is Gecko
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isKHTML ###
-	**Info:** Check if engine is KHTML
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if engine is KHTML
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isPresto ###
-	**Info:** Check if engine is Presto
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if engine is Presto
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isPrince ###
-	**Info:** Check if engine is Prince
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if engine is Prince
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isTrident ###
-	**Info:** Check if engine is Trident
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if engine is Trident
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isWindows ###
-	**Info:** Check if OS is Windows
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if OS is Windows
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isMac ###
-	**Info:** Check if OS is Mac Based
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if OS is Mac Based
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isLinux ###
-	**Info:** Check if OS is Linux
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Check if OS is Linux
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### capitalize ###
-	**Info:** String class extension to capitalize parts of the string
-	**Return:** (String)
-	**Parameters:**
-		pos: (Int[]) Index of the string to capitalize
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to capitalize parts of the string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos: (Int[]) Index of the string to capitalize
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### convertUTCDate ###
-	**Info:** String class extension to convert date string to UTC format
-	**Return:** (String)
-	**Parameters:**
-		delimiter: (String) Character that delimits the date string
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to convert date string to UTC format
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delimiter: (String) Character that delimits the date string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### cut ###
-	**Info:** String class extension to remove between the provided indexes
-	**Return:** (String)
-	**Parameters:**
-		start_index: (Integer) Start index to cut
-		end_index: (Integer) End index to cut
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to remove between the provided indexes
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start_index: (Integer) Start index to cut
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end_index: (Integer) End index to cut
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### ellipsis ###
-	**Info:** String class extension to shorten by ellipsis
-	**Return:** (String)
-	**Parameters:**
-		before: (Int) Number of characters to use before using ellipsis
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to shorten by ellipsis
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before: (Int) Number of characters to use before using ellipsis
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### endsWith ###
-	**Info:** String class extension to check if the string ends with the given string
-	**Return:** (Bool)
-	**Parameters:**
-		infinite: any number of arguments can be passed
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to check if the string ends with the given string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;infinite: any number of arguments can be passed
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### endsWithAny ###
-	**Info:** String class extension to check if the string ends with the given string
-	**Return:** (Bool)
-	**Parameters:**
-		infinite: any number of arguments can be passed
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to check if the string ends with the given string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;infinite: any number of arguments can be passed
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### highlight ###
-	**Info:** String class extension to surround search words with the given tag(default span) and class (default chighlight)
-	**Return:** (String)
-	**Parameters:**
-		search: (String) String to search
-	**Overloads:**
-		None
-		None
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to surround search words with the given tag(default span) and class (default chighlight)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;search: (String) String to search
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### ireplace_all ###
-	**Info:** String class extension to replace all substrings ignoring case
-	**Return:** (String)
-	**Parameters:**
-		replace: (String) String to replace
-		subject: (String) String to replace with
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to replace all substrings ignoring case
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace: (String) String to replace
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subject: (String) String to replace with
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isCuid ###
-	**Info:** String class extension to check if the string is a cuid
-	**Return:** (Bool)
-	**Parameters:**
-		msFormat: (Bool) use microsoft format if true
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to check if the string is a cuid
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msFormat: (Bool) use microsoft format if true
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isBlank ###
-	**Info:** String class extension to check if the string is empty
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to check if the string is empty
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isValidEmail ###
-	**Info:** String class extension to check if string is a valid email
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to check if string is a valid email
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### lastIndexOfAlt ###
-	**Info:** String class extension to find the last index based on a regular expression
-	**Return:** (Int)
-	**Parameters:**
-		regex: (RegExp) Regular expression to check value against
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to find the last index based on a regular expression
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Int)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;regex: (RegExp) Regular expression to check value against
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### ltrim ###
-	**Info:** String class extension to remove characters from the beginning of the string
-	**Return:** (String)
-	**Parameters:**
-		character: (Char[]) Character to remove
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to remove characters from the beginning of the string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;character: (Char[]) Character to remove
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### pluralize ###
-	**Info:** String class extension to do a best guess pluralization of the string
-	**Return:** (String)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to do a best guess pluralization of the string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### replace_all ###
-	**Info:** String class extension to replace all substrings (case sensitive)
-	**Return:** (String)
-	**Parameters:**
-		replace: (String) String to replace
-		subject: (String) String to replace with
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to replace all substrings (case sensitive)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace: (String) String to replace
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subject: (String) String to replace with
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### reverse ###
-	**Info:** String class extension to reverse the string
-	**Return:** (String)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to reverse the string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### rtrim ###
-	**Info:** String class extension to remove characters from the end of the string
-	**Return:** (String)
-	**Parameters:**
-		character: (Char[]) Character to remove
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to remove characters from the end of the string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;character: (Char[]) Character to remove
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### sanitize ###
-	**Info:** String class extension to remove potential XSS threats
-	**Return:** (String)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to remove potential XSS threats
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### singularize ###
-	**Info:** String class extension to do a best guess singularization of the string
-	**Return:** (String)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to do a best guess singularization of the string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### startsWith ###
-	**Info:** String class extension to check if the string starts with the given string
-	**Return:** (Bool)
-	**Parameters:**
-		infinite: any number of arguments can be passed
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to check if the string starts with the given string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;infinite: any number of arguments can be passed
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### startsWithAny ###
-	**Info:** String class extension to check if the string starts with the given string
-	**Return:** (Bool)
-	**Parameters:**
-		infinite: any number of arguments can be passed
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to check if the string starts with the given string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;infinite: any number of arguments can be passed
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### strip ###
-	**Info:** String class extension to remove characters from the beginning and end of the string
-	**Return:** (String)
-	**Parameters:**
-		character: (Char[]) Character to remove
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to remove characters from the beginning and end of the string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;character: (Char[]) Character to remove
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### toDateTime ###
-	**Info:** String class extension to convert string to datetime
-	**Return:** (Mixed)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** String class extension to convert string to datetime
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Mixed)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### toCurrencyNotation ###
-	**Info:** Number class extension to change number to currency
-	**Return:** (String)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Number class extension to change number to currency
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### aboutEqualTo ###
-	**Info:** Number class extension to check if values are approximately equal
-	**Return:** (Bool)
-	**Parameters:**
-		compare: (Number) Number to compare
-		giveOrTake: (Number) Plus/minus value
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Number class extension to check if values are approximately equal
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: (Number) Number to compare
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;giveOrTake: (Number) Plus/minus value
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isEven ###
-	**Info:** Number class extension to check if number is even
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Number class extension to check if number is even
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isOdd ###
-	**Info:** Number class extension to check if number is odd
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Number class extension to check if number is odd
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### every ###
-	**Info:** Object class extension to check property values against a function
-	**Return:** (Bool)
-	**Parameters:**
-		callback: (Function) Callback to apply to each value
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check property values against a function
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback: (Function) Callback to apply to each value
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### map ###
-	**Info:** Object class extension to apply method to every value
-	**Return:** (void)
-	**Parameters:**
-		callback: (Function) Callback to apply to each value
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to apply method to every value
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (void)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback: (Function) Callback to apply to each value
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### changes ###
-	**Info:** Object class extension to compare properties that have changed
-	**Return:** (Object)
-	**Parameters:**
-		compare: (Object) Object to compare against
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to compare properties that have changed
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Object)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: (Object) Object to compare against
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### contains ###
-	**Info:** Object class extension to check if value exists
-	**Return:** (Bool)
-	**Parameters:**
-		val: (Mixed) Value to check
-	**Overloads:**
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if value exists
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val: (Mixed) Value to check
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### copyObject ###
-	**Info:** Object class extension to copy an object including constructor
-	**Return:** (Object)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to copy an object including constructor
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Object)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### duplicate ###
-	**Info:** Object class extension to copy an object excluding constructor
-	**Return:** (Object)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to copy an object excluding constructor
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Object)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### eachProperty ###
-	**Info:** Object class extension to loop through all properties where hasOwnValue is true.
-	**Return:** (Object)
-	**Parameters:**
-		callback: (Function) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to loop through all properties where hasOwnValue is true.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Object)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback: (Function) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### equals ###
-	**Info:** Object class extension to check if object values are equal
-	**Return:** (Bool)
-	**Parameters:**
-		compare: (Object) Object to compare against
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object values are equal
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: (Object) Object to compare against
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### getClass ###
-	**Info:** Object class extension to get the constructor name
-	**Return:** (String)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to get the constructor name
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### getValue ###
-	**Info:** Object class extension to retrieve value of an object property
-	**Return:** (Mixed)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to retrieve value of an object property
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Mixed)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### has ###
-	**Info:** Alias to Object.prototype.hasOwnProperty
-	**Return:** (Boolean)
-	**Parameters:**
-		callback: (String) Property name to check
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Alias to Object.prototype.hasOwnProperty
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Boolean)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback: (String) Property name to check
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isArray ###
-	**Info:** Object class extension to check if object is an array
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is an array
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isBetween ###
-	**Info:** Object class extension to check if object is between lower and upper bounds
-	**Return:** (Bool)
-	**Parameters:**
-		lowerBound: (Mixed) Lower bound comparison
-		upperBound: (Mixed) Upper bound comparison
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is between lower and upper bounds
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lowerBound: (Mixed) Lower bound comparison
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upperBound: (Mixed) Upper bound comparison
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### isBoolean ###
-	**Info:** Object class extension to check if object is a boolean
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is a boolean
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isDate ###
-	**Info:** Object class extension to check if object is a date
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is a date
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isDomElement ###
-	**Info:** Object class extension to check if object is a DOM element
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is a DOM element
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isFloat ###
-	**Info:** Object class extension to check if object is a float
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is a float
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isFunction ###
-	**Info:** Object class extension to check if object is a function
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is a function
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isGeolocation ###
-	**Info:** Object class extension to check if object is a geolocation
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is a geolocation
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isInt ###
-	**Info:** Object class extension to check if object is an integer
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is an integer
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isNumber ###
-	**Info:** Object class extension to check if object is a number
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is a number
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isObject ###
-	**Info:** Object class extension to check if object is an object
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is an object
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isRegExp ###
-	**Info:** Object class extension to check if object is a RegExp
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is a RegExp
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isString ###
-	**Info:** Object class extension to check if object is a string
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if object is a string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isSubset ###
-	**Info:** Object class extension to check if item is a subset
-	**Return:** (Bool)
-	**Parameters:**
-		compare: (Mixed) Superset to compare against
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to check if item is a subset
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: (Mixed) Superset to compare against
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### itemCount ###
-	**Info:** Object class extension to count the properties in item
-	**Return:** (Int)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to count the properties in item
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Int)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### keyOf ###
-	**Info:** Object class extension to get the key of the give value
-	**Return:** (String)
-	**Parameters:**
-		value: (Mixed) Value to compare against
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to get the key of the give value
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) Value to compare against
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### getKeys ###
-	**Info:** Object class extension to get the keys of the object
-	**Return:** (Array)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to get the keys of the object
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### merge ###
-	**Info:** Object class extension to merge objects
-	**Return:** (Object)
-	**Parameters:**
-		secondary: (Object) Object to merge with
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to merge objects
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Object)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;secondary: (Object) Object to merge with
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### setProperty ###
-	**Info:** Object class extension to set nested properties creating necessary property paths
-	**Return:** (Bool)
-	**Parameters:**
-		path: (String) Path to nested property
-		value: (Mixed) Value to set
-	**Overloads:**
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension to set nested properties creating necessary property paths
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: (String) Path to nested property
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: (Mixed) Value to set
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### toStringAlt ###
-	**Info:** Object class extension for an alternate way to stringify object to formatted string
-	**Return:** (String)
-	**Parameters:**
-		None
-	**Overloads:**
-		None
-		None
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Object class extension for an alternate way to stringify object to formatted string
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### getDayOfYear ###
-	**Info:** Date class extension to retrieve the day of the year
-	**Return:** (Int)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Date class extension to retrieve the day of the year
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Int)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### getWeek ###
-	**Info:** Date class extension to retrieve the week number in the year
-	**Return:** (Int)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Date class extension to retrieve the week number in the year
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Int)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### isValidDate ###
-	**Info:** Date class extension to check if the date is valid
-	**Return:** (Bool)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Date class extension to check if the date is valid
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Bool)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### getParameters ###
-	**Info:** Function class extension to get parameters in definition
-	**Return:** (Array)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Function class extension to get parameters in definition
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (Array)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### getName ###
-	**Info:** Function class extension to get the name of the function
-	**Return:** (String)
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Function class extension to get the name of the function
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### extends ###
-	**Info:** Function class extension to extend another class
-	**Return:** (String)
-	**Parameters:**
-		extendee: (Object) Class to extend
-	**Overloads:**
-		None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** Function class extension to extend another class
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (String)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extendee: (Object) Class to extend
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
 ### addFlags ###
-	**Info:** RegExp class extension to add flags to regex
-	**Return:** (RegExp)
-	**Parameters:**
-		flags: (String) Flags to add
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** RegExp class extension to add flags to regex
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** (RegExp)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flags: (String) Flags to add
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### getSessionID ###
-	**Info:** undefined
-	**Return:** undefined
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** undefined
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** undefined
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### getSessionSync ###
-	**Info:** undefined
-	**Return:** undefined
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** undefined
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** undefined
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### header ###
-	**Info:** undefined
-	**Return:** undefined
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** undefined
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** undefined
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### echo ###
-	**Info:** undefined
-	**Return:** undefined
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** undefined
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** undefined
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+
 ### var_dump ###
-	**Info:** undefined
-	**Return:** undefined
-	**Parameters:**
-		None
-	**Overloads:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Info:** undefined
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return:** undefined
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Overloads:**
+

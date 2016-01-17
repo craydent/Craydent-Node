@@ -1,5 +1,9 @@
-var fs = require('fs'), Craydent = require('../craydent'), instC = new Craydent({headers:{host:"",cookie:""},url:"",connection:{encrypted:""}}),
-	readme = "#Craydent\n**by Clark Inada**\n\n", constants = "### Constants ###\n", methods = {},featured = {};
+var fs = require('fs'),
+	Craydent = require('../craydent'),
+	instC = new Craydent({headers:{host:"",cookie:""},url:"",connection:{encrypted:""}}),
+	ln = '\n\n',tab = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+	readme = "#Craydent\n**by Clark Inada**" + ln +ln,
+	constants = "### Constants ###" + ln, methods = {},featured = {};
 for (var o = 0; o < 2; o++) {
 	var c = [$c, instC][o];
 	for (var prop in c) {
@@ -8,13 +12,13 @@ for (var o = 0; o < 2; o++) {
 			continue;
 		}
 		if (/^[A-Z_0-9]*$/.test(prop)) {
-			constants += prop + "\n";
+			constants += prop + ln;
 			if ($c.isObject(c[prop])) {
 				for (var subConstant in c[prop]) {
 					if (!c[prop].hasOwnProperty(prop)) {
 						continue;
 					}
-					constants += "\t" + subConstant + "\n";
+					constants += tab + subConstant + ln;
 				}
 			}
 		} else if ($c.isFunction(c[prop])) {
@@ -26,16 +30,16 @@ for (var o = 0; o < 2; o++) {
 					obj = featured;
 				}
 				obj[doc.category] = obj[doc.category] || "";
-				obj[doc.category] += "### " + prop + " ###\n" +
-					"\t**Info:** " + doc.info + "\n" +
-					"\t**Return:** " + doc.returnType + "\n" +
-					"\t**Parameters:**\n";
+				obj[doc.category] += "### " + prop + " ###" + ln +
+					tab+"**Info:** " + doc.info + ln +
+					tab+"**Return:** " + doc.returnType + ln +
+					tab+"**Parameters:**" + ln;
 
 				var params = doc.parameters || [];
 				var overloads = doc.overloads || [];
 				obj[doc.category] += outParams(params);
 
-				obj[doc.category] += "\t**Overloads:**\n";
+				obj[doc.category] += tab+"**Overloads:**" + ln;
 				for (var i = 0, len = overloads.length; i < len; i++) {
 					obj[doc.category] += outParams(overloads[i]);
 				}
@@ -58,18 +62,18 @@ function outParams (params) {
 	for (var i = 0, len = params.length; i < len; i++) {
 		for (var variable in params[i]) {
 			if (!params[i].hasOwnProperty(variable)) { continue; }
-			out += "\t\t" + variable + ": " + params[i][variable] + "\n";
+			out += tab+tab + variable + ": " + params[i][variable] + ln;
 		}
 	}
-	return out || "\t\tNone\n";
+	return out || tab + tab + "None" + ln;
 }
 
-readme += constants + "\n";
+readme += constants + ln;
 for (var prop in featured) {
 	if (!featured.hasOwnProperty(prop)) { continue; }
 	readme += featured[prop];
 }
-readme += "\n";
+readme += ln;
 for (var prop in methods) {
 	if (!methods.hasOwnProperty(prop)) { continue; }
 	readme += methods[prop];
