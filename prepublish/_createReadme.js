@@ -3,8 +3,10 @@ var fs = require('fs'),
 	instC = new Craydent({headers:{host:"",cookie:""},url:"",connection:{encrypted:""}}),
 	ln = '\n\n',tab = '>',tab2 = ">>",
 	readme = "#**Craydent**#\n**by Clark Inada**" + ln +ln,
-	constants = "##** Constants **##" + ln + "---" + ln, methods = {},featured = {},
-	orderedFeatured = new $c.OrderedList(),orderedMethods = new $c.OrderedList(),orderedConstants = new $c.OrderedList();
+	constants = {}, methods = {},featured = {},
+	orderedFeatured = new $c.OrderedList(),
+	orderedMethods = new $c.OrderedList(),
+	orderedConstants = new $c.OrderedList();
 for (var o = 0; o < 2; o++) {
 	var c = [$c, instC][o];
 	for (var prop in c) {
@@ -13,13 +15,18 @@ for (var o = 0; o < 2; o++) {
 			continue;
 		}
 		if (/^[A-Z_0-9]*$/.test(prop)) {
-			constants += tab + prop + ln;
+			if (orderedConstants.contains(prop)) {
+				continue;
+			}
+			orderedConstants.add(prop);
+			constants[prop] = constants[prop] || "";
+			constants[prop] += tab + prop + ln;
 			if ($c.isObject(c[prop])) {
 				for (var subConstant in c[prop]) {
 					if (!c[prop].hasOwnProperty(prop)) {
 						continue;
 					}
-					constants += tab + tab + subConstant + ln;
+					constants[prop] += tab + tab + subConstant + ln;
 				}
 			}
 		} else if ($c.isFunction(c[prop])) {
@@ -32,6 +39,7 @@ for (var o = 0; o < 2; o++) {
 					ordered = orderedFeatured;
 				}
 				prop = 'p' + prop;
+				if (ordered.contains(prop)) { continue; }
 				ordered.add(prop);
 				obj[doc.category] = obj[doc.category] || {};
 				obj[doc.category][prop] = obj[doc.category][prop] || "";
@@ -74,7 +82,11 @@ function outParams (params) {
 	return out || (tab + tab + "None" + ln);
 }
 
-readme += constants + ln;
+readme += "##** Constants **##" + ln + "---" + ln;
+for (var i = 0, len = orderedConstants.length; i < len; i++) {
+	readme += constants[orderedConstants[i]];
+}
+
 readme += "##** Featured **##" + ln + "---" + ln;
 //for (var prop in featured) {
 //	if (!featured.hasOwnProperty(prop)) { continue; }
