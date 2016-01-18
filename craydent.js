@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.4.2                                /*/
+/*/ Craydent LLC node-v0.4.3                                /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -8,7 +8,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.4.1';
+var _craydent_version = '0.4.3';
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
 $g.$c = {};
@@ -6272,7 +6272,7 @@ _ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
 				{"props": "(Array) Properties to sort by. If the first character is '!', the sort order is reversed"},
 				{"rev": "(Boolean) Flag to reverse the sort"},
 				{"primer": "(Function) Function to apply to values in the array."},
-				{"lookup": "(Object) Look up object to use as values instead of the array values."}]},,
+				{"lookup": "(Object) Look up object to use as values instead of the array values."}]},
 
 			{"parameters":[
 				{"props": "(String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},

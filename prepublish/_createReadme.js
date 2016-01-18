@@ -1,9 +1,10 @@
 var fs = require('fs'),
 	Craydent = require('../craydent'),
 	instC = new Craydent({headers:{host:"",cookie:""},url:"",connection:{encrypted:""}}),
-	ln = '\n\n',tab = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-	readme = "#Craydent\n**by Clark Inada**" + ln +ln,
-	constants = "### Constants ###" + ln, methods = {},featured = {};
+	ln = '\n\n',tab = '>',tab2 = ">>",
+	readme = "#**Craydent**#\n**by Clark Inada**" + ln +ln,
+	constants = "##** Constants **##" + ln + "---" + ln, methods = {},featured = {},
+	orderedFeatured = new $c.OrderedList(),orderedMethods = new $c.OrderedList(),orderedConstants = new $c.OrderedList();
 for (var o = 0; o < 2; o++) {
 	var c = [$c, instC][o];
 	for (var prop in c) {
@@ -12,39 +13,44 @@ for (var o = 0; o < 2; o++) {
 			continue;
 		}
 		if (/^[A-Z_0-9]*$/.test(prop)) {
-			constants += prop + ln;
+			constants += tab + prop + ln;
 			if ($c.isObject(c[prop])) {
 				for (var subConstant in c[prop]) {
 					if (!c[prop].hasOwnProperty(prop)) {
 						continue;
 					}
-					constants += tab + subConstant + ln;
+					constants += tab + tab + subConstant + ln;
 				}
 			}
 		} else if ($c.isFunction(c[prop])) {
 			var fstr = c[prop].toString(),
 				doc = Craydent.tryEval(fstr.replace_all('\n', '').replace(/.*\/\*\|(.*?)?\|\*\/.*/, '$1'));
 			if (doc && c.isObject(doc)) {
-				var obj = methods;
+				var obj = methods, ordered = orderedMethods;
 				if (doc.featured) {
 					obj = featured;
+					ordered = orderedFeatured;
 				}
-				obj[doc.category] = obj[doc.category] || "";
-				obj[doc.category] += "### " + prop + " ###" + ln +
-					tab+"**Info:** " + doc.info + ln +
-					tab+"**Return:** " + doc.returnType + ln +
-					tab+"**Parameters:**" + ln;
+				prop = 'p' + prop;
+				ordered.add(prop);
+				obj[doc.category] = obj[doc.category] || {};
+				obj[doc.category][prop] = obj[doc.category][prop] || "";
+				obj[doc.category][prop] += "### " + prop.substring(1) + " ###" + ln +
+					tab + "**Info:** " + doc.info + ln +
+					tab + "**Return:** " + doc.returnType + ln +
+					tab + "**Parameters:**" + ln;
 
 				var params = doc.parameters || [];
 				var overloads = doc.overloads || [];
-				obj[doc.category] += outParams(params);
+				obj[doc.category][prop] += outParams(params);
 
-				obj[doc.category] += tab+"**Overloads:**" + ln;
+				obj[doc.category][prop] += tab + "**Overloads:**" + ln;
 				for (var i = 0, len = overloads.length; i < len; i++) {
-					obj[doc.category] += outParams(overloads[i]);
+					i && (obj[doc.category][prop] += "---\n");
+					obj[doc.category][prop] += outParams(overloads[i].parameters);
 				}
 			} else {
-				console.error("Failed on " + prop);
+				console.error("Failed on " + prop.substring(1));
 				try {
 					eval("(" + fstr.replace_all('\n', '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1') + ")");
 				} catch (e) {
@@ -59,26 +65,49 @@ for (var o = 0; o < 2; o++) {
 function outParams (params) {
 	params = params || [];
 	var out = "";
-	for (var i = 0, len = params.length; i < len; i++) {
-		for (var variable in params[i]) {
-			if (!params[i].hasOwnProperty(variable)) { continue; }
-			out += tab+tab + variable + ": " + params[i][variable] + ln;
+	for (var j = 0, jlen = params.length; j < jlen; j++) {
+		for (var variable in params[j]) {
+			if (!params[j].hasOwnProperty(variable)) { continue; }
+			out += tab + tab + variable + ": " + params[j][variable] + ln;
 		}
 	}
-	return out || tab + tab + "None" + ln;
+	return out || (tab + tab + "None" + ln);
 }
 
 readme += constants + ln;
-for (var prop in featured) {
-	if (!featured.hasOwnProperty(prop)) { continue; }
-	readme += featured[prop];
+readme += "##** Featured **##" + ln + "---" + ln;
+//for (var prop in featured) {
+//	if (!featured.hasOwnProperty(prop)) { continue; }
+var categories = ['Global','Array','Date','Function','Module','Number','Object','RegExp','String'];
+for (var i = 0, len = categories.length; i < len; i++)
+{
+	var category = categories[i];
+	if (featured[category]) {
+		readme += "## " + category + " ##" + ln;
+	}
+	for (var f = 0, flen = orderedFeatured.length; f < flen; f++) {
+		if (featured[category] && featured[category][orderedFeatured[f]]) {
+			readme += featured[category][orderedFeatured[f]];
+		}
+	}
 }
 readme += ln;
-for (var prop in methods) {
-	if (!methods.hasOwnProperty(prop)) { continue; }
-	readme += methods[prop];
+readme += "##** Methods **##" + ln + "---" + ln;
+//for (var prop in methods) {
+//	if (!methods.hasOwnProperty(prop)) { continue; }
+for (var i = 0, len = categories.length; i < len; i++)
+{
+	var category = categories[i];
+	if (methods[category]) {
+		readme += "## " + category + " ##" + ln;
+	}
+	for (var m = 0, mlen = orderedMethods.length; m < mlen; m++) {
+		if (methods[category] && methods[category][orderedMethods[m]]) {
+			readme += methods[category][orderedMethods[m]];
+		}
+	}
 }
-console.log(methods);
+//console.log(featured);
 
 fs.writeFile("../readme.md", readme, function(err) {
 	if(err) {
