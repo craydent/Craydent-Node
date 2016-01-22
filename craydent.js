@@ -239,15 +239,15 @@ function Craydent (req, res) {
 	this.BLACKBERRY = _bbery;
 	this.CHROME = isChrome();
 	this.CHROME_VERSION = _chrm;
-	this.CLICK = "click";
+	$c.CLICK = this.CLICK = "click";
 	this.CORES_SUPPORT = true;
-	this.DEBUG_MODE = !!$GET("debug");
+	$c.DEBUG_MODE = this.DEBUG_MODE = !!$GET("debug");
 	this.FIREFOX = isFirefox();
 	this.FIREFOX_VERSION = FirefoxVersion();
 	this.FIREFOX = isFirefox();
 	this.GEKKO = isGecko();
-	this.HANDPOINT = "pointer";
-	this.HIDDEN = "hidden";
+	$c.HANDPOINT = this.HANDPOINT = "pointer";
+	$c.HIDDEN = this.HIDDEN = "hidden";
 	this.IE = isIE();
 	this.IE_VERSION = _ie;
 	this.IE6 = (_ie < 7.0 && _ie >= 6.0);
@@ -259,9 +259,8 @@ function Craydent (req, res) {
 	this.KHTML = isKHTML();
 	this.LINUX = isLinux();
 	this.MAC = isMac();
-	this.OBSERVE_CHECK_INTERVAL = 200;
-	this.ONMOUSEDOWN = "onmousedown";
-	this.ONMOUSEUP = "onmouseup";
+	$c.ONMOUSEDOWN = this.ONMOUSEDOWN = "onmousedown";
+	$c.ONMOUSEUP = this.ONMOUSEUP = "onmouseup";
 	this.OPERA = isOpera();
 	this.OPERA_VERSION = OperaVersion();
 	this.PAGE_NAME = (function () {
@@ -273,7 +272,7 @@ function Craydent (req, res) {
 		return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
 	})();
 	this.PALM = isPalmOS();
-	this.POINTER = "default";
+	$c.POINTER = this.POINTER = "default";
 	this.PRESTO = isPresto();
 	this.PRINCE = isPrince();
 	this.PROTOCOL = this.$l.protocol;
@@ -282,8 +281,8 @@ function Craydent (req, res) {
 	this.SERVER = this.$l.host;
 	this.SERVER_PATH = this.$l.pathname;
 	this.SYMBIAN = isSymbian();
-	this.TEMPLATE_VARS = [];
-	this.TEMPLATE_TAG_CONFIG = {
+	$c.TEMPLATE_VARS = this.TEMPLATE_VARS = [];
+	$c.TEMPLATE_TAG_CONFIG = this.TEMPLATE_TAG_CONFIG = {
 		IGNORE_CHARS:['\n'],
 			/* loop config */
 		FOR:{
@@ -757,10 +756,10 @@ function Craydent (req, res) {
 		/* end tokens config */
 	};
 	this.TRIDENT = isTrident();
-	this.VERBOSE_LOGS = !!$GET("verbose");
-	this.VERSION = _craydent_version;
-	this.VISIBLE = "visible";
-	this.WAIT = "wait";
+	$c.VERBOSE_LOGS = this.VERBOSE_LOGS = !!$GET("verbose");
+	$c.VERSION = this.VERSION = _craydent_version;
+	$c.VISIBLE = this.VISIBLE = "visible";
+	$c.WAIT = this.WAIT = "wait";
 	this.WEBKIT = isWebkit();
 	this.WINDOWS = isWindows();
 	this.WINDOWS_MOBILE = isWindowsMobile();
@@ -863,6 +862,489 @@ Craydent.globalize = function() {
 };
 __contextualizeMethods(Craydent);
 module.exports = $c = Craydent;
+$c.CLICK = "click";
+$c.DEBUG_MODE = !!$GET("debug");
+$c.HANDPOINT = "pointer";
+$c.HIDDEN = "hidden";
+$c.POINTER = "default";
+$c.TEMPLATE_VARS = [];
+$c.TEMPLATE_TAG_CONFIG = {
+	IGNORE_CHARS:['\n'],
+	/* loop config */
+	FOR:{
+		"begin":/(?:\$\{for (.*?);(.*?);(.*?\}?)\})|(?:\{\{for (.*?);(.*?);(.*?\}?)\}\})/i,
+		"end":/(\$\{end for\})|(\{\{end for\}\})/i,
+		"helper":function(code, body){
+			var ttc = $c.TEMPLATE_TAG_CONFIG,
+					mresult = code.match(ttc.FOR.begin),
+					condition, exec, dvars, vars = "", ovars = {},code_result = "";
+
+			for (var j = 1, jlen = mresult.length; j < jlen; j++) {
+				if (!mresult[j]) {
+					continue;
+				}
+				mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+			}
+
+			condition = mresult[2] || mresult[5];
+			exec = mresult[3] || mresult[6];
+			dvars = (mresult[1] || mresult[4]).split(',');
+			for (var i = 0, len = dvars.length; i < len; i++) {
+				var parts = ttc.VARIABLE_NAME(dvars[i]).split('=');
+				vars += "var " + parts[0] + "=" + parts[1] + ";";
+				ovars[parts[0]] = parts[0];
+			}
+			eval(vars);
+			while (eval(fillTemplate(condition,ovars))) {
+				code_result += body;
+				eval(ttc.VARIABLE_NAME(exec));
+			}
+
+			return code_result;
+		},
+		"parser":function (code, oobj, bind){
+			var FOR = $c.TEMPLATE_TAG_CONFIG.FOR,
+					blocks = __processBlocks(FOR.begin, FOR.end, code),
+					code_result = "";
+
+			for (var i = 0, len = blocks.length; i < len; i++) {
+				var obj = blocks[i],
+						block = obj.block,
+						id = obj.id;
+
+				code_result = code_result || obj.code;
+				if (!code_result.contains(obj.id)) { continue; }
+				code_result = code_result.replace_all(id,FOR.helper(block,obj.body));
+			}
+
+			return __logic_parser(code_result);
+		}
+	},
+	FOREACH:{
+		"begin":/(?:\$\{foreach (.*?)\s+in\s+(.*?)\s*\})|(?:\{\{foreach (.*?)\s+in\s+(.*?)\s*\}\})/i,
+		"end":/(?:\$\{end foreach\})|(?:\{\{end foreach\}\})/i,
+		"helper":function (code, body,rtnObject,uid, obj, bind, ref_obj) {
+			var ttc = $c.TEMPLATE_TAG_CONFIG,
+					FOREACH = ttc.FOREACH,
+					mresult = code.match(FOREACH.begin),
+					objs, var_name,
+					code_result = "";
+
+			for (var j = 1, jlen = mresult.length; j < jlen; j++) {
+				if (!mresult[j]) {
+					continue;
+				}
+				mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+			}
+			objs = tryEval(mresult[2] || mresult[4]);
+			var_name = ttc.VARIABLE_NAME(mresult[1] || mresult[3]);
+
+			//fillTemplate.binding.original.push(bind+"."+var_name);
+			//fillTemplate.binding.replacer.push(fillTemplate.refs["ref_" + fillTemplate.refs.indexOf(objs)]);
+
+			rtnObject = rtnObject || {};
+			rtnObject[uid] += "var " + var_name + "s," + var_name + ";";
+			rtnObject[var_name+"s"] = objs;
+			if ($c.isArray(objs)) {
+				fillTemplate.binding.original.push(bind + "." + var_name);
+				var bindingCuids = "";
+				for (var i = 0, len = objs.length; i < len; i++) {
+					if (typeof objs[i] == "object") {
+
+						bindingCuids += "," + fillTemplate._observing["hash_" + fillTemplate._observing.indexOf(objs[i])];
+					}
+					code_result += "${i="+i+","+var_name+"="+var_name+"s[i],null}" + body;
+				}
+				fillTemplate.binding.replacer.push(bindingCuids.substring(1));
+			}
+
+			return code_result;
+
+		},
+		"parser":function (code, ref_obj, bind){
+			var ttc = $c.TEMPLATE_TAG_CONFIG,
+					FOREACH = ttc.FOREACH,
+					uid = "##"+suid()+"##",
+					result_obj = {},
+					code_result = "", post = "",
+					blocks = __processBlocks(FOREACH.begin, FOREACH.end, code);
+			//bindReplacers = {original:[],treplacer:[]};
+
+			result_obj[uid] = "";
+
+			for (var i = 0, len = blocks.length; i < len; i++) {
+				var obj = blocks[i],
+						block = obj.block,
+						id = obj.id, index;
+				if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
+					post = obj.code.substring(index + 2);
+					obj.code = obj.code.substring(0,index + 2);
+				}
+				code_result = code_result || obj.code;
+				if (!code_result.contains(obj.id)) { continue; }
+				code_result = code_result.replace_all(id,FOREACH.helper(block,obj.body,result_obj,uid,obj,bind,ref_obj));
+			}
+			eval(result_obj[uid]);
+			delete result_obj[uid];
+			for (var prop in result_obj) {
+				if (!result_obj.has(prop)) { continue; }
+				eval(prop + "=" + "result_obj['" + prop + "']");
+			}
+
+			var matches = code_result.match(ttc.VARIABLE);
+			matches.map(function (var_match) {
+				var var_match_name = ttc.VARIABLE_NAME(var_match),
+						str = "";
+				try { str = eval(var_match_name); } catch(e){ return; }
+
+				code_result = code_result.replace(var_match,str||"");
+
+			});
+
+			return __logic_parser(code_result + post, obj, bind);
+		}
+	},
+	WHILE: {
+		"begin": /(?:\$\{while\s*\((.*?)\)\s*\})|(?:\{\{while\s*\((.*?)\)\s*\}\})/i,
+		"end": /(?:\$\{end while\})|(?:\{\{end while\}\})/i,
+		"helper": function (code,body) {
+			var ttc = $c.TEMPLATE_TAG_CONFIG,
+					WHILE = ttc.WHILE,
+					mresult = code.match(WHILE.begin),
+					vars = "", ovars = {},code_result = "",
+					declared = fillTemplate.declared,
+					loop_limit = 100000;
+			for (var prop in declared) {
+				if (!code.contains("${"+prop+"}") || !declared.has(prop)) { continue; }
+				var val = declared[prop];
+				vars += "var " + prop + "=" + val + ";";
+				ovars[prop] = prop;
+			}
+			eval(vars);
+			while (eval(fillTemplate(mresult[1] || mresult[2],ovars))) {
+				loop_limit--;
+				if (loop_limit < 1) {
+					var msg = "fillTemplate While only support up to 100,000 iterations.  Possible infinite loop?";
+					console.error(msg);
+					throw msg;
+				}
+				code_result += body;
+				(body.match(ttc.VARIABLE)||[]).map(function(var_matches){ eval(ttc.VARIABLE_NAME(var_matches)); });
+			}
+			fillTemplate.declared = declared;
+
+			for (var prop in ovars) {
+				if (!ovars.has(prop)) { continue; }
+				//var ovar = ovars[prop];
+				code_result += "${" + prop + "=" + declared[prop] + ",null}";
+				//declared[prop] = eval(ovars[prop]);
+			}
+
+			return code_result;
+		},
+		"parser": function (code, ref_obj, bind) {
+			var ttc = $c.TEMPLATE_TAG_CONFIG,
+					WHILE = ttc.WHILE,
+					lookups = {},
+					blocks = __processBlocks(WHILE.begin, WHILE.end, code, lookups),
+					code_result = "", vars = "", declared = fillTemplate.declared, post = "";
+
+			for (var i = 0, len = blocks.length; i < len; i++) {
+				var obj = blocks[i],
+						block = obj.block,
+						id = obj.id, index;
+
+				if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
+					post = obj.code.substring(index + 2);
+					obj.code = obj.code.substring(0,index + 2);
+				}
+
+				code_result = code_result || obj.code;
+				if (!code_result.contains(obj.id)) { continue; }
+				code_result = code_result.replace_all(id,WHILE.helper(block,obj.body));
+			}
+
+			for (var prop in declared) {
+				if (!code.contains("${"+prop+"}")) { continue; }
+				vars += "var " + prop + "=" + declared[prop] + ";";
+			}
+			eval(vars);
+			var matches = code_result.match(ttc.VARIABLE);
+			matches.map(function (var_match) {
+				var var_match_name = ttc.VARIABLE_NAME(var_match),
+						var_match_index = code_result.indexOf(var_match),
+						before, after;
+				if (tryEval("var "+ var_match_name +";") !== null) {
+					var_match_index += var_match.length;
+				}
+
+				before = code_result.substring(0,var_match_index).replace_all(var_match,eval(var_match_name));
+				after = code_result.substring(code_result.indexOf(var_match) + var_match.length);
+				code_result = before + after;
+			});
+
+			return __logic_parser(code_result + post);
+
+		}
+	},
+	/* end loop config*/
+
+	/* conditional config*/
+	IF:{
+		"begin":/\$\{if\s+\((.*?)(?!\{)\)\s*\}|\{\{if\s+\((.*?)(?!\{)\)\s*\}\}/i,
+		"elseif":/\$\{elseif\s+\((.*?)(?!\{)\)\s*\}|\{\{elseif\s+\((.*?)(?!\{)\)\s*\}\}/i,
+		"else":/\$\{else\}|\{\{else\}\}/i,
+		"end":/\$\{end if\}|\{\{end if\}\}/i,
+		"helper":function (code) {
+			var IF = $c.TEMPLATE_TAG_CONFIG.IF,
+					ifmatch = (code.match(IF.begin) || []).condense(),
+					endlength = code.match(IF.end)[0].length,
+					startindex = code.indexOfAlt(IF.begin),
+					endindex = code.indexOfAlt(IF.end);
+
+			if (ifmatch.length) {
+				for (var j = 1, jlen = ifmatch.length; j < jlen; j++) {
+					ifmatch[j] = ifmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+				}
+				var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
+						ifsyntax = new RegExp(IF.begin.source+"|"+IF.elseif.source+"|"+IF["else"].source,'i');
+
+				if (!code.match(new RegExp(IF.elseif.source+"|"+IF["else"].source,'ig'))) {
+					if ("undefined" == ifmatch[1] || !tryEval(ifmatch[1])) {
+						return pre + post;
+					}
+					return pre + code.substring(startindex + ifmatch[0].length, endindex) + post;
+				}
+				ifmatch = (code.match(ifsyntax.addFlags('g')) || []).condense();
+				for (var i = 0, len = ifmatch.length; i < len; i++) {
+					var ife = ifmatch[i].match(ifsyntax).condense(),
+							condition = ife[1],
+							value = "undefined" == condition ? false : tryEval(condition),
+							sindex = code.indexOf(ifmatch[i]) + ifmatch[i].length;
+
+					if (value !== undefined && value) {
+						var eindex = code.indexOf(ifmatch[i + 1]);
+						if (eindex == -1) {
+							return pre + code.substring(sindex) + post;
+						}
+						return pre + code.substring(sindex, eindex) + post;
+					} else if (ifmatch[i].match(IF["else"])) {
+						return pre + code.substring(sindex,endindex) + post;
+					}
+				}
+				return pre + post;
+			}
+			return code;
+		},
+		"parser":function (code, oobj, bind){
+			var IF = $c.TEMPLATE_TAG_CONFIG.IF,
+					blocks = __processBlocks(IF.begin, IF.end, code),
+					code_result = "";
+			for (var i = 0, len = blocks.length; i < len; i++) {
+				var obj = blocks[i],
+						block = obj.block,
+						id = obj.id;
+
+				code_result = code_result || obj.code;
+				if (!code_result.contains(obj.id)) { continue; }
+				code_result = IF.helper(code_result.replace(id, block));
+			}
+			return __logic_parser(code_result);
+		}
+	},
+	SWITCH: {
+		"begin": /(\$\{switch\s+\((.*?)\)\s*\})|(\{\{switch\s+\((.*?)\)\s*\}\})/i,
+		"end": /(\$\{end switch\})|(\{\{end switch\}\})/i,
+		"case": /(?:\$\{case\s+(.*?)\s*?:\})|(?:\{\{case\s+(.*?)\s*?:\}\})/i,
+		"default": /(\$\{default\})|(\{\{default\}\})/i,
+		"break": /(\$\{break\})|(\{\{break\}\})/i,
+		"helper": function (code) {
+			var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
+			//csyntax = SWITCH["case"],
+					switchmatch = (code.match(SWITCH.begin) || []).condense(),
+					endlength = code.match(SWITCH.end)[0].length,
+					startindex = code.indexOfAlt(SWITCH.begin),
+					endindex = code.indexOfAlt(SWITCH.end),
+					brk = SWITCH["break"], dflt = SWITCH["default"];
+
+
+			if (switchmatch.length) {
+
+				for (var j = 1, jlen = switchmatch.length; j < jlen; j++) {
+					switchmatch[j] = switchmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+				}
+				var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
+						val = tryEval(switchmatch[2]) || switchmatch[2],
+						cgsyntax = SWITCH["case"].addFlags("g"),
+						cases = code.match(cgsyntax);
+				code = code.substring(startindex + (switchmatch[0] || "").length, endindex);
+
+				if (!cases) {
+					return pre + code.cut(startindex, endindex + endlength) + post;
+				}
+				for (var i = 0, len = cases.length; i < len; i++) {
+					var cs = cases[i].match(SWITCH["case"]),
+							cvalue = cs[1] || cs[2];
+					if (val == cvalue) {
+						var cindex = code.indexOf(cases[i]),
+								bindex = code.indexOfAlt(brk, cindex);
+						bindex = bindex == -1 ? code.length : bindex;
+						return pre + code.substring(cindex + cases[i].length, bindex).replace(cgsyntax, '') + post;
+					}
+				}
+				var dindex = code.indexOfAlt(dflt);
+				if (dindex != -1) {
+					return pre + code.substring(dindex + code.match(dflt)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
+				}
+
+			}
+			return code;
+		},
+		"parser": function (code, oobj, bind) {
+			var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
+					blocks = __processBlocks(SWITCH.begin, SWITCH.end, code),
+					code_result = "";
+
+			for (var i = 0, len = blocks.length; i < len; i++) {
+				var obj = blocks[i],
+						block = obj.block,
+						id = obj.id;
+
+				code_result = code_result || obj.code;
+				if (!code_result.contains(obj.id)) { continue; }
+				code_result = SWITCH.helper(code_result.replace(id, block));
+			}
+			return __logic_parser(code_result);
+		}
+
+	},
+	/* end conditional config*/
+
+	/* error handling and execution config */
+	SCRIPT: {
+		"begin": /(\$\{script\})|(\{\{script\}\})/i,
+		"end": /(\$\{end script\})|(\{\{end script\}\})/i,
+		"parser": function (code, obj, bind) {
+			var SCRIPT = $c.TEMPLATE_TAG_CONFIG.SCRIPT,
+					sindex = code.indexOfAlt(SCRIPT.begin),
+					slen = code.match(SCRIPT.begin)[0].length,
+					eindex = code.indexOfAlt(SCRIPT.end),
+					elen = code.match(SCRIPT.end)[0].length;
+
+			if (eindex == -1) { eindex = undefined; }
+			var block = code.substring(sindex + slen,eindex), str = "",
+					echo = function (value) { echo.out += value; };
+			echo.out = "";
+			str = eval("(function(){"+block+";return echo.out;})()");
+
+			return __logic_parser(code.cut(sindex,eindex+elen, str));
+		}
+
+	},
+	TRY: {
+		"begin": /(\$\{try\})|(\{\{try\}\})/i,
+		"catch": /(?:\$\{catch\s+\((.*)?\)\s*\})|(?:\{\{catch\s+\((.*)?\)\s*\}\})/i,
+		"finally": /(\$\{finally\})|(\{\{finally\}\})/i,
+		"end": /(\$\{end try\})|(\{\{end try\}\})/i,
+		"helper": function (code, lookups, exec) {
+			var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
+					cindex = code.indexOfAlt(TRY["catch"]),
+					findex = code.indexOfAlt(TRY["finally"]),
+					eindex = code.indexOfAlt(TRY["end"]),
+					tend = cindex;
+
+			if (tend == -1) {
+				tend = findex != -1 ? findex : eindex;
+			}
+
+			var tindex = code.indexOfAlt(TRY.begin),
+					body = code.substring(tindex + code.match(TRY.begin)[0].length, tend),
+					pre = code.substring(0,tindex), post = code.substring(eindex + code.match(TRY.end)[0].length),
+					regex = /##[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}##/i,
+					match = body.match(regex), str = "", id,
+					echo = function (value) {
+						echo.out += value;
+					};
+			echo.out = "";
+			while(match && match.length){
+				id = match.splice(0)[0];
+				body = body.replace(id, ";echo('" + TRY.helper(lookups[id], lookups) + "');");
+			}
+			match = pre.match(regex);
+			while(match && match.length) {
+				id = match.splice(0)[0];
+				pre = pre.replace(id, TRY.helper(lookups[id], lookups));
+			}
+			match = post.match(regex);
+			while(match && match.length) {
+				id = match.splice(0)[0];
+				post = post.replace(id, TRY.helper(lookups[id], lookups));
+			}
+			exec && eval(exec);
+			try {
+				str = eval("(function(){" + body + ";return echo.out; })()");
+			} catch (e) {
+				if (cindex != -1) {
+					echo.out = "";
+					tend = findex != -1 ? findex : eindex;
+					var catchBlock = code.substring(cindex, tend),
+							catchLine = catchBlock.match(TRY["catch"]),
+							errorString = JSON.stringify(e);
+					catchBlock = catchBlock.replace(catchLine[0], '');
+
+					match = catchBlock.match(regex);
+					while(match && match.length) {
+						id = match.splice(0)[0];
+						catchBlock = catchBlock.replace(id, ";echo('" + TRY.helper(lookups[id], lookups,"var " + catchLine[1] + "=" + errorString + ";") + "');");
+					}
+					str += eval("(function(" + catchLine[1] + "){" + catchBlock + ";return echo.out;})('" + errorString + "')");
+				}
+			} finally {
+				if (findex != -1) {
+					echo.out = "";
+					str += eval("(function(){" + code.substring(findex + code.match(TRY["finally"])[0].length, eindex) + ";return echo.out; })()");
+				}
+			}
+			return pre + str + post;
+		},
+		"parser": function (code, oobj, bind) {
+			var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
+					lookups = {},
+					blocks = __processBlocks(TRY.begin, TRY.end, code, lookups);
+
+			var obj = blocks[0],
+					block = obj.block,
+					id = obj.id;
+
+			return __logic_parser(TRY.helper(obj.code.replace(id, block), lookups));
+			//return __logic_parser(code_result);
+		}
+
+	},
+	/* end error handling config */
+
+	/* tokens config */
+	VARIABLE:/(?:\$\{((?!\$)\S)*?\})|(?:\{\{((?!\{\{)\S)*?\}\})/gi,
+	VARIABLE_NAME:function(match){
+		return  match.slice(2,match.contains('}}') ? -2 : -1);
+	},
+	DECLARE:{
+		"syntax": /(?:\$\{DECLARE (.*?);?\})|(?:\{\{DECLARE (.*?);?\}\})/i,
+		"parser": function (htmlTemplate, declare){
+			var matches = declare.match($c.TEMPLATE_TAG_CONFIG.DECLARE.syntax);/*,
+			 var_nameValue = (matches[1]||matches[2]).strip(';').split("=");
+
+			 fillTemplate.declared[var_nameValue[0]] = var_nameValue[1];*/
+			$c.merge(fillTemplate.declared, tryEval("({"+matches[1].replace_all('=',":")+"})"));
+			return htmlTemplate.replace_all(declare,'');
+		}
+	}
+	/* end tokens config */
+};
+$c.VERBOSE_LOGS = !!$GET("verbose");
+$c.VERSION = _craydent_version;
+$c.VISIBLE = "visible";
+$c.WAIT = "wait";
 
 var _ao, _df, _irregularNouns = {
 	"addendum":"addenda",
@@ -1727,7 +2209,8 @@ function __run_replace (reg, template, use_run, obj) {
 
 			funcValue = match[1].replace_all(['\\[','\\]'],['[',']']).split(split_param);
 			while (funcValue[0].count("{") != funcValue[0].count("}")) {
-				funcValue[0]+= funcValue[1]+($c.isString(split_param)?split_param:";");
+				if (tryEval(funcValue[0])) { break; }
+				funcValue[0]+= ($c.isString(split_param)?split_param:";")+funcValue[1];
 				funcValue.splice(1,1);
 			}
 			func = funcValue.splice(0,1)[0].strip(";");
@@ -1743,7 +2226,7 @@ function __run_replace (reg, template, use_run, obj) {
 
 			template = template.contains(match[1]) ? template.replace(match[1], (match[1] = match[1].replace_all(['\\[', '\\]'], ['[', ']']))) : template;
 			template = template.replace_all("${" + pre + match[1] + post +"}",
-				$g.getProperty(func) ? $g.getProperty(func).apply(obj, funcValue) : (tryEval("("+func+")")||foo)() || "");
+				$g.getProperty(func) ? $g.getProperty(func).apply(obj, funcValue) : (tryEval("("+func+")")||foo).apply(obj,funcValue) || "");
 		}
 		return template;
 	} catch (e) {
