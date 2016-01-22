@@ -69,8 +69,6 @@
 
 >MAC
 
->OBSERVE_CHECK_INTERVAL
-
 >ONMOUSEDOWN
 
 >ONMOUSEUP
@@ -97,9 +95,9 @@
 
 >PRINCE
 
->PUBLIC_IP
-
 >PROTOCOL
+
+>PUBLIC_IP
 
 >REFERER
 
@@ -115,9 +113,9 @@
 
 >SYMBIAN
 
->TEMPLATE_VARS
-
 >TEMPLATE_TAG_CONFIG
+
+>TEMPLATE_VARS
 
 >TRIDENT
 
@@ -1282,18 +1280,6 @@
 
 >**Overloads:**
 
-### isEmpty ###
-
->**Info:** Array class extension to check if the array is empty
-
->**Return:** (Bool)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
 ### joinLeft ###
 
 >**Info:** Array class extension to do an outer left join on arrays
@@ -1945,6 +1931,18 @@
 ### isDomElement ###
 
 >**Info:** Object class extension to check if object is a DOM element
+
+>**Return:** (Bool)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+### isEmpty ###
+
+>**Info:** Object class extension to check if it is empty
 
 >**Return:** (Bool)
 
