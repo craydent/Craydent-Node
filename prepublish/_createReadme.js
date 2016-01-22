@@ -23,7 +23,7 @@ for (var o = 0; o < 2; o++) {
 			constants[prop] += tab + prop + ln;
 			if ($c.isObject(c[prop])) {
 				for (var subConstant in c[prop]) {
-					if (!c[prop].hasOwnProperty(prop)) {
+					if (!c[prop].hasOwnProperty(subConstant)) {
 						continue;
 					}
 					constants[prop] += tab + tab + subConstant + ln;

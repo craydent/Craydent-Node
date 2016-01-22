@@ -5,7 +5,7 @@
   "main": "craydent.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "node prepublish/_createReadme; git commit -m \"release for 0.4.3\"; git push;"
+    "prepublish": "node prepublish/_createReadme; git commit -m \"release for 0.4.5\"; git push;"
   },
   "repository": {
     "type": "git",
