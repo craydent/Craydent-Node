@@ -1,11 +1,11 @@
 {
   "name": "craydent",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "node library based on craydent-1.8.1",
   "main": "craydent.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "node prepublish/_createReadme; git commit -m \"release for 0.4.5\"; git push;"
+    "prepublish": "node prepublish/_createReadme; git commit -m \"release for 0.4.6\"; git push;"
   },
   "repository": {
     "type": "git",

@@ -4,6 +4,7 @@
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
 
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
@@ -801,27 +802,40 @@ Craydent.createServer = function(callback, createServer) {
 			});
 			request.on('end', function () {
 
-				var POST = qs.parse(body);
-				// use POST
-
+				var raw = body;
+				if (body[0] == "?") { body = body.substring(1); }
+				var keyVals = body.split('&'), pd = {};
+				if (keyVals.length > 1 || (keyVals[0] && keyVals[0].contains('='))) {
+					for (var i = 0, len = keyVals.length; i < len; i++) {
+						var pair = keyVals.split('=');
+						pd[decodeURIComponent(pair[0])] = tryEval(decodeURIComponent(pair[1])) || decodeURIComponent(pair[0]);
+					}
+				}
+				cray.raw = raw;
+				cray.postData = pd;
+				_exec ();
 			});
+		} else {
+			_exec();
 		}
-		try {
-			cray.echo.out = "";
+		function _exec () {
+			try {
+				cray.echo.out = "";
 
-			callback.call(cray, request, response);
+				callback.call(cray, request, response);
 
-			if (!cray.DEFER_END) {
-				cray.end();
-			}
-		} catch(e) {
-			throw e;
-			logit(e);
-			response.writeHead(500, header.headers);
-			response.end();
-		} finally {
+				if (!cray.DEFER_END) {
+					cray.end();
+				}
+			} catch (e) {
+				throw e;
+				logit(e);
+				response.writeHead(500, header.headers);
+				response.end();
+			} finally {
 //            echo.out = "";
 //            $SESSION = {};
+			}
 		}
 	});
 	http.loadBalance = function (ips) {
@@ -3566,27 +3580,27 @@ function Request() {
  **/
 function $COOKIE(key, value, options) {
 	/*|{
-	 "info": "Get/set Cookies",
-	 "category": "Global",
-	 "featured": true,
-	 "parameters":[
-	 {"key": "(String) Key for cookie value"}],
+		"info": "Get/set Cookies",
+		"category": "Global",
+		"featured": true,
+		"parameters":[
+			{"key": "(String) Key for cookie value"}],
 
-	 "overloads":[
-	 {"parameters":[
-	 {"key": "(String) Key for cookie"},
-	 {"option": "(Object) Specify delete"}]},
-	 {"parameters":[
-	 {"keyValue": "(Object) Specify the key value pair"},
-	 {"option": "(Object) Specify path, domain, and/or expiration of cookie"}]},
-	 {"parameters":[
-	 {"key": "(String) Key for cookie value"},
-	 {"value": "(String) Value to store"},
-	 {"option": "(Object) Specify path and/or expiration of cookie"}]}],
+		"overloads":[
+			{"parameters":[
+				{"key": "(String) Key for cookie"},
+				{"option": "(Object) Specify delete"}]},
+			{"parameters":[
+				{"keyValue": "(Object) Specify the key value pair"},
+				{"option": "(Object) Specify path, domain, and/or expiration of cookie"}]},
+			{"parameters":[
+				{"key": "(String) Key for cookie value"},
+				{"value": "(String) Value to store"},
+				{"option": "(Object) Specify path and/or expiration of cookie"}]}],
 
-	 "description": "http://www.craydent.com/library/1.8.1/docs#$COOKIE",
-	 "returnType": "(Mixed)"
-	 }|*/
+		"description": "http://www.craydent.com/library/1.8.1/docs#$COOKIE",
+		"returnType": "(Mixed)"
+	}|*/
 	try {
 		options = options || {};
 		var c = $c.getProperty(this, 'request.headers.cookie');
@@ -3656,16 +3670,9 @@ function $GET(variable, options) {
 
 		"overloads":[
 			{"parameters":[
-				{"keyValue": "(Object) specify the key value pair"}]},
-			{"parameters":[
-				{"keyValue": "(Object) specify the key value pair"},
-				{"options": "(Object) options to defer, ignore case, etc"}]},
+				{"key": "(String) key for query value"}]},
 			{"parameters":[
 				{"key": "(String) key for query value"},
-				{"value": "(String) value to store"}]},
-			{"parameters":[
-				{"key": "(String) key for query value"},
-				{"value": "(String) value to store"},
 				{"options": "(Object) Options to defer, ignore case, etc"}]}],
 
 		"description": "http://www.craydent.com/library/1.8.1/docs#$GET",
@@ -3694,7 +3701,7 @@ function $GET(variable, options) {
 		}
 		options = options || {};
 		var ignoreCase = options.ignoreCase || options == "ignoreCase" ? "i" : "",
-			regex = new RegExp("[\?|&|@]" + variable + "=", ignoreCase),
+			regex = new RegExp("[\?|&|@]?" + variable + "=", ignoreCase),
 			attr = "search",
 			location = {};
 		location.hash = this.$l.hash;
@@ -3713,18 +3720,58 @@ function $GET(variable, options) {
 			}
 			location.search = query;
 		}
-
-		var delimiter = "&";
 		if (regex.test(location.hash)) {
 			attr = 'hash';
-			delimiter = "@";
 		} else if (!regex.test(location.search)){
 			return false;
 		}
-		regex = new RegExp('(.*)?(' + variable +'=)(.*?)(([' + delimiter + '])(.*)|$)', ignoreCase);
+		regex = new RegExp('(.*)?(' + variable +'=)(.*?)(([&]|[@])(.*)|$)', ignoreCase);
 		return decodeURI(location[attr].replace(regex, '$3'));
 	} catch (e) {
 		logit('$GET');
+		logit(e);
+	}
+}
+
+function $POST(variable, options) {
+	/*|{
+		"info": "Retrieve all or specific variables in the url",
+		"category": "Global",
+		"featured": true,
+		"parameters":[],
+
+		"overloads":[
+			{"parameters":[
+				{"key": "(String) key for query value"}]},
+			{"parameters":[
+				{"key": "(String) key for query value"},
+				{"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+		"description": "http://www.craydent.com/library/1.8.1/docs#$POST",
+		"returnType": "(Mixed)"
+	}|*/
+	try {
+		this.raw = this.raw || "";
+		//this.postData = this.postData || {};
+		if (!variable) {
+			return this.postData || this.raw;
+		}
+		this.postData = this.postData || {};
+		if (!options) {
+			return this.postData[variable] === undefined ? false : this.postData[variable];
+		}
+
+		if (options == 'i' || options.ignoreCase || options == "ignoreCase") {
+			for (var prop in this.postData) {
+				if (!this.postData.hasOwnProperty(prop)) { continue; }
+				if (prop.toLowerCase() == variable.toLowerCase()) { return this.postData[prop]; }
+			}
+			return false;
+		}
+
+		return this.raw[variable] || false;
+	} catch (e) {
+		logit('$POST');
 		logit(e);
 	}
 }
