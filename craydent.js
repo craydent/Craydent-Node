@@ -953,7 +953,6 @@ $c.TEMPLATE_TAG_CONFIG = {
 			objs = tryEval(mresult[2] || mresult[4]);
 			var_name = ttc.VARIABLE_NAME(mresult[1] || mresult[3]);
 
-			//fillTemplate.binding.original.push(bind+"."+var_name);
 			//fillTemplate.binding.replacer.push(fillTemplate.refs["ref_" + fillTemplate.refs.indexOf(objs)]);
 
 			rtnObject = rtnObject || {};
