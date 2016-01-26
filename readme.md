@@ -301,22 +301,10 @@
 
 >**Overloads:**
 
->>keyValue: (Object) specify the key value pair
-
----
->>keyValue: (Object) specify the key value pair
-
->>options: (Object) options to defer, ignore case, etc
+>>key: (String) key for query value
 
 ---
 >>key: (String) key for query value
-
->>value: (String) value to store
-
----
->>key: (String) key for query value
-
->>value: (String) value to store
 
 >>options: (Object) Options to defer, ignore case, etc
 
@@ -1100,6 +1088,18 @@
 
 >>options: (Char) 'r' Flag to use to indicate recursively require
 
+### send ###
+
+>**Info:** Recursively require the entire directory and returns an object containing the required modules.
+
+>**Return:** (Object)
+
+>**Parameters:**
+
+>>data: (Object) Object to send in response.
+
+>**Overloads:**
+
 ### suid ###
 
 >**Info:** Creates a short Craydent/Global Unique Identifier
@@ -1248,7 +1248,7 @@
 
 >>callback: (Function) Function to callback when a request is received
 
->>createServer: (Function) Method to create a server that takes in a method as an argument
+>>createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
 
 ### delete ###
 

@@ -81,6 +81,7 @@ function Craydent (req, res) {
 	this.header.code = 200;
 	this.echo = echo;
 	this.echo.out = "";
+	this.send = send;
 	this.var_dump = var_dump;
 
 	this.$COOKIE = $COOKIE;
@@ -120,7 +121,7 @@ function Craydent (req, res) {
 
 	var parts = req.headers.host.split(":"),
 		queryparts = req.url.split("?"),
-		query = queryparts.length > 1 ? queryparts[1] : queryparts[0],
+		query = queryparts.length > 1 ? queryparts.splice(1).join('?') : "",
 		protocol = "http" + (req.connection.encrypted ? "s" : ""),
 		cookies = (req.headers.cookie || "").split('; '),
 		hash = "";
@@ -768,7 +769,7 @@ function Craydent (req, res) {
 	$c.DEBUG_MODE = $c.DEBUG_MODE || !!$GET("debug");
 	return this;
 }
-Craydent.createServer = function(callback, createServer) {
+Craydent.createServer = function(callback, options) {
 	/*|{
 		"info": "Array class extension to do an inner join on arrays",
 		"category": "Array",
@@ -777,49 +778,143 @@ Craydent.createServer = function(callback, createServer) {
 
 		"overloads":[{
 			"parameters":[
-	 			{"callback": "(Function) Function to callback when a request is received"},
-				{"createServer": "(Function) Method to create a server that takes in a method as an argument"}]}],
+				{"callback": "(Function) Function to callback when a request is received"},
+				{"createServer": "(Object) Options for creating the server (ex: {createServer:require('http').createServer})"}]}],
 
 		"description": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
 		"returnType": "(Array)"
 	}|*/
-	var http = (createServer || require('http').createServer)(function(request, response) {
-		var cray = new Craydent(request, response), body = "";
+	options = options || {};
+	callback = callback || foo;
+	var http = (options.createServer || require('http').createServer)(function(request, response) {
+		var cray = new Craydent(request, response);
 
 		$g.GarbageCollector = [];
 		if (request.url == '/favicon.ico') {
 			return;
 		}
-		if (request.method == 'POST') {
+		function onRequestReceived(methods) {
+			try {
+				var url = request.url.split(/[?#]/)[0].strip('/'), params = cray.$GET(), haveRoutes = false;
 
-			request.on('data', function (data) {
-				body += data;
-				// 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
-				if (body.length > 1e6) {
-					// FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
-					request.connection.destroy();
+				if (!params.equals({})) {
+				//	params = false;
+				//} else {
+					cray.callback = params.callback || "";
+					delete params.callback;
 				}
-			});
-			request.on('end', function () {
 
-				var raw = body;
-				if (body[0] == "?") { body = body.substring(1); }
-				var keyVals = body.split('&'), pd = {};
-				if (keyVals.length > 1 || (keyVals[0] && keyVals[0].contains('='))) {
-					for (var i = 0, len = keyVals.length; i < len; i++) {
-						var pair = keyVals.split('=');
-						pd[decodeURIComponent(pair[0])] = tryEval(decodeURIComponent(pair[1])) || decodeURIComponent(pair[0]);
+				for (var j = 0, jlen = methods.length; j < jlen; j++) {
+					var routes = http.routes[methods[j]];
+					for (var i = 0, ilen = routes.length; i < ilen; i++) {
+						cray.rest = haveRoutes = true;
+						var path = routes[i].base_path,
+								opath = routes[i].path,
+								usingWildcard = opath.endsWith("*"),
+								vars = routes[i].variables,
+								cb = routes[i].callback,
+								parts = url.split('/'),
+								len = vars.length,
+								basePath = parts.slice(0, -1 * len).join('/') || parts[0];
+
+
+						var rout_parts = routes[i].path.strip("*").split('/').condense(),
+							requ_parts = url.split('/'), vars = {};
+
+						if (rout_parts.length <= requ_parts.length + params.itemCount()) {
+							var var_regex = /\$\{(.*?)\}/;
+							for (var k = 0,l = 0, klen = rout_parts.length; k < klen; k++,l++) {
+								var ro = rout_parts[k], re = requ_parts[l], prop = ro.replace(var_regex,'$1'), qVal = params[prop], no_route = false;
+								if (ro == "*") {
+									break;
+								} else if (var_regex.test(ro)) {
+									if (qVal) {
+										vars[prop] = qVal;
+										l--;
+										continue;
+									}
+									vars[prop] = re;
+								} else if (ro != re) {
+									no_route = true;
+									break;
+								}
+							}
+							if (!no_route) {
+								for (var prop in params) {
+									if (!params.hasOwnProperty(prop)) { continue; }
+									vars[prop] = vars[prop] || params[prop];
+								}
+								return cb.call(cray, request, response, vars);
+							}
+						}
+
+
+
+						// if route base path is the same as the base path of the url and the number of variables is the same as the number of parameters
+						// or if the route is using a wildcard * and the url starts with the string before the wildcard
+						//if (path == basePath && (len == parts.length - 1 || len == params.itemCount())) {
+						//	var vals = parts.slice(-1 * len);
+						//	params = params || {};
+						//
+						//	for (var i = 0; i < len; i++) {
+						//		params[vars[i]] = params[vars[i]] || vals[i];
+						//	}
+						//
+						//	return cb.call(cray, request, response, params);
+						//} else if (usingWildcard) {
+						//	path = opath.strip("*").strip("/");
+						//	if (!url.startsWith(path)) { continue; }
+						//	params = params || {};
+						//
+						//	params.arguments = url.replace(path,"").strip("/").split('/');
+						//
+						//	return cb.call(cray, request, response, params);
+						//}
 					}
 				}
-				cray.raw = raw;
-				cray.postData = pd;
-				_exec ();
-			});
-		} else {
-			_exec();
-		}
-		function _exec () {
-			try {
+				if (haveRoutes) {
+					return cray.send({error:"no route"});
+				}
+
+
+
+				// look for other node apps
+				if (url.contains(':')) {
+					var parts = url.split(':'),
+							appPath = parts[0],
+							sindex = parts[1].contains('/') ? parts[1].indexOf('/') : 0,
+							port = parts[1].substring(0,sindex),
+							path = parts[1].substring(sindex).strip('/'),
+							callingPath = process.cwd();
+					if (callingPath.contains('\\')) {
+						callingPath = callingPath.replace(/\\/g,'/');
+					}
+					appPath = callingPath + "/" + appPath;
+					var app = include(appPath) || {},
+							func = function(err) {
+								if(err.errno === 'EADDRINUSE') {
+									console.log('caught address in use');
+									process.removeListener('uncaughtException', func);
+								}
+							};
+
+					process.on('uncaughtException', func);
+					if (app.port || port) {
+						app.port = app.port || parseInt(port);
+						var query = request.url.split('?')[1] || "",
+								h = require('http');
+						query && (query = "?" + query);
+						return h.get("http://localhost:" + app.port + "/" + path + query).on('response', function (response) {
+							var body = '';
+							response.on('data',function(chunk){
+								body += chunk;
+							});
+							response.on('end', function () {
+								cray.end(body);
+							});
+						});
+					}
+				}
 				cray.echo.out = "";
 
 				callback.call(cray, request, response);
@@ -833,9 +928,28 @@ Craydent.createServer = function(callback, createServer) {
 				response.writeHead(500, header.headers);
 				response.end();
 			} finally {
-//            echo.out = "";
-//            $SESSION = {};
+				//            echo.out = "";
+				//            $SESSION = {};
 			}
+		}
+		if (request.method == 'POST') {
+			var body = "";
+			request.on('data', function (data) {
+				body += data;
+				// 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+				if (body.length > 1e6) {
+					// FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
+					request.connection.destroy();
+				}
+			});
+			request.on('end', function () {
+
+				var POST = qs.parse(body);
+				// use POST
+				onRequestReceived(["all","post"]);
+			});
+		} else {
+			onRequestReceived(["all","get"]);
 		}
 	});
 	http.loadBalance = function (ips) {
@@ -854,6 +968,25 @@ Craydent.createServer = function(callback, createServer) {
 			}
 		}
 		throw "parameter must be a string or an array of ip addresses";
+	};
+	http.routes = {get:[],post:[],all:[]};
+	http.get = function (path, callback) {
+		var vars = path.match(/\$\{.*?\}/g) || [],
+				base_path = path.replace(/\$\{.*?\}/g,"").strip("/");
+		for (var i = 0, len = vars.length; i < len; i++) {
+			vars[i] = vars[i].slice(2,-1);
+		}
+		http.routes.get.push({
+			path: path,
+			base_path:base_path,
+			callback:callback,
+			variables:vars});
+	};
+	http.post = function (path, callback) {
+		http.routes.post.push({path:path, callback:callback});
+	};
+	http.all = function (path, callback) {
+		http.routes.all.push({path:path, callback:callback});
 	};
 	return http;
 };
@@ -4403,6 +4536,20 @@ function requireDirectory(path, options, __basepath, __objs, __fs){
 	}
 	return __objs;
 }
+function send (data) {
+	/*|{
+		"info": "Recursively require the entire directory and returns an object containing the required modules.",
+		"category": "Global",
+		"parameters":[
+			{"data": "(Object) Object to send in response."}],
+
+		"overloads":[],
+
+		"description": "http://www.craydent.com/library/1.8.1/docs#send",
+		"returnType": "(Object)"
+	}|*/
+	this.end(JSON.stringify(data));
+};
 function suid(length) {
 	/*|{
 		"info": "Creates a short Craydent/Global Unique Identifier",
