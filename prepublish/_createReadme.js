@@ -127,4 +127,5 @@ fs.writeFile("../readme.md", readme, function(err) {
 	}
 
 	console.log("The file was saved!");
+	process.exit(1);
 });

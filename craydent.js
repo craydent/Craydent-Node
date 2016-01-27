@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.2                                /*/
+/*/ Craydent LLC node-v0.5.3                                /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.2';
+var _craydent_version = '0.5.3';
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
 $g.$c = {};
@@ -775,7 +775,8 @@ Craydent.createServer = function(callback, options) {
 						if (rout_parts.length <= requ_parts.length + params.itemCount()) {
 							var var_regex = /\$\{(.*?)\}/;
 							for (var k = 0,l = 0, klen = Math.max(rout_parts.length,requ_parts.length); k < klen; k++,l++) {
-								var ro = rout_parts[k], re = decodeURIComponent(requ_parts[l]), prop = (ro||"").replace(var_regex,'$1'), qVal = decodeURIComponent(params[prop]), no_route = false;
+								var ro = rout_parts[k], re = decodeURIComponent(requ_parts[l].replace_all('+','%20')), prop = (ro||"").replace(var_regex,'$1'),
+									qVal = decodeURIComponent(params[prop].replace_all('+','%20')), no_route = false;
 								if (ro == "*") {
 									break;
 								} else if (var_regex.test(ro)) {
@@ -793,7 +794,7 @@ Craydent.createServer = function(callback, options) {
 							if (!no_route) {
 								for (var prop in params) {
 									if (!params.hasOwnProperty(prop)) { continue; }
-									vars[prop] = decodeURIComponent(vars[prop] || params[prop]);
+									vars[prop] = decodeURIComponent((vars[prop] || params[prop]).replace_all('+','%20'));
 									vars[prop] = $c.tryEval(vars[prop]) || vars[prop];
 								}
 								return cb.call(cray, request, response, vars);
@@ -873,7 +874,7 @@ Craydent.createServer = function(callback, options) {
 				}
 			});
 			request.on('end', function () {
-
+				cray.raw = body;
 				onRequestReceived(["all","post"],$c.toObject(body));
 			});
 		} else {
