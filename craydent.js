@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.4.8                                /*/
+/*/ Craydent LLC node-v0.5.0                                /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.4.8';
+var _craydent_version = '0.5.0';
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
 $g.$c = {};
@@ -25,48 +25,6 @@ function Craydent (req, res) {
 	this.$l;
 	this.location;
 	this.navigator = {};
-
-	// instance dependent methods
-	//var $COOKIE = $COOKIE.bind(this),
-	//	$GET = $GET.bind(this),
-	//	ChromeVersion = ChromeVersion.bind(this),
-	//	FirefoxVersion = FirefoxVersion.bind(this),
-	//	IEVersion = IEVersion.bind(this),
-	//	OperaVersion = OperaVersion.bind(this),
-	//	SafariVersion = SafariVersion.bind(this),
-	//	echo = echo.bind(this),
-	//	end = end.bind(this),
-	//	getSessionID = getSessionID.bind(this),
-	//	getSession = getSession.bind(this),
-	//	getSesionSync = getSessionSync.bind(this),
-	//	header = header.bind(this),
-	//	isAmaya = isAmaya.bind(this),
-	//	isAndroid = isAndroid.bind(this),
-	//	isBlackBerry = isBlackBerry.bind(this),
-	//	isChrome = isChrome.bind(this),
-	//	isFirefox = isFirefox.bind(this),
-	//	isGecko = isGecko.bind(this),
-	//	isIE6 = isIE6.bind(this),
-	//	isIE = isIE.bind(this),
-	//	isIPad = isIPad.bind(this),
-	//	isIPhone = isIPhone.bind(this),
-	//	isIPod = isIPod.bind(this),
-	//	isKHTML = isKHTML.bind(this),
-	//	isLinux = isLinux.bind(this),
-	//	isMac = isMac.bind(this),
-	//	isMobile = isMobile.bind(this),
-	//	isOpera = isOpera.bind(this),
-	//	isPalmOS = isPalmOS.bind(this),
-	//	isPresto = isPresto.bind(this),
-	//	isPrince = isPrince.bind(this),
-	//	isSafari = isSafari.bind(this),
-	//	isSymbian = isSymbian.bind(this),
-	//	isTrident = isTrident.bind(this),
-	//	isWebkit = isWebkit.bind(this),
-	//	isWindows = isWindows.bind(this),
-	//	isWindowsMobile = isWindowsMobile.bind(this),
-	//	var_dump = var_dump.bind(this),
-	//	writeSession = writeSession.bind(this);
 
 	this.getSessionID = getSessionID;
 	this.getSession = getSession;
@@ -793,9 +751,10 @@ Craydent.createServer = function(callback, options) {
 		if (request.url == '/favicon.ico') {
 			return;
 		}
-		function onRequestReceived(methods) {
+		function onRequestReceived(methods, body) {
 			try {
-				var url = request.url.split(/[?#]/)[0].strip('/'), params = cray.$GET(), haveRoutes = false;
+				body = body || {};
+				var url = request.url.split(/[?#]/)[0].strip('/'), params = $c.merge(body, cray.$GET()|| {}), haveRoutes = false;
 
 				if (!params.equals({})) {
 				//	params = false;
@@ -808,18 +767,10 @@ Craydent.createServer = function(callback, options) {
 					var routes = http.routes[methods[j]];
 					for (var i = 0, ilen = routes.length; i < ilen; i++) {
 						cray.rest = haveRoutes = true;
-						var path = routes[i].base_path,
-								opath = routes[i].path,
-								usingWildcard = opath.endsWith("*"),
-								vars = routes[i].variables,
-								cb = routes[i].callback,
-								parts = url.split('/'),
-								len = vars.length,
-								basePath = parts.slice(0, -1 * len).join('/') || parts[0];
 
 
 						var rout_parts = routes[i].path.strip("*").split('/').condense(),
-							requ_parts = url.split('/'), vars = {};
+							requ_parts = url.split('/'), vars = {}, cb = routes[i].callback;
 
 						if (rout_parts.length <= requ_parts.length + params.itemCount()) {
 							var var_regex = /\$\{(.*?)\}/;
@@ -848,28 +799,6 @@ Craydent.createServer = function(callback, options) {
 							}
 						}
 
-
-
-						// if route base path is the same as the base path of the url and the number of variables is the same as the number of parameters
-						// or if the route is using a wildcard * and the url starts with the string before the wildcard
-						//if (path == basePath && (len == parts.length - 1 || len == params.itemCount())) {
-						//	var vals = parts.slice(-1 * len);
-						//	params = params || {};
-						//
-						//	for (var i = 0; i < len; i++) {
-						//		params[vars[i]] = params[vars[i]] || vals[i];
-						//	}
-						//
-						//	return cb.call(cray, request, response, params);
-						//} else if (usingWildcard) {
-						//	path = opath.strip("*").strip("/");
-						//	if (!url.startsWith(path)) { continue; }
-						//	params = params || {};
-						//
-						//	params.arguments = url.replace(path,"").strip("/").split('/');
-						//
-						//	return cb.call(cray, request, response, params);
-						//}
 					}
 				}
 				if (haveRoutes) {
@@ -944,9 +873,7 @@ Craydent.createServer = function(callback, options) {
 			});
 			request.on('end', function () {
 
-				var POST = qs.parse(body);
-				// use POST
-				onRequestReceived(["all","post"]);
+				onRequestReceived(["all","post"],$c.toObject(body));
 			});
 		} else {
 			onRequestReceived(["all","get"]);
@@ -6025,6 +5952,35 @@ _ext(String, 'toDateTime', function (options) {
 		error("String.toDateTime", e);
 	}
 }, true);
+_ext(String, 'toObject', function(assignmentChar, delimiter) {
+	/*|{
+		"info": "String class extension to convert to JSON",
+		"category": "String",
+		"parameters":[],
+
+		"overloads":[
+			{"parameters":[
+				{"assignmentChar": "(Char) Character to use as assignment delimiter. Defaults to '='."}]},
+			{"parameters":[
+	 			{"assignmentChar": "(Char) Character to use as assignment delimiter. Defaults to '&'."},
+	 			{"delimiter": "(Char) Character to use as pair delimiter"}]}],
+
+		"description": "http://www.craydent.com/library/1.8.1/docs#string.toObject",
+		"returnType": "(Object)"
+	}|*/
+	try {
+		assignmentChar = assignmentChar || "=";
+		delimiter = delimiter || "&";
+		var rtn = {}, kv_pairs = this.split(delimiter);
+		for (var i = 0, len = kv_pairs.length; i < len; i++) {
+			var kv = kv_pairs[i].split(assignmentChar);
+			rtn[kv[0]] = kv[1];
+		}
+		return rtn;
+	} catch (e) {
+		error("String.indexOfAlt", e);
+	}
+}, true);
 _ext(String, 'trim', function(character) {
 	/*|{
 		"info": "String class extension to remove characters from the beginning and end of the string",
@@ -6329,20 +6285,20 @@ _ext(Array, 'every', function(callback, thisObject) {
 	}
 }, true);
 _ext(Array, 'filter', function(func /*, thiss*/) {
-/*|{
-	"info": "Array class extension to implement filter",
-	"category": "Array",
-	"parameters":[
-		{"func": "(Function) Callback function used to determine if value should be returned"}],
+	/*|{
+		"info": "Array class extension to implement filter",
+		"category": "Array",
+		"parameters":[
+			{"func": "(Function) Callback function used to determine if value should be returned"}],
 
-	"overloads":[
-		{"parameters":[
-			{"func": "(Function) Callback function used to determine if value should be returned"},
-			{"thiss": "(Mixed) Specify the context on callback function"}]}],
+		"overloads":[
+			{"parameters":[
+				{"func": "(Function) Callback function used to determine if value should be returned"},
+				{"thiss": "(Mixed) Specify the context on callback function"}]}],
 
-	"description": "http://www.craydent.com/library/1.8.1/docs#array.filter",
-	"returnType": "(Array)"
-}|*/
+		"description": "http://www.craydent.com/library/1.8.1/docs#array.filter",
+		"returnType": "(Array)"
+	}|*/
 	try {
 		if (!$c.isFunction(func)) {
 			//noinspection ExceptionCaughtLocallyJS

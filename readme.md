@@ -1,4 +1,4 @@
-#**Craydent 0.4.8**#
+#**Craydent 0.5.0**#
 **by Clark Inada**
 
 
@@ -1250,6 +1250,22 @@
 
 >>createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
 
+### filter ###
+
+>**Info:** Array class extension to implement filter
+
+>**Return:** (Array)
+
+>**Parameters:**
+
+>>func: (Function) Callback function used to determine if value should be returned
+
+>**Overloads:**
+
+>>func: (Function) Callback function used to determine if value should be returned
+
+>>objs: (Mixed) Specify the context on callback function
+
 ### delete ###
 
 >**Info:** Array class extension to delete records
@@ -1281,22 +1297,6 @@
 >>fields: (Mixed) Fields to use as the projection and unique comparison
 
 >>condition: (Mixed) Query following find/where clause syntax
-
-### filter ###
-
->**Info:** Array class extension to implement filter
-
->**Return:** (Array)
-
->**Parameters:**
-
->>func: (Function) Callback function used to determine if value should be returned
-
->**Overloads:**
-
->>func: (Function) Callback function used to determine if value should be returned
-
->>objs: (Mixed) Specify the context on callback function
 
 ### group ###
 
@@ -2633,4 +2633,23 @@
 >**Overloads:**
 
 >>options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format
+
+### toObject ###
+
+>**Info:** String class extension to convert to JSON
+
+>**Return:** (Object)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+>>assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '='.
+
+---
+>>assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '&'.
+
+>>delimiter: (Char) Character to use as pair delimiter
 
