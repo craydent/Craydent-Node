@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.1                                /*/
+/*/ Craydent LLC node-v0.5.2                                /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.1';
+var _craydent_version = '0.5.2';
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
 $g.$c = {};
@@ -775,16 +775,16 @@ Craydent.createServer = function(callback, options) {
 						if (rout_parts.length <= requ_parts.length + params.itemCount()) {
 							var var_regex = /\$\{(.*?)\}/;
 							for (var k = 0,l = 0, klen = Math.max(rout_parts.length,requ_parts.length); k < klen; k++,l++) {
-								var ro = rout_parts[k], re = requ_parts[l], prop = (ro||"").replace(var_regex,'$1'), qVal = params[prop], no_route = false;
+								var ro = rout_parts[k], re = decodeURIComponent(requ_parts[l]), prop = (ro||"").replace(var_regex,'$1'), qVal = decodeURIComponent(params[prop]), no_route = false;
 								if (ro == "*") {
 									break;
 								} else if (var_regex.test(ro)) {
 									if (qVal) {
-										vars[prop] = qVal;
+										vars[prop] = $c.tryEval(qVal) || qVal;
 										l--;
 										continue;
 									}
-									vars[prop] = re;
+									vars[prop] = $c.tryEval(re) || re;
 								} else if (ro != re) {
 									no_route = true;
 									break;
@@ -793,7 +793,8 @@ Craydent.createServer = function(callback, options) {
 							if (!no_route) {
 								for (var prop in params) {
 									if (!params.hasOwnProperty(prop)) { continue; }
-									vars[prop] = vars[prop] || params[prop];
+									vars[prop] = decodeURIComponent(vars[prop] || params[prop]);
+									vars[prop] = $c.tryEval(vars[prop]) || vars[prop];
 								}
 								return cb.call(cray, request, response, vars);
 							}
