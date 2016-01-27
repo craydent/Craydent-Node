@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.0                                /*/
+/*/ Craydent LLC node-v0.5.1                                /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.0';
+var _craydent_version = '0.5.1';
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
 $g.$c = {};
@@ -774,8 +774,8 @@ Craydent.createServer = function(callback, options) {
 
 						if (rout_parts.length <= requ_parts.length + params.itemCount()) {
 							var var_regex = /\$\{(.*?)\}/;
-							for (var k = 0,l = 0, klen = rout_parts.length; k < klen; k++,l++) {
-								var ro = rout_parts[k], re = requ_parts[l], prop = ro.replace(var_regex,'$1'), qVal = params[prop], no_route = false;
+							for (var k = 0,l = 0, klen = Math.max(rout_parts.length,requ_parts.length); k < klen; k++,l++) {
+								var ro = rout_parts[k], re = requ_parts[l], prop = (ro||"").replace(var_regex,'$1'), qVal = params[prop], no_route = false;
 								if (ro == "*") {
 									break;
 								} else if (var_regex.test(ro)) {
