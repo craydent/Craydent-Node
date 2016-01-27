@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.3                                /*/
+/*/ Craydent LLC node-v0.5.4                                /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.3';
+var _craydent_version = '0.5.4';
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
 $g.$c = {};
@@ -776,11 +776,12 @@ Craydent.createServer = function(callback, options) {
 							var var_regex = /\$\{(.*?)\}/;
 							for (var k = 0,l = 0, klen = Math.max(rout_parts.length,requ_parts.length); k < klen; k++,l++) {
 								var ro = rout_parts[k], re = decodeURIComponent(requ_parts[l].replace_all('+','%20')), prop = (ro||"").replace(var_regex,'$1'),
-									qVal = decodeURIComponent(params[prop].replace_all('+','%20')), no_route = false;
+									qVal = params[prop], no_route = false;
 								if (ro == "*") {
 									break;
 								} else if (var_regex.test(ro)) {
 									if (qVal) {
+										qVal = decodeURIComponent(qVal.replace_all('+','%20'));
 										vars[prop] = $c.tryEval(qVal) || qVal;
 										l--;
 										continue;
