@@ -3974,7 +3974,7 @@ function end(output, encoding) {
 		// Release memory for objects
 		var obj;
 		while (obj = $g.GarbageCollector.splice(0,1)[0]) {
-			obj.destruct();
+			obj.destruct && obj.destruct();
 		}
 		this.writeSession();
 		var heads = typeof header != "undefined" ? header : {headers:{}},
