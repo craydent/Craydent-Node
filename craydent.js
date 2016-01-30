@@ -56,6 +56,10 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 		this.$COOKIE = $COOKIE;
 		this.$GET = $GET;
+		this.$HEADER = $HEADER;
+		this.$DELETE = $DELETE;
+		this.$POST = $POST;
+		this.$PUT = $PUT;
 		this.isIE6 = isIE6;
 		this.isIE = isIE;
 		this.IEVersion = IEVersion;
@@ -214,6 +218,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		$c.CLICK = this.CLICK = "click";
 		this.CORES_SUPPORT = true;
 		$c.DEBUG_MODE = this.DEBUG_MODE = !!$GET("debug");
+		$c.EXPOSE_ROUTE_API = this.EXPOSE_ROUTE_API = $c.EXPOSE_ROUTE_API;
 		this.FIREFOX = isFirefox();
 		this.FIREFOX_VERSION = FirefoxVersion();
 		this.FIREFOX = isFirefox();
@@ -248,6 +253,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		this.PRESTO = isPresto();
 		this.PRINCE = isPrince();
 		this.PROTOCOL = this.$l.protocol;
+		$c.ROUTE_API_PATH = this.ROUTE_API_PATH = $c.ROUTE_API_PATH || '/craydent/api/docs';
 		this.SAFARI = isSafari();
 		this.SAFARI_VERSION = SafariVersion();
 		this.SERVER = this.$l.host;
@@ -311,7 +317,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 			FOREACH: {
 				"begin": /(?:\$\{foreach (.*?)\s+in\s+(.*?)\s*\})|(?:\{\{foreach (.*?)\s+in\s+(.*?)\s*\}\})/i,
 				"end": /(?:\$\{end foreach\})|(?:\{\{end foreach\}\})/i,
-				"helper": function (code, body, rtnObject, uid, obj, bind, ref_obj) {
+				"helper": function (code, body, rtnObject, uid, obj, bind, ref_obj, index) {
 					var ttc = $c.TEMPLATE_TAG_CONFIG,
 							FOREACH = ttc.FOREACH,
 							mresult = code.match(FOREACH.begin),
@@ -324,29 +330,32 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						}
 						mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
 					}
-					objs = tryEval(mresult[2] || mresult[4]);
+					var value = mresult[2] || mresult[4];
+					objs = tryEval(value);
+					if (!objs && value.startsWithAny("${","{{") && !value.endsWith("}")) {
+						return code;
+					}
 					var_name = ttc.VARIABLE_NAME(mresult[1] || mresult[3]);
 
-					//fillTemplate.binding.original.push(bind+"."+var_name);
-					//fillTemplate.binding.replacer.push(fillTemplate.refs["ref_" + fillTemplate.refs.indexOf(objs)]);
 
 					rtnObject = rtnObject || {};
-					rtnObject[uid] += "var " + var_name + "s," + var_name + ";";
-					rtnObject[var_name + "s"] = objs;
+					var vname = var_name + suid();
+					rtnObject[uid] += "var " + vname + "s," + var_name + ";";
+					rtnObject[vname + "s"] = objs;
 					if ($c.isArray(objs)) {
-						fillTemplate.binding.original.push(bind + "." + var_name);
-						var bindingCuids = "";
+						//fillTemplate.binding.original.push(bind + "." + var_name);
+						//var bindingCuids = "";
 						for (var i = 0, len = objs.length; i < len; i++) {
-							if (typeof objs[i] == "object") {
-
-								bindingCuids += "," + fillTemplate._observing["hash_" + fillTemplate._observing.indexOf(objs[i])];
-							}
-							code_result += "${i=" + i + "," + var_name + "=" + var_name + "s[i],null}" + body;
+							//if (typeof objs[i] == "object") {
+							//
+							//	bindingCuids += "," + fillTemplate._observing["hash_" + fillTemplate._observing.indexOf(objs[i])];
+							//}
+							code_result += "${i=" + i + "," + var_name + "=" + vname + "s[i],null}" + body;
 						}
-						fillTemplate.binding.replacer.push(bindingCuids.substring(1));
+						//fillTemplate.binding.replacer.push(bindingCuids.substring(1));
 					}
 
-					return code_result;
+					return objs ? code_result : "";
 
 				},
 				"parser": function (code, ref_obj, bind) {
@@ -372,7 +381,8 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						if (!code_result.contains(obj.id)) {
 							continue;
 						}
-						code_result = code_result.replace_all(id, FOREACH.helper(block, obj.body, result_obj, uid, obj, bind, ref_obj));
+						code_result = code_result.replace_all(id, FOREACH.helper(block, obj.body, result_obj, uid, obj, bind, ref_obj,i));
+						if (!code_result) { break; }
 					}
 					eval(result_obj[uid]);
 					delete result_obj[uid];
@@ -383,7 +393,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						eval(prop + "=" + "result_obj['" + prop + "']");
 					}
 
-					var matches = code_result.match(ttc.VARIABLE);
+					var matches = code_result.match(ttc.VARIABLE) || [];
 					matches.map(function (var_match) {
 						var var_match_name = ttc.VARIABLE_NAME(var_match),
 								str = "";
@@ -392,7 +402,9 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						} catch (e) {
 							return;
 						}
-
+						if ($c.isObject(str) || $c.isArray(str)) {
+							str = "fillTemplate.refs['" + __add_fillTemplate_ref(str) + "']";
+						}
 						code_result = code_result.replace(var_match, str || "");
 
 					});
@@ -788,7 +800,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		callback = callback || foo;
 		var http = (options.createServer || require('http').createServer)(function (request, response) {
 			var cray = new Craydent(request, response);
-
+			cray.server = http;
 			$g.GarbageCollector = [];
 			if (request.url == '/favicon.ico') {
 				return;
@@ -809,7 +821,6 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						var routes = http.routes[methods[j]];
 						for (var i = 0, ilen = routes.length; i < ilen; i++) {
 							cray.rest = haveRoutes = true;
-
 
 							var rout_parts = routes[i].path.strip("*").split('/').condense(),
 									requ_parts = url.split('/'), vars = {}, cb = routes[i].callback;
@@ -839,10 +850,48 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 										if (!params.hasOwnProperty(prop)) {
 											continue;
 										}
-										vars[prop] = decodeURIComponent((vars[prop] || params[prop]).replace_all('+', '%20'));
-										vars[prop] = $c.tryEval(vars[prop]) || vars[prop];
+										vars[prop] = isNull(params[prop]) ? undefined : decodeURIComponent((vars[prop] || params[prop]).replace_all('+', '%20'));
+										vars[prop] = $c.tryEval(vars[prop],JSON.parse) || vars[prop];
 									}
-									return cb.call(cray, request, response, vars);
+									var parameters = routes[i].parameters || [],
+										p = 0, parameter, bad = [];
+									while (parameter = parameters[p++]) {
+										var name = parameter.name, type = (parameter.type || "").toLowerCase();
+										if (parameter.required && isNull(vars[name])) {
+											bad.push("Required parameter " + name + " was not provided.");
+											continue;
+										}
+										vars[name] = vars[name] || parameter.default;
+										if (type == "string") { continue; }
+										if (type == "date") {
+											var dt = new Date(vars[name]);
+											if ($c.isValidDate(dt)) {
+												vars[name] = dt;
+											} else {
+												bad.push("Invalid parameter type, " + name + " must be a " + type + ".");
+											}
+											continue;
+										}
+
+										if (type && type != "string") {
+											if (type == "regexp") { type = "RegExp"; }
+											var checker = "is"+type.capitalize(), value = $c.tryEval(vars[name],JSON.parse);
+
+											if(!$c[checker](value) && !$c[checker](vars[name])) {
+												var an = type[0] in {a:1,e:1,i:1,o:1,u:1} ? "an" : "a";
+												bad.push("Invalid parameter type, " + name + " must be " + an + " " + type + ".");
+												continue;
+											}
+											vars[name] = value || vars[name];
+										}
+									}
+									if (bad.length) {
+										return cray.send({errors: bad});
+									}
+									for (var c = 0, clen = cb.length; c < clen; c++) {
+										cb[c].call(cray, request, response, vars);
+									}
+									return;
 								}
 							}
 
@@ -908,7 +957,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 				}
 			}
 
-			if (request.method == 'POST') {
+			if (/delete|post|put/i.test(request.method)) {
 				var body = "";
 				request.on('data', function (data) {
 					body += data;
@@ -920,7 +969,20 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 				});
 				request.on('end', function () {
 					cray.raw = body;
-					onRequestReceived(["all", "post"], $c.toObject(body));
+					if (request.method == "POST") {
+						body = $PAYLOAD();
+					}
+					var ct = $HEADER('content-type','i') || "";
+					if (ct.contains('/json')) {
+						body = $c.tryEval(body);
+					//} else if (contentType.contains('multipart/form-data')) {
+					//	application/octet-stream
+					//	text/csv
+					//	application/xml
+					} else if (ct.contains('/x-www-form-urlencoded') || ct.contains('text/plain')) {
+						body = $c.toObject(body);
+					}
+					onRequestReceived(["all", request.method.toLowerCase()], body);
 				});
 			} else {
 				onRequestReceived(["all", "get"]);
@@ -943,25 +1005,28 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 			}
 			throw "parameter must be a string or an array of ip addresses";
 		};
-		http.routes = {get: [], post: [], all: []};
+		http.routes = {delete: [], get: [], post: [], put: [], all: []};
+		if ($c.EXPOSE_ROUTE_API && $c.ROUTE_API_PATH) {
+			var api_path_config = {path: $c.ROUTE_API_PATH, callback: [__rest_docs]};
+			http.routes.get.push(api_path_config);
+			http.routes.post.push(api_path_config);
+		}
+		//http.routes = {delete: [], get: [{path: $c.ROUTE_API_PATH, callback: [__rest_docs]}], post: [{path:$c.ROUTE_API_PATH, callback: [__rest_docs]}], put: [], all: []};
+		//http.routes = {delete: [], get: [{path:'/craydent/api/docs', callback: [__rest_docs]}], post: [{path:'/craydent/api/docs', callback: [__rest_docs]}], put: [], all: []};
+		http.delete = function (path, callback) {
+			__set_path("delete",http,path,callback);
+		};
 		http.get = function (path, callback) {
-			var vars = path.match(/\$\{.*?\}/g) || [],
-					base_path = path.replace(/\$\{.*?\}/g, "").strip("/");
-			for (var i = 0, len = vars.length; i < len; i++) {
-				vars[i] = vars[i].slice(2, -1);
-			}
-			http.routes.get.push({
-				path: path,
-				base_path: base_path,
-				callback: callback,
-				variables: vars
-			});
+			__set_path("get",http,path,callback);
 		};
 		http.post = function (path, callback) {
-			http.routes.post.push({path: path, callback: callback});
+			__set_path("post",http,path,callback);
+		};
+		http.put = function (path, callback) {
+			__set_path("put",http,path,callback);
 		};
 		http.all = function (path, callback) {
-			http.routes.all.push({path: path, callback: callback});
+			__set_path("all",http,path,callback);
 		};
 		return http;
 	};
@@ -986,9 +1051,11 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 	module.exports = $c = Craydent;
 	$c.CLICK = "click";
 	$c.DEBUG_MODE = $c.DEBUG_MODE || !!$GET("debug");
+	$c.EXPOSE_ROUTE_API = $c.EXPOSE_ROUTE_API;
 	$c.HANDPOINT = "pointer";
 	$c.HIDDEN = "hidden";
 	$c.POINTER = "default";
+	$c.ROUTE_API_PATH = $c.ROUTE_API_PATH || '/craydent/api/docs';
 	$c.TEMPLATE_VARS = [];
 	$c.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || {
 				IGNORE_CHARS: ['\n'],
@@ -1069,7 +1136,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						rtnObject[uid] += "var " + var_name + "s," + var_name + ";";
 						rtnObject[var_name + "s"] = objs;
 						if ($c.isArray(objs)) {
-							fillTemplate.binding.original.push(bind + "." + var_name);
+							//fillTemplate.binding.original.push(bind + "." + var_name);
 							var bindingCuids = "";
 							for (var i = 0, len = objs.length; i < len; i++) {
 								if (typeof objs[i] == "object") {
@@ -1078,7 +1145,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 								}
 								code_result += "${i=" + i + "," + var_name + "=" + var_name + "s[i],null}" + body;
 							}
-							fillTemplate.binding.replacer.push(bindingCuids.substring(1));
+							//fillTemplate.binding.replacer.push(bindingCuids.substring(1));
 						}
 
 						return code_result;
@@ -2347,6 +2414,34 @@ function __processStage(docs, stage) {
 		error('aggregate.__processStage', e);
 	}
 }
+function __rest_docs(req,res,params){
+	var routes = {
+		all:this.server.routes.all.where({path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+		delete:this.server.routes.delete.where({path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+		get:this.server.routes.get.where({path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+		post:this.server.routes.post.where({path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+		put:this.server.routes.put.where({path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]})
+	};
+	if(req.method.toLowerCase() == "post" || params.f == 'json'){
+		return this.send(routes);
+	}
+	this.header({'Content-Type': 'text/html'},200);
+	this.end("<html><head></head><body>"+
+			"<h1>Routes:</h1>" +
+			"<h2>All -> </h2>" +fillTemplate(
+			"<div>" +
+			"	${FOREACH ${route} in ${get}}" +
+			"		<div>${route.path}</div>" +
+			"		<div>" +
+			"			${FOREACH ${parameter} in ${route.parameters}}" +
+			"				<div>Name: ${parameter.name}<br />Description: ${parameter.description}<br />Type: ${parameter.type}<br />Required: ${parameter.required}</div>" +
+			"			${END FOREACH}" +
+			"		</div>" +
+			"	${END FOREACH}" +
+			"</div>",routes)+
+			"</body></html>");
+
+}
 function __run_replace (reg, template, use_run, obj) {
 	try {
 		var pre = "", post = "", split_param = "|", match;
@@ -2381,6 +2476,23 @@ function __run_replace (reg, template, use_run, obj) {
 		return template;
 	} catch (e) {
 		error('fillTemplate.__run_replace', e);
+	}
+}
+function __set_path (verb, http, path, callback) {
+	try {
+		var route = path;
+		callback = callback || [];
+		if($c.isFunction(callback)) { callback = [callback]; }
+		if ($c.isString(route)) {
+			route = { path : route, callback: callback };
+		} else if (callback) {
+			route.callback = route.callback || [];
+			if($c.isFunction(route.callback)) { route.callback = [route.callback]; }
+			route.callback = route.callback.concat(callback);
+		}
+		http.routes[verb].push(route);
+	} catch (e) {
+		error('CraydentServer.' + verb, e);
 	}
 }
 
@@ -2452,7 +2564,7 @@ function _copyWithProjection(projection, record) {
 		}
 	}
 	for (var prop in projection) {
-		if (projection.has(prop)) {
+		if (projection.has(prop) && projection[prop]) {
 			if (prop == "*") {
 				copy = $c.duplicate(record);
 			} else if (record[prop] && !$c.isArray(record[prop])) {
@@ -3308,6 +3420,26 @@ function _unwind(docs, path) {
 		error('aggregate._unwind', e);
 	}
 }
+function _verb_payload_helper (variable, options) {
+	this.raw = this.raw || "";
+	if (!variable) {
+		return this.rawData || this.raw;
+	}
+	this.rawData = this.rawData || {};
+	if (!options) {
+		return this.rawData[variable] === undefined ? false : this.rawData[variable];
+	}
+
+	if (options == 'i' || options.ignoreCase || options == "ignoreCase") {
+		for (var prop in this.rawData) {
+			if (!this.rawData.hasOwnProperty(prop)) { continue; }
+			if (prop.toLowerCase() == variable.toLowerCase()) { return this.rawData[prop]; }
+		}
+		return false;
+	}
+
+	return this.raw[variable] || false;
+}
 function _whereHelper(objs,condition,callback) {
 	var returnAll = true;
 	for (var prop in condition) {
@@ -3714,6 +3846,30 @@ function Request() {
  *      expiration : int
  *      path : string
  **/
+function $PAYLOAD(variable, options) {
+	/*|{
+	"info": "Retrieve all or specific variables in the Body",
+	"category": "Global",
+	"featured": true,
+	"parameters":[],
+
+	"overloads":[
+		{"parameters":[
+			{"key": "(String) key for query value"}]},
+		{"parameters":[
+			{"key": "(String) key for query value"},
+			{"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+	"description": "http://www.craydent.com/library/1.8.1/docs#$PAYLOAD",
+	"returnType": "(Mixed)"
+	}|*/
+	try {
+		return _verb_payload_helper(variable, options);
+	} catch (e) {
+		logit('$PAYLOAD');
+		logit(e);
+	}
+}
 function $COOKIE(key, value, options) {
 	/*|{
 		"info": "Get/set Cookies",
@@ -3797,6 +3953,30 @@ function $COOKIE(key, value, options) {
 		error('$COOKIE', e);
 	}
 }
+function $DELETE(variable, options) {
+	/*|{
+		"info": "Retrieve all or specific variables in the Body",
+		"category": "Global",
+		"featured": true,
+		"parameters":[],
+
+		"overloads":[
+			{"parameters":[
+				{"key": "(String) key for query value"}]},
+			{"parameters":[
+				{"key": "(String) key for query value"},
+				{"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+		"description": "http://www.craydent.com/library/1.8.1/docs#$DELETE",
+		"returnType": "(Mixed)"
+	}|*/
+	try {
+		return _verb_payload_helper(variable, options);
+	} catch (e) {
+		logit('$DELETE');
+		logit(e);
+	}
+}
 function $GET(variable, options) {
 	/*|{
 		"info": "Retrieve all or specific variables in the url",
@@ -3868,10 +4048,49 @@ function $GET(variable, options) {
 		logit(e);
 	}
 }
+function $HEADER(variable, options) {
+	/*|{
+		"info": "Retrieve all or specific variables in the headers",
+		"category": "Global",
+		"featured": true,
+		"parameters":[],
 
+		"overloads":[
+			{"parameters":[
+				{"key": "(String) key for query value"}]},
+			{"parameters":[
+				{"key": "(String) key for query value"},
+				{"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+		"description": "http://www.craydent.com/library/1.8.1/docs#$HEADER",
+		"returnType": "(Mixed)"
+	}|*/
+	try {
+		this.request.headers = this.request.headers || {};
+
+		if (!variable) {
+			return this.request.headers;
+		}
+		if (!options) {
+			return this.request.headers[variable] === undefined ? false : this.request.headers[variable];
+		}
+
+		if (options == 'i' || options.ignoreCase || options == "ignoreCase") {
+			for (var prop in this.request.headers) {
+				if (!this.request.headers.hasOwnProperty(prop)) { continue; }
+				if (prop.toLowerCase() == variable.toLowerCase()) { return this.request.headers[prop]; }
+			}
+		}
+
+		return false;
+	} catch (e) {
+		logit('$HEADER');
+		logit(e);
+	}
+}
 function $POST(variable, options) {
 	/*|{
-		"info": "Retrieve all or specific variables in the url",
+		"info": "Retrieve all or specific variables in the Body",
 		"category": "Global",
 		"featured": true,
 		"parameters":[],
@@ -3887,27 +4106,33 @@ function $POST(variable, options) {
 		"returnType": "(Mixed)"
 	}|*/
 	try {
-		this.raw = this.raw || "";
-		//this.postData = this.postData || {};
-		if (!variable) {
-			return this.postData || this.raw;
-		}
-		this.postData = this.postData || {};
-		if (!options) {
-			return this.postData[variable] === undefined ? false : this.postData[variable];
-		}
-
-		if (options == 'i' || options.ignoreCase || options == "ignoreCase") {
-			for (var prop in this.postData) {
-				if (!this.postData.hasOwnProperty(prop)) { continue; }
-				if (prop.toLowerCase() == variable.toLowerCase()) { return this.postData[prop]; }
-			}
-			return false;
-		}
-
-		return this.raw[variable] || false;
+		return _verb_payload_helper(variable, options);
 	} catch (e) {
 		logit('$POST');
+		logit(e);
+	}
+}
+function $PUT(variable, options) {
+	/*|{
+		"info": "Retrieve all or specific variables in the Body",
+		"category": "Global",
+		"featured": true,
+		"parameters":[],
+
+		"overloads":[
+			{"parameters":[
+				{"key": "(String) key for query value"}]},
+			{"parameters":[
+				{"key": "(String) key for query value"},
+				{"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+		"description": "http://www.craydent.com/library/1.8.1/docs#$PUT",
+		"returnType": "(Mixed)"
+	 }|*/
+	try {
+		return _verb_payload_helper(variable, options);
+	} catch (e) {
+		logit('$PUT');
 		logit(e);
 	}
 }
@@ -7305,10 +7530,10 @@ _ext(Array, 'where', function(condition, projection) {
 		"returnType": "(Array)"
 	}|*/
 	try {
-		var useReference =  true;
-		if (arguments.length == 2 && $c.isBoolean(projection)) {
-			useReference = $c.isBoolean(projection);
-		}
+		var useReference = !projection;
+		//if (arguments.length == 2 && $c.isBoolean(projection)) {
+		//	useReference = $c.isBoolean(projection);
+		//}
 
 		// if no condition was given, return all
 		if (!condition) {
