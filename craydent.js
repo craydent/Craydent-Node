@@ -9,7 +9,8 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.5';
+var _craydent_version = '0.5.7',
+	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
 function __isNewer(loadedVersion, thisVersion){
@@ -153,18 +154,18 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		this.BROWSER = {
 			CURRENT: _browser,
 			CURRENT_VERSION: (_ie != -1 && _ie) || (_chrm != -1 && _chrm) || (_ff != -1 && _ff) || (_saf != -1 && _saf),
-			IE: isIE(),
+			IE: this.isIE(),
 			IE_VERSION: _ie,
 			IE6: (_ie < 7.0 && _ie >= 6.0),
 			IE7: (_ie < 8.0 && _ie >= 7.0),
 			IE8: (_ie < 9.0 && _ie >= 8.0),
-			CHROME: isChrome(),
+			CHROME: this.isChrome(),
 			CHROME_VERSION: _chrm,
-			FIREFOX: isFirefox(),
+			FIREFOX: this.isFirefox(),
 			FIREFOX_VERSION: _ff,
-			OPERA: isOpera(),
+			OPERA: this.isOpera(),
 			OPERA_VERSION: _op,
-			SAFARI: isSafari(),
+			SAFARI: this.isSafari(),
 			SAFARI_VERSION: _saf
 		};
 		this.CLIENT = {
@@ -213,33 +214,33 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		this.ANDROID = _droid;
 		this.AMAYA = _amay;
 		this.BLACKBERRY = _bbery;
-		this.CHROME = isChrome();
+		this.CHROME = this.isChrome();
 		this.CHROME_VERSION = _chrm;
 		this.CLICK = $c.CLICK;
 		this.CORES_SUPPORT = true;
-		this.DEBUG_MODE = $c.DEBUG_MODE = $c.DEBUG_MODE || !!$GET("debug");
+		this.DEBUG_MODE = $c.DEBUG_MODE = $c.DEBUG_MODE || !!this.$GET("debug");
 		this.EXPOSE_ROUTE_API = $c.EXPOSE_ROUTE_API;
-		this.FIREFOX = isFirefox();
-		this.FIREFOX_VERSION = FirefoxVersion();
-		this.FIREFOX = isFirefox();
-		this.GEKKO = isGecko();
+		this.FIREFOX = this.isFirefox();
+		this.FIREFOX_VERSION = this.FirefoxVersion();
+		this.FIREFOX = this.isFirefox();
+		this.GEKKO = this.isGecko();
 		this.HANDPOINT = $c.HANDPOINT;
 		this.HIDDEN = $c.HIDDEN;
-		this.IE = isIE();
+		this.IE = this.isIE();
 		this.IE_VERSION = _ie;
 		this.IE6 = (_ie < 7.0 && _ie >= 6.0);
 		this.IE7 = (_ie < 8.0 && _ie >= 7.0);
 		this.IE8 = (_ie < 9.0 && _ie >= 8.0);
-		this.IPAD = isIPad();
-		this.IPHONE = isIPhone();
-		this.IPOD = isIPod();
-		this.KHTML = isKHTML();
-		this.LINUX = isLinux();
-		this.MAC = isMac();
+		this.IPAD = this.isIPad();
+		this.IPHONE = this.isIPhone();
+		this.IPOD = this.isIPod();
+		this.KHTML = this.isKHTML();
+		this.LINUX = this.isLinux();
+		this.MAC = this.isMac();
 		this.ONMOUSEDOWN = $c.ONMOUSEDOWN;
 		this.ONMOUSEUP = $c.ONMOUSEUP;
-		this.OPERA = isOpera();
-		this.OPERA_VERSION = OperaVersion();
+		this.OPERA = this.isOpera();
+		this.OPERA_VERSION = this.OperaVersion();
 		this.PAGE_NAME = (function () {
 			var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/([^#^?]*).*/gi, '$1');
 			return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
@@ -248,28 +249,28 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 			var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/(.*)?\?.*/gi, '$1');
 			return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
 		})();
-		this.PALM = isPalmOS();
+		this.PALM = this.isPalmOS();
 		this.POINTER = $c.POINTER;
-		this.PRESTO = isPresto();
-		this.PRINCE = isPrince();
+		this.PRESTO = this.isPresto();
+		this.PRINCE = this.isPrince();
 		this.PROTOCOL = this.$l.protocol;
 		this.REST_API_TEMPLATE = $c.REST_API_TEMPLATE;
 		this.ROUTE_API_PATH = $c.ROUTE_API_PATH;
-		this.SAFARI = isSafari();
-		this.SAFARI_VERSION = SafariVersion();
+		this.SAFARI = this.isSafari();
+		this.SAFARI_VERSION = this.SafariVersion();
 		this.SERVER = this.$l.host;
 		this.SERVER_PATH = this.$l.pathname;
-		this.SYMBIAN = isSymbian();
+		this.SYMBIAN = this.isSymbian();
 		this.TEMPLATE_VARS = $c.TEMPLATE_VARS;
 		this.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG;
-		this.TRIDENT = isTrident();
+		this.TRIDENT = this.isTrident();
 		this.VERBOSE_LOGS = $c.VERBOSE_LOGS;
 		this.VERSION = $c.VERSION;
 		this.VISIBLE = $c.VISIBLE;
 		this.WAIT = $c.WAIT;
-		this.WEBKIT = isWebkit();
-		this.WINDOWS = isWindows();
-		this.WINDOWS_MOBILE = isWindowsMobile();
+		this.WEBKIT = this.isWebkit();
+		this.WINDOWS = this.isWindows();
+		this.WINDOWS_MOBILE = this.isWindowsMobile();
 
 		return this;
 	}
@@ -287,10 +288,13 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 					{"createServer": "(Object) Options for creating the server (ex: {createServer:require('http').createServer})"}]}],
 
 			"url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
-			"returnType": "(Array)"
-		 }|*/
+			"returnType": "(Server)"
+		}|*/
+		if (!callback || $c.isObject(callback)) {
+			options = callback;
+			callback = foo;
+		}
 		options = options || {};
-		callback = callback || foo;
 		var http = (options.createServer || require('http').createServer)(function (request, response) {
 			var cray = new Craydent(request, response);
 			cray.server = http;
@@ -390,8 +394,8 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 						}
 					}
-					if (haveRoutes) {
-						return cray.send({error: "no route"});
+					if (haveRoutes && callback == foo) {
+						return cray.send(404, {error: "no route"});
 					}
 
 
@@ -513,15 +517,15 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 	};
 	Craydent.globalize = function () {
 		/*|{
-		 "info": "Module method to globalize functions",
-		 "category": "Module",
-		 "parameters":[],
+			"info": "Module method to globalize functions",
+			"category": "Module",
+			"parameters":[],
 
-		 "overloads":[],
+			"overloads":[],
 
-		 "url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
-		 "returnType": "(Array)"
-		 }|*/
+			"url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
+			"returnType": "(Array)"
+		}|*/
 		try {
 			__contextualizeMethods($g);
 		} catch (e) {
@@ -535,6 +539,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 	Craydent.EXPOSE_ROUTE_API = $c.EXPOSE_ROUTE_API;
 	Craydent.HANDPOINT = $c.HANDPOINT || "pointer";
 	Craydent.HIDDEN = $c.HIDDEN || "hidden";
+	Craydent.HTTP_STATUS_TEMPLATE = $c.HTTP_STATUS_TEMPLATE || [];
 	Craydent.POINTER = $c.POINTER || "default";
 	Craydent.REST_API_TEMPLATE = $c.REST_API_TEMPLATE || "<html><head></head><body>"+
 		"<h1>Routes:</h1>" +
@@ -553,505 +558,505 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 	Craydent.ROUTE_API_PATH = $c.ROUTE_API_PATH || '/craydent/api/docs';
 	Craydent.TEMPLATE_VARS = $c.TEMPLATE_VARS || [];
 	Craydent.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || {
-				IGNORE_CHARS: ['\n'],
-				/* loop config */
-				FOR: {
-					"begin": /(?:\$\{for (.*?);(.*?);(.*?\}?)\})|(?:\{\{for (.*?);(.*?);(.*?\}?)\}\})/i,
-					"end": /(\$\{end for\})|(\{\{end for\}\})/i,
-					"helper": function (code, body) {
-						var ttc = $c.TEMPLATE_TAG_CONFIG,
-								mresult = code.match(ttc.FOR.begin),
-								condition, exec, dvars, vars = "", ovars = {}, code_result = "";
+		IGNORE_CHARS: ['\n'],
+		/* loop config */
+		FOR: {
+			"begin": /(?:\$\{for (.*?);(.*?);(.*?\}?)\})|(?:\{\{for (.*?);(.*?);(.*?\}?)\}\})/i,
+			"end": /(\$\{end for\})|(\{\{end for\}\})/i,
+			"helper": function (code, body) {
+				var ttc = $c.TEMPLATE_TAG_CONFIG,
+						mresult = code.match(ttc.FOR.begin),
+						condition, exec, dvars, vars = "", ovars = {}, code_result = "";
 
-						for (var j = 1, jlen = mresult.length; j < jlen; j++) {
-							if (!mresult[j]) {
-								continue;
-							}
-							mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-						}
-
-						condition = mresult[2] || mresult[5];
-						exec = mresult[3] || mresult[6];
-						dvars = (mresult[1] || mresult[4]).split(',');
-						for (var i = 0, len = dvars.length; i < len; i++) {
-							var parts = ttc.VARIABLE_NAME(dvars[i]).split('=');
-							vars += "var " + parts[0] + "=" + parts[1] + ";";
-							ovars[parts[0]] = parts[0];
-						}
-						eval(vars);
-						while (eval(fillTemplate(condition, ovars))) {
-							code_result += body;
-							eval(ttc.VARIABLE_NAME(exec));
-						}
-
-						return code_result;
-					},
-					"parser": function (code, oobj, bind) {
-						var FOR = $c.TEMPLATE_TAG_CONFIG.FOR,
-								blocks = __processBlocks(FOR.begin, FOR.end, code),
-								code_result = "";
-
-						for (var i = 0, len = blocks.length; i < len; i++) {
-							var obj = blocks[i],
-									block = obj.block,
-									id = obj.id;
-
-							code_result = code_result || obj.code;
-							if (!code_result.contains(obj.id)) {
-								continue;
-							}
-							code_result = code_result.replace_all(id, FOR.helper(block, obj.body));
-						}
-
-						return __logic_parser(code_result);
+				for (var j = 1, jlen = mresult.length; j < jlen; j++) {
+					if (!mresult[j]) {
+						continue;
 					}
-				},
-				FOREACH: {
-					"begin": /(?:\$\{foreach (.*?)\s+in\s+(.*?)\s*\})|(?:\{\{foreach (.*?)\s+in\s+(.*?)\s*\}\})/i,
-					"end": /(?:\$\{end foreach\})|(?:\{\{end foreach\}\})/i,
-					"helper": function (code, body, rtnObject, uid, obj, bind, ref_obj) {
-						var ttc = $c.TEMPLATE_TAG_CONFIG,
-								FOREACH = ttc.FOREACH,
-								mresult = code.match(FOREACH.begin),
-								objs, var_name,
-								code_result = "";
+					mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+				}
 
-						for (var j = 1, jlen = mresult.length; j < jlen; j++) {
-							if (!mresult[j]) {
-								continue;
-							}
-							mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-						}
-						var value = mresult[2] || mresult[4];
-						objs = tryEval(value);
-						if (!objs && value.startsWithAny("${","{{") && !value.endsWith("}")) {
-							return code;
-						}
-						var_name = ttc.VARIABLE_NAME(mresult[1] || mresult[3]);
+				condition = mresult[2] || mresult[5];
+				exec = mresult[3] || mresult[6];
+				dvars = (mresult[1] || mresult[4]).split(',');
+				for (var i = 0, len = dvars.length; i < len; i++) {
+					var parts = ttc.VARIABLE_NAME(dvars[i]).split('=');
+					vars += "var " + parts[0] + "=" + parts[1] + ";";
+					ovars[parts[0]] = parts[0];
+				}
+				eval(vars);
+				while (eval(fillTemplate(condition, ovars))) {
+					code_result += body;
+					eval(ttc.VARIABLE_NAME(exec));
+				}
 
+				return code_result;
+			},
+			"parser": function (code, oobj, bind) {
+				var FOR = $c.TEMPLATE_TAG_CONFIG.FOR,
+						blocks = __processBlocks(FOR.begin, FOR.end, code),
+						code_result = "";
 
-						rtnObject = rtnObject || {};
-						var vname = var_name + suid();
-						rtnObject[uid] += "var " + vname + "s," + var_name + ";";
-						rtnObject[vname + "s"] = objs;
-						if ($c.isArray(objs)) {
-							for (var i = 0, len = objs.length; i < len; i++) {
-								code_result += "${i=" + i + "," + var_name + "=" + vname + "s[i],null}" + body;
-							}
-						}
+				for (var i = 0, len = blocks.length; i < len; i++) {
+					var obj = blocks[i],
+							block = obj.block,
+							id = obj.id;
 
-						return objs ? code_result : "";
-
-					},
-					"parser": function (code, ref_obj, bind) {
-						var ttc = $c.TEMPLATE_TAG_CONFIG,
-								FOREACH = ttc.FOREACH,
-								uid = "##" + suid() + "##",
-								result_obj = {},
-								code_result = "", post = "",
-								blocks = __processBlocks(FOREACH.begin, FOREACH.end, code);
-
-						result_obj[uid] = "";
-
-						for (var i = 0, len = blocks.length; i < len; i++) {
-							var obj = blocks[i],
-									block = obj.block,
-									id = obj.id, index;
-							if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
-								post = obj.code.substring(index + 2);
-								obj.code = obj.code.substring(0, index + 2);
-							}
-							code_result = code_result || obj.code;
-							if (!code_result.contains(obj.id)) {
-								continue;
-							}
-							code_result = code_result.replace_all(id, FOREACH.helper(block, obj.body, result_obj, uid, obj, bind, ref_obj));
-							if (!code_result) { break; }
-						}
-						eval(result_obj[uid]);
-						delete result_obj[uid];
-						for (var prop in result_obj) {
-							if (!result_obj.has(prop)) {
-								continue;
-							}
-							eval(prop + "=" + "result_obj['" + prop + "']");
-						}
-
-						var matches = code_result.match(ttc.VARIABLE) || [];
-						matches.map(function (var_match) {
-							var var_match_name = ttc.VARIABLE_NAME(var_match),
-									str = "";
-							try {
-								str = eval(var_match_name);
-							} catch (e) {
-								return;
-							}
-							if ($c.isObject(str) || $c.isArray(str)) {
-								str = "fillTemplate.refs['" + __add_fillTemplate_ref(str) + "']";
-							}
-							code_result = code_result.replace(var_match, str || "");
-
-						});
-
-						return __logic_parser(code_result + post, obj, bind);
+					code_result = code_result || obj.code;
+					if (!code_result.contains(obj.id)) {
+						continue;
 					}
-				},
-				WHILE: {
-					"begin": /(?:\$\{while\s*\((.*?)\)\s*\})|(?:\{\{while\s*\((.*?)\)\s*\}\})/i,
-					"end": /(?:\$\{end while\})|(?:\{\{end while\}\})/i,
-					"helper": function (code, body) {
-						var ttc = $c.TEMPLATE_TAG_CONFIG,
-								WHILE = ttc.WHILE,
-								mresult = code.match(WHILE.begin),
-								vars = "", ovars = {}, code_result = "",
-								declared = fillTemplate.declared,
-								loop_limit = 100000;
-						for (var prop in declared) {
-							if (!code.contains("${" + prop + "}") || !declared.has(prop)) {
-								continue;
-							}
-							var val = declared[prop];
-							vars += "var " + prop + "=" + val + ";";
-							ovars[prop] = prop;
-						}
-						eval(vars);
-						while (eval(fillTemplate(mresult[1] || mresult[2], ovars))) {
-							loop_limit--;
-							if (loop_limit < 1) {
-								var msg = "fillTemplate While only support up to 100,000 iterations.  Possible infinite loop?";
-								console.error(msg);
-								throw msg;
-							}
-							code_result += body;
-							(body.match(ttc.VARIABLE) || []).map(function (var_matches) {
-								eval(ttc.VARIABLE_NAME(var_matches));
-							});
-						}
-						fillTemplate.declared = declared;
+					code_result = code_result.replace_all(id, FOR.helper(block, obj.body));
+				}
 
-						for (var prop in ovars) {
-							if (!ovars.has(prop)) {
-								continue;
-							}
-							//var ovar = ovars[prop];
-							code_result += "${" + prop + "=" + declared[prop] + ",null}";
-							//declared[prop] = eval(ovars[prop]);
-						}
+				return __logic_parser(code_result);
+			}
+		},
+		FOREACH: {
+			"begin": /(?:\$\{foreach (.*?)\s+in\s+(.*?)\s*\})|(?:\{\{foreach (.*?)\s+in\s+(.*?)\s*\}\})/i,
+			"end": /(?:\$\{end foreach\})|(?:\{\{end foreach\}\})/i,
+			"helper": function (code, body, rtnObject, uid, obj, bind, ref_obj) {
+				var ttc = $c.TEMPLATE_TAG_CONFIG,
+						FOREACH = ttc.FOREACH,
+						mresult = code.match(FOREACH.begin),
+						objs, var_name,
+						code_result = "";
 
-						return code_result;
-					},
-					"parser": function (code, ref_obj, bind) {
-						var ttc = $c.TEMPLATE_TAG_CONFIG,
-								WHILE = ttc.WHILE,
-								lookups = {},
-								blocks = __processBlocks(WHILE.begin, WHILE.end, code, lookups),
-								code_result = "", vars = "", declared = fillTemplate.declared, post = "";
-
-						for (var i = 0, len = blocks.length; i < len; i++) {
-							var obj = blocks[i],
-									block = obj.block,
-									id = obj.id, index;
-
-							if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
-								post = obj.code.substring(index + 2);
-								obj.code = obj.code.substring(0, index + 2);
-							}
-
-							code_result = code_result || obj.code;
-							if (!code_result.contains(obj.id)) {
-								continue;
-							}
-							code_result = code_result.replace_all(id, WHILE.helper(block, obj.body));
-						}
-
-						for (var prop in declared) {
-							if (!code.contains("${" + prop + "}")) {
-								continue;
-							}
-							vars += "var " + prop + "=" + declared[prop] + ";";
-						}
-						eval(vars);
-						var matches = code_result.match(ttc.VARIABLE);
-						matches.map(function (var_match) {
-							var var_match_name = ttc.VARIABLE_NAME(var_match),
-									var_match_index = code_result.indexOf(var_match),
-									before, after;
-							if (tryEval("var " + var_match_name + ";") !== null) {
-								var_match_index += var_match.length;
-							}
-
-							before = code_result.substring(0, var_match_index).replace_all(var_match, eval(var_match_name));
-							after = code_result.substring(code_result.indexOf(var_match) + var_match.length);
-							code_result = before + after;
-						});
-
-						return __logic_parser(code_result + post);
-
+				for (var j = 1, jlen = mresult.length; j < jlen; j++) {
+					if (!mresult[j]) {
+						continue;
 					}
-				},
-				/* end loop config*/
-
-				/* conditional config*/
-				IF: {
-					"begin": /\$\{if\s+\((.*?)(?!\{)\)\s*\}|\{\{if\s+\((.*?)(?!\{)\)\s*\}\}/i,
-					"elseif": /\$\{elseif\s+\((.*?)(?!\{)\)\s*\}|\{\{elseif\s+\((.*?)(?!\{)\)\s*\}\}/i,
-					"else": /\$\{else\}|\{\{else\}\}/i,
-					"end": /\$\{end if\}|\{\{end if\}\}/i,
-					"helper": function (code) {
-						var IF = $c.TEMPLATE_TAG_CONFIG.IF,
-								ifmatch = (code.match(IF.begin) || []).condense(),
-								endlength = code.match(IF.end)[0].length,
-								startindex = code.indexOfAlt(IF.begin),
-								endindex = code.indexOfAlt(IF.end);
-
-						if (ifmatch.length) {
-							for (var j = 1, jlen = ifmatch.length; j < jlen; j++) {
-								ifmatch[j] = ifmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-							}
-							var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
-									ifsyntax = new RegExp(IF.begin.source + "|" + IF.elseif.source + "|" + IF["else"].source, 'i');
-
-							if (!code.match(new RegExp(IF.elseif.source + "|" + IF["else"].source, 'ig'))) {
-								if ("undefined" == ifmatch[1] || !tryEval(ifmatch[1])) {
-									return pre + post;
-								}
-								return pre + code.substring(startindex + ifmatch[0].length, endindex) + post;
-							}
-							ifmatch = (code.match(ifsyntax.addFlags('g')) || []).condense();
-							for (var i = 0, len = ifmatch.length; i < len; i++) {
-								var ife = ifmatch[i].match(ifsyntax).condense(),
-										condition = ife[1],
-										value = "undefined" == condition ? false : tryEval(condition),
-										sindex = code.indexOf(ifmatch[i]) + ifmatch[i].length;
-
-								if (value !== undefined && value) {
-									var eindex = code.indexOf(ifmatch[i + 1]);
-									if (eindex == -1) {
-										return pre + code.substring(sindex) + post;
-									}
-									return pre + code.substring(sindex, eindex) + post;
-								} else if (ifmatch[i].match(IF["else"])) {
-									return pre + code.substring(sindex, endindex) + post;
-								}
-							}
-							return pre + post;
-						}
-						return code;
-					},
-					"parser": function (code, oobj, bind) {
-						var IF = $c.TEMPLATE_TAG_CONFIG.IF,
-								blocks = __processBlocks(IF.begin, IF.end, code),
-								code_result = "";
-						for (var i = 0, len = blocks.length; i < len; i++) {
-							var obj = blocks[i],
-									block = obj.block,
-									id = obj.id;
-
-							code_result = code_result || obj.code;
-							if (!code_result.contains(obj.id)) {
-								continue;
-							}
-							code_result = IF.helper(code_result.replace(id, block));
-						}
-						return __logic_parser(code_result);
-					}
-				},
-				SWITCH: {
-					"begin": /(\$\{switch\s+\((.*?)\)\s*\})|(\{\{switch\s+\((.*?)\)\s*\}\})/i,
-					"end": /(\$\{end switch\})|(\{\{end switch\}\})/i,
-					"case": /(?:\$\{case\s+(.*?)\s*?:\})|(?:\{\{case\s+(.*?)\s*?:\}\})/i,
-					"default": /(\$\{default\})|(\{\{default\}\})/i,
-					"break": /(\$\{break\})|(\{\{break\}\})/i,
-					"helper": function (code) {
-						var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
-						//csyntax = SWITCH["case"],
-								switchmatch = (code.match(SWITCH.begin) || []).condense(),
-								endlength = code.match(SWITCH.end)[0].length,
-								startindex = code.indexOfAlt(SWITCH.begin),
-								endindex = code.indexOfAlt(SWITCH.end),
-								brk = SWITCH["break"], dflt = SWITCH["default"];
+					mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+				}
+				var value = mresult[2] || mresult[4];
+				objs = tryEval(value);
+				if (!objs && value.startsWithAny("${","{{") && !value.endsWith("}")) {
+					return code;
+				}
+				var_name = ttc.VARIABLE_NAME(mresult[1] || mresult[3]);
 
 
-						if (switchmatch.length) {
-
-							for (var j = 1, jlen = switchmatch.length; j < jlen; j++) {
-								switchmatch[j] = switchmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-							}
-							var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
-									val = tryEval(switchmatch[2]) || switchmatch[2],
-									cgsyntax = SWITCH["case"].addFlags("g"),
-									cases = code.match(cgsyntax);
-							code = code.substring(startindex + (switchmatch[0] || "").length, endindex);
-
-							if (!cases) {
-								return pre + code.cut(startindex, endindex + endlength) + post;
-							}
-							for (var i = 0, len = cases.length; i < len; i++) {
-								var cs = cases[i].match(SWITCH["case"]),
-										cvalue = cs[1] || cs[2];
-								if (val == cvalue) {
-									var cindex = code.indexOf(cases[i]),
-											bindex = code.indexOfAlt(brk, cindex);
-									bindex = bindex == -1 ? code.length : bindex;
-									return pre + code.substring(cindex + cases[i].length, bindex).replace(cgsyntax, '') + post;
-								}
-							}
-							var dindex = code.indexOfAlt(dflt);
-							if (dindex != -1) {
-								return pre + code.substring(dindex + code.match(dflt)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
-							}
-
-						}
-						return code;
-					},
-					"parser": function (code, oobj, bind) {
-						var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
-								blocks = __processBlocks(SWITCH.begin, SWITCH.end, code),
-								code_result = "";
-
-						for (var i = 0, len = blocks.length; i < len; i++) {
-							var obj = blocks[i],
-									block = obj.block,
-									id = obj.id;
-
-							code_result = code_result || obj.code;
-							if (!code_result.contains(obj.id)) {
-								continue;
-							}
-							code_result = SWITCH.helper(code_result.replace(id, block));
-						}
-						return __logic_parser(code_result);
-					}
-
-				},
-				/* end conditional config*/
-
-				/* error handling and execution config */
-				SCRIPT: {
-					"begin": /(\$\{script\})|(\{\{script\}\})/i,
-					"end": /(\$\{end script\})|(\{\{end script\}\})/i,
-					"parser": function (code, obj, bind) {
-						var SCRIPT = $c.TEMPLATE_TAG_CONFIG.SCRIPT,
-								sindex = code.indexOfAlt(SCRIPT.begin),
-								slen = code.match(SCRIPT.begin)[0].length,
-								eindex = code.indexOfAlt(SCRIPT.end),
-								elen = code.match(SCRIPT.end)[0].length;
-
-						if (eindex == -1) {
-							eindex = undefined;
-						}
-						var block = code.substring(sindex + slen, eindex), str = "",
-								echo = function (value) {
-									echo.out += value;
-								};
-						echo.out = "";
-						str = eval("(function(){" + block + ";return echo.out;})()");
-
-						return __logic_parser(code.cut(sindex, eindex + elen, str));
-					}
-
-				},
-				TRY: {
-					"begin": /(\$\{try\})|(\{\{try\}\})/i,
-					"catch": /(?:\$\{catch\s+\((.*)?\)\s*\})|(?:\{\{catch\s+\((.*)?\)\s*\}\})/i,
-					"finally": /(\$\{finally\})|(\{\{finally\}\})/i,
-					"end": /(\$\{end try\})|(\{\{end try\}\})/i,
-					"helper": function (code, lookups, exec) {
-						var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
-								cindex = code.indexOfAlt(TRY["catch"]),
-								findex = code.indexOfAlt(TRY["finally"]),
-								eindex = code.indexOfAlt(TRY["end"]),
-								tend = cindex;
-
-						if (tend == -1) {
-							tend = findex != -1 ? findex : eindex;
-						}
-
-						var tindex = code.indexOfAlt(TRY.begin),
-								body = code.substring(tindex + code.match(TRY.begin)[0].length, tend),
-								pre = code.substring(0, tindex), post = code.substring(eindex + code.match(TRY.end)[0].length),
-								regex = /##[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}##/i,
-								match = body.match(regex), str = "", id,
-								echo = function (value) {
-									echo.out += value;
-								};
-						echo.out = "";
-						while (match && match.length) {
-							id = match.splice(0)[0];
-							body = body.replace(id, ";echo('" + TRY.helper(lookups[id], lookups) + "');");
-						}
-						match = pre.match(regex);
-						while (match && match.length) {
-							id = match.splice(0)[0];
-							pre = pre.replace(id, TRY.helper(lookups[id], lookups));
-						}
-						match = post.match(regex);
-						while (match && match.length) {
-							id = match.splice(0)[0];
-							post = post.replace(id, TRY.helper(lookups[id], lookups));
-						}
-						exec && eval(exec);
-						try {
-							str = eval("(function(){" + body + ";return echo.out; })()");
-						} catch (e) {
-							if (cindex != -1) {
-								echo.out = "";
-								tend = findex != -1 ? findex : eindex;
-								var catchBlock = code.substring(cindex, tend),
-										catchLine = catchBlock.match(TRY["catch"]),
-										errorString = JSON.stringify(e);
-								catchBlock = catchBlock.replace(catchLine[0], '');
-
-								match = catchBlock.match(regex);
-								while (match && match.length) {
-									id = match.splice(0)[0];
-									catchBlock = catchBlock.replace(id, ";echo('" + TRY.helper(lookups[id], lookups, "var " + catchLine[1] + "=" + errorString + ";") + "');");
-								}
-								str += eval("(function(" + catchLine[1] + "){" + catchBlock + ";return echo.out;})('" + errorString + "')");
-							}
-						} finally {
-							if (findex != -1) {
-								echo.out = "";
-								str += eval("(function(){" + code.substring(findex + code.match(TRY["finally"])[0].length, eindex) + ";return echo.out; })()");
-							}
-						}
-						return pre + str + post;
-					},
-					"parser": function (code, oobj, bind) {
-						var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
-								lookups = {},
-								blocks = __processBlocks(TRY.begin, TRY.end, code, lookups);
-
-						var obj = blocks[0],
-								block = obj.block,
-								id = obj.id;
-
-						return __logic_parser(TRY.helper(obj.code.replace(id, block), lookups));
-						//return __logic_parser(code_result);
-					}
-
-				},
-				/* end error handling config */
-
-				/* tokens config */
-				VARIABLE: /(?:\$\{((?!\$)\S)*?\})|(?:\{\{((?!\{\{)\S)*?\}\})/gi,
-				VARIABLE_NAME: function (match) {
-					return match.slice(2, match.contains('}}') ? -2 : -1);
-				},
-				DECLARE: {
-					"syntax": /(?:\$\{DECLARE (.*?);?\})|(?:\{\{DECLARE (.*?);?\}\})/i,
-					"parser": function (htmlTemplate, declare) {
-						var matches = declare.match($c.TEMPLATE_TAG_CONFIG.DECLARE.syntax);
-						/*,
-						 var_nameValue = (matches[1]||matches[2]).strip(';').split("=");
-
-						 fillTemplate.declared[var_nameValue[0]] = var_nameValue[1];*/
-						$c.merge(fillTemplate.declared, tryEval("({" + matches[1].replace_all('=', ":") + "})"));
-						return htmlTemplate.replace_all(declare, '');
+				rtnObject = rtnObject || {};
+				var vname = var_name + suid();
+				rtnObject[uid] += "var " + vname + "s," + var_name + ";";
+				rtnObject[vname + "s"] = objs;
+				if ($c.isArray(objs)) {
+					for (var i = 0, len = objs.length; i < len; i++) {
+						code_result += "${i=" + i + "," + var_name + "=" + vname + "s[i],null}" + body;
 					}
 				}
-				/* end tokens config */
-			};
+
+				return objs ? code_result : "";
+
+			},
+			"parser": function (code, ref_obj, bind) {
+				var ttc = $c.TEMPLATE_TAG_CONFIG,
+						FOREACH = ttc.FOREACH,
+						uid = "##" + suid() + "##",
+						result_obj = {},
+						code_result = "", post = "",
+						blocks = __processBlocks(FOREACH.begin, FOREACH.end, code);
+
+				result_obj[uid] = "";
+
+				for (var i = 0, len = blocks.length; i < len; i++) {
+					var obj = blocks[i],
+							block = obj.block,
+							id = obj.id, index;
+					if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
+						post = obj.code.substring(index + 2);
+						obj.code = obj.code.substring(0, index + 2);
+					}
+					code_result = code_result || obj.code;
+					if (!code_result.contains(obj.id)) {
+						continue;
+					}
+					code_result = code_result.replace_all(id, FOREACH.helper(block, obj.body, result_obj, uid, obj, bind, ref_obj));
+					if (!code_result) { break; }
+				}
+				eval(result_obj[uid]);
+				delete result_obj[uid];
+				for (var prop in result_obj) {
+					if (!result_obj.has(prop)) {
+						continue;
+					}
+					eval(prop + "=" + "result_obj['" + prop + "']");
+				}
+
+				var matches = code_result.match(ttc.VARIABLE) || [];
+				matches.map(function (var_match) {
+					var var_match_name = ttc.VARIABLE_NAME(var_match),
+							str = "";
+					try {
+						str = eval(var_match_name);
+					} catch (e) {
+						return;
+					}
+					if ($c.isObject(str) || $c.isArray(str)) {
+						str = "fillTemplate.refs['" + __add_fillTemplate_ref(str) + "']";
+					}
+					code_result = code_result.replace(var_match, str || "");
+
+				});
+
+				return __logic_parser(code_result + post, obj, bind);
+			}
+		},
+		WHILE: {
+			"begin": /(?:\$\{while\s*\((.*?)\)\s*\})|(?:\{\{while\s*\((.*?)\)\s*\}\})/i,
+			"end": /(?:\$\{end while\})|(?:\{\{end while\}\})/i,
+			"helper": function (code, body) {
+				var ttc = $c.TEMPLATE_TAG_CONFIG,
+						WHILE = ttc.WHILE,
+						mresult = code.match(WHILE.begin),
+						vars = "", ovars = {}, code_result = "",
+						declared = fillTemplate.declared,
+						loop_limit = 100000;
+				for (var prop in declared) {
+					if (!code.contains("${" + prop + "}") || !declared.has(prop)) {
+						continue;
+					}
+					var val = declared[prop];
+					vars += "var " + prop + "=" + val + ";";
+					ovars[prop] = prop;
+				}
+				eval(vars);
+				while (eval(fillTemplate(mresult[1] || mresult[2], ovars))) {
+					loop_limit--;
+					if (loop_limit < 1) {
+						var msg = "fillTemplate While only support up to 100,000 iterations.  Possible infinite loop?";
+						console.error(msg);
+						throw msg;
+					}
+					code_result += body;
+					(body.match(ttc.VARIABLE) || []).map(function (var_matches) {
+						eval(ttc.VARIABLE_NAME(var_matches));
+					});
+				}
+				fillTemplate.declared = declared;
+
+				for (var prop in ovars) {
+					if (!ovars.has(prop)) {
+						continue;
+					}
+					//var ovar = ovars[prop];
+					code_result += "${" + prop + "=" + declared[prop] + ",null}";
+					//declared[prop] = eval(ovars[prop]);
+				}
+
+				return code_result;
+			},
+			"parser": function (code, ref_obj, bind) {
+				var ttc = $c.TEMPLATE_TAG_CONFIG,
+						WHILE = ttc.WHILE,
+						lookups = {},
+						blocks = __processBlocks(WHILE.begin, WHILE.end, code, lookups),
+						code_result = "", vars = "", declared = fillTemplate.declared, post = "";
+
+				for (var i = 0, len = blocks.length; i < len; i++) {
+					var obj = blocks[i],
+							block = obj.block,
+							id = obj.id, index;
+
+					if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
+						post = obj.code.substring(index + 2);
+						obj.code = obj.code.substring(0, index + 2);
+					}
+
+					code_result = code_result || obj.code;
+					if (!code_result.contains(obj.id)) {
+						continue;
+					}
+					code_result = code_result.replace_all(id, WHILE.helper(block, obj.body));
+				}
+
+				for (var prop in declared) {
+					if (!code.contains("${" + prop + "}")) {
+						continue;
+					}
+					vars += "var " + prop + "=" + declared[prop] + ";";
+				}
+				eval(vars);
+				var matches = code_result.match(ttc.VARIABLE) || [];
+				matches.map(function (var_match) {
+					var var_match_name = ttc.VARIABLE_NAME(var_match),
+							var_match_index = code_result.indexOf(var_match),
+							before, after;
+					if (tryEval("var " + var_match_name + ";") !== null) {
+						var_match_index += var_match.length;
+					}
+
+					before = code_result.substring(0, var_match_index).replace_all(var_match, eval(var_match_name));
+					after = code_result.substring(code_result.indexOf(var_match) + var_match.length);
+					code_result = before + after;
+				});
+
+				return __logic_parser(code_result + post);
+
+			}
+		},
+		/* end loop config*/
+
+		/* conditional config*/
+		IF: {
+			"begin": /\$\{if\s+\((.*?)(?!\{)\)\s*\}|\{\{if\s+\((.*?)(?!\{)\)\s*\}\}/i,
+			"elseif": /\$\{elseif\s+\((.*?)(?!\{)\)\s*\}|\{\{elseif\s+\((.*?)(?!\{)\)\s*\}\}/i,
+			"else": /\$\{else\}|\{\{else\}\}/i,
+			"end": /\$\{end if\}|\{\{end if\}\}/i,
+			"helper": function (code) {
+				var IF = $c.TEMPLATE_TAG_CONFIG.IF,
+						ifmatch = (code.match(IF.begin) || []).condense(),
+						endlength = code.match(IF.end)[0].length,
+						startindex = code.indexOfAlt(IF.begin),
+						endindex = code.indexOfAlt(IF.end);
+
+				if (ifmatch.length) {
+					for (var j = 1, jlen = ifmatch.length; j < jlen; j++) {
+						ifmatch[j] = ifmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+					}
+					var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
+							ifsyntax = new RegExp(IF.begin.source + "|" + IF.elseif.source + "|" + IF["else"].source, 'i');
+
+					if (!code.match(new RegExp(IF.elseif.source + "|" + IF["else"].source, 'ig'))) {
+						if ("undefined" == ifmatch[1] || !tryEval(ifmatch[1])) {
+							return pre + post;
+						}
+						return pre + code.substring(startindex + ifmatch[0].length, endindex) + post;
+					}
+					ifmatch = (code.match(ifsyntax.addFlags('g')) || []).condense();
+					for (var i = 0, len = ifmatch.length; i < len; i++) {
+						var ife = ifmatch[i].match(ifsyntax).condense(),
+								condition = ife[1],
+								value = "undefined" == condition ? false : tryEval(condition),
+								sindex = code.indexOf(ifmatch[i]) + ifmatch[i].length;
+
+						if (value !== undefined && value) {
+							var eindex = code.indexOf(ifmatch[i + 1]);
+							if (eindex == -1) {
+								return pre + code.substring(sindex) + post;
+							}
+							return pre + code.substring(sindex, eindex) + post;
+						} else if (ifmatch[i].match(IF["else"])) {
+							return pre + code.substring(sindex, endindex) + post;
+						}
+					}
+					return pre + post;
+				}
+				return code;
+			},
+			"parser": function (code, oobj, bind) {
+				var IF = $c.TEMPLATE_TAG_CONFIG.IF,
+						blocks = __processBlocks(IF.begin, IF.end, code),
+						code_result = "";
+				for (var i = 0, len = blocks.length; i < len; i++) {
+					var obj = blocks[i],
+							block = obj.block,
+							id = obj.id;
+
+					code_result = code_result || obj.code;
+					if (!code_result.contains(obj.id)) {
+						continue;
+					}
+					code_result = IF.helper(code_result.replace(id, block));
+				}
+				return __logic_parser(code_result);
+			}
+		},
+		SWITCH: {
+			"begin": /(\$\{switch\s+\((.*?)\)\s*\})|(\{\{switch\s+\((.*?)\)\s*\}\})/i,
+			"end": /(\$\{end switch\})|(\{\{end switch\}\})/i,
+			"case": /(?:\$\{case\s+(.*?)\s*?:\})|(?:\{\{case\s+(.*?)\s*?:\}\})/i,
+			"default": /(\$\{default\})|(\{\{default\}\})/i,
+			"break": /(\$\{break\})|(\{\{break\}\})/i,
+			"helper": function (code) {
+				var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
+				//csyntax = SWITCH["case"],
+						switchmatch = (code.match(SWITCH.begin) || []).condense(),
+						endlength = code.match(SWITCH.end)[0].length,
+						startindex = code.indexOfAlt(SWITCH.begin),
+						endindex = code.indexOfAlt(SWITCH.end),
+						brk = SWITCH["break"], dflt = SWITCH["default"];
+
+
+				if (switchmatch.length) {
+
+					for (var j = 1, jlen = switchmatch.length; j < jlen; j++) {
+						switchmatch[j] = switchmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+					}
+					var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
+							val = tryEval(switchmatch[2]) || switchmatch[2],
+							cgsyntax = SWITCH["case"].addFlags("g"),
+							cases = code.match(cgsyntax);
+					code = code.substring(startindex + (switchmatch[0] || "").length, endindex);
+
+					if (!cases) {
+						return pre + code.cut(startindex, endindex + endlength) + post;
+					}
+					for (var i = 0, len = cases.length; i < len; i++) {
+						var cs = cases[i].match(SWITCH["case"]),
+								cvalue = cs[1] || cs[2];
+						if (val == cvalue) {
+							var cindex = code.indexOf(cases[i]),
+									bindex = code.indexOfAlt(brk, cindex);
+							bindex = bindex == -1 ? code.length : bindex;
+							return pre + code.substring(cindex + cases[i].length, bindex).replace(cgsyntax, '') + post;
+						}
+					}
+					var dindex = code.indexOfAlt(dflt);
+					if (dindex != -1) {
+						return pre + code.substring(dindex + code.match(dflt)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
+					}
+
+				}
+				return code;
+			},
+			"parser": function (code, oobj, bind) {
+				var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
+						blocks = __processBlocks(SWITCH.begin, SWITCH.end, code),
+						code_result = "";
+
+				for (var i = 0, len = blocks.length; i < len; i++) {
+					var obj = blocks[i],
+							block = obj.block,
+							id = obj.id;
+
+					code_result = code_result || obj.code;
+					if (!code_result.contains(obj.id)) {
+						continue;
+					}
+					code_result = SWITCH.helper(code_result.replace(id, block));
+				}
+				return __logic_parser(code_result);
+			}
+
+		},
+		/* end conditional config*/
+
+		/* error handling and execution config */
+		SCRIPT: {
+			"begin": /(\$\{script\})|(\{\{script\}\})/i,
+			"end": /(\$\{end script\})|(\{\{end script\}\})/i,
+			"parser": function (code, obj, bind) {
+				var SCRIPT = $c.TEMPLATE_TAG_CONFIG.SCRIPT,
+						sindex = code.indexOfAlt(SCRIPT.begin),
+						slen = code.match(SCRIPT.begin)[0].length,
+						eindex = code.indexOfAlt(SCRIPT.end),
+						elen = code.match(SCRIPT.end)[0].length;
+
+				if (eindex == -1) {
+					eindex = undefined;
+				}
+				var block = code.substring(sindex + slen, eindex), str = "",
+						echo = function (value) {
+							echo.out += value;
+						};
+				echo.out = "";
+				str = eval("(function(){" + block + ";return echo.out;})()");
+
+				return __logic_parser(code.cut(sindex, eindex + elen, str));
+			}
+
+		},
+		TRY: {
+			"begin": /(\$\{try\})|(\{\{try\}\})/i,
+			"catch": /(?:\$\{catch\s+\((.*)?\)\s*\})|(?:\{\{catch\s+\((.*)?\)\s*\}\})/i,
+			"finally": /(\$\{finally\})|(\{\{finally\}\})/i,
+			"end": /(\$\{end try\})|(\{\{end try\}\})/i,
+			"helper": function (code, lookups, exec) {
+				var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
+						cindex = code.indexOfAlt(TRY["catch"]),
+						findex = code.indexOfAlt(TRY["finally"]),
+						eindex = code.indexOfAlt(TRY["end"]),
+						tend = cindex;
+
+				if (tend == -1) {
+					tend = findex != -1 ? findex : eindex;
+				}
+
+				var tindex = code.indexOfAlt(TRY.begin),
+						body = code.substring(tindex + code.match(TRY.begin)[0].length, tend),
+						pre = code.substring(0, tindex), post = code.substring(eindex + code.match(TRY.end)[0].length),
+						regex = /##[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}##/i,
+						match = body.match(regex), str = "", id,
+						echo = function (value) {
+							echo.out += value;
+						};
+				echo.out = "";
+				while (match && match.length) {
+					id = match.splice(0)[0];
+					body = body.replace(id, ";echo('" + TRY.helper(lookups[id], lookups) + "');");
+				}
+				match = pre.match(regex);
+				while (match && match.length) {
+					id = match.splice(0)[0];
+					pre = pre.replace(id, TRY.helper(lookups[id], lookups));
+				}
+				match = post.match(regex);
+				while (match && match.length) {
+					id = match.splice(0)[0];
+					post = post.replace(id, TRY.helper(lookups[id], lookups));
+				}
+				exec && eval(exec);
+				try {
+					str = eval("(function(){" + body + ";return echo.out; })()");
+				} catch (e) {
+					if (cindex != -1) {
+						echo.out = "";
+						tend = findex != -1 ? findex : eindex;
+						var catchBlock = code.substring(cindex, tend),
+								catchLine = catchBlock.match(TRY["catch"]),
+								errorString = JSON.stringify(e);
+						catchBlock = catchBlock.replace(catchLine[0], '');
+
+						match = catchBlock.match(regex);
+						while (match && match.length) {
+							id = match.splice(0)[0];
+							catchBlock = catchBlock.replace(id, ";echo('" + TRY.helper(lookups[id], lookups, "var " + catchLine[1] + "=" + errorString + ";") + "');");
+						}
+						str += eval("(function(" + catchLine[1] + "){" + catchBlock + ";return echo.out;})('" + errorString + "')");
+					}
+				} finally {
+					if (findex != -1) {
+						echo.out = "";
+						str += eval("(function(){" + code.substring(findex + code.match(TRY["finally"])[0].length, eindex) + ";return echo.out; })()");
+					}
+				}
+				return pre + str + post;
+			},
+			"parser": function (code, oobj, bind) {
+				var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
+						lookups = {},
+						blocks = __processBlocks(TRY.begin, TRY.end, code, lookups);
+
+				var obj = blocks[0],
+						block = obj.block,
+						id = obj.id;
+
+				return __logic_parser(TRY.helper(obj.code.replace(id, block), lookups));
+				//return __logic_parser(code_result);
+			}
+
+		},
+		/* end error handling config */
+
+		/* tokens config */
+		VARIABLE: /(?:\$\{((?!\$)\S)*?\})|(?:\{\{((?!\{\{)\S)*?\}\})/gi,
+		VARIABLE_NAME: function (match) {
+			return match.slice(2, match.contains('}}') ? -2 : -1);
+		},
+		DECLARE: {
+			"syntax": /(?:\$\{DECLARE (.*?);?\})|(?:\{\{DECLARE (.*?);?\}\})/i,
+			"parser": function (htmlTemplate, declare) {
+				var matches = declare.match($c.TEMPLATE_TAG_CONFIG.DECLARE.syntax);
+				/*,
+				 var_nameValue = (matches[1]||matches[2]).strip(';').split("=");
+
+				 fillTemplate.declared[var_nameValue[0]] = var_nameValue[1];*/
+				$c.merge(fillTemplate.declared, tryEval("({" + matches[1].replace_all('=', ":") + "})"));
+				return htmlTemplate.replace_all(declare, '');
+			}
+		}
+		/* end tokens config */
+	};
 	Craydent.VERBOSE_LOGS = $c.VERBOSE_LOGS || !!$GET("verbose");
 	Craydent.VERSION = _craydent_version;
 	Craydent.VISIBLE = $c.VISIBLE || "visible";
@@ -1176,20 +1181,24 @@ function __contextualizeMethods (ctx) {
 		ctx.ajax = ajax;
 		ctx.cout = cout;
 		ctx.cuid = cuid;
+		ctx.emit = emit;
 		ctx.error = error;
 		ctx.fillTemplate = fillTemplate;
 		ctx.foo = foo;
+		ctx.include = include;
 		ctx.isNull = isNull;
 		ctx.logit = logit;
 		ctx.md5 = md5;
 		ctx.mkdirRecursive = mkdirRecursive;
 		ctx.namespace = namespace;
+		ctx.next = next;
 		ctx.now = now;
 		ctx.parseBoolean = parseBoolean;
 		ctx.parseRaw = parseRaw;
 		ctx.rand = rand;
 		ctx.requireDirectory = requireDirectory;
 		ctx.suid = suid;
+		ctx.syncroit = syncroit;
 		ctx.tryEval = tryEval;
 		ctx.wait = wait;
 		ctx.xmlToJson = xmlToJson;
@@ -1977,28 +1986,6 @@ function __set_path (verb, http, path, callback) {
 		error('CraydentServer.' + verb, e);
 	}
 }
-
-function _ajaxServerResponse(response) {
-	try {
-		if (response.readyState == 4 && response.status==200) {
-
-			var objResponse = {};
-			try {
-				objResponse = eval(response.responseText.trim());
-			} catch (e) {
-				objResponse = eval("(" + response.responseText.trim() + ")");
-			}
-			if (!objResponse || objResponse.hasErrors) {
-				return false;
-			}
-			return objResponse;
-		}
-		return false;
-	} catch (e) {
-		error("ajax._ajaxServerResponse", e);
-		return false;
-	}
-}
 function _condense (obj, check_values) {
 	try {
 		var skip = [], arr = [], without = false;
@@ -2020,7 +2007,7 @@ function _condense (obj, check_values) {
 				}
 
 			}
-			obj[i] != "" && !isNull(obj[i]) && (skip.indexOf && skip.indexOf(i) || _indexOf(skip, i)) == -1 && !isNull(obj[i]) && arr.push(obj[i]);
+			obj[i] !== "" && !isNull(obj[i]) && (skip.indexOf && skip.indexOf(i) || _indexOf(skip, i)) == -1 && !isNull(obj[i]) && arr.push(obj[i]);
 		}
 		return arr;
 	} catch (e) {
@@ -2513,6 +2500,7 @@ function _run_func_array(funcs, args) {
 }
 function _sessionFileCreatAndRetrievefunction (dir, path, sync, callback) {
 	try {
+		var fs = require('fs');
 		if (sync) {
 			if (!fs.existsSync(path)) {
 				if (!fs.existsSync(dir)) {
@@ -3199,14 +3187,13 @@ function ajax(params){
 		var need_to_shard = false, browser_url_limit = 1500, query, url, rtn;
 		params.dataType = params.dataType || 'json';
 		params.hitch = params.hitch || "";
-		params.oncomplete = params.oncomplete || foo;
-		params.onbefore = params.onbefore || foo;
-		params.onerror = params.onerror || params.onresponse || foo;
-		params.onsuccess = params.onsuccess || params.onresponse || foo;
+		params.oncomplete = params.oncomplete || [foo];
+		params.onbefore = params.onbefore || [foo];
+		params.onerror = params.onerror || params.onresponse || [foo];
+		params.onsuccess = params.onsuccess || params.onresponse || [foo];
 		params.query = params.data || params.query || "";
 		// commented line below is a valid parameter value
 		/*
-		 params.shard_data = params.shard_data;
 		 params.query = params.query;
 		 params.data = params.data;
 		 params.url = params.url;
@@ -3232,16 +3219,16 @@ function ajax(params){
 		params.thiss = this;
 		params.url = params.url || "";
 
-		var httpRequest = new Request(),
+		var httpRequest = require('http'),
 			fileUpload = httpRequest.upload || {};
-		params.method = params.method || "POST";
-		params.headers = params.headers || [];
+		params.method = params.method || "GET";
+		params.headers = params.headers || {};
 
 		if (params.query && $c.isObject(params.query)) {
 			params.query = $c.toStringAlt(params.query, '=', '&', true);
 		}
 		params.query = (params.run ? "run=" + params.run :"") + (params.query || "");
-		params.contentType = params.contentType || "application/x-www-form-urlencoded";
+		params.contentType = params.contentType || "application/json";
 		params.onstatechange = params.onstatechange || foo;
 
 		fileUpload.onload = params.onfileload || foo;
@@ -3250,74 +3237,69 @@ function ajax(params){
 		fileUpload.onerror = params.onerror || foo;
 		fileUpload.onloadstart = params.onloadstart || foo;
 
-		if (params.method == "GET") {
+		if (params.method.toLowerCase() == "get") {
 			params.url += params.query ? "?" + params.query : "";
 			params.query = undefined;
 		}
+
 		_run_func_array.call((params.context||this),params.onbefore, [httpRequest, this]);
-		httpRequest.onreadystatechange = function (xp) {
-			params.onstatechange(xp);
-			var data = _ajaxServerResponse(this);
-			if (data) {
-				_run_func_array.call((params.context||this),params.onsuccess, [data, params.hitch, params.thiss, params.context, this.status]);
-			} else if (this.readyState == 4) {
-				try {
-					_run_func_array.call((params.context||this),params.onerror, [eval(this.responseText), params.hitch, params.thiss, params.context, this.status]);
-				} catch (e) {
-					_run_func_array.call((params.context||this),params.onerror, [this.responseText, params.hitch, params.thiss, params.context, this.status]);
-				}
-			}
-			_run_func_array.call((params.context||this),params.oncomplete);
-		};
-		httpRequest.open(params.method, params.url, true);
-		httpRequest.setRequestHeader("Content-type", params.contentType);
 
-		for (var i = 0; i < params.headers.length; i++) {
-			var header = params.headers[i];
-			httpRequest.setRequestHeader(header.type, header.value);
-		}
-		httpRequest.send(params.query);
-		rtn = httpRequest;
+		var prms/*, options = {
+			protocol: params.protocol || 'http',
+			host: params.host || params.hostname || 'localhost',
+			family: params.family,
+			port: params.port || 80,
+			localAddress: params.localAddress,
+			socketPath: params.socketPath,
+			method: params.method || "GET",
+			path: params.path || '/',
+			headers: params.headers,
+			auth: params.auth,
+			agent: params.agent,
 
-		rtn.then = function (callback) { //noinspection CommaExpressionJS
-			return params.onsuccess.push(callback),this; };
-		rtn.otherwise = function (callback) { //noinspection CommaExpressionJS
+		}*/;
+		params.headers['Content-Type'] = params.headers['Content-Type'] || params.contentType;
+		prms = new Promise(function(resolve, reject) {
+			var req = httpRequest.request(params.url || params, function (res) {
+				var body = "", ctx = params.context||res;;
+				res.on('data',function(chunk){ body += chunk; });
+				res.on('error',function(){
+					if (params.dataType.toLowerCase() == 'json') {
+						body = $c.tryEval(body,JSON.parse) || body;
+					}
+
+					_run_func_array.call(ctx,params.onerror, [body, params.thiss, ctx, res.statusCode]);
+					_run_func_array.call(ctx,params.oncomplete, [body, params.thiss, ctx, res.statusCode]);
+					reject(body);
+				});
+				res.on('end',function(){
+					if (params.dataType.toLowerCase() == 'json') {
+						body = $c.tryEval(body,JSON.parse) || body;
+					}
+
+					_run_func_array.call(ctx,params.onsuccess, [body, params.thiss, ctx, res.statusCode]);
+					_run_func_array.call(ctx,params.oncomplete, [body, params.thiss, ctx, res.statusCode]);
+					resolve(body);
+				});
+			});
+			req.write(($c.isObject(params.data) ? JSON.stringify(params.data) : params.data) || '');
+			req.end();
+		});
+
+
+		prms._then = prms.then || foo;
+		prms.then = function (callback) { //noinspection CommaExpressionJS
+			return params.onsuccess.push(callback),prms._then.apply(this,arguments),this; };
+		prms.otherwise = function (callback) { //noinspection CommaExpressionJS
 			return params.onerror.push(callback),this; };
-		rtn['finally'] = function (callback) { //noinspection CommaExpressionJS
+		prms['finally'] = function (callback) { //noinspection CommaExpressionJS
 			return params.complete.push(callback),this; };
-		return rtn
+		return prms
 	} catch (e) {
+
+		console.log(e);
 		error("ajax", e);
 	}
-}
-function Request() {
-	/*|
-		{"info": "Create cross browser XMLHttpRequest object",
-		"category": "Global",
-		"parameters":[],
-
-		"url": "http://www.craydent.com/library/1.8.1/docs#Request",
-		"returnType": "(XMLHttpRequest)"}
-	|*/
-	var ajaxHttpCaller;
-	try {
-		//request object for mozilla
-		ajaxHttpCaller = new XMLHttpRequest();
-	} catch (ex) {
-		//request object for IE
-		try {
-			ajaxHttpCaller = new ActiveXObject("Msxml2.XMLHTTP");
-		} catch (ex) {
-			try {
-				ajaxHttpCaller = new ActiveXObject("Microsoft.XMLHTTP");
-			} catch (ex) //noinspection JSConstructorReturnsPrimitive
-			{
-				error("Request", e);
-				return null;
-			}
-		}
-	}
-	return ajaxHttpCaller;
 }
 
 /*----------------------------------------------------------------------------------------------------------------
@@ -3664,10 +3646,38 @@ function cuid(msFormat) {
 		error('cuid', e);
 	}
 }
+function emit(ev) {
+	/*|{
+		"info": "Call the next function(s) in queue",
+		"category": "Global",
+		"parameters":[
+			{"event": "Event to trigger."}],
+
+		"overloads":[
+			{"parameters":[
+	 			{"event": "Event to trigger."},
+	 			{"infinite": "any number of arguments can be passed and will be applied to listening functions."}}],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#emit",
+		"returnType":"(void)"
+	}|*/
+	try {
+		if (ev && arguments.callee.caller['_'+ev]) {
+			_run_func_array.call(this, arguments.callee.caller['_' + ev], arguments.splice(1));
+		}
+	} catch (e) {
+		error('emit', e);
+	}
+}
 function echo (output) {
 	try { echo.out += output; } catch (e) { error('echo', e); }
 }
-function end(output, encoding) {
+function end(status, output, encoding) {
+	if (!$c.isInt(status)) {
+		output = status;
+		encoding = output;
+		status = undefined;
+	}
 	output = output || "";
 	var response = this.response;
 	if (encoding && !encoding.isString()) {
@@ -3689,11 +3699,34 @@ function end(output, encoding) {
 
 		var headers = $c.merge(heads.headers, this.header.headers),
 				code = heads.code || this.header.code,
-				eco = (typeof echo != "undefined" && echo.out || "") + (this.echo.out || "");
+				eco = (typeof echo != "undefined" && echo.out || "") + (this.echo.out || "") + output;
 
+		if (!eco) {
+			code = 404;
+			var ctype = headers.contentType || headers['ContentType'] || headers['Content-type'] || headers['content-type'] || headers['Content-Type'] || "";
+
+			switch (true) {
+				case ctype.contains('/plain'):
+					eco = "Resource Not Found";
+					break;
+				case ctype.contains('/html'):
+					eco = $c.HTTP_STATUS_TEMPLATE[404] || `<html><head></head><body><h1>${code}: Resource Not Found</h1><p>The resource you are trying to receive was not found</p></body></html>`;
+					break;
+				case ctype.contains('/json'):
+					eco = `{"status":${code},"success":${code==200},"error":"Resource Not Found"}`;
+					break;
+			}
+
+		}
+
+		var cb = this.$GET('callback'), pre = "", post = "";
+		if (cb) {
+			pre = cb+"(";
+			post = ")";
+		}
 
 		!response.headersSent && response.writeHead(code, headers);
-		response.end(eco + output, encoding);
+		response.end(pre + eco + post, encoding);
 		logit('end*******************************************************');
 		//logit(echo.out);
 	} catch(e) {
@@ -3760,12 +3793,8 @@ function fillTemplate (htmlTemplate, objs, offset, max, bound) {
 		if (htmlTemplate.trim() == "") {
 			return "";
 		}
-		if ($c.isString(objs)) {
-			try {
-				objs = eval("(" + objs + ")");
-			} catch (ex) {
-				return "";
-			}
+		if ($c.isString(objs) && !(objs = tryEval(objs))) {
+			return "";
 		}
 		objs = objs || [{}];
 		if (!$c.isArray(objs)) {
@@ -3861,7 +3890,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, bound) {
 					}
 				}
 			}
-
+			template = template.contains(/\$\{.*?(\|.*?)+?\}/) ? __run_replace (/\$\{(.+?(\|?.+?)+)\}/, template, false,obj) : template;
 			template = __logic_parser(template, obj, bind);
 			html += (template.contains(vsyntax) ? template.replace(vsyntax,"") : template).replace_all(';\\', ';');
 		}
@@ -3932,6 +3961,24 @@ function header(headers, code) {
 
 	} catch (e) {
 		error('header', e);
+	}
+}
+function include(path){
+	/*|{
+		"info": "Require without erroring when module does not exist.",
+		"category": "Global",
+		"parameters":[
+			{"path": "(String) Module or Path to module."}],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#include",
+		"returnType": "(Mixed)"
+	}|*/
+	try {
+		return require(path);
+	} catch (e) {
+		return false;
 	}
 }
 function logit(){
@@ -4043,6 +4090,24 @@ function namespace (name, clazz, fn) {
 		fn && fn.call(clazz);
 	} catch (e) {
 		error('namespace', e);
+	}
+}
+function next () {
+	/*|{
+		"info": "Call the next function(s) in queue",
+		"category": "Global",
+		"parameters":[
+	 		{"infinite": "any number of arguments can be passed."}],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#next",
+		"returnType":"(void)"
+	}|*/
+	try {
+		_run_func_array.call(this, arguments.callee.caller._then, arguments);
+	} catch (e) {
+		error('next', e);
 	}
 }
 function now (format) {
@@ -4247,7 +4312,7 @@ function requireDirectory(path, options, __basepath, __objs, __fs){
 	}
 	return __objs;
 }
-function send (data) {
+function send (status, data) {
 	/*|{
 		"info": "Recursively require the entire directory and returns an object containing the required modules.",
 		"category": "Global",
@@ -4259,8 +4324,13 @@ function send (data) {
 		"url": "http://www.craydent.com/library/1.8.1/docs#send",
 		"returnType": "(Object)"
 	}|*/
-	this.end(JSON.stringify(data));
-};
+	if ($c.isObject(status) && !data) {
+		data = status;
+		status = undefined;
+	}
+	if ($c.isObject(data)) { this.header({'Content-Type': 'application/json'}); }
+	this.end(status, JSON.stringify(data));
+}
 function suid(length) {
 	/*|{
 		"info": "Creates a short Craydent/Global Unique Identifier",
@@ -4285,6 +4355,34 @@ function suid(length) {
 		return id;
 	} catch (e) {
 		error('suid', e);
+	}
+}
+function syncroit(gen) {
+	/*|{
+		"info": "Generator based control flow to allow for more \"syncronous\" programing structure",
+		"category": "Global",
+		"parameters":[
+	 		{"generator": "(GeneratorFunction) Generator function to execute"}],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#syncroit",
+		"returnType": "(void)"
+	}|*/
+	try {
+		var geno = gen();
+
+		$c.isGenerator(gen) && (function cb(val) {
+			var obj = geno.next(val);
+
+			if (!obj.done) {
+				if ($c.isPromise(obj.value)) { return obj.value.then(cb); }
+				setTimeout(function () { cb(obj.value); }, 0);
+			}
+		})();
+		return geno;
+	} catch (e) {
+		error('syncroit', e);
 	}
 }
 function tryEval(expression, evaluator) {
@@ -4442,6 +4540,33 @@ function writeSession() {
 		error('writeSession', e);
 	}
 }
+function _parseSingleNode (xml, ignoreAttributes) {
+	var nodename = xml.replace(/<(.*?)(\s|>).*/,'$1'), index = xml.indexOf("<"+nodename, 1 + nodename.length), eindex = xml.indexOf("/"+nodename),
+		kvs = xml.replace(/<.*?\s+(.*?)\/?>.*/,'$1').split(/\s+/), obj = {'@attributes' : {}};
+
+	if (kvs.length > 1 || kvs[0] != xml) {
+		for (var i = 0, len = kvs.length; i < len; i++) {
+			var kv = kvs[i].split('=');
+			obj['@attributes'][kv[0].strip(['"', '\''])] = kv[1].strip(['"', '\'']);
+		}
+	}
+
+	// find matching end tag
+	while (index != -1 && eindex != -1 && index < eindex) {
+		index = xml.indexOf("<"+nodename, index + 1);
+		eindex = xml.indexOf("/"+nodename, eindex + 1);
+	}
+
+	// self closing tag
+	if (index != -1 && eindex == -1) {
+		return obj;
+	}
+	var children = xmlToJson(xml.replace(/^<.*?>(.*)<\/.*?>$/,'$1'), ignoreAttributes);
+	if ($c.isString(children)) { obj['#text'] = children; }
+	else { obj[nodename] = children }
+	return obj;
+
+}
 function xmlToJson(xml, ignoreAttributes) {
 	// TODO: implement updated version
 	/*|{
@@ -4459,54 +4584,93 @@ function xmlToJson(xml, ignoreAttributes) {
 		"returnType": "(Object)"
 	}|*/
 	try {
-		// Create the return object
-		var obj = {};
-		if ($c.isString(xml)) {
-			xml = xml.replace(/&(?!amp;)/gi, '&amp;');
-			if ($g.DOMParser) {
-				xml = (new DOMParser()).parseFromString(xml, 'text/xml');
-			} else {
-				var doc;
-				doc = new ActiveXObject('Microsoft.XMLDOM');
-				doc.async='false';
-				xml = doc.loadXML(xml) && doc;
-			}
+		xml = xml.replace(/(\n|\r)*<\?.*?\?>(\n|\r)*/,'');
+		if (!xml) { return null; }
+		var obj = {}, nodename = xml.replace(/<(.*?)(\s|>).*/,'$1'), index = xml.indexOf("<"+nodename, 1 + nodename.length), eindex = xml.indexOf("/"+nodename);
+
+		// find matching end tag
+		while (index != -1 && eindex != -1 && index < eindex) {
+			index = xml.indexOf("<"+nodename, index + 1);
+			eindex = xml.indexOf("/"+nodename, eindex + 1);
+		}
+		// single node
+		if (nodename != xml && index == -1 && eindex != -1) {
+			var single = _parseSingleNode(xml.substr(0,eindex + nodename.length + 2), ignoreAttributes);
+
+			return $c.merge(single,xmlToJson(xml.substr(eindex + nodename.length + 2), ignoreAttributes) || {});
+		}
+		// text only with no more nodes
+		if (index == -1) { return xml;}
+
+		// self closing tag
+		if (index != -1 && eindex == -1) {
+			eindex = xml.indexOf("/>") + 2;
 		}
 
-		if (xml.nodeType == 1 && !ignoreAttributes) { // element
-			// do attributes
-			if (xml.attributes.length > 0) {
-				obj["@attributes"] = {};
-				for (var j = 0; j < xml.attributes.length; j++) {
-					var attribute = xml.attributes.item(j);
-					obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
-				}
+		obj[nodename] = _parseSingleNode(xml.substring(0,index),ignoreAttributes);
+		var unprocessed = xmlToJson(xml.substring(index), ignoreAttributes);
+
+		if (unprocessed[nodename]) {
+			var arr = [];
+			if ($c.isObject(unprocessed[nodename])) {
+				arr = [unprocessed[nodename]];
+			} else if ($c.isArray(unprocessed[nodename])) {
+				arr = unprocessed[nodename];
 			}
-		} else if (xml.nodeType == 3) { // text
-			obj = xml.nodeValue;
+			obj[nodename] = arr.concat([obj[nodename]]);
+			return obj;
 		}
 
-		// do children
-		if (xml.hasChildNodes()) {
-			for(var i = 0; i < xml.childNodes.length; i++) {
-				var item = xml.childNodes.item(i);
-				var nodeName = item.nodeName;
-				if (typeof(obj[nodeName]) == "undefined") {
-					if (nodeName != "#text" || !ignoreAttributes) {
-						obj[nodeName] = xmlToJson(item, ignoreAttributes);
-					} else if (xml.childNodes.length == 1) {
-						obj = xmlToJson(item, ignoreAttributes);
-					}
-				} else {
-					if (!$c.isArray(obj[nodeName]) || typeof(obj[nodeName].length) == "undefined") {
-						var old = obj[nodeName];
-						obj[nodeName] = [];
-						obj[nodeName].push(old);
-					}
-					obj[nodeName].push(xmlToJson(item, ignoreAttributes));
-				}
-			}
+		return $c.merge(obj,unprocessed);
+
+		_siblingNodename = $c.getProperty(arguments,"callee.caller.name") == "xmlToJson" ? _siblingNodename : [];
+		_ref = $c.getProperty(arguments,"callee.caller.name") == "xmlToJson" ? _ref : {};
+		xml = xml.replace(/(\n|\r)*<\?.*?\?>(\n|\r)*/,'');
+		var regex = /^(?:(?:\n|\r)*<(.*?)\s+((?:\n|\r)*((?:.+?='.+?')\s*)*?|((?:.+?=".+?")\s*)*?|((?:.+?=.+?)\s*)*?|((?:'.+?'='.+?')\s*)*?|((?:'.+?'=".+?")\s*)*?|((?:'.+?'=.+?)\s*)*?|((?:".+?"='.+?')\s*)*?|((?:.+?=".+?")\s*)*?|((?:".+?"=.+?)\s*)*?(?:\n|\r)*)>(?:\n|\r)*(.*)?(?:\n|\r)*<(\/.*?)>(?:\n|\r)*)/,
+			nodename = xml.replace(/<(.*?)\s/,'$1'), index = 1 + nodename.length, eindex = xml.indexOf("/"+nodename);
+
+		if (!xml) {
+			return null;
 		}
+
+		// find matching end tag
+		while (index != -1 && eindex != -1 && index < eindex) {
+			index = xml.indexOf(nodename, index + 1);
+			eindex = xml.indexOf("/"+nodename, eindex + 1);
+		}
+		// self closing tag
+		if (index != -1 && eindex == -1) {
+
+		}
+
+		var children = xmlToJson(xml.substr(1 + nodename.length, eindex - 1), ignoreAttributes, []);
+		var siblings = xmlToJson(xml.substr(xml.indexOf(">",eindex) + 1, ignoreAttributes, _siblingNodename.concat([nodename]),_ref));
+
+
+		if (_siblingNodename.contains(nodename)) {
+			return [children].concat(siblings || []);
+		}
+
+		if (siblings && _ref[nodename]) {
+			var arr = [];
+			if ($c.isObject(_ref[nodename])) {
+				arr = [_ref[nodename]];
+			} else if ($c.isArray(_ref[nodename])) {
+				arr = _ref[nodename];
+			}
+			_ref[nodename] = arr.concat(siblings);
+		}
+
+
+
+
+
+		var matches = xml.match(regex);
+		if (matches) {
+			matches = matches.condense();
+
+		}
+
 		return obj;
 	} catch (e) {
 		error('xmlToJson', e);
@@ -4566,7 +4730,7 @@ function ChromeVersion (){
 		"returnType": "(Float)"
 	}|*/
 	try {
-		return _getBrowserVersion("Chrome");
+		return _getBrowserVersion.call(this, "Chrome");
 	} catch(e){
 		error('ChromeVersion', e);
 	}
@@ -4583,7 +4747,7 @@ function FirefoxVersion (){
 		"returnType": "(Float)"
 	}|*/
 	try {
-		return _getBrowserVersion("Firefox");
+		return _getBrowserVersion.call(this, "Firefox");
 	} catch(e){
 		error('FirefoxVersion', e);
 	}
@@ -4625,7 +4789,7 @@ function OperaVersion (){
 		"returnType": "(Float)"
 	}|*/
 	try {
-		return _getBrowserVersion("Opera");
+		return _getBrowserVersion.call(this, "Opera");
 	} catch(e){
 		error('OperaVersion', e);
 	}
@@ -4642,7 +4806,7 @@ function SafariVersion (){
 		"returnType": "(Float)"
 	}|*/
 	try {
-		return _getBrowserVersion("Safari");
+		return _getBrowserVersion.call(this, "Safari");
 	} catch(e){
 		error('SafariVersion', e);
 	}
@@ -7489,22 +7653,22 @@ _ext(Function, 'getName', function () {
 }, true);
 _ext(Function, 'extends',function(extendee, inheritAsOwn){
 	/*|{
-		"info": "Function class extension to extend another class",
-		"category": "Function",
-		"parameters":[
-			{"extendee":"(Object) Class to extend"}],
+	 "info": "Function class extension to extend another class",
+	 "category": "Function",
+	 "parameters":[
+	 {"extendee":"(Object) Class to extend"}],
 
-		"overloads":[
-			{"parameters":[
-				{"extendee":"(Object) Class to extend"},
-				{"inheritAsOwn":"(Boolean) Flag to inherit and for values hasOwnProperty to be true."}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"extendee":"(Object) Class to extend"},
+	 {"inheritAsOwn":"(Boolean) Flag to inherit and for values hasOwnProperty to be true."}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.extends",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#function.extends",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		var className = this.getName(),
-			cls = new extendee();
+				cls = new extendee();
 		namespace[className] = $g[className];
 		if (inheritAsOwn) {
 			for (var prop in cls) {
@@ -7524,7 +7688,44 @@ _ext(Function, 'extends',function(extendee, inheritAsOwn){
 		error("Function.extends", e);
 	}
 }, true);
+_ext(Function, 'on',function(ev, func){
+	/*|{
+		"info": "Function listener to register events",
+		"category": "Function",
+		"parameters":[
+			{"event":"(String) Event to listen on and invoked on emit"},
+	 		{"func":"(Function) Function to call on emit"}],
 
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#function.on",
+		"returnType": "(String)"
+	}|*/
+	try {
+		this["_"+ev] = this["_"+ev] || [];
+		this["_"+ev].push(func);
+	} catch (e) {
+		error("Function.on", e);
+	}
+}, true);
+_ext(Function, 'then',function(func){
+	/*|{
+		"info": "Function listener to register the then event",
+		"category": "Function",
+		"parameters":[
+	 		{"func":"(Function) Function to call on emit"}],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#function.then",
+		"returnType": "(String)"
+	}|*/
+	try {
+		this.on('then',func);
+	} catch (e) {
+		error("Function.then", e);
+	}
+}, true);
 
 /*----------------------------------------------------------------------------------------------------------------
  /-	RegExp class Extensions
@@ -7991,7 +8192,6 @@ _ao("isDomElement", function() {
 		error('Object.isDomElement', e);
 	}
 });
-
 _ao('isEmpty', function() {
 	/*|{
 		"info": "Object class extension to check if it is empty",
@@ -8055,6 +8255,24 @@ _ao("isFunction", function() {
 		error('Object.isFunction', e);
 	}
 });
+_ao("isGenerator", function() {
+	/*|{
+		"info": "Object class extension to check if object is a generator function",
+		"category": "Object",
+		"parameters":[],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#object.isGenerator",
+		"returnType": "(Bool)"
+	}|*/
+	try {
+		if (isNull(this)) {return false;}
+		return (this.constructor.name == "GeneratorFunction");
+	} catch (e) {
+		error('Object.isGenerator', e);
+	}
+});
 _ao("isGeolocation", function () {
 	/*|{
 		"info": "Object class extension to check if object is a geolocation",
@@ -8107,6 +8325,24 @@ _ao("isNumber", function() {
 		return (this.constructor == Number);
 	} catch (e) {
 		error('Object.isNumber', e);
+	}
+});
+_ao("isPromise", function() {
+	/*|{
+		"info": "Object class extension to check if object is a promise object",
+		"category": "Object",
+		"parameters":[],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#object.isPromise",
+		"returnType": "(Bool)"
+	}|*/
+	try {
+		if (isNull(this) || typeof Promise == "undefined") {return false;}
+		return (this.constructor == Promise);
+	} catch (e) {
+		error('Object.isPromise', e);
 	}
 });
 _ao("isObject", function (check_instance) {
@@ -8304,7 +8540,7 @@ _ao("merge", function (secondary, condition) {//shareOnly) {
 		"overloads":[
 			{"parameters":[
 				{"secondary": "(Object) Object to merge with"},
-				{"condition": "(Mixed) Flags to recurse, merge only shared value, clone etc"}]}],
+				{"condition": "(Mixed) Flags to recurse, merge only shared value, clone, intersect etc"}]}],
 
 		"url": "http://www.craydent.com/library/1.8.1/docs#object.merge",
 		"returnType": "(Object)"
@@ -8313,18 +8549,22 @@ _ao("merge", function (secondary, condition) {//shareOnly) {
 		condition = condition || {};
 		var recurse = condition == "recurse" || condition.recurse,
 			shared = condition == "onlyShared" || condition.onlyShared,
+			intersect = condition == "intersect" || condition.intersect,
 			objtmp = (condition == "clone" || condition.clone) ? $c.copyObject(this) : this,
-			compareFunction = $c.isFunction(condition) ? condition : condition.compareFunction;
+			compareFunction = $c.isFunction(condition) ? condition : condition.compareFunction,
+			intersectObj = {};
 
 		for (var prop in secondary){
 			if (secondary.has(prop)) {
-				if (shared) {
+				if (intersect && objtmp.has(prop)) {
+					intersectObj[prop] = objtmp[prop];
+				} else if (shared) {
 					// passing share Only
-					if (objtmp[prop]) {
+					if (objtmp.has(prop)) {
 						objtmp[prop] = secondary[prop];
 					}
 				} else if (compareFunction && $c.isFunction(compareFunction)) {
-					if ($c.isArray(objtmp) && objtmp[prop] && compareFunction(objtmp[prop], secondary[prop])) {
+					if ($c.isArray(objtmp) && objtmp.has(prop) && compareFunction(objtmp[prop], secondary[prop])) {
 						objtmp[prop] = secondary[prop];
 						continue;
 					}
@@ -8357,7 +8597,7 @@ _ao("merge", function (secondary, condition) {//shareOnly) {
 			args.splice(0,removeCount,objtmp);
 			objtmp = $c.merge.apply(noThis?obj:this, args);
 		}
-		return objtmp;
+		return intersect ? intersectObj : objtmp;
 	} catch (e) {
 		error('Object.merge', e);
 	}
@@ -8462,7 +8702,7 @@ for (var nic in nics) {
 	}
 }
 
-$g.JSZip;
+$g.JSZip = foo;
 try {
 	// load node jszip module if available;
 	$g.JSZip = require('jszip');
