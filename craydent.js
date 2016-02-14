@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.7                                /*/
+/*/ Craydent LLC node-v0.5.10                                /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.7',
+var _craydent_version = '0.5.10',
 	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
@@ -3673,7 +3673,7 @@ function echo (output) {
 	try { echo.out += output; } catch (e) { error('echo', e); }
 }
 function end(status, output, encoding) {
-	if (!$c.isInt(status)) {
+	if (status && !$c.isInt(status)) {
 		output = status;
 		encoding = output;
 		status = undefined;
@@ -3710,10 +3710,10 @@ function end(status, output, encoding) {
 					eco = "Resource Not Found";
 					break;
 				case ctype.contains('/html'):
-					eco = $c.HTTP_STATUS_TEMPLATE[404] || `<html><head></head><body><h1>${code}: Resource Not Found</h1><p>The resource you are trying to receive was not found</p></body></html>`;
+					eco = $c.HTTP_STATUS_TEMPLATE[404] || "<html><head></head><body><h1>"+code+": Resource Not Found</h1><p>The resource you are trying to receive was not found</p></body></html>";
 					break;
 				case ctype.contains('/json'):
-					eco = `{"status":${code},"success":${code==200},"error":"Resource Not Found"}`;
+					eco = '{"status":'+code+',"success":'+(code==200)+',"error":"Resource Not Found"}';
 					break;
 			}
 
