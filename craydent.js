@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.12                                /*/
+/*/ Craydent LLC node-v0.5.14                                /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.12',
+var _craydent_version = '0.5.14',
 		__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
@@ -3675,8 +3675,8 @@ function echo (output) {
 }
 function end(status, output, encoding) {
 	if (status && !$c.isInt(status)) {
-		output = status;
 		encoding = output;
+		output = status;
 		status = undefined;
 	}
 	output = output || "";
@@ -3727,7 +3727,7 @@ function end(status, output, encoding) {
 		}
 
 		!response.headersSent && response.writeHead(code, headers);
-		response.end(pre + eco + post, encoding);
+		response.end($c.isString(output) ? pre + eco + post : output, encoding);
 		logit('end*******************************************************');
 		//logit(echo.out);
 	} catch(e) {
