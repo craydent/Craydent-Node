@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.10                                /*/
+/*/ Craydent LLC node-v0.5.12                                /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,8 +9,8 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.10',
-	__GLOBALSESSION = [];
+var _craydent_version = '0.5.12',
+		__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
 function __isNewer(loadedVersion, thisVersion){
@@ -59,6 +59,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		this.$GET = $GET;
 		this.$HEADER = $HEADER;
 		this.$DELETE = $DELETE;
+		this.$PAYLOAD = $PAYLOAD;
 		this.$POST = $POST;
 		this.$PUT = $PUT;
 		this.isIE6 = isIE6;
@@ -95,11 +96,11 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		this.isLinux = isLinux;
 
 		var parts = req.headers.host.split(":"),
-			queryparts = req.url.split("?"),
-			query = queryparts.length > 1 ? queryparts.splice(1).join('?') : "",
-			protocol = "http" + (req.connection.encrypted ? "s" : ""),
-			cookies = (req.headers.cookie || "").split('; '),
-			hash = "";
+				queryparts = req.url.split("?"),
+				query = queryparts.length > 1 ? queryparts.splice(1).join('?') : "",
+				protocol = "http" + (req.connection.encrypted ? "s" : ""),
+				cookies = (req.headers.cookie || "").split('; '),
+				hash = "";
 
 		for (var i = 0, len = cookies.length; i < len; i++) {
 			if (cookies[i].contains("CRAYDENTHASH=")) {
@@ -143,12 +144,12 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		this.LOCAL_IP = $c.LOCAL_IP;
 
 		var _ie = this.IEVersion(), _chrm = this.ChromeVersion(), _ff = this.FirefoxVersion(), _op = this.OperaVersion(), _saf = this.SafariVersion(),
-			_droid = this.isAndroid(), _bbery = this.isBlackBerry(), _ipad = this.isIPad(), _ifon = this.isIPhone(), _ipod = this.isIPod(), _linx = this.isLinux(), _mac = this.isMac(), _palm = this.isPalmOS(), _symb = this.isSymbian(), _win = this.isWindows(), _winm = this.isWindowsMobile(),
-			_amay = this.isAmaya(), _gekk = this.isGecko(), _khtm = this.isKHTML(), _pres = this.isPresto(), _prin = this.isPrince(), _trid = this.isTrident(), _webk = this.isWebkit(),
-			_browser = (_ie != -1 && 'Internet Explorer') || (_chrm != -1 && 'Chrome') || (_ff != -1 && 'Firefox') || (_saf != -1 && 'Safari'),
-			_os = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_linx && 'Linux') || ((_ipad || _ifon || _ipod) && 'iOS') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
-			_device = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_ipad && 'iPad') || (_ifon && 'iPhone') || (_ipod && 'iPod') || (_linx && 'Linux') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
-			_engine = (_amay && 'Amaya') || (_gekk && 'Gekko') || (_khtm && 'KHTML') || (_pres && 'Presto') || (_prin && 'Prince') || (_trid && 'Trident') || (_webk && 'WebKit');
+				_droid = this.isAndroid(), _bbery = this.isBlackBerry(), _ipad = this.isIPad(), _ifon = this.isIPhone(), _ipod = this.isIPod(), _linx = this.isLinux(), _mac = this.isMac(), _palm = this.isPalmOS(), _symb = this.isSymbian(), _win = this.isWindows(), _winm = this.isWindowsMobile(),
+				_amay = this.isAmaya(), _gekk = this.isGecko(), _khtm = this.isKHTML(), _pres = this.isPresto(), _prin = this.isPrince(), _trid = this.isTrident(), _webk = this.isWebkit(),
+				_browser = (_ie != -1 && 'Internet Explorer') || (_chrm != -1 && 'Chrome') || (_ff != -1 && 'Firefox') || (_saf != -1 && 'Safari'),
+				_os = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_linx && 'Linux') || ((_ipad || _ifon || _ipod) && 'iOS') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
+				_device = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_ipad && 'iPad') || (_ifon && 'iPhone') || (_ipod && 'iPod') || (_linx && 'Linux') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
+				_engine = (_amay && 'Amaya') || (_gekk && 'Gekko') || (_khtm && 'KHTML') || (_pres && 'Presto') || (_prin && 'Prince') || (_trid && 'Trident') || (_webk && 'WebKit');
 
 		// constants
 		this.BROWSER = {
@@ -277,19 +278,19 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 	Craydent.createServer = function (callback, options) {
 		/*|{
-			"info": "Array class extension to do an inner join on arrays",
-			"category": "Array",
-			"parameters":[
-				{"callback": "(Function) Function to callback when a request is received"}],
+		 "info": "Array class extension to do an inner join on arrays",
+		 "category": "Array",
+		 "parameters":[
+		 {"callback": "(Function) Function to callback when a request is received"}],
 
-			"overloads":[{
-				"parameters":[
-					{"callback": "(Function) Function to callback when a request is received"},
-					{"createServer": "(Object) Options for creating the server (ex: {createServer:require('http').createServer})"}]}],
+		 "overloads":[{
+		 "parameters":[
+		 {"callback": "(Function) Function to callback when a request is received"},
+		 {"createServer": "(Object) Options for creating the server (ex: {createServer:require('http').createServer})"}]}],
 
-			"url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
-			"returnType": "(Server)"
-		}|*/
+		 "url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
+		 "returnType": "(Server)"
+		 }|*/
 		if (!callback || $c.isObject(callback)) {
 			options = callback;
 			callback = foo;
@@ -351,7 +352,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 										vars[prop] = $c.tryEval(vars[prop],JSON.parse) || vars[prop];
 									}
 									var parameters = routes[i].parameters || [],
-										p = 0, parameter, bad = [];
+											p = 0, parameter, bad = [];
 									while (parameter = parameters[p++]) {
 										var name = parameter.name, type = (parameter.type || "").toLowerCase();
 										if (parameter.required && isNull(vars[name])) {
@@ -467,15 +468,15 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 				request.on('end', function () {
 					cray.raw = body;
 					if (request.method == "POST") {
-						body = $PAYLOAD();
+						body = cray.$PAYLOAD();
 					}
-					var ct = $HEADER('content-type','i') || "";
+					var ct = cray.$HEADER('content-type','i') || "";
 					if (ct.contains('/json')) {
 						body = $c.tryEval(body);
-					//} else if (contentType.contains('multipart/form-data')) {
-					//	application/octet-stream
-					//	text/csv
-					//	application/xml
+						//} else if (contentType.contains('multipart/form-data')) {
+						//	application/octet-stream
+						//	text/csv
+						//	application/xml
 					} else if (ct.contains('/x-www-form-urlencoded') || ct.contains('text/plain')) {
 						body = $c.toObject(body);
 					}
@@ -517,15 +518,15 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 	};
 	Craydent.globalize = function () {
 		/*|{
-			"info": "Module method to globalize functions",
-			"category": "Module",
-			"parameters":[],
+		 "info": "Module method to globalize functions",
+		 "category": "Module",
+		 "parameters":[],
 
-			"overloads":[],
+		 "overloads":[],
 
-			"url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
-			"returnType": "(Array)"
-		}|*/
+		 "url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
+		 "returnType": "(Array)"
+		 }|*/
 		try {
 			__contextualizeMethods($g);
 		} catch (e) {
@@ -542,521 +543,521 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 	Craydent.HTTP_STATUS_TEMPLATE = $c.HTTP_STATUS_TEMPLATE || [];
 	Craydent.POINTER = $c.POINTER || "default";
 	Craydent.REST_API_TEMPLATE = $c.REST_API_TEMPLATE || "<html><head></head><body>"+
-		"<h1>Routes:</h1>" +
-		"<h2>All -> </h2>" +
-				"<div>" +
-				"	${FOREACH ${route} in ${get}}" +
-				"		<div>${route.path}</div>" +
-				"		<div>" +
-				"			${FOREACH ${parameter} in ${route.parameters}}" +
-				"				<div>Name: ${parameter.name}<br />Description: ${parameter.description}<br />Type: ${parameter.type}<br />Required: ${parameter.required}</div>" +
-				"			${END FOREACH}" +
-				"		</div>" +
-				"	${END FOREACH}" +
-				"</div>"+
-		"</body></html>";
+			"<h1>Routes:</h1>" +
+			"<h2>All -> </h2>" +
+			"<div>" +
+			"	${FOREACH ${route} in ${get}}" +
+			"		<div>${route.path}</div>" +
+			"		<div>" +
+			"			${FOREACH ${parameter} in ${route.parameters}}" +
+			"				<div>Name: ${parameter.name}<br />Description: ${parameter.description}<br />Type: ${parameter.type}<br />Required: ${parameter.required}</div>" +
+			"			${END FOREACH}" +
+			"		</div>" +
+			"	${END FOREACH}" +
+			"</div>"+
+			"</body></html>";
 	Craydent.ROUTE_API_PATH = $c.ROUTE_API_PATH || '/craydent/api/docs';
 	Craydent.TEMPLATE_VARS = $c.TEMPLATE_VARS || [];
 	Craydent.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || {
-		IGNORE_CHARS: ['\n'],
-		/* loop config */
-		FOR: {
-			"begin": /(?:\$\{for (.*?);(.*?);(.*?\}?)\})|(?:\{\{for (.*?);(.*?);(.*?\}?)\}\})/i,
-			"end": /(\$\{end for\})|(\{\{end for\}\})/i,
-			"helper": function (code, body) {
-				var ttc = $c.TEMPLATE_TAG_CONFIG,
-						mresult = code.match(ttc.FOR.begin),
-						condition, exec, dvars, vars = "", ovars = {}, code_result = "";
+				IGNORE_CHARS: ['\n'],
+				/* loop config */
+				FOR: {
+					"begin": /(?:\$\{for (.*?);(.*?);(.*?\}?)\})|(?:\{\{for (.*?);(.*?);(.*?\}?)\}\})/i,
+					"end": /(\$\{end for\})|(\{\{end for\}\})/i,
+					"helper": function (code, body) {
+						var ttc = $c.TEMPLATE_TAG_CONFIG,
+								mresult = code.match(ttc.FOR.begin),
+								condition, exec, dvars, vars = "", ovars = {}, code_result = "";
 
-				for (var j = 1, jlen = mresult.length; j < jlen; j++) {
-					if (!mresult[j]) {
-						continue;
+						for (var j = 1, jlen = mresult.length; j < jlen; j++) {
+							if (!mresult[j]) {
+								continue;
+							}
+							mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+						}
+
+						condition = mresult[2] || mresult[5];
+						exec = mresult[3] || mresult[6];
+						dvars = (mresult[1] || mresult[4]).split(',');
+						for (var i = 0, len = dvars.length; i < len; i++) {
+							var parts = ttc.VARIABLE_NAME(dvars[i]).split('=');
+							vars += "var " + parts[0] + "=" + parts[1] + ";";
+							ovars[parts[0]] = parts[0];
+						}
+						eval(vars);
+						while (eval(fillTemplate(condition, ovars))) {
+							code_result += body;
+							eval(ttc.VARIABLE_NAME(exec));
+						}
+
+						return code_result;
+					},
+					"parser": function (code, oobj, bind) {
+						var FOR = $c.TEMPLATE_TAG_CONFIG.FOR,
+								blocks = __processBlocks(FOR.begin, FOR.end, code),
+								code_result = "";
+
+						for (var i = 0, len = blocks.length; i < len; i++) {
+							var obj = blocks[i],
+									block = obj.block,
+									id = obj.id;
+
+							code_result = code_result || obj.code;
+							if (!code_result.contains(obj.id)) {
+								continue;
+							}
+							code_result = code_result.replace_all(id, FOR.helper(block, obj.body));
+						}
+
+						return __logic_parser(code_result);
 					}
-					mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-				}
+				},
+				FOREACH: {
+					"begin": /(?:\$\{foreach (.*?)\s+in\s+(.*?)\s*\})|(?:\{\{foreach (.*?)\s+in\s+(.*?)\s*\}\})/i,
+					"end": /(?:\$\{end foreach\})|(?:\{\{end foreach\}\})/i,
+					"helper": function (code, body, rtnObject, uid, obj, bind, ref_obj) {
+						var ttc = $c.TEMPLATE_TAG_CONFIG,
+								FOREACH = ttc.FOREACH,
+								mresult = code.match(FOREACH.begin),
+								objs, var_name,
+								code_result = "";
 
-				condition = mresult[2] || mresult[5];
-				exec = mresult[3] || mresult[6];
-				dvars = (mresult[1] || mresult[4]).split(',');
-				for (var i = 0, len = dvars.length; i < len; i++) {
-					var parts = ttc.VARIABLE_NAME(dvars[i]).split('=');
-					vars += "var " + parts[0] + "=" + parts[1] + ";";
-					ovars[parts[0]] = parts[0];
-				}
-				eval(vars);
-				while (eval(fillTemplate(condition, ovars))) {
-					code_result += body;
-					eval(ttc.VARIABLE_NAME(exec));
-				}
+						for (var j = 1, jlen = mresult.length; j < jlen; j++) {
+							if (!mresult[j]) {
+								continue;
+							}
+							mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+						}
+						var value = mresult[2] || mresult[4];
+						objs = tryEval(value);
+						if (!objs && value.startsWithAny("${","{{") && !value.endsWith("}")) {
+							return code;
+						}
+						var_name = ttc.VARIABLE_NAME(mresult[1] || mresult[3]);
 
-				return code_result;
-			},
-			"parser": function (code, oobj, bind) {
-				var FOR = $c.TEMPLATE_TAG_CONFIG.FOR,
-						blocks = __processBlocks(FOR.begin, FOR.end, code),
-						code_result = "";
 
-				for (var i = 0, len = blocks.length; i < len; i++) {
-					var obj = blocks[i],
-							block = obj.block,
-							id = obj.id;
+						rtnObject = rtnObject || {};
+						var vname = var_name + suid();
+						rtnObject[uid] += "var " + vname + "s," + var_name + ";";
+						rtnObject[vname + "s"] = objs;
+						if ($c.isArray(objs)) {
+							for (var i = 0, len = objs.length; i < len; i++) {
+								code_result += "${i=" + i + "," + var_name + "=" + vname + "s[i],null}" + body;
+							}
+						}
 
-					code_result = code_result || obj.code;
-					if (!code_result.contains(obj.id)) {
-						continue;
+						return objs ? code_result : "";
+
+					},
+					"parser": function (code, ref_obj, bind) {
+						var ttc = $c.TEMPLATE_TAG_CONFIG,
+								FOREACH = ttc.FOREACH,
+								uid = "##" + suid() + "##",
+								result_obj = {},
+								code_result = "", post = "",
+								blocks = __processBlocks(FOREACH.begin, FOREACH.end, code);
+
+						result_obj[uid] = "";
+
+						for (var i = 0, len = blocks.length; i < len; i++) {
+							var obj = blocks[i],
+									block = obj.block,
+									id = obj.id, index;
+							if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
+								post = obj.code.substring(index + 2);
+								obj.code = obj.code.substring(0, index + 2);
+							}
+							code_result = code_result || obj.code;
+							if (!code_result.contains(obj.id)) {
+								continue;
+							}
+							code_result = code_result.replace_all(id, FOREACH.helper(block, obj.body, result_obj, uid, obj, bind, ref_obj));
+							if (!code_result) { break; }
+						}
+						eval(result_obj[uid]);
+						delete result_obj[uid];
+						for (var prop in result_obj) {
+							if (!result_obj.has(prop)) {
+								continue;
+							}
+							eval(prop + "=" + "result_obj['" + prop + "']");
+						}
+
+						var matches = code_result.match(ttc.VARIABLE) || [];
+						matches.map(function (var_match) {
+							var var_match_name = ttc.VARIABLE_NAME(var_match),
+									str = "";
+							try {
+								str = eval(var_match_name);
+							} catch (e) {
+								return;
+							}
+							if ($c.isObject(str) || $c.isArray(str)) {
+								str = "fillTemplate.refs['" + __add_fillTemplate_ref(str) + "']";
+							}
+							code_result = code_result.replace(var_match, str || "");
+
+						});
+
+						return __logic_parser(code_result + post, obj, bind);
 					}
-					code_result = code_result.replace_all(id, FOR.helper(block, obj.body));
-				}
+				},
+				WHILE: {
+					"begin": /(?:\$\{while\s*\((.*?)\)\s*\})|(?:\{\{while\s*\((.*?)\)\s*\}\})/i,
+					"end": /(?:\$\{end while\})|(?:\{\{end while\}\})/i,
+					"helper": function (code, body) {
+						var ttc = $c.TEMPLATE_TAG_CONFIG,
+								WHILE = ttc.WHILE,
+								mresult = code.match(WHILE.begin),
+								vars = "", ovars = {}, code_result = "",
+								declared = fillTemplate.declared,
+								loop_limit = 100000;
+						for (var prop in declared) {
+							if (!code.contains("${" + prop + "}") || !declared.has(prop)) {
+								continue;
+							}
+							var val = declared[prop];
+							vars += "var " + prop + "=" + val + ";";
+							ovars[prop] = prop;
+						}
+						eval(vars);
+						while (eval(fillTemplate(mresult[1] || mresult[2], ovars))) {
+							loop_limit--;
+							if (loop_limit < 1) {
+								var msg = "fillTemplate While only support up to 100,000 iterations.  Possible infinite loop?";
+								console.error(msg);
+								throw msg;
+							}
+							code_result += body;
+							(body.match(ttc.VARIABLE) || []).map(function (var_matches) {
+								eval(ttc.VARIABLE_NAME(var_matches));
+							});
+						}
+						fillTemplate.declared = declared;
 
-				return __logic_parser(code_result);
-			}
-		},
-		FOREACH: {
-			"begin": /(?:\$\{foreach (.*?)\s+in\s+(.*?)\s*\})|(?:\{\{foreach (.*?)\s+in\s+(.*?)\s*\}\})/i,
-			"end": /(?:\$\{end foreach\})|(?:\{\{end foreach\}\})/i,
-			"helper": function (code, body, rtnObject, uid, obj, bind, ref_obj) {
-				var ttc = $c.TEMPLATE_TAG_CONFIG,
-						FOREACH = ttc.FOREACH,
-						mresult = code.match(FOREACH.begin),
-						objs, var_name,
-						code_result = "";
+						for (var prop in ovars) {
+							if (!ovars.has(prop)) {
+								continue;
+							}
+							//var ovar = ovars[prop];
+							code_result += "${" + prop + "=" + declared[prop] + ",null}";
+							//declared[prop] = eval(ovars[prop]);
+						}
 
-				for (var j = 1, jlen = mresult.length; j < jlen; j++) {
-					if (!mresult[j]) {
-						continue;
+						return code_result;
+					},
+					"parser": function (code, ref_obj, bind) {
+						var ttc = $c.TEMPLATE_TAG_CONFIG,
+								WHILE = ttc.WHILE,
+								lookups = {},
+								blocks = __processBlocks(WHILE.begin, WHILE.end, code, lookups),
+								code_result = "", vars = "", declared = fillTemplate.declared, post = "";
+
+						for (var i = 0, len = blocks.length; i < len; i++) {
+							var obj = blocks[i],
+									block = obj.block,
+									id = obj.id, index;
+
+							if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
+								post = obj.code.substring(index + 2);
+								obj.code = obj.code.substring(0, index + 2);
+							}
+
+							code_result = code_result || obj.code;
+							if (!code_result.contains(obj.id)) {
+								continue;
+							}
+							code_result = code_result.replace_all(id, WHILE.helper(block, obj.body));
+						}
+
+						for (var prop in declared) {
+							if (!code.contains("${" + prop + "}")) {
+								continue;
+							}
+							vars += "var " + prop + "=" + declared[prop] + ";";
+						}
+						eval(vars);
+						var matches = code_result.match(ttc.VARIABLE) || [];
+						matches.map(function (var_match) {
+							var var_match_name = ttc.VARIABLE_NAME(var_match),
+									var_match_index = code_result.indexOf(var_match),
+									before, after;
+							if (tryEval("var " + var_match_name + ";") !== null) {
+								var_match_index += var_match.length;
+							}
+
+							before = code_result.substring(0, var_match_index).replace_all(var_match, eval(var_match_name));
+							after = code_result.substring(code_result.indexOf(var_match) + var_match.length);
+							code_result = before + after;
+						});
+
+						return __logic_parser(code_result + post);
+
 					}
-					mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-				}
-				var value = mresult[2] || mresult[4];
-				objs = tryEval(value);
-				if (!objs && value.startsWithAny("${","{{") && !value.endsWith("}")) {
-					return code;
-				}
-				var_name = ttc.VARIABLE_NAME(mresult[1] || mresult[3]);
+				},
+				/* end loop config*/
 
+				/* conditional config*/
+				IF: {
+					"begin": /\$\{if\s+\((.*?)(?!\{)\)\s*\}|\{\{if\s+\((.*?)(?!\{)\)\s*\}\}/i,
+					"elseif": /\$\{elseif\s+\((.*?)(?!\{)\)\s*\}|\{\{elseif\s+\((.*?)(?!\{)\)\s*\}\}/i,
+					"else": /\$\{else\}|\{\{else\}\}/i,
+					"end": /\$\{end if\}|\{\{end if\}\}/i,
+					"helper": function (code) {
+						var IF = $c.TEMPLATE_TAG_CONFIG.IF,
+								ifmatch = (code.match(IF.begin) || []).condense(),
+								endlength = code.match(IF.end)[0].length,
+								startindex = code.indexOfAlt(IF.begin),
+								endindex = code.indexOfAlt(IF.end);
 
-				rtnObject = rtnObject || {};
-				var vname = var_name + suid();
-				rtnObject[uid] += "var " + vname + "s," + var_name + ";";
-				rtnObject[vname + "s"] = objs;
-				if ($c.isArray(objs)) {
-					for (var i = 0, len = objs.length; i < len; i++) {
-						code_result += "${i=" + i + "," + var_name + "=" + vname + "s[i],null}" + body;
-					}
-				}
+						if (ifmatch.length) {
+							for (var j = 1, jlen = ifmatch.length; j < jlen; j++) {
+								ifmatch[j] = ifmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+							}
+							var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
+									ifsyntax = new RegExp(IF.begin.source + "|" + IF.elseif.source + "|" + IF["else"].source, 'i');
 
-				return objs ? code_result : "";
+							if (!code.match(new RegExp(IF.elseif.source + "|" + IF["else"].source, 'ig'))) {
+								if ("undefined" == ifmatch[1] || !tryEval(ifmatch[1])) {
+									return pre + post;
+								}
+								return pre + code.substring(startindex + ifmatch[0].length, endindex) + post;
+							}
+							ifmatch = (code.match(ifsyntax.addFlags('g')) || []).condense();
+							for (var i = 0, len = ifmatch.length; i < len; i++) {
+								var ife = ifmatch[i].match(ifsyntax).condense(),
+										condition = ife[1],
+										value = "undefined" == condition ? false : tryEval(condition),
+										sindex = code.indexOf(ifmatch[i]) + ifmatch[i].length;
 
-			},
-			"parser": function (code, ref_obj, bind) {
-				var ttc = $c.TEMPLATE_TAG_CONFIG,
-						FOREACH = ttc.FOREACH,
-						uid = "##" + suid() + "##",
-						result_obj = {},
-						code_result = "", post = "",
-						blocks = __processBlocks(FOREACH.begin, FOREACH.end, code);
-
-				result_obj[uid] = "";
-
-				for (var i = 0, len = blocks.length; i < len; i++) {
-					var obj = blocks[i],
-							block = obj.block,
-							id = obj.id, index;
-					if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
-						post = obj.code.substring(index + 2);
-						obj.code = obj.code.substring(0, index + 2);
-					}
-					code_result = code_result || obj.code;
-					if (!code_result.contains(obj.id)) {
-						continue;
-					}
-					code_result = code_result.replace_all(id, FOREACH.helper(block, obj.body, result_obj, uid, obj, bind, ref_obj));
-					if (!code_result) { break; }
-				}
-				eval(result_obj[uid]);
-				delete result_obj[uid];
-				for (var prop in result_obj) {
-					if (!result_obj.has(prop)) {
-						continue;
-					}
-					eval(prop + "=" + "result_obj['" + prop + "']");
-				}
-
-				var matches = code_result.match(ttc.VARIABLE) || [];
-				matches.map(function (var_match) {
-					var var_match_name = ttc.VARIABLE_NAME(var_match),
-							str = "";
-					try {
-						str = eval(var_match_name);
-					} catch (e) {
-						return;
-					}
-					if ($c.isObject(str) || $c.isArray(str)) {
-						str = "fillTemplate.refs['" + __add_fillTemplate_ref(str) + "']";
-					}
-					code_result = code_result.replace(var_match, str || "");
-
-				});
-
-				return __logic_parser(code_result + post, obj, bind);
-			}
-		},
-		WHILE: {
-			"begin": /(?:\$\{while\s*\((.*?)\)\s*\})|(?:\{\{while\s*\((.*?)\)\s*\}\})/i,
-			"end": /(?:\$\{end while\})|(?:\{\{end while\}\})/i,
-			"helper": function (code, body) {
-				var ttc = $c.TEMPLATE_TAG_CONFIG,
-						WHILE = ttc.WHILE,
-						mresult = code.match(WHILE.begin),
-						vars = "", ovars = {}, code_result = "",
-						declared = fillTemplate.declared,
-						loop_limit = 100000;
-				for (var prop in declared) {
-					if (!code.contains("${" + prop + "}") || !declared.has(prop)) {
-						continue;
-					}
-					var val = declared[prop];
-					vars += "var " + prop + "=" + val + ";";
-					ovars[prop] = prop;
-				}
-				eval(vars);
-				while (eval(fillTemplate(mresult[1] || mresult[2], ovars))) {
-					loop_limit--;
-					if (loop_limit < 1) {
-						var msg = "fillTemplate While only support up to 100,000 iterations.  Possible infinite loop?";
-						console.error(msg);
-						throw msg;
-					}
-					code_result += body;
-					(body.match(ttc.VARIABLE) || []).map(function (var_matches) {
-						eval(ttc.VARIABLE_NAME(var_matches));
-					});
-				}
-				fillTemplate.declared = declared;
-
-				for (var prop in ovars) {
-					if (!ovars.has(prop)) {
-						continue;
-					}
-					//var ovar = ovars[prop];
-					code_result += "${" + prop + "=" + declared[prop] + ",null}";
-					//declared[prop] = eval(ovars[prop]);
-				}
-
-				return code_result;
-			},
-			"parser": function (code, ref_obj, bind) {
-				var ttc = $c.TEMPLATE_TAG_CONFIG,
-						WHILE = ttc.WHILE,
-						lookups = {},
-						blocks = __processBlocks(WHILE.begin, WHILE.end, code, lookups),
-						code_result = "", vars = "", declared = fillTemplate.declared, post = "";
-
-				for (var i = 0, len = blocks.length; i < len; i++) {
-					var obj = blocks[i],
-							block = obj.block,
-							id = obj.id, index;
-
-					if (!i && (index = obj.code.lastIndexOf("##")) != -1) {
-						post = obj.code.substring(index + 2);
-						obj.code = obj.code.substring(0, index + 2);
-					}
-
-					code_result = code_result || obj.code;
-					if (!code_result.contains(obj.id)) {
-						continue;
-					}
-					code_result = code_result.replace_all(id, WHILE.helper(block, obj.body));
-				}
-
-				for (var prop in declared) {
-					if (!code.contains("${" + prop + "}")) {
-						continue;
-					}
-					vars += "var " + prop + "=" + declared[prop] + ";";
-				}
-				eval(vars);
-				var matches = code_result.match(ttc.VARIABLE) || [];
-				matches.map(function (var_match) {
-					var var_match_name = ttc.VARIABLE_NAME(var_match),
-							var_match_index = code_result.indexOf(var_match),
-							before, after;
-					if (tryEval("var " + var_match_name + ";") !== null) {
-						var_match_index += var_match.length;
-					}
-
-					before = code_result.substring(0, var_match_index).replace_all(var_match, eval(var_match_name));
-					after = code_result.substring(code_result.indexOf(var_match) + var_match.length);
-					code_result = before + after;
-				});
-
-				return __logic_parser(code_result + post);
-
-			}
-		},
-		/* end loop config*/
-
-		/* conditional config*/
-		IF: {
-			"begin": /\$\{if\s+\((.*?)(?!\{)\)\s*\}|\{\{if\s+\((.*?)(?!\{)\)\s*\}\}/i,
-			"elseif": /\$\{elseif\s+\((.*?)(?!\{)\)\s*\}|\{\{elseif\s+\((.*?)(?!\{)\)\s*\}\}/i,
-			"else": /\$\{else\}|\{\{else\}\}/i,
-			"end": /\$\{end if\}|\{\{end if\}\}/i,
-			"helper": function (code) {
-				var IF = $c.TEMPLATE_TAG_CONFIG.IF,
-						ifmatch = (code.match(IF.begin) || []).condense(),
-						endlength = code.match(IF.end)[0].length,
-						startindex = code.indexOfAlt(IF.begin),
-						endindex = code.indexOfAlt(IF.end);
-
-				if (ifmatch.length) {
-					for (var j = 1, jlen = ifmatch.length; j < jlen; j++) {
-						ifmatch[j] = ifmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-					}
-					var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
-							ifsyntax = new RegExp(IF.begin.source + "|" + IF.elseif.source + "|" + IF["else"].source, 'i');
-
-					if (!code.match(new RegExp(IF.elseif.source + "|" + IF["else"].source, 'ig'))) {
-						if ("undefined" == ifmatch[1] || !tryEval(ifmatch[1])) {
+								if (value !== undefined && value) {
+									var eindex = code.indexOf(ifmatch[i + 1]);
+									if (eindex == -1) {
+										return pre + code.substring(sindex) + post;
+									}
+									return pre + code.substring(sindex, eindex) + post;
+								} else if (ifmatch[i].match(IF["else"])) {
+									return pre + code.substring(sindex, endindex) + post;
+								}
+							}
 							return pre + post;
 						}
-						return pre + code.substring(startindex + ifmatch[0].length, endindex) + post;
-					}
-					ifmatch = (code.match(ifsyntax.addFlags('g')) || []).condense();
-					for (var i = 0, len = ifmatch.length; i < len; i++) {
-						var ife = ifmatch[i].match(ifsyntax).condense(),
-								condition = ife[1],
-								value = "undefined" == condition ? false : tryEval(condition),
-								sindex = code.indexOf(ifmatch[i]) + ifmatch[i].length;
+						return code;
+					},
+					"parser": function (code, oobj, bind) {
+						var IF = $c.TEMPLATE_TAG_CONFIG.IF,
+								blocks = __processBlocks(IF.begin, IF.end, code),
+								code_result = "";
+						for (var i = 0, len = blocks.length; i < len; i++) {
+							var obj = blocks[i],
+									block = obj.block,
+									id = obj.id;
 
-						if (value !== undefined && value) {
-							var eindex = code.indexOf(ifmatch[i + 1]);
-							if (eindex == -1) {
-								return pre + code.substring(sindex) + post;
+							code_result = code_result || obj.code;
+							if (!code_result.contains(obj.id)) {
+								continue;
 							}
-							return pre + code.substring(sindex, eindex) + post;
-						} else if (ifmatch[i].match(IF["else"])) {
-							return pre + code.substring(sindex, endindex) + post;
+							code_result = IF.helper(code_result.replace(id, block));
 						}
+						return __logic_parser(code_result);
 					}
-					return pre + post;
-				}
-				return code;
-			},
-			"parser": function (code, oobj, bind) {
-				var IF = $c.TEMPLATE_TAG_CONFIG.IF,
-						blocks = __processBlocks(IF.begin, IF.end, code),
-						code_result = "";
-				for (var i = 0, len = blocks.length; i < len; i++) {
-					var obj = blocks[i],
-							block = obj.block,
-							id = obj.id;
-
-					code_result = code_result || obj.code;
-					if (!code_result.contains(obj.id)) {
-						continue;
-					}
-					code_result = IF.helper(code_result.replace(id, block));
-				}
-				return __logic_parser(code_result);
-			}
-		},
-		SWITCH: {
-			"begin": /(\$\{switch\s+\((.*?)\)\s*\})|(\{\{switch\s+\((.*?)\)\s*\}\})/i,
-			"end": /(\$\{end switch\})|(\{\{end switch\}\})/i,
-			"case": /(?:\$\{case\s+(.*?)\s*?:\})|(?:\{\{case\s+(.*?)\s*?:\}\})/i,
-			"default": /(\$\{default\})|(\{\{default\}\})/i,
-			"break": /(\$\{break\})|(\{\{break\}\})/i,
-			"helper": function (code) {
-				var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
-				//csyntax = SWITCH["case"],
-						switchmatch = (code.match(SWITCH.begin) || []).condense(),
-						endlength = code.match(SWITCH.end)[0].length,
-						startindex = code.indexOfAlt(SWITCH.begin),
-						endindex = code.indexOfAlt(SWITCH.end),
-						brk = SWITCH["break"], dflt = SWITCH["default"];
+				},
+				SWITCH: {
+					"begin": /(\$\{switch\s+\((.*?)\)\s*\})|(\{\{switch\s+\((.*?)\)\s*\}\})/i,
+					"end": /(\$\{end switch\})|(\{\{end switch\}\})/i,
+					"case": /(?:\$\{case\s+(.*?)\s*?:\})|(?:\{\{case\s+(.*?)\s*?:\}\})/i,
+					"default": /(\$\{default\})|(\{\{default\}\})/i,
+					"break": /(\$\{break\})|(\{\{break\}\})/i,
+					"helper": function (code) {
+						var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
+						//csyntax = SWITCH["case"],
+								switchmatch = (code.match(SWITCH.begin) || []).condense(),
+								endlength = code.match(SWITCH.end)[0].length,
+								startindex = code.indexOfAlt(SWITCH.begin),
+								endindex = code.indexOfAlt(SWITCH.end),
+								brk = SWITCH["break"], dflt = SWITCH["default"];
 
 
-				if (switchmatch.length) {
+						if (switchmatch.length) {
 
-					for (var j = 1, jlen = switchmatch.length; j < jlen; j++) {
-						switchmatch[j] = switchmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
-					}
-					var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
-							val = tryEval(switchmatch[2]) || switchmatch[2],
-							cgsyntax = SWITCH["case"].addFlags("g"),
-							cases = code.match(cgsyntax);
-					code = code.substring(startindex + (switchmatch[0] || "").length, endindex);
+							for (var j = 1, jlen = switchmatch.length; j < jlen; j++) {
+								switchmatch[j] = switchmatch[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+							}
+							var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
+									val = tryEval(switchmatch[2]) || switchmatch[2],
+									cgsyntax = SWITCH["case"].addFlags("g"),
+									cases = code.match(cgsyntax);
+							code = code.substring(startindex + (switchmatch[0] || "").length, endindex);
 
-					if (!cases) {
-						return pre + code.cut(startindex, endindex + endlength) + post;
-					}
-					for (var i = 0, len = cases.length; i < len; i++) {
-						var cs = cases[i].match(SWITCH["case"]),
-								cvalue = cs[1] || cs[2];
-						if (val == cvalue) {
-							var cindex = code.indexOf(cases[i]),
-									bindex = code.indexOfAlt(brk, cindex);
-							bindex = bindex == -1 ? code.length : bindex;
-							return pre + code.substring(cindex + cases[i].length, bindex).replace(cgsyntax, '') + post;
+							if (!cases) {
+								return pre + code.cut(startindex, endindex + endlength) + post;
+							}
+							for (var i = 0, len = cases.length; i < len; i++) {
+								var cs = cases[i].match(SWITCH["case"]),
+										cvalue = cs[1] || cs[2];
+								if (val == cvalue) {
+									var cindex = code.indexOf(cases[i]),
+											bindex = code.indexOfAlt(brk, cindex);
+									bindex = bindex == -1 ? code.length : bindex;
+									return pre + code.substring(cindex + cases[i].length, bindex).replace(cgsyntax, '') + post;
+								}
+							}
+							var dindex = code.indexOfAlt(dflt);
+							if (dindex != -1) {
+								return pre + code.substring(dindex + code.match(dflt)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
+							}
+
 						}
+						return code;
+					},
+					"parser": function (code, oobj, bind) {
+						var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
+								blocks = __processBlocks(SWITCH.begin, SWITCH.end, code),
+								code_result = "";
+
+						for (var i = 0, len = blocks.length; i < len; i++) {
+							var obj = blocks[i],
+									block = obj.block,
+									id = obj.id;
+
+							code_result = code_result || obj.code;
+							if (!code_result.contains(obj.id)) {
+								continue;
+							}
+							code_result = SWITCH.helper(code_result.replace(id, block));
+						}
+						return __logic_parser(code_result);
 					}
-					var dindex = code.indexOfAlt(dflt);
-					if (dindex != -1) {
-						return pre + code.substring(dindex + code.match(dflt)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
-					}
 
-				}
-				return code;
-			},
-			"parser": function (code, oobj, bind) {
-				var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
-						blocks = __processBlocks(SWITCH.begin, SWITCH.end, code),
-						code_result = "";
+				},
+				/* end conditional config*/
 
-				for (var i = 0, len = blocks.length; i < len; i++) {
-					var obj = blocks[i],
-							block = obj.block,
-							id = obj.id;
+				/* error handling and execution config */
+				SCRIPT: {
+					"begin": /(\$\{script\})|(\{\{script\}\})/i,
+					"end": /(\$\{end script\})|(\{\{end script\}\})/i,
+					"parser": function (code, obj, bind) {
+						var SCRIPT = $c.TEMPLATE_TAG_CONFIG.SCRIPT,
+								sindex = code.indexOfAlt(SCRIPT.begin),
+								slen = code.match(SCRIPT.begin)[0].length,
+								eindex = code.indexOfAlt(SCRIPT.end),
+								elen = code.match(SCRIPT.end)[0].length;
 
-					code_result = code_result || obj.code;
-					if (!code_result.contains(obj.id)) {
-						continue;
-					}
-					code_result = SWITCH.helper(code_result.replace(id, block));
-				}
-				return __logic_parser(code_result);
-			}
-
-		},
-		/* end conditional config*/
-
-		/* error handling and execution config */
-		SCRIPT: {
-			"begin": /(\$\{script\})|(\{\{script\}\})/i,
-			"end": /(\$\{end script\})|(\{\{end script\}\})/i,
-			"parser": function (code, obj, bind) {
-				var SCRIPT = $c.TEMPLATE_TAG_CONFIG.SCRIPT,
-						sindex = code.indexOfAlt(SCRIPT.begin),
-						slen = code.match(SCRIPT.begin)[0].length,
-						eindex = code.indexOfAlt(SCRIPT.end),
-						elen = code.match(SCRIPT.end)[0].length;
-
-				if (eindex == -1) {
-					eindex = undefined;
-				}
-				var block = code.substring(sindex + slen, eindex), str = "",
-						echo = function (value) {
-							echo.out += value;
-						};
-				echo.out = "";
-				str = eval("(function(){" + block + ";return echo.out;})()");
-
-				return __logic_parser(code.cut(sindex, eindex + elen, str));
-			}
-
-		},
-		TRY: {
-			"begin": /(\$\{try\})|(\{\{try\}\})/i,
-			"catch": /(?:\$\{catch\s+\((.*)?\)\s*\})|(?:\{\{catch\s+\((.*)?\)\s*\}\})/i,
-			"finally": /(\$\{finally\})|(\{\{finally\}\})/i,
-			"end": /(\$\{end try\})|(\{\{end try\}\})/i,
-			"helper": function (code, lookups, exec) {
-				var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
-						cindex = code.indexOfAlt(TRY["catch"]),
-						findex = code.indexOfAlt(TRY["finally"]),
-						eindex = code.indexOfAlt(TRY["end"]),
-						tend = cindex;
-
-				if (tend == -1) {
-					tend = findex != -1 ? findex : eindex;
-				}
-
-				var tindex = code.indexOfAlt(TRY.begin),
-						body = code.substring(tindex + code.match(TRY.begin)[0].length, tend),
-						pre = code.substring(0, tindex), post = code.substring(eindex + code.match(TRY.end)[0].length),
-						regex = /##[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}##/i,
-						match = body.match(regex), str = "", id,
-						echo = function (value) {
-							echo.out += value;
-						};
-				echo.out = "";
-				while (match && match.length) {
-					id = match.splice(0)[0];
-					body = body.replace(id, ";echo('" + TRY.helper(lookups[id], lookups) + "');");
-				}
-				match = pre.match(regex);
-				while (match && match.length) {
-					id = match.splice(0)[0];
-					pre = pre.replace(id, TRY.helper(lookups[id], lookups));
-				}
-				match = post.match(regex);
-				while (match && match.length) {
-					id = match.splice(0)[0];
-					post = post.replace(id, TRY.helper(lookups[id], lookups));
-				}
-				exec && eval(exec);
-				try {
-					str = eval("(function(){" + body + ";return echo.out; })()");
-				} catch (e) {
-					if (cindex != -1) {
+						if (eindex == -1) {
+							eindex = undefined;
+						}
+						var block = code.substring(sindex + slen, eindex), str = "",
+								echo = function (value) {
+									echo.out += value;
+								};
 						echo.out = "";
-						tend = findex != -1 ? findex : eindex;
-						var catchBlock = code.substring(cindex, tend),
-								catchLine = catchBlock.match(TRY["catch"]),
-								errorString = JSON.stringify(e);
-						catchBlock = catchBlock.replace(catchLine[0], '');
+						str = eval("(function(){" + block + ";return echo.out;})()");
 
-						match = catchBlock.match(regex);
+						return __logic_parser(code.cut(sindex, eindex + elen, str));
+					}
+
+				},
+				TRY: {
+					"begin": /(\$\{try\})|(\{\{try\}\})/i,
+					"catch": /(?:\$\{catch\s+\((.*)?\)\s*\})|(?:\{\{catch\s+\((.*)?\)\s*\}\})/i,
+					"finally": /(\$\{finally\})|(\{\{finally\}\})/i,
+					"end": /(\$\{end try\})|(\{\{end try\}\})/i,
+					"helper": function (code, lookups, exec) {
+						var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
+								cindex = code.indexOfAlt(TRY["catch"]),
+								findex = code.indexOfAlt(TRY["finally"]),
+								eindex = code.indexOfAlt(TRY["end"]),
+								tend = cindex;
+
+						if (tend == -1) {
+							tend = findex != -1 ? findex : eindex;
+						}
+
+						var tindex = code.indexOfAlt(TRY.begin),
+								body = code.substring(tindex + code.match(TRY.begin)[0].length, tend),
+								pre = code.substring(0, tindex), post = code.substring(eindex + code.match(TRY.end)[0].length),
+								regex = /##[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}##/i,
+								match = body.match(regex), str = "", id,
+								echo = function (value) {
+									echo.out += value;
+								};
+						echo.out = "";
 						while (match && match.length) {
 							id = match.splice(0)[0];
-							catchBlock = catchBlock.replace(id, ";echo('" + TRY.helper(lookups[id], lookups, "var " + catchLine[1] + "=" + errorString + ";") + "');");
+							body = body.replace(id, ";echo('" + TRY.helper(lookups[id], lookups) + "');");
 						}
-						str += eval("(function(" + catchLine[1] + "){" + catchBlock + ";return echo.out;})('" + errorString + "')");
+						match = pre.match(regex);
+						while (match && match.length) {
+							id = match.splice(0)[0];
+							pre = pre.replace(id, TRY.helper(lookups[id], lookups));
+						}
+						match = post.match(regex);
+						while (match && match.length) {
+							id = match.splice(0)[0];
+							post = post.replace(id, TRY.helper(lookups[id], lookups));
+						}
+						exec && eval(exec);
+						try {
+							str = eval("(function(){" + body + ";return echo.out; })()");
+						} catch (e) {
+							if (cindex != -1) {
+								echo.out = "";
+								tend = findex != -1 ? findex : eindex;
+								var catchBlock = code.substring(cindex, tend),
+										catchLine = catchBlock.match(TRY["catch"]),
+										errorString = JSON.stringify(e);
+								catchBlock = catchBlock.replace(catchLine[0], '');
+
+								match = catchBlock.match(regex);
+								while (match && match.length) {
+									id = match.splice(0)[0];
+									catchBlock = catchBlock.replace(id, ";echo('" + TRY.helper(lookups[id], lookups, "var " + catchLine[1] + "=" + errorString + ";") + "');");
+								}
+								str += eval("(function(" + catchLine[1] + "){" + catchBlock + ";return echo.out;})('" + errorString + "')");
+							}
+						} finally {
+							if (findex != -1) {
+								echo.out = "";
+								str += eval("(function(){" + code.substring(findex + code.match(TRY["finally"])[0].length, eindex) + ";return echo.out; })()");
+							}
+						}
+						return pre + str + post;
+					},
+					"parser": function (code, oobj, bind) {
+						var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
+								lookups = {},
+								blocks = __processBlocks(TRY.begin, TRY.end, code, lookups);
+
+						var obj = blocks[0],
+								block = obj.block,
+								id = obj.id;
+
+						return __logic_parser(TRY.helper(obj.code.replace(id, block), lookups));
+						//return __logic_parser(code_result);
 					}
-				} finally {
-					if (findex != -1) {
-						echo.out = "";
-						str += eval("(function(){" + code.substring(findex + code.match(TRY["finally"])[0].length, eindex) + ";return echo.out; })()");
+
+				},
+				/* end error handling config */
+
+				/* tokens config */
+				VARIABLE: /(?:\$\{((?!\$)\S)*?\})|(?:\{\{((?!\{\{)\S)*?\}\})/gi,
+				VARIABLE_NAME: function (match) {
+					return match.slice(2, match.contains('}}') ? -2 : -1);
+				},
+				DECLARE: {
+					"syntax": /(?:\$\{DECLARE (.*?);?\})|(?:\{\{DECLARE (.*?);?\}\})/i,
+					"parser": function (htmlTemplate, declare) {
+						var matches = declare.match($c.TEMPLATE_TAG_CONFIG.DECLARE.syntax);
+						/*,
+						 var_nameValue = (matches[1]||matches[2]).strip(';').split("=");
+
+						 fillTemplate.declared[var_nameValue[0]] = var_nameValue[1];*/
+						$c.merge(fillTemplate.declared, tryEval("({" + matches[1].replace_all('=', ":") + "})"));
+						return htmlTemplate.replace_all(declare, '');
 					}
 				}
-				return pre + str + post;
-			},
-			"parser": function (code, oobj, bind) {
-				var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
-						lookups = {},
-						blocks = __processBlocks(TRY.begin, TRY.end, code, lookups);
-
-				var obj = blocks[0],
-						block = obj.block,
-						id = obj.id;
-
-				return __logic_parser(TRY.helper(obj.code.replace(id, block), lookups));
-				//return __logic_parser(code_result);
-			}
-
-		},
-		/* end error handling config */
-
-		/* tokens config */
-		VARIABLE: /(?:\$\{((?!\$)\S)*?\})|(?:\{\{((?!\{\{)\S)*?\}\})/gi,
-		VARIABLE_NAME: function (match) {
-			return match.slice(2, match.contains('}}') ? -2 : -1);
-		},
-		DECLARE: {
-			"syntax": /(?:\$\{DECLARE (.*?);?\})|(?:\{\{DECLARE (.*?);?\}\})/i,
-			"parser": function (htmlTemplate, declare) {
-				var matches = declare.match($c.TEMPLATE_TAG_CONFIG.DECLARE.syntax);
-				/*,
-				 var_nameValue = (matches[1]||matches[2]).strip(';').split("=");
-
-				 fillTemplate.declared[var_nameValue[0]] = var_nameValue[1];*/
-				$c.merge(fillTemplate.declared, tryEval("({" + matches[1].replace_all('=', ":") + "})"));
-				return htmlTemplate.replace_all(declare, '');
-			}
-		}
-		/* end tokens config */
-	};
+				/* end tokens config */
+			};
 	Craydent.VERBOSE_LOGS = $c.VERBOSE_LOGS || !!$GET("verbose");
 	Craydent.VERSION = _craydent_version;
 	Craydent.VISIBLE = $c.VISIBLE || "visible";
@@ -1157,9 +1158,9 @@ function __andNotHelper (record, query, operands, index) {
 					continue;
 				}
 				if (!(prop in operands
-						&& _subQuery(record, query[i][prop], prop, index)
-						|| _subQuery(record, query[i][prop], "$equals", prop, index)
-					)) {
+								&& _subQuery(record, query[i][prop], prop, index)
+								|| _subQuery(record, query[i][prop], "$equals", prop, index)
+						)) {
 					return false;
 				}
 			}
@@ -1211,22 +1212,22 @@ function __contextualizeMethods (ctx) {
 function __convert_regex_safe(reg_str) {
 	try {
 		return reg_str.replace(/\\/gi,"\\\\")
-			.replace(/\$/gi, "\\$")
-			.replace(/\//gi, "\\/")
-			.replace(/\^/gi, "\\^")
-			.replace(/\./gi, "\\.")
-			.replace(/\|/gi, "\\|")
-			.replace(/\*/gi, "\\*")
-			.replace(/\+/gi, "\\+")
-			.replace(/\?/gi, "\\?")
-			.replace(/\!/gi, "\\!")
-			.replace(/\{/gi, "\\{")
-			.replace(/\}/gi, "\\}")
-			.replace(/\[/gi, "\\[")
-			.replace(/\]/gi, "\\]")
-			.replace(/\(/gi, "\\(")
-			.replace(/\)/gi, "\\)")
-			.replace('\n','\\n');
+				.replace(/\$/gi, "\\$")
+				.replace(/\//gi, "\\/")
+				.replace(/\^/gi, "\\^")
+				.replace(/\./gi, "\\.")
+				.replace(/\|/gi, "\\|")
+				.replace(/\*/gi, "\\*")
+				.replace(/\+/gi, "\\+")
+				.replace(/\?/gi, "\\?")
+				.replace(/\!/gi, "\\!")
+				.replace(/\{/gi, "\\{")
+				.replace(/\}/gi, "\\}")
+				.replace(/\[/gi, "\\[")
+				.replace(/\]/gi, "\\]")
+				.replace(/\(/gi, "\\(")
+				.replace(/\)/gi, "\\)")
+				.replace('\n','\\n');
 	} catch (e) {
 		error('__convert_regex_safe', e);
 	}
@@ -1243,7 +1244,7 @@ function __enum(obj, delimiter, prePost){
 		delimiter = delimiter || ", ";
 		prePost = prePost || ["",""];
 		var props = [],
-			str = "";
+				str = "";
 		if ($c.isArray(obj)) {
 			props = obj.slice(0);
 		}
@@ -1256,7 +1257,7 @@ function __enum(obj, delimiter, prePost){
 		}
 		for (var i = 0, len = props.length; i < len; i++) {
 			var pre = prePost[0].replace_all(['{ENUM_VAR}','{ENUM_VAL}'],[props[i],obj[props[i]]]),
-				post = prePost[1].replace_all(['{ENUM_VAR}','{ENUM_VAL}'],[props[i],obj[props[i]]]);
+					post = prePost[1].replace_all(['{ENUM_VAR}','{ENUM_VAL}'],[props[i],obj[props[i]]]);
 			str += pre + props[i] + post + delimiter;
 		}
 		return str.slice(0,-1*delimiter.length);
@@ -1330,9 +1331,9 @@ function __processBlocks (start, end, code, lookups) {
 	var endlength = code.match(end)[0].length;
 	for (var k = 0, len = pairs.size(); k < len; k++) {
 		var uid = "##" + suid() + "##",
-			block = code.slice(pairs[k].begin, pairs[k].end + endlength),
-			beginLength = block.match(start)[0].length,
-			body = code.slice(pairs[k].begin + beginLength, pairs[k].end);
+				block = code.slice(pairs[k].begin, pairs[k].end + endlength),
+				beginLength = block.match(start)[0].length,
+				body = code.slice(pairs[k].begin + beginLength, pairs[k].end);
 		code = code.replace(block, uid);
 		blocks.push({id: uid, block: block, body: body, code: code});
 		lookups[uid] = block;
@@ -1416,23 +1417,23 @@ function __parseBooleanExpr (doc,expr,field) {
 function __parseComparisonExpr (doc,expr,field) {
 	try {
 		var sortOrder = [
-				undefined,
-				null,
-				Number,
-				typeof Symbol != "undefined" ? Symbol : "Symbol",
-				String,
-				Object,
-				Array,
-				typeof BinData != "undefined" ? BinData : "BinData",
-				typeof ObjectId != "undefined" ? ObjectId : "ObjectId",
-				Boolean,
-				Date,
-				typeof Timestamp != "undefined" ? Timestamp : "Timestamp",
-				RegExp],
+					undefined,
+					null,
+					Number,
+					typeof Symbol != "undefined" ? Symbol : "Symbol",
+					String,
+					Object,
+					Array,
+					typeof BinData != "undefined" ? BinData : "BinData",
+					typeof ObjectId != "undefined" ? ObjectId : "ObjectId",
+					Boolean,
+					Date,
+					typeof Timestamp != "undefined" ? Timestamp : "Timestamp",
+					RegExp],
 
-			value1 = __processExpression(doc, expr[field][0]),
-			value2 = __processExpression(doc, expr[field][1]),
-			cmp = null;
+				value1 = __processExpression(doc, expr[field][0]),
+				value2 = __processExpression(doc, expr[field][1]),
+				cmp = null;
 
 		if (value1 == value2) { cmp = 0; }
 		if (value1 < value2) { cmp = -1; }
@@ -1472,9 +1473,9 @@ function __parseCond(doc,expr){
 		}
 		// parse $cond
 		var condition = expr['$cond'],
-			boolExpression,
-			thenStatement,
-			elseStatement;
+				boolExpression,
+				thenStatement,
+				elseStatement;
 		if ($c.isArray(condition)) {
 			boolExpression = condition[0];
 			thenStatement = condition[1];
@@ -1542,7 +1543,7 @@ function __parseSetExpr (doc,expr,field) {
 			case "$setEquals":
 				for (var i = 1, len = expr[field].length; i < len; i++) {
 					var set1 = $c.duplicate(__processExpression(doc, expr[field][i - 1])),
-						set2 = $c.duplicate(__processExpression(doc, expr[field][i]));
+							set2 = $c.duplicate(__processExpression(doc, expr[field][i]));
 					if (!$c.isArray(set1) || !$c.isArray(set2)){
 						//noinspection ExceptionCaughtLocallyJS
 						throw "Exception: All operands of $setEquals must be arrays. One argument is of type: " +
@@ -1558,7 +1559,7 @@ function __parseSetExpr (doc,expr,field) {
 				return true;
 			case "$setIntersection":
 				var rtnSet = $c.duplicate(__processExpression(doc, expr[field][0])),
-					errorMessage = "Exception: All operands of $setIntersection must be arrays. One argument is of type: ";
+						errorMessage = "Exception: All operands of $setIntersection must be arrays. One argument is of type: ";
 				if(!$c.isArray(rtnSet)) {
 					//noinspection ExceptionCaughtLocallyJS
 					throw errorMessage + (typeof rtnSet).captialize();
@@ -1587,7 +1588,7 @@ function __parseSetExpr (doc,expr,field) {
 				return rtnSet;
 			case "$setUnion":
 				var rtnSet = $c.duplicate(__processExpression(doc, expr[field][0])),
-					errorMessage = "Exception: All operands of $setUnion must be arrays. One argument is of type: ";
+						errorMessage = "Exception: All operands of $setUnion must be arrays. One argument is of type: ";
 				if(!$c.isArray(rtnSet)) {
 					//noinspection ExceptionCaughtLocallyJS
 					throw errorMessage + (typeof rtnSet).captialize();
@@ -1604,8 +1605,8 @@ function __parseSetExpr (doc,expr,field) {
 				return rtnSet.toSet();
 			case "$setDifference":
 				var arr1 = $c.duplicate(__processExpression(doc, expr[field][0])),
-					arr2 = $c.duplicate(__processExpression(doc, expr[field][1])),
-					rtnSet = [];
+						arr2 = $c.duplicate(__processExpression(doc, expr[field][1])),
+						rtnSet = [];
 				if (!$c.isArray(arr1) || !$c.isArray(arr2)){
 					//noinspection ExceptionCaughtLocallyJS
 					throw "Exception: All operands of $setEquals must be arrays. One argument is of type: " +
@@ -1620,8 +1621,8 @@ function __parseSetExpr (doc,expr,field) {
 				return rtnSet;
 			case "$setIsSubset":
 				var arr1 = $c.duplicate(__processExpression(doc, expr[field][0])),
-					arr2 = $c.duplicate(__processExpression(doc, expr[field][1])),
-					rtnSet = [];
+						arr2 = $c.duplicate(__processExpression(doc, expr[field][1])),
+						rtnSet = [];
 				if (!$c.isArray(arr1) || !$c.isArray(arr2)){
 					//noinspection ExceptionCaughtLocallyJS
 					throw "Exception: All operands of $setEquals must be arrays. One argument is of type: " +
@@ -1630,7 +1631,7 @@ function __parseSetExpr (doc,expr,field) {
 				return $c.isSubset(arr1,arr2);
 			case "$anyElementTrue":
 				var arr1 = $c.duplicate(__processExpression(doc, expr[field][0])),
-					falseCondition = [undefined,null,0,false];
+						falseCondition = [undefined,null,0,false];
 
 				for (var i = 0, len = arr1.length; i < len; i++) {
 					var item = arr1[i];
@@ -1641,7 +1642,7 @@ function __parseSetExpr (doc,expr,field) {
 				return false;
 			case "$allElementsTrue":
 				var arr1 = $c.duplicate(__processExpression(doc, expr[field][0])),
-					falseCondition = [undefined,null,0,false];
+						falseCondition = [undefined,null,0,false];
 
 				for (var i = 0, len = arr1.length; i < len; i++) {
 					var item = arr1[i];
@@ -1673,7 +1674,7 @@ function __parseStringExpr (doc,expr,field) {
 				return (__processExpression(doc, expr["$toLower"]) || "").toUpperCase();
 			case "$strcasecmp":
 				var value1 = (__processExpression(doc, expr["$strcasecmp"][0]) || "").toString(),
-					value2 = (__processExpression(doc, expr["$strcasecmp"][1]) || "").toString();
+						value2 = (__processExpression(doc, expr["$strcasecmp"][1]) || "").toString();
 				if (value1 == value2) {
 					return 0;
 				}
@@ -1693,8 +1694,8 @@ function __parseVariableExpr (doc,expr,field) {
 		switch (field) {
 			case "$map":
 				var input = __processExpression(doc, expr[field].input),
-					v_as = "$" + expr[field].as,
-					v_in = expr[field]["in"];
+						v_as = "$" + expr[field].as,
+						v_in = expr[field]["in"];
 
 				for (var i = 0, len = input.length; i < len; i++) {
 					doc[v_as] = input[i];
@@ -1704,7 +1705,7 @@ function __parseVariableExpr (doc,expr,field) {
 				return input;
 			case "$let":
 				var vars = expr[field].vars,
-					rmProps = [], rtn = null;
+						rmProps = [], rtn = null;
 				for (var prop in vars) {
 					if (!vars.has(prop)) {
 						continue;
@@ -1769,17 +1770,17 @@ function __processExpression (doc,expr) {
 				continue;
 			}
 			var value = expr[field],
-				literalKeys = ["$literal"],
-				boolKeys = ["$and", "$or", "$not"],
-				setKeys = ["$setEquals", "$setIntersection", "$setUnion", "$setDifference", "$setIsSubset", "$anyElementTrue", "$allElementsTrue"],
-				compareKeys = ["$cmp", "$eq", "$gt", "$gte", "$lt", "$lte", "$ne"],
-				arithmeticKeys = ["$add", "$subtract", "$multiply", "$divide", "$mod"],
-				stringKeys = ["$concat", "$substr", "$toLower", "$toUpper", "$strcasecmp"],
+					literalKeys = ["$literal"],
+					boolKeys = ["$and", "$or", "$not"],
+					setKeys = ["$setEquals", "$setIntersection", "$setUnion", "$setDifference", "$setIsSubset", "$anyElementTrue", "$allElementsTrue"],
+					compareKeys = ["$cmp", "$eq", "$gt", "$gte", "$lt", "$lte", "$ne"],
+					arithmeticKeys = ["$add", "$subtract", "$multiply", "$divide", "$mod"],
+					stringKeys = ["$concat", "$substr", "$toLower", "$toUpper", "$strcasecmp"],
 			//searchKeys = ["meta"],
-				arrayKeys = ["$size"],
-				variableKeys = ["$map", "$let"],
-				dateKeys = ["$dayOfYear", "$dayOfMonth", "$dayOfWeek", "$year", "$month", "$geek", "$hour", "$minute", "$second", "$millisecond", "$dateToString"],
-				conditionalKeys = ["$cond", "$ifNull"];
+					arrayKeys = ["$size"],
+					variableKeys = ["$map", "$let"],
+					dateKeys = ["$dayOfYear", "$dayOfMonth", "$dayOfWeek", "$year", "$month", "$geek", "$hour", "$minute", "$second", "$millisecond", "$dateToString"],
+					conditionalKeys = ["$cond", "$ifNull"];
 			//accumulatorKeys = ["$sum", "$avg", "$first", "$last", "$max", "$min", "$push", "$addToSet"];
 
 			switch (true) {
@@ -1941,7 +1942,7 @@ function __run_replace (reg, template, use_run, obj) {
 
 		while ((match = reg.exec(template)) && match[1]) {
 			var funcValue = [],
-				func = "";
+					func = "";
 
 			funcValue = match[1].replace_all(['\\[','\\]'],['[',']']).split(split_param);
 			while (funcValue[0].count("{") != funcValue[0].count("}")) {
@@ -1962,7 +1963,7 @@ function __run_replace (reg, template, use_run, obj) {
 
 			template = template.contains(match[1]) ? template.replace(match[1], (match[1] = match[1].replace_all(['\\[', '\\]'], ['[', ']']))) : template;
 			template = template.replace_all("${" + pre + match[1] + post +"}",
-				$g.getProperty(func) ? $g.getProperty(func).apply(obj, funcValue) : (tryEval("("+func+")")||foo).apply(obj,funcValue) || "");
+					$g.getProperty(func) ? $g.getProperty(func).apply(obj, funcValue) : (tryEval("("+func+")")||foo).apply(obj,funcValue) || "");
 		}
 		return template;
 	} catch (e) {
@@ -2070,13 +2071,13 @@ function _copyWithProjection(projection, record) {
 function _defineFunction (name, func, override) {
 	try {
 		var args = _getFuncArgs(func),
-			fstr = func.toString().replace(/this/g,'obj'),
+				fstr = func.toString().replace(/this/g,'obj'),
 
 		// extra code to account for when this == global
-			extra_code = "if(isNull(obj) && this == $c){return;}",
-			fnew = args.length === 0 || (args.length === 1 && !_trim(args[0])) ?
-				fstr.toString().replace(/(\(\s*?\)\s*?\{)/, ' (obj){'+extra_code) :
-			"(" + fstr.toString().replace(/\((.*?)\)\s*?\{/, '(obj,$1){'+extra_code) + ")";
+				extra_code = "if(isNull(obj) && this == $c){return;}",
+				fnew = args.length === 0 || (args.length === 1 && !_trim(args[0])) ?
+						fstr.toString().replace(/(\(\s*?\)\s*?\{)/, ' (obj){'+extra_code) :
+				"(" + fstr.toString().replace(/\((.*?)\)\s*?\{/, '(obj,$1){'+extra_code) + ")";
 
 		if (!override && eval("typeof("+name+")") !== "undefined") {
 			eval("$c."+name+" = "+fnew);
@@ -2090,16 +2091,16 @@ function _defineFunction (name, func, override) {
 function _duplicate(obj, original, recursive/*, ref, current_path, exec*/){
 	try {
 		if ($c.isString(obj) || $c.isString(original)
-			|| $c.isInt(obj) || $c.isInt(original)
-			|| $c.isFloat(obj) || $c.isFloat(original)
-			|| $c.isNumber(obj) || $c.isNumber(original)) {
+				|| $c.isInt(obj) || $c.isInt(original)
+				|| $c.isFloat(obj) || $c.isFloat(original)
+				|| $c.isNumber(obj) || $c.isNumber(original)) {
 			return original;
 		}
 		var argIndex = 3;
 
 		// remove all properties if it is the root level
 		var ref = arguments[argIndex] || {objects:[{obj:original,path:"this"}]},
-			current_path = arguments[argIndex+1] || "this";
+				current_path = arguments[argIndex+1] || "this";
 		(arguments[argIndex+2] || (arguments[argIndex+2] = {})) && (arguments[argIndex+2].command = arguments[argIndex+2].command || "");
 		if (!(ref.objects.length == 1)) {
 			for (var prop in obj){
@@ -2111,9 +2112,9 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/){
 		var loop_func = function (prop, original) {
 			if (original.has(prop) && original[prop] && (!$c.isFunction(original[prop]) || !recursive)) {
 				var index = ref.objects.indexOfAlt(original[prop],function(obj,value){
-						return obj.obj===value;
-					}),
-					new_path = current_path+"["+parseRaw(prop)+"]";
+							return obj.obj===value;
+						}),
+						new_path = current_path+"["+parseRaw(prop)+"]";
 
 				if (index != -1) {
 					arguments[argIndex+1].command += new_path + "="+ref.objects[index].path+";";
@@ -2153,16 +2154,16 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/){
 }
 function _endsWith (/*str, str1*/) {
 	/*|{
-		"info": "String class extension to check if the string ends with the given string",
-		"category": "String",
-		"parameters":[
-			{"infinite": "any number of arguments can be passed"}],
+	 "info": "String class extension to check if the string ends with the given string",
+	 "category": "String",
+	 "parameters":[
+	 {"infinite": "any number of arguments can be passed"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.endsWith",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.endsWith",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		for (var i = 0, len = arguments.length; i < len; i++) {
 			if (arguments[i] == this) {
@@ -2280,7 +2281,7 @@ function _groupFieldHelper (obj, fields) {
 function _indexOf (obj, value) {
 	try {
 		var len = obj.length,
-			i = 0;
+				i = 0;
 		while (i < len) {
 			if (obj[i] === value) return i;
 			++i;
@@ -2369,10 +2370,10 @@ function _processClause (clause) {
 		var ORs = clause.split(/ or /i), query = {"$or":[]};
 		for (var i = 0, len = ORs.length; i < len; i++) {
 			var ANDs = ORs[i].split(/ and /i),
-				aquery = {'$and':[]};
+					aquery = {'$and':[]};
 			for (var j = 0, jlen = ANDs.length; j < jlen; j++) {
 				var predicateClause = ANDs[j],
-					cond = {};
+						cond = {};
 
 				//=, <>, >, >=, <, <=, IN, BETWEEN, LIKE, IS NULL or IS NOT NULL
 				switch (true) {
@@ -2542,16 +2543,16 @@ function _sessionFileCreatAndRetrievefunction (dir, path, sync, callback) {
 }
 function _startsWith (/*str, str1*/) {
 	/*|{
-		"info": "String class extension to check if the string starts with the given string",
-		"category": "String",
-		"parameters":[
-			{"infinite": "any number of arguments can be passed"}],
+	 "info": "String class extension to check if the string starts with the given string",
+	 "category": "String",
+	 "parameters":[
+	 {"infinite": "any number of arguments can be passed"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.startsWith",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.startsWith",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		for (var i = 0, len = arguments.length; i < len; i++) {
 			if (arguments[i] == this) {
@@ -2597,30 +2598,30 @@ function _subQuery(record, query, operator, field, index) {
 			field = null;
 		}
 		var operands = {
-				"$or":1,
-				"$and":1,
-				"$in":1,
-				"$nin":1,
-				"$regex":1,
-				"$gt":1,
-				"$lt":1,
-				"$gte":1,
-				"$lte":1,
-				"$exists":1,
-				"$equals":1,
-				"$ne":1,
-				"$nor":1,
-				"$type":1,
-				"$text":1,
-				"$mod":1,
-				"$all":1,
-				"$size":1,
-				"$ghere":1,
-				"$elemMatch":1,
-				"$not":1},
-			value = $c.getProperty(record, field || ""),
-			opt = operator,
-			rtn = false;
+					"$or":1,
+					"$and":1,
+					"$in":1,
+					"$nin":1,
+					"$regex":1,
+					"$gt":1,
+					"$lt":1,
+					"$gte":1,
+					"$lte":1,
+					"$exists":1,
+					"$equals":1,
+					"$ne":1,
+					"$nor":1,
+					"$type":1,
+					"$text":1,
+					"$mod":1,
+					"$all":1,
+					"$size":1,
+					"$ghere":1,
+					"$elemMatch":1,
+					"$not":1},
+				value = $c.getProperty(record, field || ""),
+				opt = operator,
+				rtn = false;
 
 		// prep multiple subqueries
 		for (var prop in query) {
@@ -2650,7 +2651,7 @@ function _subQuery(record, query, operator, field, index) {
 					var q = $c.getValue(query.has("$equals") ? query['$equals'] : query);
 
 					rtn = $c.isRegExp(q) ? q.test(value) :
-						($c.isFunction(q) ? q(record, field, index) : value == q);
+							($c.isFunction(q) ? q(record, field, index) : value == q);
 					break;
 
 				case "$ne":
@@ -2750,7 +2751,7 @@ function _subQuery(record, query, operator, field, index) {
 					}
 					for (var i = 0, brk = false, len = value.length; i < len && !brk; i++) {
 						var obj = value[i],
-							val, operand;
+								val, operand;
 						for (var prop in query) {
 							if (!query.has(prop)) {
 								continue;
@@ -2783,9 +2784,9 @@ function _subQuery(record, query, operator, field, index) {
 							}
 							var subprop = _subFieldHelper(query[i][prop], operands);
 							if (!(satisfied = prop in operands?
-									_subQuery(record, query[i][prop], prop, index) :
-									(subprop ? _subQuery(record, query[i][prop], subprop, prop, index) :
-										_subQuery(record, query[i][prop], "$equals", prop, index)))) {
+											_subQuery(record, query[i][prop], prop, index) :
+											(subprop ? _subQuery(record, query[i][prop], subprop, prop, index) :
+													_subQuery(record, query[i][prop], "$equals", prop, index)))) {
 								break;
 							}
 						}
@@ -2816,7 +2817,7 @@ function _subQuery(record, query, operator, field, index) {
 						for (var k = 0, klen = query[fieldProp].length; k < klen; k++) {
 							var isRegex = $c.isRegExp(query[fieldProp][k] && query[fieldProp][k]); //array of values
 							if (($c.isArray(value) && value.contains(query[fieldProp][k]))
-								|| (isRegex ? query[fieldProp][k].test(value) : value == query[fieldProp][k])) {
+									|| (isRegex ? query[fieldProp][k].test(value) : value == query[fieldProp][k])) {
 								rtn = true;
 								if (isNIN) {
 									return !rtn;
@@ -2837,11 +2838,11 @@ function _subQuery(record, query, operator, field, index) {
 function _trim(str, side, characters) {
 	try {
 		var temp = str,
-			trimChars = {
-				" ":1,
-				"\t":1,
-				"\n":1
-			};
+				trimChars = {
+					" ":1,
+					"\t":1,
+					"\n":1
+				};
 		if (characters) {
 			if (_isArray(characters)) {
 				var ch, i = 0;
@@ -2940,21 +2941,21 @@ function _whereHelper(objs,condition,callback) {
  /---------------------------------------------------------------------------------------------------------------*/
 function addObjectPrototype(name, fn, override) {
 	/*|{
-		"info": "Method to extend the Object Class",
-		"category": "Global",
-		"parameters":[
-			{"name": "(String) name of the method to add"},
-			{"fn": "(Function) method implementation"}],
+	 "info": "Method to extend the Object Class",
+	 "category": "Global",
+	 "parameters":[
+	 {"name": "(String) name of the method to add"},
+	 {"fn": "(Function) method implementation"}],
 
-		"overloads":[{
-		"parameters":[
-			{"name": "(String) name of the method to add"},
-			{"fn": "(Function) method implementation"},
-			{"override": "(Bool) if true, override the previously defined prototype"}]}],
+	 "overloads":[{
+	 "parameters":[
+	 {"name": "(String) name of the method to add"},
+	 {"fn": "(Function) method implementation"},
+	 {"override": "(Bool) if true, override the previously defined prototype"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#addObjectPrototype",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#addObjectPrototype",
+	 "returnType": "(void)"
+	 }|*/
 	try {
 		if (isNull($g.__craydentNoConflict) || !$g.__craydentNoConflict) {
 			var shouldOverride = false;
@@ -2997,15 +2998,15 @@ _df = _defineFunction;
  /---------------------------------------------------------------------------------------------------------------*/
 function Benchmarker() {
 	/*|{
-		"info": "Class used to measure the run time of code",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Class used to measure the run time of code",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#Benchmarker",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#Benchmarker",
+	 "returnType": "(void)"
+	 }|*/
 	try {
 		this.executionTime = 0;
 		this.start = function () {
@@ -3027,22 +3028,22 @@ function Benchmarker() {
  /---------------------------------------------------------------------------------------------------------------*/
 function Cursor (records) {
 	/*|{
-		"info": "Cursor class to facilitate iteration",
-		"category": "Global",
-		"parameters":[
-			{"records": "(Array) Array used to create the iterator to iterate each item"}],
+	 "info": "Cursor class to facilitate iteration",
+	 "category": "Global",
+	 "parameters":[
+	 {"records": "(Array) Array used to create the iterator to iterate each item"}],
 
-		"overloads":[
-			{"parameters":[
-			{"records": "(Object) Object used to create the iterator to iterate each property"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"records": "(Object) Object used to create the iterator to iterate each property"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#Cursor",
-		"returnType": "(Cursor)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#Cursor",
+	 "returnType": "(Cursor)"
+	 }|*/
 	try {
 		var props = [],
-			currentIndex = 0,
-			arr = $c.copyObject(records || []);
+				currentIndex = 0,
+				arr = $c.copyObject(records || []);
 		if ($c.isObject(arr)) {
 			for (var prop in arr) {
 				if (!arr.has(prop)) { continue; }
@@ -3071,20 +3072,20 @@ function Cursor (records) {
 }
 function OrderedList (records,sorter)  {
 	/*|{
-		"info": "Collection class that filters out duplicate values and maintains an ordered list",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Collection class that filters out duplicate values and maintains an ordered list",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"records": "(Array) Array used to create the initial items in the ordered list"}]},
-			{"parameters":[
-				{"records": "(Array) Array used to create the initial items in the ordered list"},
-				{"sorter": "(Function) Function for sorting logic"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"records": "(Array) Array used to create the initial items in the ordered list"}]},
+	 {"parameters":[
+	 {"records": "(Array) Array used to create the initial items in the ordered list"},
+	 {"sorter": "(Function) Function for sorting logic"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#OrderedList",
-		"returnType": "(OrderedList)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#OrderedList",
+	 "returnType": "(OrderedList)"
+	 }|*/
 	try {
 		sorter = sorter || function(a,b){if (a < b) {return -1;}if (a > b) {return 1;}return 0;};
 		var arr = $c.copyObject(records || []).sort(sorter), nextIndex = 0;
@@ -3105,16 +3106,16 @@ function OrderedList (records,sorter)  {
 }
 function Queue (records) {
 	/*|{
-		"info": "Collection class that follows FIFO",
-		"category": "Global",
-		"parameters":[
-			{"records": "(Array) Array used to create the iterator to iterate each item"}],
+	 "info": "Collection class that follows FIFO",
+	 "category": "Global",
+	 "parameters":[
+	 {"records": "(Array) Array used to create the iterator to iterate each item"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#Queue",
-		"returnType": "(Queue)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#Queue",
+	 "returnType": "(Queue)"
+	 }|*/
 	try {
 		var arr = $c.copyObject(records || []), nextIndex = 0;
 		arr.enqueue = function(value){
@@ -3135,16 +3136,16 @@ function Queue (records) {
 }
 function Set (records) {
 	/*|{
-		"info": "Collection class that filters out duplicate values",
-		"category": "Global",
-		"parameters":[
-			{"records": "(Array) Array used to create the iterator to iterate each item"}],
+	 "info": "Collection class that filters out duplicate values",
+	 "category": "Global",
+	 "parameters":[
+	 {"records": "(Array) Array used to create the iterator to iterate each item"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#Set",
-		"returnType": "(Set)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#Set",
+	 "returnType": "(Set)"
+	 }|*/
 	try {
 		var arr = $c.copyObject(records || []), nextIndex = 0;
 		arr.add = function(value){
@@ -3173,16 +3174,16 @@ function Set (records) {
  /---------------------------------------------------------------------------------------------------------------*/
 function ajax(params){
 	/*|{
-		"info": "Method to make ajax calls",
-		"category": "Global",
-		"parameters":[
-			{"params": "(Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"}],
+	 "info": "Method to make ajax calls",
+	 "category": "Global",
+	 "parameters":[
+	 {"params": "(Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#ajax",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#ajax",
+	 "returnType": "(void)"
+	 }|*/
 	try {
 		var need_to_shard = false, browser_url_limit = 1500, query, url, rtn;
 		params.dataType = params.dataType || 'json';
@@ -3220,7 +3221,7 @@ function ajax(params){
 		params.url = params.url || "";
 
 		var httpRequest = require('http'),
-			fileUpload = httpRequest.upload || {};
+				fileUpload = httpRequest.upload || {};
 		params.method = params.method || "GET";
 		params.headers = params.headers || {};
 
@@ -3245,19 +3246,19 @@ function ajax(params){
 		_run_func_array.call((params.context||this),params.onbefore, [httpRequest, this]);
 
 		var prms/*, options = {
-			protocol: params.protocol || 'http',
-			host: params.host || params.hostname || 'localhost',
-			family: params.family,
-			port: params.port || 80,
-			localAddress: params.localAddress,
-			socketPath: params.socketPath,
-			method: params.method || "GET",
-			path: params.path || '/',
-			headers: params.headers,
-			auth: params.auth,
-			agent: params.agent,
+		 protocol: params.protocol || 'http',
+		 host: params.host || params.hostname || 'localhost',
+		 family: params.family,
+		 port: params.port || 80,
+		 localAddress: params.localAddress,
+		 socketPath: params.socketPath,
+		 method: params.method || "GET",
+		 path: params.path || '/',
+		 headers: params.headers,
+		 auth: params.auth,
+		 agent: params.agent,
 
-		}*/;
+		 }*/;
 		params.headers['Content-Type'] = params.headers['Content-Type'] || params.contentType;
 		prms = new Promise(function(resolve, reject) {
 			var req = httpRequest.request(params.url || params, function (res) {
@@ -3312,23 +3313,23 @@ function ajax(params){
  **/
 function $PAYLOAD(variable, options) {
 	/*|{
-		"info": "Retrieve all or specific variables in the Body",
-		"category": "Global",
-		"featured": true,
-		"parameters":[],
+	 "info": "Retrieve all or specific variables in the Body",
+	 "category": "Global",
+	 "featured": true,
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"key": "(String) key for query value"}]},
-			{"parameters":[
-				{"key": "(String) key for query value"},
-				{"options": "(Object) Options to defer, ignore case, etc"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"key": "(String) key for query value"}]},
+	 {"parameters":[
+	 {"key": "(String) key for query value"},
+	 {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$PAYLOAD",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#$PAYLOAD",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
-		return _verb_payload_helper(variable, options);
+		return _verb_payload_helper.call(this, variable, options);
 	} catch (e) {
 		logit('$PAYLOAD');
 		logit(e);
@@ -3336,27 +3337,27 @@ function $PAYLOAD(variable, options) {
 }
 function $COOKIE(key, value, options) {
 	/*|{
-		"info": "Get/set Cookies",
-		"category": "Global",
-		"featured": true,
-		"parameters":[
-			{"key": "(String) Key for cookie value"}],
+	 "info": "Get/set Cookies",
+	 "category": "Global",
+	 "featured": true,
+	 "parameters":[
+	 {"key": "(String) Key for cookie value"}],
 
-		"overloads":[
-			{"parameters":[
-				{"key": "(String) Key for cookie"},
-				{"option": "(Object) Specify delete"}]},
-			{"parameters":[
-				{"keyValue": "(Object) Specify the key value pair"},
-				{"option": "(Object) Specify path, domain, and/or expiration of cookie"}]},
-			{"parameters":[
-				{"key": "(String) Key for cookie value"},
-				{"value": "(String) Value to store"},
-				{"option": "(Object) Specify path and/or expiration of cookie"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"key": "(String) Key for cookie"},
+	 {"option": "(Object) Specify delete"}]},
+	 {"parameters":[
+	 {"keyValue": "(Object) Specify the key value pair"},
+	 {"option": "(Object) Specify path, domain, and/or expiration of cookie"}]},
+	 {"parameters":[
+	 {"key": "(String) Key for cookie value"},
+	 {"value": "(String) Value to store"},
+	 {"option": "(Object) Specify path and/or expiration of cookie"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$COOKIE",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#$COOKIE",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
 		options = options || {};
 		var c = $c.getProperty(this, 'request.headers.cookie');
@@ -3396,13 +3397,13 @@ function $COOKIE(key, value, options) {
 			return true;
 		}
 		var cookies = {},
-			arr = c.split(/[,;]/);
+				arr = c.split(/[,;]/);
 		for (var i = 0, len = arr.length; i < len; i++) {
 			var cookie = arr[i],
-				parts = cookie.split(/=/, 2),
+					parts = cookie.split(/=/, 2),
 //                name = decodeURIComponent($c.ltrim(parts[0])),
-				name = decodeURIComponent(parts[0] && parts[0].ltrim && parts[0].ltrim() || ""),
-				value = parts.length > 1 ? decodeURIComponent($c.rtrim(parts[1])) : null;
+					name = decodeURIComponent(parts[0] && parts[0].ltrim && parts[0].ltrim() || ""),
+					value = parts.length > 1 ? decodeURIComponent($c.rtrim(parts[1])) : null;
 			cookies[name] = tryEval(value) || value;
 			if (key && key == name) {
 				return cookies[name];
@@ -3419,23 +3420,23 @@ function $COOKIE(key, value, options) {
 }
 function $DELETE(variable, options) {
 	/*|{
-		"info": "Retrieve all or specific variables in the Body",
-		"category": "Global",
-		"featured": true,
-		"parameters":[],
+	 "info": "Retrieve all or specific variables in the Body",
+	 "category": "Global",
+	 "featured": true,
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"key": "(String) key for query value"}]},
-			{"parameters":[
-				{"key": "(String) key for query value"},
-				{"options": "(Object) Options to defer, ignore case, etc"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"key": "(String) key for query value"}]},
+	 {"parameters":[
+	 {"key": "(String) key for query value"},
+	 {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$DELETE",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#$DELETE",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
-		return _verb_payload_helper(variable, options);
+		return _verb_payload_helper.call(this, variable, options);
 	} catch (e) {
 		logit('$DELETE');
 		logit(e);
@@ -3443,37 +3444,37 @@ function $DELETE(variable, options) {
 }
 function $GET(variable, options) {
 	/*|{
-		"info": "Retrieve all or specific variables in the url",
-		"category": "Global",
-		"featured": true,
-		"parameters":[],
+	 "info": "Retrieve all or specific variables in the url",
+	 "category": "Global",
+	 "featured": true,
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"key": "(String) key for query value"}]},
-			{"parameters":[
-				{"key": "(String) key for query value"},
-				{"options": "(Object) Options to defer, ignore case, etc"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"key": "(String) key for query value"}]},
+	 {"parameters":[
+	 {"key": "(String) key for query value"},
+	 {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$GET",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#$GET",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
 		if (!variable) {
 			var allkeyvalues = {},
-				mapFunc = function(value){
-					if (value == "") {
-						return;
-					}
-					var keyvalue = value.split('='),
-						len = keyvalue.length;
-					if (len > 2) {
-						for (var i = 2; i < len; i++) {
-							keyvalue[1] += keyvalue[i];
+					mapFunc = function(value){
+						if (value == "") {
+							return;
 						}
-					}
-					return allkeyvalues[keyvalue[0]] = keyvalue[1];
-				};
+						var keyvalue = value.split('='),
+								len = keyvalue.length;
+						if (len > 2) {
+							for (var i = 2; i < len; i++) {
+								keyvalue[1] += keyvalue[i];
+							}
+						}
+						return allkeyvalues[keyvalue[0]] = keyvalue[1];
+					};
 
 			(this.$l.search[0] == "?" ? this.$l.search.substr(1) : this.$l.search).split('&').map(mapFunc);
 			(this.$l.hash[0] == "#" ? this.$l.hash.substr(1) : this.$l.hash).split('@').map(mapFunc);
@@ -3481,15 +3482,15 @@ function $GET(variable, options) {
 		}
 		options = options || {};
 		var ignoreCase = options.ignoreCase || options == "ignoreCase" ? "i" : "",
-			regex = new RegExp("[\?|&|@]?" + variable + "=", ignoreCase),
-			attr = "search",
-			location = {};
+				regex = new RegExp("[\?|&|@]?" + variable + "=", ignoreCase),
+				attr = "search",
+				location = {};
 		location.hash = this.$l.hash;
 		location.search = this.$l.search;
 
 		if (options.url || $c && $c.isString && ($c.isString(options) && (options.indexOf("?") != -1 || options.indexOf("#") != -1))) {
 			var query = options.url || options,
-				hindex, qindex = query.indexOf("?");
+					hindex, qindex = query.indexOf("?");
 
 			qindex != -1 && (query = query.substr(qindex));
 
@@ -3514,21 +3515,21 @@ function $GET(variable, options) {
 }
 function $HEADER(variable, options) {
 	/*|{
-		"info": "Retrieve all or specific variables in the headers",
-		"category": "Global",
-		"featured": true,
-		"parameters":[],
+	 "info": "Retrieve all or specific variables in the headers",
+	 "category": "Global",
+	 "featured": true,
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"key": "(String) key for query value"}]},
-			{"parameters":[
-				{"key": "(String) key for query value"},
-				{"options": "(Object) Options to defer, ignore case, etc"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"key": "(String) key for query value"}]},
+	 {"parameters":[
+	 {"key": "(String) key for query value"},
+	 {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$HEADER",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#$HEADER",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
 		this.request.headers = this.request.headers || {};
 
@@ -3554,23 +3555,23 @@ function $HEADER(variable, options) {
 }
 function $POST(variable, options) {
 	/*|{
-		"info": "Retrieve all or specific variables in the Body",
-		"category": "Global",
-		"featured": true,
-		"parameters":[],
+	 "info": "Retrieve all or specific variables in the Body",
+	 "category": "Global",
+	 "featured": true,
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"key": "(String) key for query value"}]},
-			{"parameters":[
-				{"key": "(String) key for query value"},
-				{"options": "(Object) Options to defer, ignore case, etc"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"key": "(String) key for query value"}]},
+	 {"parameters":[
+	 {"key": "(String) key for query value"},
+	 {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$POST",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#$POST",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
-		return _verb_payload_helper(variable, options);
+		return _verb_payload_helper.call(this, variable, options);
 	} catch (e) {
 		logit('$POST');
 		logit(e);
@@ -3578,23 +3579,23 @@ function $POST(variable, options) {
 }
 function $PUT(variable, options) {
 	/*|{
-		"info": "Retrieve all or specific variables in the Body",
-		"category": "Global",
-		"featured": true,
-		"parameters":[],
+	 "info": "Retrieve all or specific variables in the Body",
+	 "category": "Global",
+	 "featured": true,
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"key": "(String) key for query value"}]},
-			{"parameters":[
-				{"key": "(String) key for query value"},
-				{"options": "(Object) Options to defer, ignore case, etc"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"key": "(String) key for query value"}]},
+	 {"parameters":[
+	 {"key": "(String) key for query value"},
+	 {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$PUT",
-		"returnType": "(Mixed)"
+	 "url": "http://www.craydent.com/library/1.8.1/docs#$PUT",
+	 "returnType": "(Mixed)"
 	 }|*/
 	try {
-		return _verb_payload_helper(variable, options);
+		return _verb_payload_helper.call(this, variable, options);
 	} catch (e) {
 		logit('$PUT');
 		logit(e);
@@ -3602,16 +3603,16 @@ function $PUT(variable, options) {
 }
 function cout(){
 	/*|{
-		"info": "Log to console when DEBUG_MODE is true and when the console is available",
-		"category": "Global",
-		"parameters":[
-			{"infinite": "any number of arguments can be passed."}],
+	 "info": "Log to console when DEBUG_MODE is true and when the console is available",
+	 "category": "Global",
+	 "parameters":[
+	 {"infinite": "any number of arguments can be passed."}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#cout",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#cout",
+	 "returnType": "(void)"
+	 }|*/
 	try {
 		if($c && $c.DEBUG_MODE && console && console.log){
 			for (var i = 0, len = arguments.length; i < len; i++) {
@@ -3624,43 +3625,43 @@ function cout(){
 }
 function cuid(msFormat) {
 	/*|{
-		"info": "Creates a Craydent/Global Unique Identifier",
-		"category": "Global",
-		"parameters":[
-			{"msFormat": "(Bool) use microsoft format if true"}],
+	 "info": "Creates a Craydent/Global Unique Identifier",
+	 "category": "Global",
+	 "parameters":[
+	 {"msFormat": "(Bool) use microsoft format if true"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#cuid",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#cuid",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		var pr = "", pt = "";
 		//noinspection CommaExpressionJS
 		msFormat && (pr="{",pt="}");
 		return pr + 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-			return v.toString(16);
-		}) + pt;
+					var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+					return v.toString(16);
+				}) + pt;
 	} catch (e) {
 		error('cuid', e);
 	}
 }
 function emit(ev) {
 	/*|{
-		"info": "Call the next function(s) in queue",
-		"category": "Global",
-		"parameters":[
-			{"event": "Event to trigger."}],
+	 "info": "Call the next function(s) in queue",
+	 "category": "Global",
+	 "parameters":[
+	 {"event": "Event to trigger."}],
 
-		"overloads":[
-			{"parameters":[
-	 			{"event": "Event to trigger."},
-	 			{"infinite": "any number of arguments can be passed and will be applied to listening functions."}}],
+	 "overloads":[
+	 {"parameters":[
+	 {"event": "Event to trigger."},
+	 {"infinite": "any number of arguments can be passed and will be applied to listening functions."}}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#emit",
-		"returnType":"(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#emit",
+	 "returnType":"(void)"
+	 }|*/
 	try {
 		if (ev && arguments.callee.caller['_'+ev]) {
 			_run_func_array.call(this, arguments.callee.caller['_' + ev], arguments.splice(1));
@@ -3738,17 +3739,17 @@ function end(status, output, encoding) {
 }
 function error(fname, e) {
 	/*|{
-		"info": "User implemented place holder function to handle errors",
-		"category": "Global",
-		"parameters":[
-			{"fname": "(String) The function name the error was thrown"},
-			{"e": "(Error) Exception object thrown"}],
+	 "info": "User implemented place holder function to handle errors",
+	 "category": "Global",
+	 "parameters":[
+	 {"fname": "(String) The function name the error was thrown"},
+	 {"e": "(Error) Exception object thrown"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#error",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#error",
+	 "returnType": "(void)"
+	 }|*/
 	try {
 		$c.DEBUG_MODE && cout("Error in " + fname + "\n" + (e.description || e), e);
 	} catch (e) {
@@ -3757,27 +3758,27 @@ function error(fname, e) {
 }
 function fillTemplate (htmlTemplate, objs, offset, max, bound) {
 	/*|{
-		"info": "Function for templetizing",
-		"category": "Global",
-		"featured": true,
-		"parameters":[
-			{htmlTemplate: "(String) Template to be used"},
-			{objs: "(Objects[]) Objects to fill the template variables"}],
+	 "info": "Function for templetizing",
+	 "category": "Global",
+	 "featured": true,
+	 "parameters":[
+	 {htmlTemplate: "(String) Template to be used"},
+	 {objs: "(Objects[]) Objects to fill the template variables"}],
 
-		"overloads":[
-			{"parameters":[
-				{"htmlTemplate": "(String) Template to be used"},
-				{"objs": "(Objects[]) Objects to fill the template variables"},
-				{"max": "(Int) The maximum number of records to process"}]},
-			{"parameters":[
-				{"htmlTemplate": "(String) Template to be used"},
-				{"objs": "(Objects[]) Objects to fill the template variables"},
-				{"offset": "(Int) The start index of the Object array"},
-				{"max": "(Int) The maximum number of records to process"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"htmlTemplate": "(String) Template to be used"},
+	 {"objs": "(Objects[]) Objects to fill the template variables"},
+	 {"max": "(Int) The maximum number of records to process"}]},
+	 {"parameters":[
+	 {"htmlTemplate": "(String) Template to be used"},
+	 {"objs": "(Objects[]) Objects to fill the template variables"},
+	 {"offset": "(Int) The start index of the Object array"},
+	 {"max": "(Int) The maximum number of records to process"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#fillTemplate",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#fillTemplate",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		var nested = true;
 		if (!fillTemplate.declared && !fillTemplate.refs) {
@@ -3801,10 +3802,10 @@ function fillTemplate (htmlTemplate, objs, offset, max, bound) {
 			objs = [objs];
 		}
 		var html = "", variable, value, ttc = $c.TEMPLATE_TAG_CONFIG, tv = $c.TEMPLATE_VARS,
-			hasDataProps = htmlTemplate.contains('${dataproperties}'),
-			vsyntax = ttc.VARIABLE,
-			vnsyntax = ttc.VARIABLE_NAME,
-			declarations = htmlTemplate.match(ttc.DECLARE.syntax.addFlags('g')) || [];
+				hasDataProps = htmlTemplate.contains('${dataproperties}'),
+				vsyntax = ttc.VARIABLE,
+				vnsyntax = ttc.VARIABLE_NAME,
+				declarations = htmlTemplate.match(ttc.DECLARE.syntax.addFlags('g')) || [];
 		for (var j = 0, jlen = tv.length; j < jlen; j++) {
 			variable = tv[j].variable;
 			value = tv[j].value;
@@ -3905,15 +3906,15 @@ function fillTemplate (htmlTemplate, objs, offset, max, bound) {
 }
 function foo () {
 	/*|{
-		"info": "Place holder function for a blank function",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Place holder function for a blank function",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#foo",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#foo",
+	 "returnType": "(void)"
+	 }|*/
 }
 function getSessionID() {
 	try {
@@ -3965,16 +3966,16 @@ function header(headers, code) {
 }
 function include(path){
 	/*|{
-		"info": "Require without erroring when module does not exist.",
-		"category": "Global",
-		"parameters":[
-			{"path": "(String) Module or Path to module."}],
+	 "info": "Require without erroring when module does not exist.",
+	 "category": "Global",
+	 "parameters":[
+	 {"path": "(String) Module or Path to module."}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#include",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#include",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
 		return require(path);
 	} catch (e) {
@@ -3983,16 +3984,16 @@ function include(path){
 }
 function logit(){
 	/*|{
-		"info": "Log to console when DEBUG_MODE is true and when the console is available",
-		"category": "Global",
-		"parameters":[
-			{"infinite": "any number of arguments can be passed."}],
+	 "info": "Log to console when DEBUG_MODE is true and when the console is available",
+	 "category": "Global",
+	 "parameters":[
+	 {"infinite": "any number of arguments can be passed."}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#logit",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#logit",
+	 "returnType": "(void)"
+	 }|*/
 	try {
 		var location = "", err = new Error(), args = [];
 
@@ -4010,16 +4011,16 @@ function logit(){
 }
 function md5(str) {
 	/*|{
-		"info": "MD5 encode a string.",
-		"category": "Global",
-		"parameters":[
-			{"str": "(String) String to encode."}],
+	 "info": "MD5 encode a string.",
+	 "category": "Global",
+	 "parameters":[
+	 {"str": "(String) String to encode."}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#md5",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#md5",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		var crypto = require('crypto'),
 				md5sum = crypto.createHash('md5');
@@ -4031,17 +4032,17 @@ function md5(str) {
 }
 function mkdirRecursive(path, callback, _processedPath) {
 	/*|{
-		"info": "Recursively create folders.",
-		"category": "Global",
-		"parameters":[
-			{"path": "(String) Path to create."},
-			{"callback": "(Function) Method to call when directories are created."}],
+	 "info": "Recursively create folders.",
+	 "category": "Global",
+	 "parameters":[
+	 {"path": "(String) Path to create."},
+	 {"callback": "(Function) Method to call when directories are created."}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#mkdirRecursive",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#mkdirRecursive",
+	 "returnType": "(void)"
+	 }|*/
 	try {
 		_processedPath = _processedPath || "";
 		var fs = require('fs'),
@@ -4068,21 +4069,21 @@ function mkdirRecursive(path, callback, _processedPath) {
 }
 function namespace (name, clazz, fn) {
 	/*|{
-		"info": "Adds the class to a namespace instead of the global space",
-		"category": "Global",
-		"parameters":[
-			{"name":"(String) Name of the namespace to add to."},
-			{"clazz":"(Class) Class to add to the given namespace"}],
+	 "info": "Adds the class to a namespace instead of the global space",
+	 "category": "Global",
+	 "parameters":[
+	 {"name":"(String) Name of the namespace to add to."},
+	 {"clazz":"(Class) Class to add to the given namespace"}],
 
-		"overloads":[
-			{"parameters":[
-				{"name":"(String) Name of the namespace to add to."},
-				{"clazz":"(Class) Class to add to the given namespace"},
-				{"fn":"(Function) Method to call after the class has been added to the namespace"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"name":"(String) Name of the namespace to add to."},
+	 {"clazz":"(Class) Class to add to the given namespace"},
+	 {"fn":"(Function) Method to call after the class has been added to the namespace"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#namespace",
-		"returnType":"(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#namespace",
+	 "returnType":"(void)"
+	 }|*/
 	try {
 		var className = clazz.getName();
 		$g[className] = namespace[className] || clazz;
@@ -4094,16 +4095,16 @@ function namespace (name, clazz, fn) {
 }
 function next () {
 	/*|{
-		"info": "Call the next function(s) in queue",
-		"category": "Global",
-		"parameters":[
-	 		{"infinite": "any number of arguments can be passed."}],
+	 "info": "Call the next function(s) in queue",
+	 "category": "Global",
+	 "parameters":[
+	 {"infinite": "any number of arguments can be passed."}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#next",
-		"returnType":"(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#next",
+	 "returnType":"(void)"
+	 }|*/
 	try {
 		_run_func_array.call(this, arguments.callee.caller._then, arguments);
 	} catch (e) {
@@ -4112,33 +4113,33 @@ function next () {
 }
 function now (format) {
 	/*|{
-		"info": "Get the DateTime of now",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Get the DateTime of now",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"format": "(String) Format syntax to return formatted string of now"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"format": "(String) Format syntax to return formatted string of now"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#now",
-		"returnType":"(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#now",
+	 "returnType":"(Mixed)"
+	 }|*/
 	try {
 		return format ? (new Date()).format(format) : new Date();
 	} catch (e) { error('now', e); }
 }
 function parseBoolean(value) {
 	/*|{
-		"info": "Try to parse value to a Boolean",
-		"category": "Global",
-		"parameters":[
-			{"value": "(Mixed) value to parse as boolean"}],
+	 "info": "Try to parse value to a Boolean",
+	 "category": "Global",
+	 "parameters":[
+	 {"value": "(Mixed) value to parse as boolean"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#parseBoolean",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#parseBoolean",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
 		if ($c.isString(value)) {
 			value = value.toLowerCase();
@@ -4155,20 +4156,20 @@ function parseBoolean(value) {
 }
 function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarNames) {
 	/*|{
-		"info": "Creates an evaluable string",
-		"category": "Global",
-		"parameters":[
-			{"value": "value to parse"}],
+	 "info": "Creates an evaluable string",
+	 "category": "Global",
+	 "parameters":[
+	 {"value": "value to parse"}],
 
-		"overloads":[
-			{"parameters":[
-				{"value": "(Mixed) Value to parse"},
-				{"skipQuotes": "(Bool) Flag to skip quotes for strings"},
-				{"saveCircular": "(Bool) Flag to save circular references"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"value": "(Mixed) Value to parse"},
+	 {"skipQuotes": "(Bool) Flag to skip quotes for strings"},
+	 {"saveCircular": "(Bool) Flag to save circular references"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#parseRaw",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#parseRaw",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		if (isNull(value)) {
 			return value + "";
@@ -4230,21 +4231,21 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
 }
 function rand(num1, num2, inclusive) {
 	/*|{
-		"info": "Create a random number between two numbers",
-		"category": "Global",
-		"parameters":[
-			{"num1": "(Number) Lower bound"},
-			{"num2": "(Number) Upper bound"}],
+	 "info": "Create a random number between two numbers",
+	 "category": "Global",
+	 "parameters":[
+	 {"num1": "(Number) Lower bound"},
+	 {"num2": "(Number) Upper bound"}],
 
-		"overloads":[
-			{"parameters":[
-				{"num1": "(Number) Lower bound"},
-				{"num2": "(Number) Upper bound"},
-				{"inclusive": "(Bool) Flag to include the given numbers"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"num1": "(Number) Lower bound"},
+	 {"num2": "(Number) Upper bound"},
+	 {"inclusive": "(Bool) Flag to include the given numbers"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#rand",
-		"returnType": "(Number)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#rand",
+	 "returnType": "(Number)"
+	 }|*/
 	try {
 		var val = (num2 - num1)*Math.random() + num1;
 		if (inclusive) {
@@ -4261,19 +4262,19 @@ function rand(num1, num2, inclusive) {
 }
 function requireDirectory(path, options, __basepath, __objs, __fs){
 	/*|{
-		"info": "Recursively require the entire directory and returns an object containing the required modules.",
-		"category": "Global",
-		"parameters":[
-			{"path": "(String) Path to directory."}],
+	 "info": "Recursively require the entire directory and returns an object containing the required modules.",
+	 "category": "Global",
+	 "parameters":[
+	 {"path": "(String) Path to directory."}],
 
-		"overloads":[
-			{"parameters":[
-				{"path": "(String) Path to directory."},
-				{"options": "(Char) 'r' Flag to use to indicate recursively require"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"path": "(String) Path to directory."},
+	 {"options": "(Char) 'r' Flag to use to indicate recursively require"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#requireDirectory",
-		"returnType": "(Object)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#requireDirectory",
+	 "returnType": "(Object)"
+	 }|*/
 	var callingPath = "",
 			delimiter = "/";
 
@@ -4314,16 +4315,16 @@ function requireDirectory(path, options, __basepath, __objs, __fs){
 }
 function send (status, data) {
 	/*|{
-		"info": "Recursively require the entire directory and returns an object containing the required modules.",
-		"category": "Global",
-		"parameters":[
-			{"data": "(Object) Object to send in response."}],
+	 "info": "Recursively require the entire directory and returns an object containing the required modules.",
+	 "category": "Global",
+	 "parameters":[
+	 {"data": "(Object) Object to send in response."}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#send",
-		"returnType": "(Object)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#send",
+	 "returnType": "(Object)"
+	 }|*/
 	if ($c.isObject(status) && !data) {
 		data = status;
 		status = undefined;
@@ -4333,17 +4334,17 @@ function send (status, data) {
 }
 function suid(length) {
 	/*|{
-		"info": "Creates a short Craydent/Global Unique Identifier",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Creates a short Craydent/Global Unique Identifier",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"length": "(Integer) Custom length of the short unique identifier"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"length": "(Integer) Custom length of the short unique identifier"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#suid",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#suid",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		//noinspection CommaExpressionJS
 		length = length || 10;
@@ -4359,16 +4360,16 @@ function suid(length) {
 }
 function syncroit(gen) {
 	/*|{
-		"info": "Generator based control flow to allow for more \"syncronous\" programing structure",
-		"category": "Global",
-		"parameters":[
-	 		{"generator": "(GeneratorFunction) Generator function to execute"}],
+	 "info": "Generator based control flow to allow for more \"syncronous\" programing structure",
+	 "category": "Global",
+	 "parameters":[
+	 {"generator": "(GeneratorFunction) Generator function to execute"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#syncroit",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#syncroit",
+	 "returnType": "(void)"
+	 }|*/
 	try {
 		var geno = gen();
 
@@ -4387,19 +4388,19 @@ function syncroit(gen) {
 }
 function tryEval(expression, evaluator) {
 	/*|{
-		"info": "Evaluates an expression without throwing an error",
-		"category": "Global",
-		"parameters":[
-			{"expression": "(Mixed) Expression to evaluate"}],
+	 "info": "Evaluates an expression without throwing an error",
+	 "category": "Global",
+	 "parameters":[
+	 {"expression": "(Mixed) Expression to evaluate"}],
 
-		"overloads":[
-			{"parameters":[
-				{"expression": "(Mixed) Expression to evaluate"},
-				{"evaluator": "(Function) Method to use to evaluate the expression"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"expression": "(Mixed) Expression to evaluate"},
+	 {"evaluator": "(Function) Method to use to evaluate the expression"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#tryEval",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#tryEval",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
 		var value = (evaluator || eval)(expression);
 		if (value === undefined && expression != "undefined") {
@@ -4444,29 +4445,29 @@ function var_dump() {
 /*timing functions*/
 function wait(condition) { // TODO: allow for nested wait calls
 	/*|{
-		"info": "Stops execution until the condition is satisfied",
-		"category": "Global",
-		"parameters":[
-			{"condition": "(Mixed) Condition equivalent to js true to resume execution"}],
+	 "info": "Stops execution until the condition is satisfied",
+	 "category": "Global",
+	 "parameters":[
+	 {"condition": "(Mixed) Condition equivalent to js true to resume execution"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#wait",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#wait",
+	 "returnType": "(void)"
+	 }|*/
 	try {
 		var args = arguments.callee.caller.arguments,
-			funcOriginal = arguments.callee.caller.toString().
-			replace(/\/\/.*?[\r\n]/gi,'').
-			replace(/[\t\r\n]*/gi, '').
-			replace(/\/\*.*?\*\//gi, ''),
-			func = funcOriginal,
-			funcArgNames = func.trim().replace(/^function\s*?\((.*?)\).*/, '$1').replace(/\s*/gi,'').split(','),
-			fname = func.replace(/function\s*?(.*?)\s*?\(.*/,'$1'),
-			fnBefore = func.substr(0, func.indexOf('return wait')),
-			variableGroups = fnBefore.match(/var .*?;/gi),
-			condition = func.replace(/.*?(return)*\s*?wait\((.*?)\);.*/, '$2'),
-			fregex = /\s*?function\s*?\(\s*?\)\s*?\{/;
+				funcOriginal = arguments.callee.caller.toString().
+				replace(/\/\/.*?[\r\n]/gi,'').
+				replace(/[\t\r\n]*/gi, '').
+				replace(/\/\*.*?\*\//gi, ''),
+				func = funcOriginal,
+				funcArgNames = func.trim().replace(/^function\s*?\((.*?)\).*/, '$1').replace(/\s*/gi,'').split(','),
+				fname = func.replace(/function\s*?(.*?)\s*?\(.*/,'$1'),
+				fnBefore = func.substr(0, func.indexOf('return wait')),
+				variableGroups = fnBefore.match(/var .*?;/gi),
+				condition = func.replace(/.*?(return)*\s*?wait\((.*?)\);.*/, '$2'),
+				fregex = /\s*?function\s*?\(\s*?\)\s*?\{/;
 		func = func.replace(fname, '').replace(/(function\s*?\(.*?\)\s*?\{).*?(return)*\s*?wait\((.*?)\);/, '$1');
 		for (var a = 0, alen = funcArgNames.length; a < alen; a++) {
 			if (funcArgNames[a]) {
@@ -4542,7 +4543,7 @@ function writeSession() {
 }
 function _parseSingleNode (xml, ignoreAttributes) {
 	var nodename = xml.replace(/<(.*?)(\s|>).*/,'$1'), index = xml.indexOf("<"+nodename, 1 + nodename.length), eindex = xml.indexOf("/"+nodename),
-		kvs = xml.replace(/<.*?\s+(.*?)\/?>.*/,'$1').split(/\s+/), obj = {'@attributes' : {}};
+			kvs = xml.replace(/<.*?\s+(.*?)\/?>.*/,'$1').split(/\s+/), obj = {'@attributes' : {}};
 
 	if (kvs.length > 1 || kvs[0] != xml) {
 		for (var i = 0, len = kvs.length; i < len; i++) {
@@ -4570,19 +4571,19 @@ function _parseSingleNode (xml, ignoreAttributes) {
 function xmlToJson(xml, ignoreAttributes) {
 	// TODO: implement updated version
 	/*|{
-		"info": "Converts XML to JSON",
-		"category": "Global",
-		"parameters":[
-			{"xml": "(Mixed) XML string or XML DOM"}],
+	 "info": "Converts XML to JSON",
+	 "category": "Global",
+	 "parameters":[
+	 {"xml": "(Mixed) XML string or XML DOM"}],
 
-		"overloads":[
-			{"parameters":[
-				{"xml": "(Mixed) XML string or XML DOM"},
-				{"ignoreAttributes": "(Bool) Flag to ignore attributes"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"xml": "(Mixed) XML string or XML DOM"},
+	 {"ignoreAttributes": "(Bool) Flag to ignore attributes"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#xmlToJson",
-		"returnType": "(Object)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#xmlToJson",
+	 "returnType": "(Object)"
+	 }|*/
 	try {
 		xml = xml.replace(/(\n|\r)*<\?.*?\?>(\n|\r)*/,'');
 		if (!xml) { return null; }
@@ -4627,7 +4628,7 @@ function xmlToJson(xml, ignoreAttributes) {
 		_ref = $c.getProperty(arguments,"callee.caller.name") == "xmlToJson" ? _ref : {};
 		xml = xml.replace(/(\n|\r)*<\?.*?\?>(\n|\r)*/,'');
 		var regex = /^(?:(?:\n|\r)*<(.*?)\s+((?:\n|\r)*((?:.+?='.+?')\s*)*?|((?:.+?=".+?")\s*)*?|((?:.+?=.+?)\s*)*?|((?:'.+?'='.+?')\s*)*?|((?:'.+?'=".+?")\s*)*?|((?:'.+?'=.+?)\s*)*?|((?:".+?"='.+?')\s*)*?|((?:.+?=".+?")\s*)*?|((?:".+?"=.+?)\s*)*?(?:\n|\r)*)>(?:\n|\r)*(.*)?(?:\n|\r)*<(\/.*?)>(?:\n|\r)*)/,
-			nodename = xml.replace(/<(.*?)\s/,'$1'), index = 1 + nodename.length, eindex = xml.indexOf("/"+nodename);
+				nodename = xml.replace(/<(.*?)\s/,'$1'), index = 1 + nodename.length, eindex = xml.indexOf("/"+nodename);
 
 		if (!xml) {
 			return null;
@@ -4678,25 +4679,25 @@ function xmlToJson(xml, ignoreAttributes) {
 }
 function zipit(files, content/*=NULL*/) {
 	/*|{
-		"info": "Download a zip of files from file contents",
-		"category": "Global",
-		"featured": true,
-		"parameters":[
-			{"files": "(Object[]) Objects containing properties name for file name and content for file content"}],
+	 "info": "Download a zip of files from file contents",
+	 "category": "Global",
+	 "featured": true,
+	 "parameters":[
+	 {"files": "(Object[]) Objects containing properties name for file name and content for file content"}],
 
-		"overloads":[
-			{"parameters":[
-				{"files": "(String) Name of the file"},
-				{"content": "(String) contents of the file"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"files": "(String) Name of the file"},
+	 {"content": "(String) contents of the file"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#zipit",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#zipit",
+	 "returnType": "(void)"
+	 }|*/
 	try {
 		files = (content && $c.isString(files) && [{
-			name:files,
-			content:content
-		}]) || $c.isObject(files) && [files] || $c.isArray(files) && files;
+					name:files,
+					content:content
+				}]) || $c.isObject(files) && [files] || $c.isArray(files) && files;
 		var zip = new JSZip();
 		for (var i = 0, len = files.length; i < len; i++) {
 			var file = files[i];
@@ -4720,15 +4721,15 @@ function zipit(files, content/*=NULL*/) {
  /---------------------------------------------------------------------------------------------------------------*/
 function ChromeVersion (){
 	/*|{
-		"info": "Get Chrome version",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Get Chrome version",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#ChromeVersion",
-		"returnType": "(Float)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#ChromeVersion",
+	 "returnType": "(Float)"
+	 }|*/
 	try {
 		return _getBrowserVersion.call(this, "Chrome");
 	} catch(e){
@@ -4737,15 +4738,15 @@ function ChromeVersion (){
 }
 function FirefoxVersion (){
 	/*|{
-		"info": "Get Firefox version",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Get Firefox version",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#FirefoxVersion",
-		"returnType": "(Float)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#FirefoxVersion",
+	 "returnType": "(Float)"
+	 }|*/
 	try {
 		return _getBrowserVersion.call(this, "Firefox");
 	} catch(e){
@@ -4754,20 +4755,20 @@ function FirefoxVersion (){
 }
 function IEVersion () {
 	/*|{
-		"info": "Get Internet Explorer version",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Get Internet Explorer version",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#IEVersion",
-		"returnType": "(Float)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#IEVersion",
+	 "returnType": "(Float)"
+	 }|*/
 	try {
 		var rv = -1;
 		if (this.navigator.appName == 'Microsoft Internet Explorer') {
 			var ua = this.navigator.userAgent,
-				re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+					re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
 			if (re.exec(ua) != null) {
 				rv = parseFloat(RegExp.$1);
 			}
@@ -4779,15 +4780,15 @@ function IEVersion () {
 }
 function OperaVersion (){
 	/*|{
-		"info": "Get Opera version",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Get Opera version",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#OperaVersion",
-		"returnType": "(Float)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#OperaVersion",
+	 "returnType": "(Float)"
+	 }|*/
 	try {
 		return _getBrowserVersion.call(this, "Opera");
 	} catch(e){
@@ -4796,15 +4797,15 @@ function OperaVersion (){
 }
 function SafariVersion (){
 	/*|{
-		"info": "Get Safari version",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Get Safari version",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#SafariVersion",
-		"returnType": "(Float)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#SafariVersion",
+	 "returnType": "(Float)"
+	 }|*/
 	try {
 		return _getBrowserVersion.call(this, "Safari");
 	} catch(e){
@@ -4814,15 +4815,15 @@ function SafariVersion (){
 
 function isAmaya() {
 	/*|{
-		"info": "Check if browser is Amaya",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if browser is Amaya",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isAmaya",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isAmaya",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/amaya/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -4831,15 +4832,15 @@ function isAmaya() {
 }
 function isAndroid(){
 	/*|{
-		"info": "Check if device is Android",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if device is Android",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isAndroid",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isAndroid",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/android/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -4848,15 +4849,15 @@ function isAndroid(){
 }
 function isBlackBerry() {
 	/*|{
-		"info": "Check if device is BlackBerry",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if device is BlackBerry",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isBlackBerry",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isBlackBerry",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/blackberry/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -4865,15 +4866,15 @@ function isBlackBerry() {
 }
 function isChrome(){
 	/*|{
-		"info": "Check if browser is Chrome",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if browser is Chrome",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isChrome",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isChrome",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/chrome/i.test(this.navigator.userAgent));
 	} catch(e){
@@ -4882,15 +4883,15 @@ function isChrome(){
 }
 function isFirefox(){
 	/*|{
-		"info": "Check if browser is Firefox",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if browser is Firefox",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isFirefox",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isFirefox",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		var nu = this.navigator.userAgent;
 		return (!/chrome/i.test(nu)
@@ -4903,15 +4904,15 @@ function isFirefox(){
 }
 function isGecko() {
 	/*|{
-		"info": "Check if engine is Gecko",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if engine is Gecko",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isGecko",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isGecko",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/gecko/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -4920,15 +4921,15 @@ function isGecko() {
 }
 function isIE6() {
 	/*|{
-		"info": "Check if browser is Internet Explorer 6",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if browser is Internet Explorer 6",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isIE6",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isIE6",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		var rv = IEVersion();
 		return (rv != -1 && rv < 7.0);
@@ -4938,15 +4939,15 @@ function isIE6() {
 }
 function isIE() {
 	/*|{
-		"info": "Check if browser is Internet Explorer",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if browser is Internet Explorer",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isIE",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isIE",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (IEVersion() != -1);
 	} catch (e) {
@@ -4955,15 +4956,15 @@ function isIE() {
 }
 function isIPad() {
 	/*|{
-		"info": "Check if device is iPad",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if device is iPad",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isIPad",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isIPad",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/iPad|iPhone OS 3_[1|2]_2/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -4972,15 +4973,15 @@ function isIPad() {
 }
 function isIPhone(){
 	/*|{
-		"info": "Check if device is IPhone",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if device is IPhone",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isIphone",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isIphone",
+	 "returnType": "(Bool)"
+	 }|*/
 	try{
 		return !isIPad() && /iphone/i.test(this.navigator.userAgent);
 	} catch (e) {
@@ -4989,15 +4990,15 @@ function isIPhone(){
 }
 function isIPod() {
 	/*|{
-		"info": "Check if device is IPod",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if device is IPod",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isIPod",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isIPod",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/ipod/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -5006,15 +5007,15 @@ function isIPod() {
 }
 function isKHTML() {
 	/*|{
-		"info": "Check if engine is KHTML",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if engine is KHTML",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isKHTML",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isKHTML",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/khtml/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -5022,16 +5023,16 @@ function isKHTML() {
 	}
 }
 function isLinux(){
-/*|{
-	"info": "Check if OS is Linux",
-	"category": "Global",
-	"parameters":[],
+	/*|{
+	 "info": "Check if OS is Linux",
+	 "category": "Global",
+	 "parameters":[],
 
-	"overloads":[],
+	 "overloads":[],
 
-	"url": "http://www.craydent.com/library/1.8.1/docs#isLinux",
-	"returnType": "(Bool)"
-}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isLinux",
+	 "returnType": "(Bool)"
+	 }|*/
 	try{
 		return /linux/i.test(this.navigator.platform);
 	} catch (e) {
@@ -5040,15 +5041,15 @@ function isLinux(){
 }
 function isMac(){
 	/*|{
-		"info": "Check if OS is Mac Based",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if OS is Mac Based",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isMac",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isMac",
+	 "returnType": "(Bool)"
+	 }|*/
 	try{
 		return /mac/i.test(this.navigator.platform);
 	} catch (e) {
@@ -5057,15 +5058,15 @@ function isMac(){
 }
 function isMobile(){
 	/*|{
-		"info": "Check if the device is a Mobile device",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if the device is a Mobile device",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isMobile",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isMobile",
+	 "returnType": "(Bool)"
+	 }|*/
 	try{
 		return isAndroid() || isBlackBerry() || isIPad() || isIPhone() || isIPod() || isPalmOS() || isSymbian() || isWindowsMobile();
 	} catch (e) {
@@ -5074,19 +5075,19 @@ function isMobile(){
 }
 function isNull(value, defaultValue) {
 	/*|{
-		"info": "Check if a value is Null",
-		"category": "Global",
-		"parameters":[
-			{"value": "(Mixed) Value to check"}],
+	 "info": "Check if a value is Null",
+	 "category": "Global",
+	 "parameters":[
+	 {"value": "(Mixed) Value to check"}],
 
-		"overloads":[
-			{"parameters":[
-				{"value": "(Mixed) Value to check"},
-				{"defaultValue": "(Mixed) Value to return if null"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"value": "(Mixed) Value to check"},
+	 {"defaultValue": "(Mixed) Value to return if null"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isNull",
-		"returnType": "()"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isNull",
+	 "returnType": "()"
+	 }|*/
 	var isnull = value == null || value == undefined;
 	if (defaultValue == null || defaultValue == undefined) {
 		return isnull;
@@ -5095,35 +5096,35 @@ function isNull(value, defaultValue) {
 }
 function isOpera(){
 	/*|{
-		"info": "Check if browser is Opera",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if browser is Opera",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isOpera",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isOpera",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		var nu = this.navigator.userAgent;
 		return /chrome/i.test(nu)
-			&& /apple/i.test(nu)
-			&& /opera/i.test(nu);
+				&& /apple/i.test(nu)
+				&& /opera/i.test(nu);
 	} catch(e){
 		error('isOpera', e);
 	}
 }
 function isPalmOS(){
 	/*|{
-		"info": "Check if OS is PalmOS",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if OS is PalmOS",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isPalmOS",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isPalmOS",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/palm/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -5132,15 +5133,15 @@ function isPalmOS(){
 }
 function isPresto() {
 	/*|{
-		"info": "Check if engine is Presto",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if engine is Presto",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isPresto",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isPresto",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/presto/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -5149,15 +5150,15 @@ function isPresto() {
 }
 function isPrince() {
 	/*|{
-		"info": "Check if engine is Prince",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if engine is Prince",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isPrince",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isPrince",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/prince/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -5166,15 +5167,15 @@ function isPrince() {
 }
 function isSafari(){
 	/*|{
-		"info": "Check if browser is Safari",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if browser is Safari",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isSafari",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isSafari",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		var nu = this.navigator.userAgent;
 		return (/chrome/i.test(nu)) && (/apple/i.test(nu));
@@ -5184,15 +5185,15 @@ function isSafari(){
 }
 function isSymbian () {
 	/*|{
-		"info": "Check if OS is Symbian",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if OS is Symbian",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isSymbian",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isSymbian",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		var nu = this.navigator.userAgent;
 		return (isWebkit() && (/series60/i.test(nu) || /symbian/i.test(nu)));
@@ -5202,15 +5203,15 @@ function isSymbian () {
 }
 function isTrident() {
 	/*|{
-		"info": "Check if engine is Trident",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if engine is Trident",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isTrident",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isTrident",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/trident/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -5219,15 +5220,15 @@ function isTrident() {
 }
 function isWebkit() {
 	/*|{
-		"info": "Check if engine is Webkit",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if engine is Webkit",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isWebkit",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isWebkit",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/webkit/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -5236,15 +5237,15 @@ function isWebkit() {
 }
 function isWindows(){
 	/*|{
-		"info": "Check if OS is Windows",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if OS is Windows",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isWindows",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isWindows",
+	 "returnType": "(Bool)"
+	 }|*/
 	try{
 		return /win/i.test(this.navigator.platform);
 	} catch (e) {
@@ -5253,15 +5254,15 @@ function isWindows(){
 }
 function isWindowsMobile() {
 	/*|{
-		"info": "Check if device is Windows Mobile",
-		"category": "Global",
-		"parameters":[],
+	 "info": "Check if device is Windows Mobile",
+	 "category": "Global",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isWindowsMobile",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#isWindowsMobile",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (/windows ce/i.test(this.navigator.userAgent));
 	} catch (e) {
@@ -5274,19 +5275,19 @@ function isWindowsMobile() {
  /---------------------------------------------------------------------------------------------------------------*/
 _ext(String, 'capitalize', function (pos, everyWord) {
 	/*|{
-		"info": "String class extension to capitalize parts of the string",
-		"category": "String",
-		"parameters":[
-			{"pos": "(Int[]) Index of the string to capitalize"}],
+	 "info": "String class extension to capitalize parts of the string",
+	 "category": "String",
+	 "parameters":[
+	 {"pos": "(Int[]) Index of the string to capitalize"}],
 
-		"overloads":[
-			{"parameters":[
-				{"pos": "(Int) Index of the string to capitalize"},
-				{"everyWord": "(Bool) Flag to capital every word"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"pos": "(Int) Index of the string to capitalize"},
+	 {"everyWord": "(Bool) Flag to capital every word"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.capitalize",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.capitalize",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		pos = pos || [0];
 		!$c.isArray(pos) && (pos = [pos]);
@@ -5303,16 +5304,16 @@ _ext(String, 'capitalize', function (pos, everyWord) {
 }, true);
 _ext(String, 'convertUTCDate', function (delimiter) {
 	/*|{
-		"info": "String class extension to convert date string to UTC format",
-		"category": "String",
-		"parameters":[
-			{"delimiter": "(String) Character that delimits the date string"}],
+	 "info": "String class extension to convert date string to UTC format",
+	 "category": "String",
+	 "parameters":[
+	 {"delimiter": "(String) Character that delimits the date string"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.convertUTCDate",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.convertUTCDate",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		var dateAsString = this;
 		if (dateAsString.substring(dateAsString.length - 2) == ".0") {
@@ -5328,23 +5329,23 @@ _ext(String, 'convertUTCDate', function (delimiter) {
 }, true);
 _ext(String, 'count', function (word) {
 	/*|{
-		"info": "String class extension to count the number of occurences of a word or phrase",
-		"category": "String",
-		"parameters":[
-			{word": "(String) Word or phrase to count"}],
+	 "info": "String class extension to count the number of occurences of a word or phrase",
+	 "category": "String",
+	 "parameters":[
+	 {word": "(String) Word or phrase to count"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.count",
-		"returnType": "(Int)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.count",
+	 "returnType": "(Int)"
+	 }|*/
 	try {
 		if (!$c.isRegExp(word)) {
 			word = new RegExp(word, "g");
 		} else if (!word.global) {
 			var reg_str = word.toString(),
-				index = reg_str.lastIndexOf('/'),
-				options = reg_str(index + 1);
+					index = reg_str.lastIndexOf('/'),
+					options = reg_str(index + 1);
 
 			reg_str = reg_str.substring(1,index);
 			word = new RegExp(word, "g"+options);
@@ -5356,21 +5357,21 @@ _ext(String, 'count', function (word) {
 }, true);
 _ext(String, 'cut', function (si, ei, replacement) {
 	/*|{
-		"info": "String class extension to remove between the provided indexes",
-		"category": "String",
-		"parameters":[
-			{"start_index": "(Integer) Start index to cut"},
-			{"end_index": "(Integer) End index to cut"}],
+	 "info": "String class extension to remove between the provided indexes",
+	 "category": "String",
+	 "parameters":[
+	 {"start_index": "(Integer) Start index to cut"},
+	 {"end_index": "(Integer) End index to cut"}],
 
-		"overloads":[{
-			"parameters":[
-				{"start_index": "(Integer) Start index to cut"},
-				{"end_index": "(Integer) End index to cut"},
-				{"replacement": "(String) String to put in place of the cut"}]}],
+	 "overloads":[{
+	 "parameters":[
+	 {"start_index": "(Integer) Start index to cut"},
+	 {"end_index": "(Integer) End index to cut"},
+	 {"replacement": "(String) String to put in place of the cut"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.cut",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.cut",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		if (isNull(si) || isNull(ei)) {
 			return this;
@@ -5385,19 +5386,19 @@ _ext(String, 'cut', function (si, ei, replacement) {
 }, true);
 _ext(String, 'ellipsis', function (before, after) {
 	/*|{
-		"info": "String class extension to shorten by ellipsis",
-		"category": "String",
-		"parameters":[
-			{"before": "(Int) Number of characters to use before using ellipsis"}],
+	 "info": "String class extension to shorten by ellipsis",
+	 "category": "String",
+	 "parameters":[
+	 {"before": "(Int) Number of characters to use before using ellipsis"}],
 
-		"overloads":[
-			{"parameters":[
-				{"before": "(Int) Number of characters to use before using ellipsis"},
-				{"after": "(Int) Number of characters to use after the ellipsis"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"before": "(Int) Number of characters to use before using ellipsis"},
+	 {"after": "(Int) Number of characters to use after the ellipsis"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.ellipsis",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.ellipsis",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		after = after || 0;
 		if (before + after > this.length) {
@@ -5412,24 +5413,24 @@ _ext(String, 'endsWith', _endsWith);
 _ext(String, 'endsWithAny', _endsWith);
 _ext(String, 'fillTemplate', function (arr_objs, offset, max, bound) {
 	/*|{
-		"info": "String class extension to fill template based on template syntax",
-		"category": "String",
-		"featured": true,
-		"parameters":[
-			{"objs": "(Objects[]) Objects to fill the template variables"}],
+	 "info": "String class extension to fill template based on template syntax",
+	 "category": "String",
+	 "featured": true,
+	 "parameters":[
+	 {"objs": "(Objects[]) Objects to fill the template variables"}],
 
-		"overloads":[
-			{"parameters":[
-				{"objs": "(Objects[]) Objects to fill the template variables"},
-				{"offset": "(Int) The start index of the Object array"},
-				{"max": "(Int) The maximum number of records to process"}]},
-			{"parameters":[
-				{"objs": "(Objects[]) Objects to fill the template variables"},
-				{"max": "(Int) The maximum number of records to process"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"objs": "(Objects[]) Objects to fill the template variables"},
+	 {"offset": "(Int) The start index of the Object array"},
+	 {"max": "(Int) The maximum number of records to process"}]},
+	 {"parameters":[
+	 {"objs": "(Objects[]) Objects to fill the template variables"},
+	 {"max": "(Int) The maximum number of records to process"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.fillTemplate",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.fillTemplate",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		return fillTemplate(this, arr_objs, offset, max, bound);
 	} catch (e) {
@@ -5438,30 +5439,30 @@ _ext(String, 'fillTemplate', function (arr_objs, offset, max, bound) {
 });
 _ext(String, 'highlight', function (search, clazz, tag) {
 	/*|{
-		"info": "String class extension to surround search words with the given tag(default span) and class (default chighlight)",
-		"category": "String",
-		"parameters":[
-			{"search": "(String) String to search"}],
+	 "info": "String class extension to surround search words with the given tag(default span) and class (default chighlight)",
+	 "category": "String",
+	 "parameters":[
+	 {"search": "(String) String to search"}],
 
-		"overloads":[
-			{"parameters":[
-				{"search": "(RegExp) Regular expression to search"},
-				{"clazz": "(String) Class to add for highlighting"}]},
-			{"parameters":[
-				{"search": "(RegExp) Regular expression to search"},
-				{"clazz": "(String) Class to add for highlighting"}]},
-			{"parameters":[
-				{"search": "(String) String to search"},
-				{"clazz": "(String) Class to add for highlighting"},
-				{"tag": "(String) Tag to use to surround the search"}]},
-			{"parameters":[
-				{"search": "(String) String to search"},
-				{"clazz": "(String) Class to add for highlighting"},
-				{"tag": "(String) Tag to use to surround the search"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"search": "(RegExp) Regular expression to search"},
+	 {"clazz": "(String) Class to add for highlighting"}]},
+	 {"parameters":[
+	 {"search": "(RegExp) Regular expression to search"},
+	 {"clazz": "(String) Class to add for highlighting"}]},
+	 {"parameters":[
+	 {"search": "(String) String to search"},
+	 {"clazz": "(String) Class to add for highlighting"},
+	 {"tag": "(String) Tag to use to surround the search"}]},
+	 {"parameters":[
+	 {"search": "(String) String to search"},
+	 {"clazz": "(String) Class to add for highlighting"},
+	 {"tag": "(String) Tag to use to surround the search"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.cut",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.cut",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		clazz = clazz || "chighlight";
 		tag = tag || "span";
@@ -5484,19 +5485,19 @@ _ext(String, 'highlight', function (search, clazz, tag) {
 }, true);
 _ext(String, 'indexOfAlt', function(regex, pos) {
 	/*|{
-		"info": "String class extension to find the index based on a regular expression",
-		"category": "String",
-		"parameters":[
-			{"regex": "(RegExp) Regular expression to check value against"}],
+	 "info": "String class extension to find the index based on a regular expression",
+	 "category": "String",
+	 "parameters":[
+	 {"regex": "(RegExp) Regular expression to check value against"}],
 
-		"overloads":[
-			{"parameters":[
-				{"regex": "(RegExp) Regular expression to check value against"},
-				{"pos": "(Int) Index offset to start"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"regex": "(RegExp) Regular expression to check value against"},
+	 {"pos": "(Int) Index offset to start"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.indexOfAlt",
-		"returnType": "(Int)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.indexOfAlt",
+	 "returnType": "(Int)"
+	 }|*/
 	try {
 		if (isNull(regex)) { return -1; }
 		pos = pos || 0;
@@ -5508,17 +5509,17 @@ _ext(String, 'indexOfAlt', function(regex, pos) {
 }, true);
 _ext(String, 'ireplace_all', function(replace, subject) {
 	/*|{
-		"info": "String class extension to replace all substrings ignoring case",
-		"category": "String",
-		"parameters":[
-			{"replace": "(String) String to replace"},
-			{"subject": "(String) String to replace with"}],
+	 "info": "String class extension to replace all substrings ignoring case",
+	 "category": "String",
+	 "parameters":[
+	 {"replace": "(String) String to replace"},
+	 {"subject": "(String) String to replace with"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.ireplace_all",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.ireplace_all",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		return _replace_all.call(this, replace, subject, "gi")
 	} catch (e) {
@@ -5527,16 +5528,16 @@ _ext(String, 'ireplace_all', function(replace, subject) {
 }, true);
 _ext(String, 'isCuid', function (msFormat) {
 	/*|{
-		"info": "String class extension to check if the string is a cuid",
-		"category": "String",
-		"parameters":[
-			{"msFormat": "(Bool) use microsoft format if true"}],
+	 "info": "String class extension to check if the string is a cuid",
+	 "category": "String",
+	 "parameters":[
+	 {"msFormat": "(Bool) use microsoft format if true"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.isCuid",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.isCuid",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		var pre = "", post = "", length = 36;
 		msFormat && ((pre = "{") && (post = "}"),length += 2);
@@ -5547,15 +5548,15 @@ _ext(String, 'isCuid', function (msFormat) {
 }, true);
 _ext(String, 'isBlank', function () {
 	/*|{
-		"info": "String class extension to check if the string is empty",
-		"category": "String",
-		"parameters":[],
+	 "info": "String class extension to check if the string is empty",
+	 "category": "String",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.isBlank",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.isBlank",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return !this.length;
 	} catch (e) {
@@ -5564,15 +5565,15 @@ _ext(String, 'isBlank', function () {
 }, true);
 _ext(String, 'isValidEmail', function () {
 	/*|{
-		"info": "String class extension to check if string is a valid email",
-		"category": "String",
-		"parameters":[],
+	 "info": "String class extension to check if string is a valid email",
+	 "category": "String",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.isValidEmail",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.isValidEmail",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (!$c.isBlank(this) && !isNull(this)) {
 			var reg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -5585,19 +5586,19 @@ _ext(String, 'isValidEmail', function () {
 }, true);
 _ext(String, 'lastIndexOfAlt', function(regex, pos) {
 	/*|{
-		"info": "String class extension to find the last index based on a regular expression",
-		"category": "String",
-		"parameters":[
-			{"regex": "(RegExp) Regular expression to check value against"}],
+	 "info": "String class extension to find the last index based on a regular expression",
+	 "category": "String",
+	 "parameters":[
+	 {"regex": "(RegExp) Regular expression to check value against"}],
 
-		"overloads":[
-			{"parameters":[
-				{"regex": "(RegExp) Regular expression to check value against"},
-				{"pos": "(Int) Max index to go up to in the search"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"regex": "(RegExp) Regular expression to check value against"},
+	 {"pos": "(Int) Max index to go up to in the search"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.lastIndexOfAlt",
-		"returnType": "(Int)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.lastIndexOfAlt",
+	 "returnType": "(Int)"
+	 }|*/
 	try {
 		regex = (regex.global) ? regex : new RegExp(regex.source, "g" + (regex.ignoreCase ? "i" : "") + (regex.multiLine ? "m" : ""));
 		pos = pos || this.length;
@@ -5605,9 +5606,9 @@ _ext(String, 'lastIndexOfAlt', function(regex, pos) {
 			pos = 0;
 		}
 		var str = this.substring(0, pos + 1),
-			lindex = -1,
-			next = 0,
-			result;
+				lindex = -1,
+				next = 0,
+				result;
 
 		while((result = regex.exec(str)) != null) {
 			lindex = result.index;
@@ -5620,16 +5621,16 @@ _ext(String, 'lastIndexOfAlt', function(regex, pos) {
 }, true);
 _ext(String, 'ltrim', function (character) {
 	/*|{
-		"info": "String class extension to remove characters from the beginning of the string",
-		"category": "String",
-		"parameters":[
-			{"character": "(Char[]) Character to remove"}],
+	 "info": "String class extension to remove characters from the beginning of the string",
+	 "category": "String",
+	 "parameters":[
+	 {"character": "(Char[]) Character to remove"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.ltrim",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.ltrim",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		return _trim(this, 'l', character);
 	} catch (e) {
@@ -5638,15 +5639,15 @@ _ext(String, 'ltrim', function (character) {
 }, true);
 _ext(String, 'pluralize', function () {
 	/*|{
-		"info": "String class extension to do a best guess pluralization of the string",
-		"category": "String",
-		"parameters":[],
+	 "info": "String class extension to do a best guess pluralization of the string",
+	 "category": "String",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.pluralize",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.pluralize",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		var str = this;
 
@@ -5674,17 +5675,17 @@ _ext(String, 'pluralize', function () {
 });
 _ext(String, 'replace_all', function(replace, subject) {
 	/*|{
-		"info": "String class extension to replace all substrings (case sensitive)",
-		"category": "String",
-		"parameters":[
-			{"replace": "(String) String to replace"},
-			{"subject": "(String) String to replace with"}],
+	 "info": "String class extension to replace all substrings (case sensitive)",
+	 "category": "String",
+	 "parameters":[
+	 {"replace": "(String) String to replace"},
+	 {"subject": "(String) String to replace with"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.replace_all",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.replace_all",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		return _replace_all.call(this, replace, subject, "g")
 	} catch (e) {
@@ -5693,15 +5694,15 @@ _ext(String, 'replace_all', function(replace, subject) {
 }, true);
 _ext(String, 'reverse', function () {
 	/*|{
-		"info": "String class extension to reverse the string",
-		"category": "String",
-		"parameters":[],
+	 "info": "String class extension to reverse the string",
+	 "category": "String",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.reverse",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.reverse",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		return this.split('').reverse().join('');
 	} catch (e) {
@@ -5710,16 +5711,16 @@ _ext(String, 'reverse', function () {
 }, true);
 _ext(String, 'rtrim', function (character) {
 	/*|{
-		"info": "String class extension to remove characters from the end of the string",
-		"category": "String",
-		"parameters":[
-			{"character": "(Char[]) Character to remove"}],
+	 "info": "String class extension to remove characters from the end of the string",
+	 "category": "String",
+	 "parameters":[
+	 {"character": "(Char[]) Character to remove"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.rtrim",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.rtrim",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		return _trim(this, 'r', character);
 	} catch (e) {
@@ -5728,15 +5729,15 @@ _ext(String, 'rtrim', function (character) {
 }, true);
 _ext(String, 'sanitize', function () {
 	/*|{
-		"info": "String class extension to remove potential XSS threats",
-		"category": "String",
-		"parameters":[],
+	 "info": "String class extension to remove potential XSS threats",
+	 "category": "String",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.sanitize",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.sanitize",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		return this.replace(/&/gi, "&#38;").
 		replace(/#/gi, "&#35;").
@@ -5756,15 +5757,15 @@ _ext(String, 'sanitize', function () {
 }, true);
 _ext(String, 'singularize', function () {
 	/*|{
-		"info": "String class extension to do a best guess singularization of the string",
-		"category": "String",
-		"parameters":[],
+	 "info": "String class extension to do a best guess singularization of the string",
+	 "category": "String",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.singularize",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.singularize",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		var str = this, key;
 
@@ -5796,33 +5797,33 @@ _ext(String, 'startsWith', _startsWith);
 _ext(String, 'startsWithAny', _startsWith);
 _ext(String, 'strip', function(character) {
 	/*|{
-		"info": "String class extension to remove characters from the beginning and end of the string",
-		"category": "String",
-		"parameters":[
-			{"character": "(Char[]) Character to remove"}],
+	 "info": "String class extension to remove characters from the beginning and end of the string",
+	 "category": "String",
+	 "parameters":[
+	 {"character": "(Char[]) Character to remove"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.strip",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.strip",
+	 "returnType": "(String)"
+	 }|*/
 	return _strip(this, character);
 }, true);
 _ext(String, 'toCurrencyNotation', function (separator) {
 	/*|{
-		"info": "String class extension to change string to currency",
-		"category": "String",
-		"parameters":[],
+	 "info": "String class extension to change string to currency",
+	 "category": "String",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"overloads":[
-			{"parameters":[
-				{"separator": "(Char) Character to use as delimiter"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"separator": "(Char) Character to use as delimiter"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.toCurrencyNotation",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.toCurrencyNotation",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		separator = separator || ",";
 		return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
@@ -5832,17 +5833,17 @@ _ext(String, 'toCurrencyNotation', function (separator) {
 }, true);
 _ext(String, 'toDateTime', function (options) {
 	/*|{
-		"info": "String class extension to convert string to datetime",
-		"category": "String",
-		"parameters":[],
+	 "info": "String class extension to convert string to datetime",
+	 "category": "String",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"options": "(Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"options": "(Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.toDateTime",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.toDateTime",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
 		/*
 		 *  options properties:
@@ -5861,15 +5862,15 @@ _ext(String, 'toDateTime', function (options) {
 		var dt = new Date(strDatetime);
 		if (!dt.getDate()) {
 			var parts = [],
-				dtstring = this[0] == "(" ? this.substring(1,this.length-1) : this,
-				chars = ["\\.","\\/","-","\\s*?"];
+					dtstring = this[0] == "(" ? this.substring(1,this.length-1) : this,
+					chars = ["\\.","\\/","-","\\s*?"];
 
 			for (var i = 0, len = chars.length; i < len && !dt.getDate(); i++) {
 				// using format m(m).d(d).yy(yy) or d(d).m(m).yy(yy) or yy(yy).m(m).d(d) or yy(yy).d(d).m(m)
 				// using format m(m)/d(d)/yy(yy) or d(d)/m(m)/yy(yy) or yy(yy)/m(m)/d(d) or yy(yy)/d(d)/m(m)
 				// using format m(m)-d(d)-yy(yy) or d(d)-m(m)-yy(yy) or yy(yy)-m(m)-d(d) or yy(yy)-d(d)-m(m)
 				var c = chars[i],
-					regex = new RegExp("(\\d{1,4})" + c + "\\s*?(\\d{1,2})" + c + "\\s*?(\\d{2,4})(.*)");
+						regex = new RegExp("(\\d{1,4})" + c + "\\s*?(\\d{1,2})" + c + "\\s*?(\\d{2,4})(.*)");
 				if ((parts = dtstring.match(regex)) && parts.length > 1) {
 					// assume year is first
 					if (parts[1].length == 4) {
@@ -5902,20 +5903,20 @@ _ext(String, 'toDateTime', function (options) {
 }, true);
 _ext(String, 'toObject', function(assignmentChar, delimiter) {
 	/*|{
-		"info": "String class extension to convert to JSON",
-		"category": "String",
-		"parameters":[],
+	 "info": "String class extension to convert to JSON",
+	 "category": "String",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"assignmentChar": "(Char) Character to use as assignment delimiter. Defaults to '='."}]},
-			{"parameters":[
-	 			{"assignmentChar": "(Char) Character to use as assignment delimiter. Defaults to '&'."},
-	 			{"delimiter": "(Char) Character to use as pair delimiter"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"assignmentChar": "(Char) Character to use as assignment delimiter. Defaults to '='."}]},
+	 {"parameters":[
+	 {"assignmentChar": "(Char) Character to use as assignment delimiter. Defaults to '&'."},
+	 {"delimiter": "(Char) Character to use as pair delimiter"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.toObject",
-		"returnType": "(Object)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.toObject",
+	 "returnType": "(Object)"
+	 }|*/
 	try {
 		assignmentChar = assignmentChar || "=";
 		delimiter = delimiter || "&";
@@ -5931,16 +5932,16 @@ _ext(String, 'toObject', function(assignmentChar, delimiter) {
 }, true);
 _ext(String, 'trim', function(character) {
 	/*|{
-		"info": "String class extension to remove characters from the beginning and end of the string",
-		"category": "String",
-		"parameters":[
-			{"character": "(Char[]) Character to remove"}],
+	 "info": "String class extension to remove characters from the beginning and end of the string",
+	 "category": "String",
+	 "parameters":[
+	 {"character": "(Char[]) Character to remove"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.trim",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#string.trim",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		return _trim(this, undefined, character);
 	} catch (e) {
@@ -5954,17 +5955,17 @@ _ext(String, 'trim', function(character) {
 
 _ext(Array, 'aggregate', function (pipelines) {
 	/*|{
-		"info": "Array class extension to perform mongo style aggregation",
-		"category": "Array",
-		"featured": true,
-		"parameters":[
-			{"pipelines": "(Object[]) Array of stages defined in mongodb"}],
+	 "info": "Array class extension to perform mongo style aggregation",
+	 "category": "Array",
+	 "featured": true,
+	 "parameters":[
+	 {"pipelines": "(Object[]) Array of stages defined in mongodb"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.aggregate",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.aggregate",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		var rtn = this;
 		for (var i = 0, len = pipelines.length; i < len; i++) {
@@ -5977,30 +5978,30 @@ _ext(Array, 'aggregate', function (pipelines) {
 }, true);
 _ext(Array, 'buildTree', function (parentFinder,childFinder,options) {
 	/*|{
-		"info": "Array class extension to create a parent/child hierarchy",
-		"category": "Array",
-		"parameters":[
-			{"rootFinder": "(Function) Function to determine the parent.   Should return a boolean value."},
-			{"childFinder": "(String) Property name of the object to use as a grouping."}],
+	 "info": "Array class extension to create a parent/child hierarchy",
+	 "category": "Array",
+	 "parameters":[
+	 {"rootFinder": "(Function) Function to determine the parent.   Should return a boolean value."},
+	 {"childFinder": "(String) Property name of the object to use as a grouping."}],
 
-		"overloads":[
-			{"parameters":[
-				{"rootFinder": "(Function) Function to determine the parent.   Should return a boolean value."},
-				{"childFinder": "(Function) Function to determine the grouping."}]},
+	 "overloads":[
+	 {"parameters":[
+	 {"rootFinder": "(Function) Function to determine the parent.   Should return a boolean value."},
+	 {"childFinder": "(Function) Function to determine the grouping."}]},
 
-			{"parameters":[
-				{"rootFinder": "(Function) Function to determine the parent.   Should return a boolean value."},
-				{"childFinder": "(String) Property name of the object to use as a grouping."},
-				{"options":"(Object) Options to customize properties,  Valid property is:<br />childProperty"}]},
+	 {"parameters":[
+	 {"rootFinder": "(Function) Function to determine the parent.   Should return a boolean value."},
+	 {"childFinder": "(String) Property name of the object to use as a grouping."},
+	 {"options":"(Object) Options to customize properties,  Valid property is:<br />childProperty"}]},
 
-			{"parameters":[
-				{"rootFinder": "(Function) Function to determine the parent.   Should return a boolean value."},
-				{"childFinder": "(String) Property name of the object to use as a grouping."},
-				{"options":"(Object) Options to customize properties,  Valid property is:<br />childProperty"}]}],
+	 {"parameters":[
+	 {"rootFinder": "(Function) Function to determine the parent.   Should return a boolean value."},
+	 {"childFinder": "(String) Property name of the object to use as a grouping."},
+	 {"options":"(Object) Options to customize properties,  Valid property is:<br />childProperty"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.buildTree",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.buildTree",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		options = options || {};
 		var rtnArr = [];
@@ -6008,7 +6009,7 @@ _ext(Array, 'buildTree', function (parentFinder,childFinder,options) {
 		var prop = options.childProperty || "children";
 		while(objt=this[i++]){
 			var cat = $c.isFunction(childFinder) ? childFinder(objt) : objt[childFinder],
-				rootFound = cats.contains(cat);
+					rootFound = cats.contains(cat);
 
 			objt[prop] = objt[prop] || [];
 			if (rootFinder(objt)) {
@@ -6050,54 +6051,54 @@ _ext(Array, 'buildTree', function (parentFinder,childFinder,options) {
 });
 _ext(Array, 'complexSort', function(specs){
 	/*|{
-		"info": "Array class extension to sort using lookups",
-		"category": "Array",
-		"parameters":[],
+	 "info": "Array class extension to sort using lookups",
+	 "category": "Array",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"specs": "(Object) specs with common properties:<br />(Mixed) props<br />(Boolean) reverse<br />(Function) lookupprimer<br />(Function) propprimer<br />(Object) lookup<br />(Function) lookupfunc"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"specs": "(Object) specs with common properties:<br />(Mixed) props<br />(Boolean) reverse<br />(Function) lookupprimer<br />(Function) propprimer<br />(Object) lookup<br />(Function) lookupfunc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.complexSort",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.complexSort",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		specs = specs || {};
 		var defunc = function(v){return v;},
-			props = specs.props,
-			rev = specs.reverse,
-			lprimer = specs.lookupprimer || defunc,
-			pprimer = specs.propprimer || defunc,
-			lookup = specs.lookup,
-			lookupfunc = specs.lookupfunc || function(id){
-					if(lookup){return lookup[id];}
-					return id;
-				};
+				props = specs.props,
+				rev = specs.reverse,
+				lprimer = specs.lookupprimer || defunc,
+				pprimer = specs.propprimer || defunc,
+				lookup = specs.lookup,
+				lookupfunc = specs.lookupfunc || function(id){
+							if(lookup){return lookup[id];}
+							return id;
+						};
 
 		if(props.isString()){props=[props];}
 		var craftVal = function(v,prop){
-				return pprimer(
-					(lookup && lookup[lprimer(v)][prop]) ||
-					(lookupfunc && lookupfunc(lprimer(v))[prop]) ||
-					v[prop]
-				);
-			},
-			prop_sort = function (a,b,p) {
-				p = p||0;
-				var prop = props[p];
+					return pprimer(
+							(lookup && lookup[lprimer(v)][prop]) ||
+							(lookupfunc && lookupfunc(lprimer(v))[prop]) ||
+							v[prop]
+					);
+				},
+				prop_sort = function (a,b,p) {
+					p = p||0;
+					var prop = props[p];
 
-				if(!prop){return -1;}
+					if(!prop){return -1;}
 
-				var aVal = craftVal(a,prop),//pprimer((lookup && lookup[lprimer(a)][prop]) || a[prop]),
-					bVal = craftVal(b,prop);//pprimer((lookup && lookup[lprimer(b)][prop]) || b[prop]);
+					var aVal = craftVal(a,prop),//pprimer((lookup && lookup[lprimer(a)][prop]) || a[prop]),
+							bVal = craftVal(b,prop);//pprimer((lookup && lookup[lprimer(b)][prop]) || b[prop]);
 
-				if (aVal == bVal) {
-					return prop_sort(a,b,p+1);
-				}
+					if (aVal == bVal) {
+						return prop_sort(a,b,p+1);
+					}
 
-				if (aVal > bVal) {return 1;}
-				return -1;
-			};
+					if (aVal > bVal) {return 1;}
+					return -1;
+				};
 		this.sort(prop_sort);
 		return rev && this.reverse || this;
 	} catch (e) {
@@ -6106,49 +6107,49 @@ _ext(Array, 'complexSort', function(specs){
 },true);
 _ext(Array, 'condense', function (check_values) {
 	/*|{
-		"info": "Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls",
-		"category": "Array",
-		"parameters":[],
+	 "info": "Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls",
+	 "category": "Array",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"check_values": "(Bool) Flag to remove duplicates"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"check_values": "(Bool) Flag to remove duplicates"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.condense",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.condense",
+	 "returnType": "(Array)"
+	 }|*/
 	return _condense(this, check_values);
 }, true);
 _ext(Array, 'count', function(condition) {
 	/*|{
-		"info": "Array class extension to count the length and optionally filter items first",
-		"category": "Array",
-		"parameters":[],
+	 "info": "Array class extension to count the length and optionally filter items first",
+	 "category": "Array",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"condition": "(Mixed) Query used in Array.where"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"condition": "(Mixed) Query used in Array.where"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.count",
-		"returnType": "(Int)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.count",
+	 "returnType": "(Int)"
+	 }|*/
 	return this.where(condition).length;
 });
 _ext(Array, 'delete', function(condition, justOne) {
 	/*|{
-		"info": "Array class extension to delete records",
-		"category": "Array",
-		"parameters":[
-			{"condition": "(Mixed) Query following find/where clause syntax"}],
+	 "info": "Array class extension to delete records",
+	 "category": "Array",
+	 "parameters":[
+	 {"condition": "(Mixed) Query following find/where clause syntax"}],
 
-		"overloads":[
-			{"parameters":[
-				{"condition": "(Mixed) Query following find/where clause syntax"},
-				{"justOne": "(Boolean) Flag for deleting just one records [Default is: true]"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"condition": "(Mixed) Query following find/where clause syntax"},
+	 {"justOne": "(Boolean) Flag for deleting just one records [Default is: true]"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.delete",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.delete",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		justOne = parseBoolean(isNull(justOne) ? true : isNull(justOne.justOne, justOne));
 		// if no condition was given, remove all
@@ -6177,19 +6178,19 @@ _ext(Array, 'delete', function(condition, justOne) {
 }, true);
 _ext(Array, 'distinct', function(fields, condition) {
 	/*|{
-		"info": "Array class extension to get all unique records by fields specified",
-		"category": "Array",
-		"parameters":[
-			{"fields": "(Mixed) Fields to use as the projection and unique comparison"}],
+	 "info": "Array class extension to get all unique records by fields specified",
+	 "category": "Array",
+	 "parameters":[
+	 {"fields": "(Mixed) Fields to use as the projection and unique comparison"}],
 
-		"overloads":[
-			{"parameters":[
-				{"fields": "(Mixed) Fields to use as the projection and unique comparison"},
-				{"condition": "(Mixed) Query following find/where clause syntax"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"fields": "(Mixed) Fields to use as the projection and unique comparison"},
+	 {"condition": "(Mixed) Query following find/where clause syntax"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.distinct",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.distinct",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		if ($c.isString(fields)) {
 			fields = [fields];
@@ -6209,19 +6210,19 @@ _ext(Array, 'distinct', function(fields, condition) {
 });
 _ext(Array, 'every', function(callback, thisObject) {
 	/*|{
-		"info": "Array class extension to implement .every method",
-		"category": "Array",
-		"parameters":[
-			{"callback": "(Function) Callback to test for each element"}],
+	 "info": "Array class extension to implement .every method",
+	 "category": "Array",
+	 "parameters":[
+	 {"callback": "(Function) Callback to test for each element"}],
 
-		"overloads":[
-			{"parameters":[
-				{"callback": "(Function) Callback to test for each element"},
-				{"thisObject": "(Mixed) Context for the callback function"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"callback": "(Function) Callback to test for each element"},
+	 {"thisObject": "(Mixed) Context for the callback function"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.every",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.every",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		var thisObject = thisObject || this;
 		for (var i= 0, n= this.length; i<n; i++)
@@ -6234,26 +6235,26 @@ _ext(Array, 'every', function(callback, thisObject) {
 }, true);
 _ext(Array, 'filter', function(func /*, thiss*/) {
 	/*|{
-		"info": "Array class extension to implement filter",
-		"category": "Array",
-		"parameters":[
-			{"func": "(Function) Callback function used to determine if value should be returned"}],
+	 "info": "Array class extension to implement filter",
+	 "category": "Array",
+	 "parameters":[
+	 {"func": "(Function) Callback function used to determine if value should be returned"}],
 
-		"overloads":[
-			{"parameters":[
-				{"func": "(Function) Callback function used to determine if value should be returned"},
-				{"thiss": "(Mixed) Specify the context on callback function"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"func": "(Function) Callback function used to determine if value should be returned"},
+	 {"thiss": "(Mixed) Specify the context on callback function"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.filter",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.filter",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		if (!$c.isFunction(func)) {
 			//noinspection ExceptionCaughtLocallyJS
 			throw new TypeError();
 		}
 		var filtered = [],
-			thiss = arguments[1] || this;
+				thiss = arguments[1] || this;
 		for (var i = 0; i < this.length; i++) {
 			var val = this[i];
 			if (func.call(thiss, val, i, this)) {
@@ -6269,16 +6270,16 @@ _ext(Array, 'filter', function(func /*, thiss*/) {
 }, true);
 _ext(Array, 'group', function(params) {
 	/*|{
-		"info": "Array class extension to group records by fields",
-		"category": "Array",
-		"parameters":[
-			{"params": "(Object) specs with common properties:<br />(Object) key<br />(Mixed) cond<br />(Function) reduce<br />(Object) initial"}],
+	 "info": "Array class extension to group records by fields",
+	 "category": "Array",
+	 "parameters":[
+	 {"params": "(Object) specs with common properties:<br />(Object) key<br />(Mixed) cond<br />(Function) reduce<br />(Object) initial"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.group",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.group",
+	 "returnType": "(Array)"
+	 }|*/
 
 	/*    parameters:[
 	 *        {fields: "(Mixed) Fields to use as the projection and to group by"}],
@@ -6298,11 +6299,11 @@ _ext(Array, 'group', function(params) {
 	 *            {initial: ""}]}],*/
 	try {
 		var key = params.field || params.key,
-			condition = params.cond,
-			reduce = params.reduce || foo,
-			initial = params.initial || {},
-			keyf = params.keyf,
-			finalize = params.finalize || foo;
+				condition = params.cond,
+				reduce = params.reduce || foo,
+				initial = params.initial || {},
+				keyf = params.keyf,
+				finalize = params.finalize || foo;
 		if ($c.isString(key)) {
 			key = key.split(',');
 		}
@@ -6315,8 +6316,8 @@ _ext(Array, 'group', function(params) {
 		}
 
 		var props = $c.getKeys(initial),
-			key = $c.getKeys(key),
-			arr = [], result = {}, id = suid();
+				key = $c.getKeys(key),
+				arr = [], result = {}, id = suid();
 		_whereHelper(this, condition,function (obj, i) {
 			// _groupFieldHelper creates a grouping string based on the field value pairs
 			var fields = key;
@@ -6348,16 +6349,16 @@ _ext(Array, 'group', function(params) {
 });
 _ext(Array, 'groupBy', function(clause){ // TODO: reconsider this with .group
 	/*|{
-		"info": "Array class extension to ",
-		"category": "Array",
-		"parameters":[
-			{"clause": "(Mixed) "}],
+	 "info": "Array class extension to ",
+	 "category": "Array",
+	 "parameters":[
+	 {"clause": "(Mixed) "}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.groupBy",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.groupBy",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		var props = [];
 		if ($c.isObject(clause)) {
@@ -6374,19 +6375,19 @@ _ext(Array, 'groupBy', function(clause){ // TODO: reconsider this with .group
 		// loop through each record
 		for (var i = 0, len = this.length; i < len; i++) {
 			var obj = this[i],
-				nprop = fillTemplate(clause,obj);
+					nprop = fillTemplate(clause,obj);
 			temp[nprop] = temp[nprop] || {};
 			for (var prop in obj) {
 				if (!obj.has(prop)) { continue; }
 				var propOnly = prop.replace(/.*\.(.*$)/, '$1'),
-					agg = prop.replace("."+propOnly, '');
+						agg = prop.replace("."+propOnly, '');
 
 				if (props.indexOf(propOnly)) {
 
 					switch (agg) {
 						case "avg":
 							var avg = temp[nprop].avg = temp[nprop].avg || 0,
-								n = temp[nprop].n = temp[nprop].n || 1;
+									n = temp[nprop].n = temp[nprop].n || 1;
 							temp[nprop].avg = (obj[prop]+avg*n)/temp[nprop].n++;
 							break;
 						case "checksum_agg":
@@ -6427,34 +6428,34 @@ _ext(Array, 'groupBy', function(clause){ // TODO: reconsider this with .group
 }, true);
 _ext(Array, 'indexOf', function(value) {
 	/*|{
-		"info": "Array class extension to implement indexOf",
-		"category": "Array",
-		"parameters":[
-			{"value": "(Mixed) value to find"}],
+	 "info": "Array class extension to implement indexOf",
+	 "category": "Array",
+	 "parameters":[
+	 {"value": "(Mixed) value to find"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.indexOf",
-		"returnType": "(Int)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.indexOf",
+	 "returnType": "(Int)"
+	 }|*/
 	return _indexOf(this, value);
 }, true);
 _ext(Array, 'indexOfAlt', function(value, func) {
 	/*|{
-		"info": "Array class extension to find index of a value based on a callback function",
-		"category": "Array",
-		"parameters":[
-			{"value": "(Mixed) value to find"},
-			{"func": "(Function) Callback function used to do the comparison"}],
+	 "info": "Array class extension to find index of a value based on a callback function",
+	 "category": "Array",
+	 "parameters":[
+	 {"value": "(Mixed) value to find"},
+	 {"func": "(Function) Callback function used to do the comparison"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.indexOfAlt",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.indexOfAlt",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		var len = this.length,
-			i = 0;
+				i = 0;
 		while (i < len) {
 			if ($c.isRegExp(value) && value.test(this[i])) { return i;
 			} else if (value instanceof Object ? func(this[i], value) : func(this[i]) === value) return i;
@@ -6467,17 +6468,17 @@ _ext(Array, 'indexOfAlt', function(value, func) {
 }, true);
 _ext(Array, "innerJoin", function (arr, on) {
 	/*|{
-		"info": "Array class extension to do an inner join on arrays",
-		"category": "Array",
-		"parameters":[
-			{"arr": "(Array) Array to be joined with"},
-			{"on": "(String) Condition to join on"}],
+	 "info": "Array class extension to do an inner join on arrays",
+	 "category": "Array",
+	 "parameters":[
+	 {"arr": "(Array) Array to be joined with"},
+	 {"on": "(String) Condition to join on"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		return _joinHelper(this, arr, on, true);
 	} catch (e) {
@@ -6486,14 +6487,14 @@ _ext(Array, "innerJoin", function (arr, on) {
 });
 _ext(Array, 'insert', function(value) {
 	/*|{
-		"info": "Array class extension to add to the array",
-		"category": "Array",
-		"parameters":[
-			{"value": "(Mixed) value to add"}],
+	 "info": "Array class extension to add to the array",
+	 "category": "Array",
+	 "parameters":[
+	 {"value": "(Mixed) value to add"}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.insert",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.insert",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if ($c.isArray(value)) {
 			this.concat(value);
@@ -6508,17 +6509,17 @@ _ext(Array, 'insert', function(value) {
 }, true);
 _ext(Array, 'insertAfter', function(index, value) {
 	/*|{
-		"info": "Array class extension to add to the array after a specific index",
-		"category": "Array",
-		"parameters":[
-			{"index": "(Int) Index to add after"},
-			{"value": "(Mixed) Value to add"}],
+	 "info": "Array class extension to add to the array after a specific index",
+	 "category": "Array",
+	 "parameters":[
+	 {"index": "(Int) Index to add after"},
+	 {"value": "(Mixed) Value to add"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.insertAfter",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.insertAfter",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		this.splice(index + 1, 0, value);
 		return true;
@@ -6529,17 +6530,17 @@ _ext(Array, 'insertAfter', function(index, value) {
 }, true);
 _ext(Array, 'insertBefore', function(index, value) {
 	/*|{
-		"info": "Array class extension to add to the array before a specific index",
-		"category": "Array",
-		"parameters":[
-			{"index": "(Int) Index to add before"},
-			{"value": "(Mixed) Value to add"}],
+	 "info": "Array class extension to add to the array before a specific index",
+	 "category": "Array",
+	 "parameters":[
+	 {"index": "(Int) Index to add before"},
+	 {"value": "(Mixed) Value to add"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.insertBefore",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.insertBefore",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		this.splice(index, 0, value);
 		return true;
@@ -6550,15 +6551,15 @@ _ext(Array, 'insertBefore', function(index, value) {
 }, true);
 _ext(Array, 'isEmpty', function() {
 	/*|{
-		"info": "Array class extension to check if the array is empty",
-		"category": "Array",
-		"parameters":[],
+	 "info": "Array class extension to check if the array is empty",
+	 "category": "Array",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.isEmpty",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.isEmpty",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return (this.length == 0);
 	} catch (e) {
@@ -6568,17 +6569,17 @@ _ext(Array, 'isEmpty', function() {
 }, true);
 _ext(Array, "joinLeft", function (arr, on) {
 	/*|{
-		"info": "Array class extension to do an outer left join on arrays",
-		"category": "Array",
-		"parameters":[
-			{"arr": "(Array) Secondary array to be joined with"},
-			{"on": "(String) Condition to join on"}],
+	 "info": "Array class extension to do an outer left join on arrays",
+	 "category": "Array",
+	 "parameters":[
+	 {"arr": "(Array) Secondary array to be joined with"},
+	 {"on": "(String) Condition to join on"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.joinLeft",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.joinLeft",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		return _joinHelper(this, arr, on);
 	} catch (e) {
@@ -6588,17 +6589,17 @@ _ext(Array, "joinLeft", function (arr, on) {
 _ext(Array, "joinRight", function (arr, on) {
 	// TODO: is this done right?
 	/*|{
-		"info": "Array class extension to do an outer right join on arrays",
-		"category": "Array",
-		"parameters":[
-			{"arr": "(Array) Secondary array to be joined with"},
-			{"on": "(String) Condition to join on"}],
+	 "info": "Array class extension to do an outer right join on arrays",
+	 "category": "Array",
+	 "parameters":[
+	 {"arr": "(Array) Secondary array to be joined with"},
+	 {"on": "(String) Condition to join on"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.joinRight",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.joinRight",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		return _joinHelper(arr, this, on);
 	} catch (e) {
@@ -6607,16 +6608,16 @@ _ext(Array, "joinRight", function (arr, on) {
 });
 _ext(Array, 'limit', function(max) {
 	/*|{
-		"info": "Array class extension to return a limited amount of items",
-		"category": "Array",
-		"parameters":[
-			{"max": "(Int) Maximum number of items to return"}],
+	 "info": "Array class extension to return a limited amount of items",
+	 "category": "Array",
+	 "parameters":[
+	 {"max": "(Int) Maximum number of items to return"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.limit",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.limit",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		var arr = [];
 		for (var i = 0; i < max && this[i]; i++){
@@ -6629,22 +6630,22 @@ _ext(Array, 'limit', function(max) {
 }, true);
 _ext(Array, 'map', function(callback /*, thisObject*/) {
 	/*|{
-		"info": "Array class extension to implement map",
-		"category": "Array",
-		"parameters":[
-			{"callback": "(Function) Callback function used to apply changes"}],
+	 "info": "Array class extension to implement map",
+	 "category": "Array",
+	 "parameters":[
+	 {"callback": "(Function) Callback function used to apply changes"}],
 
-		"overloads":[
-			{"parameters":[
-				{"callback": "(Function) Callback function used to apply changes"},
-				{"thisObject": "(Mixed) Specify the context on callback function"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"callback": "(Function) Callback function used to apply changes"},
+	 {"thisObject": "(Mixed) Specify the context on callback function"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.map",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.map",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		var thisObject = arguments[1] || this,
-			other= new Array(this.length);
+				other= new Array(this.length);
 		for (var i= 0, n= this.length; i<n; i++)
 			if (i in this)
 				other[i]= callback.call(thisObject, this[i], i, this);
@@ -6656,20 +6657,20 @@ _ext(Array, 'map', function(callback /*, thisObject*/) {
 _ext(Array, 'mapReduce', function(map, reduce, options) {
 	// TODO: implement mapReduce
 	/*|{
-		"info": "Array class extension to run map-reduce aggregation over records",
-		"category": "Array",
-		"parameters":[
-			{"condition": "(Mixed) Query following find/where clause syntax"},
-			{"condition": "(Mixed) Query following find/where clause syntax"}],
+	 "info": "Array class extension to run map-reduce aggregation over records",
+	 "category": "Array",
+	 "parameters":[
+	 {"condition": "(Mixed) Query following find/where clause syntax"},
+	 {"condition": "(Mixed) Query following find/where clause syntax"}],
 
-		"overloads":[
-			{"parameters":[
-				{"condition": "(Mixed) Query following find/where clause syntax"},
-				{"projection": "(Mixed) Indicate which properties to return"},
-				{"projection": "(Mixed) Indicate which properties to return"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"condition": "(Mixed) Query following find/where clause syntax"},
+	 {"projection": "(Mixed) Indicate which properties to return"},
+	 {"projection": "(Mixed) Indicate which properties to return"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.mapReduce",
-		"returnType": "(Array)"
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.mapReduce",
+	 "returnType": "(Array)"
 	 }|*/
 	try {
 
@@ -6680,15 +6681,15 @@ _ext(Array, 'mapReduce', function(map, reduce, options) {
 });
 _ext(Array, 'normalize', function () {
 	/*|{
-		"info": "Array class extension to normalize all properties in the object array",
-		"category": "Array",
-		"parameters":[],
+	 "info": "Array class extension to normalize all properties in the object array",
+	 "category": "Array",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.normalize",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.normalize",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		var allProps = {}, arrObj = [], len = this.length, i;
 		for(i = 0; i < len; i++) {
@@ -6713,19 +6714,19 @@ _ext(Array, 'normalize', function () {
 }, true);
 _ext(Array, 'remove', function (value, indexOf) {
 	/*|{
-		"info": "Array class extension to remove an item by value",
-		"category": "Array",
-		"parameters":[
-			{"value": "(Mixed) Value to remove"}],
+	 "info": "Array class extension to remove an item by value",
+	 "category": "Array",
+	 "parameters":[
+	 {"value": "(Mixed) Value to remove"}],
 
-		"overloads":[
-			{"parameters":[
-				{"value": "(Mixed) Value to remove"},
-				{"indexOf": "(Function) Callback function to use to find the item based on the value"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"value": "(Mixed) Value to remove"},
+	 {"indexOf": "(Function) Callback function to use to find the item based on the value"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.remove",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.remove",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
 		indexOf = indexOf || this.indexOf;
 		var index = indexOf.call(this, value);
@@ -6738,20 +6739,20 @@ _ext(Array, 'remove', function (value, indexOf) {
 	}
 }, true);
 _ext(Array, 'removeAll', function (value, indexOf) {
-/*|{
-	"info": "Array class extension to remove all items by value",
-	"category": "Array",
-	"parameters":[
-		{"value": "(Mixed) Value to remove"}],
+	/*|{
+	 "info": "Array class extension to remove all items by value",
+	 "category": "Array",
+	 "parameters":[
+	 {"value": "(Mixed) Value to remove"}],
 
-	"overloads":[
-		{"parameters":[
-			{"value": "(Mixed) Value to remove"},
-			{"indexOf": "(Function) Callback function to use to find the item based on thevalue"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"value": "(Mixed) Value to remove"},
+	 {"indexOf": "(Function) Callback function to use to find the item based on thevalue"}]}],
 
-	"url": "http://www.craydent.com/library/1.8.1/docs#array.removeAll",
-	"returnType": "(Array)"
-}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.removeAll",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		if (value) {
 			indexOf = indexOf || this.indexOf;
@@ -6773,14 +6774,14 @@ _ext(Array, 'removeAll', function (value, indexOf) {
 }, true);
 _ext(Array, 'removeAt', function (index) {
 	/*|{
-		"info": "Array class extension to remove item at a specific index",
-		"category": "Array",
-		"parameters":[
-			{"index": "(Int) Index of the item to remove"}],
+	 "info": "Array class extension to remove item at a specific index",
+	 "category": "Array",
+	 "parameters":[
+	 {"index": "(Int) Index of the item to remove"}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.removeAt",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.removeAt",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
 		if(this[index] === undefined) {
 			return false;
@@ -6792,17 +6793,17 @@ _ext(Array, 'removeAt', function (index) {
 }, true);
 _ext(Array, 'replaceAt', function(index, value) {
 	/*|{
-		"info": "Array class extension to replace item at a specific index",
-			"category": "Array",
-			"parameters":[
-				{"index": "(Int) Index of the item to remove"},
-				{"value": "(Mixed) Value to replace with"}],
+	 "info": "Array class extension to replace item at a specific index",
+	 "category": "Array",
+	 "parameters":[
+	 {"index": "(Int) Index of the item to remove"},
+	 {"value": "(Mixed) Value to replace with"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.replaceAt",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.replaceAt",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		return this.splice(index, 1, value)[0];
 	} catch (e) {
@@ -6811,62 +6812,62 @@ _ext(Array, 'replaceAt', function(index, value) {
 }, true);
 _ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
 	/*|{
-		"info": "Array class extension to sort the array",
-		"category": "Array",
-		"parameters":[
-			{"props": "(String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"}],
+	 "info": "Array class extension to sort the array",
+	 "category": "Array",
+	 "parameters":[
+	 {"props": "(String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"}],
 
-		"overloads":[
-			{"parameters":[
-				{"props": "(Array) Properties to sort by. If the first character is '!', the sort order is reversed"}]},
+	 "overloads":[
+	 {"parameters":[
+	 {"props": "(Array) Properties to sort by. If the first character is '!', the sort order is reversed"}]},
 
-			{"parameters":[
-				{"props": "(String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
-				{"rev": "(Boolean) Flag to reverse the sort"}]},
+	 {"parameters":[
+	 {"props": "(String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
+	 {"rev": "(Boolean) Flag to reverse the sort"}]},
 
-			{"parameters":[
-				{"props": "(Array) Properties to sort by. If the first character is '!', the sort order is reversed"},
-				{"rev": "(Boolean) Flag to reverse the sort"}]},
+	 {"parameters":[
+	 {"props": "(Array) Properties to sort by. If the first character is '!', the sort order is reversed"},
+	 {"rev": "(Boolean) Flag to reverse the sort"}]},
 
-			{"parameters":[
-				{"props": "(String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
-				{"rev": "(Boolean) Flag to reverse the sort"},
-				{"primer": "(Function) Function to apply to values in the array."}]},
+	 {"parameters":[
+	 {"props": "(String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
+	 {"rev": "(Boolean) Flag to reverse the sort"},
+	 {"primer": "(Function) Function to apply to values in the array."}]},
 
-			{"parameters":[
-				{"props": "(Array) Properties to sort by. If the first character is '!', the sort order is reversed"},
-				{"rev": "(Boolean) Flag to reverse the sort"},
-				{"primer": "(Function) Function to apply to values in the array."}]},
+	 {"parameters":[
+	 {"props": "(Array) Properties to sort by. If the first character is '!', the sort order is reversed"},
+	 {"rev": "(Boolean) Flag to reverse the sort"},
+	 {"primer": "(Function) Function to apply to values in the array."}]},
 
-			{"parameters":[
-				{"props": "(String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
-				{"rev": "(Boolean) Flag to reverse the sort"},
-				{"primer": "(Function) Function to apply to values in the array."},
-				{"lookup": "(Object) Look up object to use as values instead of the array values."}]},
+	 {"parameters":[
+	 {"props": "(String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
+	 {"rev": "(Boolean) Flag to reverse the sort"},
+	 {"primer": "(Function) Function to apply to values in the array."},
+	 {"lookup": "(Object) Look up object to use as values instead of the array values."}]},
 
-			{"parameters":[
-				{"props": "(Array) Properties to sort by. If the first character is '!', the sort order is reversed"},
-				{"rev": "(Boolean) Flag to reverse the sort"},
-				{"primer": "(Function) Function to apply to values in the array."},
-				{"lookup": "(Object) Look up object to use as values instead of the array values."}]},
+	 {"parameters":[
+	 {"props": "(Array) Properties to sort by. If the first character is '!', the sort order is reversed"},
+	 {"rev": "(Boolean) Flag to reverse the sort"},
+	 {"primer": "(Function) Function to apply to values in the array."},
+	 {"lookup": "(Object) Look up object to use as values instead of the array values."}]},
 
-			{"parameters":[
-				{"props": "(String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
-				{"rev": "(Boolean) Flag to reverse the sort"},
-				{"primer": "(Function) Function to apply to values in the array."},
-				{"lookup": "(Object) Look up object to use as values instead of the array values."},
-				{"options": "(Object) Options to pass. Valid options are:<br />i<br />ignoreCase"}]},
+	 {"parameters":[
+	 {"props": "(String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
+	 {"rev": "(Boolean) Flag to reverse the sort"},
+	 {"primer": "(Function) Function to apply to values in the array."},
+	 {"lookup": "(Object) Look up object to use as values instead of the array values."},
+	 {"options": "(Object) Options to pass. Valid options are:<br />i<br />ignoreCase"}]},
 
-			{"parameters":[
-				{"props": "(Array) Properties to sort by. If the first character is '!', the sort order is reversed"},
-				{"rev": "(Boolean) Flag to reverse the sort"},
-				{"primer": "(Function) Function to apply to values in the array."},
-				{"lookup": "(Object) Look up object to use as values instead of the array values."},
-				{"options": "(Object) Options to pass. Valid options are:<br />i<br />ignoreCase"}]}],
+	 {"parameters":[
+	 {"props": "(Array) Properties to sort by. If the first character is '!', the sort order is reversed"},
+	 {"rev": "(Boolean) Flag to reverse the sort"},
+	 {"primer": "(Function) Function to apply to values in the array."},
+	 {"lookup": "(Object) Look up object to use as values instead of the array values."},
+	 {"options": "(Object) Options to pass. Valid options are:<br />i<br />ignoreCase"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.sortBy",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.sortBy",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		options = ($c.isString(options) && options in {"i":1,"ignoreCase":1}) ? {i:1} : {};
 		primer = primer || function(x){return x;};
@@ -6876,7 +6877,7 @@ _ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
 		var prop_sort = function (a,b,p) {
 			p = p||0;
 			var prop = props[p],
-				reverseProp = false;
+					reverseProp = false;
 
 			if(!prop){return -1;}
 			if(prop[0] == "!"){
@@ -6884,7 +6885,7 @@ _ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
 				reverseProp = true;
 			}
 			var aVal = primer((lookup && lookup[a][prop]) || a[prop]),
-				bVal = primer((lookup && lookup[b][prop]) || b[prop]);
+					bVal = primer((lookup && lookup[b][prop]) || b[prop]);
 
 			if (options.i && aVal && bVal) {
 				aVal = aVal.toLowerCase();
@@ -6919,15 +6920,15 @@ _ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
 }, true);
 _ext(Array, 'toSet', function() {
 	/*|{
-		"info": "Array class extension to convert the array to a set",
-		"category": "Array",
-		"parameters":[],
+	 "info": "Array class extension to convert the array to a set",
+	 "category": "Array",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.toSet",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.toSet",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		for (var i = 0,index; i < this.length - 1; i++) {
 			while ((index = this.indexOf(this[i],i+1)) != -1){
@@ -6941,18 +6942,18 @@ _ext(Array, 'toSet', function() {
 }, true);
 _ext(Array, 'trim', function(chars) {
 	/*|{
-		"info": "Array class extension to remove all white space from the beginning and end of all string values in the array",
-		"category": "Array",
-		"parameters":[],
+	 "info": "Array class extension to remove all white space from the beginning and end of all string values in the array",
+	 "category": "Array",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.trim",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.trim",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		var arr = [],
-			alter = false;
+				alter = false;
 		if ($c.isBoolean(chars)) {
 			alter = true;
 		}
@@ -6969,21 +6970,21 @@ _ext(Array, 'trim', function(chars) {
 }, true);
 _ext(Array, 'update', function(condition, setClause, multi) {
 	/*|{
-		"info": "Array class extension to update records in the array",
-		"category": "Array",
-		"parameters":[
-			{"condition": "(Mixed) Query following find/where clause syntax"},
-			{"setClause": "(Mixed) Set clause used to update the records"}],
+	 "info": "Array class extension to update records in the array",
+	 "category": "Array",
+	 "parameters":[
+	 {"condition": "(Mixed) Query following find/where clause syntax"},
+	 {"setClause": "(Mixed) Set clause used to update the records"}],
 
-		"overloads":[
-			{"parameters":[
-				{"condition": "(Mixed) Query following find/where clause syntax"},
-				{"setClause": "(Mixed) Set clause used to update the records"},
-				{"multi": "(Mixed) Flag to specify if multiple records should be updated"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"condition": "(Mixed) Query following find/where clause syntax"},
+	 {"setClause": "(Mixed) Set clause used to update the records"},
+	 {"multi": "(Mixed) Flag to specify if multiple records should be updated"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.update",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.update",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		// if sql syntax convert to mongo object syntax
 		if ($c.isString(condition)) {
@@ -7074,28 +7075,28 @@ _ext(Array, 'update', function(condition, setClause, multi) {
 }, true);
 _ext(Array, 'upsert', function(records, prop, callback) {
 	/*|{
-		"info": "Array class extension to upsert records to array",
-		"category": "Array",
-		"parameters":[
-			{"records": "(Array) Records to use to insert/update array"}],
+	 "info": "Array class extension to upsert records to array",
+	 "category": "Array",
+	 "parameters":[
+	 {"records": "(Array) Records to use to insert/update array"}],
 
-		"overloads":[
-			{"parameters":[
-				{"records": "(Array) Records to use to insert/update array"},
-				{"callback": "(Function) Method to use to determine if the records are equal"}]},
+	 "overloads":[
+	 {"parameters":[
+	 {"records": "(Array) Records to use to insert/update array"},
+	 {"callback": "(Function) Method to use to determine if the records are equal"}]},
 
-			{"parameters":[
-				{"records": "(Array) Records to use to insert/update array"},
-				{"prop": "(String) Property to use as the primary key"}]},
+	 {"parameters":[
+	 {"records": "(Array) Records to use to insert/update array"},
+	 {"prop": "(String) Property to use as the primary key"}]},
 
-			{"parameters":[
-				{"records": "(Array) Records to use to insert/update array"},
-				{"prop": "(String) Property to use as the primary key"},
-				{"callback": "(Function) Method to use to determine if the records are equal"}]}],
+	 {"parameters":[
+	 {"records": "(Array) Records to use to insert/update array"},
+	 {"prop": "(String) Property to use as the primary key"},
+	 {"callback": "(Function) Method to use to determine if the records are equal"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.upsert",
-		"returnType": "(Object)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.upsert",
+	 "returnType": "(Object)"
+	 }|*/
 	try {
 		prop = prop || "_id";
 		callback = callback || foo;
@@ -7115,10 +7116,10 @@ _ext(Array, 'upsert', function(records, prop, callback) {
 		condition[prop] = {$in:ids};
 		_whereHelper(this, condition, function (obj,i) {
 			var ref = refs[obj[prop]],
-				record = ref.record,
-				isEqual = callback(obj,record),
-				index = uIndex,
-				arr = uArr;
+					record = ref.record,
+					isEqual = callback(obj,record),
+					index = uIndex,
+					arr = uArr;
 			if (!isNull(isEqual) ? isEqual : $c.equals(record,obj)) {
 				index = sIndex;
 				arr = sArr;
@@ -7153,24 +7154,24 @@ _ext(Array, 'upsert', function(records, prop, callback) {
 }, true);
 _ext(Array, 'where', function(condition, projection) {
 	/*|{
-		"info": "Array class extension to use mongo or sql queries",
-		"category": "Array",
-		"featured": true,
-		"parameters":[
-			{"condition": "(Mixed) Query following find/where clause syntax"}],
+	 "info": "Array class extension to use mongo or sql queries",
+	 "category": "Array",
+	 "featured": true,
+	 "parameters":[
+	 {"condition": "(Mixed) Query following find/where clause syntax"}],
 
-		"overloads":[
-			{"parameters":[
-				{"condition": "(Mixed) Query following find/where clause syntax"},
-				{"projection": "(Mixed) Indicate which properties to return"}]},
+	 "overloads":[
+	 {"parameters":[
+	 {"condition": "(Mixed) Query following find/where clause syntax"},
+	 {"projection": "(Mixed) Indicate which properties to return"}]},
 
-			{"parameters":[
-				{"condition": "(Mixed) Query following find/where clause syntax"},
-				{"useReference": "(Bool) Flag to make a copy instead of using references"}]}],
+	 {"parameters":[
+	 {"condition": "(Mixed) Query following find/where clause syntax"},
+	 {"useReference": "(Bool) Flag to make a copy instead of using references"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.where",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.where",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		var useReference = !projection;
 		//if (arguments.length == 2 && $c.isBoolean(projection)) {
@@ -7185,9 +7186,9 @@ _ext(Array, 'where', function(condition, projection) {
 		// check if there is query MongoDB syntax
 		if (!projection && !/"\$or":|"\$and":|"\$in":|"\$nin":|"\$regex":|"\$gt":|"\$lt":|"\$gte":|"\$lte":|"\$exists":|"\$equals":|"\$ne":|"\$nor":|"\$type":|"\$text":|"\$mod":|"\$all":|"\$size":|"\$ghere":|"\$elemMatch":|"\$not":/.test(JSON.stringify(condition))) {
 			var props=[],
-				ncheck = function (o,c,p) {return $c.getProperty(o,p.prop) != c[p.prop]},
-				rcheck = function (o,c,p) {return ncheck(o,c,p) && p.isReg && !c[p.prop].test($c.getProperty(o,p.prop))},
-				check = ncheck;
+					ncheck = function (o,c,p) {return $c.getProperty(o,p.prop) != c[p.prop]},
+					rcheck = function (o,c,p) {return ncheck(o,c,p) && p.isReg && !c[p.prop].test($c.getProperty(o,p.prop))},
+					check = ncheck;
 			for (var p in condition) {
 				var isReg = false;
 				if (condition.has(p)) {
@@ -7227,20 +7228,20 @@ _ext(Array, 'where', function(condition, projection) {
  /---------------------------------------------------------------------------------------------------------------*/
 _ext(Date, 'format', function (format, options) {
 	/*|{
-		"info": "Date class extension to convert to formatted string",
-		"category": "Date",
-		"featured": true,
-		"parameters":[
-			{"format": "(String) Format syntax to use to to format date"}],
+	 "info": "Date class extension to convert to formatted string",
+	 "category": "Date",
+	 "featured": true,
+	 "parameters":[
+	 {"format": "(String) Format syntax to use to to format date"}],
 
-		"overloads":[
-			{"parameters":[
-				{"format": "(String) Format syntax to use to to format date"},
-				{"options": "(Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"format": "(String) Format syntax to use to to format date"},
+	 {"options": "(Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#date.format",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#date.format",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		if(!$c.isValidDate(this)) {
 			return;
@@ -7252,155 +7253,155 @@ _ext(Date, 'format', function (format, options) {
 		 *  offset:offset from GMT
 		 **/
 		var localTimeZoneOffset = _getGMTOffset.call(this),
-			datetime = options.offset ? new Date(this.valueOf() - (options.offset + (options.offset ? -1 : 1) * localTimeZoneOffset)*60*60000) : this,
-			minute = datetime.getMinutes(),
-			second = datetime.getSeconds(),
-			GMTDiff = options.offset || datetime.getHours() - 24 - datetime.getUTCHours(),
-			epoch = datetime.getTime(),
-			timezones = {
-				'Afghanistan Time':'AFT',
-				'AIX specific equivalent of Central European Time':'DFT',
-				'Alaska Daylight Time':'AKDT',
-				'Alaska Standard Time':'AKST',
-				'Arab Standard Time (Kuwait, Riyadh)':'AST',
-				'Arabian Standard Time (Abu Dhabi, Muscat)':'AST',
-				'Arabic Standard Time (Baghdad)':'AST',
-				'Argentina Time':'ART',
-				'Armenia Summer Time':'AMST',
-				'Armenia Time':'AMT',
-				'ASEAN Common Time':'ACT',
-				'Atlantic Daylight Time':'ADT',
-				'Atlantic Standard Time':'AST',
-				'Australian Central Daylight Time':'ACDT',
-				'Australian Central Standard Time':'ACST',
-				'Australian Eastern Daylight Time':'AEDT',
-				'Australian Eastern Standard Time':'AEST',
-				'Australian Western Daylight Time':'AWDT',
-				'Australian Western Standard Time':'AWST',
-				'Azerbaijan Time':'AZT',
-				'Azores Standard Time':'AZOST',
-				'Baker Island Time':'BIT',
-				'Bangladesh Standard Time':'BST',
-				'Bhutan Time':'BTT',
-				'Bolivia Time':'BOT',
-				'Brasilia Time':'BRT',
-				'British Indian Ocean Time':'BIOT',
-				'British Summer Time (British Standard Time from Feb 1968 to Oct 1971)':'BST',
-				'Brunei Time':'BDT',
-				'Cape Verde Time':'CVT',
-				'Central Africa Time':'CAT',
-				'Central Daylight Time (North America)':'CDT',
-				'Central European Daylight Time':'CEDT',
-				'Central European Summer Time (Cf. HAEC)':'CEST',
-				'Central European Time':'CET',
-				'Central Standard Time (Australia)':'CST',
-				'Central Standard Time (North America)':'CST',
-				'Chamorro Standard Time':'CHST',
-				'Chatham Daylight Time':'CHADT',
-				'Chatham Standard Time':'CHAST',
-				'Chile Standard Time':'CLT',
-				'Chile Summer Time':'CLST',
-				'China Standard Time':'CST',
-				'China Time':'CT',
-				'Christmas Island Time':'CXT',
-				'Clipperton Island Standard Time':'CIST',
-				'Cocos Islands Time':'CCT',
-				'Colombia Summer Time':'COST',
-				'Colombia Time':'COT',
-				'Cook Island Time':'CKT',
-				'Coordinated Universal Time':'UTC',
-				'East Africa Time':'EAT',
-				'Easter Island Standard Time':'EAST',
-				'Eastern Caribbean Time (does not recognise DST)':'ECT',
-				'Eastern Daylight Time (North America)':'EDT',
-				'Eastern European Daylight Time':'EEDT',
-				'Eastern European Summer Time':'EEST',
-				'Eastern European Time':'EET',
-				'Eastern Standard Time (North America)':'EST',
-				'Ecuador Time':'ECT',
-				'Falkland Islands Summer Time':'FKST',
-				'Falkland Islands Time':'FKT',
-				'Fiji Time':'FJT',
-				'French Guiana Time':'GFT',
-				'Further-eastern_European_Time':'FET',
-				'Galapagos Time':'GALT',
-				'Gambier Island Time':'GIT',
-				'Georgia Standard Time':'GET',
-				'Gilbert Island Time':'GILT',
-				'Greenwich Mean Time':'GMT',
-				'Gulf Standard Time':'GST',
-				'Guyana Time':'GYT',
-				'Hawaii Standard Time':'HST',
-				'Hawaii-Aleutian Daylight Time':'HADT',
-				'Hawaii-Aleutian Standard Time':'HAST',
-				'Heard and McDonald Islands Time':'HMT',
-				'Heure Avancée d\'Europe Centrale francised name for CEST':'HAEC',
-				'Hong Kong Time':'HKT',
-				'Indian Standard Time':'IST',
-				'Indochina Time':'ICT',
-				'Iran Standard Time':'IRST',
-				'Irish Summer Time':'IST',
-				'Irkutsk Time':'IRKT',
-				'Israel Standard Time':'IST',
-				'Israeli Daylight Time':'IDT',
-				'Japan Standard Time':'JST',
-				'Kamchatka Time':'PETT',
-				'Korea Standard Time':'KST',
-				'Krasnoyarsk Time':'KRAT',
-				'Line Islands Time':'LINT',
-				'Lord Howe Standard Time':'LHST',
-				'Magadan Time':'MAGT',
-				'Malaysia Time':'MYT',
-				'Malaysian Standard Time':'MST',
-				'Marquesas Islands Time':'MIT',
-				'Mauritius Time':'MUT',
-				'Middle European Saving Time Same zone as CEST':'MEST',
-				'Middle European Time Same zone as CET':'MET',
-				'Moscow Standard Time':'MSK',
-				'Moscow Summer Time':'MSD',
-				'Mountain Daylight Time (North America)':'MDT',
-				'Mountain Standard Time (North America)':'MST',
-				'Myanmar Standard Time':'MST',
-				'Nepal Time':'NPT',
-				'New Zealand Daylight Time':'NZDT',
-				'New Zealand Standard Time':'NZST',
-				'Newfoundland Daylight Time':'NDT',
-				'Newfoundland Standard Time':'NST',
-				'Newfoundland Time':'NT',
-				'Norfolk Time':'NFT',
-				'Omsk Time':'OMST',
-				'Pacific Daylight Time (North America)':'PDT',
-				'Pacific Standard Time (North America)':'PST',
-				'Pakistan Standard Time':'PKT',
-				'Philippine Standard Time':'PST',
-				'Phoenix Island Time':'PHOT',
-				'Reunion Time':'RET',
-				'Samara Time':'SAMT',
-				'Samoa Standard Time':'SST',
-				'Seychelles Time':'SCT',
-				'Singapore Standard Time':'SST',
-				'Singapore Time':'SGT',
-				'Solomon Islands Time':'SBT',
-				'South African Standard Time':'SAST',
-				'South Georgia and the South Sandwich Islands':'GST',
-				'Sri Lanka Time':'SLT',
-				'Tahiti Time':'TAHT',
-				'Thailand Standard Time':'THA',
-				'Uruguay Standard Time':'UYT',
-				'Uruguay Summer Time':'UYST',
-				'Venezuelan Standard Time':'VET',
-				'Vladivostok Time':'VLAT',
-				'West Africa Time':'WAT',
-				'Western European Daylight Time':'WEDT',
-				'Western European Summer Time':'WEST',
-				'Western European Time':'WET',
-				'Western Standard Time':'WST',
-				'Yakutsk Time':'YAKT',
-				'Yekaterinburg Time':'YEKT'
-			},
-			currentTimezone = datetime.toTimeString().replace(/.*?\((.*?)\).*?/, '$1'),
-			minuteWithZero = (minute < 10 ? "0" + minute : minute),
-			secondsWithZero = (second < 10 ? "0" + second : second);
+				datetime = options.offset ? new Date(this.valueOf() - (options.offset + (options.offset ? -1 : 1) * localTimeZoneOffset)*60*60000) : this,
+				minute = datetime.getMinutes(),
+				second = datetime.getSeconds(),
+				GMTDiff = options.offset || datetime.getHours() - 24 - datetime.getUTCHours(),
+				epoch = datetime.getTime(),
+				timezones = {
+					'Afghanistan Time':'AFT',
+					'AIX specific equivalent of Central European Time':'DFT',
+					'Alaska Daylight Time':'AKDT',
+					'Alaska Standard Time':'AKST',
+					'Arab Standard Time (Kuwait, Riyadh)':'AST',
+					'Arabian Standard Time (Abu Dhabi, Muscat)':'AST',
+					'Arabic Standard Time (Baghdad)':'AST',
+					'Argentina Time':'ART',
+					'Armenia Summer Time':'AMST',
+					'Armenia Time':'AMT',
+					'ASEAN Common Time':'ACT',
+					'Atlantic Daylight Time':'ADT',
+					'Atlantic Standard Time':'AST',
+					'Australian Central Daylight Time':'ACDT',
+					'Australian Central Standard Time':'ACST',
+					'Australian Eastern Daylight Time':'AEDT',
+					'Australian Eastern Standard Time':'AEST',
+					'Australian Western Daylight Time':'AWDT',
+					'Australian Western Standard Time':'AWST',
+					'Azerbaijan Time':'AZT',
+					'Azores Standard Time':'AZOST',
+					'Baker Island Time':'BIT',
+					'Bangladesh Standard Time':'BST',
+					'Bhutan Time':'BTT',
+					'Bolivia Time':'BOT',
+					'Brasilia Time':'BRT',
+					'British Indian Ocean Time':'BIOT',
+					'British Summer Time (British Standard Time from Feb 1968 to Oct 1971)':'BST',
+					'Brunei Time':'BDT',
+					'Cape Verde Time':'CVT',
+					'Central Africa Time':'CAT',
+					'Central Daylight Time (North America)':'CDT',
+					'Central European Daylight Time':'CEDT',
+					'Central European Summer Time (Cf. HAEC)':'CEST',
+					'Central European Time':'CET',
+					'Central Standard Time (Australia)':'CST',
+					'Central Standard Time (North America)':'CST',
+					'Chamorro Standard Time':'CHST',
+					'Chatham Daylight Time':'CHADT',
+					'Chatham Standard Time':'CHAST',
+					'Chile Standard Time':'CLT',
+					'Chile Summer Time':'CLST',
+					'China Standard Time':'CST',
+					'China Time':'CT',
+					'Christmas Island Time':'CXT',
+					'Clipperton Island Standard Time':'CIST',
+					'Cocos Islands Time':'CCT',
+					'Colombia Summer Time':'COST',
+					'Colombia Time':'COT',
+					'Cook Island Time':'CKT',
+					'Coordinated Universal Time':'UTC',
+					'East Africa Time':'EAT',
+					'Easter Island Standard Time':'EAST',
+					'Eastern Caribbean Time (does not recognise DST)':'ECT',
+					'Eastern Daylight Time (North America)':'EDT',
+					'Eastern European Daylight Time':'EEDT',
+					'Eastern European Summer Time':'EEST',
+					'Eastern European Time':'EET',
+					'Eastern Standard Time (North America)':'EST',
+					'Ecuador Time':'ECT',
+					'Falkland Islands Summer Time':'FKST',
+					'Falkland Islands Time':'FKT',
+					'Fiji Time':'FJT',
+					'French Guiana Time':'GFT',
+					'Further-eastern_European_Time':'FET',
+					'Galapagos Time':'GALT',
+					'Gambier Island Time':'GIT',
+					'Georgia Standard Time':'GET',
+					'Gilbert Island Time':'GILT',
+					'Greenwich Mean Time':'GMT',
+					'Gulf Standard Time':'GST',
+					'Guyana Time':'GYT',
+					'Hawaii Standard Time':'HST',
+					'Hawaii-Aleutian Daylight Time':'HADT',
+					'Hawaii-Aleutian Standard Time':'HAST',
+					'Heard and McDonald Islands Time':'HMT',
+					'Heure Avancée d\'Europe Centrale francised name for CEST':'HAEC',
+					'Hong Kong Time':'HKT',
+					'Indian Standard Time':'IST',
+					'Indochina Time':'ICT',
+					'Iran Standard Time':'IRST',
+					'Irish Summer Time':'IST',
+					'Irkutsk Time':'IRKT',
+					'Israel Standard Time':'IST',
+					'Israeli Daylight Time':'IDT',
+					'Japan Standard Time':'JST',
+					'Kamchatka Time':'PETT',
+					'Korea Standard Time':'KST',
+					'Krasnoyarsk Time':'KRAT',
+					'Line Islands Time':'LINT',
+					'Lord Howe Standard Time':'LHST',
+					'Magadan Time':'MAGT',
+					'Malaysia Time':'MYT',
+					'Malaysian Standard Time':'MST',
+					'Marquesas Islands Time':'MIT',
+					'Mauritius Time':'MUT',
+					'Middle European Saving Time Same zone as CEST':'MEST',
+					'Middle European Time Same zone as CET':'MET',
+					'Moscow Standard Time':'MSK',
+					'Moscow Summer Time':'MSD',
+					'Mountain Daylight Time (North America)':'MDT',
+					'Mountain Standard Time (North America)':'MST',
+					'Myanmar Standard Time':'MST',
+					'Nepal Time':'NPT',
+					'New Zealand Daylight Time':'NZDT',
+					'New Zealand Standard Time':'NZST',
+					'Newfoundland Daylight Time':'NDT',
+					'Newfoundland Standard Time':'NST',
+					'Newfoundland Time':'NT',
+					'Norfolk Time':'NFT',
+					'Omsk Time':'OMST',
+					'Pacific Daylight Time (North America)':'PDT',
+					'Pacific Standard Time (North America)':'PST',
+					'Pakistan Standard Time':'PKT',
+					'Philippine Standard Time':'PST',
+					'Phoenix Island Time':'PHOT',
+					'Reunion Time':'RET',
+					'Samara Time':'SAMT',
+					'Samoa Standard Time':'SST',
+					'Seychelles Time':'SCT',
+					'Singapore Standard Time':'SST',
+					'Singapore Time':'SGT',
+					'Solomon Islands Time':'SBT',
+					'South African Standard Time':'SAST',
+					'South Georgia and the South Sandwich Islands':'GST',
+					'Sri Lanka Time':'SLT',
+					'Tahiti Time':'TAHT',
+					'Thailand Standard Time':'THA',
+					'Uruguay Standard Time':'UYT',
+					'Uruguay Summer Time':'UYST',
+					'Venezuelan Standard Time':'VET',
+					'Vladivostok Time':'VLAT',
+					'West Africa Time':'WAT',
+					'Western European Daylight Time':'WEDT',
+					'Western European Summer Time':'WEST',
+					'Western European Time':'WET',
+					'Western Standard Time':'WST',
+					'Yakutsk Time':'YAKT',
+					'Yekaterinburg Time':'YEKT'
+				},
+				currentTimezone = datetime.toTimeString().replace(/.*?\((.*?)\).*?/, '$1'),
+				minuteWithZero = (minute < 10 ? "0" + minute : minute),
+				secondsWithZero = (second < 10 ? "0" + second : second);
 
 		if (options.gmt) {
 			datetime = new Date(datetime.valueOf() - localTimeZoneOffset*60*60000);
@@ -7409,22 +7410,22 @@ _ext(Date, 'format', function (format, options) {
 		}
 
 		var date = datetime.getDate(),
-			day = datetime.getDay(),
-			month = datetime.getMonth() + 1,
-			year = datetime.getFullYear(),
-			firstMonday = new Date((new Date('1/6/' + year)).getTime() + (1-(new Date('1/6/' + year)).getDay())*(24*60*60*1000)),
+				day = datetime.getDay(),
+				month = datetime.getMonth() + 1,
+				year = datetime.getFullYear(),
+				firstMonday = new Date((new Date('1/6/' + year)).getTime() + (1-(new Date('1/6/' + year)).getDay())*(24*60*60*1000)),
 		//week = Math.ceil(Math.ceil((datetime - (firstMonday - (new Date('1/1/'+year)))) - (new Date('12/31/' + (year - 1))))/(7*24*60*60*1000)),
-			week = datetime.getWeek() - 1,
-			hour = datetime.getHours(),
-			dayOfYear = datetime.getDayOfYear(),
-			dayOfYearFrom1 = dayOfYear + 1,
-			dayOfYearWithZero = (dayOfYearFrom1< 10 ? "00" + dayOfYearFrom1 : (dayOfYearFrom1 < 100 ? "0" + dayOfYearFrom1 : dayOfYearFrom1)),
+				week = datetime.getWeek() - 1,
+				hour = datetime.getHours(),
+				dayOfYear = datetime.getDayOfYear(),
+				dayOfYearFrom1 = dayOfYear + 1,
+				dayOfYearWithZero = (dayOfYearFrom1< 10 ? "00" + dayOfYearFrom1 : (dayOfYearFrom1 < 100 ? "0" + dayOfYearFrom1 : dayOfYearFrom1)),
 
-			dateWithZero = (date < 10 ? "0" + date : date),
-			threeLetterDay = ['\\S\\u\\n','\\M\\o\\n','\\T\\u\\e\\s','\\W\\e\\d','\\T\\h\\u','\\F\\r\\i', '\\S\\a\\t'][day],
-			threeLetterMonth = ['\\J\\a\\n','\\F\\e\\b','\\M\\a\\r','\\A\\p\\r','\\M\\a\\y','\\J\\u\\n','\\J\\u\\l','\\A\\u\\g','\\S\\e\\p','\\O\\c\\t','\\N\\o\\v','\\D\\e\\c'][month - 1],
-			hour24 = (hour < 10 ? "0" + hour : hour),
-			GMTDiffFormatted = (GMTDiff > 0 ? "+" : "-") + (Math.abs(GMTDiff) < 10 ? "0" : "") + Math.abs(GMTDiff) + "00";
+				dateWithZero = (date < 10 ? "0" + date : date),
+				threeLetterDay = ['\\S\\u\\n','\\M\\o\\n','\\T\\u\\e\\s','\\W\\e\\d','\\T\\h\\u','\\F\\r\\i', '\\S\\a\\t'][day],
+				threeLetterMonth = ['\\J\\a\\n','\\F\\e\\b','\\M\\a\\r','\\A\\p\\r','\\M\\a\\y','\\J\\u\\n','\\J\\u\\l','\\A\\u\\g','\\S\\e\\p','\\O\\c\\t','\\N\\o\\v','\\D\\e\\c'][month - 1],
+				hour24 = (hour < 10 ? "0" + hour : hour),
+				GMTDiffFormatted = (GMTDiff > 0 ? "+" : "-") + (Math.abs(GMTDiff) < 10 ? "0" : "") + Math.abs(GMTDiff) + "00";
 
 
 
@@ -7484,15 +7485,15 @@ _ext(Date, 'format', function (format, options) {
 }, true);
 _ext(Date, 'getDayOfYear', function () {
 	/*|{
-		"info": "Date class extension to retrieve the day of the year",
-		"category": "Date",
-		"parameters":[],
+	 "info": "Date class extension to retrieve the day of the year",
+	 "category": "Date",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.getDayOfYear",
-		"returnType": "(Int)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.getDayOfYear",
+	 "returnType": "(Int)"
+	 }|*/
 	try {
 		return Math.floor((this - new Date(this.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
 	} catch (e) {
@@ -7501,15 +7502,15 @@ _ext(Date, 'getDayOfYear', function () {
 });
 _ext(Date, 'getWeek', function () {
 	/*|{
-		"info": "Date class extension to retrieve the week number in the year",
-		"category": "Date",
-		"parameters":[],
+	 "info": "Date class extension to retrieve the week number in the year",
+	 "category": "Date",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.getWeek",
-		"returnType": "(Int)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.getWeek",
+	 "returnType": "(Int)"
+	 }|*/
 	try {
 		var d = new Date(+this);
 		d.setHours(0, 0, 0);
@@ -7521,15 +7522,15 @@ _ext(Date, 'getWeek', function () {
 });
 _ext(Date, 'isValidDate', function () {
 	/*|{
-		"info": "Date class extension to check if the date is valid",
-		"category": "Date",
-		"parameters":[],
+	 "info": "Date class extension to check if the date is valid",
+	 "category": "Date",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.isValidDate",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#array.isValidDate",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return !isNaN(this.getTime());
 	} catch (e) {
@@ -7542,17 +7543,17 @@ _ext(Date, 'isValidDate', function () {
  /---------------------------------------------------------------------------------------------------------------*/
 _ext(Number, 'aboutEqualTo', function (compare, giveOrTake) {
 	/*|{
-		"info": "Number class extension to check if values are approximately equal",
-		"category": "Number",
-		"parameters":[
-			{"compare": "(Number) Number to compare"},
-			{"giveOrTake": "(Number) Plus/minus value"}],
+	 "info": "Number class extension to check if values are approximately equal",
+	 "category": "Number",
+	 "parameters":[
+	 {"compare": "(Number) Number to compare"},
+	 {"giveOrTake": "(Number) Plus/minus value"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#number.aboutEqualTo",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#number.aboutEqualTo",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return $c.isBetween(this, compare - giveOrTake, compare + giveOrTake, true);
 	} catch (e) {
@@ -7561,15 +7562,15 @@ _ext(Number, 'aboutEqualTo', function (compare, giveOrTake) {
 }, true);
 _ext(Number, 'isEven', function () {
 	/*|{
-		"info": "Number class extension to check if number is even",
-		"category": "Number",
-		"parameters":[],
+	 "info": "Number class extension to check if number is even",
+	 "category": "Number",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#number.",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#number.",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return _even(this);
 	} catch (e) {
@@ -7578,15 +7579,15 @@ _ext(Number, 'isEven', function () {
 }, true);
 _ext(Number, 'isOdd', function () {
 	/*|{
-		"info": "Number class extension to check if number is odd",
-		"category": "Number",
-		"parameters":[],
+	 "info": "Number class extension to check if number is odd",
+	 "category": "Number",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#number.",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#number.",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		return !_even(this);
 	} catch (e) {
@@ -7595,17 +7596,17 @@ _ext(Number, 'isOdd', function () {
 }, true);
 _ext(Number, 'toCurrencyNotation', function (separator) {
 	/*|{
-		"info": "Number class extension to change number to currency",
-		"category": "Number",
-		"parameters":[],
+	 "info": "Number class extension to change number to currency",
+	 "category": "Number",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"separator": "(Char) Character to use as delimiter"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"separator": "(Char) Character to use as delimiter"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#number.toCurrencyNotation",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#number.toCurrencyNotation",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		separator = separator || ",";
 		return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
@@ -7619,15 +7620,15 @@ _ext(Number, 'toCurrencyNotation', function (separator) {
  /---------------------------------------------------------------------------------------------------------------*/
 _ext(Function, 'getParameters', function () {
 	/*|{
-		"info": "Function class extension to get parameters in definition",
-		"category": "Function",
-		"parameters":[],
+	 "info": "Function class extension to get parameters in definition",
+	 "category": "Function",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.getParameters",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#function.getParameters",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		return _getFuncArgs(this);
 	} catch (e) {
@@ -7636,15 +7637,15 @@ _ext(Function, 'getParameters', function () {
 }, true);
 _ext(Function, 'getName', function () {
 	/*|{
-		"info": "Function class extension to get the name of the function",
-		"category": "Function",
-		"parameters":[],
+	 "info": "Function class extension to get the name of the function",
+	 "category": "Function",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.getName",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#function.getName",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		return this.name;
 	} catch (e) {
@@ -7690,17 +7691,17 @@ _ext(Function, 'extends',function(extendee, inheritAsOwn){
 }, true);
 _ext(Function, 'on',function(ev, func){
 	/*|{
-		"info": "Function listener to register events",
-		"category": "Function",
-		"parameters":[
-			{"event":"(String) Event to listen on and invoked on emit"},
-	 		{"func":"(Function) Function to call on emit"}],
+	 "info": "Function listener to register events",
+	 "category": "Function",
+	 "parameters":[
+	 {"event":"(String) Event to listen on and invoked on emit"},
+	 {"func":"(Function) Function to call on emit"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.on",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#function.on",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		this["_"+ev] = this["_"+ev] || [];
 		this["_"+ev].push(func);
@@ -7710,16 +7711,16 @@ _ext(Function, 'on',function(ev, func){
 }, true);
 _ext(Function, 'then',function(func){
 	/*|{
-		"info": "Function listener to register the then event",
-		"category": "Function",
-		"parameters":[
-	 		{"func":"(Function) Function to call on emit"}],
+	 "info": "Function listener to register the then event",
+	 "category": "Function",
+	 "parameters":[
+	 {"func":"(Function) Function to call on emit"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.then",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#function.then",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		this.on('then',func);
 	} catch (e) {
@@ -7732,16 +7733,16 @@ _ext(Function, 'then',function(func){
  /---------------------------------------------------------------------------------------------------------------*/
 _ext(RegExp, 'addFlags',function(flags){
 	/*|{
-		"info": "RegExp class extension to add flags to regex",
-		"category": "RegExp",
-		"parameters":[
-			{"flags": "(String) Flags to add"}],
+	 "info": "RegExp class extension to add flags to regex",
+	 "category": "RegExp",
+	 "parameters":[
+	 {"flags": "(String) Flags to add"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#regexp.addFlag",
-		"returnType": "(RegExp)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#regexp.addFlag",
+	 "returnType": "(RegExp)"
+	 }|*/
 	try {
 		if (this.global && !flags.contains('g')) { flags += "g"; }
 		if (this.ignoreCase && !flags.contains('i')) { flags += "i"; }
@@ -7758,16 +7759,16 @@ _ext(RegExp, 'addFlags',function(flags){
  /---------------------------------------------------------------------------------------------------------------*/
 _ao("changes", function(compare){
 	/*|{
-		"info": "Object class extension to compare properties that have changed",
-		"category": "Object",
-		"parameters":[
-			{"compare": "(Object) Object to compare against"}],
+	 "info": "Object class extension to compare properties that have changed",
+	 "category": "Object",
+	 "parameters":[
+	 {"compare": "(Object) Object to compare against"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.",
-		"returnType": "(Object)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.",
+	 "returnType": "(Object)"
+	 }|*/
 	try {
 		if (this.constructor != Object || compare.constructor != Object) {
 			//noinspection ExceptionCaughtLocallyJS
@@ -7805,23 +7806,23 @@ _ao("changes", function(compare){
 });
 _ao("contains", function(val, func){
 	/*|{
-		"info": "Object class extension to check if value exists",
-		"category": "Object",
-		"parameters":[
-			{"val": "(Mixed) Value to check"}],
+	 "info": "Object class extension to check if value exists",
+	 "category": "Object",
+	 "parameters":[
+	 {"val": "(Mixed) Value to check"}],
 
-		"overloads":[
-			{"parameters":[
-				{"val": "(Mixed) Value to check"},
-				{"func": "(Function) Callback function used to do the comparison"}]},
+	 "overloads":[
+	 {"parameters":[
+	 {"val": "(Mixed) Value to check"},
+	 {"func": "(Function) Callback function used to do the comparison"}]},
 
-			{"parameters":[
-				{"val": "(Mixed) Value to check"},
-				{"arr": "(Array) Array of values to return first matching value"}]}],
+	 {"parameters":[
+	 {"val": "(Mixed) Value to check"},
+	 {"arr": "(Array) Array of values to return first matching value"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.contains",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.contains",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		switch(true) {
 			case $c.isArray(this):
@@ -7855,15 +7856,15 @@ _ao("contains", function(val, func){
 });
 _ao("copyObject", function () {
 	/*|{
-		"info": "Object class extension to copy an object including constructor",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to copy an object including constructor",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.copyObject",
-		"returnType": "(Object)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.copyObject",
+	 "returnType": "(Object)"
+	 }|*/
 	try {
 		if (!this) {
 			return undefined;
@@ -7875,17 +7876,17 @@ _ao("copyObject", function () {
 });
 _ao("duplicate", function (recursive) {
 	/*|{
-		"info": "Object class extension to copy an object excluding constructor",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to copy an object excluding constructor",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-			{"recursive": "(Boolean) Flag to copy all child objects recursively"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"recursive": "(Boolean) Flag to copy all child objects recursively"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.duplicate",
-		"returnType": "(Object)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.duplicate",
+	 "returnType": "(Object)"
+	 }|*/
 	try {
 		return _duplicate({}, this, recursive);
 	} catch (e) {
@@ -7894,16 +7895,16 @@ _ao("duplicate", function (recursive) {
 });
 _ao("eachProperty", function (callback) {
 	/*|{
-		"info": "Object class extension to loop through all properties where hasOwnValue is true.",
-		"category": "Object",
-		"parameters":[
-			{"callback": "(Function) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed"}],
+	 "info": "Object class extension to loop through all properties where hasOwnValue is true.",
+	 "category": "Object",
+	 "parameters":[
+	 {"callback": "(Function) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.eachProperty",
-		"returnType": "(Object)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.eachProperty",
+	 "returnType": "(Object)"
+	 }|*/
 	try {
 		for (var prop in this) {
 			if (!this.has(prop)) { continue; }
@@ -7915,22 +7916,22 @@ _ao("eachProperty", function (callback) {
 });
 _ao("equals", function (compare, props){
 	/*|{
-		"info": "Object class extension to check if object values are equal",
-		"category": "Object",
-		"parameters":[
-			{"compare": "(Object) Object to compare against"}],
+	 "info": "Object class extension to check if object values are equal",
+	 "category": "Object",
+	 "parameters":[
+	 {"compare": "(Object) Object to compare against"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.equals",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.equals",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if ($c.isArray(props)) {
 			var j = 0;
 			while (prop = props[j++]) {
 				if (this.has(prop) && compare.has(prop) && this[prop] != compare[prop]
-					|| (!this.has(prop) && compare.has(prop)) || (this.has(prop) && !compare.has(prop))) {
+						|| (!this.has(prop) && compare.has(prop)) || (this.has(prop) && !compare.has(prop))) {
 					return false;
 				}
 			}
@@ -7962,19 +7963,19 @@ _ao("equals", function (compare, props){
 });
 _ao("every", function(callback, thisObject) {
 	/*|{
-		"info": "Object class extension to check property values against a function",
-		"category": "Object",
-		"parameters":[
-			{"callback": "(Function) Callback to apply to each value"}],
+	 "info": "Object class extension to check property values against a function",
+	 "category": "Object",
+	 "parameters":[
+	 {"callback": "(Function) Callback to apply to each value"}],
 
-		"overloads":[
-			{"parameters":[
-				{"callback": "(Function) Callback to apply to each value"},
-				{"thisObject": "(Mixed) Context for the callback function"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"callback": "(Function) Callback to apply to each value"},
+	 {"thisObject": "(Mixed) Context for the callback function"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.every",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.every",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		thisObject = thisObject || this;
 		for (var prop in this)
@@ -7987,15 +7988,15 @@ _ao("every", function(callback, thisObject) {
 });
 _ao("getClass", function() {
 	/*|{
-		"info": "Object class extension to get the constructor name",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to get the constructor name",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.getClass",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.getClass",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		return _getFuncName(this.constructor);
 	} catch (e) {
@@ -8004,25 +8005,25 @@ _ao("getClass", function() {
 });
 _ao("getProperty", function (path, delimiter, options) {
 	/*|{
-		"info": "Object class extension to retrieve nested properties without error when property path does not exist",
-		"category": "Object",
-		"featured": true,
-		"parameters":[
-			{"path": "(String) Path to nested property"}],
+	 "info": "Object class extension to retrieve nested properties without error when property path does not exist",
+	 "category": "Object",
+	 "featured": true,
+	 "parameters":[
+	 {"path": "(String) Path to nested property"}],
 
-		"overloads":[
-		{"parameters":[
-			{"path": "(String) Path to nested property"},
-			{"delimiter": "(Char) Separator used to parse path"}]},
+	 "overloads":[
+	 {"parameters":[
+	 {"path": "(String) Path to nested property"},
+	 {"delimiter": "(Char) Separator used to parse path"}]},
 
-		{"parameters":[
-			{"path": "(String) Path to nested property"},
-			{"delimiter": "(Char) Separator used to parse path"},
-			{"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+	 {"parameters":[
+	 {"path": "(String) Path to nested property"},
+	 {"delimiter": "(Char) Separator used to parse path"},
+	 {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.getProperty",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.getProperty",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
 		options = options || {};
 		delimiter = delimiter || ".";
@@ -8030,7 +8031,7 @@ _ao("getProperty", function (path, delimiter, options) {
 		var value = this;
 		for (var i = 0, len = props.length; i < len; i++) {
 			if (isNull(value[props[i]])
-				|| (options.noInheritance && !value.has(props[i]))) {
+					|| (options.noInheritance && !value.has(props[i]))) {
 				return undefined;
 			}
 			value = value[props[i]];
@@ -8043,22 +8044,22 @@ _ao("getProperty", function (path, delimiter, options) {
 });
 _ao("getValue" ,function (args, dflt) {
 	/*|{
-		"info": "Object class extension to retrieve value of an object property",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to retrieve value of an object property",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"dflt": "(Mixed) Default value to return if context is not a function"}]},
+	 "overloads":[
+	 {"parameters":[
+	 {"dflt": "(Mixed) Default value to return if context is not a function"}]},
 
-			{"parameters":[
-				{"args": "(Mixed[]) An array of arguments to pass to context when it is a function"},
-				{"delimiter": "(Char) Separator used to parse path"},
-				{"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+	 {"parameters":[
+	 {"args": "(Mixed[]) An array of arguments to pass to context when it is a function"},
+	 {"delimiter": "(Char) Separator used to parse path"},
+	 {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.getProperty",
-		"returnType": "(Mixed)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.getProperty",
+	 "returnType": "(Mixed)"
+	 }|*/
 	try {
 		if (!$c.isFunction(this)) {
 			if (args && !dflt) {
@@ -8081,16 +8082,16 @@ _ao("getValue" ,function (args, dflt) {
 });
 _ao("has", function(){
 	/*|{
-		"info": "Alias to Object.prototype.hasOwnProperty",
-		"category": "Object",
-		"parameters":[
-			{"callback": "(String) Property name to check"}],
+	 "info": "Alias to Object.prototype.hasOwnProperty",
+	 "category": "Object",
+	 "parameters":[
+	 {"callback": "(String) Property name to check"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.has",
-		"returnType": "(Boolean)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.has",
+	 "returnType": "(Boolean)"
+	 }|*/
 	var args = arguments;
 	if (arguments.length > 1 && this == args[0]) {
 		args = args.splice(0,1);
@@ -8099,34 +8100,34 @@ _ao("has", function(){
 });
 _ao("isArray", function () {
 	/*|{
-		"info": "Object class extension to check if object is an array",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is an array",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isArray",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isArray",
+	 "returnType": "(Bool)"
+	 }|*/
 	return _isArray(this);
 });
 _ao("isBetween", function(lowerBound, upperBound, inclusive) {
 	/*|{
-		"info": "Object class extension to check if object is between lower and upper bounds",
-		"category": "Object",
-		"parameters":[
-			{"lowerBound": "(Mixed) Lower bound comparison"},
-			{"upperBound": "(Mixed) Upper bound comparison"}],
+	 "info": "Object class extension to check if object is between lower and upper bounds",
+	 "category": "Object",
+	 "parameters":[
+	 {"lowerBound": "(Mixed) Lower bound comparison"},
+	 {"upperBound": "(Mixed) Upper bound comparison"}],
 
-		"overloads":[
-			{"parameters":[
-				{"lowerBound": "(Mixed) Lower bound comparison"},
-				{"upperBound": "(Mixed) Upper bound comparison"},
-				{"inclusive": "(Bool) Flag to include give bounds"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"lowerBound": "(Mixed) Lower bound comparison"},
+	 {"upperBound": "(Mixed) Upper bound comparison"},
+	 {"inclusive": "(Bool) Flag to include give bounds"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isBetween",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isBetween",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this)) {return false;}
 		if (inclusive) {
@@ -8140,15 +8141,15 @@ _ao("isBetween", function(lowerBound, upperBound, inclusive) {
 });
 _ao("isBoolean", function() {
 	/*|{
-		"info": "Object class extension to check if object is a boolean",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is a boolean",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isBoolean",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isBoolean",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this)) {return false;}
 		return (this.constructor == Boolean);
@@ -8158,15 +8159,15 @@ _ao("isBoolean", function() {
 });
 _ao("isDate", function() {
 	/*|{
-		"info": "Object class extension to check if object is a date",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is a date",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isDate",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isDate",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this)) {return false;}
 		return (this.constructor == Date);
@@ -8176,15 +8177,15 @@ _ao("isDate", function() {
 });
 _ao("isDomElement", function() {
 	/*|{
-		"info": "Object class extension to check if object is a DOM element",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is a DOM element",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isDomElement",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isDomElement",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this)) {return false;}
 		return (this.nodeType == 1);
@@ -8194,15 +8195,15 @@ _ao("isDomElement", function() {
 });
 _ao('isEmpty', function() {
 	/*|{
-		"info": "Object class extension to check if it is empty",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if it is empty",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.0/docs#object.isEmpty",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.0/docs#object.isEmpty",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if ($c.isArray(this) || $c.isString(this)) {
 			return this.length == 0;
@@ -8221,15 +8222,15 @@ _ao('isEmpty', function() {
 }, true);
 _ao("isFloat", function() {
 	/*|{
-		"info": "Object class extension to check if object is a float",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is a float",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isFloat",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isFloat",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this)) {return false;}
 		return ($c.isNumber(this) && (parseFloat(this) == this || parseFloat(this) === 0));
@@ -8239,15 +8240,15 @@ _ao("isFloat", function() {
 });
 _ao("isFunction", function() {
 	/*|{
-		"info": "Object class extension to check if object is a function",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is a function",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isFunction",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isFunction",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this)) {return false;}
 		return (this.constructor == Function);
@@ -8257,15 +8258,15 @@ _ao("isFunction", function() {
 });
 _ao("isGenerator", function() {
 	/*|{
-		"info": "Object class extension to check if object is a generator function",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is a generator function",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isGenerator",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isGenerator",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this)) {return false;}
 		return (this.constructor.name == "GeneratorFunction");
@@ -8275,15 +8276,15 @@ _ao("isGenerator", function() {
 });
 _ao("isGeolocation", function () {
 	/*|{
-		"info": "Object class extension to check if object is a geolocation",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is a geolocation",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isGeoLocation",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isGeoLocation",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this)) {return false;}
 		return (this.constructor.toString().indexOf('function Geolocation()') == 0);
@@ -8293,15 +8294,15 @@ _ao("isGeolocation", function () {
 });
 _ao("isInt", function () {
 	/*|{
-		"info": "Object class extension to check if object is an integer",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is an integer",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isInt",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isInt",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this) || $c.isArray(this)) {return false;}
 		return (parseInt(this) == this || parseInt(this) === 0);
@@ -8311,15 +8312,15 @@ _ao("isInt", function () {
 });
 _ao("isNumber", function() {
 	/*|{
-		"info": "Object class extension to check if object is a number",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is a number",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isNumber",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isNumber",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this)) {return false;}
 		return (this.constructor == Number);
@@ -8329,15 +8330,15 @@ _ao("isNumber", function() {
 });
 _ao("isPromise", function() {
 	/*|{
-		"info": "Object class extension to check if object is a promise object",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is a promise object",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isPromise",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isPromise",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this) || typeof Promise == "undefined") {return false;}
 		return (this.constructor == Promise);
@@ -8347,15 +8348,15 @@ _ao("isPromise", function() {
 });
 _ao("isObject", function (check_instance) {
 	/*|{
-		"info": "Object class extension to check if object is an object",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is an object",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isObject",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isObject",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this)) {return false;}
 		return (this.constructor == Object || (!!check_instance && this instanceof Object));
@@ -8365,15 +8366,15 @@ _ao("isObject", function (check_instance) {
 });
 _ao("isRegExp", function() {
 	/*|{
-		"info": "Object class extension to check if object is a RegExp",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is a RegExp",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isRegExp",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isRegExp",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		if (isNull(this)) {return false;}
 		return (this.constructor == RegExp);
@@ -8383,27 +8384,27 @@ _ao("isRegExp", function() {
 });
 _ao("isString", function () {
 	/*|{
-		"info": "Object class extension to check if object is a string",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to check if object is a string",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isString",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isString",
+	 "returnType": "(Bool)"
+	 }|*/
 	return _isString(this);
 });
 _ao("isSubset", function (compare, sharesAny){
 	/*|{
-		"info": "Object class extension to check if item is a subset",
-		"category": "Object",
-		"parameters":[
-			{"compare": "(Mixed) Superset to compare against"}],
+	 "info": "Object class extension to check if item is a subset",
+	 "category": "Object",
+	 "parameters":[
+	 {"compare": "(Mixed) Superset to compare against"}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isSubset",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.isSubset",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		var isArray = $c.isArray(this) && $c.isArray(compare);
 		if (($c.isObject(this) && $c.isObject(compare)) || isArray) {
@@ -8430,15 +8431,15 @@ _ao("isSubset", function (compare, sharesAny){
 });
 _ao("itemCount", function () {
 	/*|{
-		"info": "Object class extension to count the properties in item",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to count the properties in item",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.itemCount",
-		"returnType": "(Int)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.itemCount",
+	 "returnType": "(Int)"
+	 }|*/
 	try {
 		if ($c.isObject(this)) {
 			var count = 0;
@@ -8456,16 +8457,16 @@ _ao("itemCount", function () {
 });
 _ao("keyOf", function (value) {
 	/*|{
-		"info": "Object class extension to get the key of the give value",
-		"category": "Object",
-		"parameters":[
-			{"value": "(Mixed) Value to compare against"}],
+	 "info": "Object class extension to get the key of the give value",
+	 "category": "Object",
+	 "parameters":[
+	 {"value": "(Mixed) Value to compare against"}],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.keyOf",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.keyOf",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		for(var prop in this) {
 			if(this.has(prop)) {
@@ -8480,15 +8481,15 @@ _ao("keyOf", function (value) {
 });
 _ao("getKeys", function () {
 	/*|{
-		"info": "Object class extension to get the keys of the object",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension to get the keys of the object",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[],
+	 "overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.getKeys",
-		"returnType": "(Array)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.getKeys",
+	 "returnType": "(Array)"
+	 }|*/
 	try {
 		if(Object.keys(foo)) {
 			return  Object.keys(this);
@@ -8506,19 +8507,19 @@ _ao("getKeys", function () {
 });
 _ao("map", function(callback, thisObject) {
 	/*|{
-		"info": "Object class extension to apply method to every value",
-		"category": "Object",
-		"parameters":[
-			{"callback": "(Function) Callback to apply to each value"}],
+	 "info": "Object class extension to apply method to every value",
+	 "category": "Object",
+	 "parameters":[
+	 {"callback": "(Function) Callback to apply to each value"}],
 
-		"overloads":[
-			{"parameters":[
-				{"callback": "(Function) Callback to apply to each value"},
-				{"thisObject": "(Mixed) Context for the callback function"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"callback": "(Function) Callback to apply to each value"},
+	 {"thisObject": "(Mixed) Context for the callback function"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.map",
-		"returnType": "(void)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.map",
+	 "returnType": "(void)"
+	 }|*/
 	try {
 		thisObject = thisObject || this;
 		for (var prop in this) {
@@ -8532,27 +8533,27 @@ _ao("map", function(callback, thisObject) {
 });
 _ao("merge", function (secondary, condition) {//shareOnly) {
 	/*|
-		{"info": "Object class extension to merge objects",
-		"category": "Object",
-		"parameters":[
-			{"secondary": "(Object) Object to merge with"}],
+	 {"info": "Object class extension to merge objects",
+	 "category": "Object",
+	 "parameters":[
+	 {"secondary": "(Object) Object to merge with"}],
 
-		"overloads":[
-			{"parameters":[
-				{"secondary": "(Object) Object to merge with"},
-				{"condition": "(Mixed) Flags to recurse, merge only shared value, clone, intersect etc"}]}],
+	 "overloads":[
+	 {"parameters":[
+	 {"secondary": "(Object) Object to merge with"},
+	 {"condition": "(Mixed) Flags to recurse, merge only shared value, clone, intersect etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.merge",
-		"returnType": "(Object)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.merge",
+	 "returnType": "(Object)"
+	 }|*/
 	try {
 		condition = condition || {};
 		var recurse = condition == "recurse" || condition.recurse,
-			shared = condition == "onlyShared" || condition.onlyShared,
-			intersect = condition == "intersect" || condition.intersect,
-			objtmp = (condition == "clone" || condition.clone) ? $c.copyObject(this) : this,
-			compareFunction = $c.isFunction(condition) ? condition : condition.compareFunction,
-			intersectObj = {};
+				shared = condition == "onlyShared" || condition.onlyShared,
+				intersect = condition == "intersect" || condition.intersect,
+				objtmp = (condition == "clone" || condition.clone) ? $c.copyObject(this) : this,
+				compareFunction = $c.isFunction(condition) ? condition : condition.compareFunction,
+				intersectObj = {};
 
 		for (var prop in secondary){
 			if (secondary.has(prop)) {
@@ -8582,7 +8583,7 @@ _ao("merge", function (secondary, condition) {//shareOnly) {
 		}
 		if (recurse) {
 			var args = [],
-				removeCount = 1;
+					removeCount = 1;
 			for (var aprop in arguments) {
 				if (!arguments.has(aprop)) { continue; }
 				if ($c.isInt(aprop)) {
@@ -8604,27 +8605,27 @@ _ao("merge", function (secondary, condition) {//shareOnly) {
 });
 _ao("setProperty", function (path, value, delimiter, options) {
 	/*|{
-		"info": "Object class extension to set nested properties creating necessary property paths",
-		"category": "Object",
-		"parameters":[
-			{"path": "(String) Path to nested property"},
-			{"value": "(Mixed) Value to set"}],
+	 "info": "Object class extension to set nested properties creating necessary property paths",
+	 "category": "Object",
+	 "parameters":[
+	 {"path": "(String) Path to nested property"},
+	 {"value": "(Mixed) Value to set"}],
 
-		"overloads":[
-			{"parameters":[
-				{"path": "(String) Path to nested property"},
-				{"value": "(Mixed) Value to set"},
-				{"delimiter": "(Char) Separator used to parse path"}]},
+	 "overloads":[
+	 {"parameters":[
+	 {"path": "(String) Path to nested property"},
+	 {"value": "(Mixed) Value to set"},
+	 {"delimiter": "(Char) Separator used to parse path"}]},
 
-			{"parameters":[
-				{"path": "(String) Path to nested property"},
-				{"delimiter": "(Char) Separator used to parse path"},
-				{"value": "(Mixed) Value to set"},
-				{"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+	 {"parameters":[
+	 {"path": "(String) Path to nested property"},
+	 {"delimiter": "(Char) Separator used to parse path"},
+	 {"value": "(Mixed) Value to set"},
+	 {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.setProperty",
-		"returnType": "(Bool)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#object.setProperty",
+	 "returnType": "(Bool)"
+	 }|*/
 	try {
 		options = options || {};
 		delimiter = delimiter || ".";
@@ -8645,26 +8646,26 @@ _ao("setProperty", function (path, value, delimiter, options) {
 });
 _ao("toStringAlt", function (delimiter, prefix, urlEncode) {
 	/*|{
-		"info": "Object class extension for an alternate way to stringify object to formatted string",
-		"category": "Object",
-		"parameters":[],
+	 "info": "Object class extension for an alternate way to stringify object to formatted string",
+	 "category": "Object",
+	 "parameters":[],
 
-		"overloads":[
-			{"parameters":[
-				{"delimiter": "(Char) Character to separate the property from the value"}]},
+	 "overloads":[
+	 {"parameters":[
+	 {"delimiter": "(Char) Character to separate the property from the value"}]},
 
-			{"parameters":[
-				{"delimiter": "(Char) Character to separate the property from the value"},
-				{"prefix": "(Char) Character to prefix the property name"}]},
+	 {"parameters":[
+	 {"delimiter": "(Char) Character to separate the property from the value"},
+	 {"prefix": "(Char) Character to prefix the property name"}]},
 
-			{"parameters":[
-				{"delimiter": "(Char) Character to separate the property from the value"},
-				{"prefix": "(Char) Character to prefix the property name"},
-				{"urlEncode": "(Bool) Flag to url encode the property and value"}]}],
+	 {"parameters":[
+	 {"delimiter": "(Char) Character to separate the property from the value"},
+	 {"prefix": "(Char) Character to prefix the property name"},
+	 {"urlEncode": "(Bool) Flag to url encode the property and value"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#",
-		"returnType": "(String)"
-	}|*/
+	 "url": "http://www.craydent.com/library/1.8.1/docs#",
+	 "returnType": "(String)"
+	 }|*/
 	try {
 		delimiter = delimiter || '=';
 		prefix = prefix || '&';
