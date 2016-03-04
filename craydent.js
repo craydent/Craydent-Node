@@ -1,16 +1,16 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.14                                /*/
+/*/ Craydent LLC node-v0.5.24                               /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-
+//TODO: change all convenience functions to native where possible
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.14',
-		__GLOBALSESSION = [];
+var _craydent_version = '0.5.24',
+	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
 function __isNewer(loadedVersion, thisVersion){
@@ -48,7 +48,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		this.end = end;
 		this.writeSession = writeSession;
 		this.header = header;
-		this.header.headers = {'Content-Type': 'text/plain'};
+		this.header.headers = {};
 		this.header.code = 200;
 		this.echo = echo;
 		this.echo.out = "";
@@ -103,7 +103,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 				hash = "";
 
 		for (var i = 0, len = cookies.length; i < len; i++) {
-			if (cookies[i].contains("CRAYDENTHASH=")) {
+			if (cookies[i].indexOf("CRAYDENTHASH=") > -1) {
 				hash = cookies[i].substring(13);
 				break;
 			}
@@ -278,19 +278,19 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 	Craydent.createServer = function (callback, options) {
 		/*|{
-		 "info": "Array class extension to do an inner join on arrays",
-		 "category": "Array",
-		 "parameters":[
-		 {"callback": "(Function) Function to callback when a request is received"}],
+			"info": "Array class extension to do an inner join on arrays",
+			"category": "Array",
+			"parameters":[
+				{"callback": "(Function) Function to callback when a request is received"}],
 
-		 "overloads":[{
-		 "parameters":[
-		 {"callback": "(Function) Function to callback when a request is received"},
-		 {"createServer": "(Object) Options for creating the server (ex: {createServer:require('http').createServer})"}]}],
+			"overloads":[{
+				"parameters":[
+					{"callback": "(Function) Function to callback when a request is received"},
+					{"createServer": "(Object) Options for creating the server (ex: {createServer:require('http').createServer})"}]}],
 
-		 "url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
-		 "returnType": "(Server)"
-		 }|*/
+			"url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
+			"returnType": "(Server)"
+		}|*/
 		if (!callback || $c.isObject(callback)) {
 			options = callback;
 			callback = foo;
@@ -321,7 +321,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 							cray.rest = haveRoutes = true;
 
 							var rout_parts = routes[i].path.strip("*").split('/').condense(),
-									requ_parts = url.split('/'), vars = {}, cb = routes[i].callback;
+								requ_parts = url.split('/'), vars = {}, cb = routes[i].callback;
 
 							if (rout_parts.length <= requ_parts.length + params.itemCount()) {
 								var var_regex = /\$\{(.*?)\}/;
@@ -330,7 +330,8 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 											qVal = params[prop], no_route = false;
 									if (ro == "*") {
 										break;
-									} else if (var_regex.test(ro)) {
+									}
+									if (var_regex.test(ro)) {
 										if (qVal) {
 											qVal = decodeURIComponent(qVal.replace_all('+', '%20'));
 											vars[prop] = $c.tryEval(qVal) || qVal;
@@ -412,15 +413,15 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 							callingPath = callingPath.replace(/\\/g, '/');
 						}
 						appPath = callingPath + "/" + appPath;
-						var app = include(appPath) || {},
-								func = function (err) {
-									if (err.errno === 'EADDRINUSE') {
-										console.log('caught address in use');
-										process.removeListener('uncaughtException', func);
-									}
-								};
-
-						process.on('uncaughtException', func);
+						var app = include(appPath) || {};
+						if (!process.listeners('uncaughtException').length) {
+							console.log("listening for uncaught errors");
+							process.on('uncaughtException', function (err) {
+								if (err.errno === 'EADDRINUSE') {
+									console.log('caught address in use');
+								}
+							});
+						}
 						if (app.port || port) {
 							app.port = app.port || parseInt(port);
 							var query = request.url.split('?')[1] || "",
@@ -1919,6 +1920,40 @@ function __processStage(docs, stage) {
 		error('aggregate.__processStage', e);
 	}
 }
+function __queryNestedProperty(obj, path/*, value*/) {
+	var parts = path.split('.'), values = [];
+	for (var i = 0, len = parts.length; i < len; i++) {
+		var prop = parts[i];
+		if (!obj.has(prop)) { return []; }
+		if ($c.isArray(obj[prop])) {
+			if ($c.isNull(parts[i+1])) {
+				return obj[prop];
+			}
+			var query = {}, subPath = parts.slice(i + 1).join('.');
+			for (var j = 0, jlen = obj[prop].length; j < jlen; j++) {
+				values = values.concat(__queryNestedProperty(obj[prop][j],subPath));
+			}
+			return values;
+		}
+		obj = obj[prop];
+	}
+	return [obj];
+}
+function __relativePathFinder (path) {
+	var callingPath = "",
+		delimiter = "/";
+
+	// first clause is for linux based files systems, second clause is for windows based file system
+	if (!(path.startsWith('/') || /^[a-zA-Z]:\/|^\/\/.*/.test(path))) {
+		callingPath = new Error().stack.split('\n')[3].replace(/.*?\((.*)/,'$1');
+		if (callingPath.indexOf('\\') != -1) {
+			callingPath = callingPath.replace(/\\/g,'/');
+			//delimiter = "\\";
+		}
+		path = callingPath.substring(0,callingPath.lastIndexOf(delimiter) + 1) + path;
+	}
+	return path;
+}
 function __rest_docs(req,res,params){
 	var routes = {
 		all:this.server.routes.all.where({path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
@@ -2491,9 +2526,15 @@ function _replace_all(replace, subject, flag) {
 }
 function _run_func_array(funcs, args) {
 	try {
+		var self = this;
 		!$c.isArray(funcs) && (funcs = [funcs]);
-		for (var i = 0, len = funcs.length; i < len; i++) {
-			funcs[i].apply(this, args);
+		var i = 0, func;
+		while (func = funcs[i++]){
+			if ($c.isFunction(func)){
+				func.apply(self, args);
+			} else if ($c.isGenerator(func)) {
+				$c.tryEval('$c.syncroit(function *(){yield func.apply(self,args);});');
+			}
 		}
 	} catch (e) {
 		error("_run_func_array", e);
@@ -2619,7 +2660,7 @@ function _subQuery(record, query, operator, field, index) {
 					"$ghere":1,
 					"$elemMatch":1,
 					"$not":1},
-				value = $c.getProperty(record, field || ""),
+				values = __queryNestedProperty(record, field || ""),
 				opt = operator,
 				rtn = false;
 
@@ -2638,6 +2679,7 @@ function _subQuery(record, query, operator, field, index) {
 		}
 
 		for (var i = 0, len = opt.length; i < len; i++) {
+			var val, vindex = 0;
 			if (!rtn && i > 0) {
 				return rtn;
 			}
@@ -2645,47 +2687,79 @@ function _subQuery(record, query, operator, field, index) {
 				// value is the record in the array
 				// q is the conditional value
 				case "$equals":
-					if (isNull(query) || isNull(value)) {
+					if (isNull(query) || !values.length) {
+					//if (isNull(query) || isNull(value)) {
 						return false;
 					}
 					var q = $c.getValue(query.has("$equals") ? query['$equals'] : query);
 
-					rtn = $c.isRegExp(q) ? q.test(value) :
-							($c.isFunction(q) ? q(record, field, index) : value == q);
+					//rtn = $c.isRegExp(q) ? q.test(value) :
+					//		($c.isFunction(q) ? q(record, field, index) : value == q);
+					rtn = $c.isFunction(q) ? q(record, field, index) : values.contains(q);
 					break;
 
 				case "$ne":
-					if (isNull(query) || isNull(value)) {
+					if (isNull(query) || !values.length) {
+					//if (isNull(query) || isNull(value)) {
 						return false;
 					}
 					var q = query['$ne'];
-					rtn = !($c.isRegExp(q) ? q.test(value) : value == q);
+					//rtn = !($c.isRegExp(q) ? q.test(value) : value == q);
+					rtn = !($c.isFunction(q) ? q(record, field, index) : values.contains(q));
 					break;
 
 				case "$lt":
-					if (isNull(value)) {
+					if (!values.length) {
+					//if (isNull(value)) {
 						return false;
 					}
-					rtn = value < query['$lt'];
+					while (val = values[vindex++]) {
+						if (val < query['$lt']) {
+							rtn = true;
+							break;
+						}
+					}
+					//rtn = value < query['$lt'];
 					break;
 
 				case "$lte":
-					if (isNull(value)) {
+					if (!values.length) {
+					//if (isNull(value)) {
 						return false;
 					}
-					rtn = value <= query['$lte'];
+					while (val = values[vindex++]) {
+						if (val <= query['$lte']) {
+							rtn = true;
+							break;
+						}
+					}
+					//rtn = value <= query['$lte'];
 					break;
 				case "$gt":
-					if (isNull(value)) {
+					if (!values.length) {
+					//if (isNull(value)) {
 						return false;
 					}
-					rtn = value > query['$gt'];
+					while (val = values[vindex++]) {
+						if (val > query['$gt']) {
+							rtn = true;
+							break;
+						}
+					}
+					//rtn = value > query['$gt'];
 					break;
 				case "$gte":
-					if (isNull(value)) {
+					if (!values.length) {
+						//if (isNull(value)) {
 						return false;
 					}
-					rtn = value >= query['$gte'];
+					while (val = values[vindex++]) {
+						if (val >= query['$gte']) {
+							rtn = true;
+							break;
+						}
+					}
+					//rtn = value >= query['$gte'];
 					break;
 				case "$nor":
 					for(var i = 0, len = query.length; i < len; i++) {
@@ -2696,10 +2770,12 @@ function _subQuery(record, query, operator, field, index) {
 					rtn = true;
 					break;
 				case "$regex":
-					if (isNull(value)) {
+					if (!values.length) {
+						//if (isNull(value)) {
 						return false;
 					}
-					rtn = query["$regex"].test(value);
+					rtn = values.contains(query["$regex"]);
+					//rtn = query["$regex"].test(value);
 					break;
 				case "$exists":
 					var finished = {validPath:0};
@@ -2707,9 +2783,18 @@ function _subQuery(record, query, operator, field, index) {
 					rtn = finished.validPath == query["$exists"];
 					break;
 				case "$type":
-					if (isNull(value) && isNull(query) || !isNull(value) && value.constructor == query) {
-						//                        return true;
-						rtn = true;
+					//if (isNull(value) && isNull(query) || !isNull(value) && value.constructor == query) {
+					//	//                        return true;
+					//	rtn = true;
+					//	break;
+					//}
+					if (isNull(query) && !values.length || values.length) {
+						while (val = values[vindex++]) {
+							if (val.constructor == query) {
+								rtn = true;
+								break;
+							}
+						}
 						break;
 					}
 					return false;
@@ -2718,52 +2803,58 @@ function _subQuery(record, query, operator, field, index) {
 					//return record.getProperty(field).contains(query['$search']);
 					break;
 				case "$mod":
-					if (!$c.isArray(query) || isNull(value)) {
+					//if (!$c.isArray(query) || isNull(value)) {
+					if (!$c.isArray(query) || !values.length) {
 						return false;
 					}
-					rtn = value % query[0] == query[1];
+
+					while (val = values[vindex++]) {
+						if (val % query[0] == query[1]) {
+							rtn = true;
+							break;
+						}
+					}
+					//rtn = value % query[0] == query[1];
 					break;
 				case "$all":
-					if (!$c.isArray(value) || !$c.isArray(query)) {
+					if (!$c.isArray(values) || !$c.isArray(query)) {
 						return false;
 					}
-					for (var i = 0, len = query.length; i < len; i++) {
-						if (!$c.contains(value, query[i])) {
+					for (var j = 0, jlen = query.length; j < jlen; j++) {
+						if (!$c.contains(values, query[j])) {
 							return false;
 						}
 					}
 					rtn = true;
 					break;
 				case "$size":
-					var val = parseInt(query);
-					if (!$c.isArray(value) || !val && val !== 0) {
+					var ival = parseInt(query);
+					if (!$c.isArray(values) || !ival && ival !== 0) {
 						return false;
 					}
-					rtn = value.length == val;
+					rtn = values.length == val;
 					break;
 				case "$ghere":
 					rtn = $c.isFunction(query) ? query.call(record) : tryEval.call(record, "(function(){"+query+"}).call(this)");
 					break;
 				case "$elemMatch":
 					//query = { student: "Jane", grade: { $gt: 85 } } } };
-					if (!$c.isArray(value)) {
+					if (!$c.isArray(values)) {
 						return false;
 					}
-					for (var i = 0, brk = false, len = value.length; i < len && !brk; i++) {
-						var obj = value[i],
-								val, operand;
+					for (var j = 0, brk = false, jlen = values.length; j < jlen && !brk; j++) {
+						var obj = values[j],
+							qval, operand;
 						for (var prop in query) {
-							if (!query.has(prop)) {
-								continue;
-							}
+							if (!query.has(prop)) { continue; }
 							if ($c.isObject(query[prop])) {
-								val = [query[prop]];
+								qval = [query[prop]];
 								operand = "$or";
 							} else {
-								val = query[prop];
+								qval = query[prop];
 								operand = "$equals";
 							}
-							if (_subQuery(record, val, operand, prop, index)) {
+							if (_subQuery(record, qval, operand, prop, index)) {
 								brk = true;
 								break;
 								//                                return true;
@@ -2784,9 +2875,9 @@ function _subQuery(record, query, operator, field, index) {
 							}
 							var subprop = _subFieldHelper(query[i][prop], operands);
 							if (!(satisfied = prop in operands?
-											_subQuery(record, query[i][prop], prop, index) :
-											(subprop ? _subQuery(record, query[i][prop], subprop, prop, index) :
-													_subQuery(record, query[i][prop], "$equals", prop, index)))) {
+										_subQuery(record, query[i][prop], prop, index) :
+										(subprop ? _subQuery(record, query[i][prop], subprop, prop, index) :
+												_subQuery(record, query[i][prop], "$equals", prop, index)))) {
 								break;
 							}
 						}
@@ -2801,7 +2892,8 @@ function _subQuery(record, query, operator, field, index) {
 						rtn = !__andNotHelper (record, query, operands, index);
 						break;
 					}
-					rtn = $c.isRegExp(query) ? query.test(value) : value == query;
+					//rtn = $c.isRegExp(query) ? query.test(value) : value == query;
+					rtn = values.contains(query);
 					break;
 
 
@@ -2810,14 +2902,14 @@ function _subQuery(record, query, operator, field, index) {
 					var isNIN = operator == "$nin";
 					rtn = isNIN;
 					for (var fieldProp in query) {
-						if (!query.has(fieldProp)) {
-							continue;
-						}
-						value = $c.getProperty(record, field);
+						if (!query.has(fieldProp)) { continue; }
+						//value = $c.getProperty(record, field);
 						for (var k = 0, klen = query[fieldProp].length; k < klen; k++) {
-							var isRegex = $c.isRegExp(query[fieldProp][k] && query[fieldProp][k]); //array of values
-							if (($c.isArray(value) && value.contains(query[fieldProp][k]))
-									|| (isRegex ? query[fieldProp][k].test(value) : value == query[fieldProp][k])) {
+							//var isRegex = $c.isRegExp(query[fieldProp][k] && query[fieldProp][k]); //array of values
+							//if (($c.isArray(values) && values.contains(query[fieldProp][k]))
+							//		|| (isRegex ? query[fieldProp][k].test(value) : value == query[fieldProp][k])) {
+
+							if ($c.isArray(values) && values.contains(query[fieldProp][k])) {
 								rtn = true;
 								if (isNIN) {
 									return !rtn;
@@ -3245,7 +3337,20 @@ function ajax(params){
 
 		_run_func_array.call((params.context||this),params.onbefore, [httpRequest, this]);
 
-		var prms/*, options = {
+		var prms, defaults = {
+			protocol: 'http',
+			host: 'localhost',
+			family: '',
+			port: 80,
+			localAddress: '',
+			socketPath: '',
+			method: "GET",
+			path: '/',
+			headers: '',
+			auth: '',
+			agent: '',
+			createConnection: ''
+		}/*, options = {
 		 protocol: params.protocol || 'http',
 		 host: params.host || params.hostname || 'localhost',
 		 family: params.family,
@@ -3257,34 +3362,54 @@ function ajax(params){
 		 headers: params.headers,
 		 auth: params.auth,
 		 agent: params.agent,
-
+		 createConnection: params.createConnection
 		 }*/;
 		params.headers['Content-Type'] = params.headers['Content-Type'] || params.contentType;
 		prms = new Promise(function(resolve, reject) {
-			var req = httpRequest.request(params.url || params, function (res) {
-				var body = "", ctx = params.context||res;;
-				res.on('data',function(chunk){ body += chunk; });
-				res.on('error',function(){
-					if (params.dataType.toLowerCase() == 'json') {
-						body = $c.tryEval(body,JSON.parse) || body;
-					}
+			if (params.url) {
+				var parts = params.url.match(/^(https?):\/\/(.*?)(?::([0-9]*)?)?(\/.*)$/);
+				if (parts) {
+					params.protocol = (params.protocol || parts[1]) + ":";
+					params.host = params.host || parts[2];
+					var port = params.port || parts[3];
+					port && (params.port = port);
+					params.path = params.path || parts[4];
+				}
+			}
+			try {
+				if (params.protocol.contains('https')) {
+					httpRequest = require('https');
+				}
+				var req = httpRequest.request($c.merge(defaults, params,{clone:true,intersect:true}), function (res) {
+					var body = "", ctx = params.context || res;
+					res.on('data', function (chunk) {
+						body += chunk;
+					});
+					res.on('error', function () {
+						if (params.dataType.toLowerCase() == 'json') {
+							body = $c.tryEval(body, JSON.parse) || body;
+						}
 
-					_run_func_array.call(ctx,params.onerror, [body, params.thiss, ctx, res.statusCode]);
-					_run_func_array.call(ctx,params.oncomplete, [body, params.thiss, ctx, res.statusCode]);
-					reject(body);
-				});
-				res.on('end',function(){
-					if (params.dataType.toLowerCase() == 'json') {
-						body = $c.tryEval(body,JSON.parse) || body;
-					}
+						_run_func_array.call(ctx, params.onerror, [body, params.thiss, ctx, res.statusCode]);
+						_run_func_array.call(ctx, params.oncomplete, [body, params.thiss, ctx, res.statusCode]);
+						reject(body);
+					});
+					res.on('end', function () {
+						if (params.dataType.toLowerCase() == 'json') {
+							body = $c.tryEval(body, JSON.parse) || body;
+						}
 
-					_run_func_array.call(ctx,params.onsuccess, [body, params.thiss, ctx, res.statusCode]);
-					_run_func_array.call(ctx,params.oncomplete, [body, params.thiss, ctx, res.statusCode]);
-					resolve(body);
+						_run_func_array.call(ctx, params.onsuccess, [body, params.thiss, ctx, res.statusCode]);
+						_run_func_array.call(ctx, params.oncomplete, [body, params.thiss, ctx, res.statusCode]);
+						resolve(body);
+					});
 				});
-			});
-			req.write(($c.isObject(params.data) ? JSON.stringify(params.data) : params.data) || '');
-			req.end();
+				req.write(($c.isObject(params.data) ? JSON.stringify(params.data) : params.data) || '');
+				req.end();
+			} catch (e) {
+				logit(e);
+				error("ajax.Promise", e);
+			}
 		});
 
 
@@ -3297,8 +3422,7 @@ function ajax(params){
 			return params.complete.push(callback),this; };
 		return prms
 	} catch (e) {
-
-		console.log(e);
+		logit(e);
 		error("ajax", e);
 	}
 }
@@ -3668,6 +3792,7 @@ function emit(ev) {
 		}
 	} catch (e) {
 		error('emit', e);
+		ev != 'catch' && _run_func_array.call(this, arguments.callee.caller['_' + ev], arguments.splice(1));
 	}
 }
 function echo (output) {
@@ -3699,7 +3824,7 @@ function end(status, output, encoding) {
 				eco = (typeof echo != "undefined" ? echo : this.echo);
 
 		var headers = $c.merge(heads.headers, this.header.headers),
-				code = heads.code || this.header.code,
+				code = status || heads.code || this.header.code,
 				eco = (typeof echo != "undefined" && echo.out || "") + (this.echo.out || "") + output;
 
 		if (!eco) {
@@ -3977,7 +4102,7 @@ function include(path){
 	 "returnType": "(Mixed)"
 	 }|*/
 	try {
-		return require(path);
+		return require(__relativePathFinder(path));
 	} catch (e) {
 		return false;
 	}
@@ -4275,18 +4400,9 @@ function requireDirectory(path, options, __basepath, __objs, __fs){
 	 "url": "http://www.craydent.com/library/1.8.1/docs#requireDirectory",
 	 "returnType": "(Object)"
 	 }|*/
-	var callingPath = "",
-			delimiter = "/";
+	var delimiter = "/";
 
-	// first clause is for linux based files systems, second clause is for windows based file system
-	if (!(path.startsWith('/') || /^[a-zA-Z]:\/|^\/\/.*/.test(path))) {
-		callingPath = new Error().stack.split('\n')[2].replace(/.*?\((.*)/,'$1');
-		if (callingPath.indexOf('\\') != -1) {
-			callingPath = callingPath.replace(/\\/g,'/');
-			//delimiter = "\\";
-		}
-		path = callingPath.substring(0,callingPath.lastIndexOf(delimiter) + 1) + path;
-	}
+	path = __relativePathFinder(path);
 
 	options = options || {};
 	__basepath = __basepath || path;
@@ -4363,7 +4479,7 @@ function syncroit(gen) {
 	 "info": "Generator based control flow to allow for more \"syncronous\" programing structure",
 	 "category": "Global",
 	 "parameters":[
-	 {"generator": "(GeneratorFunction) Generator function to execute"}],
+	 {"gen": "(GeneratorFunction) Generator function to execute"}],
 
 	 "overloads":[],
 
@@ -7183,27 +7299,29 @@ _ext(Array, 'where', function(condition, projection) {
 			return this;
 		}
 
+
+
 		// check if there is query MongoDB syntax
 		if (!projection && !/"\$or":|"\$and":|"\$in":|"\$nin":|"\$regex":|"\$gt":|"\$lt":|"\$gte":|"\$lte":|"\$exists":|"\$equals":|"\$ne":|"\$nor":|"\$type":|"\$text":|"\$mod":|"\$all":|"\$size":|"\$ghere":|"\$elemMatch":|"\$not":/.test(JSON.stringify(condition))) {
-			var props=[],
-					ncheck = function (o,c,p) {return $c.getProperty(o,p.prop) != c[p.prop]},
-					rcheck = function (o,c,p) {return ncheck(o,c,p) && p.isReg && !c[p.prop].test($c.getProperty(o,p.prop))},
-					check = ncheck;
-			for (var p in condition) {
-				var isReg = false;
-				if (condition.has(p)) {
-					if ($c.isRegExp(condition[p])) {
-						isReg = true;
-						check = rcheck;
-					}
-					props.push({prop:p,isReg:isReg});
-				}
-			}
-
+			var props = $c.getKeys(condition);
+				//ncheck = function (o,c,p) {return $c.getProperty(o,p.prop) != c[p.prop]},
+				//rcheck = function (o,c,p) {return ncheck(o,c,p) && p.isReg && !c[p.prop].test($c.getProperty(o,p.prop))},
+				//	check = ncheck;
+			//for (var p in condition) {
+			//	var isReg = false;
+			//	if (condition.has(p)) {
+			//		if ($c.isRegExp(condition[p])) {
+			//			isReg = true;
+			//			check = rcheck;
+			//		}
+			//		props.push({prop:p,isReg:isReg});
+			//	}
+			//}
 			return this.filter(function (obj) {
 				var j = 0, prop;
 				while (prop = props[j++]) {
-					if (check(obj,condition,prop)) {
+					if (obj[prop] != condition[prop] || prop.indexOf('.') != -1 && !__queryNestedProperty(obj, prop).contains(condition[prop])) {
+					//if (check(obj,condition,prop)) {
 						return false;
 					}
 				}
@@ -7616,8 +7734,50 @@ _ext(Number, 'toCurrencyNotation', function (separator) {
 }, true);
 
 /*----------------------------------------------------------------------------------------------------------------
- /-	Function class Extensions
+ /-	Function and Generator class Extensions
  /---------------------------------------------------------------------------------------------------------------*/
+var _genConstruct = $c.tryEval(('(function *(){}).constructor'));
+_genConstruct && _ext(_genConstruct, 'toPromise',function(){
+	/*|{
+	 "info": "Function listener to register events",
+	 "category": "Function",
+	 "parameters":[
+	 {"event":"(String) Event to listen on and invoked on emit"},
+	 {"func":"(Function) Function to call on emit"}],
+
+	 "overloads":[],
+
+	 "url": "http://www.craydent.com/library/1.8.1/docs#function.on",
+	 "returnType": "(String)"
+	 }|*/
+	try {
+		return new Promsei(function(resolve,reject){
+			$c.syncroit(_genConstruct)
+		});
+	} catch (e) {
+		error("GeneratorFunction.toPromise", e);
+	}
+}, true);
+_ext(Function, 'on',function(ev, func){
+	/*|{
+	 "info": "Function listener to register events",
+	 "category": "Function",
+	 "parameters":[
+	 {"event":"(String) Event to listen on and invoked on emit"},
+	 {"func":"(Function) Function to call on emit"}],
+
+	 "overloads":[],
+
+	 "url": "http://www.craydent.com/library/1.8.1/docs#function.on",
+	 "returnType": "(String)"
+	 }|*/
+	try {
+		this["_"+ev] = this["_"+ev] || [];
+		this["_"+ev].push(func);
+	} catch (e) {
+		error("Function.on", e);
+	}
+}, true);
 _ext(Function, 'getParameters', function () {
 	/*|{
 	 "info": "Function class extension to get parameters in definition",
@@ -7727,6 +7887,24 @@ _ext(Function, 'then',function(func){
 		error("Function.then", e);
 	}
 }, true);
+_ext(Function, 'catch',function(func){
+	/*|{
+	 "info": "Function listener to register the catch event",
+	 "category": "Function",
+	 "parameters":[
+	 {"func":"(Function) Function to call on emit"}],
+
+	 "overloads":[],
+
+	 "url": "http://www.craydent.com/library/1.8.1/docs#function.catch",
+	 "returnType": "(String)"
+	 }|*/
+	try {
+		this.on('catch',func);
+	} catch (e) {
+		error("Function.catch", e);
+	}
+}, true);
 
 /*----------------------------------------------------------------------------------------------------------------
  /-	RegExp class Extensions
@@ -7826,7 +8004,7 @@ _ao("contains", function(val, func){
 	try {
 		switch(true) {
 			case $c.isArray(this):
-				if ($c.isFunction(func)) {
+				if ($c.isFunction(func) || $c.isRegExp(val)) {
 					return $c.indexOfAlt(this, func) != -1;
 				} else if ($c.isArray(func)) {
 					for (var i = 0,len = func.length;i < len; i++) {
@@ -8018,6 +8196,10 @@ _ao("getProperty", function (path, delimiter, options) {
 
 	 {"parameters":[
 	 {"path": "(String) Path to nested property"},
+	 {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]},
+
+	 {"parameters":[
+	 {"path": "(String) Path to nested property"},
 	 {"delimiter": "(Char) Separator used to parse path"},
 	 {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
 
@@ -8025,6 +8207,10 @@ _ao("getProperty", function (path, delimiter, options) {
 	 "returnType": "(Mixed)"
 	 }|*/
 	try {
+		if ($c.isObject(delimiter)) {
+			options = delimiter;
+			delimiter = undefined;
+		}
 		options = options || {};
 		delimiter = delimiter || ".";
 		var props = path.split(delimiter);
@@ -8558,7 +8744,7 @@ _ao("merge", function (secondary, condition) {//shareOnly) {
 		for (var prop in secondary){
 			if (secondary.has(prop)) {
 				if (intersect && objtmp.has(prop)) {
-					intersectObj[prop] = objtmp[prop];
+					intersectObj[prop] = secondary[prop];
 				} else if (shared) {
 					// passing share Only
 					if (objtmp.has(prop)) {
