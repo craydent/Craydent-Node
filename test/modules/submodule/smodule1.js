@@ -1,0 +1,1 @@
+module.exports = function(){return "submodule 1"};
