@@ -1331,8 +1331,7 @@ function __processBlocks (start, end, code, lookups) {
 		return 0;
 	});
 
-	j = 0;
-	while (j < sindexes.length) {
+	while (sindexes.length) {
 		var e = 0;
 		while (eindexes[0] > sindexes[e]) {
 			e++;
@@ -1346,15 +1345,15 @@ function __processBlocks (start, end, code, lookups) {
 	var endlength = code.match(end)[0].length;
 	var k = 0, pair;
 	while (pair = pairs[k++]) {
-		var uid = "##" + suid() + "##",
-			block = code.slice(pair.begin, pair.end + endlength),
-			beginLength = block.match(start)[0].length,
+		var uid = "##" + suid() + "##";
+		var block = code.slice(pair.begin, pair.end + endlength);
+		var beginLength = block.match(start)[0].length,
 			body = code.slice(pair.begin + beginLength, pair.end);
 		code = code.replace(block, uid);
 		blocks.push({id: uid, block: block, body: body, code: code});
 		lookups[uid] = block;
 
-		var i = k + 1, pair2;
+		var i = k, pair2;
 		while (pair2 = pairs[i++]) {
 			var offset = block.length - uid.length;
 			pair2.end -= offset;
@@ -2197,19 +2196,6 @@ function _copyWithProjection(projection, record, preserveProperties) {
 			projection[a] = 1;
 		}
 	}
-	//var i = 0, dc;
-	//while (dc = docs[i++]) {
-	//	var doc = {};
-	//	for (var prop in projection) {
-	//		if (!projection.hasOwnProperty(prop)) { continue; }
-	//		if ($c.parseBoolean(value[prop])) {
-	//			doc[prop] = dc[prop];
-	//		} else {
-	//			doc[prop] = __processExpression(dc, value[prop]);
-	//		}
-	//	}
-	//	docs.replaceAt(i - 1, doc);
-	//}
 
 	for (var prop in projection) {
 		if (projection.hasOwnProperty(prop) && projection[prop]) {
@@ -4108,14 +4094,14 @@ function fillTemplate (htmlTemplate, objs, offset, max) {
 		max = max || objs.length;
 		offset = offset || 0;
 
-		var props = (htmlTemplate.match(vsyntax) || []).condense(true);
+		var props = $c.condense(htmlTemplate.match(vsyntax) || [], true);
 
 		for (var i = offset; i < max; i++) {
 			var obj = objs[i], regex, template = htmlTemplate, match, bind = "";
 
 			if (template.indexOf("${this}") != -1 || template.indexOf("${index}") != -1) {
 				var uid = __add_fillTemplate_ref(obj);
-				template = template.replace_all(["${this}","${index}"],["fillTemplate.refs['" + uid + "']",i]);
+				template = $c.replace_all(template, ["${this}","${index}"],["fillTemplate.refs['" + uid + "']",i]);
 			}
 
 
@@ -6719,7 +6705,7 @@ _ext(Array, 'group', function(params, removeProps) {
 		return false;
 	}
 });
-//_ext(Array, 'groupBy', function(clause){ // TODO: reconsider this with .group
+//_ext(Array, 'groupBy', function(clause){ // TO/DO: reconsider this with .group
 //	/*|{
 //		"info": "Array class extension to ",
 //		"category": "Array",
@@ -7219,7 +7205,7 @@ _ext(Array, 'replaceAt', function(index, value) {
 		error("Array.replaceAt", e);
 	}
 }, true);
-_ext(Array, 'scramble', function(index, value) {
+_ext(Array, 'scramble', function() {
 	/*|{
 		"info": "Array class extension to scramble the order.",
 		"category": "Array",
@@ -8309,7 +8295,7 @@ _ext(Function, 'extends',function(extendee, inheritAsOwn){
 	try {
 		var className = this.getName(),
 			cls = new extendee();
-		namespace[className] = $c.namespaces && $c.namespaces[className];
+		$c.namespace[className] = $c.namespaces && $c.namespaces[className];
 		for (var prop in cls) {
 			if (inheritAsOwn && !cls.hasOwnProperty(prop)) { continue; }
 			this.prototype[prop] = /*this[prop] ||*/ this.prototype[prop] || cls[prop];//function(){return $c.getValue(cls[prop],arguments);};
@@ -8727,7 +8713,6 @@ _ao("getProperty", function (path, delimiter, options) {
 		options.validPath = 1;
 		return value;
 	} catch (e) {
-		console.log(arguments,path);
 		error('Object.getProperty', e);
 	}
 });

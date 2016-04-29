@@ -2139,6 +2139,8 @@ describe ('No Conflict Global methods', function () {
 				"${case 'me':}<a>${a}</a>" +
 				"${default}<div>${b}</div>" +
 				"${end switch}</div>",obj5)).toBe("<div><p>tuesday</p></div>");
+		expect($c.fillTemplate('${foreach ${item} in ${this.DATA.page}}${if (${true})}<div>${item.name}</div>${end if}${end foreach}',
+				{DATA:{page:[{name:'name1'},{name:'name2'}]}})).toBe('<div>name1</div><div>name2</div>');
 	});
 	it('include',function(){
 		expect($c.include('./modules/module1').toString()).toBe('function (){return "module 1"}');
