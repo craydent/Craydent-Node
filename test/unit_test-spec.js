@@ -2201,6 +2201,8 @@ describe ('Global methods', function () {
 		expect($c.parseRaw([])).toBe("[]");
 
 		expect($c.parseRaw("str",true)).toBe("str");
+		expect($c.parseRaw(function(){},true)).toBe("function(){}");
+		expect($c.parseRaw(function*(){},true)).toBe("function*(){}");
 	});
 	it('rand',function(){
 		var i = 0;

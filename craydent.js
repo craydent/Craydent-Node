@@ -4553,7 +4553,7 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
 			raw = "[" + tmp.join(',') + "]";
 		} else if ($c.isDate(value)) {
 			return "new Date('"+value.toString()+"')";
-		} else if (value instanceof Object && !$c.isFunction(value)) {
+		} else if (value instanceof Object && !$c.isFunction(value) && !$c.isGenerator(value)) {
 			if (!__windowVars) {
 				__windowVars = [];
 				__windowVarNames = [];
