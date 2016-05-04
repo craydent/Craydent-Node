@@ -15,9 +15,9 @@ describe ('No Conflict String', function () {
 		expect($c.convertUTCDate("2016-12-13 10:01:33", "-")).toBe("12/13/2016 10:01:33");
 	});
 	it('count',function(){
-		expect("calaiedc8a".count("a")).toBe(3);
-		expect("calaiedc8a".count("c")).toBe(2);
-		expect("calaiedc8a".count("-")).toBe(0);
+		expect($c.count("calaiedc8a","a")).toBe(3);
+		expect($c.count("calaiedc8a","c")).toBe(2);
+		expect($c.count("calaiedc8a","-")).toBe(0);
 	});
 	it('cut',function(){
 		expect($c.cut("cala",1,2)).toBe("cla");
@@ -44,8 +44,8 @@ describe ('No Conflict String', function () {
 		expect($c.highlight("cal",/a/,"chl",'div')).toBe("c<div class=\"chl\">a</div>l");
 	});
 	it('indexOfAlt',function(){
-		expect("cal".indexOfAlt(/a/)).toBe(1);
-		expect("cala".indexOfAlt(/a/,2)).toBe(3);
+		expect($c.indexOfAlt("cal",/a/)).toBe(1);
+		expect($c.indexOfAlt("cala",/a/,2)).toBe(3);
 	});
 	it('ireplace_all',function(){
 		expect($c.ireplace_all("calA",'a','')).toBe('cl');
@@ -63,8 +63,8 @@ describe ('No Conflict String', function () {
 		expect($c.isValidEmail("cal@craydent.com")).toBe(true);
 	});
 	it('lastIndexOfAlt',function(){
-		expect("caal".lastIndexOfAlt(/a/)).toBe(2);
-		expect("caal".lastIndexOfAlt(/a/,0)).toBe(-1);
+		expect($c.lastIndexOfAlt("caal",/a/)).toBe(2);
+		expect($c.lastIndexOfAlt("caal",/a/,0)).toBe(-1);
 	});
 	it('ltrim',function(){
 		expect($c.ltrim("     cal ")).toBe("cal ");
@@ -462,7 +462,7 @@ describe ('No Conflict Array', function () {
 	it('every',function(){
 		var arr = ['a','','b',0,'c',false,'d',null,'e',undefined];
 		expect(arr.every(function(item,i,arr){ return !$c.isNull(item); })).toBe(false);
-		expect(arr.condense().every(function(item,i,arr){ return !$c.isNull(item); })).toBe(true);
+		expect($c.condense(arr).every(function(item,i,arr){ return !$c.isNull(item); })).toBe(true);
 	});
 	it('filter',function(){
 		var arr = ['a','','b',0,'c',false,'d',null,'e',undefined];
@@ -1246,7 +1246,7 @@ describe ('No Conflict Function', function () {
 		function cls(){
 			this.p3 = 0;
 		}
-		cls.extends(temp);
+		$c.extends(cls,temp);
 		//console.log(cls.extends(temp).toString(), (new cls()).p1, cls.prototype);
 		expect(new cls()).toEqual({p:1,p2:2,p3:0,construct: $c.foo});
 	});

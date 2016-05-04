@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.29                               /*/
+/*/ Craydent LLC node-v0.5.34                               /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.29',
+var _craydent_version = '0.5.34',
 	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
@@ -306,38 +306,39 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 			function onRequestReceived(methods, body) {
 				try {
 					body = body || {};
-					var url = request.url.split(/[?#]/)[0].strip('/'), params = $c.merge(body, cray.$GET() || {}), haveRoutes = false;
+					var url = $c.strip(request.url.split(/[?#]/)[0],'/'), params = $c.merge(body, cray.$GET() || {}), haveRoutes = false;
 
-					if (!params.equals({})) {
+					if (!$c.equals(params,{})) {
 						cray.callback = params.callback || "";
 						delete params.callback;
 					}
 					//var  j = 0, method;
 					//while (method = methods[j++]) {
-					var routes = http.routes.where({method:{$in:methods}});
+					var routes = $c.where(http.routes,{method:{$in:methods}});
 					var i = 0, route, execute = [];
 					while (route = routes[i++]) {
 						cray.rest = haveRoutes = true;
 
 						var cbs = route.callback;
 						if (route.path != "/*" && route.path != "*") {
-							var rout_parts = route.path.strip("*").split('/').condense(),
+							var rout_parts = $c.condense($c.strip(route.path,"*").split('/')),
 								requ_parts = url.split('/'), vars = {};
 
-							if (rout_parts.length > requ_parts.length + params.itemCount()) {
+							if (rout_parts.length > requ_parts.length + $c.itemCount(params)) {
 								continue;
 							}
-							rout_parts = route.path.split('/').condense()
+							rout_parts = $c.condense(route.path.split('/'))
+
 							var var_regex = /\$\{(.*?)\}/;
 							for (var k = 0, l = 0, klen = Math.max(rout_parts.length, requ_parts.length); k < klen; k++, l++) {
-								var ro = rout_parts[k], re = decodeURIComponent(requ_parts[l].replace_all('+', '%20')), prop = (ro || "").replace(var_regex, '$1'),
+								var ro = rout_parts[k], re = decodeURIComponent($c.replace_all(requ_parts[l],'+', '%20')), prop = (ro || "").replace(var_regex, '$1'),
 									qVal = params[prop], no_route = false;
 								if (ro == "*") {
 									break;
 								}
 								if (var_regex.test(ro)) {
 									if (qVal) {
-										qVal = decodeURIComponent(qVal.replace_all('+', '%20'));
+										qVal = decodeURIComponent($c.replace_all(qVal,'+', '%20'));
 										vars[prop] = $c.tryEval(qVal) || qVal;
 										l--;
 										continue;
@@ -353,7 +354,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 							for (var prop in params) {
 								if (!params.hasOwnProperty(prop)) { continue; }
 								var val = vars[prop] || params[prop];
-								vars[prop] = isNull(params[prop]) ? undefined : ($c.isString(val) ? decodeURIComponent(val.replace_all('+', '%20')) : val);
+								vars[prop] = isNull(params[prop]) ? undefined : ($c.isString(val) ? decodeURIComponent($c.replace_all(val,'+', '%20')) : val);
 								vars[prop] = $c.tryEval(vars[prop],JSON.parse) || vars[prop];
 							}
 							var parameters = route.parameters || [],
@@ -410,55 +411,69 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 						function setUpNext (exec, i) {
 							i++;
-							return function() {
-								exec[0] && exec[0].call(cray, request, response, execute['v' + i],setUpNext(exec.slice(1), i));
+							if ($c.isFunction(exec[0])) {
+								return function() {
+									exec[0] && exec[0].call(cray, request, response, execute['v' + i],setUpNext(exec.slice(1), i));
+								}
+							}
+							if ($c.isGenerator(exec[0])) {
+								return eval("function* () {exec[0] && exec[0].call(cray, request, response, execute['v' + i], setUpNext(exec.slice(1), i));}");
 							}
 						}
-						execute[0].call(cray, request, response, execute['v1'],setUpNext(execute.slice(1), 1));
+						if ($c.isGenerator(execute[0])) {
+							eval("$c.syncroit(function*(){yield* execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1));_complete();});");
+						} else {
+							execute[0].call(cray, request, response, execute['v1'],setUpNext(execute.slice(1), 1));
+							_complete();
+						}
 
 
 					}
 					//}
-					if (haveRoutes && callback == foo) {
-						return cray.send(404, {error: "no route"});
-					}
-
-
-					// look for other node apps
-					if (url.indexOf(':') != -1) {
-						var parts = url.split(':'),
-							appPath = parts[0],
-							sindex = parts[1].indexOf('/') != -1 ? parts[1].indexOf('/') : 0,
-							port = parts[1].substring(0, sindex),
-							path = parts[1].substring(sindex).strip('/'),
-							callingPath = process.cwd();
-						if (callingPath.indexOf('\\') != -1) { callingPath = callingPath.replace(/\\/g, '/'); }
-						appPath = callingPath + "/" + appPath;
-						var app = include(appPath) || {};
-						if (!process.listeners('uncaughtException').length) {
-							logit("listening for uncaught errors");
-							process.on('uncaughtException', function (err) {
-								if (err.errno === 'EADDRINUSE') { console.error('caught address in use'); }
-								else { console.error(err); }
-								console.error(err, err.stack);
-							});
+					function _complete() {
+						if (haveRoutes && callback == foo) {
+							return cray.send(404, {error: "no route"});
 						}
-						if (app.port || port) {
-							app.port = app.port || parseInt(port);
-							var query = request.url.split('?')[1] || "";
-							query && (query = "?" + query);
-							return require('http').get("http://localhost:" + app.port + "/" + path + query).on('response', function (response) {
-								var body = '';
-								response.on('data', function (chunk) { body += chunk; });
-								response.on('end', function () { cray.end(body); });
-							});
+
+
+						// look for other node apps
+						if (url.indexOf(':') != -1) {
+							var parts = url.split(':'),
+								appPath = parts[0],
+								sindex = parts[1].indexOf('/') != -1 ? parts[1].indexOf('/') : 0,
+								port = parts[1].substring(0, sindex),
+								path = $c.strip(parts[1].substring(sindex),'/'),
+								callingPath = process.cwd();
+							if (callingPath.indexOf('\\') != -1) { callingPath = callingPath.replace(/\\/g, '/'); }
+							appPath = callingPath + "/" + appPath;
+							var app = include(appPath) || {};
+							if (!process.listeners('uncaughtException').length) {
+								logit("listening for uncaught errors");
+								process.on('uncaughtException', function (err) {
+									if (err.errno === 'EADDRINUSE') { console.error('caught address in use'); }
+									else { console.error(err); }
+									console.error(err, err.stack);
+								});
+							}
+							if (app.port || port) {
+								app.port = app.port || parseInt(port);
+								var query = request.url.split('?')[1] || "";
+								query && (query = "?" + query);
+								return require('http').get("http://localhost:" + app.port + "/" + path + query).on('response', function (response) {
+									var body = '';
+									response.on('data', function (chunk) { body += chunk; });
+									response.on('end', function () { cray.end(body); });
+								});
+							}
+						}
+						cray.echo.out = "";
+
+						callback.call(cray, request, response);
+
+						if (!cray.DEFER_END) {
+							cray.end();
 						}
 					}
-					cray.echo.out = "";
-
-					callback.call(cray, request, response);
-
-					if (!cray.DEFER_END) { cray.end(); }
 				} catch (e) {
 					logit(e);
 					response.writeHead(500, header.headers);
@@ -590,7 +605,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 				for (var j = 1, jlen = mresult.length; j < jlen; j++) {
 					if (!mresult[j]) { continue; }
-					mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+					mresult[j] = $c.replace_all(mresult[j],['\\[', '\\]'], ['[', ']']).toString();
 				}
 
 				condition = ttc.VARIABLE_NAME(mresult[2] || mresult[5] || "");
@@ -624,7 +639,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 					code_result = code_result || obj.code;
 					if (code_result.indexOf(obj.id) == -1) { continue; }
-					code_result = code_result.replace_all(id, FOR.helper(block, obj.body));
+					code_result = $c.replace_all(code_result,id, FOR.helper(block, obj.body));
 				}
 				var ____execMatches = code_result.match($c.TEMPLATE_TAG_CONFIG.VARIABLE), ____execMatchIndex = 0;
 				//____execMatches[____execMatchIndex] = 0;
@@ -648,7 +663,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 				for (var j = 0, jlen = mresult.length; j < jlen; j++) {
 					if (!mresult[j]) { continue; }
-					mresult[j] = mresult[j].replace_all(['\\[', '\\]'], ['[', ']']).toString();
+					mresult[j] = $c.replace_all(mresult[j],['\\[', '\\]'], ['[', ']']).toString();
 				}
 				var value = mresult[2] || mresult[4];
 				objs = $c.tryEval(value);
@@ -696,7 +711,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 					}
 					code_result = code_result || obj.code;
 					if (code_result.indexOf(obj.id) == -1) { continue; }
-					code_result = code_result.replace_all(id, FOREACH.helper(block, obj.body, result_obj, uid, obj, bind, ref_obj));
+					code_result = $c.replace_all(code_result,id, FOREACH.helper(block, obj.body, result_obj, uid, obj, bind, ref_obj));
 					if (!code_result) { break; }
 				}
 				eval(result_obj[uid]);
@@ -784,7 +799,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 					code_result = code_result || obj.code;
 					if (code_result.indexOf(obj.id) == -1) { continue; }
-					code_result = code_result.replace_all(id, WHILE.helper(block, obj.body));
+					code_result = $c.replace_all(code_result,id, WHILE.helper(block, obj.body));
 				}
 
 				for (var prop in declared) {
@@ -802,7 +817,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						var_match_index += var_match.length;
 					}
 
-					before = code_result.substring(0, var_match_index).replace_all(var_match, eval(var_match_name));
+					before = $c.replace_all(code_result.substring(0, var_match_index),var_match, eval(var_match_name));
 					after = code_result.substring(code_result.indexOf(var_match) + var_match.length);
 					code_result = before + after;
 				}
@@ -821,16 +836,16 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 			"end": /\$\{end if\}|\{\{end if\}\}/i,
 			"helper": function (code) {
 				var IF = $c.TEMPLATE_TAG_CONFIG.IF,
-					ifmatch = (code.match(IF.begin) || []).condense(),
+					ifmatch = $c.condense((code.match(IF.begin) || [])),
 					endlength = code.match(IF.end)[0].length,
-					startindex = code.indexOfAlt(IF.begin),
-					endindex = code.indexOfAlt(IF.end),
+					startindex = $c.indexOfAlt(code,IF.begin),
+					endindex = $c.indexOfAlt(code,IF.end),
 					vsyntax = $c.TEMPLATE_TAG_CONFIG.VARIABLE;
 
 				if (ifmatch.length) {
 					for (var j = 1, jlen = ifmatch.length; j < jlen; j++) {
 						var ifm = ifmatch[j];
-						ifmatch[j] = ifm.replace_all(['\\[', '\\]'], ['[', ']']).toString();
+						ifmatch[j] = $c.replace_all(ifm,['\\[', '\\]'], ['[', ']']).toString();
 					}
 					var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
 						ifsyntax = new RegExp(IF.begin.source + "|" + IF.elseif.source + "|" + IF["else"].source, 'i');
@@ -841,10 +856,10 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						}
 						return pre + code.substring(startindex + ifmatch[0].length, endindex) + post;
 					}
-					ifmatch = (code.match(ifsyntax.addFlags('g')) || []).condense();
+					ifmatch = $c.condense((code.match($c.addFlags(ifsyntax,'g')) || []));
 					for (var i = 0, len = ifmatch.length; i < len; i++) {
 						var ifm = ifmatch[i],
-							ife = ifm.match(ifsyntax).condense(),
+							ife = $c.condense(ifm.match(ifsyntax)),
 							condition = ife[1],
 							value = "undefined" == condition ? false : $c.tryEval(condition),
 							sindex = code.indexOf(ifm) + ifm.length;
@@ -892,26 +907,26 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 			"helper": function (code) {
 				var SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
 				//csyntax = SWITCH["case"],
-					switchmatch = (code.match(SWITCH.begin) || []).condense(),
+					switchmatch = $c.condense((code.match(SWITCH.begin) || [])),
 					endlength = code.match(SWITCH.end)[0].length,
-					startindex = code.indexOfAlt(SWITCH.begin),
-					endindex = code.indexOfAlt(SWITCH.end),
+					startindex = $c.indexOfAlt(code, SWITCH.begin),
+					endindex = $c.indexOfAlt(code,SWITCH.end),
 					brk = SWITCH["break"], dflt = SWITCH["default"];
 
 
 				if (switchmatch.length) {
 					for (var j = 1, jlen = switchmatch.length; j < jlen; j++) {
 						var swmatch = switchmatch[j];
-						switchmatch[j] = swmatch.replace_all(['\\[', '\\]'], ['[', ']']).toString();
+						switchmatch[j] = $c.replace_all(swmatch,['\\[', '\\]'], ['[', ']']).toString();
 					}
 					var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
 						val = $c.tryEval(switchmatch[2]) || switchmatch[2],
-						cgsyntax = SWITCH["case"].addFlags("g"),
+						cgsyntax = $c.addFlags(SWITCH["case"],"g"),
 						cases = code.match(cgsyntax);
 					code = code.substring(startindex + (switchmatch[0] || "").length, endindex);
 
 					if (!cases) {
-						return pre + code.cut(startindex, endindex + endlength) + post;
+						return pre + $c.cut(code,tartindex, endindex + endlength) + post;
 					}
 					for (var i = 0, len = cases.length; i < len; i++) {
 						var cse = cases[i],
@@ -920,12 +935,12 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						cvalue = $c.tryEval(cvalue) || cvalue;
 						if (val == cvalue) {
 							var cindex = code.indexOf(cse),
-								bindex = code.indexOfAlt(brk, cindex);
+								bindex = $c.indexOfAlt(code,brk, cindex);
 							bindex = bindex == -1 ? code.length : bindex;
 							return pre + code.substring(cindex + cse.length, bindex).replace(cgsyntax, '') + post;
 						}
 					}
-					var dindex = code.indexOfAlt(dflt);
+					var dindex = $c.indexOfAlt(code,dflt);
 					if (dindex != -1) {
 						return pre + code.substring(dindex + code.match(dflt)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
 					}
@@ -957,9 +972,9 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 			"end": /(\$\{end script\})|(\{\{end script\}\})/i,
 			"parser": function (code, obj, bind) {
 				var SCRIPT = $c.TEMPLATE_TAG_CONFIG.SCRIPT,
-					sindex = code.indexOfAlt(SCRIPT.begin),
+					sindex = $c.indexOfAlt(code,SCRIPT.begin),
 					slen = code.match(SCRIPT.begin)[0].length,
-					eindex = code.indexOfAlt(SCRIPT.end),
+					eindex = $c.indexOfAlt(code,SCRIPT.end),
 					elen = code.match(SCRIPT.end)[0].length;
 
 				if (eindex == -1) {
@@ -972,7 +987,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 				echo.out = "";
 				str = eval("(function(){" + block + ";return echo.out;})()");
 
-				return __logic_parser(code.cut(sindex, eindex + elen, str));
+				return __logic_parser($c.cut(code,sindex, eindex + elen, str));
 			}
 
 		},
@@ -983,16 +998,16 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 			"end": /(\$\{end try\})|(\{\{end try\}\})/i,
 			"helper": function (code, lookups, exec) {
 				var TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
-					cindex = code.indexOfAlt(TRY["catch"]),
-					findex = code.indexOfAlt(TRY["finally"]),
-					eindex = code.indexOfAlt(TRY["end"]),
+					cindex = $c.indexOfAlt(code,TRY["catch"]),
+					findex = $c.indexOfAlt(code,TRY["finally"]),
+					eindex = $c.indexOfAlt(code,TRY["end"]),
 					tend = cindex;
 
 				if (tend == -1) {
 					tend = findex != -1 ? findex : eindex;
 				}
 
-				var tindex = code.indexOfAlt(TRY.begin),
+				var tindex = $c.indexOfAlt(code,TRY.begin),
 					body = code.substring(tindex + code.match(TRY.begin)[0].length, tend),
 					pre = code.substring(0, tindex), post = code.substring(eindex + code.match(TRY.end)[0].length),
 					regex = /##[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}##/i,
@@ -1072,8 +1087,8 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 				 var_nameValue = (matches[1]||matches[2]).strip(';').split("=");
 
 				 fillTemplate.declared[var_nameValue[0]] = var_nameValue[1];*/
-				$c.merge(fillTemplate.declared, tryEval("({" + matches[1].replace_all('=', ":") + "})"));
-				return htmlTemplate.replace_all(declare, '');
+				$c.merge(fillTemplate.declared, tryEval("({" + $c.replace_all(matches[1],'=', ":") + "})"));
+				return $c.replace_all(htmlTemplate,declare, '');
 			}
 		}
 		/* end tokens config */
@@ -1277,8 +1292,8 @@ function __enum(obj, delimiter, prePost){
 		for (var i = 0, len = props.length; i < len; i++) {
 		//while (prop = props[i++]) {
 			var prop = props[i];
-			var pre = prePost[0].replace_all(['{ENUM_VAR}','{ENUM_VAL}'],[prop,obj[prop]]),
-				post = prePost[1].replace_all(['{ENUM_VAR}','{ENUM_VAL}'],[prop,obj[prop]]);
+			var pre = $c.replace_all(prePost[0],['{ENUM_VAR}','{ENUM_VAL}'],[prop,obj[prop]]),
+				post = $c.replace_all(prePost[1],['{ENUM_VAR}','{ENUM_VAL}'],[prop,obj[prop]]);
 			str += pre + prop + post + delimiter;
 		}
 		return str.slice(0,-1*delimiter.length);
@@ -1289,14 +1304,14 @@ function __enum(obj, delimiter, prePost){
 function __logic_parser (code, obj, bind) {
 	if (!code) { return ""; }
 	var ttc = $c.TEMPLATE_TAG_CONFIG, indexes = [], logic = {};
-	code = code.replace_all(ttc.IGNORE_CHARS,['']);
+	code = $c.replace_all(code,ttc.IGNORE_CHARS,['']);
 	$c.eachProperty(ttc, function (value) {
 		if (!value.begin) { return; }
-		var index = code.indexOfAlt(value.begin);
+		var index = $c.indexOfAlt(code,value.begin);
 		indexes.push(index);
 		logic[index] = value;
 	});
-	var index = Math.min.apply(Math,indexes.condense([-1]));
+	var index = Math.min.apply(Math,$c.condense(indexes,[-1]));
 
 	if (!logic[index]) { return code; }
 
@@ -1316,7 +1331,7 @@ function __or (){
 function __processBlocks (start, end, code, lookups) {
 	lookups = lookups || {};
 	var blocks = [], sindexes = [], sindex = 0, eindexes = [], eindex = 0;
-	while ((sindex = code.indexOfAlt(start, sindex)) != -1 && (eindex = code.indexOfAlt(end, eindex)) != -1) {
+	while ((sindex = $c.indexOfAlt(code,start, sindex)) != -1 && (eindex = $c.indexOfAlt(code,end, eindex)) != -1) {
 		sindex != -1 && (sindexes.push(sindex), sindex++);
 		eindex != -1 && (eindexes.push(eindex), eindex++);
 	}
@@ -1339,8 +1354,8 @@ function __processBlocks (start, end, code, lookups) {
 		}
 		e--;
 		pairs.add({begin: sindexes[e], end: eindexes[0]});
-		sindexes.removeAt(e);
-		eindexes.removeAt(0);
+		$c.removeAt(sindexes,e);
+		$c.removeAt(eindexes,0);
 	}
 
 	var endlength = code.match(end)[0].length;
@@ -1543,7 +1558,7 @@ function __parseDateExpr (doc,expr,field) {
 				return dt.getMilliseconds();
 			case "$dateToString":
 				dt = __processExpression(doc, expr[field].date);
-				return dt.format(expr[field].format)
+				return $c.format(dt,expr[field].format);
 		}
 	} catch (e) {
 		error('aggregate.__parseDateExpr', e);
@@ -1562,8 +1577,8 @@ function __parseSetExpr (doc,expr,field) {
 						throw "Exception: All operands of $setEquals must be arrays. One argument is of type: " +
 						(typeof (!$c.isArray(set1) ? set1 : set2)).captialize();
 					}
-					set1.toSet();
-					set2.toSet();
+					$c.toSet(set1);
+					$c.toSet(set2);
 					if (set1.length != set2.length) { return false; }
 					for (var jlen = set1.length; j < jlen; j++) {
 						if (set2.indexOf(set1[j]) == -1) { return false; }
@@ -1577,21 +1592,21 @@ function __parseSetExpr (doc,expr,field) {
 					//noinspection ExceptionCaughtLocallyJS
 					throw errorMessage + (typeof rtnSet).captialize();
 				}
-				rtnSet.toSet();
+				$c.toSet(rtnSet);
 				while (exp = expr[field][i++]) {
 					var set1 = $c.duplicate(__processExpression(doc, exp));
 					if (!$c.isArray(set1)){
 						//noinspection ExceptionCaughtLocallyJS
 						throw errorMessage + + (typeof set1).captialize();
 					}
-					set1.toSet();
+					$c.toSet(set1);
 					if (set1.length < rtnSet.length) {
 						var settmp = set1;
 						set1 = rtnSet;
 						rtnSet = settmp;
 					}
 					for (var jlen = rtnSet.length; j < jlen; j++) {
-						if (set1.indexOf(rtnSet[j]) == -1) { rtnSet.removeAt(j--); jlen--; }
+						if (set1.indexOf(rtnSet[j]) == -1) { $c.removeAt(rtnSet,j--); jlen--; }
 					}
 					if (!rtnSet.length) { return rtnSet; }
 				}
@@ -1611,7 +1626,7 @@ function __parseSetExpr (doc,expr,field) {
 					}
 					rtnSet = rtnSet.concat(arr);
 				}
-				return rtnSet.toSet();
+				return $c.toSet(rtnSet);
 			case "$setDifference":
 				var arr1 = $c.duplicate(__processExpression(doc, expr[field][0])),
 					arr2 = $c.duplicate(__processExpression(doc, expr[field][1])),
@@ -1794,9 +1809,9 @@ function __processAttributes(node) {
 		var obj = {},
 			tagend = node.indexOf('>'),
 			tag = node.substring(1, tagend),
-			attIndex = tag.indexOfAlt(/\s|>/),
-			nodename = attIndex == -1 ? tag : tag.substring(0, tag.indexOfAlt(/\s|>/)),
-			attr = attIndex == -1 ? "" : tag.substring(tag.indexOfAlt(/\s|>/)),
+			attIndex = $c.indexOfAlt(tag,/\s|>/),
+			nodename = attIndex == -1 ? tag : tag.substring(0, $c.indexOfAlt(tag,/\s|>/)),
+			attr = attIndex == -1 ? "" : tag.substring($c.indexOfAlt(tag,/\s|>/)),
 			text = node.substring(tagend + 1, node.indexOf('<', tagend));
 
 		if (attr) {
@@ -1822,7 +1837,7 @@ function __processChildren(nodename, children) {
 		var index = child.indexOf('>'),
 			lindex = child.lastIndexOf('</'),
 			attributes = __processAttributes(child),
-			childXML = child.substring(index + 1, lindex).strip('\n').trim();
+			childXML = $c.strip(child.substring(index + 1, lindex),'\n').trim();
 		if (children.length == 1) {
 			obj[nodename] = $c.merge(xmlToJson(childXML), attributes);
 		} else {
@@ -1976,9 +1991,9 @@ function __processStage(docs, stage) {
 		}
 		switch (opts) {
 			case "$project":
-				return docs.where({}, value);
+				return $c.where(docs,{}, value);
 			case "$match":
-				return docs.where(value);
+				return $c.where(docs,value);
 			case "$redact":
 				return _redact(docs, value);
 			case "$limit":
@@ -1997,7 +2012,7 @@ function __processStage(docs, stage) {
 					if (value[prop] == -1) { pre = "!"; }
 					sorter.push(pre+prop);
 				}
-				return docs.sortBy(sorter);
+				return $c.sortBy(docs,sorter);
 			//case "$geoNear":
 			//    break;
 			case "$out":
@@ -2005,7 +2020,7 @@ function __processStage(docs, stage) {
 				if ($c.isString(value)) {
 					$g[value] = rtnDocs;
 				} else if ($c.isArray(value)) {
-					value.removeAll();
+					$c.removeAll(value);
 					rtnDocs = $c.merge(value,rtnDocs);
 				}
 				return rtnDocs;
@@ -2022,7 +2037,7 @@ function __processStage(docs, stage) {
 				while(doc = docs[i++]) {
 					var query = {};
 					query[fkey] = doc[key] || {$exists:false};
-					doc[prop] = arr.where(query);
+					doc[prop] = $c.where(arr,query);
 				}
 		}
 		return docs;
@@ -2076,11 +2091,11 @@ function __relativePathFinder (path) {
 }
 function __rest_docs(req,res,params){
 	var routes = {
-		all:this.server.routes.all.where({path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
-		delete:this.server.routes.delete.where({path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
-		get:this.server.routes.get.where({path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
-		post:this.server.routes.post.where({path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
-		put:this.server.routes.put.where({path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]})
+		all:$c.where(this.server.routes.all,{path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+		delete:$c.where(this.server.routes.delete,{path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+		get:$c.where(this.server.routes.get,{path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+		post:$c.where(this.server.routes.post,{path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+		put:$c.where(this.server.routes.put,{path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]})
 	};
 	if(req.method.toLowerCase() == "post" || params.f == 'json'){
 		return this.send(routes);
@@ -2099,25 +2114,25 @@ function __run_replace (reg, template, use_run, obj) {
 			var funcValue = [],
 				func = "";
 
-			funcValue = match[1].replace_all(['\\[','\\]'],['[',']']).split(split_param);
-			while (funcValue[0].count("{") != funcValue[0].count("}")) {
+			funcValue = $c.replace_all(match[1],['\\[','\\]'],['[',']']).split(split_param);
+			while ($c.count(funcValue[0],"{") != $c.count(funcValue[0],"}")) {
 				if ($c.tryEval(funcValue[0])) { break; }
 				funcValue[0]+= ($c.isString(split_param)?split_param:";")+funcValue[1];
 				funcValue.splice(1,1);
 			}
-			func = funcValue.splice(0,1)[0].strip(";");
+			func = $c.strip(funcValue.splice(0,1)[0],";");
 			for (var i = 0, len = funcValue.length; i < len; i++) {
 				var fv = funcValue[i];
 				if (fv.indexOf("${") != -1) {
 					funcValue[i] = fillTemplate(fv, obj);
 				}
 				try {
-					funcValue[i] = eval("(" + fv.replace_all([';\\'], [';']) + ")");
+					funcValue[i] = eval("(" + $c.replace_all(fv,[';\\'], [';']) + ")");
 				} catch (e) {}
 			}
 			funcValue = funcValue.map(function(item){ return $c.tryEval(item) || item; });
-			template = template.indexOf(match[1]) != -1 ? template.replace(match[1], (match[1] = match[1].replace_all(['\\[', '\\]'], ['[', ']']))) : template;
-			template = template.replace_all("${" + pre + match[1] + post +"}",
+			template = template.indexOf(match[1]) != -1 ? template.replace(match[1], (match[1] = $c.replace_all(match[1],['\\[', '\\]'], ['[', ']']))) : template;
+			template = $c.replace_all(template,"${" + pre + match[1] + post +"}",
 					$c.getProperty($g, func) ? $c.getProperty($g, func).apply(obj, funcValue) : ($c.tryEval("("+func+")")||foo).apply(obj,funcValue) || "");
 		}
 		return template;
@@ -2129,7 +2144,7 @@ function __set_path (verb, http, path, callback) {
 	try {
 		//var route = path;
 		callback = callback || [];
-		if($c.isFunction(callback)) { callback = [callback]; }
+		if($c.isFunction(callback) || $c.isGenerator(callback)) { callback = [callback]; }
 		if (!$c.isArray(path)) { path = [path]; }
 		for (var i = 0, len = path.length; i < len; i++) {
 			var route = path[i];
@@ -2137,7 +2152,7 @@ function __set_path (verb, http, path, callback) {
 				route = {path: route, callback: callback, method: verb};
 			} else if (callback) {
 				route.callback = route.callback || [];
-				if ($c.isFunction(route.callback)) {
+				if ($c.isFunction(route.callback) || $c.isGenerator(route.callback)) {
 					route.callback = [route.callback];
 				}
 				route.callback = route.callback.concat(callback);
@@ -2148,6 +2163,43 @@ function __set_path (verb, http, path, callback) {
 		}
 	} catch (e) {
 		error('CraydentServer.' + verb, e);
+	}
+}
+function __universal_trim(chars) {
+	/*|{
+		"info": "Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.",
+		"category": "Array",
+		"parameters":[],
+
+		"overloads":[
+			{"parameters":[
+				{"ref":"(Boolean) Whether or not to mutate the original array."}]},
+			{"parameters":[
+				{"character": "(Char[]) Character to remove in the String"}]}],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#String.trim",
+		"returnType": "(Bool)"
+	}|*/
+	try {
+		if ($c.isString(this)) {
+			return _trim(this, undefined, chars);
+		}
+		if ($c.isArray(this)) {
+			var ref = chars,
+					arr = [],
+					alter = false;
+			if ($c.isBoolean(ref)) { alter = true; }
+
+			for (var i = 0, len = this.length; i < len; i++) {
+				var item = this[i];
+				$c.isString(item) && (arr[i] = item.toString().trim()) || (arr[i] = item);
+				alter && (this[i] = arr[i]);
+			}
+			return arr;
+		}
+	} catch (e) {
+		error($c.getName(this.constructor) + ".trim", e);
+		return false;
 	}
 }
 
@@ -2217,7 +2269,7 @@ function _copyWithProjection(projection, record, preserveProperties) {
 					prop = prop.slice(0,-2);
 					copy[prop] = val.slice(0,1);
 				} else if (projection[prop]['$elemMatch']) {
-					copy[prop] = val.where(projection[prop]['$elemMatch']).slice(0,1);
+					copy[prop] = $c.where(val,projection[prop]['$elemMatch']).slice(0,1);
 				} else if (projection[prop]['$slice']) {
 					var start = 0, length = $c.isInt(projection[prop]['$slice']) ? projection[prop]['$slice'] : 0;
 
@@ -2282,7 +2334,7 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/){
 		}
 		var loop_func = function (prop, original) {
 			if (original.hasOwnProperty(prop) && original[prop] && (!$c.isFunction(original[prop]) || !recursive)) {
-				var index = ref.objects.indexOfAlt(original[prop], function(obj,value){
+				var index = $c.indexOfAlt(ref.objects,original[prop], function(obj,value){
 						return obj.obj===value;
 					}),
 					new_path = current_path+"["+parseRaw(prop)+"]";
@@ -2353,7 +2405,7 @@ function _endsWith () {
 }
 function _ext (cls, property, func, override) {
 	try {
-		cls['prototype'][property] = cls['prototype'][property] || func;
+		$g.__craydentNoConflict || (cls['prototype'][property] = cls['prototype'][property] || func);
 		_df(property, func, override);
 	} catch (e) {
 		error('_ext', e);
@@ -2461,6 +2513,50 @@ function _indexOf (objs, value) {
 		error("_indexOf", e);
 	}
 }
+function _indexOfAlt(value,option) {
+	/*|{
+		"info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
+		"category": "Array",
+		"parameters":[
+			{"value": "(Mixed) value to find"},
+			{"func": "(Function) Callback function used to do the comparison"}],
+
+		"overloads":[
+			{"parameters":[
+				{"regex": "(RegExp) Regular expression to check value against"}]},
+			{"parameters":[
+				{"regex": "(RegExp) Regular expression to check value against"},
+				{"pos": "(Int) Index offset to start"}]}],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#array.indexOfAlt",
+		"returnType": "(Integer)"
+	}|*/
+
+	try {
+		if ($c.isArray(this)) {
+			var func = option;
+			var len = this.length,
+					i = 0;
+			while (i < len) {
+				if ($c.isRegExp(value) && value.test(this[i])) { return i; }
+				if ($c.isFunction(func) && (value instanceof Object ? func(this[i], value) : func(this[i]) === value)) { return i; }
+				++i;
+			}
+			return -1;
+		}
+		if ($c.isString(this)) {
+			var regex = value, pos = option;
+			if (isNull(regex)) {
+				return -1;
+			}
+			pos = pos || 0;
+			var index = this.substring(pos).search(regex);
+			return (index >= 0) ? (index + pos) : index;
+		}
+	} catch (e) {
+		error($c.getName(this.constructor) + ".indexOfAlt", e);
+	}
+}
 function _isArray (obj) {
 	try {
 		if (isNull(obj)) {return false;}
@@ -2483,8 +2579,8 @@ function _joinHelper (objs, arr, on, exclusive) {
 	if ($c.isString(on)) {
 		on = on.split('=');
 		if (on.length == 1) { on = [on,on]; }
-		var name = arguments.callee.caller.getName();
-		on = on.trim();
+		var name = $c.getName(arguments.callee.caller);
+		on = $c.trim(on);
 		name == "joinRight" && (on = [on[1],on[0]]);
 	}
 
@@ -2496,7 +2592,7 @@ function _joinHelper (objs, arr, on, exclusive) {
 	for (var i = 0, len = objs.length; i < len; i++)  {
 		var record = $c.duplicate(objs[i],true), query = {},results;
 		query[on[1]] = record[on[0]];
-		results = arr.where(query);
+		results = $c.where(arr,query);
 		if (results.length > 0)  {
 			records.push($c.merge(record, results[0]));
 		} else if (!exclusive)  {
@@ -2529,7 +2625,7 @@ function _orderListHelper(value, sorter, arr) {
 }
 function _processClause (clause) {
 	try {
-		var index = clause.indexOfAlt(/between/i);
+		var index = $c.indexOfAlt(clause,/between/i);
 		if (index != -1) { // contains between predicate
 			//replace AND in the between to prevent confusion for AND clause separator
 			clause.replace(/between( .*? )and( .*?)( |$)/gi,'between$1&and$2$3');
@@ -2569,12 +2665,12 @@ function _processClause (clause) {
 						cond[predicateClause.substring(0, index).trim()] = {'$lte':$c.tryEval(predicateClause.substring(index + 1).trim())};
 						aquery['$and'].push(cond);
 						break;
-					case predicateClause.indexOfAlt(/between/i) == 0 :
+					case $c.indexOfAlt(predicateClause,/between/i) == 0 :
 						var nums = predicateClause.replace(/between (.*?) &and (.*?) ( |$)/i,'$1,$2').split(',');
 						aquery['$and'].push({'$gte':$c.tryEval(nums[0])});
 						aquery['$and'].push({'$lte':$c.tryEval(nums[1])});
 						break;
-					case (index = predicateClause.indexOfAlt(/ in /i)) != -1 :
+					case (index = $c.indexOfAlt(predicateClause,/ in /i)) != -1 :
 						var _in = $c.tryEval(predicateClause.substring(index + 4).trim().replace(/\((.*)\)/,'[$1]'));
 						if (!_in) {
 							//noinspection ExceptionCaughtLocallyJS
@@ -2583,16 +2679,16 @@ function _processClause (clause) {
 						cond[predicateClause.substring(0, index).trim()] = _in;
 						aquery['$and'].push({'$in':cond});
 						break;
-					case (index = predicateClause.indexOfAlt(/is null/i)) != -1 :
+					case (index = $c.indexOfAlt(predicateClause,/is null/i)) != -1 :
 						cond[predicateClause.substring(0, index).trim()] = null;
 						aquery['$and'].push({'$equals':cond});
 						break;
-					case (index = predicateClause.indexOfAlt(/is not null/i)) != -1 :
+					case (index = $c.indexOfAlt(predicateClause,/is not null/i)) != -1 :
 						cond[predicateClause.substring(0, index).trim()] = null;
 						aquery['$and'].push({'$ne':cond});
 						break;
-					case (index = predicateClause.indexOfAlt(/ like /i)) != -1 :
-						var likeVal = "^" + _trim(predicateClause.substring(index + 6),null,[' ', "'", '"']).replace_all("%",".*?") + "$";
+					case (index = $c.indexOfAlt(predicateClause,/ like /i)) != -1 :
+						var likeVal = "^" + $c.replace_all(_trim(predicateClause.substring(index + 6),null,[' ', "'", '"']),"%",".*?") + "$";
 						cond[predicateClause.substring(0, index).trim()] = {'$regex': new RegExp(likeVal,'i')};
 						aquery['$and'].push(cond);
 						break;
@@ -3004,9 +3100,21 @@ function _subQuery(record, query, operator, field, index) {
 		error('_subQuery', e);
 	}
 }
-function _toCurrencyNotation(num, sep) {
+function _toCurrencyNotation(sep) {
+	/*|{
+		"info": "Number/String class extension to change number to currency",
+		"category": "String",
+		"parameters":[],
+
+		"overloads":[
+			{"parameters":[
+			{"separator": "(Char) Character to use as delimiter"}]}],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#String.toCurrencyNotation",
+		"returnType": "(String)"
+	}|*/
 	sep = sep || ",";
-	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+	return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, sep);
 }
 function _trim(str, side, characters) {
 	try {
@@ -3051,7 +3159,7 @@ function _unwind(docs, path) {
 		}
 		while (doc = docs[i++]) {
 			var arr = __processExpression(doc, path);
-			if (isNull(arr) || $c.isArray(arr) && arr.isEmpty()) {
+			if (isNull(arr) || $c.isArray(arr) && $c.isEmpty(arr)) {
 				doc = $c.duplicate(doc);
 				if (options.includeArrayIndex) {
 					doc[options.includeArrayIndex] = 0;
@@ -3283,7 +3391,7 @@ function OrderedList (records,sorter)  {
 		arr.add = function(value){
 			if (!this.length) { return this.push(value); }
 			var index = _orderListHelper(value, sorter, this);
-			return this.insertBefore(index, value);
+			return $c.insertBefore(this,index, value);
 		};
 		arr.next = function () {
 			return {value:this[nextIndex++], done:nextIndex >= this.size()};
@@ -3344,8 +3452,8 @@ function Set (records) {
 			if (push) { return !!arr.push(value); }
 			return false;
 		};
-		arr.clear = arr.removeAll;
-		arr.clean = arr.toSet;
+		arr.clear = function(val,indexOf){$c.removeAll(this,val,indexOf);};
+		arr.clean = function(){$c.toSet(this)};
 		arr.next = function () { return {value:this[nextIndex++], done:nextIndex >= this.size()}; };
 		arr.hasNext = function () { return nextIndex < this.size(); };
 		arr.size = function(){ return this.length; };
@@ -4089,7 +4197,7 @@ function fillTemplate (htmlTemplate, objs, offset, max) {
 			value = tv.value;
 			if (!variable) { continue; }
 			value = $c.isFunction(value) ? value(variable, j - 1):value;
-			htmlTemplate = htmlTemplate.replace_all("${"+variable+"}", value);
+			htmlTemplate = $c.replace_all(htmlTemplate,"${"+variable+"}", value);
 		}
 
 		max = max || objs.length;
@@ -4113,7 +4221,7 @@ function fillTemplate (htmlTemplate, objs, offset, max) {
 				} else {
 					value = parseRaw(value, $c.isString(value));
 				}
-				template= template.replace_all("${this."+match[1]+"}", value);
+				template = $c.replace_all(template,"${this."+match[1]+"}", value);
 			}
 			var objval, expression;
 			for (var j = 0, jlen = props.length; j < jlen; j++) {
@@ -4126,42 +4234,42 @@ function fillTemplate (htmlTemplate, objs, offset, max) {
 					} else {
 						objval = parseRaw(objval, $c.isString(objval));
 					}
-					objval = objval.replace_all(['\n',';'],['<br />',';\\']);
+					objval = $c.replace_all(objval,['\n',';'],['<br />',';\\']);
 					if (objval.indexOf('${') != -1) {
 						objval = fillTemplate(objval,[obj]);
 					}
-					template = template.replace_all(expression, objval);
+					template = $c.replace_all(template,expression, objval);
 
 					if (hasDataProps) {
-						template = template.replace_all('${dataproperties}', "data-" + property + "='" + (objval.indexOf('<') && "" || objval) + "' ${dataproperties}");
+						template = $c.replace_all(template,'${dataproperties}', "data-" + property + "='" + (objval.indexOf('<') && "" || objval) + "' ${dataproperties}");
 					}
 				}
 			}
-			template = template.replace_all('\n', '');
+			template = $c.replace_all(template,'\n', '');
 			// special run sytax
 			template = template.indexOf("${COUNT") != -1 ? template.replace(/\$\{COUNT\[(.*?)\]\}/g, '${RUN[__count;$1]}') : template;
 			template = template.indexOf("${ENUM") != -1 ? template.replace(/\$\{ENUM\[(.*?)\]\}/g, '${RUN[__enum;$1]}') : template;
 			template = template.indexOf("${RUN") != -1 ? __run_replace(/\$\{RUN\[(.+?)\]\}/, template, true, obj) : template;
 			var tmp, rptmp;
 			if (template.indexOf('||') != -1 && (tmp = /\$\{(.+?\|\|?.+?)\}/.exec(template)) && tmp[1]) {
-				tmp = tmp[1].strip('|').replace(/\|{3,}/,'');
+				tmp = $c.strip(tmp[1],'|').replace(/\|{3,}/,'');
 				if (tmp.indexOf('||') != -1) {
-					rptmp = (tmp && "__or|" + tmp.replace_all('||', "|") || "");
-					template = template.replace_all(tmp, rptmp);
+					rptmp = (tmp && "__or|" + $c.replace_all(tmp,'||', "|") || "");
+					template = $c.replace_all(template,tmp, rptmp);
 				}
 				template = template.replace("||",'|');
 			}
 			if (template.indexOf('&&') != -1 && (tmp = /\$\{(.+?\&\&?.+?)\}/.exec(template)) && tmp[1]) {
 				tmp = tmp[1];
-				rptmp = (tmp && "__and|"+tmp.replace_all('&&', "|") || "");
-				template = template.replace_all(tmp, rptmp);
+				rptmp = (tmp && "__and|"+$c.replace_all(tmp,'&&', "|") || "");
+				template = $c.replace_all(template,tmp, rptmp);
 			}
 			var leftovervars = template.match(vsyntax);
 			if (leftovervars) {
 				for (var k = 0, klen = leftovervars.length; k < klen; k++) {
 					var variable = leftovervars[k];
 					if (variable.indexOf('|') != -1) {
-						var regex = new RegExp(variable.replace_all(['$','{','}','|'],['\\$','\\{(',')\\}','\\|']));
+						var regex = new RegExp($c.replace_all(variable,['$','{','}','|'],['\\$','\\{(',')\\}','\\|']));
 						template = __run_replace (regex, template, false, obj);
 					}
 				}
@@ -4169,7 +4277,7 @@ function fillTemplate (htmlTemplate, objs, offset, max) {
 			template = $c.contains(template, /\$\{.*?(\|.*?)+?\}/) ? __run_replace (/\$\{(.+?(\|?.+?)+)\}/, template, false,obj) : template;
 
 			//if (!decl) {
-				var declarations = template.match(ttc.DECLARE.syntax.addFlags('g')) || []
+				var declarations = template.match($c.addFlags(ttc.DECLARE.syntax,'g')) || []
 				for (var j = 0, jlen = declarations.length; j < jlen; j++) {
 					template = ttc.DECLARE.parser(template, declarations[j]);
 					//htmlTemplate = ttc.DECLARE.parser(htmlTemplate, declarations[j]);
@@ -4177,7 +4285,7 @@ function fillTemplate (htmlTemplate, objs, offset, max) {
 				//decl = true;
 			//}
 			template = __logic_parser(template, obj, bind);
-			html += ($c.contains(template, vsyntax) ? template.replace(vsyntax,"") : template).replace_all(';\\', ';');
+			html += $c.replace_all(($c.contains(template, vsyntax) ? template.replace(vsyntax,"") : template),';\\', ';');
 		}
 
 		if (!nested) {
@@ -4295,7 +4403,7 @@ function header(headers, code) {
 				headers[parts[0].trim()] = parts[1].trim();
 			}
 		}
-		header.headers = header.headers.merge(headers);
+		header.headers = $c.merge(header.headers,headers);
 		if (code && $c.isInt(code)) { header.code = code; }
 
 	} catch (e) {
@@ -4444,7 +4552,7 @@ function namespace (name, clazz, fn) {
 		"returnType":"(void)"
 	}|*/
 	try {
-		var className = clazz.getName();
+		var className = $c.getName(clazz);
 		$c.namespaces = $c.namespaces || {};
 		$c.namespaces[className] = namespace[className] || clazz;
 		$c.setProperty($c.namespaces, name + "." + className, clazz);
@@ -4495,7 +4603,7 @@ function now (format) {
 		"returnType":"(Mixed)"
 	}|*/
 	try {
-		return format ? (new Date()).format(format) : new Date();
+		return format ? $c.format((new Date()),format) : new Date();
 	} catch (e) { error('now', e); }
 }
 function parseBoolean(value) {
@@ -4544,7 +4652,7 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
 		if (isNull(value)) { return value + ""; }
 		var raw = "";
 		if ($c.isString(value)) {
-			raw = (!skipQuotes ? "\"" + value.replace_all('"','\\"') + "\"" : value);
+			raw = (!skipQuotes ? "\"" + $c.replace_all(value,'"','\\"') + "\"" : value);
 		} else if ($c.isArray(value)) {
 			var tmp = [];
 			for (var i = 0, len = value.length; i < len; i++) {
@@ -4943,7 +5051,7 @@ function xmlToJson(xml, ignoreAttributes) {
 		"returnType": "(Object)"
 	}|*/
 	try {
-		xml = xml.replace(/<\?.*?\?>/,'').strip('\n').replace(/>\s*?\n\s*/g,'>');
+		xml = $c.strip(xml.replace(/<\?.*?\?>/,''),'\n').replace(/>\s*?\n\s*/g,'>');
 		var obj = {};
 
 		var index = xml.indexOf('>'),
@@ -4955,7 +5063,7 @@ function xmlToJson(xml, ignoreAttributes) {
 
 		// break down construct string of children
 		for (var i = 0, len = parts.length; i < len; i++) {
-			var part = parts[i] = parts[i].strip('\n');
+			var part = parts[i] = $c.strip(parts[i],'\n');
 
 			if (part == ">" || part == "><") {
 				child += ">";
@@ -5620,34 +5728,6 @@ _ext(String, 'convertUTCDate', function (delimiter) 	{
 		error('String.convertUTCDate', e);
 	}
 }, true);
-_ext(String, 'count', function (word) {
-	/*|{
-		"info": "String class extension to count the number of occurences of a word or phrase",
-		"category": "String",
-		"parameters":[
-			{word": "(String) Word or phrase to count"}],
-
-		"overloads":[],
-
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.count",
-		"returnType": "(Int)"
-	}|*/
-	try {
-		if (!$c.isRegExp(word)) {
-			word = new RegExp(word, "g");
-		} else if (!word.global) {
-			var reg_str = word.toString(),
-				index = reg_str.lastIndexOf('/'),
-				options = reg_str(index + 1);
-
-			reg_str = reg_str.substring(1,index);
-			word = new RegExp(word, "g"+options);
-		}
-		return (this.match(word) || []).length;
-	} catch (e) {
-		error("String.count", e);
-	}
-}, true);
 _ext(String, 'cut', function (si, ei, replacement) {
 	/*|{
 		"info": "String class extension to remove between the provided indexes",
@@ -5691,7 +5771,7 @@ _ext(String, 'ellipsis', function (before, after) {
 	try {
 		after = after || 0;
 		if (before + after > this.length) { return this; }
-		return this.cut(before, -1*after, "...");
+		return $c.cut(this,before, -1*after, "...");
 	} catch (e) {
 		error('String.ellipsis', e);
 	}
@@ -5763,35 +5843,12 @@ _ext(String, 'highlight', function (search, cssClass, tag) {
 		} else if (search.indexOf("(") == -1) {
 			txt = "(" + search + ")";
 		}
-		return this.replace((new RegExp(txt)).addFlags(flags),"<" + tag + " class=\"" + cssClass + "\">$1</" + tag + ">");
+		return this.replace($c.addFlags((new RegExp(txt)),flags),"<" + tag + " class=\"" + cssClass + "\">$1</" + tag + ">");
 	} catch (e) {
 		error("String.highlight", e);
 	}
 }, true);
-_ext(String, 'indexOfAlt', function(regex, pos) {
-	/*|{
-		"info": "String class extension to find the index based on a regular expression",
-		"category": "String",
-		"parameters":[
-			{"regex": "(RegExp) Regular expression to check value against"}],
-
-		"overloads":[
-			{"parameters":[
-				{"regex": "(RegExp) Regular expression to check value against"},
-				{"pos": "(Int) Index offset to start"}]}],
-
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.indexOfAlt",
-		"returnType": "(Int)"
-	}|*/
-	try {
-		if (isNull(regex)) { return -1; }
-		pos = pos || 0;
-		var index = this.substring(pos).search(regex);
-		return (index >= 0) ? (index + pos) : index;
-	} catch (e) {
-		error("String.indexOfAlt", e);
-	}
-}, true);
+_ext(String, 'indexOfAlt', _indexOfAlt, true);
 _ext(String, 'ireplace_all', function(replace, subject) {
 	/*|{
 		"info": "String class extension to replace all substrings ignoring case",
@@ -6095,27 +6152,7 @@ _ext(String, 'strip', function(character) {
 	}|*/
 	return _strip(this, character);
 }, true);
-_ext(String, 'toCurrencyNotation', function (separator) {
-	/*|{
-		"info": "String class extension to change string to currency",
-		"category": "String",
-		"parameters":[],
-
-		"overloads":[],
-
-		"overloads":[
-			{"parameters":[
-				{"separator": "(Char) Character to use as delimiter"}]}],
-
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.toCurrencyNotation",
-		"returnType": "(String)"
-	}|*/
-	try {
-		return _toCurrencyNotation(this, separator);
-	} catch (e) {
-		error("String.toCurrencyNotation", e);
-	}
-}, true);
+_ext(String, 'toCurrencyNotation', _toCurrencyNotation, true);
 _ext(String, 'toDateTime', function (options) {
 	/*|{
 		"info": "String class extension to convert string to datetime",
@@ -6215,24 +6252,7 @@ _ext(String, 'toObject', function(assignmentChar, delimiter) {
 		error("String.indexOfAlt", e);
 	}
 }, true);
-_ext(String, 'trim', function(character) {
-	/*|{
-		"info": "String class extension to remove characters from the beginning and end of the string",
-		"category": "String",
-		"parameters":[
-			{"character": "(Char[]) Character to remove"}],
-
-		"overloads":[],
-
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.trim",
-		"returnType": "(String)"
-	}|*/
-	try {
-		return _trim(this, undefined, character);
-	} catch (e) {
-		error("String.trim", e);
-	}
-}, true);
+_ext(String, 'trim', __universal_trim, true);
 
 /*----------------------------------------------------------------------------------------------------------------
  /-	Array class Extensions
@@ -6429,21 +6449,6 @@ _ext(Array, 'condense', function (check_values) {
 	}|*/
 	return _condense(this, check_values);
 }, true);
-_ext(Array, 'count', function(condition) {
-	/*|{
-		"info": "Array class extension to count the length and optionally filter items first",
-		"category": "Array",
-		"parameters":[],
-
-		"overloads":[
-			{"parameters":[
-				{"condition": "(Mixed) Query used in Array.where"}]}],
-
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.count",
-		"returnType": "(Int)"
-	}|*/
-	return this.where(condition).length;
-});
 _ext(Array, 'delete', function(condition, justOne) {
 	/*|{
 		"info": "Array class extension to delete records",
@@ -6522,7 +6527,7 @@ _ext(Array, 'distinct', function(fields, condition) {
 //            }
 
 
-		var records = this.group({field:fields,cond:condition},true);
+		var records = $c.group(this,{field:fields,cond:condition},true);
 		if (fields.length == 1) {
 			var arr = [];
 			for (var i = 0, len = records.length; i < len; i++ ) {
@@ -6617,7 +6622,7 @@ _ext(Array, 'find', function(condition, projection) {
 		"url": "http://www.craydent.com/library/1.8.1/docs#array.where",
 		"returnType": "(Array)"
 	}|*/
-	return this.where(condition, projection);
+	return $c.where(this,condition, projection);
 });
 _ext(Array, 'findOne', function(condition, projection) {
 	/*|{
@@ -6639,7 +6644,7 @@ _ext(Array, 'findOne', function(condition, projection) {
 		"url": "http://www.craydent.com/library/1.8.1/docs#array.where",
 		"returnType": "(Object)"
 	}|*/
-	return this.where(condition, projection, 1)[0];
+	return $c.where(this,condition, projection, 1)[0];
 });
 _ext(Array, 'group', function(params, removeProps) {
 	/*|{
@@ -6814,33 +6819,7 @@ _ext(Array, 'indexOf', function(value) {
 	}|*/
 	return _indexOf(this, value);
 }, true);
-_ext(Array, 'indexOfAlt', function(value, func) {
-	/*|{
-		"info": "Array class extension to find index of a value based on a callback function",
-		"category": "Array",
-		"parameters":[
-			{"value": "(Mixed) value to find"},
-			{"func": "(Function) Callback function used to do the comparison"}],
-
-		"overloads":[],
-
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.indexOfAlt",
-		"returnType": "(Array)"
-	}|*/
-	try {
-		var len = this.length,
-			i = 0;
-		while (i < len) {
-			if ($c.isRegExp(value) && value.test(this[i])) { return i; }
-
-			if ($c.isFunction(func) && (value instanceof Object ? func(this[i], value) : func(this[i]) === value)) { return i };
-			++i;
-		}
-		return -1;
-	} catch (e) {
-		error("Array.indexOfAlt", e);
-	}
-}, true);
+_ext(Array, 'indexOfAlt', _indexOfAlt, true);
 _ext(Array, "innerJoin", function (arr, on) {
 	/*|{
 		"info": "Array class extension to do an inner join on arrays",
@@ -6923,24 +6902,6 @@ _ext(Array, 'insertBefore', function(index, value) {
 		return true;
 	} catch (e) {
 		error("Array.insertBefore", e);
-		return false;
-	}
-}, true);
-_ext(Array, 'isEmpty', function() {
-	/*|{
-		"info": "Array class extension to check if the array is empty",
-		"category": "Array",
-		"parameters":[],
-
-		"overloads":[],
-
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.isEmpty",
-		"returnType": "(Bool)"
-	}|*/
-	try {
-		return (this.length == 0);
-	} catch (e) {
-		error("Array.isEmpty", e);
 		return false;
 	}
 }, true);
@@ -7057,7 +7018,7 @@ _ext(Array, 'mapReduce', function(map, reduce, options) {
 	}|*/
 	try {
 		options = options || {};
-		var obj = {}, results = this.where(options.query,null,options.limit), rtnArr = [], final = options.finalize;
+		var obj = {}, results = $c.where(this,options.query,null,options.limit), rtnArr = [], final = options.finalize;
 		if (options.sort) {
 			if ($c.isObject(options.sort)) {
 				var sortProps = [];
@@ -7066,12 +7027,12 @@ _ext(Array, 'mapReduce', function(map, reduce, options) {
 					if (options.sort[prop] == 1) { sortProps.push(prop); }
 					if (options.sort[prop] == -1) { sortProps.push("!"+prop); }
 				}
-				results = results.sortBy(sortProps);
+				results = $c.sortBy(results,sortProps);
 			} else {
-				results = results.sortBy(options.sort);
+				results = $c.sortBy(results,options.sort);
 			}
 		}
-		map.on('emit',function(key,value){
+		$c.on(map,'emit',function(key,value){
 			obj[key] = obj[key] || [];
 			obj[key].push(value);
 		});
@@ -7087,7 +7048,7 @@ _ext(Array, 'mapReduce', function(map, reduce, options) {
 		if ($c.isString(options.out)) {
 			$g[options.out] = $c.duplicate(rtnArr,true);
 		} else if ($c.isArray(options.out)) {
-			options.out.removeAll();
+			$c.removeAll(options.out);
 			return $c.merge(options.out,rtnArr);
 		}
 		return rtnArr;
@@ -7178,7 +7139,7 @@ _ext(Array, 'removeAll', function (value, indexOf) {
 			var  removed = [], index = indexOf.call(this, value);
 			if (index == -1) { return false; }
 			while (index != -1 && $c.isInt(index)) {
-				removed.push(this.remove(value, indexOf));
+				removed.push($c.remove(this,value, indexOf));
 				index = indexOf.call(this, value);
 			}
 			return removed;
@@ -7418,7 +7379,7 @@ _ext(Array, 'toSet', function() {
 			for (var j = i + 1; j < len; j++) {
 				var citem = this[j];
 				if ($c.equals(item,citem)) {
-					this.removeAt(j--);
+					$c.removeAt(this,j--);
 					len--;
 				}
 			}
@@ -7428,35 +7389,7 @@ _ext(Array, 'toSet', function() {
 		return false;
 	}
 }, true);
-_ext(Array, 'trim', function(ref) {
-	/*|{
-		"info": "Array class extension to remove all white space/chars from the beginning and end of all string values in the array",
-		"category": "Array",
-		"parameters":[],
-
-		"overloads":[
-			{"parameters":[
-				{"ref":"(Boolean) Whether or not to mutate the original array."}]}],
-
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.trim",
-		"returnType": "(Bool)"
-	}|*/
-	try {
-		var arr = [],
-			alter = false;
-		if ($c.isBoolean(ref)) { alter = true; }
-
-		for (var i = 0, len = this.length; i < len; i++) {
-			var item = this[i];
-			$c.isString(item) && (arr[i] = item.toString().trim()) || (arr[i] = item);
-			alter && (this[i] = arr[i]);
-		}
-		return arr;
-	} catch (e) {
-		error("Array.trim", e);
-		return false;
-	}
-}, true);
+_ext(Array, 'trim', __universal_trim, true);
 _ext(Array, 'update', function(condition, setClause, options) {
 	/*|{
 		"info": "Array class extension to update records in the array",
@@ -8063,8 +7996,8 @@ _ext(Date, 'format', function (format, options) {
 			year = datetime.getFullYear(),
 			firstMonday = new Date((new Date('1/6/' + year)).getTime() + (1-(new Date('1/6/' + year)).getDay())*(24*60*60*1000)),
 	//week = Math.ceil(Math.ceil((datetime - (firstMonday - (new Date('1/1/'+year)))) - (new Date('12/31/' + (year - 1))))/(7*24*60*60*1000)),
-			week = datetime.getWeek() - 1,
-			dayOfYear = datetime.getDayOfYear(),
+			week = $c.getWeek(datetime) - 1,
+			dayOfYear = $c.getDayOfYear(datetime),
 			dayOfYearFrom1 = dayOfYear - 1,
 			dayOfYearWithZero = (dayOfYearFrom1 < 10 ? "00" + dayOfYearFrom1 : (dayOfYearFrom1 < 100 ? "0" + dayOfYearFrom1 : dayOfYearFrom1)),
 
@@ -8240,25 +8173,7 @@ _ext(Number, 'isOdd', function () {
 		error("Number.isOdd", e);
 	}
 }, true);
-_ext(Number, 'toCurrencyNotation', function (separator) {
-	/*|{
-		"info": "Number class extension to change number to currency",
-		"category": "Number",
-		"parameters":[],
-
-		"overloads":[
-			{"parameters":[
-				{"separator": "(Char) Character to use as delimiter"}]}],
-
-		"url": "http://www.craydent.com/library/1.8.1/docs#number.toCurrencyNotation",
-		"returnType": "(String)"
-	}|*/
-	try {
-		return _toCurrencyNotation(this, separator);
-	} catch (e) {
-		error("Number.toCurrencyNotation", e);
-	}
-}, true);
+_ext(Number, 'toCurrencyNotation', _toCurrencyNotation, true);
 
 /*----------------------------------------------------------------------------------------------------------------
 /-	Function and Generator class Extensions
@@ -8313,7 +8228,7 @@ _ext(Function, 'extends',function(extendee, inheritAsOwn){
 		"returnType": "(Function)"
 	}|*/
 	try {
-		var className = this.getName(),
+		var className = $c.getName(this),
 			cls = new extendee();
 		$c.namespace[className] = $c.namespaces && $c.namespaces[className];
 		for (var prop in cls) {
@@ -8390,7 +8305,7 @@ _ext(Function, 'then',function(func){
 		"returnType": "(String)"
 	}|*/
 	try {
-		this.on('then',func);
+		$c.on(this,'then',func);
 	} catch (e) {
 		error("Function.then", e);
 	}
@@ -8408,7 +8323,7 @@ _ext(Function, 'catch',function(func){
 		"returnType": "(String)"
 	}|*/
 	try {
-		this.on('catch',func);
+		$c.on(this,'catch',func);
 	} catch (e) {
 		error("Function.catch", e);
 	}
@@ -8562,6 +8477,52 @@ _ao("copyObject", function () {
 		return _duplicate({}, this, true);
 	} catch (e) {
 		error("Object.copyObject", e);
+	}
+});
+_ao("count", function(option){
+	/*|{
+		"info": "Object class extension to count the properties in the object/elements in arrays/characters in strings.",
+		"category": "Object",
+		"parameters":[],
+
+		"overloads":[
+			{"parameters":[
+				{"option": "(Mixed) Query used in Array.where when counting elements in an Array"}]},
+			{"parameters":[
+				{option": "(String) Word or phrase to count in the String"}]},
+			{"parameters":[
+				{option": "(RegExp) Word or phrase pattern to count in the String"}]}],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#object.count",
+		"returnType": "(Int)"
+	}|*/
+	try {
+		if ($c.isObject(this)) {
+			var count = 0;
+			for (var prop in this){
+				if (this.hasOwnProperty(prop)) { count++; }
+			}
+			return count;
+		}
+		if ($c.isArray(this)) {
+			return $c.where(this,option).length;
+		}
+		if ($c.isString(this)) {
+			var word = option;
+			if (!$c.isRegExp(word)) {
+				word = new RegExp(word, "g");
+			} else if (!option.global) {
+				var reg_str = word.toString(),
+						index = reg_str.lastIndexOf('/'),
+						options = reg_str.substring(index + 1);
+
+				word = new RegExp(word, "g"+options);
+			}
+			return (this.match(word) || []).length;
+		}
+		return undefined;
+	} catch (e) {
+		error('Object.count', e);
 	}
 });
 _ao("duplicate", function (recursive) {
