@@ -1222,6 +1222,7 @@ function __contextualizeMethods (ctx) {
 		ctx.tryEval = tryEval;
 		ctx.wait = wait;
 		ctx.xmlToJson = xmlToJson;
+		ctx.yieldable = yieldable;
 		ctx.zipit = zipit;
 		return ctx;
 	} catch (e) {
@@ -4972,6 +4973,25 @@ function xmlToJson(xml, ignoreAttributes) {
 		return __processChildren(nodename, children);
 	} catch (e) {
 		error('xmlToJson', e);
+	}
+}
+function yieldable(value) {
+	/*|{
+		"info": "Makes a value yieldable via a Promise.",
+		"category": "Global",
+		"parameters":[
+			{"value": "(Mixed) Value to make yieldable"}],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#yieldable",
+		"returnType": "(Promise)"
+	}|*/
+	try {
+		return new Promise(function(res,rej){ return res(value); });
+
+	} catch (e) {
+		error('yieldable', e);
 	}
 }
 function zipit(files, content/*=NULL*/) {
