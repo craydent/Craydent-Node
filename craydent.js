@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.37                               /*/
+/*/ Craydent LLC node-v0.5.38                               /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.37',
+var _craydent_version = '0.5.38',
 	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
@@ -398,7 +398,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 								//cb.call(cray, request, response, vars);
 							}
 							//return;
-						}
+						} else { _complete(); }
 					}
 					if (execute.length) {
 						//var c = 0, cb;
@@ -468,9 +468,10 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						}
 						cray.echo.out = "";
 
-						callback.call(cray, request, response);
+						var val = callback.call(cray, request, response);
+						value = $c.isNull(val) ? value : val;
 
-						if (!value && !cray.DEFER_END) { cray.end(); }
+						if (!value && !cray.DEFER_END) { cray.send(404, cray.RESPONSES["404"]); }
 						if (value && !cray.response_sent) { cray.send(value); }
 
 					}
