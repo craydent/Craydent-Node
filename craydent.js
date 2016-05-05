@@ -430,7 +430,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 					}
 					//}
-					function _complete() {
+					function _complete(value) {
 						if (haveRoutes && callback == foo) {
 							return cray.send(404, cray.RESPONSES["404"]);
 						}
