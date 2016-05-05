@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.38                               /*/
+/*/ Craydent LLC node-v0.5.39                               /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.38',
+var _craydent_version = '0.5.39',
 	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
@@ -398,7 +398,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 								//cb.call(cray, request, response, vars);
 							}
 							//return;
-						} else { _complete(); }
+						}
 					}
 					if (execute.length) {
 						//var c = 0, cb;
@@ -428,7 +428,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						}
 
 
-					}
+					} else { _complete(); }
 					//}
 					function _complete(value) {
 						if (haveRoutes && callback == foo) {
@@ -478,7 +478,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 				} catch (e) {
 					logit(e);
 					response.writeHead(500, header.headers);
-					return cray.end(JSON.stringify(this.RESPONSES["500"]));
+					return cray.end(JSON.stringify(cray.RESPONSES["500"]));
 					throw e;
 				} finally {
 					//            echo.out = "";
@@ -4203,7 +4203,7 @@ function end(status, output, encoding) {
 		//logit(echo.out);
 	} catch(e) {
 		response.writeHead(500, this.header.headers);
-		response.end($c.DEBUG_MODE ? e.toString() : JSON.stringify(this.RESPONSES["500"]));
+		response.end($c.DEBUG_MODE ? e.stack : JSON.stringify(this.RESPONSES["500"]));
 	} finally {
 		logit("response ended");
 	}
@@ -4873,11 +4873,11 @@ function send (status, data) {
 		"url": "http://www.craydent.com/library/1.8.1/docs#send",
 		"returnType": "(Object)"
 	}|*/
-	if ($c.isObject(status) && !data) {
+	if (!data && typeof status == "object") {
 		data = status;
 		status = undefined;
 	}
-	if ($c.isObject(data)) { this.header({'Content-Type': 'application/json'}); }
+	if (typeof data == "object") { this.header({'Content-Type': 'application/json'}); }
 	this.end(status, JSON.stringify(data));
 }
 function suid(length) {
@@ -4931,6 +4931,7 @@ function syncroit(gen) {
 		})();
 		return geno;
 	} catch (e) {
+		throw e;
 		error('syncroit', e);
 	}
 }
