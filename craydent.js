@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.39                               /*/
+/*/ Craydent LLC node-v0.5.40                               /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.39',
+var _craydent_version = '0.5.40',
 	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
@@ -3563,18 +3563,22 @@ function ajax(params){
 		var need_to_shard = false, browser_url_limit = 1500, query, url, rtn;
 		params.dataType = params.dataType || 'json';
 		params.hitch = params.hitch || "";
-		params.oncomplete = params.oncomplete || [foo];
 		params.onbefore = params.onbefore || [foo];
+		params.oncomplete = params.oncomplete || [foo];
+		params.ondata = params.ondata || [foo];
 		params.onerror = params.onerror || params.onresponse || [foo];
 		params.onsuccess = params.onsuccess || params.onresponse || [foo];
 		params.query = params.data || params.query || "";
 		params.timeout = params.timeout || 120000;
 
+		if (!$c.isArray(params.onbefore)) {
+			params.onbefore = [params.onbefore];
+		}
 		if (!$c.isArray(params.oncomplete)) {
 			params.oncomplete = [params.oncomplete];
 		}
-		if (!$c.isArray(params.onbefore)) {
-			params.onbefore = [params.onbefore];
+		if (!$c.isArray(params.ondata)) {
+			params.ondata = [params.ondata];
 		}
 		if (!$c.isArray(params.onerror)) {
 			params.onerror = [params.onerror];
@@ -3603,6 +3607,7 @@ function ajax(params){
 		 params.onfileload = params.onfileload;
 		 params.onprogress = params.onprogress;
 		 params.onabort = params.onabort;
+		 params.ondata = params.ondata;
 		 params.onerror = params.onerror;
 		 params.onresponse = params.onresponse;
 		 params.onsuccess = params.onsuccess;
@@ -3679,28 +3684,31 @@ function ajax(params){
 			try {
 				if (params.protocol && params.protocol.indexOf('https') != -1) { httpRequest = require('https'); }
 				var req = httpRequest.request($c.merge(defaults, params,{clone:true,intersect:true}), function (res) {
-					var body = "", ctx = params.context || res;
-					res.on('data', function (chunk) { body += chunk; });
+					var body = {data:""}, ctx = params.context || res;
+					res.on('data', function (chunk) {
+						body.data += chunk;
+						_run_func_array.call(ctx, params.ondata, [chunk, body, req, params.hitch, this]);
+					});
 					res.on('error', function () {
 						if (params.dataType.toLowerCase() == 'json') {
-							body = $c.tryEval(body, JSON.parse) || body;
+							body.data = $c.tryEval(body.data, JSON.parse) || body.data;
 						}
 
-						_run_func_array.call(ctx, params.onerror, [body, params.hitch, this, res.statusCode]);
-						_run_func_array.call(ctx, params.oncomplete, [body, params.hitch, this, res.statusCode]);
-						reject(body);
+						_run_func_array.call(ctx, params.onerror, [body.data, params.hitch, this, res.statusCode]);
+						_run_func_array.call(ctx, params.oncomplete, [body.data, params.hitch, this, res.statusCode]);
+						reject(body.data);
 					});
 					res.on('end', function () {
 						if (params.dataType.toLowerCase() == 'json') {
-							body = $c.tryEval(body, JSON.parse) || body;
+							body.data = $c.tryEval(body.data, JSON.parse) || body.data;
 						}
 						var methods = params.onsuccess;
 						if (!$c.isBetween(res.statusCode,200,299,true)) {
 							methods = params.onerror;
 						}
-						_run_func_array.call(ctx, methods, [body, params.hitch, this, res.statusCode]);
-						_run_func_array.call(ctx, params.oncomplete, [body, params.hitch, this, res.statusCode]);
-						resolve(body);
+						_run_func_array.call(ctx, methods, [body.data, params.hitch, this, res.statusCode]);
+						_run_func_array.call(ctx, params.oncomplete, [body.data, params.hitch, this, res.statusCode]);
+						resolve(body.data);
 					});
 				});
 				req.on('error', function(e) {
