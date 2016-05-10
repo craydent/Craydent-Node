@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.40                               /*/
+/*/ Craydent LLC node-v0.5.41                               /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.40',
+var _craydent_version = '0.5.41',
 	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
@@ -354,9 +354,15 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						if (!no_route) {
 							for (var prop in params) {
 								if (!params.hasOwnProperty(prop)) { continue; }
-								var val = vars[prop] || params[prop];
+								var val = vars[prop] || params[prop], obj;
 								vars[prop] = isNull(params[prop]) ? undefined : ($c.isString(val) ? decodeURIComponent($c.replace_all(val,'+', '%20')) : val);
-								vars[prop] = $c.tryEval(vars[prop],JSON.parse) || vars[prop];
+
+								obj = $c.tryEval(vars[prop],JSON.parse) || vars[prop];
+								// this is probably a date
+								if ($c.isNumber(obj) && obj.toString() != vars[prop]) {
+									continue;
+								}
+								vars[prop] = obj;
 							}
 							var parameters = route.parameters || [],
 								p = 0, parameter, bad = [];
