@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.41                               /*/
+/*/ Craydent LLC node-v0.5.42                               /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.41',
+var _craydent_version = '0.5.42',
 	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
@@ -3746,18 +3746,20 @@ function ajax(params){
 		});
 
 
-		prms._then = prms.then || foo;
-		prms.then = function (res,rej) { //noinspection CommaExpressionJS
-			params.onsuccess.push(res);
-			params.onerror.push(rej);
-			return this;
-			//return params.onsuccess.push(res),prms._then.apply(this,arguments),this;
-		};
+		if (params.onsuccess.length == 1 && params.onsuccess[0] !== foo) {
+			prms._then = prms.then || foo;
+			prms.then = function (res, rej) { //noinspection CommaExpressionJS
+				params.onsuccess.push(res);
+				params.onerror.push(rej);
+				return this;
+				//return params.onsuccess.push(res),prms._then.apply(this,arguments),this;
+			};
+		}
 		prms.otherwise = function (callback) { //noinspection CommaExpressionJS
 			return params.onerror.push(callback),this; };
 		prms['finally'] = function (callback) { //noinspection CommaExpressionJS
 			return params.oncomplete.push(callback),this; };
-		return prms
+		return prms;
 	} catch (e) {
 		logit(e);
 		error("ajax", e);
