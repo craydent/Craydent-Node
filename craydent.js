@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.42                               /*/
+/*/ Craydent LLC node-v0.5.43                               /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.42',
+var _craydent_version = '0.5.43',
 	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
@@ -4055,16 +4055,16 @@ function $PUT(variable, options) {
 }
 function cout(){
 	/*|{
-	 "info": "Log to console when DEBUG_MODE is true and when the console is available",
-	 "category": "Global",
-	 "parameters":[
-	 {"infinite": "any number of arguments can be passed."}],
+		"info": "Log to console when DEBUG_MODE is true and when the console is available",
+		"category": "Global",
+		"parameters":[
+			{"infinite": "any number of arguments can be passed."}],
 
-	 "overloads":[],
+		"overloads":[],
 
-	 "url": "http://www.craydent.com/library/1.8.1/docs#cout",
-	 "returnType": "(void)"
-	 }|*/
+		"url": "http://www.craydent.com/library/1.8.1/docs#cout",
+		"returnType": "(void)"
+	}|*/
 	try {
 		if($c && $c.DEBUG_MODE && console && console.log){
 			for (var i = 0, len = arguments.length; i < len; i++) {
@@ -4932,23 +4932,29 @@ function syncroit(gen) {
 		"overloads":[],
 
 		"url": "http://www.craydent.com/library/1.8.1/docs#syncroit",
-		"returnType": "(void)"
+		"returnType": "(Promise)"
 	}|*/
 	try {
-		var geno = gen();
+		return new Promise(function(res){
+			var geno = gen();
 
-		$c.isGenerator(gen) && (function cb(val) {
-			var obj = geno.next(val);
+			$c.isGenerator(gen) && (function cb(value) {
+				var obj = geno.next(value);
 
-			if (!obj.done) {
-				if ($c.isPromise(obj.value)) { return obj.value.then(cb).catch(cb); }
-				setTimeout(function () { cb(obj.value); }, 0);
-			}
-		})();
-		return geno;
+				if (!obj.done) {
+					if ($c.isPromise(obj.value)) { return obj.value.then(cb).catch(cb); }
+					setTimeout(function () { cb(obj.value); }, 0);
+				} else {
+					var val = obj.value || value;
+					res(val);
+				}
+			})();
+		});
+		//return geno;
+
 	} catch (e) {
-		throw e;
 		error('syncroit', e);
+		throw e;
 	}
 }
 function tryEval(expression, evaluator) {
