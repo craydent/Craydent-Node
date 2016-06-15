@@ -441,9 +441,9 @@ describe ('No Conflict Array', function () {
 	it('distinct',function(){
 		var temp = $c.duplicate(arrObjs,true);
 		expect($c.distinct(temp,["share","std"])).toEqual([
-			{share:"shared",std:4},{share:undefined,std:4}]);
+			{share:"shared",std:4},{std:4}]);
 		expect($c.distinct(temp,"share,std")).toEqual([
-			{share:"shared",std:4},{share:undefined,std:4}]);
+			{share:"shared",std:4},{std:4}]);
 
 		expect($c.distinct(temp,["share"])).toEqual(["shared",undefined]);
 		expect($c.distinct(temp,"share")).toEqual(["shared",undefined]);

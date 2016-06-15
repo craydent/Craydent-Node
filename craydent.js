@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.5.43                               /*/
+/*/ Craydent LLC node-v0.5.44                               /*/
 /*/	Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/	(http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
  /-	Global CONSTANTS and variables
  /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.5.43',
+var _craydent_version = '0.5.44',
 	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
@@ -2010,7 +2010,7 @@ function __processGroup (docs, expr) {
 			}
 			for (var prop in expr) {
 				if (!expr.hasOwnProperty(prop) || prop == "_id") { continue; }
-				result[prop] = __processAccumulator(doc, expr[prop],result[prop], meta);
+				result[prop] = __processAccumulator(doc, expr[prop],result.hasOwnProperty(prop) ? result[prop] : undefined, meta);
 			}
 		}
 		return results;
@@ -2506,7 +2506,8 @@ function _getBrowserVersion(browser){
 	try {
 		var index = this.navigator.userAgent.indexOf(browser);
 		if (index == -1 && this["is"+browser]()) return -1;
-		return parseFloat(this.navigator.userAgent.substring(index+browser.length+1));
+        var version = parseFloat(this.navigator.userAgent.substring(index+browser.length+1));
+		return version === 0 || version ? version : -1;
 	} catch(e){
 		error('_getBrowserVersion', e);
 	}
@@ -3196,7 +3197,15 @@ function _toCurrencyNotation(sep) {
 		"returnType": "(String)"
 	}|*/
 	sep = sep || ",";
-	return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+	var whole = this.toString(), fraction = "";
+	if (sep != ".") {
+		var part = whole.split('.');
+		if (part.length > 1) {
+			whole = part[0];
+			fraction = '.'+part[1];
+		}
+	}
+	return whole.replace(/\B(?=(\d{3})+(?!\d))/g, sep) + fraction;
 }
 function _trim(str, side, characters) {
 	try {
@@ -3331,7 +3340,7 @@ function addObjectPrototype(name, fn, override) {
 		"returnType": "(void)"
 	}|*/
 	try {
-		if (isNull($g.__craydentNoConflict) || !$g.__craydentNoConflict) {
+		if ($c.isNull($g.__craydentNoConflict) || !$g.__craydentNoConflict) {
 			var shouldOverride = false;
 			if (eval("typeof(" + name + ")") == "undefined") {
 				shouldOverride = true;
@@ -3550,14 +3559,17 @@ function Set (records) {
 /*----------------------------------------------------------------------------------------------------------------
  /-	Ajax operations
  /---------------------------------------------------------------------------------------------------------------*/
-function ajax(params){
+function ajax(params, returnData){
 	/*|{
 		"info": "Method to make ajax calls",
 		"category": "Global",
 		"parameters":[
 			{"params": "(Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"}],
 
-		"overloads":[],
+		"overloads":[
+			{"parameters":[
+				 {"params": "(Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"},
+				 {"returnData": "(String) Specifies which data to return when using Promise pattern"}]}],
 
 		"url": "http://www.craydent.com/library/1.8.1/docs#ajax",
 		"returnType": "(void)"
@@ -3714,13 +3726,21 @@ function ajax(params){
 						}
 						_run_func_array.call(ctx, methods, [body.data, params.hitch, this, res.statusCode]);
 						_run_func_array.call(ctx, params.oncomplete, [body.data, params.hitch, this, res.statusCode]);
-						resolve(body.data);
+
+						var rtn = body.data;
+						if (returnData == "response" || returnData == "res") {
+							rtn = res;
+						} else if (returnData == "request" || returnData == "req") {
+							rtn = req;
+						}
+
+						resolve(rtn);
 					});
 				});
 				req.on('error', function(e) {
 					if (e.errno != "ETIMEDOUT") {
-						_run_func_array.call(ctx, params.onerror, [null, params.hitch, this, e.code]);
-						_run_func_array.call(ctx, params.oncomplete, [null, params.hitch, this, e.code]);
+						_run_func_array.call(req, params.onerror, [null, params.hitch, this, e.code]);
+						_run_func_array.call(req, params.oncomplete, [null, params.hitch, this, e.code]);
 						return reject(e);
 					}
 					logit(e);
@@ -3732,7 +3752,7 @@ function ajax(params){
 					var e = new Error('connect ETIMEDOUT ' + params.host);
 					e.address = params.host;
 					e.code = "ETIMEDOUT";
-					e.errno = ETIMEDOUT;
+					e.errno = "ETIMEDOUT";
 					e.message = 'connect ETIMEDOUT ' + params.host;
 					e.port = params.port;
 					reject(e);
@@ -3876,6 +3896,25 @@ function $DELETE(variable, options) {
 		logit('$DELETE');
 		logit(e);
 	}
+}
+function $DEL () {
+	/*|{
+		"info": "Retrieve all or specific variables in the Body",
+		"category": "Global",
+		"featured": true,
+		"parameters":[],
+
+		"overloads":[
+			{"parameters":[
+				{"key": "(String) key for query value"}]},
+			{"parameters":[
+				{"key": "(String) key for query value"},
+				{"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#$DELETE",
+		"returnType": "(Mixed)"
+	}|*/
+	return $DELETE.apply(this,arguments);
 }
 function $GET(variable, options) {
 	/*|{
@@ -5331,7 +5370,7 @@ function SafariVersion (){
 		"returnType": "(Float)"
 	}|*/
 	try {
-		return _getBrowserVersion.call(this, "Safari");
+		return $c.isChrome() ? -1 : _getBrowserVersion.call(this, "Safari");
 	} catch(e){
 		error('SafariVersion', e);
 	}
@@ -5437,7 +5476,7 @@ function isGecko() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/gecko/i.test(this.navigator.userAgent));
+		return !$c.isWebkit() && !$c.isKHTML() && (/gecko/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isGecko', e);
 	}
@@ -5540,7 +5579,7 @@ function isKHTML() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (/khtml/i.test(this.navigator.userAgent));
+		return !$c.isWebkit() && (/khtml/i.test(this.navigator.userAgent));
 	} catch (e) {
 		error('isKHTML', e);
 	}
@@ -5680,7 +5719,7 @@ function isSafari(){
 	}|*/
 	try {
 		var nu = this.navigator.userAgent;
-		return (/chrome/i.test(nu)) && (/apple/i.test(nu));
+		return !$c.isChrome() && (/chrome/i.test(nu)) && (/apple/i.test(nu));
 	} catch(e){
 		error('isSafari', e);
 	}
@@ -7591,6 +7630,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
 			}
 			if (setObject['$rename']) {
 				for (var prop in setObject['$rename']) {
+					if (!obj.hasOwnProperty(prop)) { continue; }
 					var value = obj[prop];
 					setObject['$rename'].hasOwnProperty(prop) && delete obj[prop] && (obj[setObject['$rename'][prop]] = value);
 				}
