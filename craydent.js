@@ -4148,7 +4148,7 @@ function emit(ev) {
 		"overloads":[
 			{"parameters":[
 				{"event": "Event to trigger."},
-				{"infinite": "any number of arguments can be passed and will be applied to listening functions."}}],
+				{"infinite": "any number of arguments can be passed and will be applied to listening functions."}]}],
 
 		"url": "http://www.craydent.com/library/1.8.1/docs#emit",
 		"returnType":"(void)"
@@ -4198,7 +4198,7 @@ function end(status, output, encoding) {
 		"overloads":[
 			{"parameters":[
 				{"event": "Event to trigger."},
-				{"infinite": "any number of arguments can be passed and will be applied to listening functions."}}],
+				{"infinite": "any number of arguments can be passed and will be applied to listening functions."}]}],
 
 		"url": "http://www.craydent.com/library/1.8.1/docs#emit",
 		"returnType":"(void)"
@@ -4510,7 +4510,7 @@ function header(headers, code) {
 
 		"overloads":[
 			{"parameters":[
-				{"headers": "(Object) Http headers."}]}
+				{"headers": "(Object) Http headers."}]},
 
 			{"parameters":[
 	 			{"header": "(String) Http header."},
@@ -6645,7 +6645,7 @@ _ext(Array, 'distinct', function(fields, condition) {
 
 			{"parameters":[
 				{"fields": "(Array) Fields to use as the projection and unique comparison (comma delimited)"},
-				{"condition": "(String) Query following SQL where clause syntax"}]}
+				{"condition": "(String) Query following SQL where clause syntax"}]},
 
 			{"parameters":[
 				{"fields": "(String) Fields to use as the projection and unique comparison (comma delimited)"},
@@ -8630,9 +8630,9 @@ _ao("count", function(option){
 			{"parameters":[
 				{"option": "(Mixed) Query used in Array.where when counting elements in an Array"}]},
 			{"parameters":[
-				{option": "(String) Word or phrase to count in the String"}]},
+				{"option": "(String) Word or phrase to count in the String"}]},
 			{"parameters":[
-				{option": "(RegExp) Word or phrase pattern to count in the String"}]}],
+				{"option": "(RegExp) Word or phrase pattern to count in the String"}]}],
 
 		"url": "http://www.craydent.com/library/1.8.1/docs#object.count",
 		"returnType": "(Int)"
