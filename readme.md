@@ -1,4 +1,4 @@
-#**Craydent 0.5.4**#
+#**Craydent 0.5.45**#
 **by Clark Inada**
 
 
@@ -115,6 +115,8 @@
 
 >>WEBKIT
 
+>EXPOSE_ROUTE_API
+
 >FIREFOX
 
 >FIREFOX_VERSION
@@ -124,6 +126,8 @@
 >HANDPOINT
 
 >HIDDEN
+
+>HTTP_STATUS_TEMPLATE
 
 >IE
 
@@ -203,6 +207,150 @@
 
 >REFERER_IP
 
+>RESPONSES
+
+>>100
+
+>>101
+
+>>102
+
+>>200
+
+>>201
+
+>>202
+
+>>203
+
+>>204
+
+>>205
+
+>>206
+
+>>207
+
+>>208
+
+>>226
+
+>>300
+
+>>301
+
+>>302
+
+>>303
+
+>>304
+
+>>305
+
+>>306
+
+>>307
+
+>>308
+
+>>400
+
+>>401
+
+>>402
+
+>>403
+
+>>404
+
+>>405
+
+>>406
+
+>>407
+
+>>408
+
+>>409
+
+>>410
+
+>>411
+
+>>412
+
+>>413
+
+>>414
+
+>>415
+
+>>416
+
+>>417
+
+>>418
+
+>>420
+
+>>422
+
+>>423
+
+>>424
+
+>>425
+
+>>426
+
+>>428
+
+>>429
+
+>>431
+
+>>444
+
+>>449
+
+>>450
+
+>>451
+
+>>499
+
+>>500
+
+>>501
+
+>>502
+
+>>503
+
+>>504
+
+>>505
+
+>>506
+
+>>507
+
+>>508
+
+>>509
+
+>>510
+
+>>511
+
+>>598
+
+>>599
+
+>REST_API_TEMPLATE
+
+>ROUTE_API_PATH
+
 >SAFARI
 
 >SAFARI_VERSION
@@ -212,6 +360,8 @@
 >SERVER_PATH
 
 >SYMBIAN
+
+>TEMPLATE_VARS
 
 >TEMPLATE_TAG_CONFIG
 
@@ -236,8 +386,6 @@
 >>VARIABLE_NAME
 
 >>DECLARE
-
->TEMPLATE_VARS
 
 >TRIDENT
 
@@ -289,9 +437,104 @@
 
 >>option: (Object) Specify path and/or expiration of cookie
 
+### $DELETE ###
+
+>**Info:** Retrieve all or specific variables in the Body
+
+>**Return:** (Mixed)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+>>key: (String) key for query value
+
+---
+>>key: (String) key for query value
+
+>>options: (Object) Options to defer, ignore case, etc
+
 ### $GET ###
 
 >**Info:** Retrieve all or specific variables in the url
+
+>**Return:** (Mixed)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+>>key: (String) key for query value
+
+---
+>>key: (String) key for query value
+
+>>options: (Object) Options to defer, ignore case, etc
+
+### $HEADER ###
+
+>**Info:** Retrieve all or specific variables in the headers
+
+>**Return:** (Mixed)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+>>key: (String) key for query value
+
+---
+>>key: (String) key for query value
+
+>>options: (Object) Options to defer, ignore case, etc
+
+### $PAYLOAD ###
+
+>**Info:** Retrieve all or specific variables in the Body
+
+>**Return:** (Mixed)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+>>key: (String) key for query value
+
+---
+>>key: (String) key for query value
+
+>>options: (Object) Options to defer, ignore case, etc
+
+### $POST ###
+
+>**Info:** Retrieve all or specific variables in the Body
+
+>**Return:** (Mixed)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+>>key: (String) key for query value
+
+---
+>>key: (String) key for query value
+
+>>options: (Object) Options to defer, ignore case, etc
+
+### $PUT ###
+
+>**Info:** Retrieve all or specific variables in the Body
 
 >**Return:** (Mixed)
 
@@ -338,6 +581,84 @@
 
 >**Overloads:**
 
+### average ###
+
+>**Info:** Array class extension to perform average of all the values (any value which is not a number is 0).
+
+>**Return:** (Array)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+### find ###
+
+>**Info:** Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)
+
+>**Return:** (Array)
+
+>**Parameters:**
+
+>>condition: (Mixed) Query following find/where clause syntax
+
+>**Overloads:**
+
+>>condition: (Mixed) Query following find/where clause syntax
+
+>>projection: (Mixed) Indicate which properties to return
+
+---
+>>condition: (Mixed) Query following find/where clause syntax
+
+>>useReference: (Bool) Flag to make a copy instead of using references
+
+### findOne ###
+
+>**Info:** Array class extension to use mongo or sql queries returning the first item match
+
+>**Return:** (Object)
+
+>**Parameters:**
+
+>>condition: (Mixed) Query following find/where clause syntax
+
+>**Overloads:**
+
+>>condition: (Mixed) Query following find/where clause syntax
+
+>>projection: (Mixed) Indicate which properties to return
+
+---
+>>condition: (Mixed) Query following find/where clause syntax
+
+>>useReference: (Bool) Flag to make a copy instead of using references
+
+### stdev ###
+
+>**Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
+
+>**Return:** (Array)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+### sum ###
+
+>**Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
+
+>**Return:** (Array)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
 ### where ###
 
 >**Info:** Array class extension to use mongo or sql queries
@@ -358,6 +679,20 @@
 >>condition: (Mixed) Query following find/where clause syntax
 
 >>useReference: (Bool) Flag to make a copy instead of using references
+
+---
+>>condition: (Mixed) Query following find/where clause syntax
+
+>>projection: (Mixed) Indicate which properties to return
+
+>>limit: (Int) Limit the number of the results returned.
+
+---
+>>condition: (Mixed) Query following find/where clause syntax
+
+>>useReference: (Bool) Flag to make a copy instead of using references
+
+>>limit: (Int) Limit the number of the results returned.
 
 ## Date ##
 
@@ -394,6 +729,11 @@
 >>path: (String) Path to nested property
 
 >>delimiter: (Char) Separator used to parse path
+
+---
+>>path: (String) Path to nested property
+
+>>options: (Object) Options for ignoring inheritance, validPath, etc
 
 ---
 >>path: (String) Path to nested property
@@ -596,6 +936,10 @@
 
 >**Overloads:**
 
+>>params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+
+>>returnData: (String) Specifies which data to return when using Promise pattern
+
 ### cout ###
 
 >**Info:** Log to console when DEBUG_MODE is true and when the console is available
@@ -620,6 +964,50 @@
 
 >**Overloads:**
 
+### echo ###
+
+>**Info:** Echo to buffer and use in response
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>output: Data to send in response
+
+>**Overloads:**
+
+### emit ###
+
+>**Info:** Call the next function(s) in queue
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>event: Event to trigger.
+
+>**Overloads:**
+
+>>event: Event to trigger.
+
+>>infinite: any number of arguments can be passed and will be applied to listening functions.
+
+### end ###
+
+>**Info:** Call the next function(s) in queue
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>event: Event to trigger.
+
+>**Overloads:**
+
+>>event: Event to trigger.
+
+>>infinite: any number of arguments can be passed and will be applied to listening functions.
+
 ### error ###
 
 >**Info:** User implemented place holder function to handle errors
@@ -643,6 +1031,82 @@
 >**Parameters:**
 
 >>None
+
+>**Overloads:**
+
+### getSession ###
+
+>**Info:** Retrieve the session object when used in conjunction with createServer
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>sid: (String) Session id of the session object to retrieve syncronously.
+
+>**Overloads:**
+
+>>sid: (String) Session id of the session object to retrieve.
+
+>>callback: (Function) callback function to invoke once the session object is retrieved.
+
+### getSessionID ###
+
+>**Info:** Retrieve the session id when used in conjunction with createServer
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+### getSessionSync ###
+
+>**Info:** Syncronously retrieve the session object when used in conjunction with createServer
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>sid: (String) Session id of the session object to retrieve syncronously.
+
+>**Overloads:**
+
+### header ###
+
+>**Info:** Set Http Headers to send
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>header: (String) Http header.
+
+>**Overloads:**
+
+>>headers: (Object) Http headers.
+
+---
+>>header: (String) Http header.
+
+>>code: (Integer) Http response code.
+
+---
+>>headers: (Object) Http headers.
+
+>>code: (Integer) Http response code.
+
+### include ###
+
+>**Info:** Require without erroring when module does not exist.
+
+>**Return:** (Mixed)
+
+>**Parameters:**
+
+>>path: (String) Module or Path to module.
 
 >**Overloads:**
 
@@ -818,7 +1282,7 @@
 
 >**Info:** Check if a value is Null
 
->**Return:** ()
+>**Return:** (Mixed)
 
 >**Parameters:**
 
@@ -984,7 +1448,7 @@
 
 >>path: (String) Path to create.
 
->>callback: (Function) Method to call when directories are created.
+>>callback: (Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors).
 
 >**Overloads:**
 
@@ -1007,6 +1471,18 @@
 >>clazz: (Class) Class to add to the given namespace
 
 >>fn: (Function) Method to call after the class has been added to the namespace
+
+### next ###
+
+>**Info:** Call the next function(s) in queue
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>infinite: any number of arguments can be passed.
+
+>**Overloads:**
 
 ### now ###
 
@@ -1100,6 +1576,10 @@
 
 >**Overloads:**
 
+>>status: (Integer) Status code for response.
+
+>>data: (Object) Object to send in response.
+
 ### suid ###
 
 >**Info:** Creates a short Craydent/Global Unique Identifier
@@ -1113,6 +1593,18 @@
 >**Overloads:**
 
 >>length: (Integer) Custom length of the short unique identifier
+
+### syncroit ###
+
+>**Info:** Generator based control flow to allow for more "syncronous" programing structure
+
+>**Return:** (Promise)
+
+>**Parameters:**
+
+>>gen: (GeneratorFunction) Generator function to execute
+
+>**Overloads:**
 
 ### tryEval ###
 
@@ -1130,6 +1622,18 @@
 
 >>evaluator: (Function) Method to use to evaluate the expression
 
+### var_dump ###
+
+>**Info:** Dump of variables to response.
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>infinite: any number of arguments can be passed.
+
+>**Overloads:**
+
 ### wait ###
 
 >**Info:** Stops execution until the condition is satisfied
@@ -1139,6 +1643,18 @@
 >**Parameters:**
 
 >>condition: (Mixed) Condition equivalent to js true to resume execution
+
+>**Overloads:**
+
+### writeSession ###
+
+>**Info:** Writes session to filesystem to be retrieved later.
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>None
 
 >**Overloads:**
 
@@ -1158,6 +1674,18 @@
 
 >>ignoreAttributes: (Bool) Flag to ignore attributes
 
+### yieldable ###
+
+>**Info:** Makes a value yieldable via a Promise.
+
+>**Return:** (Promise)
+
+>**Parameters:**
+
+>>value: (Mixed) Value to make yieldable
+
+>**Overloads:**
+
 ## Array ##
 
 ### buildTree ###
@@ -1168,43 +1696,29 @@
 
 >**Parameters:**
 
->>rootFinder: (Function) Function to determine the parent.   Should return a boolean value.
+>>parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
 
 >>childFinder: (String) Property name of the object to use as a grouping.
 
 >**Overloads:**
 
->>rootFinder: (Function) Function to determine the parent.   Should return a boolean value.
+>>parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
 
 >>childFinder: (Function) Function to determine the grouping.
 
 ---
->>rootFinder: (Function) Function to determine the parent.   Should return a boolean value.
+>>parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
 
 >>childFinder: (String) Property name of the object to use as a grouping.
 
 >>options: (Object) Options to customize properties,  Valid property is:<br />childProperty
 
 ---
->>rootFinder: (Function) Function to determine the parent.   Should return a boolean value.
+>>parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
 
 >>childFinder: (String) Property name of the object to use as a grouping.
 
 >>options: (Object) Options to customize properties,  Valid property is:<br />childProperty
-
-### complexSort ###
-
->**Info:** Array class extension to sort using lookups
-
->**Return:** (Array)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
->>specs: (Object) specs with common properties:<br />(Mixed) props<br />(Boolean) reverse<br />(Function) lookupprimer<br />(Function) propprimer<br />(Object) lookup<br />(Function) lookupfunc
 
 ### condense ###
 
@@ -1220,25 +1734,11 @@
 
 >>check_values: (Bool) Flag to remove duplicates
 
-### count ###
-
->**Info:** Array class extension to count the length and optionally filter items first
-
->**Return:** (Int)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
->>condition: (Mixed) Query used in Array.where
-
 ### createServer ###
 
 >**Info:** Array class extension to do an inner join on arrays
 
->**Return:** (Array)
+>**Return:** (Server)
 
 >**Parameters:**
 
@@ -1249,22 +1749,6 @@
 >>callback: (Function) Function to callback when a request is received
 
 >>createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
-
-### filter ###
-
->**Info:** Array class extension to implement filter
-
->**Return:** (Array)
-
->**Parameters:**
-
->>func: (Function) Callback function used to determine if value should be returned
-
->**Overloads:**
-
->>func: (Function) Callback function used to determine if value should be returned
-
->>objs: (Mixed) Specify the context on callback function
 
 ### delete ###
 
@@ -1290,13 +1774,47 @@
 
 >**Parameters:**
 
->>fields: (Mixed) Fields to use as the projection and unique comparison
+>>fields: (String) Fields to use as the projection and unique comparison (comma delimited)
 
 >**Overloads:**
 
->>fields: (Mixed) Fields to use as the projection and unique comparison
+>>fields: (Array) Fields to use as the projection and unique comparison
 
->>condition: (Mixed) Query following find/where clause syntax
+---
+>>fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+
+>>condition: (String) Query following SQL where clause syntax
+
+---
+>>fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
+
+>>condition: (String) Query following SQL where clause syntax
+
+---
+>>fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+
+>>condition: (Object) Query following MongoDB find clause syntax
+
+---
+>>fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
+
+>>condition: (Object) Query following MongoDB find clause syntax
+
+### filter ###
+
+>**Info:** Array class extension to implement filter
+
+>**Return:** (Array)
+
+>**Parameters:**
+
+>>func: (Function) Callback function used to determine if value should be returned
+
+>**Overloads:**
+
+>>func: (Function) Callback function used to determine if value should be returned
+
+>>craydent_thiss: (Mixed) Specify the context on callback function
 
 ### group ###
 
@@ -1307,18 +1825,6 @@
 >**Parameters:**
 
 >>params: (Object) specs with common properties:<br />(Object) key<br />(Mixed) cond<br />(Function) reduce<br />(Object) initial
-
->**Overloads:**
-
-### groupBy ###
-
->**Info:** Array class extension to 
-
->**Return:** (Array)
-
->**Parameters:**
-
->>clause: (Mixed) 
 
 >**Overloads:**
 
@@ -1336,9 +1842,9 @@
 
 ### indexOfAlt ###
 
->**Info:** Array class extension to find index of a value based on a callback function
+>**Info:** Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression
 
->**Return:** (Array)
+>**Return:** (Integer)
 
 >**Parameters:**
 
@@ -1347,6 +1853,13 @@
 >>func: (Function) Callback function used to do the comparison
 
 >**Overloads:**
+
+>>regex: (RegExp) Regular expression to check value against
+
+---
+>>regex: (RegExp) Regular expression to check value against
+
+>>pos: (Int) Index offset to start
 
 ### innerJoin ###
 
@@ -1424,17 +1937,11 @@
 
 >**Parameters:**
 
->>arr: (Array) Primary array to be joined with
+>>arr: (Array) Secondary array to be joined with
 
 >>on: (String) Condition to join on
 
 >**Overloads:**
-
->>: 
-
->>: 
-
->>: 
 
 ### limit ###
 
@@ -1448,6 +1955,10 @@
 
 >**Overloads:**
 
+>>max: (Int) Maximum number of items to return
+
+>>skip: (Int) Number of items to skip
+
 ### mapReduce ###
 
 >**Info:** Array class extension to run map-reduce aggregation over records
@@ -1456,17 +1967,17 @@
 
 >**Parameters:**
 
->>condition: (Mixed) Query following find/where clause syntax
+>>map: (Function) Function to apply to each item
 
->>condition: (Mixed) Query following find/where clause syntax
+>>reduce: (Function) Function used to condense the items
 
 >**Overloads:**
 
->>condition: (Mixed) Query following find/where clause syntax
+>>map: (Function) Function to apply to each item
 
->>projection: (Mixed) Indicate which properties to return
+>>reduce: (Function) Function used to condense the items
 
->>projection: (Mixed) Indicate which properties to return
+>>options: (Object) Options specified in the Mongo Doc
 
 ### normalize ###
 
@@ -1510,7 +2021,7 @@
 
 >>value: (Mixed) Value to remove
 
->>indexOf: (Function) Callback function to use to find the item based on thevalue
+>>indexOf: (Function) Callback function to use to find the item based on the value
 
 ### removeAt ###
 
@@ -1535,6 +2046,18 @@
 >>index: (Int) Index of the item to remove
 
 >>value: (Mixed) Value to replace with
+
+>**Overloads:**
+
+### scramble ###
+
+>**Info:** Array class extension to scramble the order.
+
+>**Return:** (Array)
+
+>**Parameters:**
+
+>>None
 
 >**Overloads:**
 
@@ -1630,7 +2153,7 @@
 
 ### trim ###
 
->**Info:** Array class extension to remove all white space from the beginning and end of all string values in the array
+>**Info:** Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.
 
 >**Return:** (Bool)
 
@@ -1639,6 +2162,11 @@
 >>None
 
 >**Overloads:**
+
+>>ref: (Boolean) Whether or not to mutate the original array.
+
+---
+>>character: (Char[]) Character to remove in the String
 
 ### update ###
 
@@ -1658,7 +2186,7 @@
 
 >>setClause: (Mixed) Set clause used to update the records
 
->>multi: (Mixed) Flag to specify if multiple records should be updated
+>>options: (Object) Options to specify if mulit update and/or upsert
 
 ### upsert ###
 
@@ -1728,11 +2256,23 @@
 
 ## Function ##
 
+### catch ###
+
+>**Info:** Function listener to register the catch event
+
+>**Return:** (String)
+
+>**Parameters:**
+
+>>func: (Function) Function to call on emit
+
+>**Overloads:**
+
 ### extends ###
 
 >**Info:** Function class extension to extend another class
 
->**Return:** (String)
+>**Return:** (Function)
 
 >**Parameters:**
 
@@ -1765,6 +2305,46 @@
 >**Parameters:**
 
 >>None
+
+>**Overloads:**
+
+### on ###
+
+>**Info:** Function listener to register events
+
+>**Return:** (String)
+
+>**Parameters:**
+
+>>event: (String) Event to listen on and invoked on emit
+
+>>func: (Function) Function to call on emit
+
+>**Overloads:**
+
+### then ###
+
+>**Info:** Function listener to register the then event
+
+>**Return:** (String)
+
+>**Parameters:**
+
+>>func: (Function) Function to call on emit
+
+>**Overloads:**
+
+### toPromise ###
+
+>**Info:** Function listener to register events
+
+>**Return:** (String)
+
+>**Parameters:**
+
+>>event: (String) Event to listen on and invoked on emit
+
+>>func: (Function) Function to call on emit
 
 >**Overloads:**
 
@@ -1822,20 +2402,6 @@
 
 >**Overloads:**
 
-### toCurrencyNotation ###
-
->**Info:** Number class extension to change number to currency
-
->**Return:** (String)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
->>separator: (Char) Character to use as delimiter
-
 ## Object ##
 
 ### changes ###
@@ -1858,7 +2424,7 @@
 
 >**Parameters:**
 
->>val: (Mixed) Value to check
+>>val: (Mixed) Value to check or custom function to determine validity
 
 >**Overloads:**
 
@@ -1867,13 +2433,11 @@
 >>func: (Function) Callback function used to do the comparison
 
 ---
->>val: (Mixed) Value to check
-
 >>arr: (Array) Array of values to return first matching value
 
 ### copyObject ###
 
->**Info:** Object class extension to copy an object including constructor
+>**Info:** Object class extension to copy an object excluding constructor
 
 >**Return:** (Object)
 
@@ -1883,9 +2447,29 @@
 
 >**Overloads:**
 
+### count ###
+
+>**Info:** Object class extension to count the properties in the object/elements in arrays/characters in strings.
+
+>**Return:** (Int)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+>>option: (Mixed) Query used in Array.where when counting elements in an Array
+
+---
+>>option: (String) Word or phrase to count in the String
+
+---
+>>option: (RegExp) Word or phrase pattern to count in the String
+
 ### duplicate ###
 
->**Info:** Object class extension to copy an object excluding constructor
+>**Info:** Object class extension to copy an object including constructor
 
 >**Return:** (Object)
 
@@ -1921,6 +2505,10 @@
 
 >**Overloads:**
 
+>>compare: (Object) Object to compare against
+
+>>props: (String[]) Array of property values to compare against
+
 ### every ###
 
 >**Info:** Object class extension to check property values against a function
@@ -1935,7 +2523,7 @@
 
 >>callback: (Function) Callback to apply to each value
 
->>objObject: (Mixed) Context for the callback function
+>>craydent_thisObject: (Mixed) Context for the callback function
 
 ### getClass ###
 
@@ -1978,9 +2566,7 @@
 ---
 >>args: (Mixed[]) An array of arguments to pass to context when it is a function
 
->>delimiter: (Char) Separator used to parse path
-
->>options: (Object) Options for ignoring inheritance, validPath, etc
+>>dflt: (Mixed) Default value to return if context is not a function
 
 ### has ###
 
@@ -1990,7 +2576,7 @@
 
 >**Parameters:**
 
->>callback: (String) Property name to check
+>>property: (String) Property name to check
 
 >**Overloads:**
 
@@ -2098,6 +2684,18 @@
 
 >**Overloads:**
 
+### isGenerator ###
+
+>**Info:** Object class extension to check if object is a generator function
+
+>**Return:** (Bool)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
 ### isGeolocation ###
 
 >**Info:** Object class extension to check if object is a geolocation
@@ -2137,6 +2735,18 @@
 ### isObject ###
 
 >**Info:** Object class extension to check if object is an object
+
+>**Return:** (Bool)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+### isPromise ###
+
+>**Info:** Object class extension to check if object is a promise object
 
 >**Return:** (Bool)
 
@@ -2220,7 +2830,7 @@
 
 >>callback: (Function) Callback to apply to each value
 
->>objObject: (Mixed) Context for the callback function
+>>craydent_thisObject: (Mixed) Context for the callback function
 
 ### merge ###
 
@@ -2236,7 +2846,7 @@
 
 >>secondary: (Object) Object to merge with
 
->>condition: (Mixed) Flags to recurse, merge only shared value, clone etc
+>>condition: (Mixed) Flags to recurse, merge only shared value, clone, intersect etc
 
 ### setProperty ###
 
@@ -2377,25 +2987,29 @@
 
 >**Info:** String class extension to check if the string ends with the given string
 
->**Return:** (Bool)
+>**Return:** (Mix)
 
 >**Parameters:**
 
 >>infinite: any number of arguments can be passed
 
 >**Overloads:**
+
+>>arr: (String[]) An array of strings to check
 
 ### endsWithAny ###
 
 >**Info:** String class extension to check if the string ends with the given string
 
->**Return:** (Bool)
+>**Return:** (Mix)
 
 >**Parameters:**
 
 >>infinite: any number of arguments can be passed
 
 >**Overloads:**
+
+>>arr: (String[]) An array of strings to check
 
 ### highlight ###
 
@@ -2411,24 +3025,27 @@
 
 >>search: (RegExp) Regular expression to search
 
->>clazz: (String) Class to add for highlighting
+---
+>>search: (String) String to search
+
+>>cssClass: (String) Class to add for highlighting
 
 ---
 >>search: (RegExp) Regular expression to search
 
->>clazz: (String) Class to add for highlighting
+>>cssClass: (String) Class to add for highlighting
 
 ---
 >>search: (String) String to search
 
->>clazz: (String) Class to add for highlighting
+>>cssClass: (String) Class to add for highlighting
 
 >>tag: (String) Tag to use to surround the search
 
 ---
->>search: (String) String to search
+>>search: (RegExp) Regular expression to search
 
->>clazz: (String) Class to add for highlighting
+>>cssClass: (String) Class to add for highlighting
 
 >>tag: (String) Tag to use to surround the search
 
@@ -2536,6 +3153,10 @@
 
 >**Overloads:**
 
+>>replace: (String[]) Array of string to replace
+
+>>subject: (String[]) Array of string to replace with
+
 ### reverse ###
 
 >**Info:** String class extension to reverse the string
@@ -2592,9 +3213,11 @@
 
 >**Parameters:**
 
->>infinite: any number of arguments can be passed
+>>infinite: any number of String arguments can be passed
 
 >**Overloads:**
+
+>>arr: (String[]) An array of strings to check
 
 ### startsWithAny ###
 
@@ -2604,9 +3227,11 @@
 
 >**Parameters:**
 
->>infinite: any number of arguments can be passed
+>>infinite: any number of String arguments can be passed
 
 >**Overloads:**
+
+>>arr: (String[]) An array of strings to check
 
 ### strip ###
 
@@ -2619,6 +3244,20 @@
 >>character: (Char[]) Character to remove
 
 >**Overloads:**
+
+### toCurrencyNotation ###
+
+>**Info:** Number/String class extension to change number to currency
+
+>**Return:** (String)
+
+>**Parameters:**
+
+>>None
+
+>**Overloads:**
+
+>>separator: (Char) Character to use as delimiter
 
 ### toDateTime ###
 
