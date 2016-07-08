@@ -1106,16 +1106,24 @@ describe ('No Conflict Array', function () {
 			{id:1,p:"10",share:"shared", index: 10,std:4,tags:['a','b']}]);
 		expect($c.where([{id:1,p:"10",share:"shared", index: 10,std:4,tags:['c','b']}],{tags:['b','a']})).toEqual([]);
 
-		temp = [{ _id: 1, results: [ { product: "abc", score: 10 }, { product: "xyz", score: 5 } ] },
-			{ _id: 2, results: [ { product: "xyz", score: 7 } ] },
-			{ _id: 3, results: [ { product: "abc", score: 7 }, { product: "xyz", score: 8 } ] }];
+		temp = [
+			{ _id: 1, results: [
+				{ product: "abc", score: 10 },
+				{ product: "xyz", score: 5 } ] },
+			{ _id: 2, results: [
+				{ product: "xyz", score: 7 } ] },
+			{ _id: 3, results: [
+				{ product: "abc", score: 7 },
+				{ product: "xyz", score: 8 } ] },
+			{ _id: 3 },
+			{ _id: 4, results: [ ] }];
 		expect($c.where(temp, { results: { $elemMatch: { product: "xyz", score: { $gte: 8 } } } })).toEqual([
 			{"_id":3,"results":[{"product":"abc","score":7},{"product":"xyz","score":8}]}
 		]);
 		expect($c.where(temp, { results: { $size: 1 } })).toEqual([
 			{ _id: 2, results: [ { product: "xyz", score: 7 } ] }
 		]);
-		expect($c.where(temp, { results: { $size: 0 } })).toEqual([]);
+		expect($c.where(temp, { results: { $size: 0 } })).toEqual([{_id:3},{ _id: 4, results: [ ] }]);
 		expect($c.where(temp, { results: { $size: 2 } })).toEqual([
 			{ _id: 1, results: [ { product: "abc", score: 10 }, { product: "xyz", score: 5 } ] },
 			{"_id":3,"results":[{"product":"abc","score":7},{"product":"xyz","score":8}]}
