@@ -934,7 +934,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						if (value !== undefined && value) {
 							var eindex = code.indexOf(ifmatch[i + 1]);
 							if (eindex == -1) {
-								return pre + code.substring(sindex) + post;
+								return pre + code.substring(sindex, endindex) + post;
 							}
 							return pre + code.substring(sindex, eindex) + post;
 						} else if (ifm.match(IF["else"])) {
@@ -2291,6 +2291,42 @@ function _condense (objs, check_values) {
 		return false;
 	}
 }
+function _contains_lessthan (vals, val) {
+	for (var i = 0, len = vals.length; i < len; i++) {
+		if (vals[i] < val) { return true; }
+	}
+	return false;
+}
+function _contains_greaterthan (vals, val) {
+	for (var i = 0, len = vals.length; i < len; i++) {
+		if (vals[i] > val) { return true; }
+	}
+	return false;
+}
+function _contains_lessthanequal (vals, val) {
+	for (var i = 0, len = vals.length; i < len; i++) {
+		if (vals[i] <= val) { return true; }
+	}
+	return false;
+}
+function _contains_greaterthanequal (vals, val) {
+	for (var i = 0, len = vals.length; i < len; i++) {
+		if (vals[i] >= val) { return true; }
+	}
+	return false;
+}
+function _contains_mod (vals, val) {
+	for (var i = 0, len = vals.length; i < len; i++) {
+		if (vals[i] % val[0] == val[1]) { return true; }
+	}
+	return false;
+}
+function _contains_type (vals, val) {
+	for (var i = 0, len = vals.length; i < len; i++) {
+		if (vals[i].constructor == val) { return true; }
+	}
+	return false;
+}
 function _copyWithProjection(projection, record, preserveProperties) {
 	var copy = {}, len = 0;
 	projection = projection || "*";
@@ -2920,7 +2956,12 @@ function _subQuery(query, field, index) {
 			if (field.indexOf('.') != -1) { return "$c.equals($c.getProperty(record.'" + field + "'), " + $c.parseRaw(query) + ")";}
 			return "$c.equals(record['" + field + "'], " + $c.parseRaw(query) + ")";
 		}
-		var expression = "true";
+		var expression = "true", comparison_map = {
+			"$lt":"_clt",
+			"$lte":"_clte",
+			"$gt":"_cgt",
+			"$gte":"_cgte"
+		};
 
 
 		// prep multiple subqueries
@@ -2939,41 +2980,41 @@ function _subQuery(query, field, index) {
 					} else {
 						q = "$c.contains(values," + q + ")";
 					}
-					expression += " && ((values = __queryNestedProperty(record, '" + field + "')).length && " + (prop == "$ne" ? "!" : "") + q + ")";
+					expression += " && ((values = _qnp(record, '" + field + "')).length && " + (prop == "$ne" ? "!" : "") + q + ")";
 					break;
 				case "$lt":
 				case "$lte":
 				case "$gt":
 				case "$gte":
-					expression += " && ((values = __queryNestedProperty(record, '" + field + "')).length && $c.contains(values," + $c.parseRaw(query[prop]) + ",'" + prop + "'))";
+					expression += " && ((values = _qnp(record, '" + field + "')).length && " + comparison_map[prop] + "(values," + $c.parseRaw(query[prop]) + "))";
 					break;
 				case "$exists":
 					expression += " && ((finished = {validPath:0}),$c.getProperty(record,'" + field + "','.',finished),finished.validPath == " + query['$exists'] + ")";
 					break;
 				case "$type":
 					var qt = $c.isNull(query["$type"]) ? "!" : "";
-					expression += " && (" + qt + "(values = __queryNestedProperty(record, '" + field + "')).length && $c.contains(values," + $c.getName(query['$type']) + ",'" + prop + "'))";
+					expression += " && (" + qt + "(values = _qnp(record, '" + field + "')).length && _ct(values," + $c.getName(query['$type']) + "))";
 				case "$text":
 					//return record.getProperty(field).contains(query['$search']);
 					break;
 				case "$mod":
 					var qm = $c.isArray(query['$mod']);
-					expression += " && ((values = __queryNestedProperty(record, '" + field + "')).length && " + qm + " && $c.contains(values," + $c.parseRaw(query[prop]) + ",'" + prop + "'))";
+					expression += " && ((values = _qnp(record, '" + field + "')).length && " + qm + " && _cm(values," + $c.parseRaw(query[prop]) + "))";
 					break;
 				case "$all":
 					var all = $c.parseRaw(query['$all']) || undefined;
-					expression += " && (values = __queryNestedProperty(record, '" + field + "')),(all = " + all + "),($c.isArray(values[0]) && $c.isArray(all)) && (function(){ for (var j = 0, jlen = all.length; j < jlen; j++){ if (!$c.contains(values[0],all[j])) { return false; }} return true;})()";
+					expression += " && (values = _qnp(record, '" + field + "')),(all = " + all + "),($c.isArray(values[0]) && $c.isArray(all)) && (function(){ for (var j = 0, jlen = all.length; j < jlen; j++){ if (!$c.contains(values[0],all[j])) { return false; }} return true;})()";
 					break;
 				case "$size":
 					var ival = parseInt(query['$size']);
-					expression += " && (values = __queryNestedProperty(record, '" + field + "')[0]),($c.isArray(values) ? (" + ival + " === values.length) : (values == undefined && 0 === " + ival + "))";
+					expression += " && (values = _qnp(record, '" + field + "')[0]),($c.isArray(values) ? (" + ival + " === values.length) : (values == undefined && 0 === " + ival + "))";
 					break;
 				case "$where":
 					var val = "(" + ($c.isFunction(query['$where']) ? query['$where'].toString() : "function(){return (" + query['$where'] + ");}") + ")";
 					expression += " && " + val + ".call(record)";
 					break;
 				case "$elemMatch":
-					expression += " && (values = __queryNestedProperty(record, '" + field + "')[0]),($c.isArray(values) && !!$c.where(values," + $c.parseRaw(query['$elemMatch']) + ",1).length)";
+					expression += " && (values = _qnp(record, '" + field + "')[0]),($c.isArray(values) && !!$c.where(values," + $c.parseRaw(query['$elemMatch']) + ",1).length)";
 					break;
 				case "$or":
 				case "$nor":
@@ -3008,10 +3049,10 @@ function _subQuery(query, field, index) {
 
 				case "$in":
 				case "$nin":
-					expression += " && " + (prop == "$nin" ? "!" : "") + "((values = __queryNestedProperty(record, '" + field + "')[0]),$c.contains(" + $c.parseRaw(query[prop]) + ",values))";
+					expression += " && " + (prop == "$nin" ? "!" : "") + "((values = _qnp(record, '" + field + "')[0]),$c.contains(" + $c.parseRaw(query[prop]) + ",values))";
 					break;
 				default:
-					expression += " && " + _subQuery(query[prop], prop);
+					expression += " && " + _subQuery(query[prop], $c.replace_all(prop,'\'','\\\''));
 					break;
 			}
 		}
@@ -4494,6 +4535,7 @@ function fillTemplate (htmlTemplate, objs, offset, max) {
 		}
 
 		if (!nested) {
+			html = html.replace(/fillTemplate.refs\['.*?'\]/g,"");
 			fillTemplate.declared = fillTemplate.refs = undefined;
 		}
 		return html;
@@ -6708,7 +6750,12 @@ _ext(Array, 'delete', function(condition, justOne) {
 		"returnType": "(Array)"
 	}|*/
 	try {
-		var thiz = this;
+		var thiz = this, _qnp = __queryNestedProperty,
+			_clt = _contains_lessthan,
+			_clte = _contains_lessthanequal,
+			_cgt = _contains_greaterthan,
+			_cgte = _contains_greaterthanequal,
+			_ct = _contains_type, _cm = _contains_mod;
 		justOne = parseBoolean($c.isNull(justOne) ? true : $c.isNull(justOne.justOne, justOne));
 		// if no condition was given, remove all
 		if (!condition) { return this.splice(0,justOne ? 1 : this.length); }
@@ -6966,7 +7013,12 @@ _ext(Array, 'group', function(params, removeProps) {
 
 
 
-		var thiz = this, ifblock = _subQuery(condition), func = "(function (record,i) {"+
+		var thiz = this, _qnp = __queryNestedProperty,
+			_clt = _contains_lessthan,
+			_clte = _contains_lessthanequal,
+			_cgt = _contains_greaterthan,
+			_cgte = _contains_greaterthanequal,
+			_ct = _contains_type, _cm = _contains_mod, ifblock = _subQuery(condition), func = "(function (record,i) {"+
 			"	var values,finished;" +
 			"	if ("+ifblock+") {" +
 			"		if(!cb.call(thiz,record,i)) { throw 'keep going'; }" +
@@ -7634,7 +7686,12 @@ _ext(Array, 'update', function(condition, setClause, options) {
 			}
 		}
 
-		var thiz = this, ifblock = _subQuery(condition), func = "(function (record,i) {"+
+		var thiz = this, _qnp = __queryNestedProperty,
+			_clt = _contains_lessthan,
+			_clte = _contains_lessthanequal,
+			_cgt = _contains_greaterthan,
+			_cgte = _contains_greaterthanequal,
+			_ct = _contains_type, _cm = _contains_mod, ifblock = _subQuery(condition), func = "(function (record,i) {"+
 			"	var values,finished;" +
 			"	if ("+ifblock+") {" +
 			"		if(!cb.call(thiz,record,i)) { throw 'keep going'; }" +
@@ -7875,7 +7932,12 @@ _ext(Array, 'upsert', function(records, prop, callback) {
 			ids.splice(ref.index-(j++), 1);
 			return true;
 		};
-		var ifblock = _subQuery(condition), func = "(function (record,i) {"+
+		var _qnp = __queryNestedProperty,
+			_clt = _contains_lessthan,
+			_clte = _contains_lessthanequal,
+			_cgt = _contains_greaterthan,
+			_cgte = _contains_greaterthanequal,
+			_ct = _contains_type, _cm = _contains_mod, ifblock = _subQuery(condition), func = "(function (record,i) {"+
 			"	var values,finished;" +
 			"	if ("+ifblock+") {" +
 			"		cb(record,i);" +
@@ -7934,7 +7996,13 @@ _ext(Array, 'where', function(condition, projection, limit) {
 		"returnType": "(Array)"
 	}|*/
 	try {
-		var useReference = !projection;
+		var useReference = !projection,
+			_qnp = __queryNestedProperty,
+			_clt = _contains_lessthan,
+			_clte = _contains_lessthanequal,
+			_cgt = _contains_greaterthan,
+			_cgte = _contains_greaterthanequal,
+			_ct = _contains_type, _cm = _contains_mod;
 
 		// if no condition was given, return all
 		if (!condition) { return this.slice(0,limit); }
@@ -7960,18 +8028,20 @@ _ext(Array, 'where', function(condition, projection, limit) {
 		} catch (e) { }
 
 		if (simple) {
-			limit = limit || this.length;
+			limit = limit || 0;//this.length;
 			var props = [],indexProps = [];
-			for (var prop in condition) {
-				if(condition.hasOwnProperty(prop)) {
-					//props.push(prop);
-					if (this.__indexes && this.__indexes[prop]) {
-						indexProps.push(prop);
+			if (this.__indexes) {
+				for (var prop in condition) {
+					if (condition.hasOwnProperty(prop)) {
+						//props.push(prop);
+						if (this.__indexes[prop]) {
+							indexProps.push(prop);
+						}
 					}
 				}
 			}
-			var arr = this;
-			if (indexProps.length) {
+			var arr = this,ipHasLength = !!indexProps.length;
+			if (ipHasLength) {
 				var prop, i = 0;
 
 				var orderedLists = [], fi = 0,len = arr.length;
@@ -8004,7 +8074,7 @@ _ext(Array, 'where', function(condition, projection, limit) {
 				for (var prop in condition) {
 					if (cobj[prop]) {
 						return cobj[prop] === condition[prop];
-					} else if (prop.indexOf('.') != -1 && !__queryNestedProperty(cobj, prop).contains(condition[prop])) {
+					} else if (prop.indexOf('.') != -1 && !$c.contains(_qnp(cobj, prop), condition[prop])) {
 						return false;
 					} else if ($c.isNull(cobj[prop])) {
 						return false;
@@ -8013,7 +8083,7 @@ _ext(Array, 'where', function(condition, projection, limit) {
 				return true;
 			};
 			for (var prop in condition) {
-				if (!condition.hasOwnProperty(prop) || indexProps.indexOf(prop) != -1) { continue; }
+				if (!condition.hasOwnProperty(prop) || ipHasLength && indexProps.indexOf(prop) != -1) { continue; }
 				if (prop.indexOf('.') != -1) { useQueryNested = true; break; }
 				var q = $c.isString(condition[prop]) ? "\"" : "";
 				if ($c.isRegExp(condition[prop])) {
@@ -8026,8 +8096,8 @@ _ext(Array, 'where', function(condition, projection, limit) {
 			}
 			if (!useQueryNested) {
 				var limitLogic = "";
-				if (limit) { limitLogic = "arr.temp_count++ < arr.temp_limit && "; }
-				func = ($c.tryEval("function(cobj,index,arr){ return " + limitLogic + boolCond + "true;}") || func);
+				limit && (limitLogic = "arr.temp_count++ < arr.temp_limit && ");
+				func = (eval("(function(cobj,index,arr){ return " + limitLogic + boolCond + "true;})") || func);
 			}
 			arr.temp_count = 0;
 			arr.temp_limit = limit;
@@ -8039,17 +8109,13 @@ _ext(Array, 'where', function(condition, projection, limit) {
 			return arr;
 		}
 
-		var arr = [];
-		var ifblock = _subQuery(condition), func = "(function (record,i) {"+
-			"	var values,finished;" +
-			"	if (limit > 0 && arr.length == limit) { throw 'keep going'; }" +
-			"	if ("+ifblock+") {" +
-			"		if (useReference) { return true; }" +
-			"		return arr.push(_copyWithProjection(projection, record));" +
-			"	}" +
-			"})";
+		var arr = [], rarr;
+		var ifblock = _subQuery(condition),
+			func = eval("(function (record) {var values;" +
+				(limit ? "if (arr.length == limit) { throw 'keep going'; } " : "") +
+				"return " + (useReference ? ifblock : ifblock + " && arr.push(_copyWithProjection(projection, record))") + ";})");
 		try {
-			var rarr = this.filter(eval(func));
+			rarr = this.filter(func);
 		} catch(e) {
 			if (e != 'keep going') { throw e;}
 		}
@@ -8712,55 +8778,25 @@ _ao("contains", function(val, func){
 					var f = foo;
 					switch(func){
 						case "$lt":
-							f = function(vals){
-								for (var i = 0, len = vals.length; i < len; i++) {
-									if (vals[i] < val) { return true; }
-								}
-								return false;
-							};
+							f = _contains_lessthan;
 							break;
 						case "$lte":
-							f = function(vals){
-								for (var i = 0, len = vals.length; i < len; i++) {
-									if (vals[i] <= val) { return true; }
-								}
-								return false;
-							};
+							f = _contains_lessthanequal;
 							break;
 						case "$gt":
-							f = function(vals){
-								for (var i = 0, len = vals.length; i < len; i++) {
-									if (vals[i] > val) { return true; }
-								}
-								return false;
-							};
+							f = _contains_greaterthan;
 							break;
 						case "$gte":
-							f = function(vals){
-								for (var i = 0, len = vals.length; i < len; i++) {
-									if (vals[i] >= val) { return true; }
-								}
-								return false;
-							};
+							f = _contains_greaterthanequal;
 							break;
 						case "$mod":
-							f = function(vals){
-								for (var i = 0, len = vals.length; i < len; i++) {
-									if (vals[i] % val[0] == val[1]) { return true; }
-								}
-								return false;
-							};
+							f = _contains_mod;
 							break;
 						case "$type":
-							f = function(vals){
-								for (var i = 0, len = vals.length; i < len; i++) {
-									if (vals[i].constructor == val) { return true; }
-								}
-								return false;
-							};
+							f = _contains_type;
 							break;
 					}
-					return !!f(this);
+					return !!f(this,val);
 				} else if ($c.isArray(val)) {
 					for (var i = 0, len = val.length; i < len; i++) {
 						var item = val[i];
