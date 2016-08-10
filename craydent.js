@@ -3691,7 +3691,7 @@ function $COOKIE(key, value, options) {
 		}
 
 		if (!c && !values.length) { return {}; }
-		if (options.path && $c.isString(options.path)) {path = 'path=' + options.path + ';'}
+		if (options.path && $c.isString(options.path)) {path = 'path=' + (options.path || '/') + ';'}
 		if (options.domain && $c.isString(options.domain)) {domain = 'domain=' + options.domain + ';'}
 		if (options["delete"]) {
 			this.response.setHeader("Set-Cookie", [key + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;' + path + domain]);
@@ -4399,7 +4399,7 @@ function error(fname, e) {
 		cout("Error in " + fname + "\n" + (e.description || e));
 	}
 }
-function fillTemplate (htmlTemplate, objs, offset, max) {
+function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 	/*|{
 	 "info": "Function for templetizing",
 	 "category": "Global",
@@ -4409,15 +4409,25 @@ function fillTemplate (htmlTemplate, objs, offset, max) {
 		 {"objs": "(Objects[]) Objects to fill the template variables"}],
 
 	 "overloads":[
+		{"parameters":[
+			{"htmlTemplate": "(String) Template to be used"},
+			{"objs": "(Objects[]) Objects to fill the template variables"},
+			{"max": "(Int) The maximum number of records to process"}]}
 		 {"parameters":[
-			 {"htmlTemplate": "(String) Template to be used"},
-			 {"objs": "(Objects[]) Objects to fill the template variables"},
-			 {"max": "(Int) The maximum number of records to process"}]},
+			{"htmlTemplate": "(String) Template to be used"},
+			{"objs": "(Objects[]) Objects to fill the template variables"},
+			{"options": "(Object) Options to use: max,offset,newlineToHtml"}]},
 		 {"parameters":[
 			 {"htmlTemplate": "(String) Template to be used"},
 			 {"objs": "(Objects[]) Objects to fill the template variables"},
 			 {"offset": "(Int) The start index of the Object array"},
-			 {"max": "(Int) The maximum number of records to process"}]}],
+			 {"max": "(Int) The maximum number of records to process"}]},
+		{"parameters":[
+			{"htmlTemplate": "(String) Template to be used"},
+			{"objs": "(Objects[]) Objects to fill the template variables"},
+			{"offset": "(Int) The start index of the Object array"},
+			{"max": "(Int) The maximum number of records to process"},
+			{"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."}]}],
 
 	 "url": "http://www.craydent.com/library/1.8.1/docs#fillTemplate",
 	 "returnType": "(String)"
@@ -4430,7 +4440,11 @@ function fillTemplate (htmlTemplate, objs, offset, max) {
 			fillTemplate.refs = [];
 		}
 		if (!htmlTemplate) { return ""; }
-		if (!isNull(offset) && isNull(max)) {
+		if ($c.isObject(offset)) {
+			max = offset.max || 0;
+			newlineToHtml = isNull(offset.newlineToHtml) ? true : offset.newlineToHtml;
+			offset = offset.offset;
+		} else if (!isNull(offset) && isNull(max)) {
 			max = offset;
 			offset = 0;
 		}
@@ -4484,7 +4498,12 @@ function fillTemplate (htmlTemplate, objs, offset, max) {
 					} else {
 						objval = parseRaw(objval, $c.isString(objval));
 					}
-					objval = $c.replace_all(objval,['\n',';'],['<br />',';\\']);
+					var replacee_arr = [';'], replacer_arr = [';\\'];
+					if (newlineToHtml) {
+						replacee_arr.push('\n');
+						replacer_arr.push('<br />');
+					}
+					objval = $c.replace_all(objval,replacee_arr,replacer_arr);
 					if (objval.indexOf('${') != -1) {
 						objval = fillTemplate(objval,[obj]);
 					}
@@ -8072,11 +8091,11 @@ _ext(Array, 'where', function(condition, projection, limit) {
 			var boolCond = "", useQueryNested = false, func = function (cobj,index,arr) {
 				if (arr.temp_count++ < this.temp_limit) { return false; }
 				for (var prop in condition) {
-					if (cobj[prop]) {
-						return cobj[prop] === condition[prop];
-					} else if (prop.indexOf('.') != -1 && !$c.contains(_qnp(cobj, prop), condition[prop])) {
-						return false;
-					} else if ($c.isNull(cobj[prop])) {
+					if (prop.indexOf('.') != -1) {
+						if (!$c.contains(_qnp(cobj, prop),condition[prop])) {
+							return false;
+						}
+					} else if (cobj[prop] && cobj[prop] !== condition[prop] || $c.isNull(cobj[prop])) {
 						return false;
 					}
 				}
@@ -8205,7 +8224,7 @@ _ext(Date, 'format', function (format, options) {
 				'Central European Summer Time (Cf. HAEC)':'CEST',
 				'Central European Summer Time':'CEST',
 				'Central European Time':'CET',
-				'Central Standard Time (Australia)':'CST',
+				'Central Standard Time (Australia)':'ACST',
 				'Central Standard Time':'CST',
 				'Central Standard Time (North America)':'CST',
 				'Central Standard Time':'CST',
