@@ -1,4 +1,4 @@
-#**Craydent 0.5.45**#
+#**Craydent 0.6.0**#
 **by Clark Inada**
 
 
@@ -1646,18 +1646,6 @@
 
 >**Overloads:**
 
-### writeSession ###
-
->**Info:** Writes session to filesystem to be retrieved later.
-
->**Return:** (void)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
 ### xmlToJson ###
 
 >**Info:** Converts XML to JSON
@@ -1683,6 +1671,18 @@
 >**Parameters:**
 
 >>value: (Mixed) Value to make yieldable
+
+>**Overloads:**
+
+### writeSession ###
+
+>**Info:** Writes session to filesystem to be retrieved later.
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>None
 
 >**Overloads:**
 
@@ -1733,6 +1733,20 @@
 >**Overloads:**
 
 >>check_values: (Bool) Flag to remove duplicates
+
+### createIndex ###
+
+>**Info:** Array class extension to create indexes for faster searches during where
+
+>**Return:** (Array)
+
+>**Parameters:**
+
+>>properties: (String) Property or comma delimited property list to index.
+
+>**Overloads:**
+
+>>indexes: (String[]) Array of properties to index
 
 ### createServer ###
 
@@ -1890,6 +1904,20 @@
 ### insertAfter ###
 
 >**Info:** Array class extension to add to the array after a specific index
+
+>**Return:** (Bool)
+
+>**Parameters:**
+
+>>index: (Int) Index to add after
+
+>>value: (Mixed) Value to add
+
+>**Overloads:**
+
+### insertAt ###
+
+>**Info:** Array class extension to add to the array at a specific index and push the all indexes down
 
 >**Return:** (Bool)
 
@@ -2467,6 +2495,22 @@
 ---
 >>option: (RegExp) Word or phrase pattern to count in the String
 
+### every ###
+
+>**Info:** Object class extension to check property values against a function
+
+>**Return:** (Bool)
+
+>**Parameters:**
+
+>>callback: (Function) Callback to apply to each value
+
+>**Overloads:**
+
+>>callback: (Function) Callback to apply to each value
+
+>>craydent_thisObject: (Mixed) Context for the callback function
+
 ### duplicate ###
 
 >**Info:** Object class extension to copy an object including constructor
@@ -2508,22 +2552,6 @@
 >>compare: (Object) Object to compare against
 
 >>props: (String[]) Array of property values to compare against
-
-### every ###
-
->**Info:** Object class extension to check property values against a function
-
->**Return:** (Bool)
-
->**Parameters:**
-
->>callback: (Function) Callback to apply to each value
-
->**Overloads:**
-
->>callback: (Function) Callback to apply to each value
-
->>craydent_thisObject: (Mixed) Context for the callback function
 
 ### getClass ###
 
@@ -2918,6 +2946,40 @@
 >**Overloads:**
 
 ## String ##
+
+### acronymize ###
+
+>**Info:** String class extension to capitalize parts of the string
+
+>**Return:** (String)
+
+>**Parameters:**
+
+>>capsOnly: (Boolean) Flag to indicate to use capital letters only.
+
+>**Overloads:**
+
+>>match: (RegExp) Pattern to match to qualify the Acronym.
+
+---
+>>capsOnly: (Boolean) Flag to indicate to use capital letters only.
+
+>>delimiter: (String) Character that delimits the string.
+
+---
+>>match: (RegExp) Pattern to match to qualify the Acronym.
+
+>>delimiter: (String) Character that delimits the string.
+
+---
+>>capsOnly: (Boolean) Flag to indicate to use capital letters only.
+
+>>delimiter: (RegExp) RegExp pattern that delimits the string.
+
+---
+>>match: (RegExp) Pattern to match to qualify the Acronym.
+
+>>delimiter: (RegExp) RegExp pattern that delimits the string.
 
 ### capitalize ###
 
