@@ -1,15 +1,15 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.0                               /*/
-/*/	Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Craydent LLC node-v0.6.1                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
-/*/	(http://craydent.com/license)                           /*/
+/*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 
 /*----------------------------------------------------------------------------------------------------------------
- /-	Global CONSTANTS and variables
- /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.0',
+/-	Global CONSTANTS and variables
+/---------------------------------------------------------------------------------------------------------------*/
+var _craydent_version = '0.6.1',
 	__GLOBALSESSION = [];
 GLOBAL.$g = GLOBAL;
 $g.navigator = $g.navigator || {};
@@ -569,7 +569,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 	Craydent.POINTER = $c.POINTER || "default";
 	Craydent.RESPONSES = {
 		100:{"status":100,"success":true,"message":"Continue"},
-		101:{"status":101,"success":true,"message":"Swtiching Protocols"},
+		101:{"status":101,"success":true,"message":"Switching Protocols"},
 		102:{"status":102,"success":true,"message":"Processing"},
 
 		200:{"status":200,"success":true,"message":"OK"},
@@ -3949,6 +3949,39 @@ function $PUT(variable, options) {
 		logit(e);
 	}
 }
+function catchAll (callback, append) {
+	/*|{
+		"info": "Creates an catch all for exceptions in the current node service.",
+		"category": "Global",
+		"featured": true,
+		"parameters":[
+			{"callback": "(Function) Callback function to call when there is an uncaught exception"}],
+
+		"overloads":[
+			{"parameters":[
+	 			{"callback": "(Function) Callback function to call when there is an uncaught exception"},
+				{"append": "(Boolean) Options to defer, ignore case, etc"}]}],
+
+		"desciption": "This method will create, add, or replace catch all listeners.  If called multiple times with the same callback, the listener is preserved and not added unless the append argument is set to true.",
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#$PUT",
+		"returnType": "(Mixed)"
+	}|*/
+	try {
+		catchAll.listeners = catchAll.listeners || [];
+
+		// if this callback exists
+		var index = catchAll.listeners.indexOf(callback.toString());
+
+		if (index == -1 || append) {
+			process.on('uncaughtException', callback);
+		}
+		index == -1 && logit("listening for uncaught errors");
+	} catch (e) {
+		logit('$PUT');
+		logit(e);
+	}
+}
 function cout(){
 	/*|{
 		"info": "Log to console when DEBUG_MODE is true and when the console is available",
@@ -5358,20 +5391,40 @@ function xmlToJson(xml, ignoreAttributes) {
 		error('xmlToJson', e);
 	}
 }
-function yieldable(value) {
+function yieldable(value,context) {
 	/*|{
 		"info": "Makes a value yieldable via a Promise.",
 		"category": "Global",
 		"parameters":[
 			{"value": "(Mixed) Value to make yieldable"}],
 
-		"overloads":[],
+		"overloads":[
+	 		{"func": "(Function) Function to make yieldable"},
+	 		{"context": "(Mixed) Context to use to execute func."}],
 
 		"url": "http://www.craydent.com/library/1.8.1/docs#yieldable",
 		"returnType": "(Promise)"
 	}|*/
 	try {
-		return new Promise(function(res,rej){ return res(value); });
+		if (value.constructor == Function) {
+			context = context || this;
+			return function () {
+				var args = [];
+				for (var i = 0, len = arguments.length; i < len; i++) {
+					args.push(arguments[i]);
+				}
+				return new Promise(function(res){
+					args.push(function(){
+						if (arguments.length == 1) {
+							return res(arguments[0]);
+						}
+						return res(arguments);
+					});
+					value.apply(context,args);
+				});
+			};
+		}
+		return new Promise(function(res){ return res(value); });
 
 	} catch (e) {
 		error('yieldable', e);

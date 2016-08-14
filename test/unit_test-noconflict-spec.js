@@ -2025,7 +2025,7 @@ describe ('No Conflict Global methods', function () {
 			expect(errored).toBe(true);
 		});
 
-		var stage = 0,
+		var stage = 1,
 				hobj = {hitch:true},
 				ctx = {thectx:true};
 		var prm2 = $c.ajax({
@@ -2038,12 +2038,12 @@ describe ('No Conflict Global methods', function () {
 			//	console.log(arguments,'statechange');
 			//},
 			onbefore:function(request,hitch,thiz){
-				expect(stage++).toBe(0);
+				expect(stage++).toBe(1);
 				expect(hitch).toBe(hobj);
 				expect(thiz).toBe($c);
 				expect(this).toBe(ctx);
 			},
-			oncomplete:function(data,req,hitch,status_code){
+			oncomplete:function(data,hitch,req,status_code){
 				expect(stage++).toBe(4);
 				expect(hitch).toBe(hobj);
 				expect(data).toEqual(usersdata);
@@ -2057,7 +2057,7 @@ describe ('No Conflict Global methods', function () {
 			//	expect(stage++).toBe(1);
 			//	console.log(arguments,'loadstart');
 			//},
-			onsuccess:function(data,req,hitch,status_code){
+			onsuccess:function(data,hitch,req,status_code){
 				expect(stage++).toBe(2);
 				expect(hitch).toBe(hobj);
 				expect(data).toEqual(usersdata);
@@ -2072,7 +2072,7 @@ describe ('No Conflict Global methods', function () {
 			expect(status_code).toBe(200);
 		});
 
-		prm2.finally(function(data,req,hitch,status_code){
+		prm2.finally(function(data,hitch,req,status_code){
 			expect(stage++).toBe(5);
 			expect(hitch).toBe(hobj);
 			expect(data).toEqual(usersdata);
@@ -2244,35 +2244,55 @@ describe ('No Conflict Global methods', function () {
 		expect($c.suid().length).toBe(10);
 		expect($c.suid(5).length).toBe(5);
 	});
-	it('syncoit',function(){
-		$c.syncroit(function *() {
-			var resolve = true;
-			function testPromise(){
-				return new Promise(function(res,rej){
-					if (resolve) { return res({resolve:resolve}); }
-					return rej({resolve:resolve});
-				});
-			}
-			expect(yield testPromise()).toEqual({resolve:true});
+	describe("syncroit async test",function(){
+		var result = [];
+		beforeEach(function (done) {
+			$c.syncroit(function *() {
+				var resolve = true;
 
-			resolve = false;
-			expect(yield testPromise()).toEqual({resolve:false});
+				function testPromise() {
+					return new Promise(function (res, rej) {
+						if (resolve) {
+							return res({resolve: resolve});
+						}
+						return rej({resolve: resolve});
+					});
+				}
 
-			expect(yield $c.ajax("http://www.craydent.com/test/users.js")).toEqual({ users:
-					[ { username: 'mtglass', name: 'Mark Glass', age: 10 },
-						{ username: 'urdum', name: 'Ursula Dumfry', age: 10 },
-						{ username: 'hydere', name: 'Henry Dere', age: 10 },
-						{ username: 'cumhere', name: 'Cass Umhere', age: 10 },
-						{ username: 'bstill', name: 'Bob Stillman', age: 10 },
-						{ username: 'cirfuksalot', name: 'Camron', age: 10 },
-						{ username: 'chadden', name: 'Corey Hadden', age: 30 },
-						{ username: 'squeeb', name: 'Joseph Esquibel', age: 32 },
-						{ username: 'cinada', name: 'Clark Inada', age: 31 },
-						{ username: 'shurliezalot', name: 'Josh N', age: 10 },
-						{ username: 'noze_nutin', name: 'Mai Boss', age: 10 },
-						{ username: 'czass', name: 'Cater Zass', age: 10 },
-						{ username: 'awesome_game', name: 'clash of clans', age: 21 }]});
+				result.push(yield testPromise());
+
+				resolve = false;
+				result.push(yield testPromise());
+				result.push(yield $c.ajax("http://www.craydent.com/test/users.js"));
+				done();
+
+			});
 		});
+		it('syncoit',function(){
+			var shouldbe = [
+				{resolve: true},
+				{resolve: false},
+				{
+					users: [{username: 'mtglass', name: 'Mark Glass', age: 10},
+						{username: 'urdum', name: 'Ursula Dumfry', age: 10},
+						{username: 'hydere', name: 'Henry Dere', age: 10},
+						{username: 'cumhere', name: 'Cass Umhere', age: 10},
+						{username: 'bstill', name: 'Bob Stillman', age: 10},
+						{username: 'cirfuksalot', name: 'Camron', age: 10},
+						{username: 'chadden', name: 'Corey Hadden', age: 30},
+						{username: 'squeeb', name: 'Joseph Esquibel', age: 32},
+						{username: 'cinada', name: 'Clark Inada', age: 31},
+						{username: 'shurliezalot', name: 'Josh N', age: 10},
+						{username: 'noze_nutin', name: 'Mai Boss', age: 10},
+						{username: 'czass', name: 'Cater Zass', age: 10},
+						{username: 'awesome_game', name: 'clash of clans', age: 21}]
+				}
+			];
+			for (var i = 0, len = result.length; i < len; i++) {
+				expect(result[i]).toEqual(shouldbe[i]);
+			}
+		});
+
 	});
 	it('tryEval',function(){
 		expect($c.tryEval("{}")).toEqual({});
