@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.1                                /*/
+/*/ Craydent LLC node-v0.6.2                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,9 +9,9 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.1',
+var _craydent_version = '0.6.2',
 	__GLOBALSESSION = [];
-GLOBAL.$g = GLOBAL;
+global.$g = global;
 $g.navigator = $g.navigator || {};
 function __isNewer(loadedVersion, thisVersion){
 	if (loadedVersion[0] == thisVersion[0]) {
