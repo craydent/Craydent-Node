@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.2                                /*/
+/*/ Craydent LLC node-v0.6.3                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.2',
+var _craydent_version = '0.6.3',
 	__GLOBALSESSION = [];
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -1254,11 +1254,13 @@ function __contextualizeMethods (ctx) {
 		ctx.Set = Set;
 		ctx.addObjectPrototype = addObjectPrototype;
 		ctx.ajax = ajax;
+		ctx.catchAll = catchAll;
 		ctx.cout = cout;
 		ctx.createServer = createServer;
 		ctx.cuid = cuid;
 		ctx.emit = emit;
 		ctx.error = error;
+		ctx.exclude = exclude;
 		ctx.fillTemplate = fillTemplate;
 		ctx.foo = foo;
 		ctx.include = include;
@@ -1615,7 +1617,7 @@ function __parseSetExpr (doc,expr,field) {
 					if (!$c.isArray(set1) || !$c.isArray(set2)){
 						//noinspection ExceptionCaughtLocallyJS
 						throw "Exception: All operands of $setEquals must be arrays. One argument is of type: " +
-						(typeof (!$c.isArray(set1) ? set1 : set2)).captialize();
+						$c.capitalize(typeof (!$c.isArray(set1) ? set1 : set2));
 					}
 					$c.toSet(set1);
 					$c.toSet(set2);
@@ -1630,14 +1632,14 @@ function __parseSetExpr (doc,expr,field) {
 					errorMessage = "Exception: All operands of $setIntersection must be arrays. One argument is of type: ";
 				if(!$c.isArray(rtnSet)) {
 					//noinspection ExceptionCaughtLocallyJS
-					throw errorMessage + (typeof rtnSet).captialize();
+					throw errorMessage + $c.capitalize((typeof rtnSet));
 				}
 				$c.toSet(rtnSet);
 				while (exp = expr[field][i++]) {
 					var set1 = $c.duplicate(__processExpression(doc, exp));
 					if (!$c.isArray(set1)){
 						//noinspection ExceptionCaughtLocallyJS
-						throw errorMessage + + (typeof set1).captialize();
+						throw errorMessage + $c.capitalize(typeof set1);
 					}
 					$c.toSet(set1);
 					if (set1.length < rtnSet.length) {
@@ -1656,13 +1658,13 @@ function __parseSetExpr (doc,expr,field) {
 					errorMessage = "Exception: All operands of $setUnion must be arrays. One argument is of type: ";
 				if(!$c.isArray(rtnSet)) {
 					//noinspection ExceptionCaughtLocallyJS
-					throw errorMessage + (typeof rtnSet).captialize();
+					throw errorMessage + $c.capitalize(typeof rtnSet);
 				}
 				while (exp = expr[field][i++]) {
 					var arr = $c.duplicate(__processExpression(doc, exp));
 					if (!$c.isArray(arr)){
 						//noinspection ExceptionCaughtLocallyJS
-						throw errorMessage + + (typeof arr).captialize();
+						throw errorMessage + $c.capitalize(typeof arr);
 					}
 					rtnSet = rtnSet.concat(arr);
 				}
@@ -1674,7 +1676,7 @@ function __parseSetExpr (doc,expr,field) {
 				if (!$c.isArray(arr1) || !$c.isArray(arr2)){
 					//noinspection ExceptionCaughtLocallyJS
 					throw "Exception: All operands of $setEquals must be arrays. One argument is of type: " +
-						(typeof (!$c.isArray(arr1) ? arr1 : arr2)).captialize();
+						$c.capitalize(typeof (!$c.isArray(arr1) ? arr1 : arr2));
 				}
 				for (var jlen = arr1.length; j < jlen; j++) {
 					var st = arr1[j];
@@ -1690,7 +1692,7 @@ function __parseSetExpr (doc,expr,field) {
 				if (!$c.isArray(arr1) || !$c.isArray(arr2)){
 					//noinspection ExceptionCaughtLocallyJS
 					throw "Exception: All operands of $setEquals must be arrays. One argument is of type: " +
-						(typeof (!$c.isArray(arr1) ? arr1 : arr2)).captialize();
+						$c.capitalize(typeof (!$c.isArray(arr1) ? arr1 : arr2));
 				}
 				return $c.isSubset(arr1,arr2);
 			case "$anyElementTrue":
@@ -4430,6 +4432,39 @@ function error(fname, e) {
 		$c.DEBUG_MODE && cout("Error in " + fname + "\n" + (e.description || e), e, e.stack);
 	} catch (e) {
 		cout("Error in " + fname + "\n" + (e.description || e));
+	}
+}
+function exclude(list) {
+	/*|{
+		"info": "Exclude prototyping",
+		"category": "Global",
+		"parameters":[
+			{"list": "(String[]) Array of strings in containing the property to exclude from prototyping."}],
+
+		"overloads":[],
+		"description": "This method enables the ability exclude prototyping on a specific property or property to a specific class.  The format for the string is a single property such as 'map' or property on a specific class 'Array:map'.",
+		"url": "http://www.craydent.com/library/1.8.1/docs#exclude",
+		"returnType": "(void)"
+	}|*/
+	try {
+		list = list || [];
+		for (var i = 0, len = list.length; i < len; i++) {
+			var name = list[i] || "";
+			if (name.indexOf(':') != -1) {
+				var parts = name.split(':');
+				delete $w[$c.capitalize((parts[0] || "").toLowerCase())];
+				continue;
+			}
+
+			delete Array.prototype[name];
+			delete Function.prototype[name];
+			delete String.prototype[name];
+			delete Number.prototype[name];
+			delete Boolean.prototype[name];
+			delete Date.prototype[name];
+		}
+	} catch (e) {
+		error('cuid', e);
 	}
 }
 function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
