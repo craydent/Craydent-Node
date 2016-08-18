@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.3                                /*/
+/*/ Craydent LLC node-v0.6.4                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.3',
+var _craydent_version = '0.6.4',
 	__GLOBALSESSION = [];
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -1255,6 +1255,7 @@ function __contextualizeMethods (ctx) {
 		ctx.addObjectPrototype = addObjectPrototype;
 		ctx.ajax = ajax;
 		ctx.catchAll = catchAll;
+		ctx.clusterit = clusterit;
 		ctx.cout = cout;
 		ctx.createServer = createServer;
 		ctx.cuid = cuid;
@@ -3984,6 +3985,49 @@ function catchAll (callback, append) {
 		logit(e);
 	}
 }
+function clusterit(callback){
+	/*|{
+		"info": "Enable clustering",
+		"category": "Global",
+		"parameters":[
+			{"callback": "Method to call for Workers.  Callback is passed the cluster object as an argument."}],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.8.1/docs#clusterit",
+		"returnType": "(void)"
+	}|*/
+	try {;
+		const cluster = require('cluster');
+		const numCPUs = require('os').cpus().length;
+
+		if (cluster.isMaster) {
+			// Fork workers.
+			for (var i = 0; i < numCPUs; i++) {
+				cluster.fork();
+			}
+
+			return cluster;
+
+		} else {
+			callback(cluster);
+		}
+		return {
+			isMaster: false,
+			disconnect: $c.foo,
+			fork: $c.foo,
+			isWorker:true,
+			schedulingPolicy: 0,
+			settings: {},
+			setupMaster: $c.foo,
+			worker:{},
+			workers:{},
+			on: $c.foo
+		}
+	} catch (e) {
+		error('clusterit', e);
+	}
+}
 function cout(){
 	/*|{
 		"info": "Log to console when DEBUG_MODE is true and when the console is available",
@@ -5426,7 +5470,7 @@ function xmlToJson(xml, ignoreAttributes) {
 		error('xmlToJson', e);
 	}
 }
-function yieldable(value,context) {
+function yieldable(value,context,callbackIndex) {
 	/*|{
 		"info": "Makes a value yieldable via a Promise.",
 		"category": "Global",
@@ -5434,8 +5478,18 @@ function yieldable(value,context) {
 			{"value": "(Mixed) Value to make yieldable"}],
 
 		"overloads":[
-	 		{"func": "(Function) Function to make yieldable"},
-	 		{"context": "(Mixed) Context to use to execute func."}],
+	 		{"parameters":[
+				{"func": "(Function) Function to make yieldable"},
+				{"context": "(Mixed) Context to use to execute func."}]},
+
+			{"parameters":[
+				{"func": "(Function) Function to make yieldable"},
+				{"callbackIndex": "(Integer) Index of callback argument."}]},
+
+			{"parameters":[
+				{"func": "(Function) Function to make yieldable"},
+				{"context": "(Mixed) Context to use to execute func."},
+				{"callbackIndex": "(Integer) Index of callback argument."}]}],
 
 		"url": "http://www.craydent.com/library/1.8.1/docs#yieldable",
 		"returnType": "(Promise)"
@@ -5449,12 +5503,16 @@ function yieldable(value,context) {
 					args.push(arguments[i]);
 				}
 				return new Promise(function(res){
-					args.push(function(){
-						if (arguments.length == 1) {
-							return res(arguments[0]);
-						}
-						return res(arguments);
-					});
+					if ($c.isNull(callbackIndex)) {
+						args.push(function () {
+							if (arguments.length == 1) {
+								return res(arguments[0]);
+							}
+							return res(arguments);
+						});
+					} else {
+						$c.insertAt(args, callbackIndex);
+					}
 					value.apply(context,args);
 				});
 			};
