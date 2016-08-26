@@ -1,4 +1,4 @@
-#**Craydent 0.6.0**#
+#**Craydent 0.6.5**#
 **by Clark Inada**
 
 
@@ -551,6 +551,22 @@
 
 >>options: (Object) Options to defer, ignore case, etc
 
+### catchAll ###
+
+>**Info:** Creates an catch all for exceptions in the current node service.
+
+>**Return:** (Mixed)
+
+>**Parameters:**
+
+>>callback: (Function) Callback function to call when there is an uncaught exception
+
+>**Overloads:**
+
+>>callback: (Function) Callback function to call when there is an uncaught exception
+
+>>append: (Boolean) Options to defer, ignore case, etc
+
 ### zipit ###
 
 >**Info:** Download a zip of files from file contents
@@ -940,6 +956,18 @@
 
 >>returnData: (String) Specifies which data to return when using Promise pattern
 
+### clusterit ###
+
+>**Info:** Enable clustering
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>callback: Method to call for Workers.  Callback is passed the cluster object as an argument.
+
+>**Overloads:**
+
 ### cout ###
 
 >**Info:** Log to console when DEBUG_MODE is true and when the console is available
@@ -1019,6 +1047,18 @@
 >>fname: (String) The function name the error was thrown
 
 >>e: (Error) Exception object thrown
+
+>**Overloads:**
+
+### exclude ###
+
+>**Info:** Exclude prototyping
+
+>**Return:** (void)
+
+>**Parameters:**
+
+>>list: (String[]) Array of strings in containing the property to exclude from prototyping.
 
 >**Overloads:**
 
@@ -1673,6 +1713,22 @@
 >>value: (Mixed) Value to make yieldable
 
 >**Overloads:**
+
+>>func: (Function) Function to make yieldable
+
+>>context: (Mixed) Context to use to execute func.
+
+---
+>>func: (Function) Function to make yieldable
+
+>>callbackIndex: (Integer) Index of callback argument.
+
+---
+>>func: (Function) Function to make yieldable
+
+>>context: (Mixed) Context to use to execute func.
+
+>>callbackIndex: (Integer) Index of callback argument.
 
 ### writeSession ###
 
@@ -2495,22 +2551,6 @@
 ---
 >>option: (RegExp) Word or phrase pattern to count in the String
 
-### every ###
-
->**Info:** Object class extension to check property values against a function
-
->**Return:** (Bool)
-
->**Parameters:**
-
->>callback: (Function) Callback to apply to each value
-
->**Overloads:**
-
->>callback: (Function) Callback to apply to each value
-
->>craydent_thisObject: (Mixed) Context for the callback function
-
 ### duplicate ###
 
 >**Info:** Object class extension to copy an object including constructor
@@ -2552,6 +2592,22 @@
 >>compare: (Object) Object to compare against
 
 >>props: (String[]) Array of property values to compare against
+
+### every ###
+
+>**Info:** Object class extension to check property values against a function
+
+>**Return:** (Bool)
+
+>**Parameters:**
+
+>>callback: (Function) Callback to apply to each value
+
+>**Overloads:**
+
+>>callback: (Function) Callback to apply to each value
+
+>>craydent_thisObject: (Mixed) Context for the callback function
 
 ### getClass ###
 

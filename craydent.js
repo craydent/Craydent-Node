@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.4                                /*/
+/*/ Craydent LLC node-v0.6.5                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.4',
+var _craydent_version = '0.6.5',
 	__GLOBALSESSION = [];
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -302,6 +302,13 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 			cray.server = http;
 			$c.GarbageCollector = [];
 			if (request.url == '/favicon.ico') {
+				response.writeHead(200, { "Content-Type" : "image/x-icon" });
+				if (options.favicon) {
+					try {
+						response.write(fs.readFileSync(options.favicon));
+					} catch (e) {}
+				}
+				response.end();
 				return;
 			}
 			function onRequestReceived(methods, body) {
@@ -3439,7 +3446,7 @@ function ajax(params, returnData){
 		if ($c.isString(params)) {
 			params = { url : params };
 		}
-		var need_to_shard = false, browser_url_limit = 1500, query, url, rtn;
+		var need_to_shard = false, browser_url_limit = 1500, query, url, rtn, alwaysResolve = params.alwaysResolve === false ?  false : true;
 		params.dataType = params.dataType || 'json';
 		params.hitch = params.hitch || "";
 		params.onbefore = params.onbefore || [foo];
@@ -3467,6 +3474,10 @@ function ajax(params, returnData){
 		}
 		if (!$c.isArray(params.onsuccess)) {
 			params.onsuccess = [params.onsuccess];
+		}
+
+		if (params.onsuccess.length > 1 || params.onsuccess[0] == foo) {
+			alwaysResolve = params.alwaysResolve || false;
 		}
 		// commented line below is a valid parameter value
 		/*
@@ -3572,10 +3583,10 @@ function ajax(params, returnData){
 						if (params.dataType.toLowerCase() == 'json') {
 							body.data = $c.tryEval(body.data, JSON.parse) || body.data;
 						}
-
+						var resrej = alwaysResolve ? resolve : reject;
 						_run_func_array.call(ctx, params.onerror, [body.data, params.hitch, this, res.statusCode]);
 						_run_func_array.call(ctx, params.oncomplete, [body.data, params.hitch, this, res.statusCode]);
-						reject(body.data);
+						resrej(body.data);
 					});
 					res.on('end', function () {
 						if (params.dataType.toLowerCase() == 'json') {
@@ -3602,7 +3613,8 @@ function ajax(params, returnData){
 					if (e.errno != "ETIMEDOUT") {
 						_run_func_array.call(req, params.onerror, [null, params.hitch, this, e.code]);
 						_run_func_array.call(req, params.oncomplete, [null, params.hitch, this, e.code]);
-						return reject(e);
+						var resrej = alwaysResolve ? resolve : reject;
+						return resrej(e);
 					}
 					logit(e);
 				});
@@ -3616,7 +3628,8 @@ function ajax(params, returnData){
 					e.errno = "ETIMEDOUT";
 					e.message = 'connect ETIMEDOUT ' + params.host;
 					e.port = params.port;
-					reject(e);
+					var resrej = alwaysResolve ? resolve : reject;
+					resrej(e);
 				});
 				req.write(($c.isObject(params.data) ? JSON.stringify(params.data) : params.data) || '');
 				req.end();
@@ -3630,14 +3643,17 @@ function ajax(params, returnData){
 		if (params.onsuccess.length == 1 && params.onsuccess[0] !== foo) {
 			prms._then = prms.then || foo;
 			prms.then = function (res, rej) { //noinspection CommaExpressionJS
+				alwaysResolve = params.alwaysResolve || false;
 				params.onsuccess.push(res);
 				params.onerror.push(rej);
 				return this;
 			};
 		}
 		prms.otherwise = function (callback) { //noinspection CommaExpressionJS
+			alwaysResolve = params.alwaysResolve || false;
 			return params.onerror.push(callback),this; };
 		prms['finally'] = function (callback) { //noinspection CommaExpressionJS
+			alwaysResolve = params.alwaysResolve || false;
 			return params.oncomplete.push(callback),this; };
 		return prms;
 	} catch (e) {
@@ -4075,7 +4091,17 @@ function createServer (callback, options) {
 		cray.server = http;
 		$c.GarbageCollector = [];
 		if (request.url == '/favicon.ico') {
-			return;
+			var code = 404;
+			if (options.favicon) {
+				try {
+					code = 200;
+					response.write(fs.readFileSync(options.favicon));
+				} catch (e) {
+					code = 500;
+				}
+			}
+			response.writeHead(code, { "Content-Type" : "image/x-icon" });
+			return response.end();
 		}
 		function onRequestReceived(methods, body) {
 			try {
