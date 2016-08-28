@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.5                                /*/
+/*/ Craydent LLC node-v0.6.9                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.5',
+var _craydent_version = '0.6.9',
 	__GLOBALSESSION = [];
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -84,6 +84,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		this.isBlackBerry = isBlackBerry;
 		this.isPalmOS = isPalmOS;
 		this.isSymbian = isSymbian;
+		this.isMobile = isMobile;
 		this.isWebkit = isWebkit;
 		this.isAmaya = isAmaya;
 		this.isGecko = isGecko;
@@ -277,277 +278,6 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		return this;
 	}
 
-	Craydent.createServer = function (callback, options) {
-	/*|{
-		"info": "Array class extension to do an inner join on arrays",
-		"category": "Array",
-		"parameters":[
-			{"callback": "(Function) Function to callback when a request is received"}],
-
-		"overloads":[{
-			"parameters":[
-				{"callback": "(Function) Function to callback when a request is received"},
-				{"createServer": "(Object) Options for creating the server (ex: {createServer:require('http').createServer})"}]}],
-
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
-		"returnType": "(Server)"
-	}|*/
-		if (!callback || $c.isObject(callback)) {
-			options = callback;
-			callback = foo;
-		}
-		options = options || {};
-		var http = (options.createServer || require('http').createServer)(function (request, response) {
-			var cray = new Craydent(request, response);
-			cray.server = http;
-			$c.GarbageCollector = [];
-			if (request.url == '/favicon.ico') {
-				response.writeHead(200, { "Content-Type" : "image/x-icon" });
-				if (options.favicon) {
-					try {
-						response.write(fs.readFileSync(options.favicon));
-					} catch (e) {}
-				}
-				response.end();
-				return;
-			}
-			function onRequestReceived(methods, body) {
-				try {
-					body = body || {};
-					var url = $c.strip(request.url.split(/[?#]/)[0],'/'), params = $c.merge(body, cray.$GET() || {}), haveRoutes = false;
-
-					if (!$c.equals(params,{})) {
-						cray.callback = params.callback || "";
-						delete params.callback;
-					}
-					var routes = $c.where(http.routes,{method:{$in:methods}});
-					var i = 0, route, execute = [];
-					while (route = routes[i++]) {
-						cray.rest = haveRoutes = true;
-
-						var cbs = route.callback;
-						if (route.path != "/*" && route.path != "*") {
-							var rout_parts = $c.condense($c.strip(route.path,"*").split('/')),
-								requ_parts = url.split('/'), vars = {};
-
-							if (rout_parts.length > requ_parts.length + $c.itemCount(params)) {
-								continue;
-							}
-							rout_parts = $c.condense(route.path.split('/'))
-
-							var var_regex = /\$\{(.*?)\}/;
-							for (var k = 0, l = 0, klen = Math.max(rout_parts.length, requ_parts.length); k < klen; k++, l++) {
-								var ro = rout_parts[k], re = decodeURIComponent($c.replace_all(requ_parts[l],'+', '%20')), prop = (ro || "").replace(var_regex, '$1'),
-									qVal = params[prop], no_route = false;
-								if (ro == "*") {
-									break;
-								}
-								if (var_regex.test(ro)) {
-									if (qVal) {
-										qVal = decodeURIComponent($c.replace_all(qVal,'+', '%20'));
-										vars[prop] = $c.tryEval(qVal) || qVal;
-										l--;
-										continue;
-									}
-									vars[prop] = $c.tryEval(re) || re;
-								} else if (ro != re) {
-									no_route = true;
-									break;
-								}
-							}
-						}
-						if (!no_route) {
-							for (var prop in params) {
-								if (!params.hasOwnProperty(prop)) { continue; }
-								var val = vars[prop] || params[prop], obj;
-								vars[prop] = isNull(params[prop]) ? undefined : ($c.isString(val) ? decodeURIComponent($c.replace_all(val,'+', '%20')) : val);
-
-								obj = $c.tryEval(vars[prop],JSON.parse) || vars[prop];
-								// this is probably a date
-								if ($c.isNumber(obj) && obj.toString() != vars[prop]) {
-									continue;
-								}
-								vars[prop] = obj;
-							}
-							var parameters = route.parameters || [],
-								p = 0, parameter, bad = [];
-							while (parameter = parameters[p++]) {
-								var name = parameter.name, type = (parameter.type || "").toLowerCase();
-								if (parameter.required && isNull(vars[name])) {
-									bad.push("Required parameter " + name + " was not provided.");
-									continue;
-								}
-								vars[name] = vars[name] || parameter.default;
-								if (type == "string") { continue; }
-								if (type == "date") {
-									var dt = new Date(vars[name]);
-									if ($c.isValidDate(dt)) {
-										vars[name] = dt;
-									} else {
-										bad.push("Invalid parameter type, " + name + " must be a " + type + ".");
-									}
-									continue;
-								}
-
-								if (type && type != "string") {
-									if (type == "regexp") { type = "RegExp"; }
-									var checker = "is"+type.capitalize(), value = $c.tryEval(vars[name],JSON.parse);
-
-									if(!$c[checker](value) && !$c[checker](vars[name])) {
-										var an = type[0] in {a:1,e:1,i:1,o:1,u:1} ? "an" : "a";
-										bad.push("Invalid parameter type, " + name + " must be " + an + " " + type + ".");
-										continue;
-									}
-									vars[name] = value || vars[name];
-								}
-							}
-							if (bad.length) { return cray.send({errors: bad}); }
-							var c = 0, cb;
-							while (cb = cbs[c++]) {
-								execute.push(cb);
-								execute['v' + c] = vars;
-							}
-						}
-					}
-					if (execute.length) {
-
-						function setUpNext (exec, i) {
-							i++;
-							if ($c.isFunction(exec[0])) {
-								return function() {
-									exec[0] && exec[0].call(cray, request, response, execute['v' + i],setUpNext(exec.slice(1), i));
-								}
-							}
-							if ($c.isGenerator(exec[0])) {
-								return eval("function* () {exec[0] && exec[0].call(cray, request, response, execute['v' + i], setUpNext(exec.slice(1), i));}");
-							}
-						}
-						if ($c.isGenerator(execute[0])) {
-							eval("$c.syncroit(function*(){_complete(yield* execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1)));});");
-						} else {
-							_complete(execute[0].call(cray, request, response, execute['v1'],setUpNext(execute.slice(1), 1)));
-						}
-
-
-					} else { _complete(); }
-
-					function _complete(value) {
-						if (haveRoutes && callback == foo) {
-							return cray.send(404, cray.RESPONSES["404"]);
-						}
-
-
-						// look for other node apps
-						if (url.indexOf(':') != -1) {
-							var parts = url.split(':'),
-								appPath = parts[0],
-								sindex = parts[1].indexOf('/') != -1 ? parts[1].indexOf('/') : 0,
-								port = parts[1].substring(0, sindex),
-								path = $c.strip(parts[1].substring(sindex),'/'),
-								callingPath = process.cwd();
-							if (callingPath.indexOf('\\') != -1) { callingPath = callingPath.replace(/\\/g, '/'); }
-							appPath = callingPath + "/" + appPath;
-							var app = include(appPath) || {};
-							if (!process.listeners('uncaughtException').length) {
-								logit("listening for uncaught errors");
-								process.on('uncaughtException', function (err) {
-									if (err.errno === 'EADDRINUSE') { console.error('caught address in use'); }
-									else { console.error(err); }
-									console.error(err, err.stack);
-								});
-							}
-							if (app.port || port) {
-								app.port = app.port || parseInt(port);
-								var query = request.url.split('?')[1] || "";
-								query && (query = "?" + query);
-								return require('http').get("http://localhost:" + app.port + "/" + path + query).on('response', function (response) {
-									var body = '';
-									response.on('data', function (chunk) { body += chunk; });
-									response.on('end', function () { cray.end(body); });
-								});
-							}
-						}
-						cray.echo.out = "";
-
-						var val = callback.call(cray, request, response);
-						value = $c.isNull(val) ? value : val;
-
-						if (!value && !cray.DEFER_END) { cray.send(404, cray.RESPONSES["404"]); }
-						if (value && !cray.response_sent) { cray.send(value); }
-
-					}
-				} catch (e) {
-					logit(e);
-					response.writeHead(500, header.headers);
-					return cray.end(JSON.stringify(cray.RESPONSES["500"]));
-					throw e;
-				} finally {
-
-				}
-			}
-
-			if (/delete|post|put/i.test(request.method)) {
-				var body = "";
-				request.on('data', function (data) {
-					body += data;
-					// 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
-					if (body.length > 1e6) {
-						// FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
-						request.connection.destroy();
-					}
-				});
-				request.on('end', function () {
-					cray.raw = body;
-					if (request.method == "POST") { body = cray.$PAYLOAD(); }
-					var ct = cray.$HEADER('content-type','i') || "";
-					if (ct.indexOf('/json') != -1) {
-						body = $c.tryEval(body);
-
-					} else if (ct.indexOf('/x-www-form-urlencoded') != -1 || ct.indexOf('text/plain') != -1) {
-						body = $c.toObject(body);
-					}
-					onRequestReceived(["all", request.method.toLowerCase(),"middleware"], body);
-				});
-			} else {
-				onRequestReceived(["all", "get","middleware"]);
-			}
-		});
-		http.loadBalance = function (ips) {
-			var list = ips.isString() ? ips.split(',') : ips
-			$c.BALANCE_SERVER_LIST = list;
-
-			if ($c.isArray(list)) {
-				var ip, i = 0;
-				while (ip = list[i++]) {
-					if (!/^\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3}$/.test(ip)) { break; }
-					if (i == len) { return this; }
-				}
-			}
-			throw "parameter must be a string or an array of ip addresses";
-		};
-
-		http.routes = [];
-		http.use = function(path, callback){
-			if ($c.isFunction(path) && !callback) {
-				callback = path;
-				path = '/*';
-			}
-			callback = callback || [];
-			if($c.isFunction(callback)) { callback = [callback]; }
-			http.routes.push({path: path, callback: callback,method:'middleware'});
-		};
-		if ($c.EXPOSE_ROUTE_API && $c.ROUTE_API_PATH) {
-			var api_path_config = {path: $c.ROUTE_API_PATH, callback: [__rest_docs]};
-			http.routes.get.push(api_path_config);
-			http.routes.post.push(api_path_config);
-		}
-		http.delete = function (path, callback) { __set_path("delete",http,path,callback); };
-		http.get = function (path, callback) { __set_path("get",http,path,callback); };
-		http.post = function (path, callback) { __set_path("post",http,path,callback); };
-		http.put = function (path, callback) { __set_path("put",http,path,callback); };
-		http.all = function (path, callback) { __set_path("all",http,path,callback); };
-		return http;
-	};
 	Craydent.globalize = function () {
 	/*|{
 		"info": "Module method to globalize functions",
@@ -556,7 +286,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.innerJoin",
 		"returnType": "(Array)"
 	}|*/
 		try {
@@ -2215,7 +1945,7 @@ function __universal_trim(chars) {
 			{"parameters":[
 				{"character": "(Char[]) Character to remove in the String"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#String.trim",
+		"url": "http://www.craydent.com/library/1.9.2/docs#String.trim",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -2490,7 +2220,7 @@ function _endsWith () {
 			{"parameters":[
 				{"arr": "(String[]) An array of strings to check"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.endsWith",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.endsWith",
 		"returnType": "(Mix)"
 	}|*/
 	try {
@@ -2634,7 +2364,7 @@ function _indexOfAlt(value,option) {
 				{"regex": "(RegExp) Regular expression to check value against"},
 				{"pos": "(Int) Index offset to start"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.indexOfAlt",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.indexOfAlt",
 		"returnType": "(Integer)"
 	}|*/
 
@@ -2921,7 +2651,7 @@ function _startsWith () {
 			{"parameters":[
 				{"arr": "(String[]) An array of strings to check"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.startsWith",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.startsWith",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -3081,7 +2811,7 @@ function _toCurrencyNotation(sep) {
 			{"parameters":[
 			{"separator": "(Char) Character to use as delimiter"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#String.toCurrencyNotation",
+		"url": "http://www.craydent.com/library/1.9.2/docs#String.toCurrencyNotation",
 		"returnType": "(String)"
 	}|*/
 	sep = sep || ",";
@@ -3204,7 +2934,7 @@ function addObjectPrototype(name, fn, override) {
 			{"fn": "(Function) method implementation"},
 			{"override": "(Bool) if true, override the previously defined prototype"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#addObjectPrototype",
+		"url": "http://www.craydent.com/library/1.9.2/docs#addObjectPrototype",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -3255,7 +2985,7 @@ function Benchmarker() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#Benchmarker",
+		"url": "http://www.craydent.com/library/1.9.2/docs#Benchmarker",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -3288,7 +3018,7 @@ function Cursor (records) {
 			{"parameters":[
 			{"records": "(Object) Object used to create the iterator to iterate each property"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#Cursor",
+		"url": "http://www.craydent.com/library/1.9.2/docs#Cursor",
 		"returnType": "(Cursor)"
 	}|*/
 	try {
@@ -3341,7 +3071,7 @@ function OrderedList (records,sorter)  {
 				{"records": "(Array) Array used to create the initial items in the ordered list"},
 				{"sorter": "(Function) Function for sorting logic"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#OrderedList",
+		"url": "http://www.craydent.com/library/1.9.2/docs#OrderedList",
 		"returnType": "(OrderedList)"
 	}|*/
 	try {
@@ -3371,7 +3101,7 @@ function Queue (records) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#Queue",
+		"url": "http://www.craydent.com/library/1.9.2/docs#Queue",
 		"returnType": "(Queue)"
 	}|*/
 	try {
@@ -3395,7 +3125,7 @@ function Set (records) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#Set",
+		"url": "http://www.craydent.com/library/1.9.2/docs#Set",
 		"returnType": "(Set)"
 	}|*/
 	try {
@@ -3439,7 +3169,7 @@ function ajax(params, returnData){
 				 {"params": "(Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"},
 				 {"returnData": "(String) Specifies which data to return when using Promise pattern"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#ajax",
+		"url": "http://www.craydent.com/library/1.9.2/docs#ajax",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -3690,7 +3420,7 @@ function $COOKIE(key, value, options) {
 				{"value": "(String) Value to store"},
 				{"option": "(Object) Specify path and/or expiration of cookie"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$COOKIE",
+		"url": "http://www.craydent.com/library/1.9.2/docs#$COOKIE",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -3763,7 +3493,7 @@ function $DELETE(variable, options) {
 				{"key": "(String) key for query value"},
 				{"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$DELETE",
+		"url": "http://www.craydent.com/library/1.9.2/docs#$DELETE",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -3787,7 +3517,7 @@ function $DEL () {
 				{"key": "(String) key for query value"},
 				{"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$DELETE",
+		"url": "http://www.craydent.com/library/1.9.2/docs#$DELETE",
 		"returnType": "(Mixed)"
 	}|*/
 	return $DELETE.apply(this,arguments);
@@ -3806,7 +3536,7 @@ function $GET(variable, options) {
 				{"key": "(String) key for query value"},
 				{"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$GET",
+		"url": "http://www.craydent.com/library/1.9.2/docs#$GET",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -3875,7 +3605,7 @@ function $HEADER(variable, options) {
 				{"key": "(String) key for query value"},
 				{"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$HEADER",
+		"url": "http://www.craydent.com/library/1.9.2/docs#$HEADER",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -3910,7 +3640,7 @@ function $PAYLOAD(variable, options) {
 				{"key": "(String) key for query value"},
 				{"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$PAYLOAD",
+		"url": "http://www.craydent.com/library/1.9.2/docs#$PAYLOAD",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -3934,7 +3664,7 @@ function $POST(variable, options) {
 				{"key": "(String) key for query value"},
 				{"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$POST",
+		"url": "http://www.craydent.com/library/1.9.2/docs#$POST",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -3958,7 +3688,7 @@ function $PUT(variable, options) {
 				{"key": "(String) key for query value"},
 				{"options": "(Object) Options to defer, ignore case, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$PUT",
+		"url": "http://www.craydent.com/library/1.9.2/docs#$PUT",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -3983,7 +3713,7 @@ function catchAll (callback, append) {
 
 		"desciption": "This method will create, add, or replace catch all listeners.  If called multiple times with the same callback, the listener is preserved and not added unless the append argument is set to true.",
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#$PUT",
+		"url": "http://www.craydent.com/library/1.9.2/docs#$PUT",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -4010,7 +3740,7 @@ function clusterit(callback){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#clusterit",
+		"url": "http://www.craydent.com/library/1.9.2/docs#clusterit",
 		"returnType": "(void)"
 	}|*/
 	try {;
@@ -4053,7 +3783,7 @@ function cout(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#cout",
+		"url": "http://www.craydent.com/library/1.9.2/docs#cout",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -4078,7 +3808,7 @@ function createServer (callback, options) {
 				{"callback": "(Function) Function to callback when a request is received"},
 				{"createServer": "(Object) Options for creating the server (ex: {createServer:require('http').createServer})"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#createServer",
+		"url": "http://www.craydent.com/library/1.9.2/docs#createServer",
 		"returnType": "(Server)"
 	}|*/
 	if (!callback || $c.isObject(callback)) {
@@ -4260,11 +3990,21 @@ function createServer (callback, options) {
 					}
 					cray.echo.out = "";
 
-					var val = callback.call(cray, request, response);
-					value = $c.isNull(val) ? value : val;
+					function _cleanup (val) {
+						value = $c.isNull(val) ? value : val;
 
-					if (!value && !cray.DEFER_END) { cray.send(404, cray.RESPONSES["404"]); }
-					if (value && !cray.response_sent) { cray.send(value); }
+						if (!value && !cray.DEFER_END) {
+							cray.send(404, cray.RESPONSES["404"]);
+						}
+						if (value && !cray.response_sent) {
+							cray.send(value);
+						}
+					}
+					if ($c.isGenerator(callback)) {
+						eval("$c.syncroit(function*(){yield* callback.call(cray, request, response);}).then(_cleanup);");
+					} else {
+						_cleanup(callback.call(cray, request, response));
+					}
 
 				}
 			} catch (e) {
@@ -4347,7 +4087,7 @@ function cuid(msFormat) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#cuid",
+		"url": "http://www.craydent.com/library/1.9.2/docs#cuid",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -4374,7 +4114,7 @@ function emit(ev) {
 				{"event": "Event to trigger."},
 				{"infinite": "any number of arguments can be passed and will be applied to listening functions."}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#emit",
+		"url": "http://www.craydent.com/library/1.9.2/docs#emit",
 		"returnType":"(void)"
 	}|*/
 	try {
@@ -4406,7 +4146,7 @@ function echo (output) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#echo",
+		"url": "http://www.craydent.com/library/1.9.2/docs#echo",
 		"returnType":"(void)"
 	}|*/
 	try { echo.out += output; } catch (e) { error('echo', e); }
@@ -4423,7 +4163,7 @@ function end(status, output, encoding) {
 				{"event": "Event to trigger."},
 				{"infinite": "any number of arguments can be passed and will be applied to listening functions."}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#emit",
+		"url": "http://www.craydent.com/library/1.9.2/docs#emit",
 		"returnType":"(void)"
 	}|*/
 	if (this.response_sent) { return; }
@@ -4495,7 +4235,7 @@ function error(fname, e) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#error",
+		"url": "http://www.craydent.com/library/1.9.2/docs#error",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -4513,7 +4253,7 @@ function exclude(list) {
 
 		"overloads":[],
 		"description": "This method enables the ability exclude prototyping on a specific property or property to a specific class.  The format for the string is a single property such as 'map' or property on a specific class 'Array:map'.",
-		"url": "http://www.craydent.com/library/1.8.1/docs#exclude",
+		"url": "http://www.craydent.com/library/1.9.2/docs#exclude",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -4567,7 +4307,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 			{"max": "(Int) The maximum number of records to process"},
 			{"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."}]}],
 
-	 "url": "http://www.craydent.com/library/1.8.1/docs#fillTemplate",
+	 "url": "http://www.craydent.com/library/1.9.2/docs#fillTemplate",
 	 "returnType": "(String)"
 	 }|*/
 	try {
@@ -4708,7 +4448,7 @@ function foo () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#foo",
+		"url": "http://www.craydent.com/library/1.9.2/docs#foo",
 		"returnType": "(void)"
 	}|*/
 }
@@ -4720,7 +4460,7 @@ function getSessionID() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#getSessionID",
+		"url": "http://www.craydent.com/library/1.9.2/docs#getSessionID",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -4741,7 +4481,7 @@ function getSession(sid, callback) {
 	 			{"sid": "(String) Session id of the session object to retrieve."},
 	 			{"callback": "(Function) callback function to invoke once the session object is retrieved."}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#getSession",
+		"url": "http://www.craydent.com/library/1.9.2/docs#getSession",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -4762,7 +4502,7 @@ function getSessionSync(sid) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#getSessionSync",
+		"url": "http://www.craydent.com/library/1.9.2/docs#getSessionSync",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -4790,7 +4530,7 @@ function header(headers, code) {
 				 {"headers": "(Object) Http headers."},
 				 {"code": "(Integer) Http response code."}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#header",
+		"url": "http://www.craydent.com/library/1.9.2/docs#header",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -4822,13 +4562,17 @@ function include(path){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#include",
+		"url": "http://www.craydent.com/library/1.9.2/docs#include",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
-		return require(__relativePathFinder(path));
+		return require(path);
 	} catch (e) {
-		return false;
+		try {
+			return require(__relativePathFinder(path));
+		} catch (err) {
+			return false;
+		}
 	}
 }
 function isNull(value, defaultValue) {
@@ -4843,7 +4587,7 @@ function isNull(value, defaultValue) {
 				{"value": "(Mixed) Value to check"},
 				{"defaultValue": "(Mixed) Value to return if null"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isNull",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isNull",
 		"returnType": "(Mixed)"
 	}|*/
 	var isnull = value == null || value == undefined;
@@ -4861,7 +4605,7 @@ function logit(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#logit",
+		"url": "http://www.craydent.com/library/1.9.2/docs#logit",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -4884,7 +4628,7 @@ function md5(str) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#md5",
+		"url": "http://www.craydent.com/library/1.9.2/docs#md5",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -4906,7 +4650,7 @@ function mkdirRecursive(path, callback, _processedPath) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#mkdirRecursive",
+		"url": "http://www.craydent.com/library/1.9.2/docs#mkdirRecursive",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -4951,7 +4695,7 @@ function namespace (name, clazz, fn) {
 				{"clazz":"(Class) Class to add to the given namespace"},
 				{"fn":"(Function) Method to call after the class has been added to the namespace"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#namespace",
+		"url": "http://www.craydent.com/library/1.9.2/docs#namespace",
 		"returnType":"(void)"
 	}|*/
 	try {
@@ -4975,7 +4719,7 @@ function next () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#next",
+		"url": "http://www.craydent.com/library/1.9.2/docs#next",
 		"returnType":"(void)"
 	}|*/
 	try {
@@ -5002,7 +4746,7 @@ function now (format) {
 			{"parameters":[
 				{"format": "(String) Format syntax to return formatted string of now"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#now",
+		"url": "http://www.craydent.com/library/1.9.2/docs#now",
 		"returnType":"(Mixed)"
 	}|*/
 	try {
@@ -5018,7 +4762,7 @@ function parseBoolean(value) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#parseBoolean",
+		"url": "http://www.craydent.com/library/1.9.2/docs#parseBoolean",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -5048,7 +4792,7 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
 				{"skipQuotes": "(Bool) Flag to skip quotes for strings"},
 				{"saveCircular": "(Bool) Flag to save circular references"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#parseRaw",
+		"url": "http://www.craydent.com/library/1.9.2/docs#parseRaw",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -5124,7 +4868,7 @@ function rand(num1, num2, inclusive) {
 				{"num2": "(Number) Upper bound"},
 				{"inclusive": "(Bool) Flag to include the given numbers"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#rand",
+		"url": "http://www.craydent.com/library/1.9.2/docs#rand",
 		"returnType": "(Number)"
 	}|*/
 	try {
@@ -5153,7 +4897,7 @@ function requireDirectory(path, options, __basepath, __objs, __fs){
 				{"path": "(String) Path to directory."},
 				{"options": "(Char) 'r' Flag to use to indicate recursively require"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#requireDirectory",
+		"url": "http://www.craydent.com/library/1.9.2/docs#requireDirectory",
 		"returnType": "(Object)"
 	}|*/
 	var delimiter = "/";
@@ -5199,7 +4943,7 @@ function send (status, data) {
 				{"status": "(Integer) Status code for response."},
 				{"data": "(Object) Object to send in response."}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#send",
+		"url": "http://www.craydent.com/library/1.9.2/docs#send",
 		"returnType": "(Object)"
 	}|*/
 	if (!data && typeof status == "object") {
@@ -5219,7 +4963,7 @@ function suid(length) {
 			{"parameters":[
 				{"length": "(Integer) Custom length of the short unique identifier"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#suid",
+		"url": "http://www.craydent.com/library/1.9.2/docs#suid",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -5244,7 +4988,7 @@ function syncroit(gen) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#syncroit",
+		"url": "http://www.craydent.com/library/1.9.2/docs#syncroit",
 		"returnType": "(Promise)"
 	}|*/
 	try {
@@ -5281,7 +5025,7 @@ function tryEval(expression, evaluator) {
 				{"expression": "(Mixed) Expression to evaluate"},
 				{"evaluator": "(Function) Method to use to evaluate the expression"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#tryEval",
+		"url": "http://www.craydent.com/library/1.9.2/docs#tryEval",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -5309,7 +5053,7 @@ function var_dump() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#var_dump",
+		"url": "http://www.craydent.com/library/1.9.2/docs#var_dump",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -5348,7 +5092,7 @@ function wait(condition) { // TODO: allow for nested wait calls
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#wait",
+		"url": "http://www.craydent.com/library/1.9.2/docs#wait",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -5419,7 +5163,7 @@ function writeSession() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#writeSession",
+		"url": "http://www.craydent.com/library/1.9.2/docs#writeSession",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -5460,7 +5204,7 @@ function xmlToJson(xml, ignoreAttributes) {
 				{"xml": "(Mixed) XML string or XML DOM"},
 				{"ignoreAttributes": "(Bool) Flag to ignore attributes"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#xmlToJson",
+		"url": "http://www.craydent.com/library/1.9.2/docs#xmlToJson",
 		"returnType": "(Object)"
 	}|*/
 	try {
@@ -5517,7 +5261,7 @@ function yieldable(value,context,callbackIndex) {
 				{"context": "(Mixed) Context to use to execute func."},
 				{"callbackIndex": "(Integer) Index of callback argument."}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#yieldable",
+		"url": "http://www.craydent.com/library/1.9.2/docs#yieldable",
 		"returnType": "(Promise)"
 	}|*/
 	try {
@@ -5562,7 +5306,7 @@ function zipit(files, content/*=NULL*/) {
 				{"files": "(String) Name of the file"},
 				{"content": "(String) contents of the file"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#zipit",
+		"url": "http://www.craydent.com/library/1.9.2/docs#zipit",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -5599,7 +5343,7 @@ function ChromeVersion (){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#ChromeVersion",
+		"url": "http://www.craydent.com/library/1.9.2/docs#ChromeVersion",
 		"returnType": "(Float)"
 	}|*/
 	try {
@@ -5616,7 +5360,7 @@ function FirefoxVersion (){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#FirefoxVersion",
+		"url": "http://www.craydent.com/library/1.9.2/docs#FirefoxVersion",
 		"returnType": "(Float)"
 	}|*/
 	try {
@@ -5633,7 +5377,7 @@ function IEVersion () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#IEVersion",
+		"url": "http://www.craydent.com/library/1.9.2/docs#IEVersion",
 		"returnType": "(Float)"
 	}|*/
 	try {
@@ -5656,7 +5400,7 @@ function OperaVersion (){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#OperaVersion",
+		"url": "http://www.craydent.com/library/1.9.2/docs#OperaVersion",
 		"returnType": "(Float)"
 	}|*/
 	try {
@@ -5673,7 +5417,7 @@ function SafariVersion (){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#SafariVersion",
+		"url": "http://www.craydent.com/library/1.9.2/docs#SafariVersion",
 		"returnType": "(Float)"
 	}|*/
 	try {
@@ -5690,7 +5434,7 @@ function isAmaya() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isAmaya",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isAmaya",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5707,7 +5451,7 @@ function isAndroid(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isAndroid",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isAndroid",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5724,7 +5468,7 @@ function isBlackBerry() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isBlackBerry",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isBlackBerry",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5741,7 +5485,7 @@ function isChrome(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isChrome",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isChrome",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5758,7 +5502,7 @@ function isFirefox(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isFirefox",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isFirefox",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5779,7 +5523,7 @@ function isGecko() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isGecko",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isGecko",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5796,7 +5540,7 @@ function isIE6() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isIE6",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isIE6",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5814,7 +5558,7 @@ function isIE() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isIE",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isIE",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5831,7 +5575,7 @@ function isIPad() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isIPad",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isIPad",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5848,7 +5592,7 @@ function isIPhone(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isIphone",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isIphone",
 		"returnType": "(Bool)"
 	}|*/
 	try{
@@ -5865,7 +5609,7 @@ function isIPod() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isIPod",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isIPod",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5882,7 +5626,7 @@ function isKHTML() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isKHTML",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isKHTML",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5899,7 +5643,7 @@ function isLinux(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isLinux",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isLinux",
 		"returnType": "(Bool)"
 	}|*/
 	try{
@@ -5916,7 +5660,7 @@ function isMac(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isMac",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isMac",
 		"returnType": "(Bool)"
 	}|*/
 	try{
@@ -5933,7 +5677,7 @@ function isMobile(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isMobile",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isMobile",
 		"returnType": "(Bool)"
 	}|*/
 	try{
@@ -5950,7 +5694,7 @@ function isOpera(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isOpera",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isOpera",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5970,7 +5714,7 @@ function isPalmOS(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isPalmOS",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isPalmOS",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -5987,7 +5731,7 @@ function isPresto() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isPresto",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isPresto",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -6004,7 +5748,7 @@ function isPrince() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isPrince",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isPrince",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -6021,7 +5765,7 @@ function isSafari(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isSafari",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isSafari",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -6039,7 +5783,7 @@ function isSymbian () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isSymbian",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isSymbian",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -6057,7 +5801,7 @@ function isTrident() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isTrident",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isTrident",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -6074,7 +5818,7 @@ function isWebkit() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isWebkit",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isWebkit",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -6091,7 +5835,7 @@ function isWindows(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isWindows",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isWindows",
 		"returnType": "(Bool)"
 	}|*/
 	try{
@@ -6108,7 +5852,7 @@ function isWindowsMobile() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#isWindowsMobile",
+		"url": "http://www.craydent.com/library/1.9.2/docs#isWindowsMobile",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -6148,7 +5892,7 @@ _ext(String, 'acronymize', function (capsOnly, delimiter) {
 				{"match": "(RegExp) Pattern to match to qualify the Acronym."},
 				{"delimiter": "(RegExp) RegExp pattern that delimits the string."}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.capitalize",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.capitalize",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6182,7 +5926,7 @@ _ext(String, 'capitalize', function (pos, everyWord) {
 				{"pos": "(Int) Index of the string to capitalize"},
 				{"everyWord": "(Bool) Flag to capital every word"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.capitalize",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.capitalize",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6208,7 +5952,7 @@ _ext(String, 'convertUTCDate', function (delimiter) 	{
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.convertUTCDate",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.convertUTCDate",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6238,7 +5982,7 @@ _ext(String, 'cut', function (si, ei, replacement) {
 				{"end_index": "(Integer) End index to cut"},
 				{"replacement": "(String) String to put in place of the cut"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.cut",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.cut",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6261,7 +6005,7 @@ _ext(String, 'ellipsis', function (before, after) {
 				{"before": "(Int) Number of characters to use before using ellipsis"},
 				{"after": "(Int) Number of characters to use after the ellipsis"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.ellipsis",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.ellipsis",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6291,7 +6035,7 @@ _ext(String, 'fillTemplate', function (arr_objs, offset, max, bound) {
 				{"objs": "(Objects[]) Objects to fill the template variables"},
 				{"max": "(Int) The maximum number of records to process"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.fillTemplate",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.fillTemplate",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6325,7 +6069,7 @@ _ext(String, 'highlight', function (search, cssClass, tag) {
 				{"cssClass": "(String) Class to add for highlighting"},
 				{"tag": "(String) Tag to use to surround the search"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.cut",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.cut",
 		"returnType": "(String)"
 		}|*/
 	try {
@@ -6355,7 +6099,7 @@ _ext(String, 'ireplace_all', function(replace, subject) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.ireplace_all",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.ireplace_all",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6373,7 +6117,7 @@ _ext(String, 'isCuid', function (msFormat) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.isCuid",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.isCuid",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -6392,7 +6136,7 @@ _ext(String, 'isBlank', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.isBlank",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.isBlank",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -6409,7 +6153,7 @@ _ext(String, 'isValidEmail', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.isValidEmail",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.isValidEmail",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -6434,7 +6178,7 @@ _ext(String, 'lastIndexOfAlt', function(regex, pos) {
 				{"regex": "(RegExp) Regular expression to check value against"},
 				{"pos": "(Int) Max index to go up to in the search"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.lastIndexOfAlt",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.lastIndexOfAlt",
 		"returnType": "(Int)"
 	}|*/
 	try {
@@ -6464,7 +6208,7 @@ _ext(String, 'ltrim', function (character) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.ltrim",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.ltrim",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6481,7 +6225,7 @@ _ext(String, 'pluralize', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.pluralize",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.pluralize",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6522,7 +6266,7 @@ _ext(String, 'replace_all', function(replace, subject) {
 				{"replace": "(String[]) Array of string to replace"},
 				{"subject": "(String[]) Array of string to replace with"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.replace_all",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.replace_all",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6539,7 +6283,7 @@ _ext(String, 'reverse', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.reverse",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.reverse",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6557,7 +6301,7 @@ _ext(String, 'rtrim', function (character) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.rtrim",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.rtrim",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6574,7 +6318,7 @@ _ext(String, 'sanitize', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.sanitize",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.sanitize",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6602,7 +6346,7 @@ _ext(String, 'singularize', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.singularize",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.singularize",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -6643,7 +6387,7 @@ _ext(String, 'strip', function(character) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.strip",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.strip",
 		"returnType": "(String)"
 	}|*/
 	return _strip(this, character);
@@ -6659,7 +6403,7 @@ _ext(String, 'toDateTime', function (options) {
 			{"parameters":[
 				{"options": "(Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.toDateTime",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.toDateTime",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -6732,7 +6476,7 @@ _ext(String, 'toObject', function(assignmentChar, delimiter) {
 				{"assignmentChar": "(Char) Character to use as assignment delimiter. Defaults to '&'."},
 				{"delimiter": "(Char) Character to use as pair delimiter"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#string.toObject",
+		"url": "http://www.craydent.com/library/1.9.2/docs#string.toObject",
 		"returnType": "(Object)"
 	}|*/
 	try {
@@ -6764,7 +6508,7 @@ _ext(Array, 'aggregate', function (pipelines) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.aggregate",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.aggregate",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -6787,7 +6531,7 @@ _ext(Array, 'average', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.aggregate",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.aggregate",
 		"returnType": "(Array)"
 	 }|*/
 	try {
@@ -6826,7 +6570,7 @@ _ext(Array, 'buildTree', function (parentFinder,childFinder,options) {
 				{"childFinder": "(String) Property name of the object to use as a grouping."},
 				{"options":"(Object) Options to customize properties,  Valid property is:<br />childProperty"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.buildTree",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.buildTree",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -6886,7 +6630,7 @@ _ext(Array, 'condense', function (check_values) {
 			{"parameters":[
 				{"check_values": "(Bool) Flag to remove duplicates"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.condense",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.condense",
 		"returnType": "(Array)"
 	}|*/
 	return _condense(this, check_values);
@@ -6902,7 +6646,7 @@ _ext(Array, 'createIndex', function (indexes) {
 			{"parameters":[
 				{"indexes": "(String[]) Array of properties to index"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.condense",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.condense",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -6937,7 +6681,7 @@ _ext(Array, 'delete', function(condition, justOne) {
 				{"condition": "(Mixed) Query following find/where clause syntax"},
 				{"justOne": "(Boolean) Flag for deleting just one records [Default is: true]"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.delete",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.delete",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7009,7 +6753,7 @@ _ext(Array, 'distinct', function(fields, condition) {
 				{"fields": "(Array) Fields to use as the projection and unique comparison (comma delimited)"},
 				{"condition": "(Object) Query following MongoDB find clause syntax"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.distinct",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.distinct",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7041,7 +6785,7 @@ _ext(Array, 'every', function(callback, thisObject) {
 				{"callback": "(Function) Callback to test for each element"},
 				{"thisObject": "(Object) Context for the callback function"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.every",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.every",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -7067,7 +6811,7 @@ _ext(Array, 'filter', function(func /*, thiss*/) {
 				{"func": "(Function) Callback function used to determine if value should be returned"},
 				{"thiss": "(Mixed) Specify the context on callback function"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.filter",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.filter",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7107,7 +6851,7 @@ _ext(Array, 'find', function(condition, projection) {
 				{"condition": "(Mixed) Query following find/where clause syntax"},
 				{"useReference": "(Bool) Flag to make a copy instead of using references"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.where",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.where",
 		"returnType": "(Array)"
 	}|*/
 	return $c.where(this,condition, projection);
@@ -7129,7 +6873,7 @@ _ext(Array, 'findOne', function(condition, projection) {
 				{"condition": "(Mixed) Query following find/where clause syntax"},
 				{"useReference": "(Bool) Flag to make a copy instead of using references"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.where",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.where",
 		"returnType": "(Object)"
 	}|*/
 	return $c.where(this,condition, projection, 1)[0];
@@ -7143,7 +6887,7 @@ _ext(Array, 'group', function(params, removeProps) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.group",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.group",
 		"returnType": "(Array)"
 	}|*/
 
@@ -7245,7 +6989,7 @@ _ext(Array, 'indexOf', function(value) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.indexOf",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.indexOf",
 		"returnType": "(Int)"
 	}|*/
 	return _indexOf(this, value);
@@ -7261,7 +7005,7 @@ _ext(Array, "innerJoin", function (arr, on) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.innerJoin",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.innerJoin",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7277,7 +7021,7 @@ _ext(Array, 'insert', function(value) {
 		"parameters":[
 			{"value": "(Mixed) value to add"}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.insert",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.insert",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -7304,7 +7048,7 @@ _ext(Array, 'insertAfter', function(index, value) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.insertAfter",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.insertAfter",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -7325,7 +7069,7 @@ _ext(Array, 'insertAt', function(index, value) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.insertAt",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.insertAt",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -7346,7 +7090,7 @@ _ext(Array, 'insertBefore', function(index, value) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.insertBefore",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.insertBefore",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -7367,7 +7111,7 @@ _ext(Array, "joinLeft", function (arr, on) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.joinLeft",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.joinLeft",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7386,7 +7130,7 @@ _ext(Array, "joinRight", function (arr, on) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.joinRight",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.joinRight",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7407,7 +7151,7 @@ _ext(Array, 'limit', function(max, skip) {
 	 			{"max": "(Int) Maximum number of items to return"},
 	 			{"skip": "(Int) Number of items to skip"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.limit",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.limit",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7429,7 +7173,7 @@ _ext(Array, 'map', function(callback /*, thisObject*/) {
 			{"callback": "(Function) Callback function used to apply changes"},
 			{"thisObject": "(Mixed) Specify the context on callback function"}]}],
 
-	"url": "http://www.craydent.com/library/1.8.1/docs#array.map",
+	"url": "http://www.craydent.com/library/1.9.2/docs#array.map",
 	"returnType": "(Array)"
 	}|*/
 	try {
@@ -7459,7 +7203,7 @@ _ext(Array, 'mapReduce', function(map, reduce, options) {
 				{"reduce": "(Function) Function used to condense the items"},
 				{"options": "(Object) Options specified in the Mongo Doc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.mapReduce",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.mapReduce",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7511,7 +7255,7 @@ _ext(Array, 'normalize', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.normalize",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.normalize",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7552,7 +7296,7 @@ _ext(Array, 'remove', function (value, indexOf) {
 				{"value": "(Mixed) Value to remove"},
 				{"indexOf": "(Function) Callback function to use to find the item based on the value"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.remove",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.remove",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -7576,7 +7320,7 @@ _ext(Array, 'removeAll', function (value, indexOf) {
 				{"value": "(Mixed) Value to remove"},
 				{"indexOf": "(Function) Callback function to use to find the item based on the value"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.removeAll",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.removeAll",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7603,7 +7347,7 @@ _ext(Array, 'removeAt', function (index) {
 		"parameters":[
 			{"index": "(Int) Index of the item to remove"}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.removeAt",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.removeAt",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -7623,7 +7367,7 @@ _ext(Array, 'replaceAt', function(index, value) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.replaceAt",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.replaceAt",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7640,7 +7384,7 @@ _ext(Array, 'scramble', function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.scramble",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.scramble",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7705,7 +7449,7 @@ _ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
 				{"lookup": "(Object) Look up object to use as values instead of the array values."},
 				{"options": "(Object) Options to pass. Valid options are:<br />i<br />ignoreCase"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.sortBy",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.sortBy",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7767,7 +7511,7 @@ _ext(Array, 'stdev', function (con) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.stdev",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.stdev",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7795,7 +7539,7 @@ _ext(Array, 'sum', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.sum",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.sum",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7816,7 +7560,7 @@ _ext(Array, 'toSet', function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.toSet",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.toSet",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -7850,7 +7594,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
 				{"setClause": "(Mixed) Set clause used to update the records"},
 				{"options": "(Object) Options to specify if mulit update and/or upsert"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.update",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.update",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -8082,7 +7826,7 @@ _ext(Array, 'upsert', function(records, prop, callback) {
 				{"prop": "(String) Property to use as the primary key"},
 				{"callback": "(Function) Method to use to determine if the records are equal"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.upsert",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.upsert",
 		"returnType": "(Object)"
 	}|*/
 	try {
@@ -8183,7 +7927,7 @@ _ext(Array, 'where', function(condition, projection, limit) {
 				{"useReference": "(Bool) Flag to make a copy instead of using references"},
 				{"limit": "(Int) Limit the number of the results returned."}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.where",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.where",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -8335,7 +8079,7 @@ _ext(Date, 'format', function (format, options) {
 				{"options": "(Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset"}]}],
 
 		"description":"<h2>Format syntax is as follows:</h2><br /><h3>Day Options</h3><p>d or %d: 2 digit day leading 0<br />D: textual representation of a day, three letters<br />j: day without leading 0<br />l (lower case L): full textual representation of the day of the week<br />N: ISO-8601 numeric representation of the day of the week<br />S: English ordinal suffix for the day of the month, 2 characters<br />w: Numeric representation of the day of the week (starting from 1)<br />%w: Numeric representation of the day of the week (starting from 0)<br />z: The day of the year (starting from 0)<br />%j: day of the year (starting from 1)</p><h3>Week Options</h3><p>W: ISO-8601 week number of the year, weeks starting on Monday<br />U: ISO-8601 week number of the year, weeks starting on Monday with leading 0<br /></p><h3>Month Options</h3><p>F: full textual representation of a month, such as January or March<br />m or %m: Numeric representation of a month, with leading zeros<br />M or %M: short textual representation of a month, three letters<br />n: Numeric representation of a month, without leading zeros<br />t: Number of days in the given month<br /></p><h3>Year Options</h3><p>L: 0 or 1 indicating whether it's a leap year<br />o: full numeric representation of a year, 4 digits.  If 'W' belongs to the previous or next year, that year is used instead.<br />Y or %Y: full numeric representation of a year, 4 digits<br />y: two digit representation of a year<br /></p><h3>Time Options</h3><p>a: Lowercase Ante Meridiem and Post Meridiem<br />A: Uppercase Ante Meridiem and Post Meridiem<br />B: Swatch Internet time<br />g: 12-hour format of an hour without leading zeros<br />G: 24-hour format of an hour without leading zeros<br />h: 12-hour format of an hour with leading zeros<br />H or %H: 24-hour format of an hour with leading zeros<br />i: Minutes with leading zeros<br />s or %S: Seconds, with leading zeros<br />u: Microseconds<br />%L: Milliseconds<br /></p><h3>Timezone Options</h3><p>e: Timezone identifier<br />I: 0 or 1 indicating whether or not the date is in daylight saving time<br />O: Difference to Greenwich time (GMT) in hours<br />P: Difference to Greenwich time (GMT) with colon between hours and minutes<br />T: Timezone abbreviation<br />Z: Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive<br /></p><h3>Other Options</h3><p>c: ISO 8601 date<br />r: RFC 2822 formatted date<br />U: Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)</p>",
-		"url": "http://www.craydent.com/library/1.8.1/docs#date.format",
+		"url": "http://www.craydent.com/library/1.9.2/docs#date.format",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -8602,7 +8346,7 @@ _ext(Date, 'getDayOfYear', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.getDayOfYear",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.getDayOfYear",
 		"returnType": "(Int)"
 	}|*/
 	try {
@@ -8619,7 +8363,7 @@ _ext(Date, 'getWeek', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.getWeek",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.getWeek",
 		"returnType": "(Int)"
 	}|*/
 	try {
@@ -8639,7 +8383,7 @@ _ext(Date, 'isValidDate', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#array.isValidDate",
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.isValidDate",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -8662,7 +8406,7 @@ _ext(Number, 'aboutEqualTo', function (compare, giveOrTake) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#number.aboutEqualTo",
+		"url": "http://www.craydent.com/library/1.9.2/docs#number.aboutEqualTo",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -8679,7 +8423,7 @@ _ext(Number, 'isEven', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#number.",
+		"url": "http://www.craydent.com/library/1.9.2/docs#number.",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -8696,7 +8440,7 @@ _ext(Number, 'isOdd', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#number.",
+		"url": "http://www.craydent.com/library/1.9.2/docs#number.",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -8718,7 +8462,7 @@ _ext(Function, 'getParameters', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.getParameters",
+		"url": "http://www.craydent.com/library/1.9.2/docs#function.getParameters",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -8735,7 +8479,7 @@ _ext(Function, 'getName', function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.getName",
+		"url": "http://www.craydent.com/library/1.9.2/docs#function.getName",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -8756,7 +8500,7 @@ _ext(Function, 'extends',function(extendee, inheritAsOwn){
 				{"extendee":"(Object) Class to extend"},
 				{"inheritAsOwn":"(Boolean) Flag to inherit and for values hasOwnProperty to be true."}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.extends",
+		"url": "http://www.craydent.com/library/1.9.2/docs#function.extends",
 		"returnType": "(Function)"
 	}|*/
 	try {
@@ -8792,7 +8536,7 @@ _ext(Function, 'on',function(ev, func){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.on",
+		"url": "http://www.craydent.com/library/1.9.2/docs#function.on",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -8813,7 +8557,7 @@ _genConstruct && _ext(_genConstruct, 'toPromise',function(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.on",
+		"url": "http://www.craydent.com/library/1.9.2/docs#function.on",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -8833,7 +8577,7 @@ _ext(Function, 'then',function(func){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.then",
+		"url": "http://www.craydent.com/library/1.9.2/docs#function.then",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -8851,7 +8595,7 @@ _ext(Function, 'catch',function(func){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#function.catch",
+		"url": "http://www.craydent.com/library/1.9.2/docs#function.catch",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -8873,7 +8617,7 @@ _ext(RegExp, 'addFlags',function(flags){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#regexp.addFlag",
+		"url": "http://www.craydent.com/library/1.9.2/docs#regexp.addFlag",
 		"returnType": "(RegExp)"
 	}|*/
 	try {
@@ -8899,7 +8643,7 @@ _ao("changes", function(compare){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.",
 		"returnType": "(Object)"
 	}|*/
 	try {
@@ -8952,7 +8696,7 @@ _ao("contains", function(val, func){
 			{"parameters":[
 				{"arr": "(Array) Array of values to return first matching value"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.contains",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.contains",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9023,7 +8767,7 @@ _ao("copyObject", function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.copyObject",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.copyObject",
 		"returnType": "(Object)"
 	}|*/
 	try {
@@ -9047,7 +8791,7 @@ _ao("count", function(option){
 			{"parameters":[
 				{"option": "(RegExp) Word or phrase pattern to count in the String"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.count",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.count",
 		"returnType": "(Int)"
 	}|*/
 	try {
@@ -9089,7 +8833,7 @@ _ao("duplicate", function (recursive) {
 			{"parameters":[
 			{"recursive": "(Boolean) Flag to copy all child objects recursively"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.duplicate",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.duplicate",
 		"returnType": "(Object)"
 	}|*/
 	try {
@@ -9107,7 +8851,7 @@ _ao("eachProperty", function (callback) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.eachProperty",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.eachProperty",
 		"returnType": "(Object)"
 	}|*/
 	try {
@@ -9130,7 +8874,7 @@ _ao("equals", function (compare, props){
 	 		{"compare": "(Object) Object to compare against"},
 	 		{"props": "(String[]) Array of property values to compare against"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.equals",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.equals",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9174,7 +8918,7 @@ _ao("every", function(callback, thisObject) {
 				{"callback": "(Function) Callback to apply to each value"},
 				{"thisObject": "(Mixed) Context for the callback function"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.every",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.every",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9195,7 +8939,7 @@ _ao("getClass", function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.getClass",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.getClass",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -9226,7 +8970,7 @@ _ao("getProperty", function (path, delimiter, options) {
 				{"delimiter": "(Char) Separator used to parse path"},
 				{"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.getProperty",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.getProperty",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -9236,6 +8980,7 @@ _ao("getProperty", function (path, delimiter, options) {
 		}
 		options = options || {};
 		delimiter = delimiter || ".";
+		path = $c.strip(path, delimiter);
 		var props = path.split(delimiter);
 		var value = this, i = 0, prop;
 		while (prop = props[i++]) {
@@ -9265,7 +9010,7 @@ _ao("getValue" ,function (args, dflt) {
 				{"args": "(Mixed[]) An array of arguments to pass to context when it is a function"},
 	 			{"dflt": "(Mixed) Default value to return if context is not a function"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.getProperty",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.getProperty",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
@@ -9288,7 +9033,7 @@ _ao("has", function(){
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.has",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.has",
 		"returnType": "(Boolean)"
 	}|*/
 	var args = arguments;
@@ -9309,7 +9054,7 @@ _ao("isArray", function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isArray",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isArray",
 		"returnType": "(Bool)"
 	}|*/
 	return _isArray(this);
@@ -9328,7 +9073,7 @@ _ao("isBetween", function(lowerBound, upperBound, inclusive) {
 				{"upperBound": "(Mixed) Upper bound comparison"},
 				{"inclusive": "(Bool) Flag to include give bounds"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isBetween",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isBetween",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9350,7 +9095,7 @@ _ao("isBoolean", function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isBoolean",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isBoolean",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9368,7 +9113,7 @@ _ao("isDate", function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isDate",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isDate",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9386,7 +9131,7 @@ _ao("isDomElement", function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isDomElement",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isDomElement",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9404,7 +9149,7 @@ _ao('isEmpty', function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isEmpty",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isEmpty",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9427,7 +9172,7 @@ _ao("isFloat", function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isFloat",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isFloat",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9445,7 +9190,7 @@ _ao("isFunction", function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isFunction",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isFunction",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9463,7 +9208,7 @@ _ao("isGenerator", function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isGenerator",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isGenerator",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9481,7 +9226,7 @@ _ao("isGeolocation", function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isGeoLocation",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isGeoLocation",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9499,7 +9244,7 @@ _ao("isInt", function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isInt",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isInt",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9517,7 +9262,7 @@ _ao("isNumber", function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isNumber",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isNumber",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9535,7 +9280,7 @@ _ao("isPromise", function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isPromise",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isPromise",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9553,7 +9298,7 @@ _ao("isObject", function (check_instance) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isObject",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isObject",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9571,7 +9316,7 @@ _ao("isRegExp", function() {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isRegExp",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isRegExp",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9589,7 +9334,7 @@ _ao("isString", function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isString",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isString",
 		"returnType": "(Bool)"
 	}|*/
 	return _isString(this);
@@ -9601,7 +9346,7 @@ _ao("isSubset", function (compare, sharesAny){
 		"parameters":[
 			{"compare": "(Mixed) Superset to compare against"}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.isSubset",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.isSubset",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9630,7 +9375,7 @@ _ao("itemCount", function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.itemCount",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.itemCount",
 		"returnType": "(Int)"
 	}|*/
 	try {
@@ -9655,7 +9400,7 @@ _ao("keyOf", function (value) {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.keyOf",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.keyOf",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -9678,7 +9423,7 @@ _ao("getKeys", function () {
 
 		"overloads":[],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.getKeys",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.getKeys",
 		"returnType": "(Array)"
 	}|*/
 	try {
@@ -9708,7 +9453,7 @@ _ao("map", function(callback, thisObject) {
 				{"callback": "(Function) Callback to apply to each value"},
 				{"thisObject": "(Mixed) Context for the callback function"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.map",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.map",
 		"returnType": "(void)"
 	}|*/
 	try {
@@ -9734,7 +9479,7 @@ _ao("merge", function (secondary, condition) {
 				{"secondary": "(Object) Object to merge with"},
 				{"condition": "(Mixed) Flags to recurse, merge only shared value, clone, intersect etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.merge",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.merge",
 		"returnType": "(Object)"
 	}|*/
 	try {
@@ -9799,7 +9544,7 @@ _ao("setProperty", function (path, value, delimiter, options) {
 				{"value": "(Mixed) Value to set"},
 				{"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#object.setProperty",
+		"url": "http://www.craydent.com/library/1.9.2/docs#object.setProperty",
 		"returnType": "(Bool)"
 	}|*/
 	try {
@@ -9848,7 +9593,7 @@ _ao("toStringAlt", function (delimiter, prefix, urlEncode) {
 				{"prefix": "(Char) Character to prefix the property name"},
 				{"urlEncode": "(Bool) Flag to url encode the property and value"}]}],
 
-		"url": "http://www.craydent.com/library/1.8.1/docs#",
+		"url": "http://www.craydent.com/library/1.9.2/docs#",
 		"returnType": "(String)"
 	}|*/
 	try {
@@ -10368,11 +10113,12 @@ if (typeof JSON.parseAdvanced !== 'function') {
 	JSON.parseAdvanced = function (text, reviver) {
 		return _parseAdvanced($c.isObject(text) ? text : JSON.parse(text,reviver));
 	};
-	function _parseAdvanced (obj) {
+	function _parseAdvanced (obj,_original) {
 		if (!obj) { return; }
+		_original = _original || obj;
 		for (var prop in obj) {
 			if (!obj.hasOwnProperty(prop)) { continue; }
-			if (prop.indexOf('.') != -1) {
+			if (prop.indexOf('.') != -1 && $c.count(prop,/\./) == 1) {
 				var parts = prop.split('.'),
 					name = parts[0],
 					type = parts[1],
@@ -10383,15 +10129,33 @@ if (typeof JSON.parseAdvanced !== 'function') {
 				} else if (type == "Function") {
 					value = $c.tryEval(obj[prop]);
 				} else if (type == "RegExp") {
-					value = new RegExp($c.strip(obj[prop],'/'));
-				} else {
+					value = new RegExp($c.strip(obj[prop], '/'));
+				} else if ($g[type]) {
 					value = new $g[type](obj[prop]);
+				} else if ($c.isObject(obj[prop])) {
+					value = _parseAdvanced(obj[prop],_original);
 				}
 
 				obj[name] = value;
 				delete obj[prop];
+			} else if (prop == '$ref') {
+				var value = obj[prop],
+					hashIndex = value.indexOf('#'),
+					refobj = obj,
+					parts = value.split('#'),
+					filepath = parts[0],
+					fieldpath = parts[1];
+				if (hashIndex == 0) {
+					value = value.substring(1);
+					if (value[0] == "/") {
+						refobj = _original;
+					}
+					return $c.getProperty(refobj, value, '/');
+				}
+				try { refobj = require(__relativePathFinder(filepath)); } catch(e) { return null; }
+				return fieldpath ? $c.getProperty(refobj, fieldpath, '/') : refobj;
 			} else if ($c.isObject(obj[prop])) {
-				obj[prop] = _parseAdvanced(obj[prop]);
+				obj[prop] = _parseAdvanced(obj[prop],_original);
 			}
 		}
 		return obj;
