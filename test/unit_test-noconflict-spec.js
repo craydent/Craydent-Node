@@ -678,6 +678,93 @@ describe ('No Conflict Array', function () {
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,p:null,share:null, index:null,std:4}]);
 	});
+	describe("parallelEach async test",function(){
+		var results = [];
+		var usersdata = { users:
+			[ { username: 'mtglass', name: 'Mark Glass', age: 10 },
+				{ username: 'urdum', name: 'Ursula Dumfry', age: 10 },
+				{ username: 'hydere', name: 'Henry Dere', age: 10 },
+				{ username: 'cumhere', name: 'Cass Umhere', age: 10 },
+				{ username: 'bstill', name: 'Bob Stillman', age: 10 },
+				{ username: 'cirfuksalot', name: 'Camron', age: 10 },
+				{ username: 'chadden', name: 'Corey Hadden', age: 30 },
+				{ username: 'squeeb', name: 'Joseph Esquibel', age: 32 },
+				{ username: 'cinada', name: 'Clark Inada', age: 31 },
+				{ username: 'shurliezalot', name: 'Josh N', age: 10 },
+				{ username: 'noze_nutin', name: 'Mai Boss', age: 10 },
+				{ username: 'czass', name: 'Cater Zass', age: 10 },
+				{ username: 'awesome_game', name: 'clash of clans', age: 21 }]};
+		beforeEach(function (done) {
+			$c.syncroit(function *() {
+				results = yield $c.parallelEach([
+					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+
+
+					$c.ajax('http://craydent.com/test/users.js'),
+					$c.ajax('http://craydent.com/test/users.js'),
+					$c.ajax('http://craydent.com/test/users.js'),
+					$c.ajax('http://craydent.com/test/users.js'),
+					$c.ajax('http://craydent.com/test/users.js'),
+					$c.ajax('http://craydent.com/test/users.js'),
+					$c.ajax('http://craydent.com/test/users.js'),
+					$c.ajax('http://craydent.com/test/users.js'),
+					$c.ajax('http://craydent.com/test/users.js'),
+					$c.ajax('http://craydent.com/test/users.js'),
+
+					function (a) { return 1 + a; },
+					function (a) { return 2 + a; },
+					function (a) { return 3 + a; },
+					function (a) { return 4 + a; },
+					function (a) { return 5 + a; },
+					function (a) { return 6 + a; },
+					function (a) { return 7 + a; },
+					function (a) { return 8 + a; },
+					function (a) { return 9 + a; },
+					function (a) { return 10 + a; },
+					"asdf"
+
+				],[1]);
+				if (!results) { console.log('wtf'); }
+				done();
+			});
+		});
+
+		it('parallelEach',function(){
+			expect(results).toEqual([
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				usersdata,
+				2,3,4,5,6,7,8,9,10,11,"asdf"
+			]);
+		});
+
+	});
 	it('remove',function(){
 		//arrMix = [1,{},"adsf",10];
 		var temp = $c.duplicate(arrMix,true);
@@ -2121,6 +2208,7 @@ describe ('No Conflict Global methods', function () {
 		expect($c.fillTemplate("<div>${if (${hi})}<span>${hi}</span>${elseif (${this.bye.value})}<p>${this.bye.value}</p>${end if}</div>",{bye:{value:"bbye"}})).toBe("<div><p>bbye</p></div>");
 		expect($c.fillTemplate("<div>${if (${this.bye.value})}<span>${this.bye.value}</span>${elseif (${bye})}<p>${bye}</p>${end if}</div>",{bye:{value:"bbye"}})).toBe("<div><span>bbye</span></div>");
 		expect($c.fillTemplate("<div>${if (${hi})}<span>${hi}</span>${elseif (${this.bye.value})}<p>${this.bye.value}</p>${end if}</div>",{bye:{value:"bbye"}})).toBe("<div><p>bbye</p></div>");
+		expect($c.fillTemplate("divhere${if (${this.User.length} || ${this.User})}div${end if}ending",{User:['']})).toBe("divheredivending");
 		expect($c.fillTemplate("<div>${name}<div>${for ${i=0,len=${arr}.length};${i<len};${i++}}${${arr}[i].hi}8888${name}9999${end for}</div></div>",obj))
 				.toBe("<div>operation<div>b8888operation9999c8888operation9999</div></div><div>operation<div>b8888operation9999c8888operation9999</div></div>")
 		expect($c.fillTemplate("<div>${name}<div>${declare i=0,len=${arr}.length}${while (${i}<${len})}${${arr}[i].hi}8888${name}9999${i++,null}${end while}</div></div>",obj))

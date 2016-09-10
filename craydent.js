@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.9                                /*/
+/*/ Craydent LLC node-v0.6.10                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.9',
+var _craydent_version = '0.6.10',
 	__GLOBALSESSION = [];
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -104,7 +104,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 			hash = "", i = 0, cookie;
 
 		for (var i = 0, len = cookies.length; i < len; i++) {
-			if (cookies[i].indexOf("CRAYDENTHASH=") > -1) {
+			if (~cookies[i].indexOf("CRAYDENTHASH=")) {
 				hash = cookies[i].substring(13);
 				break;
 			}
@@ -126,11 +126,11 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 		this.PAGE_NAME = (function () {
 			var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/([^#^?]*).*/gi, '$1');
-			return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
+			return !pn || !~pn.indexOf('.') ? "index.html" : pn;
 		})();
 		this.PAGE_NAME_RAW = (function () {
 			var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/(.*)?\?.*/gi, '$1');
-			return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
+			return !pn || !~pn.indexOf('.') ? "index.html" : pn;
 		})();
 		this.PROTOCOL = self.$l.protocol;
 		this.SERVER = self.$l.host;
@@ -147,7 +147,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		var _ie = this.IEVersion(), _chrm = this.ChromeVersion(), _ff = this.FirefoxVersion(), _op = this.OperaVersion(), _saf = this.SafariVersion(),
 				_droid = this.isAndroid(), _bbery = this.isBlackBerry(), _ipad = this.isIPad(), _ifon = this.isIPhone(), _ipod = this.isIPod(), _linx = this.isLinux(), _mac = this.isMac(), _palm = this.isPalmOS(), _symb = this.isSymbian(), _win = this.isWindows(), _winm = this.isWindowsMobile(),
 				_amay = this.isAmaya(), _gekk = this.isGecko(), _khtm = this.isKHTML(), _pres = this.isPresto(), _prin = this.isPrince(), _trid = this.isTrident(), _webk = this.isWebkit(),
-				_browser = (_ie != -1 && 'Internet Explorer') || (_chrm != -1 && 'Chrome') || (_ff != -1 && 'Firefox') || (_saf != -1 && 'Safari'),
+				_browser = (~_ie && 'Internet Explorer') || (~_chrm && 'Chrome') || (~_ff && 'Firefox') || (~_saf && 'Safari'),
 				_os = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_linx && 'Linux') || ((_ipad || _ifon || _ipod) && 'iOS') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
 				_device = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_ipad && 'iPad') || (_ifon && 'iPhone') || (_ipod && 'iPod') || (_linx && 'Linux') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
 				_engine = (_amay && 'Amaya') || (_gekk && 'Gekko') || (_khtm && 'KHTML') || (_pres && 'Presto') || (_prin && 'Prince') || (_trid && 'Trident') || (_webk && 'WebKit');
@@ -155,7 +155,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		// constants
 		this.BROWSER = {
 			CURRENT: _browser,
-			CURRENT_VERSION: (_ie != -1 && _ie) || (_chrm != -1 && _chrm) || (_ff != -1 && _ff) || (_saf != -1 && _saf),
+			CURRENT_VERSION: (~_ie && _ie) || (~_chrm && _chrm) || (~_ff && _ff) || (~_saf && _saf),
 			IE: this.isIE(),
 			IE_VERSION: _ie,
 			IE6: (_ie < 7.0 && _ie >= 6.0),
@@ -245,11 +245,11 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		this.OPERA_VERSION = this.OperaVersion();
 		this.PAGE_NAME = (function () {
 			var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/([^#^?]*).*/gi, '$1');
-			return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
+			return !pn || !~pn.indexOf('.') ? "index.html" : pn;
 		})();
 		this.PAGE_NAME_RAW = (function () {
 			var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/(.*)?\?.*/gi, '$1');
-			return !pn || pn.indexOf('.') == -1 ? "index.html" : pn;
+			return !pn || !~pn.indexOf('.') ? "index.html" : pn;
 		})();
 		this.PALM = this.isPalmOS();
 		this.POINTER = $c.POINTER;
@@ -441,7 +441,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						id = obj.id;
 
 					code_result = code_result || obj.code;
-					if (code_result.indexOf(obj.id) == -1) { continue; }
+					if (!~code_result.indexOf(obj.id)) { continue; }
 					code_result = $c.replace_all(code_result,id, FOR.helper(block, obj.body));
 				}
 				var ____execMatches = code_result.match($c.TEMPLATE_TAG_CONFIG.VARIABLE), ____execMatchIndex = 0;
@@ -505,12 +505,12 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 				while (obj = blocks[i++]) {
 					var block = obj.block,
 						id = obj.id, index;
-					if (i == 1 && (index = obj.code.lastIndexOf("##")) != -1) {
+					if (i == 1 && ~(index = obj.code.lastIndexOf("##"))) {
 						post = obj.code.substring(index + 2);
 						obj.code = obj.code.substring(0, index + 2);
 					}
 					code_result = code_result || obj.code;
-					if (code_result.indexOf(obj.id) == -1) { continue; }
+					if (!~code_result.indexOf(obj.id)) { continue; }
 					code_result = $c.replace_all(code_result,id, FOREACH.helper(block, obj.body, result_obj, uid, obj, bind, ref_obj));
 					if (!code_result) { break; }
 				}
@@ -549,7 +549,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 					declared = fillTemplate.declared,
 					loop_limit = 100000;
 				for (var prop in declared) {
-					if (code.indexOf("${" + prop + "}") == -1 || !declared.hasOwnProperty(prop)) {
+					if (!~code.indexOf("${" + prop + "}") || !declared.hasOwnProperty(prop)) {
 						continue;
 					}
 					var val = declared[prop];
@@ -592,18 +592,18 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 					var block = obj.block,
 						id = obj.id, index;
 
-					if (i == 1 && (index = obj.code.lastIndexOf("##")) != -1) {
+					if (i == 1 && ~(index = obj.code.lastIndexOf("##"))) {
 						post = obj.code.substring(index + 2);
 						obj.code = obj.code.substring(0, index + 2);
 					}
 
 					code_result = code_result || obj.code;
-					if (code_result.indexOf(obj.id) == -1) { continue; }
+					if (!~code_result.indexOf(obj.id)) { continue; }
 					code_result = $c.replace_all(code_result,id, WHILE.helper(block, obj.body));
 				}
 
 				for (var prop in declared) {
-					if (code.indexOf("${" + prop + "}") == -1) { continue; }
+					if (!~code.indexOf("${" + prop + "}")) { continue; }
 					vars += "var " + prop + "=" + declared[prop] + ";";
 				}
 				eval(vars);
@@ -670,7 +670,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 
 						if (value !== undefined && value) {
 							var eindex = code.indexOf(ifmatch[i + 1]);
-							if (eindex == -1) {
+							if (!~eindex) {
 								return pre + code.substring(sindex, endindex) + post;
 							}
 							return pre + code.substring(sindex, eindex) + post;
@@ -692,7 +692,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						id = obj.id;
 
 					code_result = code_result || obj.code;
-					if (code_result.indexOf(obj.id) == -1) { continue; }
+					if (!~code_result.indexOf(obj.id)) { continue; }
 					code_result = IF.helper(code_result.replace(id, block));
 				}
 				return __logic_parser(code_result);
@@ -735,12 +735,12 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						if (val == cvalue) {
 							var cindex = code.indexOf(cse),
 								bindex = $c.indexOfAlt(code,brk, cindex);
-							bindex = bindex == -1 ? code.length : bindex;
+							bindex = !~bindex ? code.length : bindex;
 							return pre + code.substring(cindex + cse.length, bindex).replace(cgsyntax, '') + post;
 						}
 					}
 					var dindex = $c.indexOfAlt(code,dflt);
-					if (dindex != -1) {
+					if (~dindex) {
 						return pre + code.substring(dindex + code.match(dflt)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
 					}
 
@@ -756,7 +756,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						id = obj.id;
 
 					code_result = code_result || obj.code;
-					if (code_result.indexOf(obj.id) == -1) { continue; }
+					if (!~code_result.indexOf(obj.id)) { continue; }
 					code_result = SWITCH.helper(code_result.replace(id, block));
 				}
 				return __logic_parser(code_result);
@@ -776,7 +776,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 					eindex = $c.indexOfAlt(code,SCRIPT.end),
 					elen = code.match(SCRIPT.end)[0].length;
 
-				if (eindex == -1) {
+				if (!~eindex) {
 					eindex = undefined;
 				}
 				var block = code.substring(sindex + slen, eindex), str = "",
@@ -802,8 +802,8 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 					eindex = $c.indexOfAlt(code,TRY["end"]),
 					tend = cindex;
 
-				if (tend == -1) {
-					tend = findex != -1 ? findex : eindex;
+				if (!~tend) {
+					tend = ~findex ? findex : eindex;
 				}
 
 				var tindex = $c.indexOfAlt(code,TRY.begin),
@@ -833,8 +833,8 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 				try {
 					str = eval("(function(){" + body + ";return echo.out; })()");
 				} catch (e) {
-					if (cindex != -1) {
-						tend = findex != -1 ? findex : eindex;
+					if (~cindex) {
+						tend = ~findex ? findex : eindex;
 						var catchBlock = code.substring(cindex, tend),
 							catchLine = catchBlock.match(TRY["catch"]),
 							errorString = $c.replace_all(e.toString(),'\'','\\\'');
@@ -848,7 +848,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 						str += eval("(function(" + catchLine[1] + "){" + catchBlock + ";return echo.out;})(new Error('" + errorString + "'))");
 					}
 				} finally {
-					if (findex != -1) {
+					if (~findex) {
 						echo.out = "";
 						str += eval("(function(){" + code.substring(findex + code.match(TRY["finally"])[0].length, eindex) + ";return echo.out; })()");
 					}
@@ -873,7 +873,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		/* tokens config */
 		VARIABLE: /(?:\$\{((?!\$)\S)*?\})|(?:\{\{((?!\{\{)\S)*?\}\})/gi,
 		VARIABLE_NAME: function (match) {
-			return match.slice(2, match.indexOf('}}') != -1 ? -2 : -1);
+			return match.slice(2, ~match.indexOf('}}') ? -2 : -1);
 		},
 		DECLARE: {
 			"syntax": /(?:\$\{declare (.*?);?\})|(?:\{\{declare (.*?);?\}\})/i,
@@ -1112,9 +1112,9 @@ function __or (){
 function __processBlocks (start, end, code, lookups) {
 	lookups = lookups || {};
 	var blocks = [], sindexes = [], sindex = 0, eindexes = [], eindex = 0;
-	while ((sindex = $c.indexOfAlt(code,start, sindex)) != -1 && (eindex = $c.indexOfAlt(code,end, eindex)) != -1) {
-		sindex != -1 && (sindexes.push(sindex), sindex++);
-		eindex != -1 && (eindexes.push(eindex), eindex++);
+	while (~(sindex = $c.indexOfAlt(code,start, sindex)) && ~(eindex = $c.indexOfAlt(code,end, eindex))) {
+		~sindex && (sindexes.push(sindex), sindex++);
+		~eindex && (eindexes.push(eindex), eindex++);
 	}
 	// if true syntax error, start end missmatch
 	if (sindexes.length != eindexes.length) {
@@ -1251,8 +1251,8 @@ function __parseComparisonExpr (doc,expr,field) {
 		if (value1 > value2) { cmp = 1; }
 
 		if ($c.isNull(cmp)) {
-			value1 = sortOrder.indexOf([null, undefined].indexOf(value1) != -1 ? value1 : value1.constructor);
-			value2 = sortOrder.indexOf([null, undefined].indexOf(value2) != -1 ? value2 : value2.constructor);
+			value1 = sortOrder.indexOf(~([null, undefined].indexOf(value1)) ? value1 : value1.constructor);
+			value2 = sortOrder.indexOf(~([null, undefined].indexOf(value2)) ? value2 : value2.constructor);
 
 			if (value1 < value2) { cmp = -1; }
 			if (value1 > value2) { cmp = 1; }
@@ -1361,7 +1361,7 @@ function __parseSetExpr (doc,expr,field) {
 					$c.toSet(set2);
 					if (set1.length != set2.length) { return false; }
 					for (var jlen = set1.length; j < jlen; j++) {
-						if (set2.indexOf(set1[j]) == -1) { return false; }
+						if (!~set2.indexOf(set1[j])) { return false; }
 					}
 				}
 				return true;
@@ -1386,7 +1386,7 @@ function __parseSetExpr (doc,expr,field) {
 						rtnSet = settmp;
 					}
 					for (var jlen = rtnSet.length; j < jlen; j++) {
-						if (set1.indexOf(rtnSet[j]) == -1) { $c.removeAt(rtnSet,j--); jlen--; }
+						if (!~set1.indexOf(rtnSet[j])) { $c.removeAt(rtnSet,j--); jlen--; }
 					}
 					if (!rtnSet.length) { return rtnSet; }
 				}
@@ -1418,7 +1418,7 @@ function __parseSetExpr (doc,expr,field) {
 				}
 				for (var jlen = arr1.length; j < jlen; j++) {
 					var st = arr1[j];
-					if (arr2.indexOf(st) == -1 && rtnSet.indexOf(st) == -1) {
+					if (!~arr2.indexOf(st) && !~rtnSet.indexOf(st)) {
 						rtnSet.push(st);
 					}
 				}
@@ -1438,7 +1438,7 @@ function __parseSetExpr (doc,expr,field) {
 					falseCondition = [undefined,null,0,false];
 
 				while (st = arr1[j++]) {
-					if (falseCondition.indexOf(st) == -1) { return true; }
+					if (!~falseCondition.indexOf(st)) { return true; }
 				}
 				return false;
 			case "$allElementsTrue":
@@ -1446,7 +1446,7 @@ function __parseSetExpr (doc,expr,field) {
 					falseCondition = [undefined,null,0,false];
 
 				for (var jlen = arr1.length; j < jlen; j++) {
-					if (falseCondition.indexOf(arr1[j]) != -1) { return false; }
+					if (~falseCondition.indexOf(arr1[j])) { return false; }
 				}
 				return true;
 		}
@@ -1557,10 +1557,10 @@ function __processAccumulator (doc,accumulator,previousValue,meta) {
 				return previousValue;
 			case !!accumulator["$addToSet"]:
 				previousValue = previousValue || [];
-				if (!$c.isNull(value) && previousValue.indexOf(value) == -1) { previousValue.push(value); }
+				if (!$c.isNull(value) && !~previousValue.indexOf(value)) { previousValue.push(value); }
 				return previousValue;
 			case !!accumulator["$stdDevSamp"]:
-				if (meta.sample && meta.sample.indexOf(doc) != -1) {
+				if (meta.sample && ~meta.sample.indexOf(doc)) {
 					if (!$c.isNull(value)) {
 						previousValue = previousValue || [];
 						previousValue.push(value);
@@ -1589,8 +1589,8 @@ function __processAttributes(node) {
 			tagend = node.indexOf('>'),
 			tag = node.substring(1, tagend),
 			attIndex = $c.indexOfAlt(tag,/\s|>/),
-			nodename = attIndex == -1 ? tag : tag.substring(0, $c.indexOfAlt(tag,/\s|>/)),
-			attr = attIndex == -1 ? "" : tag.substring($c.indexOfAlt(tag,/\s|>/)),
+			nodename = !~attIndex ? tag : tag.substring(0, $c.indexOfAlt(tag,/\s|>/)),
+			attr = !~attIndex ? "" : tag.substring($c.indexOfAlt(tag,/\s|>/)),
 			text = node.substring(tagend + 1, node.indexOf('<', tagend));
 
 		if (attr) {
@@ -1651,25 +1651,25 @@ function __processExpression (doc,expr) {
 				conditionalKeys = ["$cond", "$ifNull"];
 
 			switch (true) {
-				case literalKeys.indexOf(field) != -1:
+				case !!~literalKeys.indexOf(field):
 					return expr;
-				case boolKeys.indexOf(field) != -1:
+				case !!~boolKeys.indexOf(field):
 					return __parseBooleanExpr(doc, expr, field);
-				case setKeys.indexOf(field) != -1:
+				case !!~setKeys.indexOf(field):
 					return __parseSetExpr(doc, expr, field);
-				case compareKeys.indexOf(field) != -1:
+				case !!~compareKeys.indexOf(field):
 					return __parseComparisonExpr(doc, expr, field);
-				case arithmeticKeys.indexOf(field) != -1:
+				case !!~arithmeticKeys.indexOf(field):
 					return __parseArithmeticExpr(doc, expr, field);
-				case stringKeys.indexOf(field) != -1:
+				case !!~stringKeys.indexOf(field):
 					return __parseStringExpr(doc, expr, field);
-				case arrayKeys.indexOf(field) != -1:
+				case !!~arrayKeys.indexOf(field):
 					return __parseArrayExpr(doc, expr, field);
-				case variableKeys.indexOf(field) != -1:
+				case !!~variableKeys.indexOf(field):
 					return __parseVariableExpr(doc, expr, field);
-				case dateKeys.indexOf(field) != -1:
+				case !!~dateKeys.indexOf(field):
 					return __parseDateExpr(doc, expr, field);
-				case conditionalKeys.indexOf(field) != -1:
+				case !!~conditionalKeys.indexOf(field):
 					return __parseConditionalExpr(doc, expr, field);
 				default:
 					__processExpression (doc,value);
@@ -1721,7 +1721,7 @@ function __processSiblings(xml) {
 			}
 			if (!tag) {
 				etag = part.indexOf('>');
-				if (etag == -1) {
+				if (!~etag) {
 					if (!i) {
 						obj['#text'] += $c.strip(part, ['\n', ' ']);
 					} else {
@@ -1731,7 +1731,7 @@ function __processSiblings(xml) {
 				}
 				tag = part.split(/\s|>/)[0];
 				node += "<" + part;
-			} else if ((etag = part.indexOf('/' + tag + '>')) != -1) {
+			} else if (~(etag = part.indexOf('/' + tag + '>'))) {
 				var text = $c.strip(part.substr(etag + tag.length + 2),['\n', ' ']);
 				if (text) {
 					obj['#text'] += text;
@@ -1782,7 +1782,7 @@ function __processStage(docs, stage) {
 				for (var prop in value) {
 					if (!value.hasOwnProperty(prop)) { continue; }
 					var pre = "";
-					if (value[prop] == -1) { pre = "!"; }
+					if (!~value[prop]) { pre = "!"; }
 					sorter.push(pre+prop);
 				}
 				return $c.sortBy(docs,sorter);
@@ -1852,7 +1852,7 @@ function __relativePathFinder (path) {
 	// first clause is for linux based files systems, second clause is for windows based file system
 	if (!(path.startsWith('/') || /^[a-zA-Z]:\/|^\/\/.*/.test(path))) {
 		callingPath = new Error().stack.split('\n')[3].replace(/.*?\((.*)/,'$1');
-		if (callingPath.indexOf('\\') != -1) {
+		if (~callingPath.indexOf('\\')) {
 			callingPath = callingPath.replace(/\\/g,'/');
 		}
 		path = callingPath.substring(0,callingPath.lastIndexOf(delimiter) + 1) + path;
@@ -1893,7 +1893,7 @@ function __run_replace (reg, template, use_run, obj) {
 			func = $c.strip(funcValue.splice(0,1)[0],";");
 			for (var i = 0, len = funcValue.length; i < len; i++) {
 				var fv = funcValue[i];
-				if (fv.indexOf("${") != -1) {
+				if (~fv.indexOf("${")) {
 					funcValue[i] = fillTemplate(fv, obj);
 				}
 				try {
@@ -1901,7 +1901,7 @@ function __run_replace (reg, template, use_run, obj) {
 				} catch (e) {}
 			}
 			funcValue = funcValue.map(function(item){ return $c.tryEval(item) || item; });
-			template = template.indexOf(match[1]) != -1 ? template.replace(match[1], (match[1] = $c.replace_all(match[1],['\\[', '\\]'], ['[', ']']))) : template;
+			template = ~template.indexOf(match[1]) ? template.replace(match[1], (match[1] = $c.replace_all(match[1],['\\[', '\\]'], ['[', ']']))) : template;
 			template = $c.replace_all(template,"${" + pre + match[1] + post +"}",
 					$c.getProperty($g, func) ? $c.getProperty($g, func).apply(obj, funcValue) : ($c.tryEval("("+func+")")||foo).apply(obj,funcValue) || "");
 		}
@@ -1975,7 +1975,7 @@ function _binarySearch(sarr, prop, value, sindex, eindex, findIndex){
 	sindex = $c.isNull(sindex) ? 0 : sindex;
 	eindex = $c.isNull(eindex) ? sarr.length - 1 : eindex;
 	if (findIndex) {
-		if (eindex == -1) { return 0; }
+		if (!~eindex) { return 0; }
 		if (sarr[sindex][prop] > value) { return sindex; }
 		if (sarr[eindex][prop] < value) { return eindex; }
 	}
@@ -2013,17 +2013,17 @@ function _condense (objs, check_values) {
 			var obj = objs[i];
 			if (check_values) {
 				var index = i;
-				if (without && check_values.indexOf(obj) != -1) {
+				if (without && ~check_values.indexOf(obj)) {
 					skip.push(i);
 					continue;
 				}
-				if (skip.indexOf(i) != -1) { continue; }
-				while ((index = objs.indexOf(obj,index + 1)) != -1) {
+				if (~skip.indexOf(i)) { continue; }
+				while (~(index = objs.indexOf(obj,index + 1))) {
 					skip.push(index);
 				}
 
 			}
-			obj !== "" && !$c.isNull(obj) && (skip.indexOf && skip.indexOf(i) || _indexOf(skip, i)) == -1 && !$c.isNull(obj) && arr.push(obj);
+			obj !== "" && !$c.isNull(obj) && !~(skip.indexOf && skip.indexOf(i) || _indexOf(skip, i)) && !$c.isNull(obj) && arr.push(obj);
 		}
 		return arr;
 	} catch (e) {
@@ -2174,7 +2174,7 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/){
 					}),
 					new_path = current_path+"["+parseRaw(prop)+"]";
 
-				if (index != -1) {
+				if (~index) {
 					return arguments[argIndex+1].command += new_path + "="+ref.objects[index].path+";";
 				}
 
@@ -2258,7 +2258,7 @@ function _even (num) {
 function _getBrowserVersion(browser){
 	try {
 		var index = this.navigator.userAgent.indexOf(browser);
-		if (index == -1 && this["is"+browser]()) return -1;
+		if (!~index && this["is"+browser]()) return -1;
         var version = parseFloat(this.navigator.userAgent.substring(index+browser.length+1));
 		return version === 0 || version ? version : -1;
 	} catch(e){
@@ -2298,7 +2298,7 @@ function _getSession(sid, callback) {
 		var cookies, sessionCookieKey = "NODEJSSESSION";
 		cookies = ($c.getProperty(request, 'headers.cookie') || '').split('; ');
 		// get thes session cookie cuid from the cookie
-		var sessionCookie = cookies.filter(function (c) {return c.indexOf(sessionCookieKey + "=") != -1;})[0];
+		var sessionCookie = cookies.filter(function (c) {return ~c.indexOf(sessionCookieKey + "=");})[0];
 		if (sessionCookie) {
 			ctx.sessionid = sessionCookie.substring(sessionCookieKey.length + 1);
 		} else {
@@ -2443,7 +2443,7 @@ function _joinHelper (objs, arr, on, exclusive) {
 function _orderListHelper(value, sorter, arr) {
 	try {
 		var ii = 0, i = 0, len = arr.length;
-		if (sorter(value, arr[0]) == -1) { return 0; }
+		if (!~sorter(value, arr[0])) { return 0; }
 		if (sorter(value, arr[len - 1]) === 1) { return len; }
 		while (len > 1) {
 			len = Math.ceil(len/2);
@@ -2462,7 +2462,7 @@ function _orderListHelper(value, sorter, arr) {
 function _processClause (clause) {
 	try {
 		var index = $c.indexOfAlt(clause,/between/i);
-		if (index != -1) { // contains between predicate
+		if (~index) { // contains between predicate
 			//replace AND in the between to prevent confusion for AND clause separator
 			clause.replace(/between( .*? )and( .*?)( |$)/gi,'between$1&and$2$3');
 		}
@@ -2477,27 +2477,27 @@ function _processClause (clause) {
 
 				//=, <>, >, >=, <, <=, IN, BETWEEN, LIKE, IS NULL or IS NOT NULL
 				switch (true) {
-					case (index = predicateClause.indexOf('=')) != -1 :
+					case !!~(index = predicateClause.indexOf('=')) :
 						cond[predicateClause.substring(0, index).trim()] = {'$equals':$c.tryEval(predicateClause.substring(index + 1).trim())};
 						aquery['$and'].push(cond);
 						break;
-					case (index = predicateClause.indexOf('<>')) != -1 :
+					case !!~(index = predicateClause.indexOf('<>')) :
 						cond[predicateClause.substring(0, index).trim()] = {'$ne':$c.tryEval(predicateClause.substring(index + 1).trim())};
 						aquery['$and'].push(cond);
 						break;
-					case (index = predicateClause.indexOf('>')) != -1 :
+					case !!~(index = predicateClause.indexOf('>')) :
 						cond[predicateClause.substring(0, index).trim()] = {'$gt':$c.tryEval(predicateClause.substring(index + 1).trim())};
 						aquery['$and'].push(cond);
 						break;
-					case (index = predicateClause.indexOf('>=')) != -1 :
+					case !!~(index = predicateClause.indexOf('>=')) :
 						cond[predicateClause.substring(0, index).trim()] = {'$gte':$c.tryEval(predicateClause.substring(index + 1).trim())};
 						aquery['$and'].push({'$gte':cond});
 						break;
-					case (index = predicateClause.indexOf('<')) != -1 :
+					case !!~(index = predicateClause.indexOf('<')) :
 						cond[predicateClause.substring(0, index).trim()] = {'$lt':$c.tryEval(predicateClause.substring(index + 1).trim())};
 						aquery['$and'].push(cond);
 						break;
-					case (index = predicateClause.indexOf('<=')) != -1 :
+					case !!~(index = predicateClause.indexOf('<=')) :
 						cond[predicateClause.substring(0, index).trim()] = {'$lte':$c.tryEval(predicateClause.substring(index + 1).trim())};
 						aquery['$and'].push(cond);
 						break;
@@ -2506,7 +2506,7 @@ function _processClause (clause) {
 						aquery['$and'].push({'$gte':$c.tryEval(nums[0])});
 						aquery['$and'].push({'$lte':$c.tryEval(nums[1])});
 						break;
-					case (index = $c.indexOfAlt(predicateClause,/ in /i)) != -1 :
+					case !!~(index = $c.indexOfAlt(predicateClause,/ in /i)) :
 						var _in = $c.tryEval(predicateClause.substring(index + 4).trim().replace(/\((.*)\)/,'[$1]'));
 						if (!_in) {
 							//noinspection ExceptionCaughtLocallyJS
@@ -2515,15 +2515,15 @@ function _processClause (clause) {
 						cond[predicateClause.substring(0, index).trim()] = _in;
 						aquery['$and'].push({'$in':cond});
 						break;
-					case (index = $c.indexOfAlt(predicateClause,/is null/i)) != -1 :
+					case !!~(index = $c.indexOfAlt(predicateClause,/is null/i)) :
 						cond[predicateClause.substring(0, index).trim()] = null;
 						aquery['$and'].push({'$equals':cond});
 						break;
-					case (index = $c.indexOfAlt(predicateClause,/is not null/i)) != -1 :
+					case !!~(index = $c.indexOfAlt(predicateClause,/is not null/i)) :
 						cond[predicateClause.substring(0, index).trim()] = null;
 						aquery['$and'].push({'$ne':cond});
 						break;
-					case (index = $c.indexOfAlt(predicateClause,/ like /i)) != -1 :
+					case !!~(index = $c.indexOfAlt(predicateClause,/ like /i)) :
 						var likeVal = "^" + $c.replace_all(_trim(predicateClause.substring(index + 6),null,[' ', "'", '"']),"%",".*?") + "$";
 						cond[predicateClause.substring(0, index).trim()] = {'$regex': new RegExp(likeVal,'i')};
 						aquery['$and'].push(cond);
@@ -2580,7 +2580,7 @@ function _replace_all(replace, subject, flag) {
 		var str = this, last = 0;
 		for (var i = 0, len = replace.length; i < len; i++) {
 			var rep = replace[i];
-			var reg = new RegExp(__convert_regex_safe(rep), flag);
+			var reg = new RegExp(__convert_regex_safe(rep), flag);;
 			if (!$c.contains(str, reg)) { continue; }
 			str = str.replace(reg, subject[i] === undefined ? subject[last] : subject[i]);
 			if (subject[last + 1]) { last++; }
@@ -2693,7 +2693,7 @@ function _subFieldHelper(obj, operands) {
 function _subQuery(query, field, index) {
 	try {
 		if (!$c.isObject(query)) {
-			if (field.indexOf('.') != -1) { return "$c.equals($c.getProperty(record.'" + field + "'), " + $c.parseRaw(query) + ")";}
+			if (~field.indexOf('.')) { return "$c.equals($c.getProperty(record.'" + field + "'), " + $c.parseRaw(query) + ")";}
 			return "$c.equals(record['" + field + "'], " + $c.parseRaw(query) + ")";
 		}
 		var expression = "true", comparison_map = {
@@ -3302,7 +3302,7 @@ function ajax(params, returnData){
 				}
 			}
 			try {
-				if (params.protocol && params.protocol.indexOf('https') != -1) { httpRequest = require('https'); }
+				if (params.protocol && ~params.protocol.indexOf('https')) { httpRequest = require('https'); }
 				var req = httpRequest.request($c.merge(defaults, params,{clone:true,intersect:true}), function (res) {
 					var body = {data:""}, ctx = params.context || res;
 					res.on('data', function (chunk) {
@@ -3540,7 +3540,20 @@ function $GET(variable, options) {
 		"returnType": "(Mixed)"
 	}|*/
 	try {
+		options = options || {};
 		if (!variable) {
+			var search = this.$l.search || "";
+			var hash = this.$l.hash || "";
+			if (options.url) {
+				var index = -1;
+				if (~(index = url.indexOf("#"))) {
+					hash = url.substring(index);
+					search = url.substring(0,index);
+				}
+				if (~(index = url.indexOf("?"))) {
+					search = url.substring(index);
+				}
+			}
 			var allkeyvalues = {},
 				mapFunc = function(value){
 					if (value == "") { return; }
@@ -3554,11 +3567,10 @@ function $GET(variable, options) {
 					return allkeyvalues[keyvalue[0]] = keyvalue[1];
 				};
 
-			(this.$l.search[0] == "?" ? this.$l.search.substr(1) : this.$l.search).split('&').map(mapFunc);
-			(this.$l.hash[0] == "#" ? this.$l.hash.substr(1) : this.$l.hash).split('@').map(mapFunc);
+			(search[0] == "?" ? search.substr(1) :search).split('&').map(mapFunc);
+			(hash[0] == "#" ? hash.substr(1) : hash).split('@').map(mapFunc);
 			return allkeyvalues;
 		}
-		options = options || {};
 		var ignoreCase = options.ignoreCase || options == "ignoreCase" ? "i" : "",
 			regex = new RegExp("[\?|&|@]?" + variable + "=", ignoreCase),
 			attr = "search",
@@ -3566,14 +3578,14 @@ function $GET(variable, options) {
 		location.hash = this.$l.hash;
 		location.search = this.$l.search;
 
-		if (options.url || $c && $c.isString && ($c.isString(options) && (options.indexOf("?") != -1 || options.indexOf("#") != -1))) {
+		if (options.url || $c && $c.isString && ($c.isString(options) && (~options.indexOf("?") || ~options.indexOf("#")))) {
 			var query = options.url || options,
 				hindex, qindex = query.indexOf("?");
 
-			qindex != -1 && (query = query.substr(qindex));
+			~qindex && (query = query.substr(qindex));
 
 			hindex = query.indexOf("#");
-			if (hindex != -1) {
+			if (~hindex) {
 				location.hash = query.substr(hindex);
 				query = query.substr(0,hindex);
 			}
@@ -3722,10 +3734,10 @@ function catchAll (callback, append) {
 		// if this callback exists
 		var index = catchAll.listeners.indexOf(callback.toString());
 
-		if (index == -1 || append) {
+		if (!~index || append) {
 			process.on('uncaughtException', callback);
 		}
-		index == -1 && logit("listening for uncaught errors");
+		!~index && logit("listening for uncaught errors");
 	} catch (e) {
 		logit('$PUT');
 		logit(e);
@@ -3959,14 +3971,14 @@ function createServer (callback, options) {
 
 
 					// look for other node apps
-					if (url.indexOf(':') != -1) {
+					if (~url.indexOf(':')) {
 						var parts = url.split(':'),
 							appPath = parts[0],
-							sindex = parts[1].indexOf('/') != -1 ? parts[1].indexOf('/') : 0,
+							sindex = ~parts[1].indexOf('/') ? parts[1].indexOf('/') : 0,
 							port = parts[1].substring(0, sindex),
 							path = $c.strip(parts[1].substring(sindex),'/'),
 							callingPath = process.cwd();
-						if (callingPath.indexOf('\\') != -1) { callingPath = callingPath.replace(/\\/g, '/'); }
+						if (~callingPath.indexOf('\\')) { callingPath = callingPath.replace(/\\/g, '/'); }
 						appPath = callingPath + "/" + appPath;
 						var app = include(appPath) || {};
 						if (!process.listeners('uncaughtException').length) {
@@ -4031,9 +4043,9 @@ function createServer (callback, options) {
 				cray.raw = body;
 				if (request.method == "POST") { body = cray.$PAYLOAD(); }
 				var ct = cray.$HEADER('content-type','i') || "";
-				if (ct.indexOf('/json') != -1) {
+				if (~ct.indexOf('/json')) {
 					body = $c.tryEval(body);
-				} else if (ct.indexOf('/x-www-form-urlencoded') != -1 || ct.indexOf('text/plain') != -1) {
+				} else if (~ct.indexOf('/x-www-form-urlencoded') || ~ct.indexOf('text/plain')) {
 					body = $c.toObject(body);
 				}
 				onRequestReceived(["all", request.method.toLowerCase(),"middleware"], body);
@@ -4195,13 +4207,13 @@ function end(status, output, encoding) {
 			var ctype = headers.contentType || headers['ContentType'] || headers['Content-type'] || headers['content-type'] || headers['Content-Type'] || "";
 
 			switch (true) {
-				case ctype.indexOf('/plain') != -1:
+				case !!~ctype.indexOf('/plain'):
 					eco = "Resource Not Found";
 					break;
-				case ctype.indexOf('/html') != -1:
+				case !!~ctype.indexOf('/html'):
 					eco = $c.HTTP_STATUS_TEMPLATE[404] || "<html><head></head><body><h1>"+code+": Resource Not Found</h1><p>The resource you are trying to receive was not found</p></body></html>";
 					break;
-				case ctype.indexOf('/json') != -1:
+				case !!~ctype.indexOf('/json'):
 					eco = JSON.stringify(this.RESPONSES["404"]);
 					break;
 			}
@@ -4260,7 +4272,7 @@ function exclude(list) {
 		list = list || [];
 		for (var i = 0, len = list.length; i < len; i++) {
 			var name = list[i] || "";
-			if (name.indexOf(':') != -1) {
+			if (~name.indexOf(':')) {
 				var parts = name.split(':');
 				delete $w[$c.capitalize((parts[0] || "").toLowerCase())];
 				continue;
@@ -4331,7 +4343,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 		objs = objs || [{}];
 		if (!$c.isArray(objs)) { objs = [objs]; }
 		var html = "", variable, value, ttc = $c.TEMPLATE_TAG_CONFIG, tvs = $c.TEMPLATE_VARS,
-			hasDataProps = htmlTemplate.indexOf('${dataproperties}') != -1,
+			hasDataProps = !!~htmlTemplate.indexOf('${dataproperties}'),
 			vsyntax = ttc.VARIABLE,
 			vnsyntax = ttc.VARIABLE_NAME, j = 0, tv, decl = false;
 		while (tv = tvs[j++]) {
@@ -4350,13 +4362,13 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 		for (var i = offset; i < max; i++) {
 			var obj = objs[i], regex, template = htmlTemplate, match, bind = "";
 
-			if (template.indexOf("${this}") != -1 || template.indexOf("${index}") != -1) {
+			if (~template.indexOf("${this}") || ~template.indexOf("${index}")) {
 				var uid = __add_fillTemplate_ref(obj);
 				template = $c.replace_all(template, ["${this}","${index}"],["fillTemplate.refs['" + uid + "']",i]);
 			}
 
 
-			while (template.indexOf("${this.") != -1 && (match=/\$\{this\.(.+?)\}/.exec(template))) {
+			while (~template.indexOf("${this.") && (match=/\$\{this\.(.+?)\}/.exec(template))) {
 				value = $c.getProperty(obj, match[1]);
 				if (typeof value == "object") {
 					value = "fillTemplate.refs['" + __add_fillTemplate_ref(value) + "']";
@@ -4370,7 +4382,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 				expression = props[j];
 				var property = $c.isFunction(vnsyntax) ? vnsyntax(expression) : vnsyntax.exec && vnsyntax.exec(expression);
 				if (!obj.hasOwnProperty(property)) { continue; }
-				if (template.indexOf(expression) != -1 && !isNull(objval = $c.getProperty(obj,property,null,{noInheritance:true}))) {
+				if (~template.indexOf(expression) && !isNull(objval = $c.getProperty(obj,property,null,{noInheritance:true}))) {
 					if (typeof objval == "object") {
 						objval = "fillTemplate.refs['" + __add_fillTemplate_ref(objval) + "']";
 					} else {
@@ -4382,7 +4394,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 						replacer_arr.push('<br />');
 					}
 					objval = $c.replace_all(objval,replacee_arr,replacer_arr);
-					if (objval.indexOf('${') != -1) {
+					if (~objval.indexOf('${')) {
 						objval = fillTemplate(objval,[obj]);
 					}
 					template = $c.replace_all(template,expression, objval);
@@ -4394,22 +4406,40 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 			}
 			template = $c.replace_all(template,'\n', '');
 			// special run sytax
-			template = template.indexOf("${COUNT") != -1 ? template.replace(/\$\{COUNT\[(.*?)\]\}/g, '${RUN[__count;$1]}') : template;
-			template = template.indexOf("${ENUM") != -1 ? template.replace(/\$\{ENUM\[(.*?)\]\}/g, '${RUN[__enum;$1]}') : template;
-			template = template.indexOf("${RUN") != -1 ? __run_replace(/\$\{RUN\[(.+?)\]\}/, template, true, obj) : template;
-			var tmp, rptmp;
-			if (template.indexOf('||') != -1 && (tmp = /\$\{(.+?\|\|?.+?)\}/.exec(template)) && tmp[1]) {
-				tmp = $c.strip(tmp[1],'|').replace(/\|{3,}/,'');
-				if (tmp.indexOf('||') != -1) {
-					rptmp = (tmp && "__or|" + $c.replace_all(tmp,'||', "|") || "");
-					template = $c.replace_all(template,tmp, rptmp);
+			template = ~template.indexOf("${COUNT") ? template.replace(/\$\{COUNT\[(.*?)\]\}/g, '${RUN[__count;$1]}') : template;
+			template = ~template.indexOf("${ENUM") ? template.replace(/\$\{ENUM\[(.*?)\]\}/g, '${RUN[__enum;$1]}') : template;
+			template = ~template.indexOf("${RUN") ? __run_replace(/\$\{RUN\[(.+?)\]\}/, template, true, obj) : template;
+			var tmp, rptmp, skiplogicals = false;
+			if (~template.indexOf('||') && (tmp = /\$\{(.+?\|\|?.+?)\}/.exec(template)) && tmp[1]) {
+				for (var tag in $c.TEMPLATE_TAG_CONFIG) {
+					if (!$c.TEMPLATE_TAG_CONFIG[tag].begin) { continue; }
+					if ($c.TEMPLATE_TAG_CONFIG[tag].begin.test(tmp[0])) {
+						skiplogicals = true;
+						break;
+					}
 				}
-				template = template.replace("||",'|');
+				if (!skiplogicals) {
+					tmp = $c.strip(tmp[1], '|').replace(/\|{3,}/, '');
+					if (~tmp.indexOf('||')) {
+						rptmp = (tmp && "__or|" + $c.replace_all(tmp, '||', "|") || "");
+						template = $c.replace_all(template, tmp, rptmp);
+					}
+					template = template.replace("||", '|');
+				}
 			}
-			if (template.indexOf('&&') != -1 && (tmp = /\$\{(.+?\&\&?.+?)\}/.exec(template)) && tmp[1]) {
-				tmp = tmp[1];
-				rptmp = (tmp && "__and|"+$c.replace_all(tmp,'&&', "|") || "");
-				template = $c.replace_all(template,tmp, rptmp);
+			if (~template.indexOf('&&') && (tmp = /\$\{(.+?\&\&?.+?)\}/.exec(template)) && tmp[1]) {
+				for (var tag in $c.TEMPLATE_TAG_CONFIG) {
+					if (!$c.TEMPLATE_TAG_CONFIG[tag].begin) { continue; }
+					if ($c.TEMPLATE_TAG_CONFIG[tag].begin.test(tmp[0])) {
+						skiplogicals = true;
+						break;
+					}
+				}
+				if (!skiplogicals) {
+					tmp = tmp[1];
+					rptmp = (tmp && "__and|" + $c.replace_all(tmp, '&&', "|") || "");
+					template = $c.replace_all(template, tmp, rptmp);
+				}
 			}
 			var leftovervars = template.match(vsyntax);
 			if (leftovervars) {
@@ -4421,14 +4451,14 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 					}
 				}
 			}
-			template = $c.contains(template, /\$\{.*?(\|.*?)+?\}/) ? __run_replace (/\$\{(.+?(\|?.+?)+)\}/, template, false,obj) : template;
+			template = /\$\{.*?(\|.*?)+?\}/.test(template) && !/\$\{.*?(\|\|.*?)+?\}/.test(template) ? __run_replace (/\$\{(.+?(\|?.+?)+)\}/, template, false,obj) : template;
 
 			var declarations = template.match($c.addFlags(ttc.DECLARE.syntax,'g')) || []
 			for (var j = 0, jlen = declarations.length; j < jlen; j++) {
 				template = ttc.DECLARE.parser(template, declarations[j]);
 			}
 			template = __logic_parser(template, obj, bind);
-			html += $c.replace_all(($c.contains(template, vsyntax) ? template.replace(vsyntax,"") : template),';\\', ';');
+			html += $c.replace_all((vsyntax.test(template) ? template.replace(vsyntax,"") : template),';\\', ';');
 		}
 
 		if (!nested) {
@@ -4535,7 +4565,7 @@ function header(headers, code) {
 	}|*/
 	try {
 		if ($c.isString(headers) && !code) {
-			if (headers.indexOf(':') == -1) {
+			if (!~headers.indexOf(':')) {
 				code = parseInt(headers.replace(/.*?([\d]{3}).*/, '$1'));
 			}
 			if (headers.toLowerCase().indexOf('http/') == 0) {
@@ -4825,7 +4855,7 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
 				}
 			}
 			var index = __windowVars.indexOf(value);
-			if (index == -1) {
+			if (!~index) {
 				if (saveCircular) {
 					__windowVars.push(value);
 					__windowVarNames.push(suid());
@@ -5123,7 +5153,7 @@ function wait(condition) { // TODO: allow for nested wait calls
 			}
 			for (var j = 0, jlen = variables.length; j < jlen; j++) {
 				var variable = variables[j], regex, values;
-				if (variable.indexOf('=') != -1) {
+				if (~variable.indexOf('=')) {
 					variable = variable.split('=')[0].trim();
 				}
 				regex = new RegExp(variable + '\\s*?=\\s*?.*?\\s*?[,;]', 'gi');
@@ -5545,7 +5575,7 @@ function isIE6() {
 	}|*/
 	try {
 		var rv = IEVersion();
-		return (rv != -1 && rv < 7.0);
+		return (~rv && rv < 7.0);
 	} catch (e) {
 		error('isIE6', e);
 	}
@@ -5562,7 +5592,7 @@ function isIE() {
 		"returnType": "(Bool)"
 	}|*/
 	try {
-		return (IEVersion() != -1);
+		return (!!~IEVersion());
 	} catch (e) {
 		error('isIE', e);
 	}
@@ -6076,11 +6106,11 @@ _ext(String, 'highlight', function (search, cssClass, tag) {
 		cssClass = cssClass || "chighlight";
 		tag = tag || "span";
 		var txt = "", flags = "g";
-		if ($c.isRegExp(search) && search.source.indexOf("(") == -1) {
+		if ($c.isRegExp(search) && !~search.source.indexOf("(")) {
 			txt = "(" + search.source + ")";
 			if (search.ignoreCase) { flags += "i"; }
 			if (search.multiline) { flags += "m"; }
-		} else if (search.indexOf("(") == -1) {
+		} else if (!~search.indexOf("(")) {
 			txt = "(" + search + ")";
 		}
 		return this.replace($c.addFlags((new RegExp(txt)),flags),"<" + tag + " class=\"" + cssClass + "\">$1</" + tag + ">");
@@ -7215,7 +7245,7 @@ _ext(Array, 'mapReduce', function(map, reduce, options) {
 				for (var prop in options.sort) {
 					if (!options.sort.hasOwnProperty(prop)) { continue; }
 					if (options.sort[prop] == 1) { sortProps.push(prop); }
-					if (options.sort[prop] == -1) { sortProps.push("!"+prop); }
+					if (!~options.sort[prop]) { sortProps.push("!"+prop); }
 				}
 				results = $c.sortBy(results,sortProps);
 			} else {
@@ -7284,6 +7314,69 @@ _ext(Array, 'normalize', function () {
 		error("Array.normalize", e);
 	}
 }, true);
+_ext(Array, 'parallelEach', function (gen, args) {
+	/*|{
+		"info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
+		"category": "Array",
+		"parameters":[],
+
+		"overloads":[
+			{"parameters":[
+				{"gen": "(Generator) Generator function to apply to each item"}]},
+
+			{"parameters":[
+				{"func": "(Function) Function to apply to each item"}]},
+
+			{"parameters":[
+				{"args": "(Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)"}]}],
+
+		"url": "http://www.craydent.com/library/1.9.2/docs#array.normalize",
+		"returnType": "(Promise)"
+	}|*/
+	try {
+		var self = this, arr = this;
+		if ($c.isArray(gen)) {
+			args = gen;
+			gen = undefined;
+		}
+		if (!$c.isArray(args)) {
+			args = [];
+		}
+		var len = arr.length, results = Array(len), completed = 0;
+		if (gen) {
+			var isgen = $c.isGenerator(gen), isfunc = $c.isFunction(gen);
+			return new Promise(function (res, rej) {
+				for (var i = 0; i < len; i++) {
+					if (isgen) {
+						$c.syncroit(function*(){
+							results[i] = yield* gen.call(self, arr[i],i);
+							if (++completed == len) { res(results); }
+						});
+					} else if (isfunc) {
+						results[i] = gen.call(self,arr[i],i);
+						if (++completed == len) { res(results); }
+					}
+				}
+			});
+		}
+		return new Promise(function (res, rej) {
+			for (var i = 0; i < len; i++) {
+				if ($c.isGenerator(arr[i])) {
+					eval('$c.syncroit(function*(){ results[' + i + '] = yield* arr[' + i + '].apply(self,args); if (++completed == len) { res(results); } });');
+				} else if ($c.isPromise(arr[i])) {
+					eval('$c.syncroit(function*(){ results[' + i + '] = yield arr[' + i + ']; if (++completed == len) { res(results); } });');
+				} else if ($c.isFunction(arr[i])) {
+					eval('setTimeout(function(){ results[' + i + '] = arr[' + i + '].apply(self,args);if (++completed == len) { res(results); } },0);');
+				} else {
+					results[i] = arr[i];
+					if (++completed == len) { res(results); }
+				}
+			}
+		});
+	} catch(e) {
+		error("Array.parallelEach", e);
+	}
+}, true);
 _ext(Array, 'remove', function (value, indexOf) {
 	/*|{
 		"info": "Array class extension to remove an item by value",
@@ -7302,7 +7395,7 @@ _ext(Array, 'remove', function (value, indexOf) {
 	try {
 		indexOf = indexOf || this.indexOf;
 		var index = indexOf.call(this, value);
-		if(index == -1) { return false; }
+		if(!~index) { return false; }
 		return this.splice(index, 1)[0];
 	} catch (e) {
 		error("Array.remove", e);
@@ -7327,8 +7420,8 @@ _ext(Array, 'removeAll', function (value, indexOf) {
 		if (value) {
 			indexOf = indexOf || this.indexOf;
 			var  removed = [], index = indexOf.call(this, value);
-			if (index == -1) { return false; }
-			while (index != -1 && $c.isInt(index)) {
+			if (!~index) { return false; }
+			while (~index && $c.isInt(index)) {
 				removed.push($c.remove(this,value, indexOf));
 				index = indexOf.call(this, value);
 			}
@@ -7719,7 +7812,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
 				for (var prop in setObject['$pop']) {
 					if(!setObject['$pop'].hasOwnProperty(prop) || !$c.isArray(obj[prop])) { continue; }
 					if (setObject['$pop'][prop] == 1) { obj[prop].pop(); }
-					else if (setObject['$pop'][prop] == -1) { obj[prop].shift(); }
+					else if (!~setObject['$pop'][prop]) { obj[prop].shift(); }
 				}
 			}
 			if (setObject['$pullAll']) {
@@ -7772,7 +7865,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
 							if (!sort.hasOwnProperty(p)) { continue; }
 							if (sort[p] == 1) {
 								sorter.push(p)
-							} else if (sort[p] == -1) {
+							} else if (!~sort[p]) {
 								sorter.push("!"+p)
 							}
 						}
@@ -7995,7 +8088,7 @@ _ext(Array, 'where', function(condition, projection, limit) {
 						var addit = true;
 						for (var j = 0, jlen = orderedLists.length; j < jlen; j++) {
 							if (fi == j) { continue; }
-							if (orderedLists[j].indexOf(farr[i]) == -1) {
+							if (!~orderedLists[j].indexOf(farr[i])) {
 								addit = false;
 								break;
 							}
@@ -8007,7 +8100,7 @@ _ext(Array, 'where', function(condition, projection, limit) {
 			var boolCond = "", useQueryNested = false, func = function (cobj,index,arr) {
 				if (arr.temp_count++ < this.temp_limit) { return false; }
 				for (var prop in condition) {
-					if (prop.indexOf('.') != -1) {
+					if (~prop.indexOf('.')) {
 						if (!$c.contains(_qnp(cobj, prop),condition[prop])) {
 							return false;
 						}
@@ -8018,8 +8111,8 @@ _ext(Array, 'where', function(condition, projection, limit) {
 				return true;
 			};
 			for (var prop in condition) {
-				if (!condition.hasOwnProperty(prop) || ipHasLength && indexProps.indexOf(prop) != -1) { continue; }
-				if (prop.indexOf('.') != -1) { useQueryNested = true; break; }
+				if (!condition.hasOwnProperty(prop) || ipHasLength && ~indexProps.indexOf(prop)) { continue; }
+				if (~prop.indexOf('.')) { useQueryNested = true; break; }
 				var q = $c.isString(condition[prop]) ? "\"" : "";
 				if ($c.isRegExp(condition[prop])) {
 					boolCond += condition[prop] + ".test(cobj[\"" + prop + "\"]) && ";
@@ -8621,9 +8714,9 @@ _ext(RegExp, 'addFlags',function(flags){
 		"returnType": "(RegExp)"
 	}|*/
 	try {
-		if (this.global && flags.indexOf('g') == -1) { flags += "g"; }
-		if (this.ignoreCase && flags.indexOf('i') == -1) { flags += "i"; }
-		if (this.multiline && flags.indexOf('m') == -1) { flags += "m"; }
+		if (this.global && !~flags.indexOf('g')) { flags += "g"; }
+		if (this.ignoreCase && !~flags.indexOf('i')) { flags += "i"; }
+		if (this.multiline && !~flags.indexOf('m')) { flags += "m"; }
 
 		return new RegExp(this.source, flags);
 	} catch (e) {
@@ -8707,8 +8800,9 @@ _ao("contains", function(val, func){
 		}
 		switch(true) {
 			case $c.isArray(this):
+				if (~this.indexOf(val)) { return true; }
 				if ($c.isFunction(func) || $c.isRegExp(val)) {
-					return $c.indexOfAlt(this,val,func) != -1;
+					return !!~$c.indexOfAlt(this,val,func);
 				} else if ($c.isString(func)) {
 					var f = foo;
 					switch(func){
@@ -8740,9 +8834,9 @@ _ao("contains", function(val, func){
 						}
 					}
 				}
-				return this.indexOf(val) != -1;
+				return false;
 			case $c.isString(this):
-				return ($c.isRegExp(val) ? this.search(val) : this.indexOf(val)) != -1;
+				return !!~($c.isRegExp(val) ? this.search(val) : this.indexOf(val));
 			case $c.isObject(this):
 				for (var prop in this) {
 					if (!this.hasOwnProperty(prop)) { continue; }
@@ -8752,7 +8846,7 @@ _ao("contains", function(val, func){
 				}
 				break;
 			case $c.isNumber(this):
-				return this.toString().indexOf(val) != -1;
+				return !!~this.toString().indexOf(val);
 		}
 		return false;
 	} catch (e) {
@@ -9361,7 +9455,7 @@ _ao("isSubset", function (compare, sharesAny){
 
 			return true;
 		} else {
-			return this.toString().indexOf(compare.toString()) != -1 && this.constructor == compare.constructor;
+			return ~this.toString().indexOf(compare.toString()) && this.constructor == compare.constructor;
 		}
 	} catch (e) {
 		error('Object.isSubset', e);
@@ -9508,7 +9602,7 @@ _ao("merge", function (secondary, condition) {
 					objtmp.push($c.duplicate(secondary[prop]));
 				} else {
 					if ($c.isArray(objtmp) && ($c.isNull(condition) || recurse)) {
-						if (objtmp.indexOf(secondary[prop]) == -1) {
+						if (!~objtmp.indexOf(secondary[prop])) {
 							objtmp.push(secondary[prop]);
 						}
 					} else if (recurse && ($c.isArray(objtmp[prop]) || $c.isObject(objtmp[prop])) && ($c.isArray(secondary[prop]) || $c.isObject(secondary[prop]))) {
@@ -10118,7 +10212,7 @@ if (typeof JSON.parseAdvanced !== 'function') {
 		_original = _original || obj;
 		for (var prop in obj) {
 			if (!obj.hasOwnProperty(prop)) { continue; }
-			if (prop.indexOf('.') != -1 && $c.count(prop,/\./) == 1) {
+			if (~prop.indexOf('.') && $c.count(prop,/\./) == 1) {
 				var parts = prop.split('.'),
 					name = parts[0],
 					type = parts[1],
