@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.10                               /*/
+/*/ Craydent LLC node-v0.6.11                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.10',
+var _craydent_version = '0.6.11',
 	__GLOBALSESSION = [];
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -3743,7 +3743,7 @@ function catchAll (callback, append) {
 		logit(e);
 	}
 }
-function clusterit(callback){
+function clusterit(options, callback){
 	/*|{
 		"info": "Enable clustering",
 		"category": "Global",
@@ -3755,21 +3755,32 @@ function clusterit(callback){
 		"url": "http://www.craydent.com/library/1.9.2/docs#clusterit",
 		"returnType": "(void)"
 	}|*/
-	try {;
+	try {
+		if (!callback && $c.isFunction(options)) {
+			callback = options;
+			options = {};
+		}
 		const cluster = require('cluster');
-		const numCPUs = require('os').cpus().length;
+		const numCPUs = options.max_cpu || require('os').cpus().length;
 
 		if (cluster.isMaster) {
 			// Fork workers.
 			for (var i = 0; i < numCPUs; i++) {
-				cluster.fork();
+				var child = cluster.fork();
+				(options.onfork || $c.foo)(child);
+				if (options.auto_spawn) {
+					child.on('exit', function(worker, code, signal){
+						(options.onexit || $c.foo)(worker, code, signal);
+						callback(cluster.fork());
+					});
+				}
 			}
-
 			return cluster;
 
-		} else {
-			callback(cluster);
 		}
+		// child process
+		callback(cluster);
+
 		return {
 			isMaster: false,
 			disconnect: $c.foo,

@@ -2209,6 +2209,10 @@ describe ('No Conflict Global methods', function () {
 		expect($c.fillTemplate("<div>${if (${this.bye.value})}<span>${this.bye.value}</span>${elseif (${bye})}<p>${bye}</p>${end if}</div>",{bye:{value:"bbye"}})).toBe("<div><span>bbye</span></div>");
 		expect($c.fillTemplate("<div>${if (${hi})}<span>${hi}</span>${elseif (${this.bye.value})}<p>${this.bye.value}</p>${end if}</div>",{bye:{value:"bbye"}})).toBe("<div><p>bbye</p></div>");
 		expect($c.fillTemplate("divhere${if (${this.User.length} || ${this.User})}div${end if}ending",{User:['']})).toBe("divheredivending");
+		expect($c.fillTemplate("divhere${if (${this.User.length} || ${this.User})}div${end if}ending",{User:[]})).toBe("divheredivending");
+		expect($c.fillTemplate("divhere${if (${this.User})}div${end if}ending",{User:[]})).toBe("divheredivending");
+		expect($c.fillTemplate("divhere${if (${this.User.length})}div${end if}ending",{User:[]})).toBe("divhereending");
+		expect($c.fillTemplate("divhere${if ('${this.User}')}div${end if}ending",{User:"adsf"})).toBe("divheredivending");
 		expect($c.fillTemplate("<div>${name}<div>${for ${i=0,len=${arr}.length};${i<len};${i++}}${${arr}[i].hi}8888${name}9999${end for}</div></div>",obj))
 				.toBe("<div>operation<div>b8888operation9999c8888operation9999</div></div><div>operation<div>b8888operation9999c8888operation9999</div></div>")
 		expect($c.fillTemplate("<div>${name}<div>${declare i=0,len=${arr}.length}${while (${i}<${len})}${${arr}[i].hi}8888${name}9999${i++,null}${end while}</div></div>",obj))
