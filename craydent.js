@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.11                               /*/
+/*/ Craydent LLC node-v0.6.12                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.11',
+var _craydent_version = '0.6.12',
 	__GLOBALSESSION = [];
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -8404,7 +8404,7 @@ _ext(Date, 'format', function (format, options) {
 
 		/*option F*/replace(/([^\\])F|^F/g, '$1' + ['\\J\\a\\n\\u\\a\\r\\y','\\F\\e\\b\\r\\u\\a\\r\\y','\\M\\a\\r\\c\\h','\\A\\p\\r\\i\\l','\\M\\a\\y','\\J\\u\\n\\e','\\J\\u\\l\\y','\\A\\u\\g\\u\\s\\t','\\S\\e\\p\\t\\e\\m\\b\\e\\r','\\O\\c\\t\\o\\b\\e\\r','\\N\\o\\v\\e\\m\\b\\e\\r','\\D\\e\\c\\e\\m\\b\\e\\r'][month - 1]).// replace all F's with A full textual representation of a month, such as January or March
 		/*option m* or %m*/replace(/([^\\])%m|^%m|([^\\])m|^m/g, '$1$2' + (month < 10 ? "0" + month : month)).// replace all m's with Numeric representation of a month, with leading zeros
-		/*option M or %M*/replace(/([^\\])%M|^%M`|([^\\])M|^M/g, '$1' + threeLetterMonth).// replace all M's with A short textual representation of a month, three letters
+		/*option M or %M*/replace(/([^\\])%M|^%M|([^\\])M|^M/g, '$1$2' + threeLetterMonth).// replace all M's with A short textual representation of a month, three letters
 		/*option n*/replace(/([^\\])n|^n/g, '$1' + month).// replace all n's with Numeric representation of a month, without leading zeros
 		/*option t*/replace(/([^\\])t|^t/g, '$1' + (month == 2 && $c.isInt(year/4) ? 29 :[31,28,31,30,31,30,31,31,30,31,30,31][month - 1])).// replace all t's with Number of days in the given month
 
@@ -8419,9 +8419,9 @@ _ext(Date, 'format', function (format, options) {
 		/*option g*/replace(/([^\\])g|^g/g, '$1' + (hour == 0 ? 12 : hour > 12 ? hour - 12 : hour)).//replace all g's with 12-hour format of an hour without leading zeros
 		/*option G*/replace(/([^\\])G|^G/g, '$1' + hour).//replace all G's with 24-hour format of an hour without leading zeros
 		/*option h*/replace(/([^\\])h|^h/g, '$1' + (hour < 10 ? "0" + hour : (hour > 12 && hour - 12 < 10) ? "0" + (hour - 12) : hour)).//replace all h's with 12-hour format of an hour with leading zeros
-		/*option H or %H*/replace(/([^\\])%H|^%H|([^\\])H|^H/g, '$1' + hour24).//replace all H's with 24-hour format of an hour with leading zeros
+		/*option H or %H*/replace(/([^\\])%H|^%H|([^\\])H|^H/g, '$1$2' + hour24).//replace all H's with 24-hour format of an hour with leading zeros
 		/*option i*/replace(/([^\\])i|^i/g, '$1' + minuteWithZero).//replace all i's with Minutes with leading zeros
-		/*option s or %S*/replace(/([^\\])%S|^%S|([^\\])s|^s/g, '$1' + secondsWithZero).//replace all s's with Seconds, with leading zeros
+		/*option s or %S*/replace(/([^\\])%S|^%S|([^\\])s|^s/g, '$1$2' + secondsWithZero).//replace all s's with Seconds, with leading zeros
 		/*option u*/replace(/([^\\])u|^u/g, '$1' + epoch*1000).//replace all u's with Microseconds
 		/*option %L*/replace(/([^\\])%L|^%L/g, epoch).//replace all L's with Milliseconds
 
