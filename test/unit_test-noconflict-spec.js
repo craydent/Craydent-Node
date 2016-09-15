@@ -1,6 +1,7 @@
 //var expect = require('chai').expect;
 require.cache[require.resolve('../craydent.js')] && delete require.cache[require.resolve('../craydent.js')];
 var craydent = require('../noConflict.js');
+var $c = craydent;
 $c.DEBUG_MODE = true;
 describe ('No Conflict String', function () {
 	it('capitalize',function(){

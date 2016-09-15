@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.12                               /*/
+/*/ Craydent LLC node-v0.6.13                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,8 +9,8 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.12',
-	__GLOBALSESSION = [];
+var _craydent_version = '0.6.13',
+	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
 function __isNewer(loadedVersion, thisVersion){
@@ -25,7 +25,7 @@ function __isNewer(loadedVersion, thisVersion){
 	return parseInt(loadedVersion[0]) < parseInt(thisVersion[0]);
 }
 if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
-	$g.$c = $g.$c || {};
+	$g.$c = $c = $g.$c || {};
 	function Craydent(req, res) {
 		var self = this;
 
@@ -3845,16 +3845,23 @@ function createServer (callback, options) {
 		$c.GarbageCollector = [];
 		if (request.url == '/favicon.ico') {
 			var code = 404;
+			var cb = function (err, data) {
+				if (err) { $c.logit(err); code = 500; }
+				response.writeHead(code, {"Content-Type": "image/x-icon"});
+				response.end(data);
+			};
 			if (options.favicon) {
 				try {
 					code = 200;
-					response.write(fs.readFileSync(options.favicon));
+					fs.readFile(options.favicon,function(err, data){
+						cb(err, data || cray.RESPONSES[code]);
+					});
+					return;
 				} catch (e) {
-					code = 500;
+					cb(e, cray.RESPONSES[500]);
 				}
 			}
-			response.writeHead(code, { "Content-Type" : "image/x-icon" });
-			return response.end();
+			return;
 		}
 		function onRequestReceived(methods, body) {
 			try {
