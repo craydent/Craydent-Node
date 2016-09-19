@@ -1,3 +1,5 @@
+<img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
+
 #**Craydent 0.6.5**#
 **by Clark Inada**
 

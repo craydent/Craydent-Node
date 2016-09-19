@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.13                               /*/
+/*/ Craydent LLC node-v0.6.14                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.13',
+var _craydent_version = '0.6.14',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -893,7 +893,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 	Craydent.VERSION = _craydent_version;
 	Craydent.VISIBLE = $c.VISIBLE || "visible";
 	Craydent.WAIT = $c.WAIT || "wait";
-	module.exports = $c = Craydent;
+	module.exports = $c = $g.$c = Craydent;
 }
 var _ao, _df, _irregularNouns = {
 	"addendum":"addenda",
@@ -1306,7 +1306,7 @@ function __parseConditionalExpr (doc,expr,field) {
 				return __parseCond(doc, expr);
 			case "$ifNull":
 				var value = __processExpression(doc, expr["$ifNull"][0]);
-				return isNull(value) ? __processExpression(doc, expr["$ifNull"][1]) : value;
+				return isNull(value,__processExpression(doc, expr["$ifNull"][1]));
 		}
 	} catch (e) {
 		error('aggregate.__parseConditionExpr', e);
@@ -1540,7 +1540,7 @@ function __processAccumulator (doc,accumulator,previousValue,meta) {
 				if($c.isNull(previousValue)) { previousValue = value; }
 				return previousValue;
 			case !!accumulator["$last"]:
-				return $c.isNull(value) ? previousValue : value;
+				return $c.isNull(value, previousValue);
 			case !!accumulator["$max"]:
 				if ($c.isNull(previousValue)) { previousValue = -9007199254740991; }
 				if ($c.isNull(value)) { value = -9007199254740991 }
@@ -4021,7 +4021,7 @@ function createServer (callback, options) {
 					cray.echo.out = "";
 
 					function _cleanup (val) {
-						value = $c.isNull(val) ? value : val;
+						value = $c.isNull(val, value);
 
 						if (!value && !cray.DEFER_END) {
 							cray.send(404, cray.RESPONSES["404"]);
@@ -4350,7 +4350,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 		if (!htmlTemplate) { return ""; }
 		if ($c.isObject(offset)) {
 			max = offset.max || 0;
-			newlineToHtml = isNull(offset.newlineToHtml) ? true : offset.newlineToHtml;
+			newlineToHtml = isNull(offset.newlineToHtml, true);
 			offset = offset.offset;
 		} else if (!isNull(offset) && isNull(max)) {
 			max = offset;
@@ -5050,7 +5050,7 @@ function syncroit(gen) {
 					if ($c.isPromise(obj.value)) { return obj.value.then(cb).catch(cb); }
 					setTimeout(function () { cb(obj.value); }, 0);
 				} else {
-					var val = obj.value || value;
+					var val = $c.isNull(obj.value, value);
 					res(val);
 				}
 			})();
@@ -6231,7 +6231,7 @@ _ext(String, 'lastIndexOfAlt', function(regex, pos) {
 	}|*/
 	try {
 		regex = (regex.global) ? regex : new RegExp(regex.source, "g" + (regex.ignoreCase ? "i" : "") + (regex.multiLine ? "m" : ""));
-		pos = $c.isNull(pos) ? this.length : pos;
+		pos = $c.isNull(pos, this.length);
 		if(pos < 0) { pos = 0; }
 		var str = this.substring(0, pos + 1),
 			lindex = -1,
@@ -6503,7 +6503,7 @@ _ext(String, 'toDateTime', function (options) {
 			}
 		}
 		if (options.gmt) {
-			var offset = !isNull(options.offset) ? options.offset : _getGMTOffset.call(new Date());
+			var offset = isNull(options.offset, _getGMTOffset.call(new Date()));
 			dt = new Date(dt.valueOf() + offset * 60*60000);
 		}
 		return options.format ? $c.format(dt,options.format) : dt;
@@ -7770,7 +7770,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
 			if (setObject['$max']) {
 				for (var prop in setObject['$max']) {
 					if (!setObject['$max'].hasOwnProperty(prop)) { continue; }
-					obj[prop] = $c.isNull(obj[prop]) ? setObject['$max'][prop] : obj[prop];
+					obj[prop] = $c.isNull(obj[prop], setObject['$max'][prop]);
 					var value = obj[prop];
 					value < setObject['$max'][prop] && (obj[prop] = setObject['$max'][prop]);
 				}
@@ -7778,7 +7778,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
 			if (setObject['$min']) {
 				for (var prop in setObject['$min']) {
 					if (!setObject['$min'].hasOwnProperty(prop)) { continue; }
-					obj[prop] = $c.isNull(obj[prop]) ? setObject['$min'][prop] : obj[prop];
+					obj[prop] = $c.isNull(obj[prop], setObject['$min'][prop]);
 					var value = obj[prop];
 					value > setObject['$min'][prop] && (obj[prop] = setObject['$min'][prop]);
 				}
@@ -7967,7 +7967,7 @@ _ext(Array, 'upsert', function(records, prop, callback) {
 				isEqual = callback && callback(obj,record),
 				index = uIndex,
 				arr = uArr;
-			if (!$c.isNull(isEqual) ? isEqual : $c.equals(record,obj)) {
+			if ($c.isNull(isEqual, $c.equals(record,obj))) {
 				index = sIndex;
 				arr = sArr;
 			} else {
