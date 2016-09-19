@@ -4639,7 +4639,7 @@ function isNull(value, defaultValue) {
 		"returnType": "(Mixed)"
 	}|*/
 	var isnull = value == null || value == undefined;
-	if (defaultValue == null || defaultValue == undefined) {
+	if (arguments.length === 1) {
 		return isnull;
 	}
 	return isnull ? defaultValue : value;
@@ -5050,8 +5050,7 @@ function syncroit(gen) {
 					if ($c.isPromise(obj.value)) { return obj.value.then(cb).catch(cb); }
 					setTimeout(function () { cb(obj.value); }, 0);
 				} else {
-					var val = $c.isNull(obj.value, value);
-					res(val);
+					res($c.isNull(obj.value, value));
 				}
 			})();
 		});
