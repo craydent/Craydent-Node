@@ -11,6 +11,8 @@ var fs = require('fs'),
 var categories = ['Constants','Featured','Global','Array','Date','Function','Module','Number','Object','RegExp','String'];
 
 readme += "Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
+	"More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).\n" +
+	"More detailed documentation on methods can be found at [Craydent Methods](http://www.craydent.com/JsonObjectEditor/docs.html#/method/CraydentNode)" + ln +
 	"```js\n" +
 	"// require with prototypes - this require will add prototypes to extend classes and add two constants ($c, $g) to the global space.\n" +
 	"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
