@@ -3,6 +3,18 @@
 # Craydent 0.6.14
 **by Clark Inada**
 
+## Categories
+
+* [Global](#markdown-header-global)
+* [Array](#markdown-header-array)
+* [Date](#markdown-header-date)
+* [Function](#markdown-header-function)
+* [Module](#markdown-header-module)
+* [Number](#markdown-header-number)
+* [Object](#markdown-header-object)
+* [RegExp](#markdown-header-regexp)
+* [String](#markdown-header-string)
+
 ## Constants
 
 | | | |

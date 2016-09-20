@@ -8,6 +8,7 @@ var fs = require('fs'),
 	orderedFeatured = new $c.OrderedList(),
 	orderedMethods = new $c.OrderedList(),
 	orderedConstants = new $c.OrderedList();
+var categories = ['Global','Array','Date','Function','Module','Number','Object','RegExp','String'];
 // fill ordered arrays
 for (var o = 0; o < 2; o++) {
 	var c = [$c, instC][o];
@@ -75,6 +76,14 @@ function outParams (params) {
 	out && (out += '\n');
 	return out || ("* " + "None" + ln);
 }
+
+// Table of Contents
+readme += "## Categories" + ln;
+for (var i = 0, len = categories.length; i < len; i++) {
+	readme += "* [" + categories[i] + "](#markdown-header-" + categories[i].toLowerCase() + ")\n";
+};
+readme += '\n';
+
 // Constants ----------------------------------------------------------------------------------------------
 readme += "## Constants" + ln;
 var grid = [], headerdiv = [], headers = [], cols = 3;
@@ -92,7 +101,6 @@ readme += headers.join('') + "|\n" + headerdiv.join('') + "|\n| " + grid.join('\
 readme += "## Featured" + ln;
 //for (var prop in featured) {
 //	if (!featured.hasOwnProperty(prop)) { continue; }
-var categories = ['Global','Array','Date','Function','Module','Number','Object','RegExp','String'];
 for (var i = 0, len = categories.length; i < len; i++) {
 	var category = categories[i];
 	if (featured[category]) {
