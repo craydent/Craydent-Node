@@ -1,789 +1,468 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-#**Craydent 0.6.5**#
+# Craydent 0.6.14
 **by Clark Inada**
 
+## Constants
 
+| ----- | ----- | ----- | ----- |
+| ACCEPT_ENCODING (String) | GEKKO (String) | ONMOUSEUP (String) | REST_API_TEMPLATE (String) | 
+ACCEPT_LANGUAGE (String) | HANDPOINT (String) | OPERA (String) | ROUTE_API_PATH (String) | 
+AMAYA (String) | HIDDEN (String) | OPERA_VERSION (String) | SAFARI (String) | 
+ANDROID (String) | HTTP_STATUS_TEMPLATE (String) | ORIGIN (String) | SAFARI_VERSION (String) | 
+BLACKBERRY (String) | IE (String) | OS (String) | SERVER (String) | 
+BROWSER (String) | IE6 (String) | PAGE_NAME (String) | SERVER_PATH (String) | 
+CHROME (String) | IE7 (String) | PAGE_NAME_RAW (String) | SYMBIAN (String) | 
+CHROME_VERSION (String) | IE8 (String) | PALM (String) | TEMPLATE_VARS (String) | 
+CLICK (String) | IE_VERSION (String) | POINTER (String) | TEMPLATE_TAG_CONFIG (String) | 
+CLIENT (String) | IPAD (String) | PRAGMA (String) | TRIDENT (String) | 
+CORES_SUPPORT (String) | IPHONE (String) | PRESTO (String) | VERBOSE_LOGS (String) | 
+DEBUG_MODE (String) | IPOD (String) | PRINCE (String) | VERSION (String) | 
+DEVICE (String) | KHTML (String) | PROTOCOL (String) | VISIBLE (String) | 
+ENGINE (String) | LINUX (String) | PUBLIC_IP (String) | WAIT (String) | 
+EXPOSE_ROUTE_API (String) | LOCAL_IP (String) | REFERER (String) | WEBKIT (String) | 
+FIREFOX (String) | MAC (String) | REFERER_IP (String) | WINDOWS (String) | 
+FIREFOX_VERSION (String) | ONMOUSEDOWN (String) | RESPONSES (String) | WINDOWS_MOBILE (String) | 
 
-##** Constants **##
+## Featured
 
----
+### Global
 
->ACCEPT_ENCODING
+*** 
+##### _$COOKIE_ 
+***
 
->ACCEPT_LANGUAGE
+**Info:** Get/set Cookies
 
->AMAYA
+**Return:** (Mixed)
 
->ANDROID
+**Parameters:**
 
->BLACKBERRY
+* key: (String) Key for cookie value
 
->BROWSER
+**Overloads:**
 
->>CURRENT
+1)
 
->>CURRENT_VERSION
+* key: (String) Key for cookie
+* option: (Object) Specify delete
 
->>IE
+2)
 
->>IE_VERSION
+* keyValue: (Object) Specify the key value pair
+* option: (Object) Specify path, domain, and/or expiration of cookie
 
->>IE6
+3)
 
->>IE7
+* key: (String) Key for cookie value
+* value: (String) Value to store
+* option: (Object) Specify path and/or expiration of cookie
 
->>IE8
+*** 
+##### _$DELETE_ 
+***
 
->>CHROME
+**Info:** Retrieve all or specific variables in the Body
 
->>CHROME_VERSION
+**Return:** (Mixed)
 
->>FIREFOX
+**Parameters:**
 
->>FIREFOX_VERSION
+* None
 
->>OPERA
+**Overloads:**
 
->>OPERA_VERSION
+1)
 
->>SAFARI
+* key: (String) key for query value
 
->>SAFARI_VERSION
+2)
 
->CHROME
+* key: (String) key for query value
+* options: (Object) Options to defer, ignore case, etc
 
->CHROME_VERSION
+*** 
+##### _$GET_ 
+***
 
->CLICK
+**Info:** Retrieve all or specific variables in the url
 
->CLIENT
+**Return:** (Mixed)
 
->>BROWSER
+**Parameters:**
 
->>CORES_SUPPORT
+* None
 
->>DEVICE
+**Overloads:**
 
->>ENGINE
+1)
 
->>OS
+* key: (String) key for query value
 
->CORES_SUPPORT
+2)
 
->DEBUG_MODE
+* key: (String) key for query value
+* options: (Object) Options to defer, ignore case, etc
 
->DEVICE
+*** 
+##### _$HEADER_ 
+***
 
->>CURRENT
+**Info:** Retrieve all or specific variables in the headers
 
->>ANDROID
+**Return:** (Mixed)
 
->>BLACKBERRY
+**Parameters:**
 
->>IPAD
+* None
 
->>IPHONE
+**Overloads:**
 
->>IPOD
+1)
 
->>LINUX
+* key: (String) key for query value
 
->>MAC
+2)
 
->>PALM
+* key: (String) key for query value
+* options: (Object) Options to defer, ignore case, etc
 
->>SYMBIAN
+*** 
+##### _$PAYLOAD_ 
+***
 
->>WINDOWS
+**Info:** Retrieve all or specific variables in the Body
 
->>WINDOWS_MOBILE
+**Return:** (Mixed)
 
->ENGINE
+**Parameters:**
 
->>CURRENT
+* None
 
->>AMAYA
+**Overloads:**
 
->>GEKKO
+1)
 
->>KHTML
+* key: (String) key for query value
 
->>PRESTO
+2)
 
->>PRINCE
+* key: (String) key for query value
+* options: (Object) Options to defer, ignore case, etc
 
->>TRIDENT
+*** 
+##### _$POST_ 
+***
 
->>WEBKIT
+**Info:** Retrieve all or specific variables in the Body
 
->EXPOSE_ROUTE_API
+**Return:** (Mixed)
 
->FIREFOX
+**Parameters:**
 
->FIREFOX_VERSION
+* None
 
->GEKKO
+**Overloads:**
 
->HANDPOINT
+1)
 
->HIDDEN
+* key: (String) key for query value
 
->HTTP_STATUS_TEMPLATE
+2)
 
->IE
+* key: (String) key for query value
+* options: (Object) Options to defer, ignore case, etc
 
->IE6
+*** 
+##### _$PUT_ 
+***
 
->IE7
+**Info:** Retrieve all or specific variables in the Body
 
->IE8
+**Return:** (Mixed)
 
->IE_VERSION
+**Parameters:**
 
->IPAD
+* None
 
->IPHONE
+**Overloads:**
 
->IPOD
+1)
 
->KHTML
+* key: (String) key for query value
 
->LINUX
+2)
 
->LOCAL_IP
+* key: (String) key for query value
+* options: (Object) Options to defer, ignore case, etc
 
->MAC
+*** 
+##### _catchAll_ 
+***
 
->ONMOUSEDOWN
+**Info:** Creates an catch all for exceptions in the current node service.
 
->ONMOUSEUP
+**Return:** (Mixed)
 
->OPERA
+**Parameters:**
 
->OPERA_VERSION
+* callback: (Function) Callback function to call when there is an uncaught exception
 
->ORIGIN
+**Overloads:**
 
->OS
+1)
 
->>CURRENT
+* callback: (Function) Callback function to call when there is an uncaught exception
+* append: (Boolean) Options to defer, ignore case, etc
 
->>ANDROID
+*** 
+##### _zipit_ 
+***
 
->>BLACKBERRY
+**Info:** Download a zip of files from file contents
 
->>LINUX
+**Return:** (void)
 
->>IOS
+**Parameters:**
 
->>MAC
+* files: (Object[]) Objects containing properties name for file name and content for file content
 
->>PALM
+**Overloads:**
 
->>SYMBIAN
+1)
 
->>WINDOWS
+* files: (String) Name of the file
+* content: (String) contents of the file
 
->>WINDOWS_MOBILE
+### Array
 
->PAGE_NAME
+*** 
+##### _aggregate_ 
+***
 
->PAGE_NAME_RAW
+**Info:** Array class extension to perform mongo style aggregation
 
->PALM
+**Return:** (Array)
 
->POINTER
+**Parameters:**
 
->PRAGMA
+* pipelines: (Object[]) Array of stages defined in mongodb
 
->PRESTO
+**Overloads:**
 
->PRINCE
+* None
 
->PROTOCOL
+*** 
+##### _average_ 
+***
 
->PUBLIC_IP
+**Info:** Array class extension to perform average of all the values (any value which is not a number is 0).
 
->REFERER
+**Return:** (Array)
 
->REFERER_IP
+**Parameters:**
 
->RESPONSES
+* None
 
->>100
+**Overloads:**
 
->>101
+* None
 
->>102
+*** 
+##### _find_ 
+***
 
->>200
+**Info:** Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)
 
->>201
+**Return:** (Array)
 
->>202
+**Parameters:**
 
->>203
+* condition: (Mixed) Query following find/where clause syntax
 
->>204
+**Overloads:**
 
->>205
+1)
 
->>206
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
 
->>207
+2)
 
->>208
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
 
->>226
+*** 
+##### _findOne_ 
+***
 
->>300
+**Info:** Array class extension to use mongo or sql queries returning the first item match
 
->>301
+**Return:** (Object)
 
->>302
+**Parameters:**
 
->>303
+* condition: (Mixed) Query following find/where clause syntax
 
->>304
+**Overloads:**
 
->>305
+1)
 
->>306
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
 
->>307
+2)
 
->>308
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
 
->>400
+*** 
+##### _stdev_ 
+***
 
->>401
+**Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
 
->>402
+**Return:** (Array)
 
->>403
+**Parameters:**
 
->>404
+* None
 
->>405
+**Overloads:**
 
->>406
+* None
 
->>407
+*** 
+##### _sum_ 
+***
 
->>408
+**Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
 
->>409
+**Return:** (Array)
 
->>410
+**Parameters:**
 
->>411
+* None
 
->>412
+**Overloads:**
 
->>413
+* None
 
->>414
+*** 
+##### _where_ 
+***
 
->>415
+**Info:** Array class extension to use mongo or sql queries
 
->>416
+**Return:** (Array)
 
->>417
+**Parameters:**
 
->>418
+* condition: (Mixed) Query following find/where clause syntax
 
->>420
+**Overloads:**
 
->>422
+1)
 
->>423
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
 
->>424
+2)
 
->>425
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
 
->>426
+3)
 
->>428
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
+* limit: (Int) Limit the number of the results returned.
 
->>429
+4)
 
->>431
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
+* limit: (Int) Limit the number of the results returned.
 
->>444
+### Date
 
->>449
+*** 
+##### _format_ 
+***
 
->>450
+**Info:** Date class extension to convert to formatted string
 
->>451
+**Return:** (String)
 
->>499
+**Parameters:**
 
->>500
+* format: (String) Format syntax to use to to format date
 
->>501
+**Overloads:**
 
->>502
+1)
 
->>503
+* format: (String) Format syntax to use to to format date
+* options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset
 
->>504
+### Object
 
->>505
+*** 
+##### _getProperty_ 
+***
 
->>506
+**Info:** Object class extension to retrieve nested properties without error when property path does not exist
 
->>507
+**Return:** (Mixed)
 
->>508
+**Parameters:**
 
->>509
+* path: (String) Path to nested property
 
->>510
+**Overloads:**
 
->>511
+1)
 
->>598
+* path: (String) Path to nested property
+* delimiter: (Char) Separator used to parse path
 
->>599
+2)
 
->REST_API_TEMPLATE
+* path: (String) Path to nested property
+* options: (Object) Options for ignoring inheritance, validPath, etc
 
->ROUTE_API_PATH
+3)
 
->SAFARI
+* path: (String) Path to nested property
+* delimiter: (Char) Separator used to parse path
+* options: (Object) Options for ignoring inheritance, validPath, etc
 
->SAFARI_VERSION
+### String
 
->SERVER
+*** 
+##### _fillTemplate_ 
+***
 
->SERVER_PATH
+**Info:** String class extension to fill template based on template syntax
 
->SYMBIAN
+**Return:** (String)
 
->TEMPLATE_VARS
+**Parameters:**
 
->TEMPLATE_TAG_CONFIG
+* objs: (Objects[]) Objects to fill the template variables
 
->>IGNORE_CHARS
+**Overloads:**
 
->>FOR
+1)
 
->>FOREACH
+* objs: (Objects[]) Objects to fill the template variables
+* offset: (Int) The start index of the Object array
+* max: (Int) The maximum number of records to process
 
->>WHILE
+2)
 
->>IF
-
->>SWITCH
-
->>SCRIPT
-
->>TRY
-
->>VARIABLE
-
->>VARIABLE_NAME
-
->>DECLARE
-
->TRIDENT
-
->VERBOSE_LOGS
-
->VERSION
-
->VISIBLE
-
->WAIT
-
->WEBKIT
-
->WINDOWS
-
->WINDOWS_MOBILE
-
-##** Featured **##
-
----
-
-## Global ##
-
-### $COOKIE ###
-
->**Info:** Get/set Cookies
-
->**Return:** (Mixed)
-
->**Parameters:**
-
->>key: (String) Key for cookie value
-
->**Overloads:**
-
->>key: (String) Key for cookie
-
->>option: (Object) Specify delete
-
----
->>keyValue: (Object) Specify the key value pair
-
->>option: (Object) Specify path, domain, and/or expiration of cookie
-
----
->>key: (String) Key for cookie value
-
->>value: (String) Value to store
-
->>option: (Object) Specify path and/or expiration of cookie
-
-### $DELETE ###
-
->**Info:** Retrieve all or specific variables in the Body
-
->**Return:** (Mixed)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
->>key: (String) key for query value
-
----
->>key: (String) key for query value
-
->>options: (Object) Options to defer, ignore case, etc
-
-### $GET ###
-
->**Info:** Retrieve all or specific variables in the url
-
->**Return:** (Mixed)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
->>key: (String) key for query value
-
----
->>key: (String) key for query value
-
->>options: (Object) Options to defer, ignore case, etc
-
-### $HEADER ###
-
->**Info:** Retrieve all or specific variables in the headers
-
->**Return:** (Mixed)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
->>key: (String) key for query value
-
----
->>key: (String) key for query value
-
->>options: (Object) Options to defer, ignore case, etc
-
-### $PAYLOAD ###
-
->**Info:** Retrieve all or specific variables in the Body
-
->**Return:** (Mixed)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
->>key: (String) key for query value
-
----
->>key: (String) key for query value
-
->>options: (Object) Options to defer, ignore case, etc
-
-### $POST ###
-
->**Info:** Retrieve all or specific variables in the Body
-
->**Return:** (Mixed)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
->>key: (String) key for query value
-
----
->>key: (String) key for query value
-
->>options: (Object) Options to defer, ignore case, etc
-
-### $PUT ###
-
->**Info:** Retrieve all or specific variables in the Body
-
->**Return:** (Mixed)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
->>key: (String) key for query value
-
----
->>key: (String) key for query value
-
->>options: (Object) Options to defer, ignore case, etc
-
-### catchAll ###
-
->**Info:** Creates an catch all for exceptions in the current node service.
-
->**Return:** (Mixed)
-
->**Parameters:**
-
->>callback: (Function) Callback function to call when there is an uncaught exception
-
->**Overloads:**
-
->>callback: (Function) Callback function to call when there is an uncaught exception
-
->>append: (Boolean) Options to defer, ignore case, etc
-
-### zipit ###
-
->**Info:** Download a zip of files from file contents
-
->**Return:** (void)
-
->**Parameters:**
-
->>files: (Object[]) Objects containing properties name for file name and content for file content
-
->**Overloads:**
-
->>files: (String) Name of the file
-
->>content: (String) contents of the file
-
-## Array ##
-
-### aggregate ###
-
->**Info:** Array class extension to perform mongo style aggregation
-
->**Return:** (Array)
-
->**Parameters:**
-
->>pipelines: (Object[]) Array of stages defined in mongodb
-
->**Overloads:**
-
-### average ###
-
->**Info:** Array class extension to perform average of all the values (any value which is not a number is 0).
-
->**Return:** (Array)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
-### find ###
-
->**Info:** Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)
-
->**Return:** (Array)
-
->**Parameters:**
-
->>condition: (Mixed) Query following find/where clause syntax
-
->**Overloads:**
-
->>condition: (Mixed) Query following find/where clause syntax
-
->>projection: (Mixed) Indicate which properties to return
-
----
->>condition: (Mixed) Query following find/where clause syntax
-
->>useReference: (Bool) Flag to make a copy instead of using references
-
-### findOne ###
-
->**Info:** Array class extension to use mongo or sql queries returning the first item match
-
->**Return:** (Object)
-
->**Parameters:**
-
->>condition: (Mixed) Query following find/where clause syntax
-
->**Overloads:**
-
->>condition: (Mixed) Query following find/where clause syntax
-
->>projection: (Mixed) Indicate which properties to return
-
----
->>condition: (Mixed) Query following find/where clause syntax
-
->>useReference: (Bool) Flag to make a copy instead of using references
-
-### stdev ###
-
->**Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
-
->**Return:** (Array)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
-### sum ###
-
->**Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
-
->**Return:** (Array)
-
->**Parameters:**
-
->>None
-
->**Overloads:**
-
-### where ###
-
->**Info:** Array class extension to use mongo or sql queries
-
->**Return:** (Array)
-
->**Parameters:**
-
->>condition: (Mixed) Query following find/where clause syntax
-
->**Overloads:**
-
->>condition: (Mixed) Query following find/where clause syntax
-
->>projection: (Mixed) Indicate which properties to return
-
----
->>condition: (Mixed) Query following find/where clause syntax
-
->>useReference: (Bool) Flag to make a copy instead of using references
-
----
->>condition: (Mixed) Query following find/where clause syntax
-
->>projection: (Mixed) Indicate which properties to return
-
->>limit: (Int) Limit the number of the results returned.
-
----
->>condition: (Mixed) Query following find/where clause syntax
-
->>useReference: (Bool) Flag to make a copy instead of using references
-
->>limit: (Int) Limit the number of the results returned.
-
-## Date ##
-
-### format ###
-
->**Info:** Date class extension to convert to formatted string
-
->**Return:** (String)
-
->**Parameters:**
-
->>format: (String) Format syntax to use to to format date
-
->**Overloads:**
-
->>format: (String) Format syntax to use to to format date
-
->>options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset
-
-## Object ##
-
-### getProperty ###
-
->**Info:** Object class extension to retrieve nested properties without error when property path does not exist
-
->**Return:** (Mixed)
-
->**Parameters:**
-
->>path: (String) Path to nested property
-
->**Overloads:**
-
->>path: (String) Path to nested property
-
->>delimiter: (Char) Separator used to parse path
-
----
->>path: (String) Path to nested property
-
->>options: (Object) Options for ignoring inheritance, validPath, etc
-
----
->>path: (String) Path to nested property
-
->>delimiter: (Char) Separator used to parse path
-
->>options: (Object) Options for ignoring inheritance, validPath, etc
-
-## String ##
-
-### fillTemplate ###
-
->**Info:** String class extension to fill template based on template syntax
-
->**Return:** (String)
-
->**Parameters:**
-
->>objs: (Objects[]) Objects to fill the template variables
-
->**Overloads:**
-
->>objs: (Objects[]) Objects to fill the template variables
-
->>offset: (Int) The start index of the Object array
-
->>max: (Int) The maximum number of records to process
-
----
->>objs: (Objects[]) Objects to fill the template variables
-
->>max: (Int) The maximum number of records to process
+* objs: (Objects[]) Objects to fill the template variables
+* max: (Int) The maximum number of records to process
 
 
 
@@ -793,2622 +472,3281 @@
 
 ## Global ##
 
-### Benchmarker ###
+*** 
+##### _Benchmarker_ 
+***
 
->**Info:** Class used to measure the run time of code
+**Info:** Class used to measure the run time of code
 
->**Return:** (void)
+**Return:** (void)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* None
 
->**Overloads:**
+**Overloads:**
 
-### ChromeVersion ###
+* None
 
->**Info:** Get Chrome version
+*** 
+##### _ChromeVersion_ 
+***
 
->**Return:** (Float)
+**Info:** Get Chrome version
 
->**Parameters:**
+**Return:** (Float)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* None
 
-### Cursor ###
+**Overloads:**
 
->**Info:** Cursor class to facilitate iteration
+* None
 
->**Return:** (Cursor)
+*** 
+##### _Cursor_ 
+***
 
->**Parameters:**
+**Info:** Cursor class to facilitate iteration
 
->>records: (Array) Array used to create the iterator to iterate each item
+**Return:** (Cursor)
 
->**Overloads:**
+**Parameters:**
 
->>records: (Object) Object used to create the iterator to iterate each property
+* records: (Array) Array used to create the iterator to iterate each item
 
-### FirefoxVersion ###
+**Overloads:**
 
->**Info:** Get Firefox version
+1)
 
->**Return:** (Float)
+* records: (Object) Object used to create the iterator to iterate each property
 
->**Parameters:**
+*** 
+##### _FirefoxVersion_ 
+***
 
->>None
+**Info:** Get Firefox version
 
->**Overloads:**
+**Return:** (Float)
 
-### IEVersion ###
+**Parameters:**
 
->**Info:** Get Internet Explorer version
+* None
 
->**Return:** (Float)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>None
+*** 
+##### _IEVersion_ 
+***
 
->**Overloads:**
+**Info:** Get Internet Explorer version
 
-### OperaVersion ###
+**Return:** (Float)
 
->**Info:** Get Opera version
+**Parameters:**
 
->**Return:** (Float)
+* None
 
->**Parameters:**
+**Overloads:**
 
->>None
+* None
 
->**Overloads:**
+*** 
+##### _OperaVersion_ 
+***
 
-### OrderedList ###
+**Info:** Get Opera version
 
->**Info:** Collection class that filters out duplicate values and maintains an ordered list
+**Return:** (Float)
 
->**Return:** (OrderedList)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>None
+**Overloads:**
 
->**Overloads:**
+* None
 
->>records: (Array) Array used to create the initial items in the ordered list
+*** 
+##### _OrderedList_ 
+***
 
----
->>records: (Array) Array used to create the initial items in the ordered list
+**Info:** Collection class that filters out duplicate values and maintains an ordered list
 
->>sorter: (Function) Function for sorting logic
+**Return:** (OrderedList)
 
-### Queue ###
+**Parameters:**
 
->**Info:** Collection class that follows FIFO
+* None
 
->**Return:** (Queue)
+**Overloads:**
 
->**Parameters:**
+1)
 
->>records: (Array) Array used to create the iterator to iterate each item
+* records: (Array) Array used to create the initial items in the ordered list
 
->**Overloads:**
+2)
 
-### SafariVersion ###
+* records: (Array) Array used to create the initial items in the ordered list
+* sorter: (Function) Function for sorting logic
 
->**Info:** Get Safari version
+*** 
+##### _Queue_ 
+***
 
->**Return:** (Float)
+**Info:** Collection class that follows FIFO
 
->**Parameters:**
+**Return:** (Queue)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* records: (Array) Array used to create the iterator to iterate each item
 
-### Set ###
+**Overloads:**
 
->**Info:** Collection class that filters out duplicate values
+* None
 
->**Return:** (Set)
+*** 
+##### _SafariVersion_ 
+***
 
->**Parameters:**
+**Info:** Get Safari version
 
->>records: (Array) Array used to create the iterator to iterate each item
+**Return:** (Float)
 
->**Overloads:**
+**Parameters:**
 
-### addObjectPrototype ###
+* None
 
->**Info:** Method to extend the Object Class
+**Overloads:**
 
->**Return:** (void)
+* None
 
->**Parameters:**
+*** 
+##### _Set_ 
+***
 
->>name: (String) name of the method to add
+**Info:** Collection class that filters out duplicate values
 
->>fn: (Function) method implementation
+**Return:** (Set)
 
->**Overloads:**
+**Parameters:**
 
->>name: (String) name of the method to add
+* records: (Array) Array used to create the iterator to iterate each item
 
->>fn: (Function) method implementation
+**Overloads:**
 
->>override: (Bool) if true, override the previously defined prototype
+* None
 
-### ajax ###
+*** 
+##### _addObjectPrototype_ 
+***
 
->**Info:** Method to make ajax calls
+**Info:** Method to extend the Object Class
 
->**Return:** (void)
+**Return:** (void)
 
->**Parameters:**
+**Parameters:**
 
->>params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+* name: (String) name of the method to add
+* fn: (Function) method implementation
 
->**Overloads:**
+**Overloads:**
 
->>params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+1)
 
->>returnData: (String) Specifies which data to return when using Promise pattern
+* name: (String) name of the method to add
+* fn: (Function) method implementation
+* override: (Bool) if true, override the previously defined prototype
 
-### clusterit ###
+*** 
+##### _ajax_ 
+***
 
->**Info:** Enable clustering
+**Info:** Method to make ajax calls
 
->**Return:** (void)
+**Return:** (void)
 
->**Parameters:**
+**Parameters:**
 
->>callback: Method to call for Workers.  Callback is passed the cluster object as an argument.
+* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
 
->**Overloads:**
+**Overloads:**
 
-### cout ###
+1)
 
->**Info:** Log to console when DEBUG_MODE is true and when the console is available
+* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+* returnData: (String) Specifies which data to return when using Promise pattern
 
->**Return:** (void)
+*** 
+##### _clusterit_ 
+***
 
->**Parameters:**
+**Info:** Enable clustering
 
->>infinite: any number of arguments can be passed.
+**Return:** (void)
 
->**Overloads:**
+**Parameters:**
 
-### cuid ###
+* callback: Method to call for Workers.  Callback is passed the cluster object as an argument.
 
->**Info:** Creates a Craydent/Global Unique Identifier
+**Overloads:**
 
->**Return:** (String)
+* None
 
->**Parameters:**
+*** 
+##### _cout_ 
+***
 
->>msFormat: (Bool) use microsoft format if true
+**Info:** Log to console when DEBUG_MODE is true and when the console is available
 
->**Overloads:**
+**Return:** (void)
 
-### echo ###
+**Parameters:**
 
->**Info:** Echo to buffer and use in response
+* infinite: any number of arguments can be passed.
 
->**Return:** (void)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>output: Data to send in response
+*** 
+##### _cuid_ 
+***
 
->**Overloads:**
+**Info:** Creates a Craydent/Global Unique Identifier
 
-### emit ###
+**Return:** (String)
 
->**Info:** Call the next function(s) in queue
+**Parameters:**
 
->**Return:** (void)
+* msFormat: (Bool) use microsoft format if true
 
->**Parameters:**
+**Overloads:**
 
->>event: Event to trigger.
+* None
 
->**Overloads:**
+*** 
+##### _echo_ 
+***
 
->>event: Event to trigger.
+**Info:** Echo to buffer and use in response
 
->>infinite: any number of arguments can be passed and will be applied to listening functions.
+**Return:** (void)
 
-### end ###
+**Parameters:**
 
->**Info:** Call the next function(s) in queue
+* output: Data to send in response
 
->**Return:** (void)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>event: Event to trigger.
+*** 
+##### _emit_ 
+***
 
->**Overloads:**
+**Info:** Call the next function(s) in queue
 
->>event: Event to trigger.
+**Return:** (void)
 
->>infinite: any number of arguments can be passed and will be applied to listening functions.
+**Parameters:**
 
-### error ###
+* event: Event to trigger.
 
->**Info:** User implemented place holder function to handle errors
+**Overloads:**
 
->**Return:** (void)
+1)
 
->**Parameters:**
+* event: Event to trigger.
+* infinite: any number of arguments can be passed and will be applied to listening functions.
 
->>fname: (String) The function name the error was thrown
+*** 
+##### _end_ 
+***
 
->>e: (Error) Exception object thrown
+**Info:** Call the next function(s) in queue
 
->**Overloads:**
+**Return:** (void)
 
-### exclude ###
+**Parameters:**
 
->**Info:** Exclude prototyping
+* event: Event to trigger.
 
->**Return:** (void)
+**Overloads:**
 
->**Parameters:**
+1)
 
->>list: (String[]) Array of strings in containing the property to exclude from prototyping.
+* event: Event to trigger.
+* infinite: any number of arguments can be passed and will be applied to listening functions.
 
->**Overloads:**
+*** 
+##### _error_ 
+***
 
-### foo ###
+**Info:** User implemented place holder function to handle errors
 
->**Info:** Place holder function for a blank function
+**Return:** (void)
 
->**Return:** (void)
+**Parameters:**
 
->**Parameters:**
+* fname: (String) The function name the error was thrown
+* e: (Error) Exception object thrown
 
->>None
+**Overloads:**
 
->**Overloads:**
+* None
 
-### getSession ###
+*** 
+##### _exclude_ 
+***
 
->**Info:** Retrieve the session object when used in conjunction with createServer
+**Info:** Exclude prototyping
 
->**Return:** (void)
+**Return:** (void)
 
->**Parameters:**
+**Parameters:**
 
->>sid: (String) Session id of the session object to retrieve syncronously.
+* list: (String[]) Array of strings in containing the property to exclude from prototyping.
 
->**Overloads:**
+**Overloads:**
 
->>sid: (String) Session id of the session object to retrieve.
+* None
 
->>callback: (Function) callback function to invoke once the session object is retrieved.
+*** 
+##### _foo_ 
+***
 
-### getSessionID ###
+**Info:** Place holder function for a blank function
 
->**Info:** Retrieve the session id when used in conjunction with createServer
+**Return:** (void)
 
->**Return:** (void)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>None
+**Overloads:**
 
->**Overloads:**
+* None
 
-### getSessionSync ###
+*** 
+##### _getSession_ 
+***
 
->**Info:** Syncronously retrieve the session object when used in conjunction with createServer
+**Info:** Retrieve the session object when used in conjunction with createServer
 
->**Return:** (void)
+**Return:** (void)
 
->**Parameters:**
+**Parameters:**
 
->>sid: (String) Session id of the session object to retrieve syncronously.
+* sid: (String) Session id of the session object to retrieve syncronously.
 
->**Overloads:**
+**Overloads:**
 
-### header ###
+1)
 
->**Info:** Set Http Headers to send
+* sid: (String) Session id of the session object to retrieve.
+* callback: (Function) callback function to invoke once the session object is retrieved.
 
->**Return:** (void)
+*** 
+##### _getSessionID_ 
+***
 
->**Parameters:**
+**Info:** Retrieve the session id when used in conjunction with createServer
 
->>header: (String) Http header.
+**Return:** (void)
 
->**Overloads:**
+**Parameters:**
 
->>headers: (Object) Http headers.
+* None
 
----
->>header: (String) Http header.
+**Overloads:**
 
->>code: (Integer) Http response code.
+* None
 
----
->>headers: (Object) Http headers.
+*** 
+##### _getSessionSync_ 
+***
 
->>code: (Integer) Http response code.
+**Info:** Syncronously retrieve the session object when used in conjunction with createServer
 
-### include ###
+**Return:** (void)
 
->**Info:** Require without erroring when module does not exist.
+**Parameters:**
 
->**Return:** (Mixed)
+* sid: (String) Session id of the session object to retrieve syncronously.
 
->**Parameters:**
+**Overloads:**
 
->>path: (String) Module or Path to module.
+* None
 
->**Overloads:**
+*** 
+##### _header_ 
+***
 
-### isAmaya ###
+**Info:** Set Http Headers to send
 
->**Info:** Check if browser is Amaya
+**Return:** (void)
 
->**Return:** (Bool)
+**Parameters:**
 
->**Parameters:**
+* header: (String) Http header.
 
->>None
+**Overloads:**
 
->**Overloads:**
+1)
 
-### isAndroid ###
+* headers: (Object) Http headers.
 
->**Info:** Check if device is Android
+2)
 
->**Return:** (Bool)
+* header: (String) Http header.
+* code: (Integer) Http response code.
 
->**Parameters:**
+3)
 
->>None
+* headers: (Object) Http headers.
+* code: (Integer) Http response code.
 
->**Overloads:**
+*** 
+##### _include_ 
+***
 
-### isBlackBerry ###
+**Info:** Require without erroring when module does not exist.
 
->**Info:** Check if device is BlackBerry
+**Return:** (Mixed)
 
->**Return:** (Bool)
+**Parameters:**
 
->**Parameters:**
+* path: (String) Module or Path to module.
 
->>None
+**Overloads:**
 
->**Overloads:**
+* None
 
-### isChrome ###
+*** 
+##### _isAmaya_ 
+***
 
->**Info:** Check if browser is Chrome
+**Info:** Check if browser is Amaya
 
->**Return:** (Bool)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* None
 
->**Overloads:**
+**Overloads:**
 
-### isFirefox ###
+* None
 
->**Info:** Check if browser is Firefox
+*** 
+##### _isAndroid_ 
+***
 
->**Return:** (Bool)
+**Info:** Check if device is Android
 
->**Parameters:**
+**Return:** (Bool)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* None
 
-### isGecko ###
+**Overloads:**
 
->**Info:** Check if engine is Gecko
+* None
 
->**Return:** (Bool)
+*** 
+##### _isBlackBerry_ 
+***
 
->**Parameters:**
+**Info:** Check if device is BlackBerry
 
->>None
+**Return:** (Bool)
 
->**Overloads:**
+**Parameters:**
 
-### isIE ###
+* None
 
->**Info:** Check if browser is Internet Explorer
+**Overloads:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+*** 
+##### _isChrome_ 
+***
 
->>None
+**Info:** Check if browser is Chrome
 
->**Overloads:**
+**Return:** (Bool)
 
-### isIE6 ###
+**Parameters:**
 
->**Info:** Check if browser is Internet Explorer 6
+* None
 
->**Return:** (Bool)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>None
+*** 
+##### _isFirefox_ 
+***
 
->**Overloads:**
+**Info:** Check if browser is Firefox
 
-### isIPad ###
+**Return:** (Bool)
 
->**Info:** Check if device is iPad
+**Parameters:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+**Overloads:**
 
->>None
+* None
 
->**Overloads:**
+*** 
+##### _isGecko_ 
+***
 
-### isIPhone ###
+**Info:** Check if engine is Gecko
 
->**Info:** Check if device is IPhone
+**Return:** (Bool)
 
->**Return:** (Bool)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>None
+**Overloads:**
 
->**Overloads:**
+* None
 
-### isIPod ###
+*** 
+##### _isIE_ 
+***
 
->**Info:** Check if device is IPod
+**Info:** Check if browser is Internet Explorer
 
->**Return:** (Bool)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* None
 
->**Overloads:**
+**Overloads:**
 
-### isKHTML ###
+* None
 
->**Info:** Check if engine is KHTML
+*** 
+##### _isIE6_ 
+***
 
->**Return:** (Bool)
+**Info:** Check if browser is Internet Explorer 6
 
->**Parameters:**
+**Return:** (Bool)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* None
 
-### isLinux ###
+**Overloads:**
 
->**Info:** Check if OS is Linux
+* None
 
->**Return:** (Bool)
+*** 
+##### _isIPad_ 
+***
 
->**Parameters:**
+**Info:** Check if device is iPad
 
->>None
+**Return:** (Bool)
 
->**Overloads:**
+**Parameters:**
 
-### isMac ###
+* None
 
->**Info:** Check if OS is Mac Based
+**Overloads:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+*** 
+##### _isIPhone_ 
+***
 
->>None
+**Info:** Check if device is IPhone
 
->**Overloads:**
+**Return:** (Bool)
 
-### isNull ###
+**Parameters:**
 
->**Info:** Check if a value is Null
+* None
 
->**Return:** (Mixed)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>value: (Mixed) Value to check
+*** 
+##### _isIPod_ 
+***
 
->**Overloads:**
+**Info:** Check if device is IPod
 
->>value: (Mixed) Value to check
+**Return:** (Bool)
 
->>defaultValue: (Mixed) Value to return if null
+**Parameters:**
 
-### isOpera ###
+* None
 
->**Info:** Check if browser is Opera
+**Overloads:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+*** 
+##### _isKHTML_ 
+***
 
->>None
+**Info:** Check if engine is KHTML
 
->**Overloads:**
+**Return:** (Bool)
 
-### isPalmOS ###
+**Parameters:**
 
->**Info:** Check if OS is PalmOS
+* None
 
->**Return:** (Bool)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>None
+*** 
+##### _isLinux_ 
+***
 
->**Overloads:**
+**Info:** Check if OS is Linux
 
-### isPresto ###
+**Return:** (Bool)
 
->**Info:** Check if engine is Presto
+**Parameters:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+**Overloads:**
 
->>None
+* None
 
->**Overloads:**
+*** 
+##### _isMac_ 
+***
 
-### isPrince ###
+**Info:** Check if OS is Mac Based
 
->**Info:** Check if engine is Prince
+**Return:** (Bool)
 
->**Return:** (Bool)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>None
+**Overloads:**
 
->**Overloads:**
+* None
 
-### isSafari ###
+*** 
+##### _isMobile_ 
+***
 
->**Info:** Check if browser is Safari
+**Info:** Check if the device is a Mobile device
 
->**Return:** (Bool)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* None
 
->**Overloads:**
+**Overloads:**
 
-### isSymbian ###
+* None
 
->**Info:** Check if OS is Symbian
+*** 
+##### _isNull_ 
+***
 
->**Return:** (Bool)
+**Info:** Check if a value is Null
 
->**Parameters:**
+**Return:** (Mixed)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* value: (Mixed) Value to check
 
-### isTrident ###
+**Overloads:**
 
->**Info:** Check if engine is Trident
+1)
 
->**Return:** (Bool)
+* value: (Mixed) Value to check
+* defaultValue: (Mixed) Value to return if null
 
->**Parameters:**
+*** 
+##### _isOpera_ 
+***
 
->>None
+**Info:** Check if browser is Opera
 
->**Overloads:**
+**Return:** (Bool)
 
-### isWebkit ###
+**Parameters:**
 
->**Info:** Check if engine is Webkit
+* None
 
->**Return:** (Bool)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>None
+*** 
+##### _isPalmOS_ 
+***
 
->**Overloads:**
+**Info:** Check if OS is PalmOS
 
-### isWindows ###
+**Return:** (Bool)
 
->**Info:** Check if OS is Windows
+**Parameters:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+**Overloads:**
 
->>None
+* None
 
->**Overloads:**
+*** 
+##### _isPresto_ 
+***
 
-### isWindowsMobile ###
+**Info:** Check if engine is Presto
 
->**Info:** Check if device is Windows Mobile
+**Return:** (Bool)
 
->**Return:** (Bool)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>None
+**Overloads:**
 
->**Overloads:**
+* None
 
-### logit ###
+*** 
+##### _isPrince_ 
+***
 
->**Info:** Log to console when DEBUG_MODE is true and when the console is available
+**Info:** Check if engine is Prince
 
->**Return:** (void)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>infinite: any number of arguments can be passed.
+* None
 
->**Overloads:**
+**Overloads:**
 
-### md5 ###
+* None
 
->**Info:** MD5 encode a string.
+*** 
+##### _isSafari_ 
+***
 
->**Return:** (String)
+**Info:** Check if browser is Safari
 
->**Parameters:**
+**Return:** (Bool)
 
->>str: (String) String to encode.
+**Parameters:**
 
->**Overloads:**
+* None
 
-### mkdirRecursive ###
+**Overloads:**
 
->**Info:** Recursively create folders.
+* None
 
->**Return:** (void)
+*** 
+##### _isSymbian_ 
+***
 
->**Parameters:**
+**Info:** Check if OS is Symbian
 
->>path: (String) Path to create.
+**Return:** (Bool)
 
->>callback: (Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors).
+**Parameters:**
 
->**Overloads:**
+* None
 
-### namespace ###
+**Overloads:**
 
->**Info:** Adds the class to a namespace instead of the global space
+* None
 
->**Return:** (void)
+*** 
+##### _isTrident_ 
+***
 
->**Parameters:**
+**Info:** Check if engine is Trident
 
->>name: (String) Name of the namespace to add to.
+**Return:** (Bool)
 
->>clazz: (Class) Class to add to the given namespace
+**Parameters:**
 
->**Overloads:**
+* None
 
->>name: (String) Name of the namespace to add to.
+**Overloads:**
 
->>clazz: (Class) Class to add to the given namespace
+* None
 
->>fn: (Function) Method to call after the class has been added to the namespace
+*** 
+##### _isWebkit_ 
+***
 
-### next ###
+**Info:** Check if engine is Webkit
 
->**Info:** Call the next function(s) in queue
+**Return:** (Bool)
 
->**Return:** (void)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>infinite: any number of arguments can be passed.
+**Overloads:**
 
->**Overloads:**
+* None
 
-### now ###
+*** 
+##### _isWindows_ 
+***
 
->**Info:** Get the DateTime of now
+**Info:** Check if OS is Windows
 
->**Return:** (Mixed)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* None
 
->**Overloads:**
+**Overloads:**
 
->>format: (String) Format syntax to return formatted string of now
+* None
 
-### parseBoolean ###
+*** 
+##### _isWindowsMobile_ 
+***
 
->**Info:** Try to parse value to a Boolean
+**Info:** Check if device is Windows Mobile
 
->**Return:** (Mixed)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>value: (Mixed) value to parse as boolean
+* None
 
->**Overloads:**
+**Overloads:**
 
-### parseRaw ###
+* None
 
->**Info:** Creates an evaluable string
+*** 
+##### _logit_ 
+***
 
->**Return:** (String)
+**Info:** Log to console when DEBUG_MODE is true and when the console is available
 
->**Parameters:**
+**Return:** (void)
 
->>value: value to parse
+**Parameters:**
 
->**Overloads:**
+* infinite: any number of arguments can be passed.
 
->>value: (Mixed) Value to parse
+**Overloads:**
 
->>skipQuotes: (Bool) Flag to skip quotes for strings
+* None
 
->>saveCircular: (Bool) Flag to save circular references
+*** 
+##### _md5_ 
+***
 
-### rand ###
+**Info:** MD5 encode a string.
 
->**Info:** Create a random number between two numbers
+**Return:** (String)
 
->**Return:** (Number)
+**Parameters:**
 
->**Parameters:**
+* str: (String) String to encode.
 
->>num1: (Number) Lower bound
+**Overloads:**
 
->>num2: (Number) Upper bound
+* None
 
->**Overloads:**
+*** 
+##### _mkdirRecursive_ 
+***
 
->>num1: (Number) Lower bound
+**Info:** Recursively create folders.
 
->>num2: (Number) Upper bound
+**Return:** (void)
 
->>inclusive: (Bool) Flag to include the given numbers
+**Parameters:**
 
-### requireDirectory ###
+* path: (String) Path to create.
+* callback: (Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors).
 
->**Info:** Recursively require the entire directory and returns an object containing the required modules.
+**Overloads:**
 
->**Return:** (Object)
+* None
 
->**Parameters:**
+*** 
+##### _namespace_ 
+***
 
->>path: (String) Path to directory.
+**Info:** Adds the class to a namespace instead of the global space
 
->**Overloads:**
+**Return:** (void)
 
->>path: (String) Path to directory.
+**Parameters:**
 
->>options: (Char) 'r' Flag to use to indicate recursively require
+* name: (String) Name of the namespace to add to.
+* clazz: (Class) Class to add to the given namespace
 
-### send ###
+**Overloads:**
 
->**Info:** Recursively require the entire directory and returns an object containing the required modules.
+1)
 
->**Return:** (Object)
+* name: (String) Name of the namespace to add to.
+* clazz: (Class) Class to add to the given namespace
+* fn: (Function) Method to call after the class has been added to the namespace
 
->**Parameters:**
+*** 
+##### _next_ 
+***
 
->>data: (Object) Object to send in response.
+**Info:** Call the next function(s) in queue
 
->**Overloads:**
+**Return:** (void)
 
->>status: (Integer) Status code for response.
+**Parameters:**
 
->>data: (Object) Object to send in response.
+* infinite: any number of arguments can be passed.
 
-### suid ###
+**Overloads:**
 
->**Info:** Creates a short Craydent/Global Unique Identifier
+* None
 
->**Return:** (String)
+*** 
+##### _now_ 
+***
 
->**Parameters:**
+**Info:** Get the DateTime of now
 
->>None
+**Return:** (Mixed)
 
->**Overloads:**
+**Parameters:**
 
->>length: (Integer) Custom length of the short unique identifier
+* None
 
-### syncroit ###
+**Overloads:**
 
->**Info:** Generator based control flow to allow for more "syncronous" programing structure
+1)
 
->**Return:** (Promise)
+* format: (String) Format syntax to return formatted string of now
 
->**Parameters:**
+*** 
+##### _parseBoolean_ 
+***
 
->>gen: (GeneratorFunction) Generator function to execute
+**Info:** Try to parse value to a Boolean
 
->**Overloads:**
+**Return:** (Mixed)
 
-### tryEval ###
+**Parameters:**
 
->**Info:** Evaluates an expression without throwing an error
+* value: (Mixed) value to parse as boolean
 
->**Return:** (Mixed)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>expression: (Mixed) Expression to evaluate
+*** 
+##### _parseRaw_ 
+***
 
->**Overloads:**
+**Info:** Creates an evaluable string
 
->>expression: (Mixed) Expression to evaluate
+**Return:** (String)
 
->>evaluator: (Function) Method to use to evaluate the expression
+**Parameters:**
 
-### var_dump ###
+* value: value to parse
 
->**Info:** Dump of variables to response.
+**Overloads:**
 
->**Return:** (void)
+1)
 
->**Parameters:**
+* value: (Mixed) Value to parse
+* skipQuotes: (Bool) Flag to skip quotes for strings
+* saveCircular: (Bool) Flag to save circular references
 
->>infinite: any number of arguments can be passed.
+*** 
+##### _rand_ 
+***
 
->**Overloads:**
+**Info:** Create a random number between two numbers
 
-### wait ###
+**Return:** (Number)
 
->**Info:** Stops execution until the condition is satisfied
+**Parameters:**
 
->**Return:** (void)
+* num1: (Number) Lower bound
+* num2: (Number) Upper bound
 
->**Parameters:**
+**Overloads:**
 
->>condition: (Mixed) Condition equivalent to js true to resume execution
+1)
 
->**Overloads:**
+* num1: (Number) Lower bound
+* num2: (Number) Upper bound
+* inclusive: (Bool) Flag to include the given numbers
 
-### xmlToJson ###
+*** 
+##### _requireDirectory_ 
+***
 
->**Info:** Converts XML to JSON
+**Info:** Recursively require the entire directory and returns an object containing the required modules.
 
->**Return:** (Object)
+**Return:** (Object)
 
->**Parameters:**
+**Parameters:**
 
->>xml: (Mixed) XML string or XML DOM
+* path: (String) Path to directory.
 
->**Overloads:**
+**Overloads:**
 
->>xml: (Mixed) XML string or XML DOM
+1)
 
->>ignoreAttributes: (Bool) Flag to ignore attributes
+* path: (String) Path to directory.
+* options: (Char) 'r' Flag to use to indicate recursively require
 
-### yieldable ###
+*** 
+##### _send_ 
+***
 
->**Info:** Makes a value yieldable via a Promise.
+**Info:** Recursively require the entire directory and returns an object containing the required modules.
 
->**Return:** (Promise)
+**Return:** (Object)
 
->**Parameters:**
+**Parameters:**
 
->>value: (Mixed) Value to make yieldable
+* data: (Object) Object to send in response.
 
->**Overloads:**
+**Overloads:**
 
->>func: (Function) Function to make yieldable
+1)
 
->>context: (Mixed) Context to use to execute func.
+* status: (Integer) Status code for response.
+* data: (Object) Object to send in response.
 
----
->>func: (Function) Function to make yieldable
+*** 
+##### _suid_ 
+***
 
->>callbackIndex: (Integer) Index of callback argument.
+**Info:** Creates a short Craydent/Global Unique Identifier
 
----
->>func: (Function) Function to make yieldable
+**Return:** (String)
 
->>context: (Mixed) Context to use to execute func.
+**Parameters:**
 
->>callbackIndex: (Integer) Index of callback argument.
+* None
 
-### writeSession ###
+**Overloads:**
 
->**Info:** Writes session to filesystem to be retrieved later.
+1)
 
->**Return:** (void)
+* length: (Integer) Custom length of the short unique identifier
 
->**Parameters:**
+*** 
+##### _syncroit_ 
+***
 
->>None
+**Info:** Generator based control flow to allow for more "syncronous" programing structure
 
->**Overloads:**
+**Return:** (Promise)
+
+**Parameters:**
+
+* gen: (GeneratorFunction) Generator function to execute
+
+**Overloads:**
+
+* None
+
+*** 
+##### _tryEval_ 
+***
+
+**Info:** Evaluates an expression without throwing an error
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* expression: (Mixed) Expression to evaluate
+
+**Overloads:**
+
+1)
+
+* expression: (Mixed) Expression to evaluate
+* evaluator: (Function) Method to use to evaluate the expression
+
+*** 
+##### _var_dump_ 
+***
+
+**Info:** Dump of variables to response.
+
+**Return:** (void)
+
+**Parameters:**
+
+* infinite: any number of arguments can be passed.
+
+**Overloads:**
+
+* None
+
+*** 
+##### _wait_ 
+***
+
+**Info:** Stops execution until the condition is satisfied
+
+**Return:** (void)
+
+**Parameters:**
+
+* condition: (Mixed) Condition equivalent to js true to resume execution
+
+**Overloads:**
+
+* None
+
+*** 
+##### _xmlToJson_ 
+***
+
+**Info:** Converts XML to JSON
+
+**Return:** (Object)
+
+**Parameters:**
+
+* xml: (Mixed) XML string or XML DOM
+
+**Overloads:**
+
+1)
+
+* xml: (Mixed) XML string or XML DOM
+* ignoreAttributes: (Bool) Flag to ignore attributes
+
+*** 
+##### _yieldable_ 
+***
+
+**Info:** Makes a value yieldable via a Promise.
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* value: (Mixed) Value to make yieldable
+
+**Overloads:**
+
+1)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+
+2)
+
+* func: (Function) Function to make yieldable
+* callbackIndex: (Integer) Index of callback argument.
+
+3)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+
+*** 
+##### _writeSession_ 
+***
+
+**Info:** Writes session to filesystem to be retrieved later.
+
+**Return:** (void)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
 
 ## Array ##
 
-### buildTree ###
+*** 
+##### _buildTree_ 
+***
 
->**Info:** Array class extension to create a parent/child hierarchy
+**Info:** Array class extension to create a parent/child hierarchy
 
->**Return:** (Array)
+**Return:** (Array)
 
->**Parameters:**
+**Parameters:**
 
->>parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
+* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
+* childFinder: (String) Property name of the object to use as a grouping.
 
->>childFinder: (String) Property name of the object to use as a grouping.
+**Overloads:**
 
->**Overloads:**
+1)
 
->>parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
+* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
+* childFinder: (Function) Function to determine the grouping.
 
->>childFinder: (Function) Function to determine the grouping.
+2)
 
----
->>parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
+* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
+* childFinder: (String) Property name of the object to use as a grouping.
+* options: (Object) Options to customize properties,  Valid property is:<br />childProperty
 
->>childFinder: (String) Property name of the object to use as a grouping.
+3)
 
->>options: (Object) Options to customize properties,  Valid property is:<br />childProperty
+* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
+* childFinder: (String) Property name of the object to use as a grouping.
+* options: (Object) Options to customize properties,  Valid property is:<br />childProperty
 
----
->>parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
+*** 
+##### _condense_ 
+***
 
->>childFinder: (String) Property name of the object to use as a grouping.
+**Info:** Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls
 
->>options: (Object) Options to customize properties,  Valid property is:<br />childProperty
+**Return:** (Array)
 
-### condense ###
+**Parameters:**
 
->**Info:** Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls
+* None
 
->**Return:** (Array)
+**Overloads:**
 
->**Parameters:**
+1)
 
->>None
+* check_values: (Bool) Flag to remove duplicates
 
->**Overloads:**
+*** 
+##### _createIndex_ 
+***
 
->>check_values: (Bool) Flag to remove duplicates
+**Info:** Array class extension to create indexes for faster searches during where
 
-### createIndex ###
+**Return:** (Array)
 
->**Info:** Array class extension to create indexes for faster searches during where
+**Parameters:**
 
->**Return:** (Array)
+* properties: (String) Property or comma delimited property list to index.
 
->**Parameters:**
+**Overloads:**
 
->>properties: (String) Property or comma delimited property list to index.
+1)
 
->**Overloads:**
+* indexes: (String[]) Array of properties to index
 
->>indexes: (String[]) Array of properties to index
+*** 
+##### _createServer_ 
+***
 
-### createServer ###
+**Info:** Array class extension to do an inner join on arrays
 
->**Info:** Array class extension to do an inner join on arrays
+**Return:** (Server)
 
->**Return:** (Server)
+**Parameters:**
 
->**Parameters:**
+* callback: (Function) Function to callback when a request is received
 
->>callback: (Function) Function to callback when a request is received
+**Overloads:**
 
->**Overloads:**
+1)
 
->>callback: (Function) Function to callback when a request is received
+* callback: (Function) Function to callback when a request is received
+* createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
 
->>createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
+*** 
+##### _delete_ 
+***
 
-### delete ###
+**Info:** Array class extension to delete records
 
->**Info:** Array class extension to delete records
+**Return:** (Array)
 
->**Return:** (Array)
+**Parameters:**
 
->**Parameters:**
+* condition: (Mixed) Query following find/where clause syntax
 
->>condition: (Mixed) Query following find/where clause syntax
+**Overloads:**
 
->**Overloads:**
+1)
 
->>condition: (Mixed) Query following find/where clause syntax
+* condition: (Mixed) Query following find/where clause syntax
+* justOne: (Boolean) Flag for deleting just one records [Default is: true]
 
->>justOne: (Boolean) Flag for deleting just one records [Default is: true]
+*** 
+##### _distinct_ 
+***
 
-### distinct ###
+**Info:** Array class extension to get all unique records by fields specified
 
->**Info:** Array class extension to get all unique records by fields specified
+**Return:** (Array)
 
->**Return:** (Array)
+**Parameters:**
 
->**Parameters:**
+* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
 
->>fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+**Overloads:**
 
->**Overloads:**
+1)
 
->>fields: (Array) Fields to use as the projection and unique comparison
+* fields: (Array) Fields to use as the projection and unique comparison
 
----
->>fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+2)
 
->>condition: (String) Query following SQL where clause syntax
+* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+* condition: (String) Query following SQL where clause syntax
 
----
->>fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
+3)
 
->>condition: (String) Query following SQL where clause syntax
+* fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
+* condition: (String) Query following SQL where clause syntax
 
----
->>fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+4)
 
->>condition: (Object) Query following MongoDB find clause syntax
+* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+* condition: (Object) Query following MongoDB find clause syntax
 
----
->>fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
+5)
 
->>condition: (Object) Query following MongoDB find clause syntax
+* fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
+* condition: (Object) Query following MongoDB find clause syntax
 
-### filter ###
+*** 
+##### _filter_ 
+***
 
->**Info:** Array class extension to implement filter
+**Info:** Array class extension to implement filter
 
->**Return:** (Array)
+**Return:** (Array)
 
->**Parameters:**
+**Parameters:**
 
->>func: (Function) Callback function used to determine if value should be returned
+* func: (Function) Callback function used to determine if value should be returned
 
->**Overloads:**
+**Overloads:**
 
->>func: (Function) Callback function used to determine if value should be returned
+1)
 
->>craydent_thiss: (Mixed) Specify the context on callback function
+* func: (Function) Callback function used to determine if value should be returned
+* craydent_thiss: (Mixed) Specify the context on callback function
 
-### group ###
+*** 
+##### _group_ 
+***
 
->**Info:** Array class extension to group records by fields
+**Info:** Array class extension to group records by fields
 
->**Return:** (Array)
+**Return:** (Array)
 
->**Parameters:**
+**Parameters:**
 
->>params: (Object) specs with common properties:<br />(Object) key<br />(Mixed) cond<br />(Function) reduce<br />(Object) initial
+* params: (Object) specs with common properties:<br />(Object) key<br />(Mixed) cond<br />(Function) reduce<br />(Object) initial
 
->**Overloads:**
+**Overloads:**
 
-### indexOf ###
+* None
 
->**Info:** Array class extension to implement indexOf
+*** 
+##### _indexOf_ 
+***
 
->**Return:** (Int)
+**Info:** Array class extension to implement indexOf
 
->**Parameters:**
+**Return:** (Int)
 
->>value: (Mixed) value to find
+**Parameters:**
 
->**Overloads:**
+* value: (Mixed) value to find
 
-### indexOfAlt ###
+**Overloads:**
 
->**Info:** Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression
+* None
 
->**Return:** (Integer)
+*** 
+##### _indexOfAlt_ 
+***
 
->**Parameters:**
+**Info:** Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression
 
->>value: (Mixed) value to find
+**Return:** (Integer)
 
->>func: (Function) Callback function used to do the comparison
+**Parameters:**
 
->**Overloads:**
+* value: (Mixed) value to find
+* func: (Function) Callback function used to do the comparison
 
->>regex: (RegExp) Regular expression to check value against
+**Overloads:**
 
----
->>regex: (RegExp) Regular expression to check value against
+1)
 
->>pos: (Int) Index offset to start
+* regex: (RegExp) Regular expression to check value against
 
-### innerJoin ###
+2)
 
->**Info:** Array class extension to do an inner join on arrays
+* regex: (RegExp) Regular expression to check value against
+* pos: (Int) Index offset to start
 
->**Return:** (Array)
+*** 
+##### _innerJoin_ 
+***
 
->**Parameters:**
+**Info:** Array class extension to do an inner join on arrays
 
->>arr: (Array) Array to be joined with
+**Return:** (Array)
 
->>on: (String) Condition to join on
+**Parameters:**
 
->**Overloads:**
+* arr: (Array) Array to be joined with
+* on: (String) Condition to join on
 
-### insert ###
+**Overloads:**
 
->**Info:** Array class extension to add to the array
+* None
 
->**Return:** (Bool)
+*** 
+##### _insert_ 
+***
 
->**Parameters:**
+**Info:** Array class extension to add to the array
 
->>value: (Mixed) value to add
+**Return:** (Bool)
 
->**Overloads:**
+**Parameters:**
 
-### insertAfter ###
+* value: (Mixed) value to add
 
->**Info:** Array class extension to add to the array after a specific index
+**Overloads:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+*** 
+##### _insertAfter_ 
+***
 
->>index: (Int) Index to add after
+**Info:** Array class extension to add to the array after a specific index
 
->>value: (Mixed) Value to add
+**Return:** (Bool)
 
->**Overloads:**
+**Parameters:**
 
-### insertAt ###
+* index: (Int) Index to add after
+* value: (Mixed) Value to add
 
->**Info:** Array class extension to add to the array at a specific index and push the all indexes down
+**Overloads:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+*** 
+##### _insertAt_ 
+***
 
->>index: (Int) Index to add after
+**Info:** Array class extension to add to the array at a specific index and push the all indexes down
 
->>value: (Mixed) Value to add
+**Return:** (Bool)
 
->**Overloads:**
+**Parameters:**
 
-### insertBefore ###
+* index: (Int) Index to add after
+* value: (Mixed) Value to add
 
->**Info:** Array class extension to add to the array before a specific index
+**Overloads:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+*** 
+##### _insertBefore_ 
+***
 
->>index: (Int) Index to add before
+**Info:** Array class extension to add to the array before a specific index
 
->>value: (Mixed) Value to add
+**Return:** (Bool)
 
->**Overloads:**
+**Parameters:**
 
-### joinLeft ###
+* index: (Int) Index to add before
+* value: (Mixed) Value to add
 
->**Info:** Array class extension to do an outer left join on arrays
+**Overloads:**
 
->**Return:** (Array)
+* None
 
->**Parameters:**
+*** 
+##### _joinLeft_ 
+***
 
->>arr: (Array) Secondary array to be joined with
+**Info:** Array class extension to do an outer left join on arrays
 
->>on: (String) Condition to join on
+**Return:** (Array)
 
->**Overloads:**
+**Parameters:**
 
-### joinRight ###
+* arr: (Array) Secondary array to be joined with
+* on: (String) Condition to join on
 
->**Info:** Array class extension to do an outer right join on arrays
+**Overloads:**
 
->**Return:** (Array)
+* None
 
->**Parameters:**
+*** 
+##### _joinRight_ 
+***
 
->>arr: (Array) Secondary array to be joined with
+**Info:** Array class extension to do an outer right join on arrays
 
->>on: (String) Condition to join on
+**Return:** (Array)
 
->**Overloads:**
+**Parameters:**
 
-### limit ###
+* arr: (Array) Secondary array to be joined with
+* on: (String) Condition to join on
 
->**Info:** Array class extension to return a limited amount of items
+**Overloads:**
 
->**Return:** (Array)
+* None
 
->**Parameters:**
+*** 
+##### _limit_ 
+***
 
->>max: (Int) Maximum number of items to return
+**Info:** Array class extension to return a limited amount of items
 
->**Overloads:**
+**Return:** (Array)
 
->>max: (Int) Maximum number of items to return
+**Parameters:**
 
->>skip: (Int) Number of items to skip
+* max: (Int) Maximum number of items to return
 
-### mapReduce ###
+**Overloads:**
 
->**Info:** Array class extension to run map-reduce aggregation over records
+1)
 
->**Return:** (Array)
+* max: (Int) Maximum number of items to return
+* skip: (Int) Number of items to skip
 
->**Parameters:**
+*** 
+##### _mapReduce_ 
+***
 
->>map: (Function) Function to apply to each item
+**Info:** Array class extension to run map-reduce aggregation over records
 
->>reduce: (Function) Function used to condense the items
+**Return:** (Array)
 
->**Overloads:**
+**Parameters:**
 
->>map: (Function) Function to apply to each item
+* map: (Function) Function to apply to each item
+* reduce: (Function) Function used to condense the items
 
->>reduce: (Function) Function used to condense the items
+**Overloads:**
 
->>options: (Object) Options specified in the Mongo Doc
+1)
 
-### normalize ###
+* map: (Function) Function to apply to each item
+* reduce: (Function) Function used to condense the items
+* options: (Object) Options specified in the Mongo Doc
 
->**Info:** Array class extension to normalize all properties in the object array
+*** 
+##### _normalize_ 
+***
 
->**Return:** (Array)
+**Info:** Array class extension to normalize all properties in the object array
 
->**Parameters:**
+**Return:** (Array)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* None
 
-### remove ###
+**Overloads:**
 
->**Info:** Array class extension to remove an item by value
+* None
 
->**Return:** (Mixed)
+*** 
+##### _parallelEach_ 
+***
 
->**Parameters:**
+**Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
 
->>value: (Mixed) Value to remove
+**Return:** (Promise)
 
->**Overloads:**
+**Parameters:**
 
->>value: (Mixed) Value to remove
+* None
 
->>indexOf: (Function) Callback function to use to find the item based on the value
+**Overloads:**
 
-### removeAll ###
+1)
 
->**Info:** Array class extension to remove all items by value
+* gen: (Generator) Generator function to apply to each item
 
->**Return:** (Array)
+2)
 
->**Parameters:**
+* func: (Function) Function to apply to each item
 
->>value: (Mixed) Value to remove
+3)
 
->**Overloads:**
+* args: (Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
 
->>value: (Mixed) Value to remove
+*** 
+##### _remove_ 
+***
 
->>indexOf: (Function) Callback function to use to find the item based on the value
+**Info:** Array class extension to remove an item by value
 
-### removeAt ###
+**Return:** (Mixed)
 
->**Info:** Array class extension to remove item at a specific index
+**Parameters:**
 
->**Return:** (Mixed)
+* value: (Mixed) Value to remove
 
->**Parameters:**
+**Overloads:**
 
->>index: (Int) Index of the item to remove
+1)
 
->**Overloads:**
+* value: (Mixed) Value to remove
+* indexOf: (Function) Callback function to use to find the item based on the value
 
-### replaceAt ###
+*** 
+##### _removeAll_ 
+***
 
->**Info:** Array class extension to replace item at a specific index
+**Info:** Array class extension to remove all items by value
 
->**Return:** (Array)
+**Return:** (Array)
 
->**Parameters:**
+**Parameters:**
 
->>index: (Int) Index of the item to remove
+* value: (Mixed) Value to remove
 
->>value: (Mixed) Value to replace with
+**Overloads:**
 
->**Overloads:**
+1)
 
-### scramble ###
+* value: (Mixed) Value to remove
+* indexOf: (Function) Callback function to use to find the item based on the value
 
->**Info:** Array class extension to scramble the order.
+*** 
+##### _removeAt_ 
+***
 
->**Return:** (Array)
+**Info:** Array class extension to remove item at a specific index
 
->**Parameters:**
+**Return:** (Mixed)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* index: (Int) Index of the item to remove
 
-### sortBy ###
+**Overloads:**
 
->**Info:** Array class extension to sort the array
+* None
 
->**Return:** (Array)
+*** 
+##### _replaceAt_ 
+***
 
->**Parameters:**
+**Info:** Array class extension to replace item at a specific index
 
->>props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+**Return:** (Array)
 
->**Overloads:**
+**Parameters:**
 
->>props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
+* index: (Int) Index of the item to remove
+* value: (Mixed) Value to replace with
 
----
->>props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+**Overloads:**
 
->>rev: (Boolean) Flag to reverse the sort
+* None
 
----
->>props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
+*** 
+##### _scramble_ 
+***
 
->>rev: (Boolean) Flag to reverse the sort
+**Info:** Array class extension to scramble the order.
 
----
->>props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+**Return:** (Array)
 
->>rev: (Boolean) Flag to reverse the sort
+**Parameters:**
 
->>primer: (Function) Function to apply to values in the array.
+* None
 
----
->>props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
+**Overloads:**
 
->>rev: (Boolean) Flag to reverse the sort
+* None
 
->>primer: (Function) Function to apply to values in the array.
+*** 
+##### _sortBy_ 
+***
 
----
->>props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+**Info:** Array class extension to sort the array
 
->>rev: (Boolean) Flag to reverse the sort
+**Return:** (Array)
 
->>primer: (Function) Function to apply to values in the array.
+**Parameters:**
 
->>lookup: (Object) Look up object to use as values instead of the array values.
+* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
 
----
->>props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
+**Overloads:**
 
->>rev: (Boolean) Flag to reverse the sort
+1)
 
->>primer: (Function) Function to apply to values in the array.
+* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
 
->>lookup: (Object) Look up object to use as values instead of the array values.
+2)
 
----
->>props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+* rev: (Boolean) Flag to reverse the sort
 
->>rev: (Boolean) Flag to reverse the sort
+3)
 
->>primer: (Function) Function to apply to values in the array.
+* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
+* rev: (Boolean) Flag to reverse the sort
 
->>lookup: (Object) Look up object to use as values instead of the array values.
+4)
 
->>options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
+* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+* rev: (Boolean) Flag to reverse the sort
+* primer: (Function) Function to apply to values in the array.
 
----
->>props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
+5)
 
->>rev: (Boolean) Flag to reverse the sort
+* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
+* rev: (Boolean) Flag to reverse the sort
+* primer: (Function) Function to apply to values in the array.
 
->>primer: (Function) Function to apply to values in the array.
+6)
 
->>lookup: (Object) Look up object to use as values instead of the array values.
+* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+* rev: (Boolean) Flag to reverse the sort
+* primer: (Function) Function to apply to values in the array.
+* lookup: (Object) Look up object to use as values instead of the array values.
 
->>options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
+7)
 
-### toSet ###
+* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
+* rev: (Boolean) Flag to reverse the sort
+* primer: (Function) Function to apply to values in the array.
+* lookup: (Object) Look up object to use as values instead of the array values.
 
->**Info:** Array class extension to convert the array to a set
+8)
 
->**Return:** (Array)
+* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+* rev: (Boolean) Flag to reverse the sort
+* primer: (Function) Function to apply to values in the array.
+* lookup: (Object) Look up object to use as values instead of the array values.
+* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
->**Parameters:**
+9)
 
->>None
+* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
+* rev: (Boolean) Flag to reverse the sort
+* primer: (Function) Function to apply to values in the array.
+* lookup: (Object) Look up object to use as values instead of the array values.
+* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
->**Overloads:**
+*** 
+##### _toSet_ 
+***
 
-### trim ###
+**Info:** Array class extension to convert the array to a set
 
->**Info:** Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.
+**Return:** (Array)
 
->**Return:** (Bool)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>None
+**Overloads:**
 
->**Overloads:**
+* None
 
->>ref: (Boolean) Whether or not to mutate the original array.
+*** 
+##### _trim_ 
+***
 
----
->>character: (Char[]) Character to remove in the String
+**Info:** Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.
 
-### update ###
+**Return:** (Bool)
 
->**Info:** Array class extension to update records in the array
+**Parameters:**
 
->**Return:** (Array)
+* None
 
->**Parameters:**
+**Overloads:**
 
->>condition: (Mixed) Query following find/where clause syntax
+1)
 
->>setClause: (Mixed) Set clause used to update the records
+* ref: (Boolean) Whether or not to mutate the original array.
 
->**Overloads:**
+2)
 
->>condition: (Mixed) Query following find/where clause syntax
+* character: (Char[]) Character to remove in the String
 
->>setClause: (Mixed) Set clause used to update the records
+*** 
+##### _update_ 
+***
 
->>options: (Object) Options to specify if mulit update and/or upsert
+**Info:** Array class extension to update records in the array
 
-### upsert ###
+**Return:** (Array)
 
->**Info:** Array class extension to upsert records to array
+**Parameters:**
 
->**Return:** (Object)
+* condition: (Mixed) Query following find/where clause syntax
+* setClause: (Mixed) Set clause used to update the records
 
->**Parameters:**
+**Overloads:**
 
->>records: (Array) Records to use to insert/update array
+1)
 
->**Overloads:**
+* condition: (Mixed) Query following find/where clause syntax
+* setClause: (Mixed) Set clause used to update the records
+* options: (Object) Options to specify if mulit update and/or upsert
 
->>records: (Array) Records to use to insert/update array
+*** 
+##### _upsert_ 
+***
 
->>callback: (Function) Method to use to determine if the records are equal
+**Info:** Array class extension to upsert records to array
 
----
->>records: (Array) Records to use to insert/update array
+**Return:** (Object)
 
->>prop: (String) Property to use as the primary key
+**Parameters:**
 
----
->>records: (Array) Records to use to insert/update array
+* records: (Array) Records to use to insert/update array
 
->>prop: (String) Property to use as the primary key
+**Overloads:**
 
->>callback: (Function) Method to use to determine if the records are equal
+1)
+
+* records: (Array) Records to use to insert/update array
+* callback: (Function) Method to use to determine if the records are equal
+
+2)
+
+* records: (Array) Records to use to insert/update array
+* prop: (String) Property to use as the primary key
+
+3)
+
+* records: (Array) Records to use to insert/update array
+* prop: (String) Property to use as the primary key
+* callback: (Function) Method to use to determine if the records are equal
 
 ## Date ##
 
-### getDayOfYear ###
+*** 
+##### _getDayOfYear_ 
+***
 
->**Info:** Date class extension to retrieve the day of the year
+**Info:** Date class extension to retrieve the day of the year
 
->**Return:** (Int)
+**Return:** (Int)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* None
 
->**Overloads:**
+**Overloads:**
 
-### getWeek ###
+* None
 
->**Info:** Date class extension to retrieve the week number in the year
+*** 
+##### _getWeek_ 
+***
 
->**Return:** (Int)
+**Info:** Date class extension to retrieve the week number in the year
 
->**Parameters:**
+**Return:** (Int)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* None
 
-### isValidDate ###
+**Overloads:**
 
->**Info:** Date class extension to check if the date is valid
+* None
 
->**Return:** (Bool)
+*** 
+##### _isValidDate_ 
+***
 
->**Parameters:**
+**Info:** Date class extension to check if the date is valid
 
->>None
+**Return:** (Bool)
 
->**Overloads:**
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
 
 ## Function ##
 
-### catch ###
+*** 
+##### _catch_ 
+***
 
->**Info:** Function listener to register the catch event
+**Info:** Function listener to register the catch event
 
->**Return:** (String)
+**Return:** (String)
 
->**Parameters:**
+**Parameters:**
 
->>func: (Function) Function to call on emit
+* func: (Function) Function to call on emit
 
->**Overloads:**
+**Overloads:**
 
-### extends ###
+* None
 
->**Info:** Function class extension to extend another class
+*** 
+##### _extends_ 
+***
 
->**Return:** (Function)
+**Info:** Function class extension to extend another class
 
->**Parameters:**
+**Return:** (Function)
 
->>extendee: (Object) Class to extend
+**Parameters:**
 
->**Overloads:**
+* extendee: (Object) Class to extend
 
->>extendee: (Object) Class to extend
+**Overloads:**
 
->>inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
+1)
 
-### getName ###
+* extendee: (Object) Class to extend
+* inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
 
->**Info:** Function class extension to get the name of the function
+*** 
+##### _getName_ 
+***
 
->**Return:** (String)
+**Info:** Function class extension to get the name of the function
 
->**Parameters:**
+**Return:** (String)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* None
 
-### getParameters ###
+**Overloads:**
 
->**Info:** Function class extension to get parameters in definition
+* None
 
->**Return:** (Array)
+*** 
+##### _getParameters_ 
+***
 
->**Parameters:**
+**Info:** Function class extension to get parameters in definition
 
->>None
+**Return:** (Array)
 
->**Overloads:**
+**Parameters:**
 
-### on ###
+* None
 
->**Info:** Function listener to register events
+**Overloads:**
 
->**Return:** (String)
+* None
 
->**Parameters:**
+*** 
+##### _on_ 
+***
 
->>event: (String) Event to listen on and invoked on emit
+**Info:** Function listener to register events
 
->>func: (Function) Function to call on emit
+**Return:** (String)
 
->**Overloads:**
+**Parameters:**
 
-### then ###
+* event: (String) Event to listen on and invoked on emit
+* func: (Function) Function to call on emit
 
->**Info:** Function listener to register the then event
+**Overloads:**
 
->**Return:** (String)
+* None
 
->**Parameters:**
+*** 
+##### _then_ 
+***
 
->>func: (Function) Function to call on emit
+**Info:** Function listener to register the then event
 
->**Overloads:**
+**Return:** (String)
 
-### toPromise ###
+**Parameters:**
 
->**Info:** Function listener to register events
+* func: (Function) Function to call on emit
 
->**Return:** (String)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>event: (String) Event to listen on and invoked on emit
+*** 
+##### _toPromise_ 
+***
 
->>func: (Function) Function to call on emit
+**Info:** Function listener to register events
 
->**Overloads:**
+**Return:** (String)
+
+**Parameters:**
+
+* event: (String) Event to listen on and invoked on emit
+* func: (Function) Function to call on emit
+
+**Overloads:**
+
+* None
 
 ## Module ##
 
-### globalize ###
+*** 
+##### _globalize_ 
+***
 
->**Info:** Module method to globalize functions
+**Info:** Module method to globalize functions
 
->**Return:** (Array)
+**Return:** (Array)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* None
 
->**Overloads:**
+**Overloads:**
+
+* None
 
 ## Number ##
 
-### aboutEqualTo ###
+*** 
+##### _aboutEqualTo_ 
+***
 
->**Info:** Number class extension to check if values are approximately equal
+**Info:** Number class extension to check if values are approximately equal
 
->**Return:** (Bool)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>compare: (Number) Number to compare
+* compare: (Number) Number to compare
+* giveOrTake: (Number) Plus/minus value
 
->>giveOrTake: (Number) Plus/minus value
+**Overloads:**
 
->**Overloads:**
+* None
 
-### isEven ###
+*** 
+##### _isEven_ 
+***
 
->**Info:** Number class extension to check if number is even
+**Info:** Number class extension to check if number is even
 
->**Return:** (Bool)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* None
 
->**Overloads:**
+**Overloads:**
 
-### isOdd ###
+* None
 
->**Info:** Number class extension to check if number is odd
+*** 
+##### _isOdd_ 
+***
 
->**Return:** (Bool)
+**Info:** Number class extension to check if number is odd
 
->**Parameters:**
+**Return:** (Bool)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* None
+
+**Overloads:**
+
+* None
 
 ## Object ##
 
-### changes ###
+*** 
+##### _changes_ 
+***
 
->**Info:** Object class extension to compare properties that have changed
+**Info:** Object class extension to compare properties that have changed
 
->**Return:** (Object)
+**Return:** (Object)
 
->**Parameters:**
+**Parameters:**
 
->>compare: (Object) Object to compare against
+* compare: (Object) Object to compare against
 
->**Overloads:**
+**Overloads:**
 
-### contains ###
+* None
 
->**Info:** Object class extension to check if value exists
+*** 
+##### _contains_ 
+***
 
->**Return:** (Bool)
+**Info:** Object class extension to check if value exists
 
->**Parameters:**
+**Return:** (Bool)
 
->>val: (Mixed) Value to check or custom function to determine validity
+**Parameters:**
 
->**Overloads:**
+* val: (Mixed) Value to check or custom function to determine validity
 
->>val: (Mixed) Value to check
+**Overloads:**
 
->>func: (Function) Callback function used to do the comparison
+1)
 
----
->>arr: (Array) Array of values to return first matching value
+* val: (Mixed) Value to check
+* func: (Function) Callback function used to do the comparison
 
-### copyObject ###
+2)
 
->**Info:** Object class extension to copy an object excluding constructor
+* arr: (Array) Array of values to return first matching value
 
->**Return:** (Object)
+*** 
+##### _copyObject_ 
+***
 
->**Parameters:**
+**Info:** Object class extension to copy an object excluding constructor
 
->>None
+**Return:** (Object)
 
->**Overloads:**
+**Parameters:**
 
-### count ###
+* None
 
->**Info:** Object class extension to count the properties in the object/elements in arrays/characters in strings.
+**Overloads:**
 
->**Return:** (Int)
+* None
 
->**Parameters:**
+*** 
+##### _count_ 
+***
 
->>None
+**Info:** Object class extension to count the properties in the object/elements in arrays/characters in strings.
 
->**Overloads:**
+**Return:** (Int)
 
->>option: (Mixed) Query used in Array.where when counting elements in an Array
+**Parameters:**
 
----
->>option: (String) Word or phrase to count in the String
+* None
 
----
->>option: (RegExp) Word or phrase pattern to count in the String
+**Overloads:**
 
-### duplicate ###
+1)
 
->**Info:** Object class extension to copy an object including constructor
+* option: (Mixed) Query used in Array.where when counting elements in an Array
 
->**Return:** (Object)
+2)
 
->**Parameters:**
+* option: (String) Word or phrase to count in the String
 
->>None
+3)
 
->**Overloads:**
+* option: (RegExp) Word or phrase pattern to count in the String
 
->>recursive: (Boolean) Flag to copy all child objects recursively
+*** 
+##### _duplicate_ 
+***
 
-### eachProperty ###
+**Info:** Object class extension to copy an object including constructor
 
->**Info:** Object class extension to loop through all properties where hasOwnValue is true.
+**Return:** (Object)
 
->**Return:** (Object)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>callback: (Function) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
+**Overloads:**
 
->**Overloads:**
+1)
 
-### equals ###
+* recursive: (Boolean) Flag to copy all child objects recursively
 
->**Info:** Object class extension to check if object values are equal
+*** 
+##### _eachProperty_ 
+***
 
->**Return:** (Bool)
+**Info:** Object class extension to loop through all properties where hasOwnValue is true.
 
->**Parameters:**
+**Return:** (Object)
 
->>compare: (Object) Object to compare against
+**Parameters:**
 
->**Overloads:**
+* callback: (Function) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
 
->>compare: (Object) Object to compare against
+**Overloads:**
 
->>props: (String[]) Array of property values to compare against
+* None
 
-### every ###
+*** 
+##### _equals_ 
+***
 
->**Info:** Object class extension to check property values against a function
+**Info:** Object class extension to check if object values are equal
 
->**Return:** (Bool)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>callback: (Function) Callback to apply to each value
+* compare: (Object) Object to compare against
 
->**Overloads:**
+**Overloads:**
 
->>callback: (Function) Callback to apply to each value
+1)
 
->>craydent_thisObject: (Mixed) Context for the callback function
+* compare: (Object) Object to compare against
+* props: (String[]) Array of property values to compare against
 
-### getClass ###
+*** 
+##### _every_ 
+***
 
->**Info:** Object class extension to get the constructor name
+**Info:** Object class extension to check property values against a function
 
->**Return:** (String)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* callback: (Function) Callback to apply to each value
 
->**Overloads:**
+**Overloads:**
 
-### getKeys ###
+1)
 
->**Info:** Object class extension to get the keys of the object
+* callback: (Function) Callback to apply to each value
+* craydent_thisObject: (Mixed) Context for the callback function
 
->**Return:** (Array)
+*** 
+##### _getClass_ 
+***
 
->**Parameters:**
+**Info:** Object class extension to get the constructor name
 
->>None
+**Return:** (String)
 
->**Overloads:**
+**Parameters:**
 
-### getValue ###
+* None
 
->**Info:** Object class extension to retrieve value of an object property
+**Overloads:**
 
->**Return:** (Mixed)
+* None
 
->**Parameters:**
+*** 
+##### _getKeys_ 
+***
 
->>None
+**Info:** Object class extension to get the keys of the object
 
->**Overloads:**
+**Return:** (Array)
 
->>dflt: (Mixed) Default value to return if context is not a function
+**Parameters:**
 
----
->>args: (Mixed[]) An array of arguments to pass to context when it is a function
+* None
 
->>dflt: (Mixed) Default value to return if context is not a function
+**Overloads:**
 
-### has ###
+* None
 
->**Info:** Alias to Object.prototype.hasOwnProperty
+*** 
+##### _getValue_ 
+***
 
->**Return:** (Boolean)
+**Info:** Object class extension to retrieve value of an object property
 
->**Parameters:**
+**Return:** (Mixed)
 
->>property: (String) Property name to check
+**Parameters:**
 
->**Overloads:**
+* None
 
-### isArray ###
+**Overloads:**
 
->**Info:** Object class extension to check if object is an array
+1)
 
->**Return:** (Bool)
+* dflt: (Mixed) Default value to return if context is not a function
 
->**Parameters:**
+2)
 
->>None
+* args: (Mixed[]) An array of arguments to pass to context when it is a function
+* dflt: (Mixed) Default value to return if context is not a function
 
->**Overloads:**
+*** 
+##### _has_ 
+***
 
-### isBetween ###
+**Info:** Alias to Object.prototype.hasOwnProperty
 
->**Info:** Object class extension to check if object is between lower and upper bounds
+**Return:** (Boolean)
 
->**Return:** (Bool)
+**Parameters:**
 
->**Parameters:**
+* property: (String) Property name to check
 
->>lowerBound: (Mixed) Lower bound comparison
+**Overloads:**
 
->>upperBound: (Mixed) Upper bound comparison
+* None
 
->**Overloads:**
+*** 
+##### _isArray_ 
+***
 
->>lowerBound: (Mixed) Lower bound comparison
+**Info:** Object class extension to check if object is an array
 
->>upperBound: (Mixed) Upper bound comparison
+**Return:** (Bool)
 
->>inclusive: (Bool) Flag to include give bounds
+**Parameters:**
 
-### isBoolean ###
+* None
 
->**Info:** Object class extension to check if object is a boolean
+**Overloads:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+*** 
+##### _isBetween_ 
+***
 
->>None
+**Info:** Object class extension to check if object is between lower and upper bounds
 
->**Overloads:**
+**Return:** (Bool)
 
-### isDate ###
+**Parameters:**
 
->**Info:** Object class extension to check if object is a date
+* lowerBound: (Mixed) Lower bound comparison
+* upperBound: (Mixed) Upper bound comparison
 
->**Return:** (Bool)
+**Overloads:**
 
->**Parameters:**
+1)
 
->>None
+* lowerBound: (Mixed) Lower bound comparison
+* upperBound: (Mixed) Upper bound comparison
+* inclusive: (Bool) Flag to include give bounds
 
->**Overloads:**
+*** 
+##### _isBoolean_ 
+***
 
-### isDomElement ###
+**Info:** Object class extension to check if object is a boolean
 
->**Info:** Object class extension to check if object is a DOM element
+**Return:** (Bool)
 
->**Return:** (Bool)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>None
+**Overloads:**
 
->**Overloads:**
+* None
 
-### isEmpty ###
+*** 
+##### _isDate_ 
+***
 
->**Info:** Object class extension to check if it is empty
+**Info:** Object class extension to check if object is a date
 
->**Return:** (Bool)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* None
 
->**Overloads:**
+**Overloads:**
 
-### isFloat ###
+* None
 
->**Info:** Object class extension to check if object is a float
+*** 
+##### _isDomElement_ 
+***
 
->**Return:** (Bool)
+**Info:** Object class extension to check if object is a DOM element
 
->**Parameters:**
+**Return:** (Bool)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* None
 
-### isFunction ###
+**Overloads:**
 
->**Info:** Object class extension to check if object is a function
+* None
 
->**Return:** (Bool)
+*** 
+##### _isEmpty_ 
+***
 
->**Parameters:**
+**Info:** Object class extension to check if it is empty
 
->>None
+**Return:** (Bool)
 
->**Overloads:**
+**Parameters:**
 
-### isGenerator ###
+* None
 
->**Info:** Object class extension to check if object is a generator function
+**Overloads:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+*** 
+##### _isFloat_ 
+***
 
->>None
+**Info:** Object class extension to check if object is a float
 
->**Overloads:**
+**Return:** (Bool)
 
-### isGeolocation ###
+**Parameters:**
 
->**Info:** Object class extension to check if object is a geolocation
+* None
 
->**Return:** (Bool)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>None
+*** 
+##### _isFunction_ 
+***
 
->**Overloads:**
+**Info:** Object class extension to check if object is a function
 
-### isInt ###
+**Return:** (Bool)
 
->**Info:** Object class extension to check if object is an integer
+**Parameters:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+**Overloads:**
 
->>None
+* None
 
->**Overloads:**
+*** 
+##### _isGenerator_ 
+***
 
-### isNumber ###
+**Info:** Object class extension to check if object is a generator function
 
->**Info:** Object class extension to check if object is a number
+**Return:** (Bool)
 
->**Return:** (Bool)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>None
+**Overloads:**
 
->**Overloads:**
+* None
 
-### isObject ###
+*** 
+##### _isGeolocation_ 
+***
 
->**Info:** Object class extension to check if object is an object
+**Info:** Object class extension to check if object is a geolocation
 
->**Return:** (Bool)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* None
 
->**Overloads:**
+**Overloads:**
 
-### isPromise ###
+* None
 
->**Info:** Object class extension to check if object is a promise object
+*** 
+##### _isInt_ 
+***
 
->**Return:** (Bool)
+**Info:** Object class extension to check if object is an integer
 
->**Parameters:**
+**Return:** (Bool)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* None
 
-### isRegExp ###
+**Overloads:**
 
->**Info:** Object class extension to check if object is a RegExp
+* None
 
->**Return:** (Bool)
+*** 
+##### _isNumber_ 
+***
 
->**Parameters:**
+**Info:** Object class extension to check if object is a number
 
->>None
+**Return:** (Bool)
 
->**Overloads:**
+**Parameters:**
 
-### isString ###
+* None
 
->**Info:** Object class extension to check if object is a string
+**Overloads:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+*** 
+##### _isObject_ 
+***
 
->>None
+**Info:** Object class extension to check if object is an object
 
->**Overloads:**
+**Return:** (Bool)
 
-### isSubset ###
+**Parameters:**
 
->**Info:** Object class extension to check if item is a subset
+* None
 
->**Return:** (Bool)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>compare: (Mixed) Superset to compare against
+*** 
+##### _isPromise_ 
+***
 
->**Overloads:**
+**Info:** Object class extension to check if object is a promise object
 
-### itemCount ###
+**Return:** (Bool)
 
->**Info:** Object class extension to count the properties in item
+**Parameters:**
 
->**Return:** (Int)
+* None
 
->**Parameters:**
+**Overloads:**
 
->>None
+* None
 
->**Overloads:**
+*** 
+##### _isRegExp_ 
+***
 
-### keyOf ###
+**Info:** Object class extension to check if object is a RegExp
 
->**Info:** Object class extension to get the key of the give value
+**Return:** (Bool)
 
->**Return:** (String)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>value: (Mixed) Value to compare against
+**Overloads:**
 
->**Overloads:**
+* None
 
-### map ###
+*** 
+##### _isString_ 
+***
 
->**Info:** Object class extension to apply method to every value
+**Info:** Object class extension to check if object is a string
 
->**Return:** (void)
+**Return:** (Bool)
 
->**Parameters:**
+**Parameters:**
 
->>callback: (Function) Callback to apply to each value
+* None
 
->**Overloads:**
+**Overloads:**
 
->>callback: (Function) Callback to apply to each value
+* None
 
->>craydent_thisObject: (Mixed) Context for the callback function
+*** 
+##### _isSubset_ 
+***
 
-### merge ###
+**Info:** Object class extension to check if item is a subset
 
->**Info:** Object class extension to merge objects
+**Return:** (Bool)
 
->**Return:** (Object)
+**Parameters:**
 
->**Parameters:**
+* compare: (Mixed) Superset to compare against
 
->>secondary: (Object) Object to merge with
+**Overloads:**
 
->**Overloads:**
+* None
 
->>secondary: (Object) Object to merge with
+*** 
+##### _itemCount_ 
+***
 
->>condition: (Mixed) Flags to recurse, merge only shared value, clone, intersect etc
+**Info:** Object class extension to count the properties in item
 
-### setProperty ###
+**Return:** (Int)
 
->**Info:** Object class extension to set nested properties creating necessary property paths
+**Parameters:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+**Overloads:**
 
->>path: (String) Path to nested property
+* None
 
->>value: (Mixed) Value to set
+*** 
+##### _keyOf_ 
+***
 
->**Overloads:**
+**Info:** Object class extension to get the key of the give value
 
->>path: (String) Path to nested property
+**Return:** (String)
 
->>value: (Mixed) Value to set
+**Parameters:**
 
->>delimiter: (Char) Separator used to parse path
+* value: (Mixed) Value to compare against
 
----
->>path: (String) Path to nested property
+**Overloads:**
 
->>delimiter: (Char) Separator used to parse path
+* None
 
->>value: (Mixed) Value to set
+*** 
+##### _map_ 
+***
 
->>options: (Object) Options for ignoring inheritance, validPath, etc
+**Info:** Object class extension to apply method to every value
 
-### toStringAlt ###
+**Return:** (void)
 
->**Info:** Object class extension for an alternate way to stringify object to formatted string
+**Parameters:**
 
->**Return:** (String)
+* callback: (Function) Callback to apply to each value
 
->**Parameters:**
+**Overloads:**
 
->>None
+1)
 
->**Overloads:**
+* callback: (Function) Callback to apply to each value
+* craydent_thisObject: (Mixed) Context for the callback function
 
->>delimiter: (Char) Character to separate the property from the value
+*** 
+##### _merge_ 
+***
 
----
->>delimiter: (Char) Character to separate the property from the value
+**Info:** Object class extension to merge objects
 
->>prefix: (Char) Character to prefix the property name
+**Return:** (Object)
 
----
->>delimiter: (Char) Character to separate the property from the value
+**Parameters:**
 
->>prefix: (Char) Character to prefix the property name
+* secondary: (Object) Object to merge with
 
->>urlEncode: (Bool) Flag to url encode the property and value
+**Overloads:**
+
+1)
+
+* secondary: (Object) Object to merge with
+* condition: (Mixed) Flags to recurse, merge only shared value, clone, intersect etc
+
+*** 
+##### _setProperty_ 
+***
+
+**Info:** Object class extension to set nested properties creating necessary property paths
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* path: (String) Path to nested property
+* value: (Mixed) Value to set
+
+**Overloads:**
+
+1)
+
+* path: (String) Path to nested property
+* value: (Mixed) Value to set
+* delimiter: (Char) Separator used to parse path
+
+2)
+
+* path: (String) Path to nested property
+* delimiter: (Char) Separator used to parse path
+* value: (Mixed) Value to set
+* options: (Object) Options for ignoring inheritance, validPath, etc
+
+*** 
+##### _toStringAlt_ 
+***
+
+**Info:** Object class extension for an alternate way to stringify object to formatted string
+
+**Return:** (String)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* delimiter: (Char) Character to separate the property from the value
+
+2)
+
+* delimiter: (Char) Character to separate the property from the value
+* prefix: (Char) Character to prefix the property name
+
+3)
+
+* delimiter: (Char) Character to separate the property from the value
+* prefix: (Char) Character to prefix the property name
+* urlEncode: (Bool) Flag to url encode the property and value
 
 ## RegExp ##
 
-### addFlags ###
+*** 
+##### _addFlags_ 
+***
 
->**Info:** RegExp class extension to add flags to regex
+**Info:** RegExp class extension to add flags to regex
 
->**Return:** (RegExp)
+**Return:** (RegExp)
 
->**Parameters:**
+**Parameters:**
 
->>flags: (String) Flags to add
+* flags: (String) Flags to add
 
->**Overloads:**
+**Overloads:**
+
+* None
 
 ## String ##
 
-### acronymize ###
+*** 
+##### _acronymize_ 
+***
 
->**Info:** String class extension to capitalize parts of the string
+**Info:** String class extension to capitalize parts of the string
 
->**Return:** (String)
+**Return:** (String)
 
->**Parameters:**
+**Parameters:**
 
->>capsOnly: (Boolean) Flag to indicate to use capital letters only.
+* capsOnly: (Boolean) Flag to indicate to use capital letters only.
 
->**Overloads:**
+**Overloads:**
 
->>match: (RegExp) Pattern to match to qualify the Acronym.
+1)
 
----
->>capsOnly: (Boolean) Flag to indicate to use capital letters only.
+* match: (RegExp) Pattern to match to qualify the Acronym.
 
->>delimiter: (String) Character that delimits the string.
+2)
 
----
->>match: (RegExp) Pattern to match to qualify the Acronym.
+* capsOnly: (Boolean) Flag to indicate to use capital letters only.
+* delimiter: (String) Character that delimits the string.
 
->>delimiter: (String) Character that delimits the string.
+3)
 
----
->>capsOnly: (Boolean) Flag to indicate to use capital letters only.
+* match: (RegExp) Pattern to match to qualify the Acronym.
+* delimiter: (String) Character that delimits the string.
 
->>delimiter: (RegExp) RegExp pattern that delimits the string.
+4)
 
----
->>match: (RegExp) Pattern to match to qualify the Acronym.
+* capsOnly: (Boolean) Flag to indicate to use capital letters only.
+* delimiter: (RegExp) RegExp pattern that delimits the string.
 
->>delimiter: (RegExp) RegExp pattern that delimits the string.
+5)
 
-### capitalize ###
+* match: (RegExp) Pattern to match to qualify the Acronym.
+* delimiter: (RegExp) RegExp pattern that delimits the string.
 
->**Info:** String class extension to capitalize parts of the string
+*** 
+##### _capitalize_ 
+***
 
->**Return:** (String)
+**Info:** String class extension to capitalize parts of the string
 
->**Parameters:**
+**Return:** (String)
 
->>pos: (Int[]) Index of the string to capitalize
+**Parameters:**
 
->**Overloads:**
+* pos: (Int[]) Index of the string to capitalize
 
->>pos: (Int) Index of the string to capitalize
+**Overloads:**
 
->>everyWord: (Bool) Flag to capital every word
+1)
 
-### convertUTCDate ###
+* pos: (Int) Index of the string to capitalize
+* everyWord: (Bool) Flag to capital every word
 
->**Info:** String class extension to convert date string to UTC format
+*** 
+##### _convertUTCDate_ 
+***
 
->**Return:** (String)
+**Info:** String class extension to convert date string to UTC format
 
->**Parameters:**
+**Return:** (String)
 
->>delimiter: (String) Character that delimits the date string
+**Parameters:**
 
->**Overloads:**
+* delimiter: (String) Character that delimits the date string
 
-### cut ###
+**Overloads:**
 
->**Info:** String class extension to remove between the provided indexes
+* None
 
->**Return:** (String)
+*** 
+##### _cut_ 
+***
 
->**Parameters:**
+**Info:** String class extension to remove between the provided indexes
 
->>start_index: (Integer) Start index to cut
+**Return:** (String)
 
->>end_index: (Integer) End index to cut
+**Parameters:**
 
->**Overloads:**
+* start_index: (Integer) Start index to cut
+* end_index: (Integer) End index to cut
 
->>start_index: (Integer) Start index to cut
+**Overloads:**
 
->>end_index: (Integer) End index to cut
+1)
 
->>replacement: (String) String to put in place of the cut
+* start_index: (Integer) Start index to cut
+* end_index: (Integer) End index to cut
+* replacement: (String) String to put in place of the cut
 
-### ellipsis ###
+*** 
+##### _ellipsis_ 
+***
 
->**Info:** String class extension to shorten by ellipsis
+**Info:** String class extension to shorten by ellipsis
 
->**Return:** (String)
+**Return:** (String)
 
->**Parameters:**
+**Parameters:**
 
->>before: (Int) Number of characters to use before using ellipsis
+* before: (Int) Number of characters to use before using ellipsis
 
->**Overloads:**
+**Overloads:**
 
->>before: (Int) Number of characters to use before using ellipsis
+1)
 
->>after: (Int) Number of characters to use after the ellipsis
+* before: (Int) Number of characters to use before using ellipsis
+* after: (Int) Number of characters to use after the ellipsis
 
-### endsWith ###
+*** 
+##### _endsWith_ 
+***
 
->**Info:** String class extension to check if the string ends with the given string
+**Info:** String class extension to check if the string ends with the given string
 
->**Return:** (Mix)
+**Return:** (Mix)
 
->**Parameters:**
+**Parameters:**
 
->>infinite: any number of arguments can be passed
+* infinite: any number of arguments can be passed
 
->**Overloads:**
+**Overloads:**
 
->>arr: (String[]) An array of strings to check
+1)
 
-### endsWithAny ###
+* arr: (String[]) An array of strings to check
 
->**Info:** String class extension to check if the string ends with the given string
+*** 
+##### _endsWithAny_ 
+***
 
->**Return:** (Mix)
+**Info:** String class extension to check if the string ends with the given string
 
->**Parameters:**
+**Return:** (Mix)
 
->>infinite: any number of arguments can be passed
+**Parameters:**
 
->**Overloads:**
+* infinite: any number of arguments can be passed
 
->>arr: (String[]) An array of strings to check
+**Overloads:**
 
-### highlight ###
+1)
 
->**Info:** String class extension to surround search words with the given tag(default span) and class (default chighlight)
+* arr: (String[]) An array of strings to check
 
->**Return:** (String)
+*** 
+##### _highlight_ 
+***
 
->**Parameters:**
+**Info:** String class extension to surround search words with the given tag(default span) and class (default chighlight)
 
->>search: (String) String to search
+**Return:** (String)
 
->**Overloads:**
+**Parameters:**
 
->>search: (RegExp) Regular expression to search
+* search: (String) String to search
 
----
->>search: (String) String to search
+**Overloads:**
 
->>cssClass: (String) Class to add for highlighting
+1)
 
----
->>search: (RegExp) Regular expression to search
+* search: (RegExp) Regular expression to search
 
->>cssClass: (String) Class to add for highlighting
+2)
 
----
->>search: (String) String to search
+* search: (String) String to search
+* cssClass: (String) Class to add for highlighting
 
->>cssClass: (String) Class to add for highlighting
+3)
 
->>tag: (String) Tag to use to surround the search
+* search: (RegExp) Regular expression to search
+* cssClass: (String) Class to add for highlighting
 
----
->>search: (RegExp) Regular expression to search
+4)
 
->>cssClass: (String) Class to add for highlighting
+* search: (String) String to search
+* cssClass: (String) Class to add for highlighting
+* tag: (String) Tag to use to surround the search
 
->>tag: (String) Tag to use to surround the search
+5)
 
-### ireplace_all ###
+* search: (RegExp) Regular expression to search
+* cssClass: (String) Class to add for highlighting
+* tag: (String) Tag to use to surround the search
 
->**Info:** String class extension to replace all substrings ignoring case
+*** 
+##### _ireplace_all_ 
+***
 
->**Return:** (String)
+**Info:** String class extension to replace all substrings ignoring case
 
->**Parameters:**
+**Return:** (String)
 
->>replace: (String) String to replace
+**Parameters:**
 
->>subject: (String) String to replace with
+* replace: (String) String to replace
+* subject: (String) String to replace with
 
->**Overloads:**
+**Overloads:**
 
-### isBlank ###
+* None
 
->**Info:** String class extension to check if the string is empty
+*** 
+##### _isBlank_ 
+***
 
->**Return:** (Bool)
+**Info:** String class extension to check if the string is empty
 
->**Parameters:**
+**Return:** (Bool)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* None
 
-### isCuid ###
+**Overloads:**
 
->**Info:** String class extension to check if the string is a cuid
+* None
 
->**Return:** (Bool)
+*** 
+##### _isCuid_ 
+***
 
->**Parameters:**
+**Info:** String class extension to check if the string is a cuid
 
->>msFormat: (Bool) use microsoft format if true
+**Return:** (Bool)
 
->**Overloads:**
+**Parameters:**
 
-### isValidEmail ###
+* msFormat: (Bool) use microsoft format if true
 
->**Info:** String class extension to check if string is a valid email
+**Overloads:**
 
->**Return:** (Bool)
+* None
 
->**Parameters:**
+*** 
+##### _isValidEmail_ 
+***
 
->>None
+**Info:** String class extension to check if string is a valid email
 
->**Overloads:**
+**Return:** (Bool)
 
-### lastIndexOfAlt ###
+**Parameters:**
 
->**Info:** String class extension to find the last index based on a regular expression
+* None
 
->**Return:** (Int)
+**Overloads:**
 
->**Parameters:**
+* None
 
->>regex: (RegExp) Regular expression to check value against
+*** 
+##### _lastIndexOfAlt_ 
+***
 
->**Overloads:**
+**Info:** String class extension to find the last index based on a regular expression
 
->>regex: (RegExp) Regular expression to check value against
+**Return:** (Int)
 
->>pos: (Int) Max index to go up to in the search
+**Parameters:**
 
-### ltrim ###
+* regex: (RegExp) Regular expression to check value against
 
->**Info:** String class extension to remove characters from the beginning of the string
+**Overloads:**
 
->**Return:** (String)
+1)
 
->**Parameters:**
+* regex: (RegExp) Regular expression to check value against
+* pos: (Int) Max index to go up to in the search
 
->>character: (Char[]) Character to remove
+*** 
+##### _ltrim_ 
+***
 
->**Overloads:**
+**Info:** String class extension to remove characters from the beginning of the string
 
-### pluralize ###
+**Return:** (String)
 
->**Info:** String class extension to do a best guess pluralization of the string
+**Parameters:**
 
->**Return:** (String)
+* character: (Char[]) Character to remove
 
->**Parameters:**
+**Overloads:**
 
->>None
+* None
 
->**Overloads:**
+*** 
+##### _pluralize_ 
+***
 
-### replace_all ###
+**Info:** String class extension to do a best guess pluralization of the string
 
->**Info:** String class extension to replace all substrings (case sensitive)
+**Return:** (String)
 
->**Return:** (String)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>replace: (String) String to replace
+**Overloads:**
 
->>subject: (String) String to replace with
+* None
 
->**Overloads:**
+*** 
+##### _replace_all_ 
+***
 
->>replace: (String[]) Array of string to replace
+**Info:** String class extension to replace all substrings (case sensitive)
 
->>subject: (String[]) Array of string to replace with
+**Return:** (String)
 
-### reverse ###
+**Parameters:**
 
->**Info:** String class extension to reverse the string
+* replace: (String) String to replace
+* subject: (String) String to replace with
 
->**Return:** (String)
+**Overloads:**
 
->**Parameters:**
+1)
 
->>None
+* replace: (String[]) Array of string to replace
+* subject: (String[]) Array of string to replace with
 
->**Overloads:**
+*** 
+##### _reverse_ 
+***
 
-### rtrim ###
+**Info:** String class extension to reverse the string
 
->**Info:** String class extension to remove characters from the end of the string
+**Return:** (String)
 
->**Return:** (String)
+**Parameters:**
 
->**Parameters:**
+* None
 
->>character: (Char[]) Character to remove
+**Overloads:**
 
->**Overloads:**
+* None
 
-### sanitize ###
+*** 
+##### _rtrim_ 
+***
 
->**Info:** String class extension to remove potential XSS threats
+**Info:** String class extension to remove characters from the end of the string
 
->**Return:** (String)
+**Return:** (String)
 
->**Parameters:**
+**Parameters:**
 
->>None
+* character: (Char[]) Character to remove
 
->**Overloads:**
+**Overloads:**
 
-### singularize ###
+* None
 
->**Info:** String class extension to do a best guess singularization of the string
+*** 
+##### _sanitize_ 
+***
 
->**Return:** (String)
+**Info:** String class extension to remove potential XSS threats
 
->**Parameters:**
+**Return:** (String)
 
->>None
+**Parameters:**
 
->**Overloads:**
+* None
 
-### startsWith ###
+**Overloads:**
 
->**Info:** String class extension to check if the string starts with the given string
+* None
 
->**Return:** (Bool)
+*** 
+##### _singularize_ 
+***
 
->**Parameters:**
+**Info:** String class extension to do a best guess singularization of the string
 
->>infinite: any number of String arguments can be passed
+**Return:** (String)
 
->**Overloads:**
+**Parameters:**
 
->>arr: (String[]) An array of strings to check
+* None
 
-### startsWithAny ###
+**Overloads:**
 
->**Info:** String class extension to check if the string starts with the given string
+* None
 
->**Return:** (Bool)
+*** 
+##### _startsWith_ 
+***
 
->**Parameters:**
+**Info:** String class extension to check if the string starts with the given string
 
->>infinite: any number of String arguments can be passed
+**Return:** (Bool)
 
->**Overloads:**
+**Parameters:**
 
->>arr: (String[]) An array of strings to check
+* infinite: any number of String arguments can be passed
 
-### strip ###
+**Overloads:**
 
->**Info:** String class extension to remove characters from the beginning and end of the string
+1)
 
->**Return:** (String)
+* arr: (String[]) An array of strings to check
 
->**Parameters:**
+*** 
+##### _startsWithAny_ 
+***
 
->>character: (Char[]) Character to remove
+**Info:** String class extension to check if the string starts with the given string
 
->**Overloads:**
+**Return:** (Bool)
 
-### toCurrencyNotation ###
+**Parameters:**
 
->**Info:** Number/String class extension to change number to currency
+* infinite: any number of String arguments can be passed
 
->**Return:** (String)
+**Overloads:**
 
->**Parameters:**
+1)
 
->>None
+* arr: (String[]) An array of strings to check
 
->**Overloads:**
+*** 
+##### _strip_ 
+***
 
->>separator: (Char) Character to use as delimiter
+**Info:** String class extension to remove characters from the beginning and end of the string
 
-### toDateTime ###
+**Return:** (String)
 
->**Info:** String class extension to convert string to datetime
+**Parameters:**
 
->**Return:** (Mixed)
+* character: (Char[]) Character to remove
 
->**Parameters:**
+**Overloads:**
 
->>None
+* None
 
->**Overloads:**
+*** 
+##### _toCurrencyNotation_ 
+***
 
->>options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format
+**Info:** Number/String class extension to change number to currency
 
-### toObject ###
+**Return:** (String)
 
->**Info:** String class extension to convert to JSON
+**Parameters:**
 
->**Return:** (Object)
+* None
 
->**Parameters:**
+**Overloads:**
 
->>None
+1)
 
->**Overloads:**
+* separator: (Char) Character to use as delimiter
 
->>assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '='.
+*** 
+##### _toDateTime_ 
+***
 
----
->>assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '&'.
+**Info:** String class extension to convert string to datetime
 
->>delimiter: (Char) Character to use as pair delimiter
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format
+
+*** 
+##### _toObject_ 
+***
+
+**Info:** String class extension to convert to JSON
+
+**Return:** (Object)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '='.
+
+2)
+
+* assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '&'.
+* delimiter: (Char) Character to use as pair delimiter
 
