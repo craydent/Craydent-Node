@@ -82,7 +82,7 @@ for (var i = 0, len = orderedConstants.length, grid_row_count = Math.ceil(len/co
 	var index = parseInt(i%grid_row_count), hindex = parseInt(i/grid_row_count);
 	if (!headers[hindex]) { headers[hindex] = "| ----- "; }
 	grid[index] = grid[index] || "";
-	grid[index] += constants[orderedConstants[i]] + " | ";
+	grid[index] += constants[orderedConstants[i]] + " |";
 	//readme += constants[orderedConstants[i]];
 }
 readme += headers.join('') + "|\n| " + grid.join('\n') + ln;
