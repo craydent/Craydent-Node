@@ -5,6 +5,8 @@
 
 ## Categories
 
+* [Constants](#markdown-header-constants)
+* [Featured](#markdown-header-featured)
 * [Global](#markdown-header-global)
 * [Array](#markdown-header-array)
 * [Date](#markdown-header-date)
@@ -15,6 +17,7 @@
 * [RegExp](#markdown-header-regexp)
 * [String](#markdown-header-string)
 
+<a name='markdown-header-constants'></a>
 ## Constants
 
 | | | |
@@ -43,6 +46,7 @@ HTTP_STATUS_TEMPLATE (String) |PRAGMA (String) |WINDOWS (String) |
 IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 IE6 (String) |PRINCE (String) |
 
+<a name='markdown-header-featured'></a>
 ## Featured
 
 ### Global
@@ -485,11 +489,10 @@ IE6 (String) |PRINCE (String) |
 
 
 
-##** Methods **##
+## Methods
 
----
-
-## Global ##
+<a name='markdown-header-'global></a>
+## Global
 
 *** 
 #### _Benchmarker_ 
@@ -1714,7 +1717,8 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-## Array ##
+<a name='markdown-header-'array></a>
+## Array
 
 *** 
 #### _buildTree_ 
@@ -2381,7 +2385,8 @@ IE6 (String) |PRINCE (String) |
 * prop: (String) Property to use as the primary key
 * callback: (Function) Method to use to determine if the records are equal
 
-## Date ##
+<a name='markdown-header-'date></a>
+## Date
 
 *** 
 #### _getDayOfYear_ 
@@ -2431,7 +2436,8 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-## Function ##
+<a name='markdown-header-'function></a>
+## Function
 
 *** 
 #### _catch_ 
@@ -2550,7 +2556,8 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-## Module ##
+<a name='markdown-header-'module></a>
+## Module
 
 *** 
 #### _globalize_ 
@@ -2568,7 +2575,8 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-## Number ##
+<a name='markdown-header-'number></a>
+## Number
 
 *** 
 #### _aboutEqualTo_ 
@@ -2619,7 +2627,8 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-## Object ##
+<a name='markdown-header-'object></a>
+## Object
 
 *** 
 #### _changes_ 
@@ -3249,7 +3258,8 @@ IE6 (String) |PRINCE (String) |
 * prefix: (Char) Character to prefix the property name
 * urlEncode: (Bool) Flag to url encode the property and value
 
-## RegExp ##
+<a name='markdown-header-'regexp></a>
+## RegExp
 
 *** 
 #### _addFlags_ 
@@ -3267,7 +3277,8 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-## String ##
+<a name='markdown-header-'string></a>
+## String
 
 *** 
 #### _acronymize_ 

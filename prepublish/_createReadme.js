@@ -8,7 +8,7 @@ var fs = require('fs'),
 	orderedFeatured = new $c.OrderedList(),
 	orderedMethods = new $c.OrderedList(),
 	orderedConstants = new $c.OrderedList();
-var categories = ['Global','Array','Date','Function','Module','Number','Object','RegExp','String'];
+var categories = ['Constants','Featured','Global','Array','Date','Function','Module','Number','Object','RegExp','String'];
 // fill ordered arrays
 for (var o = 0; o < 2; o++) {
 	var c = [$c, instC][o];
@@ -85,7 +85,7 @@ for (var i = 0, len = categories.length; i < len; i++) {
 readme += '\n';
 
 // Constants ----------------------------------------------------------------------------------------------
-readme += "## Constants" + ln;
+readme += "<a name='markdown-header-constants'></a>\n## Constants" + ln;
 var grid = [], headerdiv = [], headers = [], cols = 3;
 for (var i = 0, len = orderedConstants.length, grid_row_count = Math.ceil(len/cols); i < len; i++) {
 	var index = parseInt(i%grid_row_count), hindex = parseInt(i/grid_row_count);
@@ -98,11 +98,12 @@ readme += headers.join('') + "|\n" + headerdiv.join('') + "|\n| " + grid.join('\
 // Constants end ------------------------------------------------------------------------------------------
 
 // Featured -----------------------------------------------------------------------------------------------
-readme += "## Featured" + ln;
+readme += "<a name='markdown-header-featured'></a>\n## Featured" + ln;
 //for (var prop in featured) {
 //	if (!featured.hasOwnProperty(prop)) { continue; }
 for (var i = 0, len = categories.length; i < len; i++) {
 	var category = categories[i];
+	if (category in {Featured:1,Constants:1}) { continue; }
 	if (featured[category]) {
 		readme += "### " + category + ln;
 	}
@@ -116,14 +117,15 @@ for (var i = 0, len = categories.length; i < len; i++) {
 
 // Method -------------------------------------------------------------------------------------------------
 readme += ln;
-readme += "##** Methods **##" + ln + "---" + ln;
+readme += "## Methods" + ln;
 //for (var prop in methods) {
 //	if (!methods.hasOwnProperty(prop)) { continue; }
 for (var i = 0, len = categories.length; i < len; i++)
 {
 	var category = categories[i];
+	if (category in {Featured:1,Constants:1}) { continue; }
 	if (methods[category]) {
-		readme += "## " + category + " ##" + ln;
+		readme += "<a name='markdown-header-'" + category.toLowerCase() + "></a>\n## " + category + ln;
 	}
 	for (var m = 0, mlen = orderedMethods.length; m < mlen; m++) {
 		if (methods[category] && methods[category][orderedMethods[m]]) {
