@@ -1,7 +1,34 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.6.14
+# Craydent 0.6.15
 **by Clark Inada**
+
+Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
+```js
+// require with prototypes - this require will add prototypes to extend classes and add two constants ($c, $g) to the global space.
+// $g is an alias to global and $c is the constant containing all the utility methods and properties.
+require('craydent');
+$c.logit($c.VERSION);
+var arr = [{name:'craydent'},{name:'is awesome!'}];
+arr.where({name:'craydent'});
+```
+
+```js
+// require no conflict - this require is the fully modular version with no global constants, prototypes, or methods.
+var $c = require('craydent/noConflict');
+$c.logit($c.VERSION);
+var arr = [{name:'craydent'},{name:'is awesome!'}];
+$c.where(arr, {name:'craydent'});
+```
+
+```js
+// require global - this require constants and methods in the global space and add prototypes to extend classes.
+// $g is an alias to global and $c is the constant containing all the utility methods and properties.
+require('craydent/global');
+logit($c.VERSION);
+var arr = [{name:'craydent',descr:'is fantastic'},{name:'nodejs'}];
+arr.where({name:'craydent'});
+```
 
 ## Categories
 
@@ -734,6 +761,25 @@ IE6 (String) |PRINCE (String) |
 **Overloads:**
 
 * None
+
+*** 
+#### _createServer_ 
+***
+
+**Info:** Create http server, ability to run middleware, and define routes.
+
+**Return:** (Server)
+
+**Parameters:**
+
+* callback: (Function) Function to callback when a request is received
+
+**Overloads:**
+
+1)
+
+* callback: (Function) Function to callback when a request is received
+* createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
 
 *** 
 #### _cuid_ 
@@ -1787,25 +1833,6 @@ IE6 (String) |PRINCE (String) |
 1)
 
 * indexes: (String[]) Array of properties to index
-
-*** 
-#### _createServer_ 
-***
-
-**Info:** Array class extension to do an inner join on arrays
-
-**Return:** (Server)
-
-**Parameters:**
-
-* callback: (Function) Function to callback when a request is received
-
-**Overloads:**
-
-1)
-
-* callback: (Function) Function to callback when a request is received
-* createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
 
 *** 
 #### _delete_ 

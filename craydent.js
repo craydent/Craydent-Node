@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.14                               /*/
+/*/ Craydent LLC node-v0.6.15                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.14',
+var _craydent_version = '0.6.15',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -3821,8 +3821,8 @@ function cout(){
 }
 function createServer (callback, options) {
 	/*|{
-		"info": "Array class extension to do an inner join on arrays",
-		"category": "Array",
+		"info": "Create http server, ability to run middleware, and define routes.",
+		"category": "Global",
 		"parameters":[
 			{"callback": "(Function) Function to callback when a request is received"}],
 
@@ -8619,7 +8619,7 @@ _ext(Function, 'extends',function(extendee, inheritAsOwn){
 		$c.namespace[className] = $c.namespaces && $c.namespaces[className];
 		for (var prop in cls) {
 			if (inheritAsOwn && !cls.hasOwnProperty(prop)) { continue; }
-			this.prototype[prop] = /*this[prop] ||*/ this.prototype[prop] || cls[prop];
+			this.prototype[prop] = /* this[prop] || */ this.prototype[prop] || cls[prop];
 		}
 		if (!inheritAsOwn) {
 			for (var prop in extendee) {

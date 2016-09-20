@@ -9,6 +9,33 @@ var fs = require('fs'),
 	orderedMethods = new $c.OrderedList(),
 	orderedConstants = new $c.OrderedList();
 var categories = ['Constants','Featured','Global','Array','Date','Function','Module','Number','Object','RegExp','String'];
+
+readme += "Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
+	"```js\n" +
+	"// require with prototypes - this require will add prototypes to extend classes and add two constants ($c, $g) to the global space.\n" +
+	"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
+	"require('craydent');\n" +
+	"$c.logit($c.VERSION);\n" +
+	"var arr = [{name:'craydent'},{name:'is awesome!'}];\n" +
+	"arr.where({name:'craydent'});\n" +
+	"```" + ln +
+	"```js\n" +
+	"// require no conflict - this require is the fully modular version with no global constants, prototypes, or methods.\n" +
+	"var $c = require('craydent/noConflict');\n" +
+	"$c.logit($c.VERSION);\n" +
+	"var arr = [{name:'craydent'},{name:'is awesome!'}];\n" +
+	"$c.where(arr, {name:'craydent'});\n" +
+	"```" +ln +
+	"```js\n" +
+	"// require global - this require constants and methods in the global space and add prototypes to extend classes.\n" +
+	"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
+	"require('craydent/global');\n" +
+	"logit($c.VERSION);\n" +
+	"var arr = [{name:'craydent',descr:'is fantastic'},{name:'nodejs'}];\n" +
+	"arr.where({name:'craydent'});\n" +
+	"```" +
+	ln;
+
 // fill ordered arrays
 for (var o = 0; o < 2; o++) {
 	var c = [$c, instC][o];
