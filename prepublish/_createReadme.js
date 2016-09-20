@@ -125,7 +125,7 @@ for (var i = 0, len = categories.length; i < len; i++)
 	var category = categories[i];
 	if (category in {Featured:1,Constants:1}) { continue; }
 	if (methods[category]) {
-		readme += "<a name='markdown-header-'" + category.toLowerCase() + "></a>\n## " + category + ln;
+		readme += "<a name='markdown-header-" + category.toLowerCase() + "'></a>\n## " + category + ln;
 	}
 	for (var m = 0, mlen = orderedMethods.length; m < mlen; m++) {
 		if (methods[category] && methods[category][orderedMethods[m]]) {

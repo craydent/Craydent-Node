@@ -491,7 +491,7 @@ IE6 (String) |PRINCE (String) |
 
 ## Methods
 
-<a name='markdown-header-'global></a>
+<a name='markdown-header-global'></a>
 ## Global
 
 *** 
@@ -1717,7 +1717,7 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-<a name='markdown-header-'array></a>
+<a name='markdown-header-array'></a>
 ## Array
 
 *** 
@@ -2385,7 +2385,7 @@ IE6 (String) |PRINCE (String) |
 * prop: (String) Property to use as the primary key
 * callback: (Function) Method to use to determine if the records are equal
 
-<a name='markdown-header-'date></a>
+<a name='markdown-header-date'></a>
 ## Date
 
 *** 
@@ -2436,7 +2436,7 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-<a name='markdown-header-'function></a>
+<a name='markdown-header-function'></a>
 ## Function
 
 *** 
@@ -2556,7 +2556,7 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-<a name='markdown-header-'module></a>
+<a name='markdown-header-module'></a>
 ## Module
 
 *** 
@@ -2575,7 +2575,7 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-<a name='markdown-header-'number></a>
+<a name='markdown-header-number'></a>
 ## Number
 
 *** 
@@ -2627,7 +2627,7 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-<a name='markdown-header-'object></a>
+<a name='markdown-header-object'></a>
 ## Object
 
 *** 
@@ -3258,7 +3258,7 @@ IE6 (String) |PRINCE (String) |
 * prefix: (Char) Character to prefix the property name
 * urlEncode: (Bool) Flag to url encode the property and value
 
-<a name='markdown-header-'regexp></a>
+<a name='markdown-header-regexp'></a>
 ## RegExp
 
 *** 
@@ -3277,7 +3277,7 @@ IE6 (String) |PRINCE (String) |
 
 * None
 
-<a name='markdown-header-'string></a>
+<a name='markdown-header-string'></a>
 ## String
 
 *** 
