@@ -5,6 +5,7 @@
 
 ## Constants
 
+| | | | |
 | ----- | ----- | ----- | ----- |
 | ACCEPT_ENCODING (String) |GEKKO (String) |ONMOUSEUP (String) |REST_API_TEMPLATE (String) |
 ACCEPT_LANGUAGE (String) |HANDPOINT (String) |OPERA (String) |ROUTE_API_PATH (String) |

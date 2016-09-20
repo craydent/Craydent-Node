@@ -77,15 +77,15 @@ function outParams (params) {
 }
 // Constants ----------------------------------------------------------------------------------------------
 readme += "## Constants" + ln;
-var grid = [], headers = [], cols = 4;
+var grid = [], headerdiv = [], headers = [], cols = 4;
 for (var i = 0, len = orderedConstants.length, grid_row_count = Math.ceil(len/cols); i < len; i++) {
 	var index = parseInt(i%grid_row_count), hindex = parseInt(i/grid_row_count);
-	if (!headers[hindex]) { headers[hindex] = "| ----- "; }
+	if (!headerdiv[hindex]) { headerdiv[hindex] = "| ----- "; headers[hindex] = "| "}
 	grid[index] = grid[index] || "";
 	grid[index] += constants[orderedConstants[i]] + " |";
 	//readme += constants[orderedConstants[i]];
 }
-readme += headers.join('') + "|\n| " + grid.join('\n') + ln;
+readme += headers.join('') + "|\n" + headerdiv.join('') + "|\n| " + grid.join('\n') + ln;
 // Constants end ------------------------------------------------------------------------------------------
 
 // Featured -----------------------------------------------------------------------------------------------
