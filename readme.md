@@ -29,7 +29,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ### Global
 
 *** 
-##### _$COOKIE_ 
+#### _$COOKIE_ 
 ***
 
 **Info:** Get/set Cookies
@@ -59,7 +59,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * option: (Object) Specify path and/or expiration of cookie
 
 *** 
-##### _$DELETE_ 
+#### _$DELETE_ 
 ***
 
 **Info:** Retrieve all or specific variables in the Body
@@ -82,7 +82,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) Options to defer, ignore case, etc
 
 *** 
-##### _$GET_ 
+#### _$GET_ 
 ***
 
 **Info:** Retrieve all or specific variables in the url
@@ -105,7 +105,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) Options to defer, ignore case, etc
 
 *** 
-##### _$HEADER_ 
+#### _$HEADER_ 
 ***
 
 **Info:** Retrieve all or specific variables in the headers
@@ -128,7 +128,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) Options to defer, ignore case, etc
 
 *** 
-##### _$PAYLOAD_ 
+#### _$PAYLOAD_ 
 ***
 
 **Info:** Retrieve all or specific variables in the Body
@@ -151,7 +151,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) Options to defer, ignore case, etc
 
 *** 
-##### _$POST_ 
+#### _$POST_ 
 ***
 
 **Info:** Retrieve all or specific variables in the Body
@@ -174,7 +174,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) Options to defer, ignore case, etc
 
 *** 
-##### _$PUT_ 
+#### _$PUT_ 
 ***
 
 **Info:** Retrieve all or specific variables in the Body
@@ -197,7 +197,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) Options to defer, ignore case, etc
 
 *** 
-##### _catchAll_ 
+#### _catchAll_ 
 ***
 
 **Info:** Creates an catch all for exceptions in the current node service.
@@ -216,7 +216,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * append: (Boolean) Options to defer, ignore case, etc
 
 *** 
-##### _zipit_ 
+#### _zipit_ 
 ***
 
 **Info:** Download a zip of files from file contents
@@ -237,7 +237,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ### Array
 
 *** 
-##### _aggregate_ 
+#### _aggregate_ 
 ***
 
 **Info:** Array class extension to perform mongo style aggregation
@@ -253,7 +253,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _average_ 
+#### _average_ 
 ***
 
 **Info:** Array class extension to perform average of all the values (any value which is not a number is 0).
@@ -269,7 +269,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _find_ 
+#### _find_ 
 ***
 
 **Info:** Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)
@@ -293,7 +293,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * useReference: (Bool) Flag to make a copy instead of using references
 
 *** 
-##### _findOne_ 
+#### _findOne_ 
 ***
 
 **Info:** Array class extension to use mongo or sql queries returning the first item match
@@ -317,7 +317,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * useReference: (Bool) Flag to make a copy instead of using references
 
 *** 
-##### _stdev_ 
+#### _stdev_ 
 ***
 
 **Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
@@ -333,7 +333,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _sum_ 
+#### _sum_ 
 ***
 
 **Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
@@ -349,7 +349,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _where_ 
+#### _where_ 
 ***
 
 **Info:** Array class extension to use mongo or sql queries
@@ -387,7 +387,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ### Date
 
 *** 
-##### _format_ 
+#### _format_ 
 ***
 
 **Info:** Date class extension to convert to formatted string
@@ -408,7 +408,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ### Object
 
 *** 
-##### _getProperty_ 
+#### _getProperty_ 
 ***
 
 **Info:** Object class extension to retrieve nested properties without error when property path does not exist
@@ -440,7 +440,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ### String
 
 *** 
-##### _fillTemplate_ 
+#### _fillTemplate_ 
 ***
 
 **Info:** String class extension to fill template based on template syntax
@@ -473,7 +473,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ## Global ##
 
 *** 
-##### _Benchmarker_ 
+#### _Benchmarker_ 
 ***
 
 **Info:** Class used to measure the run time of code
@@ -489,7 +489,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _ChromeVersion_ 
+#### _ChromeVersion_ 
 ***
 
 **Info:** Get Chrome version
@@ -505,7 +505,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _Cursor_ 
+#### _Cursor_ 
 ***
 
 **Info:** Cursor class to facilitate iteration
@@ -523,7 +523,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * records: (Object) Object used to create the iterator to iterate each property
 
 *** 
-##### _FirefoxVersion_ 
+#### _FirefoxVersion_ 
 ***
 
 **Info:** Get Firefox version
@@ -539,7 +539,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _IEVersion_ 
+#### _IEVersion_ 
 ***
 
 **Info:** Get Internet Explorer version
@@ -555,7 +555,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _OperaVersion_ 
+#### _OperaVersion_ 
 ***
 
 **Info:** Get Opera version
@@ -571,7 +571,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _OrderedList_ 
+#### _OrderedList_ 
 ***
 
 **Info:** Collection class that filters out duplicate values and maintains an ordered list
@@ -594,7 +594,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * sorter: (Function) Function for sorting logic
 
 *** 
-##### _Queue_ 
+#### _Queue_ 
 ***
 
 **Info:** Collection class that follows FIFO
@@ -610,7 +610,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _SafariVersion_ 
+#### _SafariVersion_ 
 ***
 
 **Info:** Get Safari version
@@ -626,7 +626,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _Set_ 
+#### _Set_ 
 ***
 
 **Info:** Collection class that filters out duplicate values
@@ -642,7 +642,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _addObjectPrototype_ 
+#### _addObjectPrototype_ 
 ***
 
 **Info:** Method to extend the Object Class
@@ -663,7 +663,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * override: (Bool) if true, override the previously defined prototype
 
 *** 
-##### _ajax_ 
+#### _ajax_ 
 ***
 
 **Info:** Method to make ajax calls
@@ -682,7 +682,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * returnData: (String) Specifies which data to return when using Promise pattern
 
 *** 
-##### _clusterit_ 
+#### _clusterit_ 
 ***
 
 **Info:** Enable clustering
@@ -698,7 +698,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _cout_ 
+#### _cout_ 
 ***
 
 **Info:** Log to console when DEBUG_MODE is true and when the console is available
@@ -714,7 +714,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _cuid_ 
+#### _cuid_ 
 ***
 
 **Info:** Creates a Craydent/Global Unique Identifier
@@ -730,7 +730,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _echo_ 
+#### _echo_ 
 ***
 
 **Info:** Echo to buffer and use in response
@@ -746,7 +746,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _emit_ 
+#### _emit_ 
 ***
 
 **Info:** Call the next function(s) in queue
@@ -765,7 +765,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * infinite: any number of arguments can be passed and will be applied to listening functions.
 
 *** 
-##### _end_ 
+#### _end_ 
 ***
 
 **Info:** Call the next function(s) in queue
@@ -784,7 +784,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * infinite: any number of arguments can be passed and will be applied to listening functions.
 
 *** 
-##### _error_ 
+#### _error_ 
 ***
 
 **Info:** User implemented place holder function to handle errors
@@ -801,7 +801,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _exclude_ 
+#### _exclude_ 
 ***
 
 **Info:** Exclude prototyping
@@ -817,7 +817,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _foo_ 
+#### _foo_ 
 ***
 
 **Info:** Place holder function for a blank function
@@ -833,7 +833,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _getSession_ 
+#### _getSession_ 
 ***
 
 **Info:** Retrieve the session object when used in conjunction with createServer
@@ -852,7 +852,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * callback: (Function) callback function to invoke once the session object is retrieved.
 
 *** 
-##### _getSessionID_ 
+#### _getSessionID_ 
 ***
 
 **Info:** Retrieve the session id when used in conjunction with createServer
@@ -868,7 +868,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _getSessionSync_ 
+#### _getSessionSync_ 
 ***
 
 **Info:** Syncronously retrieve the session object when used in conjunction with createServer
@@ -884,7 +884,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _header_ 
+#### _header_ 
 ***
 
 **Info:** Set Http Headers to send
@@ -912,7 +912,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * code: (Integer) Http response code.
 
 *** 
-##### _include_ 
+#### _include_ 
 ***
 
 **Info:** Require without erroring when module does not exist.
@@ -928,7 +928,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isAmaya_ 
+#### _isAmaya_ 
 ***
 
 **Info:** Check if browser is Amaya
@@ -944,7 +944,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isAndroid_ 
+#### _isAndroid_ 
 ***
 
 **Info:** Check if device is Android
@@ -960,7 +960,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isBlackBerry_ 
+#### _isBlackBerry_ 
 ***
 
 **Info:** Check if device is BlackBerry
@@ -976,7 +976,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isChrome_ 
+#### _isChrome_ 
 ***
 
 **Info:** Check if browser is Chrome
@@ -992,7 +992,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isFirefox_ 
+#### _isFirefox_ 
 ***
 
 **Info:** Check if browser is Firefox
@@ -1008,7 +1008,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isGecko_ 
+#### _isGecko_ 
 ***
 
 **Info:** Check if engine is Gecko
@@ -1024,7 +1024,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isIE_ 
+#### _isIE_ 
 ***
 
 **Info:** Check if browser is Internet Explorer
@@ -1040,7 +1040,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isIE6_ 
+#### _isIE6_ 
 ***
 
 **Info:** Check if browser is Internet Explorer 6
@@ -1056,7 +1056,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isIPad_ 
+#### _isIPad_ 
 ***
 
 **Info:** Check if device is iPad
@@ -1072,7 +1072,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isIPhone_ 
+#### _isIPhone_ 
 ***
 
 **Info:** Check if device is IPhone
@@ -1088,7 +1088,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isIPod_ 
+#### _isIPod_ 
 ***
 
 **Info:** Check if device is IPod
@@ -1104,7 +1104,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isKHTML_ 
+#### _isKHTML_ 
 ***
 
 **Info:** Check if engine is KHTML
@@ -1120,7 +1120,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isLinux_ 
+#### _isLinux_ 
 ***
 
 **Info:** Check if OS is Linux
@@ -1136,7 +1136,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isMac_ 
+#### _isMac_ 
 ***
 
 **Info:** Check if OS is Mac Based
@@ -1152,7 +1152,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isMobile_ 
+#### _isMobile_ 
 ***
 
 **Info:** Check if the device is a Mobile device
@@ -1168,7 +1168,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isNull_ 
+#### _isNull_ 
 ***
 
 **Info:** Check if a value is Null
@@ -1187,7 +1187,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * defaultValue: (Mixed) Value to return if null
 
 *** 
-##### _isOpera_ 
+#### _isOpera_ 
 ***
 
 **Info:** Check if browser is Opera
@@ -1203,7 +1203,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isPalmOS_ 
+#### _isPalmOS_ 
 ***
 
 **Info:** Check if OS is PalmOS
@@ -1219,7 +1219,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isPresto_ 
+#### _isPresto_ 
 ***
 
 **Info:** Check if engine is Presto
@@ -1235,7 +1235,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isPrince_ 
+#### _isPrince_ 
 ***
 
 **Info:** Check if engine is Prince
@@ -1251,7 +1251,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isSafari_ 
+#### _isSafari_ 
 ***
 
 **Info:** Check if browser is Safari
@@ -1267,7 +1267,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isSymbian_ 
+#### _isSymbian_ 
 ***
 
 **Info:** Check if OS is Symbian
@@ -1283,7 +1283,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isTrident_ 
+#### _isTrident_ 
 ***
 
 **Info:** Check if engine is Trident
@@ -1299,7 +1299,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isWebkit_ 
+#### _isWebkit_ 
 ***
 
 **Info:** Check if engine is Webkit
@@ -1315,7 +1315,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isWindows_ 
+#### _isWindows_ 
 ***
 
 **Info:** Check if OS is Windows
@@ -1331,7 +1331,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isWindowsMobile_ 
+#### _isWindowsMobile_ 
 ***
 
 **Info:** Check if device is Windows Mobile
@@ -1347,7 +1347,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _logit_ 
+#### _logit_ 
 ***
 
 **Info:** Log to console when DEBUG_MODE is true and when the console is available
@@ -1363,7 +1363,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _md5_ 
+#### _md5_ 
 ***
 
 **Info:** MD5 encode a string.
@@ -1379,7 +1379,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _mkdirRecursive_ 
+#### _mkdirRecursive_ 
 ***
 
 **Info:** Recursively create folders.
@@ -1396,7 +1396,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _namespace_ 
+#### _namespace_ 
 ***
 
 **Info:** Adds the class to a namespace instead of the global space
@@ -1417,7 +1417,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * fn: (Function) Method to call after the class has been added to the namespace
 
 *** 
-##### _next_ 
+#### _next_ 
 ***
 
 **Info:** Call the next function(s) in queue
@@ -1433,7 +1433,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _now_ 
+#### _now_ 
 ***
 
 **Info:** Get the DateTime of now
@@ -1451,7 +1451,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * format: (String) Format syntax to return formatted string of now
 
 *** 
-##### _parseBoolean_ 
+#### _parseBoolean_ 
 ***
 
 **Info:** Try to parse value to a Boolean
@@ -1467,7 +1467,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _parseRaw_ 
+#### _parseRaw_ 
 ***
 
 **Info:** Creates an evaluable string
@@ -1487,7 +1487,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * saveCircular: (Bool) Flag to save circular references
 
 *** 
-##### _rand_ 
+#### _rand_ 
 ***
 
 **Info:** Create a random number between two numbers
@@ -1508,7 +1508,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * inclusive: (Bool) Flag to include the given numbers
 
 *** 
-##### _requireDirectory_ 
+#### _requireDirectory_ 
 ***
 
 **Info:** Recursively require the entire directory and returns an object containing the required modules.
@@ -1527,7 +1527,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Char) 'r' Flag to use to indicate recursively require
 
 *** 
-##### _send_ 
+#### _send_ 
 ***
 
 **Info:** Recursively require the entire directory and returns an object containing the required modules.
@@ -1546,7 +1546,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * data: (Object) Object to send in response.
 
 *** 
-##### _suid_ 
+#### _suid_ 
 ***
 
 **Info:** Creates a short Craydent/Global Unique Identifier
@@ -1564,7 +1564,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * length: (Integer) Custom length of the short unique identifier
 
 *** 
-##### _syncroit_ 
+#### _syncroit_ 
 ***
 
 **Info:** Generator based control flow to allow for more "syncronous" programing structure
@@ -1580,7 +1580,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _tryEval_ 
+#### _tryEval_ 
 ***
 
 **Info:** Evaluates an expression without throwing an error
@@ -1599,7 +1599,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * evaluator: (Function) Method to use to evaluate the expression
 
 *** 
-##### _var_dump_ 
+#### _var_dump_ 
 ***
 
 **Info:** Dump of variables to response.
@@ -1615,7 +1615,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _wait_ 
+#### _wait_ 
 ***
 
 **Info:** Stops execution until the condition is satisfied
@@ -1631,7 +1631,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _xmlToJson_ 
+#### _xmlToJson_ 
 ***
 
 **Info:** Converts XML to JSON
@@ -1650,7 +1650,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * ignoreAttributes: (Bool) Flag to ignore attributes
 
 *** 
-##### _yieldable_ 
+#### _yieldable_ 
 ***
 
 **Info:** Makes a value yieldable via a Promise.
@@ -1680,7 +1680,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * callbackIndex: (Integer) Index of callback argument.
 
 *** 
-##### _writeSession_ 
+#### _writeSession_ 
 ***
 
 **Info:** Writes session to filesystem to be retrieved later.
@@ -1698,7 +1698,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ## Array ##
 
 *** 
-##### _buildTree_ 
+#### _buildTree_ 
 ***
 
 **Info:** Array class extension to create a parent/child hierarchy
@@ -1730,7 +1730,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) Options to customize properties,  Valid property is:<br />childProperty
 
 *** 
-##### _condense_ 
+#### _condense_ 
 ***
 
 **Info:** Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls
@@ -1748,7 +1748,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * check_values: (Bool) Flag to remove duplicates
 
 *** 
-##### _createIndex_ 
+#### _createIndex_ 
 ***
 
 **Info:** Array class extension to create indexes for faster searches during where
@@ -1766,7 +1766,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * indexes: (String[]) Array of properties to index
 
 *** 
-##### _createServer_ 
+#### _createServer_ 
 ***
 
 **Info:** Array class extension to do an inner join on arrays
@@ -1785,7 +1785,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
 
 *** 
-##### _delete_ 
+#### _delete_ 
 ***
 
 **Info:** Array class extension to delete records
@@ -1804,7 +1804,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * justOne: (Boolean) Flag for deleting just one records [Default is: true]
 
 *** 
-##### _distinct_ 
+#### _distinct_ 
 ***
 
 **Info:** Array class extension to get all unique records by fields specified
@@ -1842,7 +1842,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * condition: (Object) Query following MongoDB find clause syntax
 
 *** 
-##### _filter_ 
+#### _filter_ 
 ***
 
 **Info:** Array class extension to implement filter
@@ -1861,7 +1861,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * craydent_thiss: (Mixed) Specify the context on callback function
 
 *** 
-##### _group_ 
+#### _group_ 
 ***
 
 **Info:** Array class extension to group records by fields
@@ -1877,7 +1877,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _indexOf_ 
+#### _indexOf_ 
 ***
 
 **Info:** Array class extension to implement indexOf
@@ -1893,7 +1893,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _indexOfAlt_ 
+#### _indexOfAlt_ 
 ***
 
 **Info:** Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression
@@ -1917,7 +1917,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * pos: (Int) Index offset to start
 
 *** 
-##### _innerJoin_ 
+#### _innerJoin_ 
 ***
 
 **Info:** Array class extension to do an inner join on arrays
@@ -1934,7 +1934,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _insert_ 
+#### _insert_ 
 ***
 
 **Info:** Array class extension to add to the array
@@ -1950,7 +1950,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _insertAfter_ 
+#### _insertAfter_ 
 ***
 
 **Info:** Array class extension to add to the array after a specific index
@@ -1967,7 +1967,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _insertAt_ 
+#### _insertAt_ 
 ***
 
 **Info:** Array class extension to add to the array at a specific index and push the all indexes down
@@ -1984,7 +1984,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _insertBefore_ 
+#### _insertBefore_ 
 ***
 
 **Info:** Array class extension to add to the array before a specific index
@@ -2001,7 +2001,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _joinLeft_ 
+#### _joinLeft_ 
 ***
 
 **Info:** Array class extension to do an outer left join on arrays
@@ -2018,7 +2018,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _joinRight_ 
+#### _joinRight_ 
 ***
 
 **Info:** Array class extension to do an outer right join on arrays
@@ -2035,7 +2035,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _limit_ 
+#### _limit_ 
 ***
 
 **Info:** Array class extension to return a limited amount of items
@@ -2054,7 +2054,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * skip: (Int) Number of items to skip
 
 *** 
-##### _mapReduce_ 
+#### _mapReduce_ 
 ***
 
 **Info:** Array class extension to run map-reduce aggregation over records
@@ -2075,7 +2075,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) Options specified in the Mongo Doc
 
 *** 
-##### _normalize_ 
+#### _normalize_ 
 ***
 
 **Info:** Array class extension to normalize all properties in the object array
@@ -2091,7 +2091,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _parallelEach_ 
+#### _parallelEach_ 
 ***
 
 **Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
@@ -2117,7 +2117,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * args: (Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
 
 *** 
-##### _remove_ 
+#### _remove_ 
 ***
 
 **Info:** Array class extension to remove an item by value
@@ -2136,7 +2136,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * indexOf: (Function) Callback function to use to find the item based on the value
 
 *** 
-##### _removeAll_ 
+#### _removeAll_ 
 ***
 
 **Info:** Array class extension to remove all items by value
@@ -2155,7 +2155,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * indexOf: (Function) Callback function to use to find the item based on the value
 
 *** 
-##### _removeAt_ 
+#### _removeAt_ 
 ***
 
 **Info:** Array class extension to remove item at a specific index
@@ -2171,7 +2171,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _replaceAt_ 
+#### _replaceAt_ 
 ***
 
 **Info:** Array class extension to replace item at a specific index
@@ -2188,7 +2188,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _scramble_ 
+#### _scramble_ 
 ***
 
 **Info:** Array class extension to scramble the order.
@@ -2204,7 +2204,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _sortBy_ 
+#### _sortBy_ 
 ***
 
 **Info:** Array class extension to sort the array
@@ -2274,7 +2274,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
 *** 
-##### _toSet_ 
+#### _toSet_ 
 ***
 
 **Info:** Array class extension to convert the array to a set
@@ -2290,7 +2290,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _trim_ 
+#### _trim_ 
 ***
 
 **Info:** Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.
@@ -2312,7 +2312,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * character: (Char[]) Character to remove in the String
 
 *** 
-##### _update_ 
+#### _update_ 
 ***
 
 **Info:** Array class extension to update records in the array
@@ -2333,7 +2333,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) Options to specify if mulit update and/or upsert
 
 *** 
-##### _upsert_ 
+#### _upsert_ 
 ***
 
 **Info:** Array class extension to upsert records to array
@@ -2365,7 +2365,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ## Date ##
 
 *** 
-##### _getDayOfYear_ 
+#### _getDayOfYear_ 
 ***
 
 **Info:** Date class extension to retrieve the day of the year
@@ -2381,7 +2381,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _getWeek_ 
+#### _getWeek_ 
 ***
 
 **Info:** Date class extension to retrieve the week number in the year
@@ -2397,7 +2397,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isValidDate_ 
+#### _isValidDate_ 
 ***
 
 **Info:** Date class extension to check if the date is valid
@@ -2415,7 +2415,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ## Function ##
 
 *** 
-##### _catch_ 
+#### _catch_ 
 ***
 
 **Info:** Function listener to register the catch event
@@ -2431,7 +2431,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _extends_ 
+#### _extends_ 
 ***
 
 **Info:** Function class extension to extend another class
@@ -2450,7 +2450,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
 
 *** 
-##### _getName_ 
+#### _getName_ 
 ***
 
 **Info:** Function class extension to get the name of the function
@@ -2466,7 +2466,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _getParameters_ 
+#### _getParameters_ 
 ***
 
 **Info:** Function class extension to get parameters in definition
@@ -2482,7 +2482,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _on_ 
+#### _on_ 
 ***
 
 **Info:** Function listener to register events
@@ -2499,7 +2499,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _then_ 
+#### _then_ 
 ***
 
 **Info:** Function listener to register the then event
@@ -2515,7 +2515,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _toPromise_ 
+#### _toPromise_ 
 ***
 
 **Info:** Function listener to register events
@@ -2534,7 +2534,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ## Module ##
 
 *** 
-##### _globalize_ 
+#### _globalize_ 
 ***
 
 **Info:** Module method to globalize functions
@@ -2552,7 +2552,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ## Number ##
 
 *** 
-##### _aboutEqualTo_ 
+#### _aboutEqualTo_ 
 ***
 
 **Info:** Number class extension to check if values are approximately equal
@@ -2569,7 +2569,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isEven_ 
+#### _isEven_ 
 ***
 
 **Info:** Number class extension to check if number is even
@@ -2585,7 +2585,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isOdd_ 
+#### _isOdd_ 
 ***
 
 **Info:** Number class extension to check if number is odd
@@ -2603,7 +2603,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ## Object ##
 
 *** 
-##### _changes_ 
+#### _changes_ 
 ***
 
 **Info:** Object class extension to compare properties that have changed
@@ -2619,7 +2619,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _contains_ 
+#### _contains_ 
 ***
 
 **Info:** Object class extension to check if value exists
@@ -2642,7 +2642,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * arr: (Array) Array of values to return first matching value
 
 *** 
-##### _copyObject_ 
+#### _copyObject_ 
 ***
 
 **Info:** Object class extension to copy an object excluding constructor
@@ -2658,7 +2658,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _count_ 
+#### _count_ 
 ***
 
 **Info:** Object class extension to count the properties in the object/elements in arrays/characters in strings.
@@ -2684,7 +2684,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * option: (RegExp) Word or phrase pattern to count in the String
 
 *** 
-##### _duplicate_ 
+#### _duplicate_ 
 ***
 
 **Info:** Object class extension to copy an object including constructor
@@ -2702,7 +2702,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * recursive: (Boolean) Flag to copy all child objects recursively
 
 *** 
-##### _eachProperty_ 
+#### _eachProperty_ 
 ***
 
 **Info:** Object class extension to loop through all properties where hasOwnValue is true.
@@ -2718,7 +2718,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _equals_ 
+#### _equals_ 
 ***
 
 **Info:** Object class extension to check if object values are equal
@@ -2737,7 +2737,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * props: (String[]) Array of property values to compare against
 
 *** 
-##### _every_ 
+#### _every_ 
 ***
 
 **Info:** Object class extension to check property values against a function
@@ -2756,7 +2756,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * craydent_thisObject: (Mixed) Context for the callback function
 
 *** 
-##### _getClass_ 
+#### _getClass_ 
 ***
 
 **Info:** Object class extension to get the constructor name
@@ -2772,7 +2772,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _getKeys_ 
+#### _getKeys_ 
 ***
 
 **Info:** Object class extension to get the keys of the object
@@ -2788,7 +2788,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _getValue_ 
+#### _getValue_ 
 ***
 
 **Info:** Object class extension to retrieve value of an object property
@@ -2811,7 +2811,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * dflt: (Mixed) Default value to return if context is not a function
 
 *** 
-##### _has_ 
+#### _has_ 
 ***
 
 **Info:** Alias to Object.prototype.hasOwnProperty
@@ -2827,7 +2827,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isArray_ 
+#### _isArray_ 
 ***
 
 **Info:** Object class extension to check if object is an array
@@ -2843,7 +2843,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isBetween_ 
+#### _isBetween_ 
 ***
 
 **Info:** Object class extension to check if object is between lower and upper bounds
@@ -2864,7 +2864,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * inclusive: (Bool) Flag to include give bounds
 
 *** 
-##### _isBoolean_ 
+#### _isBoolean_ 
 ***
 
 **Info:** Object class extension to check if object is a boolean
@@ -2880,7 +2880,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isDate_ 
+#### _isDate_ 
 ***
 
 **Info:** Object class extension to check if object is a date
@@ -2896,7 +2896,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isDomElement_ 
+#### _isDomElement_ 
 ***
 
 **Info:** Object class extension to check if object is a DOM element
@@ -2912,7 +2912,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isEmpty_ 
+#### _isEmpty_ 
 ***
 
 **Info:** Object class extension to check if it is empty
@@ -2928,7 +2928,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isFloat_ 
+#### _isFloat_ 
 ***
 
 **Info:** Object class extension to check if object is a float
@@ -2944,7 +2944,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isFunction_ 
+#### _isFunction_ 
 ***
 
 **Info:** Object class extension to check if object is a function
@@ -2960,7 +2960,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isGenerator_ 
+#### _isGenerator_ 
 ***
 
 **Info:** Object class extension to check if object is a generator function
@@ -2976,7 +2976,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isGeolocation_ 
+#### _isGeolocation_ 
 ***
 
 **Info:** Object class extension to check if object is a geolocation
@@ -2992,7 +2992,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isInt_ 
+#### _isInt_ 
 ***
 
 **Info:** Object class extension to check if object is an integer
@@ -3008,7 +3008,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isNumber_ 
+#### _isNumber_ 
 ***
 
 **Info:** Object class extension to check if object is a number
@@ -3024,7 +3024,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isObject_ 
+#### _isObject_ 
 ***
 
 **Info:** Object class extension to check if object is an object
@@ -3040,7 +3040,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isPromise_ 
+#### _isPromise_ 
 ***
 
 **Info:** Object class extension to check if object is a promise object
@@ -3056,7 +3056,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isRegExp_ 
+#### _isRegExp_ 
 ***
 
 **Info:** Object class extension to check if object is a RegExp
@@ -3072,7 +3072,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isString_ 
+#### _isString_ 
 ***
 
 **Info:** Object class extension to check if object is a string
@@ -3088,7 +3088,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isSubset_ 
+#### _isSubset_ 
 ***
 
 **Info:** Object class extension to check if item is a subset
@@ -3104,7 +3104,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _itemCount_ 
+#### _itemCount_ 
 ***
 
 **Info:** Object class extension to count the properties in item
@@ -3120,7 +3120,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _keyOf_ 
+#### _keyOf_ 
 ***
 
 **Info:** Object class extension to get the key of the give value
@@ -3136,7 +3136,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _map_ 
+#### _map_ 
 ***
 
 **Info:** Object class extension to apply method to every value
@@ -3155,7 +3155,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * craydent_thisObject: (Mixed) Context for the callback function
 
 *** 
-##### _merge_ 
+#### _merge_ 
 ***
 
 **Info:** Object class extension to merge objects
@@ -3174,7 +3174,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * condition: (Mixed) Flags to recurse, merge only shared value, clone, intersect etc
 
 *** 
-##### _setProperty_ 
+#### _setProperty_ 
 ***
 
 **Info:** Object class extension to set nested properties creating necessary property paths
@@ -3202,7 +3202,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) Options for ignoring inheritance, validPath, etc
 
 *** 
-##### _toStringAlt_ 
+#### _toStringAlt_ 
 ***
 
 **Info:** Object class extension for an alternate way to stringify object to formatted string
@@ -3233,7 +3233,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ## RegExp ##
 
 *** 
-##### _addFlags_ 
+#### _addFlags_ 
 ***
 
 **Info:** RegExp class extension to add flags to regex
@@ -3251,7 +3251,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 ## String ##
 
 *** 
-##### _acronymize_ 
+#### _acronymize_ 
 ***
 
 **Info:** String class extension to capitalize parts of the string
@@ -3289,7 +3289,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * delimiter: (RegExp) RegExp pattern that delimits the string.
 
 *** 
-##### _capitalize_ 
+#### _capitalize_ 
 ***
 
 **Info:** String class extension to capitalize parts of the string
@@ -3308,7 +3308,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * everyWord: (Bool) Flag to capital every word
 
 *** 
-##### _convertUTCDate_ 
+#### _convertUTCDate_ 
 ***
 
 **Info:** String class extension to convert date string to UTC format
@@ -3324,7 +3324,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _cut_ 
+#### _cut_ 
 ***
 
 **Info:** String class extension to remove between the provided indexes
@@ -3345,7 +3345,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * replacement: (String) String to put in place of the cut
 
 *** 
-##### _ellipsis_ 
+#### _ellipsis_ 
 ***
 
 **Info:** String class extension to shorten by ellipsis
@@ -3364,7 +3364,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * after: (Int) Number of characters to use after the ellipsis
 
 *** 
-##### _endsWith_ 
+#### _endsWith_ 
 ***
 
 **Info:** String class extension to check if the string ends with the given string
@@ -3382,7 +3382,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * arr: (String[]) An array of strings to check
 
 *** 
-##### _endsWithAny_ 
+#### _endsWithAny_ 
 ***
 
 **Info:** String class extension to check if the string ends with the given string
@@ -3400,7 +3400,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * arr: (String[]) An array of strings to check
 
 *** 
-##### _highlight_ 
+#### _highlight_ 
 ***
 
 **Info:** String class extension to surround search words with the given tag(default span) and class (default chighlight)
@@ -3440,7 +3440,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * tag: (String) Tag to use to surround the search
 
 *** 
-##### _ireplace_all_ 
+#### _ireplace_all_ 
 ***
 
 **Info:** String class extension to replace all substrings ignoring case
@@ -3457,7 +3457,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isBlank_ 
+#### _isBlank_ 
 ***
 
 **Info:** String class extension to check if the string is empty
@@ -3473,7 +3473,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isCuid_ 
+#### _isCuid_ 
 ***
 
 **Info:** String class extension to check if the string is a cuid
@@ -3489,7 +3489,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _isValidEmail_ 
+#### _isValidEmail_ 
 ***
 
 **Info:** String class extension to check if string is a valid email
@@ -3505,7 +3505,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _lastIndexOfAlt_ 
+#### _lastIndexOfAlt_ 
 ***
 
 **Info:** String class extension to find the last index based on a regular expression
@@ -3524,7 +3524,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * pos: (Int) Max index to go up to in the search
 
 *** 
-##### _ltrim_ 
+#### _ltrim_ 
 ***
 
 **Info:** String class extension to remove characters from the beginning of the string
@@ -3540,7 +3540,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _pluralize_ 
+#### _pluralize_ 
 ***
 
 **Info:** String class extension to do a best guess pluralization of the string
@@ -3556,7 +3556,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _replace_all_ 
+#### _replace_all_ 
 ***
 
 **Info:** String class extension to replace all substrings (case sensitive)
@@ -3576,7 +3576,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * subject: (String[]) Array of string to replace with
 
 *** 
-##### _reverse_ 
+#### _reverse_ 
 ***
 
 **Info:** String class extension to reverse the string
@@ -3592,7 +3592,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _rtrim_ 
+#### _rtrim_ 
 ***
 
 **Info:** String class extension to remove characters from the end of the string
@@ -3608,7 +3608,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _sanitize_ 
+#### _sanitize_ 
 ***
 
 **Info:** String class extension to remove potential XSS threats
@@ -3624,7 +3624,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _singularize_ 
+#### _singularize_ 
 ***
 
 **Info:** String class extension to do a best guess singularization of the string
@@ -3640,7 +3640,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _startsWith_ 
+#### _startsWith_ 
 ***
 
 **Info:** String class extension to check if the string starts with the given string
@@ -3658,7 +3658,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * arr: (String[]) An array of strings to check
 
 *** 
-##### _startsWithAny_ 
+#### _startsWithAny_ 
 ***
 
 **Info:** String class extension to check if the string starts with the given string
@@ -3676,7 +3676,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * arr: (String[]) An array of strings to check
 
 *** 
-##### _strip_ 
+#### _strip_ 
 ***
 
 **Info:** String class extension to remove characters from the beginning and end of the string
@@ -3692,7 +3692,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * None
 
 *** 
-##### _toCurrencyNotation_ 
+#### _toCurrencyNotation_ 
 ***
 
 **Info:** Number/String class extension to change number to currency
@@ -3710,7 +3710,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * separator: (Char) Character to use as delimiter
 
 *** 
-##### _toDateTime_ 
+#### _toDateTime_ 
 ***
 
 **Info:** String class extension to convert string to datetime
@@ -3728,7 +3728,7 @@ FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBI
 * options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format
 
 *** 
-##### _toObject_ 
+#### _toObject_ 
 ***
 
 **Info:** String class extension to convert to JSON

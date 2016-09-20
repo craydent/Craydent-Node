@@ -35,7 +35,7 @@ for (var o = 0; o < 2; o++) {
 				ordered.add(prop);
 				obj[doc.category] = obj[doc.category] || {};
 				obj[doc.category][prop] = obj[doc.category][prop] || "";
-				obj[doc.category][prop] += "*** \n##### _" + prop.substring(1) + "_ \n***" + ln +
+				obj[doc.category][prop] += "*** \n#### _" + prop.substring(1) + "_ \n***" + ln +
 					"**Info:** " + doc.info + ln +
 					"**Return:** " + doc.returnType + ln +
 					"**Parameters:**" + ln;
