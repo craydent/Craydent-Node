@@ -77,7 +77,7 @@ function outParams (params) {
 }
 // Constants ----------------------------------------------------------------------------------------------
 readme += "## Constants" + ln;
-var grid = [], headerdiv = [], headers = [], cols = 4;
+var grid = [], headerdiv = [], headers = [], cols = 3;
 for (var i = 0, len = orderedConstants.length, grid_row_count = Math.ceil(len/cols); i < len; i++) {
 	var index = parseInt(i%grid_row_count), hindex = parseInt(i/grid_row_count);
 	if (!headerdiv[hindex]) { headerdiv[hindex] = "| ----- "; headers[hindex] = "| "}

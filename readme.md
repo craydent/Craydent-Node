@@ -5,25 +5,31 @@
 
 ## Constants
 
-| | | | |
-| ----- | ----- | ----- | ----- |
-| ACCEPT_ENCODING (String) |GEKKO (String) |ONMOUSEUP (String) |REST_API_TEMPLATE (String) |
-ACCEPT_LANGUAGE (String) |HANDPOINT (String) |OPERA (String) |ROUTE_API_PATH (String) |
-AMAYA (String) |HIDDEN (String) |OPERA_VERSION (String) |SAFARI (String) |
-ANDROID (String) |HTTP_STATUS_TEMPLATE (String) |ORIGIN (String) |SAFARI_VERSION (String) |
-BLACKBERRY (String) |IE (String) |OS (String) |SERVER (String) |
-BROWSER (String) |IE6 (String) |PAGE_NAME (String) |SERVER_PATH (String) |
-CHROME (String) |IE7 (String) |PAGE_NAME_RAW (String) |SYMBIAN (String) |
-CHROME_VERSION (String) |IE8 (String) |PALM (String) |TEMPLATE_VARS (String) |
-CLICK (String) |IE_VERSION (String) |POINTER (String) |TEMPLATE_TAG_CONFIG (String) |
-CLIENT (String) |IPAD (String) |PRAGMA (String) |TRIDENT (String) |
-CORES_SUPPORT (String) |IPHONE (String) |PRESTO (String) |VERBOSE_LOGS (String) |
-DEBUG_MODE (String) |IPOD (String) |PRINCE (String) |VERSION (String) |
-DEVICE (String) |KHTML (String) |PROTOCOL (String) |VISIBLE (String) |
-ENGINE (String) |LINUX (String) |PUBLIC_IP (String) |WAIT (String) |
-EXPOSE_ROUTE_API (String) |LOCAL_IP (String) |REFERER (String) |WEBKIT (String) |
-FIREFOX (String) |MAC (String) |REFERER_IP (String) |WINDOWS (String) |
-FIREFOX_VERSION (String) |ONMOUSEDOWN (String) |RESPONSES (String) |WINDOWS_MOBILE (String) |
+| | | |
+| ----- | ----- | ----- |
+| ACCEPT_ENCODING (String) |IE7 (String) |PROTOCOL (String) |
+ACCEPT_LANGUAGE (String) |IE8 (String) |PUBLIC_IP (String) |
+AMAYA (String) |IE_VERSION (String) |REFERER (String) |
+ANDROID (String) |IPAD (String) |REFERER_IP (String) |
+BLACKBERRY (String) |IPHONE (String) |RESPONSES (String) |
+BROWSER (String) |IPOD (String) |REST_API_TEMPLATE (String) |
+CHROME (String) |KHTML (String) |ROUTE_API_PATH (String) |
+CHROME_VERSION (String) |LINUX (String) |SAFARI (String) |
+CLICK (String) |LOCAL_IP (String) |SAFARI_VERSION (String) |
+CLIENT (String) |MAC (String) |SERVER (String) |
+CORES_SUPPORT (String) |ONMOUSEDOWN (String) |SERVER_PATH (String) |
+DEBUG_MODE (String) |ONMOUSEUP (String) |SYMBIAN (String) |
+DEVICE (String) |OPERA (String) |TEMPLATE_VARS (String) |
+ENGINE (String) |OPERA_VERSION (String) |TEMPLATE_TAG_CONFIG (String) |
+EXPOSE_ROUTE_API (String) |ORIGIN (String) |TRIDENT (String) |
+FIREFOX (String) |OS (String) |VERBOSE_LOGS (String) |
+FIREFOX_VERSION (String) |PAGE_NAME (String) |VERSION (String) |
+GEKKO (String) |PAGE_NAME_RAW (String) |VISIBLE (String) |
+HANDPOINT (String) |PALM (String) |WAIT (String) |
+HIDDEN (String) |POINTER (String) |WEBKIT (String) |
+HTTP_STATUS_TEMPLATE (String) |PRAGMA (String) |WINDOWS (String) |
+IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
+IE6 (String) |PRINCE (String) |
 
 ## Featured
 
