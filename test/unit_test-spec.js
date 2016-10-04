@@ -1193,20 +1193,38 @@ describe ('Array', function () {
 			{id:1,p:"10",share:"shared", index: 10,std:4,tags:['a','b']}]);
 		expect($c.where([{id:1,p:"10",share:"shared", index: 10,std:4,tags:['c','b']}],{tags:['b','a']})).toEqual([]);
 
-		temp = [{ _id: 1, results: [ { product: "abc", score: 10 }, { product: "xyz", score: 5 } ] },
-		{ _id: 2, results: [ { product: "xyz", score: 7 } ] },
-		{ _id: 3, results: [ { product: "abc", score: 7 }, { product: "xyz", score: 8 } ] }];
+		temp = [
+			{ _id: 1, results: [
+				{ product: "abc", score: 10 },
+				{ product: "xyz", score: 5 } ] },
+			{ _id: 2, results: [
+				{ product: "xyz", score: 7 } ] },
+			{ _id: 3, results: [
+				{ product: "abc", score: 7 },
+				{ product: "xyz", score: 8 } ] },
+			{ _id: 3 },
+			{ _id: 4, results: [ ] }];
 		expect($c.where(temp, { results: { $elemMatch: { product: "xyz", score: { $gte: 8 } } } })).toEqual([
 			{"_id":3,"results":[{"product":"abc","score":7},{"product":"xyz","score":8}]}
 		]);
 		expect($c.where(temp, { results: { $size: 1 } })).toEqual([
 			{ _id: 2, results: [ { product: "xyz", score: 7 } ] }
 		]);
-		expect($c.where(temp, { results: { $size: 0 } })).toEqual([]);
+		expect($c.where(temp, { results: { $size: 0 } })).toEqual([{_id:3},{ _id: 4, results: [ ] }]);
 		expect($c.where(temp, { results: { $size: 2 } })).toEqual([
 			{ _id: 1, results: [ { product: "abc", score: 10 }, { product: "xyz", score: 5 } ] },
 			{"_id":3,"results":[{"product":"abc","score":7},{"product":"xyz","score":8}]}
 		]);
+
+		temp = [
+			{section: 'Result',category:"imaging"},
+			{section: 'Result',category:"blahimagingblah"},
+			{section: 'Result',category:"Imaging"},
+			{section: 'Result',category:"image"}];
+		expect($c.where(temp, { category:/imaging/i, section: { '$ne': 'history' } })).toEqual([
+			{section: 'Result',category:"imaging"},
+			{section: 'Result',category:"blahimagingblah"},
+			{section: 'Result',category:"Imaging"}]);
 	});
 });
 describe ('Date', function () {
@@ -2104,7 +2122,7 @@ describe ('Global methods', function () {
 			expect(errored).toBe(true);
 		});
 
-		var stage = 0,
+		var stage = 1,
 			hobj = {hitch:true},
 			ctx = {thectx:true};
 		var prm2 = $c.ajax({
@@ -2117,12 +2135,12 @@ describe ('Global methods', function () {
 			//	console.log(arguments,'statechange');
 			//},
 			onbefore:function(request,hitch,thiz){
-				expect(stage++).toBe(0);
+				expect(stage++).toBe(1);
 				expect(hitch).toBe(hobj);
 				expect(thiz).toBe($c);
 				expect(this).toBe(ctx);
 			},
-			oncomplete:function(data,req,hitch,status_code){
+			oncomplete:function(data,hitch,req,status_code){
 				expect(stage++).toBe(4);
 				expect(hitch).toBe(hobj);
 				expect(data).toEqual(usersdata);
@@ -2136,7 +2154,7 @@ describe ('Global methods', function () {
 			//	expect(stage++).toBe(1);
 			//	console.log(arguments,'loadstart');
 			//},
-			onsuccess:function(data,req,hitch,status_code){
+			onsuccess:function(data,hitch,req,status_code){
 				expect(stage++).toBe(2);
 				expect(hitch).toBe(hobj);
 				expect(data).toEqual(usersdata);
@@ -2151,7 +2169,7 @@ describe ('Global methods', function () {
 			expect(status_code).toBe(200);
 		});
 
-		prm2.finally(function(data,req,hitch,status_code){
+		prm2.finally(function(data,hitch,req,status_code){
 			expect(stage++).toBe(5);
 			expect(hitch).toBe(hobj);
 			expect(data).toEqual(usersdata);
@@ -2196,8 +2214,15 @@ describe ('Global methods', function () {
 		expect($c.fillTemplate("<div>${if (${hi})}<span>${hi}</span>${elseif (${bye})}<p>${bye}</p>${else}<a>${a}</a>${end if}</div>",obj3)).toBe("<div><a>monday</a></div>");
 		expect($c.fillTemplate("<div>${if (${hi})}<span>${hi}</span>${elseif (${bye})}<p>${bye}</p>${else}<a>${a}</a>${end if}</div>",{hi:"hello"})).toBe("<div><span>hello</span></div>");
 		expect($c.fillTemplate("<div>${if (${hi})}<span>${hi}</span>${elseif (${bye})}<p>${bye}</p>${else}<a>${a}</a>${end if}</div>",{bye:"bbye"})).toBe("<div><p>bbye</p></div>");
+		expect($c.fillTemplate("<div>${if (${this.bye.value})}<span>${hi}</span>${elseif (${bye})}<p>${bye}</p>${else}<a>${a}</a>${end if}</div>",{hi:"hello",bye:{value:"bbye"}})).toBe("<div><span>hello</span></div>");
+		expect($c.fillTemplate("<div>${if (${hi})}<span>${hi}</span>${elseif (${this.bye.value})}<p>${this.bye.value}</p>${end if}</div>",{bye:{value:"bbye"}})).toBe("<div><p>bbye</p></div>");
 		expect($c.fillTemplate("<div>${if (${this.bye.value})}<span>${this.bye.value}</span>${elseif (${bye})}<p>${bye}</p>${end if}</div>",{bye:{value:"bbye"}})).toBe("<div><span>bbye</span></div>");
 		expect($c.fillTemplate("<div>${if (${hi})}<span>${hi}</span>${elseif (${this.bye.value})}<p>${this.bye.value}</p>${end if}</div>",{bye:{value:"bbye"}})).toBe("<div><p>bbye</p></div>");
+		expect($c.fillTemplate("divhere${if (${this.User.length} || ${this.User})}div${end if}ending",{User:['']})).toBe("divheredivending");
+		expect($c.fillTemplate("divhere${if (${this.User.length} || ${this.User})}div${end if}ending",{User:[]})).toBe("divheredivending");
+		expect($c.fillTemplate("divhere${if (${this.User})}div${end if}ending",{User:[]})).toBe("divheredivending");
+		expect($c.fillTemplate("divhere${if (${this.User.length})}div${end if}ending",{User:[]})).toBe("divhereending");
+		expect($c.fillTemplate("divhere${if ('${this.User}')}div${end if}ending",{User:"adsf"})).toBe("divheredivending");
 		expect($c.fillTemplate("<div>${name}<div>${for ${i=0,len=${arr}.length};${i<len};${i++}}${${arr}[i].hi}8888${name}9999${end for}</div></div>",obj))
 				.toBe("<div>operation<div>b8888operation9999c8888operation9999</div></div><div>operation<div>b8888operation9999c8888operation9999</div></div>")
 		expect($c.fillTemplate("<div>${name}<div>${declare i=0,len=${arr}.length}${while (${i}<${len})}${${arr}[i].hi}8888${name}9999${i++,null}${end while}</div></div>",obj))
@@ -2230,6 +2255,13 @@ describe ('Global methods', function () {
 				"${end switch}</div>",obj5)).toBe("<div><p>tuesday</p></div>");
 		expect($c.fillTemplate('${foreach ${item} in ${this.DATA.page}}${if (${true})}<div>${item.name}</div>${end if}${end foreach}',
 				{DATA:{page:[{name:'name1'},{name:'name2'}]}})).toBe('<div>name1</div><div>name2</div>');
+		expect($c.fillTemplate('${foreach ${item} in ${this.TASK.subtasks}}\
+			${if (${item.sub_complete})}\
+				True\
+			${else}\
+				False\
+			${end if}\
+		${end foreach}',{TASK:{subtasks:[{sub_complete:true}]}}).trim()).toBe('True');
 	});
 	it('include',function(){
 		expect($c.include('./modules/module1').toString()).toBe('function (){return "module 1"}');
@@ -2257,9 +2289,9 @@ describe ('Global methods', function () {
 		});
 	});
 	it('namespace',function(){
-		expect($c.namespace("Test",function TestClass(){}).toString()).toEqual('function TestClass(){}');
-		expect($c.getClass(new $c.namespaces.Test.TestClass())).toBe("TestClass");
-		expect(Test).toBe('function TestClass(){}');
+		expect($c.namespace("Test2",function TestClass(){}).toString()).toEqual('function TestClass(){}');
+		expect($c.getClass(new $c.namespaces.Test2.TestClass())).toBe("TestClass");
+		expect(Test2).toBe('function TestClass(){}');
 	});
 	it('next',function(){
 		function testNext() { return $c.next(1,2); }
@@ -2290,8 +2322,8 @@ describe ('Global methods', function () {
 		expect($c.parseRaw([])).toBe("[]");
 
 		expect($c.parseRaw("str",true)).toBe("str");
-		expect($c.parseRaw(function(){},true)).toBe("function(){}");
-		expect($c.parseRaw(function*(){},true)).toBe("function*(){}");
+		expect($c.parseRaw(function(){},true)).toBe("function (){}");
+		expect($c.parseRaw(function*(){},true)).toBe("function* (){}");
 	});
 	it('rand',function(){
 		var i = 0;
@@ -2321,22 +2353,34 @@ describe ('Global methods', function () {
 		expect($c.suid().length).toBe(10);
 		expect($c.suid(5).length).toBe(5);
 	});
-	it('syncoit',function(){
+	describe("syncroit async test",function(){
+		var result = [];
+		beforeEach(function (done) {
 		$c.syncroit(function *() {
 			var resolve = true;
+
 			function testPromise(){
 				return new Promise(function(res,rej){
 					if (resolve) { return res({resolve:resolve}); }
 					return rej({resolve:resolve});
 				});
 			}
-			expect(yield testPromise()).toEqual({resolve:true});
+
+				result.push(yield testPromise());
 
 			resolve = false;
-			expect(yield testPromise()).toEqual({resolve:false});
+				result.push(yield testPromise());
+				result.push(yield $c.ajax("http://www.craydent.com/test/users.js"));
+				done();
 
-			expect(yield $c.ajax("http://www.craydent.com/test/users.js")).toEqual({ users:
-					[ { username: 'mtglass', name: 'Mark Glass', age: 10 },
+			});
+		});
+		it('syncoit',function(){
+			var shouldbe = [
+				{resolve: true},
+				{resolve: false},
+				{
+					users: [{username: 'mtglass', name: 'Mark Glass', age: 10},
 						{ username: 'urdum', name: 'Ursula Dumfry', age: 10 },
 						{ username: 'hydere', name: 'Henry Dere', age: 10 },
 						{ username: 'cumhere', name: 'Cass Umhere', age: 10 },
@@ -2348,8 +2392,14 @@ describe ('Global methods', function () {
 						{ username: 'shurliezalot', name: 'Josh N', age: 10 },
 						{ username: 'noze_nutin', name: 'Mai Boss', age: 10 },
 						{ username: 'czass', name: 'Cater Zass', age: 10 },
-						{ username: 'awesome_game', name: 'clash of clans', age: 21 }]});
+						{username: 'awesome_game', name: 'clash of clans', age: 21}]
+				}
+			];
+			for (var i = 0, len = result.length; i < len; i++) {
+				expect(result[i]).toEqual(shouldbe[i]);
+			}
 		});
+
 	});
 	it('tryEval',function(){
 		expect($c.tryEval("{}")).toEqual({});

@@ -442,9 +442,9 @@ describe ('No Conflict Array', function () {
 	it('distinct',function(){
 		var temp = $c.duplicate(arrObjs,true);
 		expect($c.distinct(temp,["share","std"])).toEqual([
-			{share:"shared",std:4},{std:4}]);
+			{share:"shared",std:4},{share:undefined,std:4}]);
 		expect($c.distinct(temp,"share,std")).toEqual([
-			{share:"shared",std:4},{std:4}]);
+			{share:"shared",std:4},{share:undefined,std:4}]);
 
 		expect($c.distinct(temp,["share"])).toEqual(["shared",undefined]);
 		expect($c.distinct(temp,"share")).toEqual(["shared",undefined]);
@@ -1216,6 +1216,16 @@ describe ('No Conflict Array', function () {
 			{ _id: 1, results: [ { product: "abc", score: 10 }, { product: "xyz", score: 5 } ] },
 			{"_id":3,"results":[{"product":"abc","score":7},{"product":"xyz","score":8}]}
 		]);
+
+		temp = [
+			{section: 'Result',category:"imaging"},
+			{section: 'Result',category:"blahimagingblah"},
+			{section: 'Result',category:"Imaging"},
+			{section: 'Result',category:"image"}];
+		expect($c.where(temp, { category:/imaging/i, section: { '$ne': 'history' } })).toEqual([
+			{section: 'Result',category:"imaging"},
+			{section: 'Result',category:"blahimagingblah"},
+			{section: 'Result',category:"Imaging"}]);
 	});
 });
 describe ('No Conflict Date', function () {
@@ -2246,6 +2256,13 @@ describe ('No Conflict Global methods', function () {
 				"${end switch}</div>",obj5)).toBe("<div><p>tuesday</p></div>");
 		expect($c.fillTemplate('${foreach ${item} in ${this.DATA.page}}${if (${true})}<div>${item.name}</div>${end if}${end foreach}',
 				{DATA:{page:[{name:'name1'},{name:'name2'}]}})).toBe('<div>name1</div><div>name2</div>');
+		expect($c.fillTemplate('${foreach ${item} in ${this.TASK.subtasks}}\
+			${if (${item.sub_complete})}\
+				True\
+			${else}\
+				False\
+			${end if}\
+		${end foreach}',{TASK:{subtasks:[{sub_complete:true}]}}).trim()).toBe('True');
 	});
 	it('include',function(){
 		expect($c.include('./modules/module1').toString()).toBe('function (){return "module 1"}');
@@ -2345,9 +2362,7 @@ describe ('No Conflict Global methods', function () {
 
 				function testPromise() {
 					return new Promise(function (res, rej) {
-						if (resolve) {
-							return res({resolve: resolve});
-						}
+					if (resolve) { return res({resolve:resolve}); }
 						return rej({resolve: resolve});
 					});
 				}

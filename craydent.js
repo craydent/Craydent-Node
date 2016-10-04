@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.17                               /*/
+/*/ Craydent LLC node-v0.6.18                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.17',
+var _craydent_version = '0.6.18',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -470,7 +470,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 				}
 				var value = mresult[2] || mresult[4];
 				objs = $c.tryEval(value);
-				if (!objs && value.startsWithAny("${","{{") && !value.endsWith("}")) {
+				if (!objs && $c.startsWithAny(value, "${","{{") && !value.endsWith("}")) {
 					return code;
 				}
 				var_name = ttc.VARIABLE_NAME(mresult[1] || mresult[3]);
@@ -2140,8 +2140,7 @@ function _defineFunction (name, func, override) {
 				"(" + fstr.toString().replace(/\((.*?)\)\s*?\{/, '(craydent_this,$1){'+extra_code) + ")";
 
 		if (!override && eval("typeof("+name+")") !== "undefined") {
-			eval("$c."+name+" = "+fnew);
-			return;
+			return eval("$c."+name+" = "+fnew);
 		}
 		return eval("$c."+name+" = "+fnew);
 	} catch (ex) {
@@ -2159,16 +2158,16 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/){
 		var argIndex = 3;
 
 		// remove all properties if it is the root level
-		var ref = arguments[argIndex] || {objects:[{obj:original,path:"this"}]},
-			current_path = arguments[argIndex+1] || "this";
+		var ref = arguments[argIndex] || {objects:[{obj:original,path:"obj"}]},
+			current_path = arguments[argIndex+1] || "obj";
 		(arguments[argIndex+2] || (arguments[argIndex+2] = {})) && (arguments[argIndex+2].command = arguments[argIndex+2].command || "");
 		if (!(ref.objects.length == 1)) {
 			for (var prop in obj){
 				if (obj.hasOwnProperty(prop)) { delete obj[prop]; }
 			}
 		}
-		var loop_func = function (prop, original) {
-			if (original.hasOwnProperty(prop) && original[prop] && (!$c.isFunction(original[prop]) || !recursive)) {
+		var loop_func = function (prop, original) { // 0 => property, 1 => original object, 2 => reference path object, 3 => current path, 4 => command object
+			if (original.hasOwnProperty(prop) && original[prop] && recursive) {
 				var index = $c.indexOfAlt(ref.objects,original[prop], function(obj,value){
 						return obj.obj===value;
 					}),
@@ -2178,7 +2177,7 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/){
 					return arguments[argIndex+1].command += new_path + "="+ref.objects[index].path+";";
 				}
 
-				if (typeof(original[prop]) == "object" && recursive) {
+				if (typeof(original[prop]) in {"object":1,"function":1} && recursive) {
 					obj[prop] = typeof(original[prop].constructor) == "function" ? new original[prop].constructor() : {};
 					ref.objects.push({obj:original[prop],path:new_path});
 					return _duplicate(obj[prop], original[prop], true, ref, new_path, arguments[argIndex+1]);
@@ -2580,7 +2579,7 @@ function _replace_all(replace, subject, flag) {
 		var str = this, last = 0;
 		for (var i = 0, len = replace.length; i < len; i++) {
 			var rep = replace[i];
-			var reg = new RegExp(__convert_regex_safe(rep), flag);;
+			var reg = new RegExp(__convert_regex_safe(rep), flag);
 			if (!$c.contains(str, reg)) { continue; }
 			str = str.replace(reg, subject[i] === undefined ? subject[last] : subject[i]);
 			if (subject[last + 1]) { last++; }
@@ -3761,7 +3760,7 @@ function clusterit(options, callback){
 			options = {};
 		}
 		const cluster = require('cluster');
-		const numCPUs = options.max_cpu || require('os').cpus().length;
+		const numCPUs = Math.min(options.max_cpu, require('os').cpus().length);
 
 		if (cluster.isMaster) {
 			// Fork workers.
@@ -4463,7 +4462,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 			if (leftovervars) {
 				for (var k = 0, klen = leftovervars.length; k < klen; k++) {
 					var variable = leftovervars[k];
-					if (variable.indexOf('|') != -1) {
+					if (~variable.indexOf('|')) {
 						var regex = new RegExp($c.replace_all(variable,['$','{','}','|'],['\\$','\\{(',')\\}','\\|']));
 						template = __run_replace (regex, template, false, obj);
 					}
@@ -5320,15 +5319,16 @@ function yieldable(value,context,callbackIndex) {
 					args.push(arguments[i]);
 				}
 				return new Promise(function(res){
+					var fn = function () {
+						if (arguments.length == 1) {
+							return res(arguments[0]);
+						}
+						return res(arguments);
+					};
 					if ($c.isNull(callbackIndex)) {
-						args.push(function () {
-							if (arguments.length == 1) {
-								return res(arguments[0]);
-							}
-							return res(arguments);
-						});
+						args.push(fn);
 					} else {
-						$c.insertAt(args, callbackIndex);
+						$c.insertAt(args, callbackIndex, fn);
 					}
 					value.apply(context,args);
 				});
@@ -9012,6 +9012,7 @@ _ao("equals", function (compare, props){
 		}
 		if (this === undefined && compare !== undefined || this !== undefined && compare === undefined) { return false; }
 		if (this === null && compare !== null || this !== null && compare === null) { return false; }
+		if ($c.isRegExp(compare)) { return compare.test(this.toString()); }
 		return (this.toString() == compare.toString() && this.constructor == compare.constructor);
 	} catch (e) {
 		error('Object.equals', e);
@@ -9661,6 +9662,7 @@ _ao("setProperty", function (path, value, delimiter, options) {
 	try {
 		options = options || {};
 		delimiter = delimiter || ".";
+		path = $c.strip(path, delimiter);
 		var props = path.split(delimiter);
 		var obj = this, i = 0, prop, len = props.length, pobj, pprop;
 		while (prop = props[i++]) {
@@ -10229,7 +10231,7 @@ if (typeof JSON.parseAdvanced !== 'function') {
 		_original = _original || obj;
 		for (var prop in obj) {
 			if (!obj.hasOwnProperty(prop)) { continue; }
-			if (~prop.indexOf('.') && $c.count(prop,/\./) == 1) {
+			if (~prop.indexOf('.') && !(~$c.count(prop,/\./))) {
 				var parts = prop.split('.'),
 					name = parts[0],
 					type = parts[1],
