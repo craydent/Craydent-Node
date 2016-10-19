@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.18                               /*/
+/*/ Craydent LLC node-v0.6.19                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.18',
+var _craydent_version = '0.6.19',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -984,6 +984,7 @@ function __contextualizeMethods (ctx) {
 	try {
 		ctx = ctx || {};
 		ctx.Benchmarker = Benchmarker;
+		ctx.CLI = CLI;
 		ctx.Cursor = Cursor;
 		ctx.JSZip = JSZip;
 		ctx.OrderedList = OrderedList;
@@ -3004,6 +3005,179 @@ function Benchmarker() {
 }
 
 /*----------------------------------------------------------------------------------------------------------------
+ /-	CLI Class
+ /---------------------------------------------------------------------------------------------------------------*/
+function CLI (params) {
+	/*|{
+		"info": "CLI parser for arguments and simplem method to execute shell commands",
+		"category": "Global",
+		"parameters":[],
+
+		"overloads":[
+			{"parameters":[
+				{"options": "(Object[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false)."}]}],
+
+		"url": "http://www.craydent.com/library/1.9.2/docs#CLI",
+		"returnType": "(Cursor)"
+	}|*/
+	try {
+		var args = process.argv, self = this;
+		self.interpreter = args[0];
+		self.scriptName = args[1];
+		self.name = params.name || "";
+		self.info = params.info || "";
+		self.synopsis = params.synopsis || "";
+		self.copyright = params.copyright || "";
+		self.optionsDescription = params.optionsDescription || "";
+		self.description = params.description || "";
+		self.options = params.options || [/*{
+			option: "-c",
+			type:"string",
+			description:"",
+			required:false
+		}*/];
+		self.arguments = [];
+		self.notes = params.notes || "";
+		self.isMan = false;
+		for (var i = 2, len = args.length; i < len; i++) {
+			var arg = args[i];
+			if (arg && arg.startsWith('--')) { // this is a multi char label
+				if (args[i + 1][0] == '-') {
+					self[$c.strip(arg,'-')] = true;
+					continue;
+				}
+				i++;
+				self[$c.strip(arg,'-')] = args[i];
+			} else if (arg[0] == '-') { // this is a single char label
+				var opts = $c.strip(arg,'-');
+				if (opts.length == 1) {
+					if (args[i + 1][0] == '-') {
+						self[opts] = true;
+						continue;
+					}
+					i++;
+					self[opts] = args[i];
+					continue;
+				}
+				for (var j = 0, jlen = opts.length; j < jlen; j++) {
+					self[opts[j]] = true;
+				}
+			} else { // no label
+				if (arg == 'man') { // requesting man
+					self.isMan = true;
+				}
+				self.arguments.push(arg);
+			}
+		}
+		self.isValid = function (){
+			try { validate(); return true;} catch (e) { $c.logit(e); return false;}
+		};
+		self.validate = validate;
+		function validate () {
+			for (var i = 0, len = self.options.length; i < len; i++) {
+				var option = self.options[i], copt = $c.strip(option.option,'-');
+				if (option.required && $c.isNull(self[copt])) {
+					throw 'Option ' + option.option + ' is required.';
+				} else if (option.type && !$c.isNull(self[copt])){
+					switch (option.type.toLocaleLowerCase()) {
+						case "number":
+							self[copt] = isNaN(Number(self[copt])) ? self[copt] : Number(self[copt]);
+							break;
+						case "array":
+						case "object":
+							self[copt] = $c.tryEval(self[copt],JSON.parse) || self[copt];
+							break;
+						case "bool":
+						case "boolean":
+							var tmp = $c.parseBoolean(self[copt]);
+							self[copt] =  $c.isNull(tmp) ? self[copt] : tmp;
+							break;
+					}
+				 	if (typeof self[copt] != option.type) {
+						throw 'Option ' + option.option + ' must be a ' + option.type + '.';
+					}
+				}
+			}
+		}
+		self.add = function (opt) {
+			try {
+				self.options.push(opt);
+				return self;
+			} catch (e) {
+				error('CLI.add', e);
+			}
+		};
+		self.renderMan = function () {
+			try {
+				var nlinetab = "\n\t", dline = "\n\n";
+				var renderOptions = function (options) {
+					var content = "";
+					for (var i = 0, len = options.length; i < len; i++) {
+						content += nlinetab + options[i].option + " " + (options[i].type ? "(" + options[i].type + ")" : "") + "\t\t" + options[i].description + (options[i].required ? "(required)" : "");
+					}
+					return content;
+				};
+				return "NAME" + nlinetab + self.name + (self.info ? " -- " + self.info : "") + dline +
+					"SYNOPSIS" + nlinetab + self.synopsis + dline +
+					"DESCRIPTION" + nlinetab + self.description + dline +
+					"OPTIONS" + renderOptions(self.options) + dline +
+					"NOTES" + nlinetab + self.notes + dline;
+			} catch (e) {
+				error('CLI.renderMan', e);
+			}
+
+		};
+		self.exec = function (command, options, callback) {
+			var child = require('child_process');
+			if (typeof options == 'function') {
+				callback = options;
+				options = undefined;
+			}
+			return new Promise(function(res,rej) {
+				try {
+					if (!command) {
+						res(false);
+					}
+					options = options || {};
+					options.silent = !!options.silent;
+
+					var output = '';
+					var cprocess = child.exec(command, {env: process.env, maxBuffer: 20 * 1024 * 1024}, function (err) {
+						var re = callback || (options.alwaysResolve ? res : rej);
+						if (options.outputOnly) {
+							return re(output);
+						}
+						if (callback) {
+							return re.call(cprocess, err ? err.code : 0, output);
+						}
+						re({code: err ? err.code : 0, output: output});
+					});
+
+					cprocess.stdout.on('data', function (data) {
+						output += data;
+						if (!options.silent) {
+							process.stdout.write(data);
+						}
+					});
+
+					cprocess.stderr.on('data', function (data) {
+						output += data;
+						if (!options.silent) {
+							process.stdout.write(data);
+						}
+					});
+				} catch (e) {
+					error('CLI.exec', e);
+				}
+			});
+		};
+		return self;
+	} catch (e) {
+		error('CLI', e);
+	}
+}
+
+/*----------------------------------------------------------------------------------------------------------------
  /-	Collection class
  /---------------------------------------------------------------------------------------------------------------*/
 function Cursor (records) {
@@ -3760,7 +3934,8 @@ function clusterit(options, callback){
 			options = {};
 		}
 		const cluster = require('cluster');
-		const numCPUs = Math.min(options.max_cpu, require('os').cpus().length);
+		const CPUs = require('os').cpus().length;
+		const numCPUs = Math.min($c.isNull(options.max_cpu,CPUs), CPUs);
 
 		if (cluster.isMaster) {
 			// Fork workers.
@@ -4421,7 +4596,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 					}
 				}
 			}
-			template = $c.replace_all(template,'\n', '');
+			template = $c.replace_all(template,'\n', "fillTemplate.refs['newline']");
 			// special run sytax
 			template = ~template.indexOf("${COUNT") ? template.replace(/\$\{COUNT\[(.*?)\]\}/g, '${RUN[__count;$1]}') : template;
 			template = ~template.indexOf("${ENUM") ? template.replace(/\$\{ENUM\[(.*?)\]\}/g, '${RUN[__enum;$1]}') : template;
@@ -4479,7 +4654,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 		}
 
 		if (!nested) {
-			html = html.replace(/fillTemplate.refs\['.*?'\]/g,"");
+			html = html.replace(/fillTemplate.refs['newline']/g,"\n").replace(/fillTemplate.refs\['.*?']/g,"");
 			fillTemplate.declared = fillTemplate.refs = undefined;
 		}
 		return html;
@@ -8253,7 +8428,6 @@ _ext(Date, 'format', function (format, options) {
 				'Central Standard Time (Australia)':'ACST',
 				'Central Standard Time':'CST',
 				'Central Standard Time (North America)':'CST',
-				'Central Standard Time':'CST',
 				'Chamorro Standard Time':'CHST',
 				'Chatham Daylight Time':'CHADT',
 				'Chatham Standard Time':'CHAST',
@@ -8394,55 +8568,97 @@ _ext(Date, 'format', function (format, options) {
 			hour24 = (hour < 10 ? "0" + hour : hour),
 			GMTDiffFormatted = (GMTDiff > 0 ? "+" : "-") + (Math.abs(GMTDiff) < 10 ? "0" : "") + Math.abs(GMTDiff) + "00";
 
-		return /*option d or %d*/format.replace(/([^\\])%d|^%d|([^\\])d|^d/g, '$1$2' + dateWithZero).// replace all d's with the 2 digit day leading 0
-		/*option D*/replace(/([^\\])D|^D/g, '$1' + threeLetterDay).// replace all D's with A textual representation of a day, three letters
-		/*option j*/replace(/([^\\%])j|^j/g, '$1' + date).// replace all j's with the day without leading 0
-		/*option l*/replace(/([^\\])l|^l/g, '$1' + ['\\S\\u\\n\\d\\a\\y','\\M\\o\\n\\d\\a\\y','\\T\\u\\e\\s\\d\\a\\y','\\W\\e\\d\\n\\e\\s\\d\\a\\y','\\T\\h\\u\\r\\s\\d\\a\\y','\\F\\r\\i\\d\\a\\y', '\\S\\a\\t\\u\\r\\d\\a\\y'][day]).// replace all l's (lower case L) with A full textual representation of the day of the week
-		/*option N*/replace(/([^\\])N|^N/g, '$1' + (day == 0 ? 7 : day)).// replace all N's with ISO-8601 numeric representation of the day of the week
-		/*option S*/replace(/([^\\%]S)|^S/g, '$1' + (date > 3 ? '\\t\\h' : (date == 1 ? '\\s\\t' : (date == 2 ? '\\n\\d' : '\\r\\d')))).// replace all S's with English ordinal suffix for the day of the month, 2 characters
-		/*option %w*/replace(/([^\\])%w|^%w/g, day + 1).// replace all %w's with Numeric representation of the day of the week (starting from 0)
-		/*option w*/replace(/([^\\])w|^w/g, '$1' + day).// replace all w's with Numeric representation of the day of the week (starting from 1)
-		/*option z*/replace(/([^\\])z|^z/g, '$1' + dayOfYearFrom1).// replace all z's with The day of the year (starting from 0)
-		/*option %j*/replace(/([^\\])%j|^%j/g, dayOfYear).// replace all %j's with The day of the year (starting from 1)
+		// Double replace is used to fix concecutive character bug
+		return format.
+		// replace all d's with the 2 digit day leading 0
+		/*option d or %d*/replace(/([^\\])%d|^%d|([^\\])d|^d/g, '$1$2' + dateWithZero).replace(/([^\\])%d|^%d|([^\\])d|^d/g, '$1$2' + dateWithZero).
+		// replace all D's with A textual representation of a day, three letters
+		/*option D*/replace(/([^\\])D|^D/g, '$1' + threeLetterDay).replace(/([^\\])D|^D/g, '$1' + threeLetterDay).
+		// replace all j's with the day without leading 0
+		/*option j*/replace(/([^\\%])j|^j/g, '$1' + date).replace(/([^\\%])j|^j/g, '$1' + date).
+		// replace all l's (lower case L) with A full textual representation of the day of the week
+		/*option l*/replace(/([^\\])l|^l/g, '$1' + ['\\S\\u\\n\\d\\a\\y','\\M\\o\\n\\d\\a\\y','\\T\\u\\e\\s\\d\\a\\y','\\W\\e\\d\\n\\e\\s\\d\\a\\y','\\T\\h\\u\\r\\s\\d\\a\\y','\\F\\r\\i\\d\\a\\y', '\\S\\a\\t\\u\\r\\d\\a\\y'][day]).replace(/([^\\])l|^l/g, '$1' + ['\\S\\u\\n\\d\\a\\y','\\M\\o\\n\\d\\a\\y','\\T\\u\\e\\s\\d\\a\\y','\\W\\e\\d\\n\\e\\s\\d\\a\\y','\\T\\h\\u\\r\\s\\d\\a\\y','\\F\\r\\i\\d\\a\\y', '\\S\\a\\t\\u\\r\\d\\a\\y'][day]).
+		// replace all N's with ISO-8601 numeric representation of the day of the week
+		/*option N*/replace(/([^\\])N|^N/g, '$1' + (day == 0 ? 7 : day)).replace(/([^\\])N|^N/g, '$1' + (day == 0 ? 7 : day)).
+		// replace all S's with English ordinal suffix for the day of the month, 2 characters
+		/*option S*/replace(/([^\\%]S)|^S/g, '$1' + (date > 3 ? '\\t\\h' : (date == 1 ? '\\s\\t' : (date == 2 ? '\\n\\d' : '\\r\\d')))).replace(/([^\\%]S)|^S/g, '$1' + (date > 3 ? '\\t\\h' : (date == 1 ? '\\s\\t' : (date == 2 ? '\\n\\d' : '\\r\\d')))).
+		// replace all %w's with Numeric representation of the day of the week (starting from 0)
+		/*option %w*/replace(/([^\\])%w|^%w/g, day + 1).replace(/([^\\])%w|^%w/g, day + 1).
+		// replace all w's with Numeric representation of the day of the week (starting from 1)
+		/*option w*/replace(/([^\\])w|^w/g, '$1' + day).replace(/([^\\])w|^w/g, '$1' + day).
+		// replace all z's with The day of the year (starting from 0)
+		/*option z*/replace(/([^\\])z|^z/g, '$1' + dayOfYearFrom1).replace(/([^\\])z|^z/g, '$1' + dayOfYearFrom1).
+		// replace all %j's with The day of the year (starting from 1)
+		/*option %j*/replace(/([^\\])%j|^%j/g, dayOfYear).replace(/([^\\])%j|^%j/g, dayOfYear).
 
-		/*option W*/replace(/([^\\])W|^W/g, '$1' + (week > 0 ? week : 52)).// replace all W's with ISO-8601 week number of the year, weeks starting on Monday
-		/*option W*/replace(/([^\\])%U|^%U/g, week < 10 ? "0" + week : week).// replace all %U's with ISO-8601 week number of the year, weeks starting on Monday with leading 0
+		// replace all W's with ISO-8601 week number of the year, weeks starting on Monday
+		/*option W*/replace(/([^\\])W|^W/g, '$1' + (week > 0 ? week : 52)).replace(/([^\\])W|^W/g, '$1' + (week > 0 ? week : 52)).
+		// replace all %U's with ISO-8601 week number of the year, weeks starting on Monday with leading 0
+		/*option W*/replace(/([^\\])%U|^%U/g, week < 10 ? "0" + week : week).replace(/([^\\])%U|^%U/g, week < 10 ? "0" + week : week).
 
-		/*option F*/replace(/([^\\])F|^F/g, '$1' + ['\\J\\a\\n\\u\\a\\r\\y','\\F\\e\\b\\r\\u\\a\\r\\y','\\M\\a\\r\\c\\h','\\A\\p\\r\\i\\l','\\M\\a\\y','\\J\\u\\n\\e','\\J\\u\\l\\y','\\A\\u\\g\\u\\s\\t','\\S\\e\\p\\t\\e\\m\\b\\e\\r','\\O\\c\\t\\o\\b\\e\\r','\\N\\o\\v\\e\\m\\b\\e\\r','\\D\\e\\c\\e\\m\\b\\e\\r'][month - 1]).// replace all F's with A full textual representation of a month, such as January or March
-		/*option m* or %m*/replace(/([^\\])%m|^%m|([^\\])m|^m/g, '$1$2' + (month < 10 ? "0" + month : month)).// replace all m's with Numeric representation of a month, with leading zeros
-		/*option M or %M*/replace(/([^\\])%M|^%M|([^\\])M|^M/g, '$1$2' + threeLetterMonth).// replace all M's with A short textual representation of a month, three letters
-		/*option n*/replace(/([^\\])n|^n/g, '$1' + month).// replace all n's with Numeric representation of a month, without leading zeros
-		/*option t*/replace(/([^\\])t|^t/g, '$1' + (month == 2 && $c.isInt(year/4) ? 29 :[31,28,31,30,31,30,31,31,30,31,30,31][month - 1])).// replace all t's with Number of days in the given month
+		// replace all F's with A full textual representation of a month, such as January or March
+		/*option F*/replace(/([^\\])F|^F/g, '$1' + ['\\J\\a\\n\\u\\a\\r\\y','\\F\\e\\b\\r\\u\\a\\r\\y','\\M\\a\\r\\c\\h','\\A\\p\\r\\i\\l','\\M\\a\\y','\\J\\u\\n\\e','\\J\\u\\l\\y','\\A\\u\\g\\u\\s\\t','\\S\\e\\p\\t\\e\\m\\b\\e\\r','\\O\\c\\t\\o\\b\\e\\r','\\N\\o\\v\\e\\m\\b\\e\\r','\\D\\e\\c\\e\\m\\b\\e\\r'][month - 1]).replace(/([^\\])F|^F/g, '$1' + ['\\J\\a\\n\\u\\a\\r\\y','\\F\\e\\b\\r\\u\\a\\r\\y','\\M\\a\\r\\c\\h','\\A\\p\\r\\i\\l','\\M\\a\\y','\\J\\u\\n\\e','\\J\\u\\l\\y','\\A\\u\\g\\u\\s\\t','\\S\\e\\p\\t\\e\\m\\b\\e\\r','\\O\\c\\t\\o\\b\\e\\r','\\N\\o\\v\\e\\m\\b\\e\\r','\\D\\e\\c\\e\\m\\b\\e\\r'][month - 1]).
+		// replace all m's with Numeric representation of a month, with leading zeros
+		/*option m* or %m*/replace(/([^\\])%m|^%m|([^\\])m|^m/g, '$1$2' + (month < 10 ? "0" + month : month)).replace(/([^\\])%m|^%m|([^\\])m|^m/g, '$1$2' + (month < 10 ? "0" + month : month)).
+		// replace all M's with A short textual representation of a month, three letters
+		/*option M or %M*/replace(/([^\\])%M|^%M|([^\\])M|^M/g, '$1$2' + threeLetterMonth).replace(/([^\\])%M|^%M|([^\\])M|^M/g, '$1$2' + threeLetterMonth).
+		// replace all n's with Numeric representation of a month, without leading zeros
+		/*option n*/replace(/([^\\])n|^n/g, '$1' + month).replace(/([^\\])n|^n/g, '$1' + month).
+		// replace all t's with Number of days in the given month
+		/*option t*/replace(/([^\\])t|^t/g, '$1' + (month == 2 && $c.isInt(year/4) ? 29 :[31,28,31,30,31,30,31,31,30,31,30,31][month - 1])).replace(/([^\\])t|^t/g, '$1' + (month == 2 && $c.isInt(year/4) ? 29 :[31,28,31,30,31,30,31,31,30,31,30,31][month - 1])).
 
-		/*option L*/replace(/([^\\%])L|^L/g, '$1' + $c.isInt(year%4) ? 1 : 0).//replace all L's with Whether it's a leap year
-		/*option o*/replace(/([^\\])o|^o/g, '$1' + (week > 0 ? year : year - 1)).//replace all o's with A full numeric representation of a year, 4 digits.  If 'W' belongs to the previous or next year, that year is used instead.
-		/*option Y or %Y*/replace(/([^\\])%Y|^%Y|([^\\])Y|^Y/g, '$1$2' + year).//replace all Y's with A full numeric representation of a year, 4 digits
-		/*option y*/replace(/([^\\])y|^y/g, '$1' + year.toString().substring(year.toString().length - 2)).//replace all t's with A two digit representation of a year
+		//replace all L's with Whether it's a leap year
+		/*option L*/replace(/([^\\%])L|^L/g, '$1' + $c.isInt(year%4) ? 1 : 0).replace(/([^\\%])L|^L/g, '$1' + $c.isInt(year%4) ? 1 : 0).
+		//replace all o's with A full numeric representation of a year, 4 digits.  If 'W' belongs to the previous or next year, that year is used instead.
+		/*option o*/replace(/([^\\])o|^o/g, '$1' + (week > 0 ? year : year - 1)).replace(/([^\\])o|^o/g, '$1' + (week > 0 ? year : year - 1)).
+		//replace all Y's with A full numeric representation of a year, 4 digits
+		/*option Y or %Y*/replace(/([^\\])%Y|^%Y|([^\\])Y|^Y/g, '$1$2' + year).replace(/([^\\])%Y|^%Y|([^\\])Y|^Y/g, '$1$2' + year).
+		//replace all t's with A two digit representation of a year
+		/*option y*/replace(/([^\\])y|^y/g, '$1' + year.toString().substring(year.toString().length - 2)).replace(/([^\\])y|^y/g, '$1' + year.toString().substring(year.toString().length - 2)).
 
-		/*option a*/replace(/([^\\])a|^a/g, '$1' + (hour > 11 ? "\\p\\m" : "\\a\\m")).//replace all a's with Lowercase Ante Meridiem and Post Meridiem
-		/*option A*/replace(/([^\\])A|^A/g, '$1' + (hour > 11 ? "\\P\\M" : "\\A\\M")).//replace all A's with Uppercase Ante Meridiem and Post Meridiem
-		/*option B*/replace(/([^\\])B|^B/g, '$1' + Math.floor((((datetime.getUTCHours() + 1)%24) + datetime.getUTCMinutes()/60 + datetime.getUTCSeconds()/3600)*1000/24)).//replace all B's with Swatch Internet time
-		/*option g*/replace(/([^\\])g|^g/g, '$1' + (hour == 0 ? 12 : hour > 12 ? hour - 12 : hour)).//replace all g's with 12-hour format of an hour without leading zeros
-		/*option G*/replace(/([^\\])G|^G/g, '$1' + hour).//replace all G's with 24-hour format of an hour without leading zeros
-		/*option h*/replace(/([^\\])h|^h/g, '$1' + (hour < 10 ? "0" + hour : (hour > 12 && hour - 12 < 10) ? "0" + (hour - 12) : hour)).//replace all h's with 12-hour format of an hour with leading zeros
-		/*option H or %H*/replace(/([^\\])%H|^%H|([^\\])H|^H/g, '$1$2' + hour24).//replace all H's with 24-hour format of an hour with leading zeros
-		/*option i*/replace(/([^\\])i|^i/g, '$1' + minuteWithZero).//replace all i's with Minutes with leading zeros
-		/*option s or %S*/replace(/([^\\])%S|^%S|([^\\])s|^s/g, '$1$2' + secondsWithZero).//replace all s's with Seconds, with leading zeros
-		/*option u*/replace(/([^\\])u|^u/g, '$1' + epoch*1000).//replace all u's with Microseconds
-		/*option %L*/replace(/([^\\])%L|^%L/g, epoch).//replace all L's with Milliseconds
+		//replace all a's with Lowercase Ante Meridiem and Post Meridiem
+		/*option a*/replace(/([^\\])a|^a/g, '$1' + (hour > 11 ? "\\p\\m" : "\\a\\m")).replace(/([^\\])a|^a/g, '$1' + (hour > 11 ? "\\p\\m" : "\\a\\m")).
+		//replace all A's with Uppercase Ante Meridiem and Post Meridiem
+		/*option A*/replace(/([^\\])A|^A/g, '$1' + (hour > 11 ? "\\P\\M" : "\\A\\M")).replace(/([^\\])A|^A/g, '$1' + (hour > 11 ? "\\P\\M" : "\\A\\M")).
+		//replace all B's with Swatch Internet time
+		/*option B*/replace(/([^\\])B|^B/g, '$1' + Math.floor((((datetime.getUTCHours() + 1)%24) + datetime.getUTCMinutes()/60 + datetime.getUTCSeconds()/3600)*1000/24)).replace(/([^\\])B|^B/g, '$1' + Math.floor((((datetime.getUTCHours() + 1)%24) + datetime.getUTCMinutes()/60 + datetime.getUTCSeconds()/3600)*1000/24)).
+		//replace all g's with 12-hour format of an hour without leading zeros
+		/*option g*/replace(/([^\\])g|^g/g, '$1' + (hour == 0 ? 12 : hour > 12 ? hour - 12 : hour)).replace(/([^\\])g|^g/g, '$1' + (hour == 0 ? 12 : hour > 12 ? hour - 12 : hour)).
+		//replace all G's with 24-hour format of an hour without leading zeros
+		/*option G*/replace(/([^\\])G|^G/g, '$1' + hour).replace(/([^\\])G|^G/g, '$1' + hour).
+		//replace all h's with 12-hour format of an hour with leading zeros
+		/*option h*/replace(/([^\\])h|^h/g, '$1' + (hour < 10 ? "0" + hour : (hour > 12 && hour - 12 < 10) ? "0" + (hour - 12) : hour)).replace(/([^\\])h|^h/g, '$1' + (hour < 10 ? "0" + hour : (hour > 12 && hour - 12 < 10) ? "0" + (hour - 12) : hour)).
+		//replace all H's with 24-hour format of an hour with leading zeros
+		/*option H or %H*/replace(/([^\\])%H|^%H|([^\\])H|^H/g, '$1$2' + hour24).replace(/([^\\])%H|^%H|([^\\])H|^H/g, '$1$2' + hour24).
+		//replace all i's with Minutes with leading zeros
+		/*option i*/replace(/([^\\])i|^i/g, '$1' + minuteWithZero).replace(/([^\\])i|^i/g, '$1' + minuteWithZero).
+		//replace all s's with Seconds, with leading zeros
+		/*option s or %S*/replace(/([^\\])%S|^%S|([^\\])s|^s/g, '$1$2' + secondsWithZero).replace(/([^\\])%S|^%S|([^\\])s|^s/g, '$1$2' + secondsWithZero).
+		//replace all u's with Microseconds
+		/*option u*/replace(/([^\\])u|^u/g, '$1' + epoch*1000).replace(/([^\\])u|^u/g, '$1' + epoch*1000).
+		//replace all L's with Milliseconds
+		/*option %L*/replace(/([^\\])%L|^%L/g, epoch).replace(/([^\\])%L|^%L/g, epoch).
 
-		/*option e*/replace(/([^\\])e|^e/g, '$1' + currentTimezoneLong).//replace all e's with Timezone identifier
-		/*option I*/replace(/([^\\])I|^I/g, '$1' + Math.max((new Date(datetime.getFullYear(), 0, 1)).getTimezoneOffset(), (new Date(datetime.getFullYear(), 6, 1)).getTimezoneOffset()) > datetime.getTimezoneOffset() ? 0 : 1).//replace all I's with Whether or not the date is in daylight saving time
+		//replace all e's with Timezone identifier
+		/*option e*/replace(/([^\\])e|^e/g, '$1' + currentTimezoneLong).replace(/([^\\])e|^e/g, '$1' + currentTimezoneLong).
+		//replace all I's with Whether or not the date is in daylight saving time
+		/*option I*/replace(/([^\\])I|^I/g, '$1' + Math.max((new Date(datetime.getFullYear(), 0, 1)).getTimezoneOffset(), (new Date(datetime.getFullYear(), 6, 1)).getTimezoneOffset()) > datetime.getTimezoneOffset() ? 0 : 1).replace(/([^\\])I|^I/g, '$1' + Math.max((new Date(datetime.getFullYear(), 0, 1)).getTimezoneOffset(), (new Date(datetime.getFullYear(), 6, 1)).getTimezoneOffset()) > datetime.getTimezoneOffset() ? 0 : 1).
 
-		/*option O*/replace(/([^\\])O|^O/g, '$1' + GMTDiffFormatted).//replace all O's with Difference to Greenwich time (GMT) in hours
-		/*option P*/replace(/([^\\])P|^P/g, '$1' + GMTDiffFormatted.substr(0, 3) + ":" + GMTDiffFormatted.substr(3,2)).//replace all P's with Difference to Greenwich time (GMT) with colon between hours and minutes
-		/*option T*/replace(/([^\\])T|^T/g, '$1' + currentTimezone).//replace all T's with Timezone abbreviation
-		/*option Z*/replace(/([^\\])Z|^Z/g, '$1' + (-1 * GMTDiff * 60)).//replace all Z's with Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive
+		//replace all O's with Difference to Greenwich time (GMT) in hours
+		/*option O*/replace(/([^\\])O|^O/g, '$1' + GMTDiffFormatted).replace(/([^\\])O|^O/g, '$1' + GMTDiffFormatted).
+		//replace all P's with Difference to Greenwich time (GMT) with colon between hours and minutes
+		/*option P*/replace(/([^\\])P|^P/g, '$1' + GMTDiffFormatted.substr(0, 3) + ":" + GMTDiffFormatted.substr(3,2)).replace(/([^\\])P|^P/g, '$1' + GMTDiffFormatted.substr(0, 3) + ":" + GMTDiffFormatted.substr(3,2)).
+		//replace all T's with Timezone abbreviation
+		/*option T*/replace(/([^\\])T|^T/g, '$1' + currentTimezone).replace(/([^\\])T|^T/g, '$1' + currentTimezone).
+		//replace all Z's with Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive
+		/*option Z*/replace(/([^\\])Z|^Z/g, '$1' + (-1 * GMTDiff * 60)).replace(/([^\\])T|^T/g, '$1' + currentTimezone).
 
-
-		/*option c*/replace(/([^\\])c|^c/g, '$1' + (datetime.toISOString ? datetime.toISOString() : "")).//replace all c's with ISO 8601 date
-		/*option r*/replace(/([^\\])r|^r/g, '$1' + threeLetterDay + ', ' + dateWithZero + ' ' + threeLetterMonth + ' ' + year  + ' ' + hour24 + ':' + minuteWithZero + ':' + secondsWithZero + ' ' + GMTDiffFormatted).//replace all r's with RFC 2822 formatted date
-		/*option U*/replace(/([^\\])U|^U/g, '$1' + epoch / 1000).//replace all U's with Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
+		//replace all c's with ISO 8601 date
+		/*option c*/replace(/([^\\])c|^c/g, '$1' + (datetime.toISOString ? datetime.toISOString() : "")).replace(/([^\\])c|^c/g, '$1' + (datetime.toISOString ? datetime.toISOString() : "")).
+		//replace all r's with RFC 2822 formatted date
+		/*option r*/replace(/([^\\])r|^r/g, '$1' + threeLetterDay + ', ' + dateWithZero + ' ' + threeLetterMonth + ' ' + year  + ' ' + hour24 + ':' + minuteWithZero + ':' + secondsWithZero + ' ' + GMTDiffFormatted).replace(/([^\\])r|^r/g, '$1' + threeLetterDay + ', ' + dateWithZero + ' ' + threeLetterMonth + ' ' + year  + ' ' + hour24 + ':' + minuteWithZero + ':' + secondsWithZero + ' ' + GMTDiffFormatted).
+		//replace all U's with Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
+		/*option U*/replace(/([^\\])U|^U/g, '$1' + epoch / 1000).replace(/([^\\])U|^U/g, '$1' + epoch / 1000).
 		replace(/\\/gi, "");
 	} catch (e) {
 		error("Date.format", e);
