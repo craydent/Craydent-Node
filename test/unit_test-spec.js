@@ -1292,6 +1292,7 @@ describe ('Date', function () {
 		expect($c.format(date,'r')).toBe('Fri, 08 Jan 2016 13:00:00 -0800');
 		expect($c.format(date,'U')).toBe('1452286800');
 
+		expect($c.format(date,'yymmdd')).toBe('161601010808');
 	});
 	it('getDayOfYear',function(){
 		expect($c.getDayOfYear(new Date('1/1/2016'))).toBe(1);

@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.6.18
+# Craydent 0.6.19
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -52,20 +52,21 @@ arr.where({name:'craydent'});
 
 | | | |
 | ----- | ----- | ----- |
-| ACCEPT_ENCODING (String) |IE7 (String) |PROTOCOL (String) |
-ACCEPT_LANGUAGE (String) |IE8 (String) |PUBLIC_IP (String) |
-AMAYA (String) |IE_VERSION (String) |REFERER (String) |
-ANDROID (String) |IPAD (String) |REFERER_IP (String) |
-BLACKBERRY (String) |IPHONE (String) |RESPONSES (String) |
-BROWSER (String) |IPOD (String) |REST_API_TEMPLATE (String) |
-CHROME (String) |KHTML (String) |ROUTE_API_PATH (String) |
-CHROME_VERSION (String) |LINUX (String) |SAFARI (String) |
+| ACCEPT_ENCODING (String) |IE6 (String) |PRINCE (String) |
+ACCEPT_LANGUAGE (String) |IE7 (String) |PROTOCOL (String) |
+AMAYA (String) |IE8 (String) |PUBLIC_IP (String) |
+ANDROID (String) |IE_VERSION (String) |REFERER (String) |
+BLACKBERRY (String) |IPAD (String) |REFERER_IP (String) |
+BROWSER (String) |IPHONE (String) |RESPONSES (String) |
+CHROME (String) |IPOD (String) |REST_API_TEMPLATE (String) |
+CHROME_VERSION (String) |KHTML (String) |ROUTE_API_PATH (String) |
+CLI (String) |LINUX (String) |SAFARI (String) |
 CLICK (String) |LOCAL_IP (String) |SAFARI_VERSION (String) |
 CLIENT (String) |MAC (String) |SERVER (String) |
 CORES_SUPPORT (String) |ONMOUSEDOWN (String) |SERVER_PATH (String) |
 DEBUG_MODE (String) |ONMOUSEUP (String) |SYMBIAN (String) |
-DEVICE (String) |OPERA (String) |TEMPLATE_VARS (String) |
-ENGINE (String) |OPERA_VERSION (String) |TEMPLATE_TAG_CONFIG (String) |
+DEVICE (String) |OPERA (String) |TEMPLATE_TAG_CONFIG (String) |
+ENGINE (String) |OPERA_VERSION (String) |TEMPLATE_VARS (String) |
 EXPOSE_ROUTE_API (String) |ORIGIN (String) |TRIDENT (String) |
 FIREFOX (String) |OS (String) |VERBOSE_LOGS (String) |
 FIREFOX_VERSION (String) |PAGE_NAME (String) |VERSION (String) |
@@ -74,7 +75,6 @@ HANDPOINT (String) |PALM (String) |WAIT (String) |
 HIDDEN (String) |POINTER (String) |WEBKIT (String) |
 HTTP_STATUS_TEMPLATE (String) |PRAGMA (String) |WINDOWS (String) |
 IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
-IE6 (String) |PRINCE (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
