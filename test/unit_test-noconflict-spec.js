@@ -1439,6 +1439,16 @@ describe ('No Conflict Object', function () {
 		var tb = $c.duplicate(b);
 		expect(tb).toEqual({hi:"hello"});
 		expect(tb.constructor).toEqual(B);
+
+
+		function A(){console.log('');}
+		var obj = {use:A};
+		var obj2 = $c.duplicate(obj,true);
+		var obj3 = $c.duplicate(obj);
+		expect(obj.use).toEqual(A);
+		expect(obj2).not.toBe(obj);
+		expect(obj2.use).not.toBe(obj.use);
+		expect(obj3.use).toBe(obj.use);
 	});
 	it('eachProperty',function(){
 		var arrp = [], arrv = [], obj = {a:"a1",b:'b1',c:'c1'};
