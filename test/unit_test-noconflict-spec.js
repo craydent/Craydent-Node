@@ -2088,6 +2088,14 @@ describe ('No Conflict Global methods', function () {
 			}
 		});
 	});
+	it('JSON.parseAdvanced',function(){
+		expect(JSON.parseAdvanced({"routes": {"${domain}":"${bb}"}},null,{domain:"property",bb:"baby"})).toEqual({ routes: { property: 'baby' } });
+		expect(JSON.stringify(JSON.parseAdvanced({"routes": {"Function.${bb.b}":"function(${domain}){}","${domain}":"${bb.b}"}},null,{domain:"property",bb:{b:"baby"}}))).toEqual(JSON.stringify({ routes: { baby: function(property){}, property: "baby" } }));
+		expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"/test/test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
+		expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"./test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
+		expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
+
+	});
 	it('addObjectPrototype',function(){
 		expect($c.addObjectPrototype("addingProperty",function(){ return "hello world!";},true)()).toBe('hello world!');
 		var obj = {},props;
@@ -2214,6 +2222,8 @@ describe ('No Conflict Global methods', function () {
 		expect($c.fillTemplate("<div>${TNAME}<div>")).toBe("<div>this template var<div>");
 		expect($c.fillTemplate("<div ${dataproperties}>${hello}<div>",simple)).toBe("<div data-hello='world' >world<div>");
 		expect($c.fillTemplate("<div>${this.a.hello}${index}<div>",simple2)).toBe("<div>world0<div>");
+		expect($c.fillTemplate("<div>${this.a.hello}${index}<div>",simple2)).toBe("<div>world0<div>");
+		expect($c.fillTemplate("<div>${a.hello}${index}<div>",simple2)).toBe("<div>world0<div>");
 		expect($c.fillTemplate("<div>${COUNT[${arr}]}<div>",obj)).toBe("<div>2<div><div>2<div>");
 		expect($c.fillTemplate("<div>${ENUM[${arr};]}<div>",obj2)).toBe("<div>monday, tuesday<div>");
 		expect($c.fillTemplate("<div>${ENUM[${this};\"?\";[\"{ENUM_VAL}-\",\"-{ENUM_VAR}\"]]}<div>",obj3)).toBe("<div>monday-a-a?tuesday-b-b<div>");

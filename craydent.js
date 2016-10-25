@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.20                               /*/
+/*/ Craydent LLC node-v0.6.21                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.20',
+var _craydent_version = '0.6.21',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -993,6 +993,7 @@ function __contextualizeMethods (ctx) {
 		ctx.addObjectPrototype = addObjectPrototype;
 		ctx.ajax = ajax;
 		ctx.catchAll = catchAll;
+		ctx.clearCache = clearCache;
 		ctx.clusterit = clusterit;
 		ctx.cout = cout;
 		ctx.createServer = createServer;
@@ -1846,13 +1847,14 @@ function __queryNestedProperty(obj, path/*, value*/) {
 	}
 	return [obj];
 }
-function __relativePathFinder (path) {
+function __relativePathFinder (path,depth) {
 	var callingPath = "",
 		delimiter = "/";
+	depth = depth || 0;
 
 	// first clause is for linux based files systems, second clause is for windows based file system
 	if (!(path.startsWith('/') || /^[a-zA-Z]:\/|^\/\/.*/.test(path))) {
-		callingPath = new Error().stack.split('\n')[3].replace(/.*?\((.*)/,'$1');
+		callingPath = new Error().stack.split('\n')[3 + depth].replace(/.*?\((.*)/,'$1');
 		if (~callingPath.indexOf('\\')) {
 			callingPath = callingPath.replace(/\\/g,'/');
 		}
@@ -3911,12 +3913,43 @@ function catchAll (callback, append) {
 		var index = catchAll.listeners.indexOf(callback.toString());
 
 		if (!~index || append) {
+			catchAll.listeners.push(callback.toString());
 			process.on('uncaughtException', callback);
+			logit("listening for uncaught errors");
 		}
-		!~index && logit("listening for uncaught errors");
 	} catch (e) {
-		logit('$PUT');
+		logit('catchAll');
 		logit(e);
+	}
+}
+function clearCache (module) {
+	/*|{
+		"info": "Clear a module from the require cache.",
+		"category": "Global",
+		"parameters":[
+			{"module": "(String) Single module to remove."}],
+
+		"overloads":[
+			{"parameters":[]}],
+
+		"url": "http://www.craydent.com/library/1.9.3/docs#clearCache",
+		"returnType": "(Boolean)"
+	}|*/
+	try {
+		if (module) {
+			delete require.cache[require.resolve(module)];
+			return true;
+		}
+		for (var prop in require.cache) {
+			if (!require.cache.hasOwnProperty(prop)) {
+				continue;
+			}
+			delete require.cache[prop];
+		}
+		return true;
+	} catch (e) {
+		error('clearCache', e);
+		return false;
 	}
 }
 function clusterit(options, callback){
@@ -4576,7 +4609,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 			for (var j = 0, jlen = props.length; j < jlen; j++) {
 				expression = props[j];
 				var property = $c.isFunction(vnsyntax) ? vnsyntax(expression) : vnsyntax.exec && vnsyntax.exec(expression);
-				if (!obj.hasOwnProperty(property)) { continue; }
+				if (!obj.hasOwnProperty(property) && !$c.getProperty(obj,property)) { continue; }
 				if (~template.indexOf(expression) && !isNull(objval = $c.getProperty(obj,property,null,{noInheritance:true}))) {
 					if (typeof objval == "object") {
 						objval = "fillTemplate.refs['" + __add_fillTemplate_ref(objval) + "']";
@@ -4778,19 +4811,23 @@ function header(headers, code) {
 		error('header', e);
 	}
 }
-function include(path){
+function include(path, refresh){
 	/*|{
 		"info": "Require without erroring when module does not exist.",
 		"category": "Global",
 		"parameters":[
-		{"path": "(String) Module or Path to module."}],
+			{"path": "(String) Module or Path to module."}],
 
-		"overloads":[],
+		"overloads":[
+			{"parameters":[
+	 			{"path": "(String) Module or Path to module."},
+	 			{"refresh": "(Boolean) Flag to clear cache for the specific include."}]}],
 
 		"url": "http://www.craydent.com/library/1.9.3/docs#include",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
+		if (refresh) { $c.clearCache(path); }
 		return require(path);
 	} catch (e) {
 		try {
@@ -5219,17 +5256,27 @@ function syncroit(gen) {
 	try {
 		return new Promise(function(res){
 			var geno = gen();
+			try {
+				$c.isGenerator(gen) && (function cb(value) {
+					var obj = geno.next(value);
 
-			$c.isGenerator(gen) && (function cb(value) {
-				var obj = geno.next(value);
-
-				if (!obj.done) {
-					if ($c.isPromise(obj.value)) { return obj.value.then(cb).catch(cb); }
-					setTimeout(function () { cb(obj.value); }, 0);
-				} else {
-					res($c.isNull(obj.value, value));
+					if (!obj.done) {
+						if ($c.isPromise(obj.value)) {
+							return obj.value.then(cb).catch(cb);
+						}
+						setTimeout(function () {
+							cb(obj.value);
+						}, 0);
+					} else {
+						res($c.isNull(obj.value, value));
+					}
+				})();
+			} catch(e) {
+				if (process.listenerCount('uncaughtException')) {
+					return process.emit('uncaughtException', e);
 				}
-			})();
+				throw e;
+			}
 		});
 
 	} catch (e) {
@@ -9143,8 +9190,7 @@ _ao("count", function(option){
 				var reg_str = word.toString(),
 						index = reg_str.lastIndexOf('/'),
 						options = reg_str.substring(index + 1);
-
-				word = new RegExp(word, "g"+options);
+				word = new RegExp($c.strip(reg_str,'/'), "g"+options);
 			}
 			return (this.match(word) || []).length;
 		}
@@ -10442,36 +10488,39 @@ try {
 }
 
 if (typeof JSON.parseAdvanced !== 'function') {
-	JSON.parseAdvanced = function (text, reviver) {
-		return _parseAdvanced($c.isObject(text) ? text : JSON.parse(text,reviver));
+	JSON.parseAdvanced = function (text, reviver, values) {
+		return _parseAdvanced($c.isObject(text) ? text : JSON.parse(text,reviver),null,values,0);
 	};
-	function _parseAdvanced (obj,_original) {
+	function _parseAdvanced (obj,_original,values,depth) {
 		if (!obj) { return; }
 		_original = _original || obj;
 		for (var prop in obj) {
 			if (!obj.hasOwnProperty(prop)) { continue; }
-			if (~prop.indexOf('.') && !(~$c.count(prop,/\./))) {
-				var parts = prop.split('.'),
-					name = parts[0],
-					type = parts[1],
-					value;
-
+			var nprop = $c.fillTemplate(prop.toString(), values);
+			if (~nprop.indexOf('.') && $c.count(nprop,/\./) == 1) {
+				var parts = nprop.split('.'),
+					name = parts[1],
+					type = parts[0],
+					value = $c.fillTemplate(obj[prop], values) || obj[prop];
 				if (type == "Number") {
-					value = Number(obj[prop]);
+					value = Number(value);
 				} else if (type == "Function") {
-					value = $c.tryEval(obj[prop]);
+					value = $c.tryEval(value);
 				} else if (type == "RegExp") {
-					value = new RegExp($c.strip(obj[prop], '/'));
+					value = new RegExp($c.strip(value, '/'));
 				} else if ($g[type]) {
-					value = new $g[type](obj[prop]);
-				} else if ($c.isObject(obj[prop])) {
-					value = _parseAdvanced(obj[prop],_original);
+					value = new $g[type](value);
+				} else {
+					name = nprop;
+					if ($c.isObject(value) || $c.isArray(obj[prop])) {
+						value = _parseAdvanced(value,_original,values,depth + 1);
+					}
 				}
 
 				obj[name] = value;
-				delete obj[prop];
+				name != prop && delete obj[prop];
 			} else if (prop == '$ref') {
-				var value = obj[prop],
+				var value = $c.fillTemplate(obj[prop],values),
 					hashIndex = value.indexOf('#'),
 					refobj = obj,
 					parts = value.split('#'),
@@ -10484,10 +10533,16 @@ if (typeof JSON.parseAdvanced !== 'function') {
 					}
 					return $c.getProperty(refobj, value, '/');
 				}
-				try { refobj = require(__relativePathFinder(filepath)); } catch(e) { return null; }
+				if (filepath.startsWith('/')) { filepath = process.cwd() + filepath; }
+				try { refobj = _parseAdvanced(require(__relativePathFinder(filepath,depth + 1)),null,values,depth + 1); } catch(e) { return null; }
 				return fieldpath ? $c.getProperty(refobj, fieldpath, '/') : refobj;
-			} else if ($c.isObject(obj[prop])) {
-				obj[prop] = _parseAdvanced(obj[prop],_original);
+			} else if ($c.isObject(obj[prop]) || $c.isArray(obj[prop])) {
+				obj[nprop] = _parseAdvanced(obj[prop],_original,values,depth + 1);
+			} else {
+				var value = obj[prop];
+				var newval = $c.isString(value) ? $c.fillTemplate(value, values) : value;
+				if (newval != value) { obj[prop] = value = newval; }
+				if (nprop != prop) { delete obj[prop]; obj[nprop] = value; }
 			}
 		}
 		return obj;
