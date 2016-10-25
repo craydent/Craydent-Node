@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.22                               /*/
+/*/ Craydent LLC node-v0.6.23                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.22',
+var _craydent_version = '0.6.23',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -2134,13 +2134,13 @@ function _copyWithProjection(projection, record, preserveProperties) {
 function _defineFunction (name, func, override) {
 	try {
 		var args = _getFuncArgs(func),
-			fstr = func.toString().replace(/this/g,'craydent_this'),
+			fstr = func.toString().replace(/this/g,'craydent_ctx'),
 
 		// extra code to account for when this == global
 			extra_code = "if(arguments.length == 0 && this == $c){return;}",
 			fnew = args.length === 0 || (args.length === 1 && !_trim(args[0])) ?
-				fstr.toString().replace(/(\(\s*?\)\s*?\{)/, ' (craydent_this){'+extra_code) :
-				"(" + fstr.toString().replace(/\((.*?)\)\s*?\{/, '(craydent_this,$1){'+extra_code) + ")";
+				fstr.toString().replace(/(\(\s*?\)\s*?\{)/, ' (craydent_ctx){'+extra_code) :
+				"(" + fstr.toString().replace(/\((.*?)\)\s*?\{/, '(craydent_ctx,$1){'+extra_code) + ")";
 
 		if (!override && eval("typeof("+name+")") !== "undefined") {
 			return eval("$c."+name+" = "+fnew);
@@ -2233,9 +2233,8 @@ function _endsWith () {
 		if (arguments.length < 3 && ($c.isArray(arguments[0]) || $c.isArray(arguments[1]))) {
 			args = arguments[1] || arguments[0];
 		}
-		for (var i = 0, len = args.length; i < len; i++) {
+		for (var i = typeof craydent_ctx != "undefined" ? 1 : 0, len = args.length; i < len; i++) {
 			var arg = args[i];
-			if (arg == this) { continue; }
 			if (arg == this.slice(-arg.length)) { return arg; }
 		}
 		return false;
@@ -2664,9 +2663,8 @@ function _startsWith () {
 		if (arguments.length < 3 && ($c.isArray(arguments[0]) || $c.isArray(arguments[1]))) {
 			args = arguments[1] || arguments[0];
 		}
-		for (var i = 0, len = args.length; i < len; i++) {
+		for (var i = typeof craydent_ctx != "undefined" ? 1 : 0, len = args.length; i < len; i++) {
 			var arg = args[i];
-			if (arg == this) { continue; }
 			if (arg == this.slice(0, arg.length)) { return arg; }
 		}
 		return false;
@@ -10491,10 +10489,14 @@ try {
 }
 
 if (typeof JSON.parseAdvanced !== 'function') {
-	JSON.parseAdvanced = function (text, reviver, values) {
-		return _parseAdvanced($c.isObject(text) ? text : JSON.parse(text,reviver),null,values,0);
+	JSON.parseAdvanced = function (text, reviver, values, base_path) {
+		base_path = base_path || "";
+		if (base_path && base_path.slice(-1) != "/") {
+			base_path += "/";
+		}
+		return _parseAdvanced($c.isObject(text) ? text : JSON.parse(text,reviver),null,values, base_path, 0);
 	};
-	function _parseAdvanced (obj,_original,values,depth) {
+	function _parseAdvanced (obj,_original,values,base_path,depth) {
 		if (!obj) { return; }
 		_original = _original || obj;
 		for (var prop in obj) {
@@ -10516,7 +10518,7 @@ if (typeof JSON.parseAdvanced !== 'function') {
 				} else {
 					name = nprop;
 					if ($c.isObject(value) || $c.isArray(obj[prop])) {
-						value = _parseAdvanced(value,_original,values,depth + 1);
+						value = _parseAdvanced(value,_original,values,base_path,depth + 1);
 					}
 				}
 
@@ -10536,11 +10538,17 @@ if (typeof JSON.parseAdvanced !== 'function') {
 					}
 					return $c.getProperty(refobj, value, '/');
 				}
-				if (filepath.startsWith('/')) { filepath = process.cwd() + filepath; }
-				try { refobj = _parseAdvanced(require(__relativePathFinder(filepath,depth + 1)),null,values,depth + 1); } catch(e) { return null; }
+				if (filepath.startsWith('/')) { filepath = (base_path ? "" : process.cwd()) + filepath; }
+				try {
+					refobj = _parseAdvanced(require(__relativePathFinder(base_path + filepath,depth + 1)),null,values,base_path,depth + 1);
+				} catch(e) {
+					error('JSON.parseAdvanced._parseAdvanced', e);
+					return null;
+				}
 				return fieldpath ? $c.getProperty(refobj, fieldpath, '/') : refobj;
 			} else if ($c.isObject(obj[prop]) || $c.isArray(obj[prop])) {
-				obj[nprop] = _parseAdvanced(obj[prop],_original,values,depth + 1);
+				obj[nprop] = _parseAdvanced(obj[prop],_original,values,base_path,depth + 1);
+				nprop != prop && delete obj[prop];
 			} else {
 				var value = obj[prop];
 				var newval = $c.isString(value) ? $c.fillTemplate(value, values) : value;

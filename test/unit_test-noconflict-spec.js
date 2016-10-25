@@ -33,6 +33,8 @@ describe ('No Conflict String', function () {
 		expect($c.endsWithAny("calasdfadfasdfasdfadf",['a','p','f'])).toBe("f");
 		expect($c.endsWithAny("calasdfadfasdfasdfadf",'a')).toBe(false);
 		expect($c.endsWithAny("calasdfadfasdfasdfadf",['a'])).toBe(false);
+		expect($c.endsWithAny("build","build","pull","npm")).toBe("build");
+		expect($c.endsWithAny("pull","build","pull","npm")).toBe("pull");
 	});
 	it('highlight',function(){
 		expect($c.highlight("cal",'a')).toBe("c<span class=\"chighlight\">a</span>l");
@@ -108,6 +110,8 @@ describe ('No Conflict String', function () {
 		expect($c.startsWithAny("calasdfadfasdfasdfadf",['a','c','f'])).toBe("c");
 		expect($c.startsWithAny("calasdfadfasdfasdfadf",'a')).toBe(false);
 		expect($c.startsWithAny("calasdfadfasdfasdfadf",['a'])).toBe(false);
+		expect($c.startsWithAny("build","build","pull","npm")).toBe("build");
+		expect($c.startsWithAny("pull","build","pull","npm")).toBe("pull");
 	});
 	it('strip',function(){
 		expect($c.strip("aaaaaaaaaaaacalaaaaaaaaaa",'a')).toBe("cal");

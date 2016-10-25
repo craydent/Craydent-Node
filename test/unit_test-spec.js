@@ -32,6 +32,8 @@ describe ('String', function () {
 		expect($c.endsWithAny("calasdfadfasdfasdfadf",['a','p','f'])).toBe("f");
 		expect($c.endsWithAny("calasdfadfasdfasdfadf",'a')).toBe(false);
 		expect($c.endsWithAny("calasdfadfasdfasdfadf",['a'])).toBe(false);
+		expect("build".endsWithAny("build","pull","npm")).toBe("build");
+		expect("pull".endsWithAny("build","pull","npm")).toBe("pull");
 	});
 	it('highlight',function(){
 		expect($c.highlight("cal",'a')).toBe("c<span class=\"chighlight\">a</span>l");
@@ -107,6 +109,8 @@ describe ('String', function () {
 		expect($c.startsWithAny("calasdfadfasdfasdfadf",['a','c','f'])).toBe("c");
 		expect($c.startsWithAny("calasdfadfasdfasdfadf",'a')).toBe(false);
 		expect($c.startsWithAny("calasdfadfasdfasdfadf",['a'])).toBe(false);
+		expect("build".startsWithAny("build","pull","npm")).toBe("build");
+		expect("pull".startsWithAny("poull","pull","npm")).toBe("pull");
 	});
 	it('strip',function(){
 		expect($c.strip("aaaaaaaaaaaacalaaaaaaaaaa",'a')).toBe("cal");
