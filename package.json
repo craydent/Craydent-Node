@@ -5,7 +5,7 @@
   "main": "craydent.js",
   "scripts": {
     "test": "jasmine-node test/ --color --autotest --watch craydent.js",
-    "prepublish": "node prepublish/_createReadme; git commit -m \"release for 0.6.23\";",
+    "prepublish": "node prepublish/_createReadme; git commit -m \"release for 0.6.23\"; exit 0;",
     "publish": "git push public;"
   },
   "repository": {
