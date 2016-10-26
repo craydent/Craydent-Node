@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.23                               /*/
+/*/ Craydent LLC node-v0.6.24                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.23',
+var _craydent_version = '0.6.24',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -10538,7 +10538,7 @@ if (typeof JSON.parseAdvanced !== 'function') {
 					}
 					return $c.getProperty(refobj, value, '/');
 				}
-				if (filepath.startsWith('/')) { filepath = (base_path ? "" : process.cwd()) + filepath; }
+				if (filepath.startsWith('/')) { filepath = (base_path ? "" : __dirname.replace(/\/node_modules\/craydent$/,'')) + filepath; }
 				try {
 					refobj = _parseAdvanced(require(__relativePathFinder(base_path + filepath,depth + 1)),null,values,base_path,depth + 1);
 				} catch(e) {
