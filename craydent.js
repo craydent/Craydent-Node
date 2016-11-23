@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.27                               /*/
+/*/ Craydent LLC node-v0.6.28                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.27',
+var _craydent_version = '0.6.28',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -2285,9 +2285,8 @@ function _getFuncArgs (func) {
 }
 function _getGMTOffset () {
 	try {
-		var hour = this.getHours(), uhour = this.getUTCHours();
-		hour = hour < 13 ? hour + 24 : hour;
-		return (hour < uhour ? hour + 24 : hour) - 24 - this.getUTCHours();
+		var diff = this.getHours() - this.getUTCHours();
+		return diff - (diff <= 12 ? (diff <= 0 ? (diff <= -12 ? -24:0):0):24);
 	} catch (e) {
 		error('_getGMTOffset', e);
 	}
