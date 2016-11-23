@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.6.25
+# Craydent 0.6.26
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -734,6 +734,24 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * returnData: (String) Specifies which data to return when using Promise pattern
 
 *** 
+#### _clearCache_ 
+***
+
+**Info:** Clear a module from the require cache.
+
+**Return:** (Boolean)
+
+**Parameters:**
+
+* module: (String) Single module to remove.
+
+**Overloads:**
+
+1)
+
+* None
+
+*** 
 #### _clusterit_ 
 ***
 
@@ -996,7 +1014,10 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 **Overloads:**
 
-* None
+1)
+
+* path: (String) Module or Path to module.
+* refresh: (Boolean) Flag to clear cache for the specific include.
 
 *** 
 #### _isAmaya_ 
@@ -1702,6 +1723,22 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * None
 
 *** 
+#### _writeSession_ 
+***
+
+**Info:** Writes session to filesystem to be retrieved later.
+
+**Return:** (void)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
 #### _xmlToJson_ 
 ***
 
@@ -1749,22 +1786,6 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * func: (Function) Function to make yieldable
 * context: (Mixed) Context to use to execute func.
 * callbackIndex: (Integer) Index of callback argument.
-
-*** 
-#### _writeSession_ 
-***
-
-**Info:** Writes session to filesystem to be retrieved later.
-
-**Return:** (void)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
 
 <a name='markdown-header-array'></a>
 ## Array
@@ -1911,7 +1932,7 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 1)
 
 * func: (Function) Callback function used to determine if value should be returned
-* craydent_thiss: (Mixed) Specify the context on callback function
+* craydent_ctxs: (Mixed) Specify the context on callback function
 
 *** 
 #### _group_ 
@@ -2082,6 +2103,22 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * arr: (Array) Secondary array to be joined with
 * on: (String) Condition to join on
+
+**Overloads:**
+
+* None
+
+*** 
+#### _last_ 
+***
+
+**Info:** Array class extension to retrieve the last item in the array.
+
+**Return:** (Array)
+
+**Parameters:**
+
+* None
 
 **Overloads:**
 
@@ -2811,7 +2848,7 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 1)
 
 * callback: (Function) Callback to apply to each value
-* craydent_thisObject: (Mixed) Context for the callback function
+* craydent_ctxObject: (Mixed) Context for the callback function
 
 *** 
 #### _getClass_ 
@@ -3210,7 +3247,7 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 1)
 
 * callback: (Function) Callback to apply to each value
-* craydent_thisObject: (Mixed) Context for the callback function
+* craydent_ctxObject: (Mixed) Context for the callback function
 
 *** 
 #### _merge_ 
@@ -3422,6 +3459,22 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * before: (Int) Number of characters to use before using ellipsis
 * after: (Int) Number of characters to use after the ellipsis
+
+*** 
+#### _endItWith_ 
+***
+
+**Info:** String class extension to guarantee the original string ends with the passed string
+
+**Return:** (String)
+
+**Parameters:**
+
+* ending: (String) String to end with
+
+**Overloads:**
+
+* None
 
 *** 
 #### _endsWith_ 
@@ -3694,6 +3747,22 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 **Parameters:**
 
 * None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _startItWith_ 
+***
+
+**Info:** String class extension to guarantee the original string starts with the passed string
+
+**Return:** (String)
+
+**Parameters:**
+
+* starting: (String) String to start with
 
 **Overloads:**
 

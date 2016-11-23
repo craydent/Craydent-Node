@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.25                               /*/
+/*/ Craydent LLC node-v0.6.26                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.25',
+var _craydent_version = '0.6.26',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -3024,61 +3024,114 @@ function CLI (params) {
 		"returnType": "(Cursor)"
 	}|*/
 	try {
+		params = params || {};
 		var args = process.argv, self = this;
 		self.interpreter = args[0];
-		self.scriptName = args[1];
+		self.scriptPath = args[1];
+		self.scriptName = self.scriptPath.substring(self.scriptPath.lastIndexOf('/') + 1);
 		self.name = params.name || "";
 		self.info = params.info || "";
 		self.synopsis = params.synopsis || "";
 		self.copyright = params.copyright || "";
 		self.optionsDescription = params.optionsDescription || "";
 		self.description = params.description || "";
-		self.options = params.options || [/*{
+		self.usingLabels = true;
+		self.commandName = "";
+		self.commands = params.commands || {/*
+			command:[options]
+
+	 	*/};
+		self.options = [/*{
 			option: "-c",
 			type:"string",
 			description:"",
+			default:"",
+			command:"",
 			required:false
 		}*/];
+		var _commandIndex = [];
+		if (params.options) {
+			for (var i = 0, len = params.options.length; i < len; i++) {
+				add(params.options[i]);
+			}
+		}
 		self.arguments = [];
 		self.notes = params.notes || "";
 		self.isMan = false;
-		for (var i = 2, len = args.length; i < len; i++) {
+		self.isHelp = false;
+		var cself = self, sindex = 2;
+		if (args[sindex] != "man" && self.commands[args[sindex]]) {
+			self.commandName = args[sindex++];
+			cself = self.commands[self.commandName];
+		} else if (!~_commandIndex.indexOf('*') && args[sindex] && args[sindex][0] != "-") {
+			self.commandName = "*";
+			cself = self.commands["*"];
+		}
+		for (var i = sindex, len = args.length; i < len; i++) {
 			var arg = args[i];
-			if (arg && arg.startsWith('--')) { // this is a multi char label
-				if (args[i + 1][0] == '-') {
-					self[$c.strip(arg,'-')] = true;
-					continue;
-				}
-				i++;
-				self[$c.strip(arg,'-')] = args[i];
-			} else if (arg[0] == '-') { // this is a single char label
-				var opts = $c.strip(arg,'-');
-				if (opts.length == 1) {
-					if (args[i + 1][0] == '-') {
-						self[opts] = true;
-						continue;
-					}
-					i++;
-					self[opts] = args[i];
-					continue;
-				}
-				for (var j = 0, jlen = opts.length; j < jlen; j++) {
-					self[opts[j]] = true;
-				}
-			} else { // no label
+			if (!arg || arg[0] != '-') { // no label
 				if (arg == 'man') { // requesting man
 					self.isMan = true;
 				}
+				self.usingLabels = false;
 				self.arguments.push(arg);
+			} else if (arg.startsWith('--')) { // this is a multi char label
+				if (arg == '--help') { // requesting help
+					self.isHelp = true;
+				}
+				if (!args[i + 1] || args[i + 1][0] == '-') {
+					cself[$c.strip(arg,'-')] = true;
+					continue;
+				}
+				i++;
+				cself[$c.strip(arg,'-')] = args[i];
+			} else if (arg[0] == '-') { // this is a single char label
+				var opts = $c.strip(arg,'-');
+				if (opts.length == 1) {
+					if (!args[i + 1] || args[i + 1][0] == '-') {
+						cself[opts] = true;
+						continue;
+					}
+					i++;
+					cself[opts] = args[i];
+					continue;
+				}
+				for (var j = 0, jlen = opts.length; j < jlen; j++) {
+					cself[opts[j]] = true;
+				}
 			}
 		}
 		self.isValid = function (){
 			try { validate(); return true;} catch (e) { $c.logit(e); return false;}
 		};
 		self.validate = validate;
+		function processOptions (option) {
+			if (!$c.isObject(option)) { throw "Error: Option [" + JSON.stringify(option) + "] must be an object.  Option will be ignored.";}
+			if (!option.option) { return [option]; }
+			var o = option.option.split(',');
+			if (o.length === 1) { return [option]; }
+			var arr = [];
+			for (var i = 0, len = o.length; i < len; i++) {
+				arr.push({
+					option:o[i],
+					type:option.type,
+					description:option.description,
+					default:option.default,
+					command:option.command,
+					required:option.required
+				});
+			}
+			return arr;
+		}
 		function validate () {
-			for (var i = 0, len = self.options.length; i < len; i++) {
-				var option = self.options[i], copt = $c.strip(option.option,'-');
+			var options = self.options;
+			if (self.commandName) {
+				options = self.commands[self.commandName] || [];
+			}
+
+			for (var i = 0, len = options.length; i < len; i++) {
+				var option = options[i], copt = $c.strip(option.option.split(',')[0],'-');
+				if (self[copt] === undefined) { self[copt] = self.usingLabels && self.arguments[i] || option.default; }
 				if (option.required && $c.isNull(self[copt])) {
 					throw 'Option ' + option.option + ' is required.';
 				} else if (option.type && !$c.isNull(self[copt])){
@@ -3102,29 +3155,112 @@ function CLI (params) {
 				}
 			}
 		}
-		self.add = function (opt) {
+		function add (opt) {
 			try {
-				self.options.push(opt);
+				var popt = processOptions(opt), options = self.options;
+				if (opt.command) {
+					self.commands[opt.command] = self.commands[opt.command] || [];
+					options = self.commands[opt.command];
+					_commandIndex.push(opt.command);
+				}
+				if(!self.usingLabels && self.commandName == opt.command) {
+					var val = self.arguments[options.length];
+					for (var i = 0, len = popt.length; i < len && val; i++) {
+						self[$c.strip(popt[i].option, '-')] = val;
+					}
+				}
+				options.push(opt);
 				return self;
 			} catch (e) {
 				error('CLI.add', e);
 			}
+		}
+		self.add = self.option = add;
+		self.command = function (cmd, opts) {
+			try {
+				opts = opts || [];
+				if ($c.isNull(cmd)) { throw "Command name must be provided. This operation will be ignored."; }
+				var cindexCMD = cmd;
+				if (~cmd.indexOf(' ')) { cindexCMD = cindexCMD.split(' ')[0]; }
+				_commandIndex.push(cindexCMD);
+				if (args[2] == cindexCMD) { self.commandName = cindexCMD; }
+				if (!$c.isArray(opts)) { opts = [opts]; }
+				for (var i = 0, len = opts.length; i < len; i++) {
+					var opt = opts[i];
+					if (!$c.isObject(opt)) {
+						error('CLI.command', new Error("Option [" + JSON.stringify(opt) + "] must be an object.  Option will be ignored."));
+						continue;
+					}
+					opt.command = cmd;
+					add(opt);
+				}
+				self.commands[cmd] = self.commands[cmd] || [];
+				return self;
+			} catch (e) {
+				error('CLI.command', e);
+			}
+		};
+		self.action = function (name, cb) {
+			if ($c.isFunction(name)) {
+				cb = name;
+				name = $c.last(_commandIndex);
+			}
+
+			if (self.commandName == name) { cb(args[2]); }
+			return self;
 		};
 		self.renderMan = function () {
 			try {
 				var nlinetab = "\n\t", dline = "\n\n";
-				var renderOptions = function (options) {
-					var content = "";
-					for (var i = 0, len = options.length; i < len; i++) {
-						content += nlinetab + options[i].option + " " + (options[i].type ? "(" + options[i].type + ")" : "") + "\t\t" + options[i].description + (options[i].required ? "(required)" : "");
-					}
-					return content;
-				};
+				var commands = "";
+				for (var prop in self.commands) {
+					if (!self.commands.hasOwnProperty(prop)) { continue; }
+					if (!commands) { commands = "ADDITIONAL COMMANDS" + nlinetab; }
+					commands += prop + renderOptions(self.commands[prop],'\t',nlinetab) + '\n' + nlinetab;
+				}
+				commands += "\n";
 				return "NAME" + nlinetab + self.name + (self.info ? " -- " + self.info : "") + dline +
 					"SYNOPSIS" + nlinetab + self.synopsis + dline +
 					"DESCRIPTION" + nlinetab + self.description + dline +
 					"OPTIONS" + renderOptions(self.options) + dline +
+					commands +
 					"NOTES" + nlinetab + self.notes + dline;
+			} catch (e) {
+				error('CLI.renderMan', e);
+			}
+
+		};
+		var renderOptions = function (options, extratabs) {
+			extratabs = extratabs || "";
+			var content = "", nlinetab = "\n\t";
+			for (var i = 0, len = options.length; i < len; i++) {
+				var option = options[i], optnames = (option.option || "").split(","), sep = "";
+				if (optnames.length > 1) {
+					optnames.sort(function (a, b) { return a.length - b.length; });
+					sep = ",";
+				}
+				content += nlinetab + extratabs + optnames[0] + sep + "\t\t" + (option.type ? "(" + option.type + ")" : "") + " " + option.description + (option.required ? "(required)" : "");
+				for (var j = 1, jlen = optnames.length; j < jlen; j++) {
+					if (j + 1 == jlen) { sep = ""; }
+					content += nlinetab + extratabs + optnames[j] + sep;
+				}
+			}
+			return content;
+		};
+		self.renderHelp = function () {
+			try {
+				var nlinetab = "\n\t", dline = "\n\n";
+
+				var commands = "";
+				var hasOptions = !!self.options.length;
+				for (var prop in self.commands) {
+					if (!self.commands.hasOwnProperty(prop)) { continue; }
+					commands += prop + renderOptions(self.commands[prop],'\t', nlinetab) + '\n' + nlinetab;
+					hasOptions = hasOptions || !!self.commands[prop].length;
+				}
+				return "Description: " + self.synopsis + dline +
+						"Usage: " + self.scriptName + (commands && " [command] ") + (hasOptions ? " [options] " : "") + nlinetab + commands + "\n" +
+					"Options: " + renderOptions(self.options) + dline;
 			} catch (e) {
 				error('CLI.renderMan', e);
 			}
@@ -3138,36 +3274,26 @@ function CLI (params) {
 			}
 			return new Promise(function(res,rej) {
 				try {
-					if (!command) {
-						res(false);
-					}
+					if (!command) { res(false); }
 					options = options || {};
 					options.silent = !!options.silent;
 
 					var output = '';
 					var cprocess = child.exec(command, {env: process.env, maxBuffer: 20 * 1024 * 1024}, function (err) {
 						var re = callback || (options.alwaysResolve ? res : rej);
-						if (options.outputOnly) {
-							return re(output);
-						}
-						if (callback) {
-							return re.call(cprocess, err ? err.code : 0, output);
-						}
+						if (options.outputOnly) { return re(output); }
+						if (callback) { return re.call(cprocess, err ? err.code : 0, output); }
 						re({code: err ? err.code : 0, output: output});
 					});
 
 					cprocess.stdout.on('data', function (data) {
 						output += data;
-						if (!options.silent) {
-							process.stdout.write(data);
-						}
+						if (!options.silent) { process.stdout.write(data); }
 					});
 
 					cprocess.stderr.on('data', function (data) {
 						output += data;
-						if (!options.silent) {
-							process.stdout.write(data);
-						}
+						if (!options.silent) { process.stdout.write(data); }
 					});
 				} catch (e) {
 					error('CLI.exec', e);
@@ -6289,6 +6415,25 @@ _ext(String, 'ellipsis', function (before, after) {
 		error('String.ellipsis', e);
 	}
 });
+_ext(String, 'endItWith', function (ending) {
+	/*|{
+		"info": "String class extension to guarantee the original string ends with the passed string",
+		"category": "String",
+		"parameters":[
+			{"ending": "(String) String to end with"}],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.9.3/docs#string.endItWith",
+		"returnType": "(String)"
+	}|*/
+	try {
+		if (this.slice(-(ending.length)) == ending) { return this; }
+		return this + ending;
+	} catch (e) {
+		error('String.endItWith', e);
+	}
+});
 _ext(String, 'endsWith', _endsWith);
 _ext(String, 'endsWithAny', _endsWith);
 _ext(String, 'fillTemplate', function (arr_objs, offset, max, bound) {
@@ -6516,6 +6661,8 @@ _ext(String, 'pluralize', function () {
 			str = str.slice(0,-1) + "ies";
 		} else if (str.slice(-2) == "us") {
 			str = str.slice(0,-2) + "i";
+		} else if (str.slice(-2) == "tion") {
+			str = str.slice(0,-2) + "tions";
 		} else if (str.slice(-2) == "on") {
 			str = str.slice(0,-2) + "a";
 		} else { // regular nouns
@@ -6649,6 +6796,25 @@ _ext(String, 'singularize', function () {
 		error('String.singularize', e);
 	}
 });
+_ext(String, 'startItWith', function (starting) {
+	/*|{
+		"info": "String class extension to guarantee the original string starts with the passed string",
+		"category": "String",
+		"parameters":[
+			{"starting": "(String) String to start with"}],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.9.3/docs#string.startItWith",
+		"returnType": "(String)"
+	}|*/
+	try {
+		if (this.slice(-(starting.length)) == starting) { return this; }
+		return this + starting;
+	} catch (e) {
+		error('String.startItWith', e);
+	}
+});
 _ext(String, 'startsWith', _startsWith);
 _ext(String, 'startsWithAny', _startsWith);
 _ext(String, 'strip', function(character) {
@@ -6688,13 +6854,13 @@ _ext(String, 'toDateTime', function (options) {
 		 **/
 		options = options || {};
 		var strDatetime = this;
-		if (/\d\d\d\d-\d\d-\d\d/.test(strDatetime)) {
-			strDatetime = this.replace("-","/").replace("-","/");
-		}
-		if ($c.isString(strDatetime)) {
-			strDatetime = strDatetime.replace(/(am|pm)/i,' $1');
-		}
 		var dt = new Date(strDatetime);
+		if (!dt.getDate() && /\d\d\d\d-\d\d-\d\d/.test(strDatetime)) {
+			dt = new Date(this.replace("-","/").replace("-","/"));
+		}
+		if (!dt.getDate() && $c.isString(strDatetime)) {
+			dt = new Date(strDatetime.replace(/(am|pm)/i,' $1'));
+		}
 		if (!dt.getDate()) {
 			var parts = [],
 				dtstring = this[0] == "(" ? this.substring(1,this.length-1) : this,
@@ -6728,8 +6894,8 @@ _ext(String, 'toDateTime', function (options) {
 			}
 		}
 		if (options.gmt) {
-			var offset = isNull(options.offset, _getGMTOffset.call(new Date()));
-			dt = new Date(dt.valueOf() + offset * 60*60000);
+			var offset = isNull(options.offset, _getGMTOffset.call(!dt.getDate() ? new Date() : dt));
+			dt = new Date(dt.valueOf() - offset * 60*60000);
 		}
 		return options.format ? $c.format(dt,options.format) : dt;
 	} catch (e) {
@@ -7412,6 +7578,23 @@ _ext(Array, "joinRight", function (arr, on) {
 		error('Array.joinRight', e);
 	}
 });
+_ext(Array, "last", function () {
+	/*|{
+		"info": "Array class extension to retrieve the last item in the array.",
+		"category": "Array",
+		"parameters":[],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.9.3/docs#array.last",
+		"returnType": "(Array)"
+	}|*/
+	try {
+		return this[this.length - 1];
+	} catch (e) {
+		error('Array.last', e);
+	}
+}, true);
 _ext(Array, 'limit', function(max, skip) {
 	/*|{
 		"info": "Array class extension to return a limited amount of items",
@@ -8427,8 +8610,16 @@ _ext(Date, 'format', function (format, options) {
 		 *  offset:offset from GMT
 		 **/
 		var localTimeZoneOffset = _getGMTOffset.call(this),
-			datetime = options.offset ? new Date(this.valueOf() - (options.offset + (options.offset ? -1 : 1) * localTimeZoneOffset)*60*60000) : this,
-			hour = datetime.getHours(),
+			datetime = options.offset ? new Date(this.valueOf() - (options.offset + (options.offset ? -1 : 1) * localTimeZoneOffset)*60*60000) : this;
+
+
+		if (options.gmt) {
+			datetime = new Date(datetime.valueOf() - localTimeZoneOffset*60*60000);
+			currentTimezone = "\\G\\M\\T";
+			GMTDiff = 0;
+		}
+
+		var hour = datetime.getHours(),
 			uhour = datetime.getUTCHours(),
 			minute = datetime.getMinutes(),
 			second = datetime.getSeconds(),
@@ -8594,16 +8785,8 @@ _ext(Date, 'format', function (format, options) {
 			currentTimezone = "\\"+(!ctkey ? (timezones[ct] || "") : ct).split('').join("\\"),
 			currentTimezoneLong = "\\"+(ctkey || ct).split('').join("\\"),
 			minuteWithZero = (minute < 10 ? "0" + minute : minute),
-			secondsWithZero = (second < 10 ? "0" + second : second);
-
-
-		if (options.gmt) {
-			datetime = new Date(datetime.valueOf() - localTimeZoneOffset*60*60000);
-			currentTimezone = "\\G\\M\\T";
-			GMTDiff = 0;
-		}
-
-		var date = datetime.getDate(),
+			secondsWithZero = (second < 10 ? "0" + second : second),
+			date = datetime.getDate(),
 			day = datetime.getDay(),
 			month = datetime.getMonth() + 1,
 			year = datetime.getFullYear(),
