@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.26                               /*/
+/*/ Craydent LLC node-v0.6.27                               /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.26',
+var _craydent_version = '0.6.27',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -2285,7 +2285,9 @@ function _getFuncArgs (func) {
 }
 function _getGMTOffset () {
 	try {
-		return this.getHours() - 24 - this.getUTCHours();
+		var hour = this.getHours(), uhour = this.getUTCHours();
+		hour = hour < 13 ? hour + 24 : hour;
+		return (hour < uhour ? hour + 24 : hour) - 24 - this.getUTCHours();
 	} catch (e) {
 		error('_getGMTOffset', e);
 	}
@@ -6855,7 +6857,7 @@ _ext(String, 'toDateTime', function (options) {
 		options = options || {};
 		var strDatetime = this;
 		var dt = new Date(strDatetime);
-		if (!dt.getDate() && /\d\d\d\d-\d\d-\d\d/.test(strDatetime)) {
+		if (/\d\d\d\d-\d\d-\d\d$/.test(strDatetime)) {
 			dt = new Date(this.replace("-","/").replace("-","/"));
 		}
 		if (!dt.getDate() && $c.isString(strDatetime)) {
