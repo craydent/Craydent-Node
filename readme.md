@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.6.28
+# Craydent 0.7.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -481,14 +481,18 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 2)
 
-* path: (String) Path to nested property
-* options: (Object) Options for ignoring inheritance, validPath, etc
+* path: (RegExp) Regex match for the property
 
 3)
 
 * path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
 * options: (Object) Options for ignoring inheritance, validPath, etc
+
+4)
+
+* path: (String) Path to nested property
+* delimiter: (Char) Separator used to parse path
+* options: (Object) Options for ignoring inheritance, validPathetc
 
 ### String
 

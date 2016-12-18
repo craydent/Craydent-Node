@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.6.28                               /*/
+/*/ Craydent LLC node-v0.7.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.6.28',
+var _craydent_version = '0.7.0',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -2005,7 +2005,40 @@ function _binarySearch(sarr, prop, value, sindex, eindex, findIndex){
 	if (sindex == 0 && len == sarr.length) { return sarr; }
 	return sarr.slice(sindex, eindex + len);
 }
+function _cli_exec (command, options, callback) {
+	var child = require('child_process');
+	if (typeof options == 'function') {
+		callback = options;
+		options = undefined;
+	}
+	return new Promise(function(res,rej) {
+		try {
+			if (!command) { res(false); }
+			options = options || {};
+			options.silent = !!options.silent;
 
+			var output = '';
+			var cprocess = child.exec(command, {env: process.env, maxBuffer: 20 * 1024 * 1024}, function (err) {
+				var re = callback || (options.alwaysResolve ? res : rej);
+				if (options.outputOnly) { return re(output); }
+				if (callback) { return re.call(cprocess, err ? err.code : 0, output); }
+				re({code: err ? err.code : 0, output: output});
+			});
+
+			cprocess.stdout.on('data', function (data) {
+				output += data;
+				if (!options.silent) { process.stdout.write(data); }
+			});
+
+			cprocess.stderr.on('data', function (data) {
+				output += data;
+				if (!options.silent) { process.stdout.write(data); }
+			});
+		} catch (e) {
+			error('CLI.exec', e);
+		}
+	});
+}
 function _condense (objs, check_values) {
 	try {
 		var skip = [], arr = [], without = false;
@@ -2694,8 +2727,9 @@ function _subFieldHelper(obj, operands) {
 	}
 }
 
-function _subQuery(query, field, index) {
+function _subQuery(query, field, index ,_whereRefs) {
 	try {
+		_whereRefs = _whereRefs || [];
 		if (!$c.isObject(query)) {
 			if (~field.indexOf('.')) { return "$c.equals($c.getProperty(record.'" + field + "'), " + $c.parseRaw(query) + ")";}
 			return "$c.equals(record['" + field + "'], " + $c.parseRaw(query) + ")";
@@ -2754,7 +2788,11 @@ function _subQuery(query, field, index) {
 					expression += " && (values = _qnp(record, '" + field + "')[0]),($c.isArray(values) ? (" + ival + " === values.length) : (values == undefined && 0 === " + ival + "))";
 					break;
 				case "$where":
-					var val = "(" + ($c.isFunction(query['$where']) ? query['$where'].toString() : "function(){return (" + query['$where'] + ");}") + ")";
+					var isfunc = $c.isFunction(query['$where']);
+					if (isfunc) {
+						_whereRefs.push(query['$where']);
+					}
+					var val = "(" + (isfunc ? "__where_cb" + _whereRefs.length : "function(){return (" + query['$where'] + ");}") + ")";
 					expression += " && " + val + ".call(record)";
 					break;
 				case "$elemMatch":
@@ -2767,7 +2805,7 @@ function _subQuery(query, field, index) {
 					if (prop == "$nor") { nor = "!"; }
 					expression += " && " + nor + "(";
 					while (or = ors[o++]) {
-						expression += "(" + _subQuery(or, field, index) + ") || ";
+						expression += "(" + _subQuery(or, field, index, _whereRefs) + ") || ";
 					}
 					expression += "false)";
 
@@ -2777,7 +2815,7 @@ function _subQuery(query, field, index) {
 					if (!$c.isArray(ands)) { return false; }
 					expression += " && (";
 					while (and = ands[a++]) {
-						expression += "(" + _subQuery(and, field, index) + ") && ";
+						expression += "(" + _subQuery(and, field, index, _whereRefs) + ") && ";
 					}
 					expression += "true)";
 
@@ -2788,7 +2826,7 @@ function _subQuery(query, field, index) {
 						break;
 					}
 
-					expression += " && !(" + _subQuery(query[prop],field) + ")";
+					expression += " && !(" + _subQuery(query[prop],field,null,_whereRefs) + ")";
 					break;
 
 				case "$in":
@@ -2796,7 +2834,7 @@ function _subQuery(query, field, index) {
 					expression += " && " + (prop == "$nin" ? "!" : "") + "((values = _qnp(record, '" + field + "')[0]),$c.contains(" + $c.parseRaw(query[prop]) + ",values))";
 					break;
 				default:
-					expression += " && " + _subQuery(query[prop], $c.replace_all(prop,'\'','\\\''));
+					expression += " && " + _subQuery(query[prop], $c.replace_all(prop,'\'','\\\''),null,_whereRefs);
 					break;
 			}
 		}
@@ -3026,23 +3064,25 @@ function CLI (params) {
 	}|*/
 	try {
 		params = params || {};
-		var args = process.argv, self = this;
-		self.interpreter = args[0];
-		self.scriptPath = args[1];
-		self.scriptName = self.scriptPath.substring(self.scriptPath.lastIndexOf('/') + 1);
-		self.name = params.name || "";
-		self.info = params.info || "";
-		self.synopsis = params.synopsis || "";
-		self.copyright = params.copyright || "";
-		self.optionsDescription = params.optionsDescription || "";
-		self.description = params.description || "";
-		self.usingLabels = true;
-		self.commandName = "";
-		self.commands = params.commands || {/*
+		var args = process.argv, self = this, cself = self, sindex = 2,
+			_commandIndex = [], _command_possible = args[sindex], _command_removed = false;
+		self.Interpreter = args[0];
+		self.ScriptPath = args[1];
+		self.ScriptName = self.ScriptPath.substring(self.ScriptPath.lastIndexOf('/') + 1);
+		self.Name = params.name || "";
+		self.Info = params.info || "";
+		self.Synopsis = params.synopsis || "";
+		self.Copyright = params.copyright || "";
+		self.OptionsDescription = params.optionsDescription || "";
+		self.Description = params.description || "";
+		self.UsingLabels = true;
+		self.CommandName = "";
+		self.Commands = params.commands || {/*
 			command:[options]
 
 	 	*/};
-		self.options = [/*{
+		self.Commands['*'] = self.Commands['*'] || [];
+		self.Options = [/*{
 			option: "-c",
 			type:"string",
 			description:"",
@@ -3050,32 +3090,42 @@ function CLI (params) {
 			command:"",
 			required:false
 		}*/];
-		var _commandIndex = [];
 		if (params.options) {
 			for (var i = 0, len = params.options.length; i < len; i++) {
 				add(params.options[i]);
 			}
 		}
-		self.arguments = [];
-		self.notes = params.notes || "";
+		self.Arguments = [];
+		self.Notes = params.notes || "";
 		self.isMan = false;
 		self.isHelp = false;
-		var cself = self, sindex = 2;
-		if (args[sindex] != "man" && self.commands[args[sindex]]) {
-			self.commandName = args[sindex++];
-			cself = self.commands[self.commandName];
-		} else if (!~_commandIndex.indexOf('*') && args[sindex] && args[sindex][0] != "-") {
-			self.commandName = "*";
-			cself = self.commands["*"];
+
+		if (args[sindex] != "man" && self.Commands[args[sindex]]) {
+			self.CommandName = args[sindex++];
+		} else if (!~_commandIndex.indexOf('*') && args[sindex] && args[sindex][0] == "-") {
+			self.CommandName = "*";
+		} else {
+			self.CommandName = args[sindex] || "*";
+		}
+
+		if (self.CommandName == 'man') { // requesting man
+			self.isMan = true;
+		}
+		if (self.CommandName == 'help') { // requesting man
+			self.isHelp = true;
 		}
 		for (var i = sindex, len = args.length; i < len; i++) {
 			var arg = args[i];
-			if (!arg || arg[0] != '-') { // no label
+			if (!arg || arg[sindex] != '-' && arg[0] != '-') { // no label
 				if (arg == 'man') { // requesting man
 					self.isMan = true;
 				}
-				self.usingLabels = false;
-				self.arguments.push(arg);
+				if (arg == 'help') { // requesting man
+					self.isHelp = true;
+				}
+				self.UsingLabels = false;
+				self.CommandName = "*";
+				self.Arguments.push(arg);
 			} else if (arg.startsWith('--')) { // this is a multi char label
 				if (arg == '--help') { // requesting help
 					self.isHelp = true;
@@ -3106,33 +3156,37 @@ function CLI (params) {
 			try { validate(); return true;} catch (e) { $c.logit(e); return false;}
 		};
 		self.validate = validate;
-		function processOptions (option) {
+		function processOptions (option, value) {
+			value = value || {};
 			if (!$c.isObject(option)) { throw "Error: Option [" + JSON.stringify(option) + "] must be an object.  Option will be ignored.";}
 			if (!option.option) { return [option]; }
 			var o = option.option.split(',');
 			if (o.length === 1) { return [option]; }
 			var arr = [];
 			for (var i = 0, len = o.length; i < len; i++) {
+				var prop = $c.strip(o[i], '-');
+				if (prop != "name" && self[prop]) { value.value = self[prop]; }
 				arr.push({
 					option:o[i],
 					type:option.type,
 					description:option.description,
 					default:option.default,
 					command:option.command,
-					required:option.required
+					required:option.required,
+					_property: prop
 				});
 			}
 			return arr;
 		}
 		function validate () {
-			var options = self.options;
-			if (self.commandName) {
-				options = self.commands[self.commandName] || [];
+			var options = self.Options;
+			if (self.CommandName) {
+				options = self.Commands[self.CommandName] || [];
 			}
 
 			for (var i = 0, len = options.length; i < len; i++) {
 				var option = options[i], copt = $c.strip(option.option.split(',')[0],'-');
-				if (self[copt] === undefined) { self[copt] = self.usingLabels && self.arguments[i] || option.default; }
+				if (self[copt] === undefined) { self[copt] = self.UsingLabels && self.Arguments[i] || option.default; }
 				if (option.required && $c.isNull(self[copt])) {
 					throw 'Option ' + option.option + ' is required.';
 				} else if (option.type && !$c.isNull(self[copt])){
@@ -3158,16 +3212,29 @@ function CLI (params) {
 		}
 		function add (opt) {
 			try {
-				var popt = processOptions(opt), options = self.options;
-				if (opt.command) {
-					self.commands[opt.command] = self.commands[opt.command] || [];
-					options = self.commands[opt.command];
-					_commandIndex.push(opt.command);
+				opt.command = opt.command || "*";
+				var value = {}, popt = processOptions(opt, value), options = self.Options;
+				options = self.Commands[opt.command] = self.Commands[opt.command] || [];
+				_commandIndex.push(opt.command);
+				if (!$c.isNull(_command_possible) && _command_possible == opt.command) {
+					for (var i = 0, len = self.Commands['*'].length; i < len; i++) {
+						var topt = processOptions(self.Commands['*'][i]);
+
+						for (var j = 0, jlen = topt.length; j < jlen; j++) {
+							delete self[topt[j]._property];
+						}
+					}
+					self.CommandName = _command_possible;
+					_command_possible = null;
 				}
-				if(!self.usingLabels && self.commandName == opt.command) {
-					var val = self.arguments[options.length];
-					for (var i = 0, len = popt.length; i < len && val; i++) {
-						self[$c.strip(popt[i].option, '-')] = val;
+				if(self.CommandName == opt.command) {
+					if (self.Arguments[0] == self.CommandName && !_command_removed) {
+						_command_removed = true;
+						self.Arguments.splice(0,1);
+					}
+					var val = !self.UsingLabels && self.Arguments[options.length] || value.value || opt.default;
+					for (var i = 0, len = popt.length; i < len && !$c.isNull(val); i++) {
+						self[popt[i]._property] = val;
 					}
 				}
 				options.push(opt);
@@ -3181,10 +3248,9 @@ function CLI (params) {
 			try {
 				opts = opts || [];
 				if ($c.isNull(cmd)) { throw "Command name must be provided. This operation will be ignored."; }
-				var cindexCMD = cmd;
-				if (~cmd.indexOf(' ')) { cindexCMD = cindexCMD.split(' ')[0]; }
+				var cindexCMD = cmd.split(/\s/)[0];
 				_commandIndex.push(cindexCMD);
-				if (args[2] == cindexCMD) { self.commandName = cindexCMD; }
+				if (args[2] == cindexCMD) { self.CommandName = cindexCMD; }
 				if (!$c.isArray(opts)) { opts = [opts]; }
 				for (var i = 0, len = opts.length; i < len; i++) {
 					var opt = opts[i];
@@ -3195,37 +3261,43 @@ function CLI (params) {
 					opt.command = cmd;
 					add(opt);
 				}
-				self.commands[cmd] = self.commands[cmd] || [];
+				self.Commands[cmd] = self.Commands[cmd] || [];
 				return self;
 			} catch (e) {
 				error('CLI.command', e);
 			}
 		};
 		self.action = function (name, cb) {
-			if ($c.isFunction(name)) {
+			if ($c.isFunction(name) || $c.isGenerator(name)) {
 				cb = name;
 				name = $c.last(_commandIndex);
 			}
 
-			if (self.commandName == name) { cb(args[2]); }
+			if (self.CommandName == name) {
+				if ($c.isGenerator(cb)) {
+					eval('$c.syncroit(function*(){ return yield* cb.call(self,args[2]); });');
+				} else {
+					cb.call(self, args[2]);
+				}
+			}
 			return self;
 		};
 		self.renderMan = function () {
 			try {
 				var nlinetab = "\n\t", dline = "\n\n";
 				var commands = "";
-				for (var prop in self.commands) {
-					if (!self.commands.hasOwnProperty(prop)) { continue; }
+				for (var prop in self.Commands) {
+					if (!self.Commands.hasOwnProperty(prop)) { continue; }
 					if (!commands) { commands = "ADDITIONAL COMMANDS" + nlinetab; }
-					commands += prop + renderOptions(self.commands[prop],'\t',nlinetab) + '\n' + nlinetab;
+					commands += prop + renderOptions(self.Commands[prop],'\t',nlinetab) + '\n' + nlinetab;
 				}
 				commands += "\n";
-				return "NAME" + nlinetab + self.name + (self.info ? " -- " + self.info : "") + dline +
-					"SYNOPSIS" + nlinetab + self.synopsis + dline +
-					"DESCRIPTION" + nlinetab + self.description + dline +
-					"OPTIONS" + renderOptions(self.options) + dline +
+				return "NAME" + nlinetab + self.Name + (self.Info ? " -- " + self.Info : "") + dline +
+					"SYNOPSIS" + nlinetab + self.Synopsis + dline +
+					"DESCRIPTION" + nlinetab + self.Description + dline +
+					"OPTIONS" + renderOptions(self.Options) + dline +
 					commands +
-					"NOTES" + nlinetab + self.notes + dline;
+					"NOTES" + nlinetab + self.Notes + dline;
 			} catch (e) {
 				error('CLI.renderMan', e);
 			}
@@ -3253,59 +3325,27 @@ function CLI (params) {
 				var nlinetab = "\n\t", dline = "\n\n";
 
 				var commands = "";
-				var hasOptions = !!self.options.length;
-				for (var prop in self.commands) {
-					if (!self.commands.hasOwnProperty(prop)) { continue; }
-					commands += prop + renderOptions(self.commands[prop],'\t', nlinetab) + '\n' + nlinetab;
-					hasOptions = hasOptions || !!self.commands[prop].length;
+				var hasOptions = !!self.Options.length;
+				for (var prop in self.Commands) {
+					if (!self.Commands.hasOwnProperty(prop)) { continue; }
+					commands += prop + renderOptions(self.Commands[prop],'\t', nlinetab) + '\n' + nlinetab;
+					hasOptions = hasOptions || !!self.Commands[prop].length;
 				}
-				return "Description: " + self.synopsis + dline +
-						"Usage: " + self.scriptName + (commands && " [command] ") + (hasOptions ? " [options] " : "") + nlinetab + commands + "\n" +
-					"Options: " + renderOptions(self.options) + dline;
+				return "Description: " + self.Synopsis + dline +
+						"Usage: " + self.ScriptName + (commands && " [command] ") + (hasOptions ? " [options] " : "") + nlinetab + commands + "\n" +
+					"Options: " + renderOptions(self.Options) + dline;
 			} catch (e) {
 				error('CLI.renderMan', e);
 			}
 
 		};
-		self.exec = function (command, options, callback) {
-			var child = require('child_process');
-			if (typeof options == 'function') {
-				callback = options;
-				options = undefined;
-			}
-			return new Promise(function(res,rej) {
-				try {
-					if (!command) { res(false); }
-					options = options || {};
-					options.silent = !!options.silent;
-
-					var output = '';
-					var cprocess = child.exec(command, {env: process.env, maxBuffer: 20 * 1024 * 1024}, function (err) {
-						var re = callback || (options.alwaysResolve ? res : rej);
-						if (options.outputOnly) { return re(output); }
-						if (callback) { return re.call(cprocess, err ? err.code : 0, output); }
-						re({code: err ? err.code : 0, output: output});
-					});
-
-					cprocess.stdout.on('data', function (data) {
-						output += data;
-						if (!options.silent) { process.stdout.write(data); }
-					});
-
-					cprocess.stderr.on('data', function (data) {
-						output += data;
-						if (!options.silent) { process.stdout.write(data); }
-					});
-				} catch (e) {
-					error('CLI.exec', e);
-				}
-			});
-		};
+		self.exec = _cli_exec;
 		return self;
 	} catch (e) {
 		error('CLI', e);
 	}
 }
+CLI.exec = _cli_exec;
 
 /*----------------------------------------------------------------------------------------------------------------
  /-	Collection class
@@ -4682,7 +4722,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 			fillTemplate.declared = {};
 			fillTemplate.refs = [];
 		}
-		if (!htmlTemplate) { return ""; }
+		if (!htmlTemplate || !$c.isString(htmlTemplate)) { return ""; }
 		if ($c.isObject(offset)) {
 			max = offset.max || 0;
 			newlineToHtml = isNull(offset.newlineToHtml, true);
@@ -7144,12 +7184,19 @@ _ext(Array, 'delete', function(condition, justOne) {
 			return true;
 		};
 
-		var ifblock = _subQuery(condition), func = "(function (record,i) {"+
+		var _refs = [], ifblock = _subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
 			"	var values,finished;" +
 			"	if ("+ifblock+") {" +
 			"		if(!cb.call(thiz,record,i)) { throw 'keep going'; }" +
 			"	}" +
 			"})";
+		if (_refs.length) {
+			var varStrings = "";
+			for (var i = 0, len = _refs.length; i < len; i++) {
+				varStrings += "var __where_cb" + (i+1) + "=_refs["+i+"];"
+			}
+			eval(varStrings);
+		}
 		try {
 			this.filter(eval(func));
 		} catch(e) {
@@ -7393,12 +7440,19 @@ _ext(Array, 'group', function(params, removeProps) {
 			_clte = _contains_lessthanequal,
 			_cgt = _contains_greaterthan,
 			_cgte = _contains_greaterthanequal,
-			_ct = _contains_type, _cm = _contains_mod, ifblock = _subQuery(condition), func = "(function (record,i) {"+
+			_ct = _contains_type, _cm = _contains_mod, _refs = [], ifblock = _subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
 			"	var values,finished;" +
 			"	if ("+ifblock+") {" +
 			"		if(!cb.call(thiz,record,i)) { throw 'keep going'; }" +
 			"	}" +
 			"})";
+		if (_refs.length) {
+			var varStrings = "";
+			for (var i = 0, len = _refs.length; i < len; i++) {
+				varStrings += "var __where_cb" + (i+1) + "=_refs["+i+"];"
+			}
+			eval(varStrings);
+		}
 		try {
 			var rarr = this.filter(eval(func));
 		} catch(e) {
@@ -7775,10 +7829,7 @@ _ext(Array, 'parallelEach', function (gen, args) {
 			return new Promise(function (res, rej) {
 				for (var i = 0; i < len; i++) {
 					if (isgen) {
-						$c.syncroit(function*(){
-							results[i] = yield* gen.call(self, arr[i],i);
-							if (++completed == len) { res(results); }
-						});
+						eval('$c.syncroit(function*(){ results[i] = yield* gen.call(self, arr[i],i); if (++completed == len) { res(results); } });');
 					} else if (isfunc) {
 						results[i] = gen.call(self,arr[i],i);
 						if (++completed == len) { res(results); }
@@ -8146,7 +8197,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
 			_clte = _contains_lessthanequal,
 			_cgt = _contains_greaterthan,
 			_cgte = _contains_greaterthanequal,
-			_ct = _contains_type, _cm = _contains_mod, ifblock = _subQuery(condition), func = "(function (record,i) {"+
+			_ct = _contains_type, _cm = _contains_mod, _refs= [], ifblock = _subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
 			"	var values,finished;" +
 			"	if ("+ifblock+") {" +
 			"		if(!cb.call(thiz,record,i)) { throw 'keep going'; }" +
@@ -8308,6 +8359,13 @@ _ext(Array, 'update', function(condition, setClause, options) {
 
 			return  !!options.multi;
 		};
+		if (_refs.length) {
+			var varStrings = "";
+			for (var i = 0, len = _refs.length; i < len; i++) {
+				varStrings += "var __where_cb" + (i+1) + "=_refs["+i+"];"
+			}
+			eval(varStrings);
+		}
 		try {
 			this.filter(eval(func));
 		} catch(e) {
@@ -8392,12 +8450,19 @@ _ext(Array, 'upsert', function(records, prop, callback) {
 			_clte = _contains_lessthanequal,
 			_cgt = _contains_greaterthan,
 			_cgte = _contains_greaterthanequal,
-			_ct = _contains_type, _cm = _contains_mod, ifblock = _subQuery(condition), func = "(function (record,i) {"+
+			_ct = _contains_type, _cm = _contains_mod, _refs = [], ifblock = _subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
 			"	var values,finished;" +
 			"	if ("+ifblock+") {" +
 			"		cb(record,i);" +
 			"	}" +
 			"})";
+		if (_refs.length) {
+			var varStrings = "";
+			for (var i = 0, len = _refs.length; i < len; i++) {
+				varStrings += "var __where_cb" + (i+1) + "=_refs["+i+"];"
+			}
+			eval(varStrings);
+		}
 		this.filter(eval(func));
 
 		for (var i = 0, len = ids.length; i < len; i++) {
@@ -8564,11 +8629,19 @@ _ext(Array, 'where', function(condition, projection, limit) {
 			return arr;
 		}
 
-		var arr = [], rarr;
-		var ifblock = _subQuery(condition),
+		var arr = [], rarr, _refs = [];
+		var ifblock = _subQuery(condition,null,null,_refs),
 			func = eval("(function (record) {var values;" +
 				(limit ? "if (arr.length == limit) { throw 'keep going'; } " : "") +
 				"return " + (useReference ? ifblock : ifblock + " && arr.push(_copyWithProjection(projection, record))") + ";})");
+
+		if (_refs.length) {
+			var varStrings = "";
+			for (var i = 0, len = _refs.length; i < len; i++) {
+				varStrings += "var __where_cb" + (i+1) + "=_refs["+i+"];"
+			}
+			eval(varStrings);
+		}
 		try {
 			rarr = this.filter(func);
 		} catch(e) {
@@ -8801,7 +8874,10 @@ _ext(Date, 'format', function (format, options) {
 			threeLetterDay = ['\\S\\u\\n','\\M\\o\\n','\\T\\u\\e\\s','\\W\\e\\d','\\T\\h\\u','\\F\\r\\i', '\\S\\a\\t'][day],
 			threeLetterMonth = ['\\J\\a\\n','\\F\\e\\b','\\M\\a\\r','\\A\\p\\r','\\M\\a\\y','\\J\\u\\n','\\J\\u\\l','\\A\\u\\g','\\S\\e\\p','\\O\\c\\t','\\N\\o\\v','\\D\\e\\c'][month - 1],
 			hour24 = (hour < 10 ? "0" + hour : hour),
-			GMTDiffFormatted = (GMTDiff > 0 ? "+" : "-") + (Math.abs(GMTDiff) < 10 ? "0" : "") + Math.abs(GMTDiff) + "00";
+			GMTDiffFormatted = (GMTDiff > 0 ? "+" : "-") + (Math.abs(GMTDiff) < 10 ? "0" : "") + Math.abs(GMTDiff) + "00",
+			hr = hour < 10 ? "0" + hour : (hour > 12 && hour - 12 < 10) ? "0" + (hour - 12) : hour - 12;
+
+		hr = hr == 0 ? 12: hr;
 
 		// Double replace is used to fix concecutive character bug
 		return format.
@@ -8862,7 +8938,7 @@ _ext(Date, 'format', function (format, options) {
 		//replace all G's with 24-hour format of an hour without leading zeros
 		/*option G*/replace(/([^\\])G|^G/g, '$1' + hour).replace(/([^\\])G|^G/g, '$1' + hour).
 		//replace all h's with 12-hour format of an hour with leading zeros
-		/*option h*/replace(/([^\\])h|^h/g, '$1' + (hour < 10 ? "0" + hour : (hour > 12 && hour - 12 < 10) ? "0" + (hour - 12) : hour)).replace(/([^\\])h|^h/g, '$1' + (hour < 10 ? "0" + hour : (hour > 12 && hour - 12 < 10) ? "0" + (hour - 12) : hour)).
+		/*option h*/replace(/([^\\])h|^h/g, '$1' + hr).replace(/([^\\])h|^h/g, '$1' + hr).
 		//replace all H's with 24-hour format of an hour with leading zeros
 		/*option H or %H*/replace(/([^\\])%H|^%H|([^\\])H|^H/g, '$1$2' + hour24).replace(/([^\\])%H|^%H|([^\\])H|^H/g, '$1$2' + hour24).
 		//replace all i's with Minutes with leading zeros
@@ -9524,18 +9600,29 @@ _ao("getProperty", function (path, delimiter, options) {
 				{"delimiter": "(Char) Separator used to parse path"}]},
 
 			{"parameters":[
+				{"path": "(RegExp) Regex match for the property"}]},
+
+	 		{"parameters":[
 				{"path": "(String) Path to nested property"},
 				{"options": "(Object) Options for ignoring inheritance, validPath, etc"}]},
 
 			{"parameters":[
 				{"path": "(String) Path to nested property"},
 				{"delimiter": "(Char) Separator used to parse path"},
-				{"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+				{"options": "(Object) Options for ignoring inheritance, validPathetc"}]}],
 
 		"url": "http://www.craydent.com/library/1.9.3/docs#object.getProperty",
 		"returnType": "(Mixed)"
 	}|*/
 	try {
+		if ($c.isRegExp(path)) {
+			for (var prop in this) {
+				if(!this.hasOwnProperty(prop)){ continue; }
+				if (path.test(prop)) { return this[prop]; }
+			}
+			return undefined;
+		}
+
 		if ($c.isObject(delimiter)) {
 			options = delimiter;
 			delimiter = undefined;
@@ -10675,12 +10762,20 @@ try {
 if (typeof JSON.parseAdvanced !== 'function') {
 	JSON.parseAdvanced = function (text, reviver, values, base_path) {
 		base_path = base_path || "";
+		var err;
+		try { text = JSON.parse(text, reviver) || text; } catch (e) { err = e; }
+		if (!$c.isObject(text)) {
+			base_path = text.substring(0,text.lastIndexOf('/'));
+			text = $c.include(__relativePathFinder(text));
+			if (!text) { throw err; }
+		}
 		if (base_path && base_path.slice(-1) != "/") {
 			base_path += "/";
 		}
-		return _parseAdvanced($c.isObject(text) ? text : JSON.parse(text,reviver),null,values, base_path, 0);
+		return _parseAdvanced(text, null, values, base_path, 0);
 	};
-	function _parseAdvanced (obj,_original,values,base_path,depth) {
+	function _parseAdvanced (obj,_original,values,base_path,depth, _parent, _current_path) {
+		_current_path = _current_path || base_path || "";
 		if (!obj) { return; }
 		_original = _original || obj;
 		for (var prop in obj) {
@@ -10702,7 +10797,7 @@ if (typeof JSON.parseAdvanced !== 'function') {
 				} else {
 					name = nprop;
 					if ($c.isObject(value) || $c.isArray(obj[prop])) {
-						value = _parseAdvanced(value,_original,values,base_path,depth + 1);
+						value = _parseAdvanced(value,_original,values,base_path,depth + 1,obj, _current_path + "/" + prop);
 					}
 				}
 
@@ -10719,21 +10814,33 @@ if (typeof JSON.parseAdvanced !== 'function') {
 					value = value.substring(1);
 					if (value[0] == "/") {
 						refobj = _original;
+					} else if (!$c.startsWith(value,"../")) {
+						refobj = _parent;
+					} else {
+						var refpath = _current_path;
+						while ($c.startsWith(value,"../")) {
+							value = value.substring(3);
+							refpath = refpath.substring(0,refpath.lastIndexOf("/"));
+							if (!refpath) { return undefined; }
+						}
 					}
 					return $c.getProperty(refobj, value, '/');
 				}
-				if (filepath.startsWith('/')) { filepath = (base_path ? "" : __dirname.replace(/\/node_modules\/craydent$/,'')) + filepath; }
+				if (filepath.startsWith('/')) {
+					var pkg = require("./package.json");
+					filepath = (base_path ? "" : __dirname.replace(new RegExp("/node_modules/"+pkg.name+"$"),'')) + filepath;
+				}
 				try {
 					var module = __relativePathFinder(base_path + filepath,depth + 1);
 					$c.clearCache(module);
-					refobj = _parseAdvanced(require(module),null,values,base_path,depth + 1);
+					refobj = _parseAdvanced(require(module),null,values,base_path,depth + 1,obj,_current_path + "/" + prop);
 				} catch(e) {
 					error('JSON.parseAdvanced._parseAdvanced', e);
 					return null;
 				}
 				return fieldpath ? $c.getProperty(refobj, fieldpath, '/') : refobj;
 			} else if ($c.isObject(obj[prop]) || $c.isArray(obj[prop])) {
-				obj[nprop] = _parseAdvanced(obj[prop],_original,values,base_path,depth + 1);
+				obj[nprop] = _parseAdvanced(obj[prop],_original,values,base_path,depth + 1,obj,_current_path + "/" + prop);
 				nprop != prop && delete obj[prop];
 			} else {
 				var value = obj[prop];
@@ -10744,4 +10851,32 @@ if (typeof JSON.parseAdvanced !== 'function') {
 		}
 		return obj;
 	}
+}
+if (typeof JSON.stringifyAdvanced !== 'function') {
+	JSON.stringifyAdvanced = function (obj, replacer, space) {
+		return JSON.stringify(_stringifyAdvanced (obj), replacer, space);
+	};
+	function _stringifyAdvanced (obj, _nobj ,_objs, _paths, _cpath) {
+		_nobj = _nobj || ($c.isObject(obj) ? {}: ($c.isArray(obj) ? [] : obj));
+		_objs = _objs || [obj];
+		_paths = _paths || ["/"];
+		_cpath = _cpath || "";
+		for (var prop in obj) {
+			if (!obj.hasOwnProperty(prop)) { continue; }
+			var val = obj[prop];
+			if ($c.isObject(obj[prop]) || $c.isArray(obj[prop])){
+				var index;
+				if (~(index = _objs.indexOf(obj[prop]))) {
+					val = { "$ref":"#" + _paths[index] };
+				} else {
+					_objs.push(obj[prop]);
+					_paths.push(_cpath + "/" + prop);
+					val = _stringifyAdvanced(obj[prop], ($c.isObject(obj[prop]) ? {} : []), _objs, _paths, "/" + prop);
+				}
+			}
+			$c.setProperty(_nobj, "/" + prop, val, '/');
+		}
+		return _nobj;
+	}
+
 }

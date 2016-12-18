@@ -1192,6 +1192,9 @@ describe ('No Conflict Array', function () {
 			{id:3,p:"30",share:"shared", index: 30,std:4}]);
 		expect($c.where(arrObjs,{$where:function(){ return this.index < 20;}})).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4}]);
+		var tempValue = 20;
+		expect($c.where(arrObjs,{$where:function(){ return this.index < tempValue;}})).toEqual([
+			{id:1,p:"10",share:"shared", index: 10,std:4}]);
 		expect($c.where(arrObjs,function(){ return this.index < 20;})).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4}]);
 		expect($c.where([{id:1,p:"10",share:"shared", index: 10,std:4,tags:['a','b']}],{tags:{$all:['b','a']}})).toEqual([

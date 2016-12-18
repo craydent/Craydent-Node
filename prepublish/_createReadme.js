@@ -1,3 +1,12 @@
+#!/usr/bin/env node
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.7.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+
 var fs = require('fs'),
 	Craydent = require('../craydent'),
 	instC = new Craydent({headers:{host:"",cookie:""},url:"",connection:{encrypted:""}}),
