@@ -1,5 +1,5 @@
 {
-  "name": "@craydent/craydent",
+  "name": "craydent",
   "version": "0.7.1",
   "description": "node library based on craydent-1.9.3",
   "main": "craydent.js",
