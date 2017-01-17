@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.7.0                                /*/
+/*/ Craydent LLC node-v0.7.1                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.7.0',
+var _craydent_version = '0.7.1',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -2019,7 +2019,7 @@ function _cli_exec (command, options, callback) {
 
 			var output = '';
 			var cprocess = child.exec(command, {env: process.env, maxBuffer: 20 * 1024 * 1024}, function (err) {
-				var re = callback || (options.alwaysResolve ? res : rej);
+				var re = callback || (!err || options.alwaysResolve ? res : rej);
 				if (options.outputOnly) { return re(output); }
 				if (callback) { return re.call(cprocess, err ? err.code : 0, output); }
 				re({code: err ? err.code : 0, output: output});
@@ -3190,7 +3190,7 @@ function CLI (params) {
 				if (option.required && $c.isNull(self[copt])) {
 					throw 'Option ' + option.option + ' is required.';
 				} else if (option.type && !$c.isNull(self[copt])){
-					switch (option.type.toLocaleLowerCase()) {
+					switch (option.type.toLowerCase()) {
 						case "number":
 							self[copt] = isNaN(Number(self[copt])) ? self[copt] : Number(self[copt]);
 							break;
@@ -3234,7 +3234,23 @@ function CLI (params) {
 					}
 					var val = !self.UsingLabels && self.Arguments[options.length] || value.value || opt.default;
 					for (var i = 0, len = popt.length; i < len && !$c.isNull(val); i++) {
-						self[popt[i]._property] = val;
+						var v = val;
+						switch (popt[i].type.toLowerCase()) {
+							case "number":
+								v = Number(v);
+								v = isNaN(v) ? Number(popt[i].default) : v;
+								break;
+							case "array":
+							case "object":
+								v = $c.tryEval(v,JSON.parse) || v;
+								break;
+							case "bool":
+							case "boolean":
+								var tmp = $c.parseBoolean(v);
+								v =  $c.isNull(tmp) ? v : tmp;
+								break;
+						}
+						self[popt[i]._property] = v;
 					}
 				}
 				options.push(opt);
@@ -7824,12 +7840,13 @@ _ext(Array, 'parallelEach', function (gen, args) {
 			args = [];
 		}
 		var len = arr.length, results = Array(len), completed = 0;
+		if (!len) { return new Promise(function (res) { res(results); }); }
 		if (gen) {
 			var isgen = $c.isGenerator(gen), isfunc = $c.isFunction(gen);
 			return new Promise(function (res, rej) {
 				for (var i = 0; i < len; i++) {
 					if (isgen) {
-						eval('$c.syncroit(function*(){ results[i] = yield* gen.call(self, arr[i],i); if (++completed == len) { res(results); } });');
+						eval('$c.syncroit(function*(){ results[' + i + '] = yield* gen.call(self, arr[' + i + '],' + i + '); if (++completed == len) { res(results); } });');
 					} else if (isfunc) {
 						results[i] = gen.call(self,arr[i],i);
 						if (++completed == len) { res(results); }
@@ -8338,7 +8355,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
 					}
 
 					if (each && sort) {
-						var sorter = []
+						var sorter = [];
 						for (var p in sort) {
 							if (!sort.hasOwnProperty(p)) { continue; }
 							if (sort[p] == 1) {
