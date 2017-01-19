@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.7.1                                /*/
+/*/ Craydent LLC node-v0.7.2                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.7.1',
+var _craydent_version = '0.7.2',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -4738,7 +4738,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 			fillTemplate.declared = {};
 			fillTemplate.refs = [];
 		}
-		if (!htmlTemplate || !$c.isString(htmlTemplate)) { return ""; }
+		if (!htmlTemplate || !$c.isString(htmlTemplate)) { fillTemplate.declared = fillTemplate.refs = undefined; return ""; }
 		if ($c.isObject(offset)) {
 			max = offset.max || 0;
 			newlineToHtml = isNull(offset.newlineToHtml, true);
