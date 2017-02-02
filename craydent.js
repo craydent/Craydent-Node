@@ -4422,9 +4422,9 @@ function createServer (callback, options) {
 						}
 					}
 					if ($c.isGenerator(callback)) {
-						eval("$c.syncroit(function*(){yield* callback.call(cray, request, response);}).then(_cleanup);");
+						eval("$c.syncroit(function*(){yield* callback.call(cray, request, response, value);}).then(_cleanup);");
 					} else {
-						_cleanup(callback.call(cray, request, response));
+						_cleanup(callback.call(cray, request, response, value));
 					}
 
 				}
