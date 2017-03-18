@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.7.2
+# Craydent 0.8.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -52,29 +52,30 @@ arr.where({name:'craydent'});
 
 | | | |
 | ----- | ----- | ----- |
-| ACCEPT_ENCODING (String) |IE6 (String) |PRINCE (String) |
-ACCEPT_LANGUAGE (String) |IE7 (String) |PROTOCOL (String) |
-AMAYA (String) |IE8 (String) |PUBLIC_IP (String) |
-ANDROID (String) |IE_VERSION (String) |REFERER (String) |
-BLACKBERRY (String) |IPAD (String) |REFERER_IP (String) |
-BROWSER (String) |IPHONE (String) |RESPONSES (String) |
-CHROME (String) |IPOD (String) |REST_API_TEMPLATE (String) |
-CHROME_VERSION (String) |KHTML (String) |ROUTE_API_PATH (String) |
-CLI (String) |LINUX (String) |SAFARI (String) |
-CLICK (String) |LOCAL_IP (String) |SAFARI_VERSION (String) |
-CLIENT (String) |MAC (String) |SERVER (String) |
-CORES_SUPPORT (String) |ONMOUSEDOWN (String) |SERVER_PATH (String) |
-DEBUG_MODE (String) |ONMOUSEUP (String) |SYMBIAN (String) |
-DEVICE (String) |OPERA (String) |TEMPLATE_TAG_CONFIG (String) |
-ENGINE (String) |OPERA_VERSION (String) |TEMPLATE_VARS (String) |
-EXPOSE_ROUTE_API (String) |ORIGIN (String) |TRIDENT (String) |
-FIREFOX (String) |OS (String) |VERBOSE_LOGS (String) |
-FIREFOX_VERSION (String) |PAGE_NAME (String) |VERSION (String) |
-GEKKO (String) |PAGE_NAME_RAW (String) |VISIBLE (String) |
-HANDPOINT (String) |PALM (String) |WAIT (String) |
-HIDDEN (String) |POINTER (String) |WEBKIT (String) |
-HTTP_STATUS_TEMPLATE (String) |PRAGMA (String) |WINDOWS (String) |
-IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
+| ACCEPT_ENCODING (String) |IE7 (String) |PUBLIC_IP (String) |
+ACCEPT_LANGUAGE (String) |IE8 (String) |REFERER (String) |
+AMAYA (String) |IE_VERSION (String) |REFERER_IP (String) |
+ANDROID (String) |IPAD (String) |RESPONSES (String) |
+BLACKBERRY (String) |IPHONE (String) |REST_API_TEMPLATE (String) |
+BROWSER (String) |IPOD (String) |ROUTE_API_PATH (String) |
+CHROME (String) |KHTML (String) |ROUTE_LOGO_URL (String) |
+CHROME_VERSION (String) |LINUX (String) |SAFARI (String) |
+CLI (String) |LOCAL_IP (String) |SAFARI_VERSION (String) |
+CLICK (String) |MAC (String) |SERVER (String) |
+CLIENT (String) |ONMOUSEDOWN (String) |SERVER_PATH (String) |
+CORES_SUPPORT (String) |ONMOUSEUP (String) |SYMBIAN (String) |
+DEBUG_MODE (String) |OPERA (String) |TEMPLATE_VARS (String) |
+DEVICE (String) |OPERA_VERSION (String) |TEMPLATE_TAG_CONFIG (String) |
+ENGINE (String) |ORIGIN (String) |TRIDENT (String) |
+EXPOSE_ROUTE_API (String) |OS (String) |VERBOSE_LOGS (String) |
+FIREFOX (String) |PAGE_NAME (String) |VERSION (String) |
+FIREFOX_VERSION (String) |PAGE_NAME_RAW (String) |VISIBLE (String) |
+GEKKO (String) |PALM (String) |WAIT (String) |
+HANDPOINT (String) |POINTER (String) |WEBKIT (String) |
+HIDDEN (String) |PRAGMA (String) |WINDOWS (String) |
+HTTP_STATUS_TEMPLATE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
+IE (String) |PRINCE (String) |
+IE6 (String) |PROTOCOL (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -492,7 +493,7 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * path: (String) Path to nested property
 * delimiter: (Char) Separator used to parse path
-* options: (Object) Options for ignoring inheritance, validPathetc
+* options: (Object) Options for ignoring inheritance, validPath, etc
 
 ### String
 
@@ -2942,6 +2943,22 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * None
 
 *** 
+#### _isAsync_ 
+***
+
+**Info:** Object class extension to check if object is a async function
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
 #### _isBetween_ 
 ***
 
@@ -3015,6 +3032,22 @@ IE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 ***
 
 **Info:** Object class extension to check if it is empty
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isError_ 
+***
+
+**Info:** Object class extension to check if object is a boolean
 
 **Return:** (Bool)
 

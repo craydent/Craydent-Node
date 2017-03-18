@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.7.2                                /*/
+/*/ Craydent LLC node-v0.8.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.7.2',
+var _craydent_version = '0.8.0',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -221,7 +221,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		this.CLICK = $c.CLICK;
 		this.CORES_SUPPORT = true;
 		this.DEBUG_MODE = $c.DEBUG_MODE = $c.DEBUG_MODE || !!this.$GET("debug");
-		this.EXPOSE_ROUTE_API = $c.EXPOSE_ROUTE_API;
+        this.EXPOSE_ROUTE_API = $c.EXPOSE_ROUTE_API;
 		this.FIREFOX = this.isFirefox();
 		this.FIREFOX_VERSION = this.FirefoxVersion();
 		this.FIREFOX = this.isFirefox();
@@ -259,6 +259,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		this.RESPONSES = $c.RESPONSES;
 		this.REST_API_TEMPLATE = $c.REST_API_TEMPLATE;
 		this.ROUTE_API_PATH = $c.ROUTE_API_PATH;
+        this.ROUTE_LOGO_URL = $c.ROUTE_LOGO_URL || "http://www.craydent.com/craydent-logo.svg";
 		this.SAFARI = this.isSafari();
 		this.SAFARI_VERSION = this.SafariVersion();
 		this.SERVER = this.$l.host;
@@ -394,6 +395,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 		"</div>"+
 		"</body></html>";
 	Craydent.ROUTE_API_PATH = $c.ROUTE_API_PATH || '/craydent/api/docs';
+    Craydent.ROUTE_LOGO_URL = $c.ROUTE_LOGO_URL || "http://www.craydent.com/craydent-logo.svg";
 	Craydent.TEMPLATE_VARS = $c.TEMPLATE_VARS || [];
 	Craydent.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || {
 		IGNORE_CHARS: ['\n'],
@@ -450,6 +452,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 					code_result = code_result.replace(____execMatches[____execMatchIndex],$c.tryEval(ttc.VARIABLE_NAME(____execMatches[____execMatchIndex])));
 					____execMatchIndex++;
 				}
+                if (code == code_result) { code_result = ""; }
 				return __logic_parser(code_result);
 			}
 		},
@@ -534,7 +537,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 					}
 					code_result = code_result.replace(var_match, str || "");
 				}
-
+				if (code == code_result + post) { code_result = ""; }
 				return __logic_parser(code_result + post, obj, bind);
 			}
 		},
@@ -621,7 +624,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 					after = code_result.substring(code_result.indexOf(var_match) + var_match.length);
 					code_result = before + after;
 				}
-
+                if (code == code_result + post) { code_result = ""; }
 				return __logic_parser(code_result + post);
 
 			}
@@ -695,6 +698,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 					if (!~code_result.indexOf(obj.id)) { continue; }
 					code_result = IF.helper(code_result.replace(id, block));
 				}
+                if (code == code_result) { code_result = ""; }
 				return __logic_parser(code_result);
 			}
 		},
@@ -759,6 +763,7 @@ if (!$g.$c || __isNewer($c.VERSION.split('.'), _craydent_version.split('.')) ) {
 					if (!~code_result.indexOf(obj.id)) { continue; }
 					code_result = SWITCH.helper(code_result.replace(id, block));
 				}
+                if (code == code_result) { code_result = ""; }
 				return __logic_parser(code_result);
 			}
 
@@ -1873,8 +1878,9 @@ function __rest_docs(req,res,params){
 	if(req.method.toLowerCase() == "post" || params.f == 'json'){
 		return this.send(routes);
 	}
+	params.logo_url = $c.ROUTE_LOGO_URL;
 	this.header({'Content-Type': 'text/html'},200);
-	this.end(fillTemplate($c.REST_API_TEMPLATE,routes));
+	this.end(fillTemplate($c.REST_API_TEMPLATE,$c.merge(routes,params)));
 
 }
 function __run_replace (reg, template, use_run, obj) {
@@ -1916,7 +1922,7 @@ function __run_replace (reg, template, use_run, obj) {
 function __set_path (verb, http, path, callback) {
 	try {
 		callback = callback || [];
-		if($c.isFunction(callback) || $c.isGenerator(callback)) { callback = [callback]; }
+		if($c.isFunction(callback) || $c.isGenerator(callback) || $c.isAsync(callback)) { callback = [callback]; }
 		if (!$c.isArray(path)) { path = [path]; }
 		for (var i = 0, len = path.length; i < len; i++) {
 			var route = path[i];
@@ -1924,7 +1930,7 @@ function __set_path (verb, http, path, callback) {
 				route = {path: route, callback: callback, method: verb};
 			} else if (callback) {
 				route.callback = route.callback || [];
-				if ($c.isFunction(route.callback) || $c.isGenerator(route.callback)) {
+				if ($c.isFunction(route.callback) || $c.isGenerator(route.callback) || $c.isAsync(route.callback)) {
 					route.callback = [route.callback];
 				}
 				route.callback = route.callback.concat(callback);
@@ -2637,8 +2643,10 @@ function _run_func_array(funcs, args) {
 			if ($c.isFunction(func)){
 				rtn = rtn.concat(func.apply(self, args));
 			} else if ($c.isGenerator(func)) {
-				$c.tryEval('$c.syncroit(function *(){rtn = rtn.concat(yield func.apply(self,args));});');
-			}
+                $c.tryEval('$c.syncroit(function *(){rtn = rtn.concat(yield func.apply(self,args));});');
+            } else if ($c.isAsync(func)) {
+                $c.tryEval('(async function (){rtn = rtn.concat(yield func.apply(self,args));})();');
+            }
 		} catch (e) {
 			throw e;
 		}
@@ -2767,7 +2775,7 @@ function _subQuery(query, field, index ,_whereRefs) {
 					expression += " && ((values = _qnp(record, '" + field + "')).length && " + comparison_map[prop] + "(values," + $c.parseRaw(query[prop]) + "))";
 					break;
 				case "$exists":
-					expression += " && ((finished = {validPath:0}),$c.getProperty(record,'" + field + "','.',finished),finished.validPath == " + query['$exists'] + ")";
+					expression += " && ((finished = {validPath:0}),$c.getProperty(record,'" + field + "','.',finished),$c.parseBoolean(finished.validPath) == " + query['$exists'] + ")";
 					break;
 				case "$type":
 					var qt = $c.isNull(query["$type"]) ? "!" : "";
@@ -3284,7 +3292,7 @@ function CLI (params) {
 			}
 		};
 		self.action = function (name, cb) {
-			if ($c.isFunction(name) || $c.isGenerator(name)) {
+			if ($c.isFunction(name) || $c.isGenerator(name) || $c.isAsync(name)) {
 				cb = name;
 				name = $c.last(_commandIndex);
 			}
@@ -3292,7 +3300,9 @@ function CLI (params) {
 			if (self.CommandName == name) {
 				if ($c.isGenerator(cb)) {
 					eval('$c.syncroit(function*(){ return yield* cb.call(self,args[2]); });');
-				} else {
+                } else if ($c.isAsync(cb)) {
+                    eval('(async function (){ return await cb.call(self,args[2]); })();');
+                } else {
 					cb.call(self, args[2]);
 				}
 			}
@@ -4230,6 +4240,9 @@ function createServer (callback, options) {
 		callback = foo;
 	}
 	options = options || {};
+	if (options.logo_url) {
+        $c.ROUTE_LOGO_URL = options.logo_url;
+	}
 	var http = (options.createServer || require('http').createServer)(function (request, response) {
 		var cray = new Craydent(request, response);
 		cray.server = http;
@@ -4361,13 +4374,18 @@ function createServer (callback, options) {
 								exec[0] && exec[0].call(cray, request, response, execute['v' + i],setUpNext(exec.slice(1), i));
 							}
 						}
-						if ($c.isGenerator(exec[0])) {
-							return eval("function* () {exec[0] && exec[0].call(cray, request, response, execute['v' + i], setUpNext(exec.slice(1), i));}");
-						}
+                        if ($c.isGenerator(exec[0])) {
+                            return eval("function* () {exec[0] && exec[0].call(cray, request, response, execute['v' + i], setUpNext(exec.slice(1), i));}");
+                        }
+                        if ($c.isAsync(exec[0])) {
+                            return eval("(async function () {exec[0] && (await exec[0].call(cray, request, response, execute['v' + i], setUpNext(exec.slice(1), i)));})()");
+                        }
 					}
 					if ($c.isGenerator(execute[0])) {
 						eval("$c.syncroit(function*(){_complete(yield* execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1)));});");
-					} else {
+					} else if ($c.isAsync(execute[0])) {
+                        eval("(async function(){_complete(await execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1)));})();");
+                    } else {
 						_complete(execute[0].call(cray, request, response, execute['v1'],setUpNext(execute.slice(1), 1)));
 					}
 
@@ -4423,7 +4441,9 @@ function createServer (callback, options) {
 					}
 					if ($c.isGenerator(callback)) {
 						eval("$c.syncroit(function*(){yield* callback.call(cray, request, response, value);}).then(_cleanup);");
-					} else {
+					} else if ($c.isAsync(callback)) {
+                        eval("(async function(){ await callback.call(cray, request, response, value);})().then(_cleanup);");
+                    } else {
 						_cleanup(callback.call(cray, request, response, value));
 					}
 
@@ -4479,12 +4499,12 @@ function createServer (callback, options) {
 
 	http.routes = [];
 	http.use = function(path, callback){
-		if ($c.isFunction(path) && !callback) {
+		if (($c.isFunction(path) || $c.isGenerator(path) || $c.isAsync(path)) && !callback) {
 			callback = path;
 			path = '/*';
 		}
 		callback = callback || [];
-		if($c.isFunction(callback)) { callback = [callback]; }
+		if($c.isFunction(callback) || $c.isGenerator(path) || $c.isAsync(path)) { callback = [callback]; }
 		http.routes.push({path: path, callback: callback,method:'middleware'});
 	};
 	if ($c.EXPOSE_ROUTE_API && $c.ROUTE_API_PATH) {
@@ -5256,7 +5276,7 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
 			return "new Date('" + value.toString() + "')";
 		} else if ($c.isRegExp(value)) {
 			return value.toString();
-		} else if (value instanceof Object && !$c.isFunction(value) && !$c.isGenerator(value)) {
+		} else if (value instanceof Object && !$c.isFunction(value) && !$c.isGenerator(value) && !$c.isAsync(value)) {
 			if (!__windowVars) {
 				__windowVars = [];
 				__windowVarNames = [];
@@ -7827,7 +7847,7 @@ _ext(Array, 'parallelEach', function (gen, args) {
 			{"parameters":[
 				{"args": "(Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)"}]}],
 
-		"url": "http://www.craydent.com/library/1.9.3/docs#array.normalize",
+		"url": "http://www.craydent.com/library/1.9.3/docs#array.parallelEach",
 		"returnType": "(Promise)"
 	}|*/
 	try {
@@ -7842,11 +7862,13 @@ _ext(Array, 'parallelEach', function (gen, args) {
 		var len = arr.length, results = Array(len), completed = 0;
 		if (!len) { return new Promise(function (res) { res(results); }); }
 		if (gen) {
-			var isgen = $c.isGenerator(gen), isfunc = $c.isFunction(gen);
+			var isgen = $c.isGenerator(gen), isfunc = $c.isFunction(gen), isasync = $c.isAsync(gen);
 			return new Promise(function (res, rej) {
 				for (var i = 0; i < len; i++) {
 					if (isgen) {
 						eval('$c.syncroit(function*(){ results[' + i + '] = yield* gen.call(self, arr[' + i + '],' + i + '); if (++completed == len) { res(results); } });');
+                    } else if (isasync) {
+                        eval('(async function (){ results[' + i + '] = await gen.call(self, arr[' + i + '],' + i + '); if (++completed == len) { res(results); } })();');
 					} else if (isfunc) {
 						results[i] = gen.call(self,arr[i],i);
 						if (++completed == len) { res(results); }
@@ -7858,8 +7880,10 @@ _ext(Array, 'parallelEach', function (gen, args) {
 			for (var i = 0; i < len; i++) {
 				if ($c.isGenerator(arr[i])) {
 					eval('$c.syncroit(function*(){ results[' + i + '] = yield* arr[' + i + '].apply(self,args); if (++completed == len) { res(results); } });');
-				} else if ($c.isPromise(arr[i])) {
-					eval('$c.syncroit(function*(){ results[' + i + '] = yield arr[' + i + ']; if (++completed == len) { res(results); } });');
+				} else if ($c.isAsync(arr[i])) {
+					eval('(async function () { results[' + i + '] = await arr[' + i + ']; if (++completed == len) { res(results); } })();');
+                } else if ($c.isPromise(arr[i])) {
+                    eval('$c.syncroit(function*(){ results[' + i + '] = yield arr[' + i + ']; if (++completed == len) { res(results); } });');
 				} else if ($c.isFunction(arr[i])) {
 					eval('setTimeout(function(){ results[' + i + '] = arr[' + i + '].apply(self,args);if (++completed == len) { res(results); } },0);');
 				} else {
@@ -8056,8 +8080,8 @@ _ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
 				prop = prop.replace('!','');
 				reverseProp = true;
 			}
-			var aVal = primer((lookup && lookup[a][prop]) || a[prop]),
-				bVal = primer((lookup && lookup[b][prop]) || b[prop]);
+			var aVal = primer.call(a, (lookup && lookup[a][prop]) || a[prop], prop),
+				bVal = primer.call(b, (lookup && lookup[b][prop]) || b[prop], prop);
 
 			if (options.i && aVal && bVal) {
 				aVal = aVal.toLowerCase();
@@ -9626,7 +9650,7 @@ _ao("getProperty", function (path, delimiter, options) {
 			{"parameters":[
 				{"path": "(String) Path to nested property"},
 				{"delimiter": "(Char) Separator used to parse path"},
-				{"options": "(Object) Options for ignoring inheritance, validPathetc"}]}],
+				{"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
 
 		"url": "http://www.craydent.com/library/1.9.3/docs#object.getProperty",
 		"returnType": "(Mixed)"
@@ -9652,6 +9676,7 @@ _ao("getProperty", function (path, delimiter, options) {
 		while (prop = props[i++]) {
 			if (isNull(value[prop])
 					|| (options.noInheritance && !value.hasOwnProperty(prop))) {
+				if (!value.hasOwnProperty(prop)) { options.validPath = 0; }
 				return undefined;
 			}
 			value = value[prop];
@@ -9724,6 +9749,24 @@ _ao("isArray", function () {
 		"returnType": "(Bool)"
 	}|*/
 	return _isArray(this);
+});
+_ao("isAsync", function() {
+	/*|{
+		"info": "Object class extension to check if object is a async function",
+		"category": "Object",
+		"parameters":[],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.9.3/docs#object.isAsnyc",
+		"returnType": "(Bool)"
+	}|*/
+    try {
+        if ($c.isNull(this)) {return false;}
+        return (this.constructor.name == "AsyncFunction");
+    } catch (e) {
+        error('Object.isAsync', e);
+    }
 });
 _ao("isBetween", function(lowerBound, upperBound, inclusive) {
 	/*|{
@@ -9818,18 +9861,36 @@ _ao('isEmpty', function() {
 		"url": "http://www.craydent.com/library/1.9.3/docs#object.isEmpty",
 		"returnType": "(Bool)"
 	}|*/
-	try {
-		if ($c.isArray(this) || $c.isString(this)) { return !this.length; }
-		if ($c.isObject(this)) { return !$c.itemCount(this); }
-		if ($c.isFunction(this)) {
-			return /function.*?\(.*?\)\{\}/.test(this.toString().replace(/[\n ]/g,''));
-		}
-		return false;
-	} catch (e) {
-		error("Object.isEmpty", e);
-		return false;
-	}
+    try {
+        if ($c.isArray(this) || $c.isString(this)) { return !this.length; }
+        if ($c.isObject(this)) { return !$c.itemCount(this); }
+        if ($c.isFunction(this)) {
+            return /function.*?\(.*?\)\{\}/.test(this.toString().replace(/[\n ]/g,''));
+        }
+        return false;
+    } catch (e) {
+        error("Object.isEmpty", e);
+        return false;
+    }
 }, true);
+_ao('isError', function() {
+	/*|{
+		"info": "Object class extension to check if object is a boolean",
+		"category": "Object",
+		"parameters":[],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.9.3/docs#object.isBoolean",
+		"returnType": "(Bool)"
+	}|*/
+    try {
+        if (isNull(this)) { return false; }
+        return (this.constructor == Error);
+    } catch (e) {
+        error('Object.isError', e);
+    }
+});
 _ao("isFloat", function() {
 	/*|{
 		"info": "Object class extension to check if object is a float",
