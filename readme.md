@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.0
+# Craydent 0.8.1
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -1728,22 +1728,6 @@ IE6 (String) |PROTOCOL (String) |
 * None
 
 *** 
-#### _writeSession_ 
-***
-
-**Info:** Writes session to filesystem to be retrieved later.
-
-**Return:** (void)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
 #### _xmlToJson_ 
 ***
 
@@ -1791,6 +1775,22 @@ IE6 (String) |PROTOCOL (String) |
 * func: (Function) Function to make yieldable
 * context: (Mixed) Context to use to execute func.
 * callbackIndex: (Integer) Index of callback argument.
+
+*** 
+#### _writeSession_ 
+***
+
+**Info:** Writes session to filesystem to be retrieved later.
+
+**Return:** (void)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
 
 <a name='markdown-header-array'></a>
 ## Array
@@ -3852,6 +3852,61 @@ IE6 (String) |PROTOCOL (String) |
 **Parameters:**
 
 * character: (Char[]) Character to remove
+
+**Overloads:**
+
+* None
+
+*** 
+#### _substringBetween_ 
+***
+
+**Info:** String class extension to substring by character instead of using indexes
+
+**Return:** (String)
+
+**Parameters:**
+
+* start: (Char) Character to use for the starting index
+* end: (Char) Character to use for the ending index
+
+**Overloads:**
+
+1)
+
+* start: (Char) Character to use for the starting index
+
+2)
+
+* start: (Char) Character to use for the starting index
+
+*** 
+#### _substringEndAt_ 
+***
+
+**Info:** String class extension to substring by character instead of using indexes
+
+**Return:** (String)
+
+**Parameters:**
+
+* end: (Char) Character to use for the ending index
+
+**Overloads:**
+
+* None
+
+*** 
+#### _substringStartFrom_ 
+***
+
+**Info:** String class extension to substring by character instead of using indexes
+
+**Return:** (String)
+
+**Parameters:**
+
+* start: (Char) Character to use for the starting index
 
 **Overloads:**
 

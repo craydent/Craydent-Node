@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.0                                /*/
+/*/ Craydent LLC node-v0.8.1                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.8.0',
+var _craydent_version = '0.8.1',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -3761,6 +3761,23 @@ function ajax(params, returnData){
 	}
 }
 
+ajax.get = function (params, returnData) {
+	params.method = "GET";
+	return ajax.apply(this, arguments);
+};
+ajax.delete = function (params, returnData) {
+    params.method = "DELETE";
+    return ajax.apply(this, arguments);
+};
+ajax.post = function (params, returnData) {
+    params.method = "POST";
+    return ajax.apply(this, arguments);
+};
+ajax.put = function (params, returnData) {
+    params.method = "PUT";
+    return ajax.apply(this, arguments);
+};
+
 /*----------------------------------------------------------------------------------------------------------------
  /-	helper operations
  /---------------------------------------------------------------------------------------------------------------*/
@@ -4718,7 +4735,7 @@ function exclude(list) {
 		error('cuid', e);
 	}
 }
-function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
+function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_nonmatching) {
 	/*|{
 	 "info": "Function for templetizing",
 	 "category": "Global",
@@ -4746,7 +4763,13 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 			{"objs": "(Objects[]) Objects to fill the template variables"},
 			{"offset": "(Int) The start index of the Object array"},
 			{"max": "(Int) The maximum number of records to process"},
-			{"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."}]}],
+			{"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."}]},
+        {"parameters":[
+            {"htmlTemplate": "(String) Template to be used"},
+            {"objs": "(Objects[]) Objects to fill the template variables"},
+            {"offset": "(Int) The start index of the Object array"},
+            {"max": "(Int) The maximum number of records to process"},
+            {"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."}]}],
 
 	 "url": "http://www.craydent.com/library/1.9.3/docs#fillTemplate",
 	 "returnType": "(String)"
@@ -4762,6 +4785,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 		if ($c.isObject(offset)) {
 			max = offset.max || 0;
 			newlineToHtml = isNull(offset.newlineToHtml, true);
+			leave_templates = offset.preserve_nonmatching;
 			offset = offset.offset;
 		} else if (!isNull(offset) && isNull(max)) {
 			max = offset;
@@ -4882,12 +4906,12 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml) {
 			}
 			template = /\$\{.*?(\|.*?)+?\}/.test(template) && !/\$\{.*?(\|\|.*?)+?\}/.test(template) ? __run_replace (/\$\{(.+?(\|?.+?)+)\}/, template, false,obj) : template;
 
-			var declarations = template.match($c.addFlags(ttc.DECLARE.syntax,'g')) || []
+			var declarations = template.match($c.addFlags(ttc.DECLARE.syntax,'g')) || [];
 			for (var j = 0, jlen = declarations.length; j < jlen; j++) {
 				template = ttc.DECLARE.parser(template, declarations[j]);
 			}
 			template = __logic_parser(template, obj, bind);
-			html += $c.replace_all((vsyntax.test(template) ? template.replace(vsyntax,"") : template),';\\', ';');
+			html += $c.replace_all(( !preserve_nonmatching && vsyntax.test(template) ? template.replace(vsyntax,"") : template),';\\', ';');
 		}
 
 		if (!nested) {
@@ -6907,6 +6931,58 @@ _ext(String, 'strip', function(character) {
 		"returnType": "(String)"
 	}|*/
 	return _strip(this, character);
+}, true);
+_ext(String, 'substringBetween', function(start, end) {
+	/*|{
+		"info": "String class extension to substring by character instead of using indexes",
+		"category": "String",
+		"parameters":[
+			{"start": "(Char) Character to use for the starting index"},
+	 		{"end": "(Char) Character to use for the ending index"}],
+
+		"overloads":[
+			{"parameters":[
+	 			{"start": "(Char) Character to use for the starting index"}]},
+			{"parameters":[
+				{"start": "(Char) Character to use for the starting index"}]}],
+
+		"url": "http://www.craydent.com/library/1.9.3/docs#string.substringBetween",
+		"returnType": "(String)"
+	}|*/
+	if ($c.isNull(start)) { return $c.substringEndAt(this, end); }
+    if ($c.isNull(end)) { return $c.substringStartFrom(this, start); }
+	var si = this.indexOf(start), ei = this.indexOf(end);
+	if (!~si) { si = 0; }
+    if (!~ei) { ei = this.length; }
+    return $c.cut(this, si, ei);
+}, true);
+_ext(String, 'substringStartFrom', function(start) {
+	/*|{
+		"info": "String class extension to substring by character instead of using indexes",
+		"category": "String",
+		"parameters":[
+			{"start": "(Char) Character to use for the starting index"}],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.9.3/docs#string.substringStartFrom",
+		"returnType": "(String)"
+	}|*/
+    return this.substring(this.indexOf(start));
+}, true);
+_ext(String, 'substringEndAt', function(end) {
+	/*|{
+		"info": "String class extension to substring by character instead of using indexes",
+		"category": "String",
+		"parameters":[
+			{"end": "(Char) Character to use for the ending index"}],
+
+		"overloads":[],
+
+		"url": "http://www.craydent.com/library/1.9.3/docs#string.substringEndAt",
+		"returnType": "(String)"
+	}|*/
+    return this.substring(0, this.indexOf(end));
 }, true);
 _ext(String, 'toCurrencyNotation', _toCurrencyNotation, true);
 _ext(String, 'toDateTime', function (options) {
