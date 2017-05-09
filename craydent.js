@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.1                                /*/
+/*/ Craydent LLC node-v0.8.2                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------------------------------------------------
 /-	Global CONSTANTS and variables
 /---------------------------------------------------------------------------------------------------------------*/
-var _craydent_version = '0.8.1',
+var _craydent_version = '0.8.2',
 	__GLOBALSESSION = [], $c;
 global.$g = global;
 $g.navigator = $g.navigator || {};
@@ -3204,7 +3204,7 @@ function CLI (params) {
 							break;
 						case "array":
 						case "object":
-							self[copt] = $c.tryEval(self[copt],JSON.parse) || self[copt];
+							self[copt] = $c.tryEval(self[copt],JSON.parseAdvanced) || self[copt];
 							break;
 						case "bool":
 						case "boolean":
@@ -3250,7 +3250,7 @@ function CLI (params) {
 								break;
 							case "array":
 							case "object":
-								v = $c.tryEval(v,JSON.parse) || v;
+								v = $c.tryEval(v,JSON.parseAdvanced) || v;
 								break;
 							case "bool":
 							case "boolean":
@@ -3555,6 +3555,7 @@ function ajax(params, returnData){
 		params.onsuccess = params.onsuccess || params.onresponse || [foo];
 		params.query = params.data || params.query || "";
 		params.timeout = params.timeout || 120000;
+		params.json_parser = params.json_parser || JSON.parse;
 
 		if (!$c.isArray(params.onbefore)) {
 			params.onbefore = [params.onbefore];
@@ -3680,7 +3681,7 @@ function ajax(params, returnData){
 					});
 					res.on('error', function () {
 						if (params.dataType.toLowerCase() == 'json') {
-							body.data = $c.tryEval(body.data, JSON.parse) || body.data;
+							body.data = $c.tryEval(body.data, params.json_parser) || body.data;
 						}
 						var resrej = alwaysResolve ? resolve : reject;
 						_run_func_array.call(ctx, params.onerror, [body.data, params.hitch, this, res.statusCode]);
@@ -3689,7 +3690,7 @@ function ajax(params, returnData){
 					});
 					res.on('end', function () {
 						if (params.dataType.toLowerCase() == 'json') {
-							body.data = $c.tryEval(body.data, JSON.parse) || body.data;
+							body.data = $c.tryEval(body.data, params.json_parser) || body.data;
 						}
 						var methods = params.onsuccess;
 						if (!$c.isBetween(res.statusCode,200,299,true)) {
@@ -4306,7 +4307,7 @@ function createServer (callback, options) {
 						if (rout_parts.length > requ_parts.length + $c.itemCount(params)) {
 							continue;
 						}
-						rout_parts = $c.condense(route.path.split('/'))
+						rout_parts = $c.condense(route.path.split('/'));
 
 						var var_regex = /\$\{(.*?)\}/;
 						for (var k = 0, l = 0, klen = Math.max(rout_parts.length, requ_parts.length); k < klen; k++, l++) {
@@ -4335,7 +4336,7 @@ function createServer (callback, options) {
 							var val = vars[prop] || params[prop], obj;
 							vars[prop] = isNull(params[prop]) ? undefined : ($c.isString(val) ? decodeURIComponent($c.replace_all(val,'+', '%20')) : val);
 
-							obj = $c.tryEval(vars[prop],JSON.parse) || vars[prop];
+							obj = $c.tryEval(vars[prop],JSON.parseAdvanced) || vars[prop];
 							// this is probably a date
 							if ($c.isNumber(obj) && obj.toString() != vars[prop]) {
 								continue;
@@ -4364,7 +4365,7 @@ function createServer (callback, options) {
 
 							if (type && type != "string") {
 								if (type == "regexp") { type = "RegExp"; }
-								var checker = "is"+type.capitalize(), value = $c.tryEval(vars[name],JSON.parse);
+								var checker = "is"+type.capitalize(), value = $c.tryEval(vars[name],JSON.parseAdvanced);
 
 								if(!$c[checker](value) && !$c[checker](vars[name])) {
 									var an = type[0] in {a:1,e:1,i:1,o:1,u:1} ? "an" : "a";
@@ -10917,6 +10918,12 @@ if (typeof JSON.parseAdvanced !== 'function') {
 	JSON.parseAdvanced = function (text, reviver, values, base_path) {
 		base_path = base_path || "";
 		var err;
+		if ($c.isString(text) && /\d{16,}/.test(text)) {
+            text = text.replace(/(\d{16,})/g,"\"$1\"");
+            if (/""\d{16,}""/.test(text)) {
+                text = text.replace(/""(\d{16,})""/g,"\"$1\"");
+			}
+		}
 		try { text = JSON.parse(text, reviver) || text; } catch (e) { err = e; }
 		if (!$c.isObject(text)) {
 			base_path = text.substring(0,text.lastIndexOf('/'));
