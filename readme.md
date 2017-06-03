@@ -52,30 +52,30 @@ arr.where({name:'craydent'});
 
 | | | |
 | ----- | ----- | ----- |
-| ACCEPT_ENCODING (String) |IE7 (String) |PUBLIC_IP (String) |
-ACCEPT_LANGUAGE (String) |IE8 (String) |REFERER (String) |
-AMAYA (String) |IE_VERSION (String) |REFERER_IP (String) |
-ANDROID (String) |IPAD (String) |RESPONSES (String) |
-BLACKBERRY (String) |IPHONE (String) |REST_API_TEMPLATE (String) |
-BROWSER (String) |IPOD (String) |ROUTE_API_PATH (String) |
-CHROME (String) |KHTML (String) |ROUTE_LOGO_URL (String) |
-CHROME_VERSION (String) |LINUX (String) |SAFARI (String) |
-CLI (String) |LOCAL_IP (String) |SAFARI_VERSION (String) |
-CLICK (String) |MAC (String) |SERVER (String) |
-CLIENT (String) |ONMOUSEDOWN (String) |SERVER_PATH (String) |
-CORES_SUPPORT (String) |ONMOUSEUP (String) |SYMBIAN (String) |
-DEBUG_MODE (String) |OPERA (String) |TEMPLATE_VARS (String) |
-DEVICE (String) |OPERA_VERSION (String) |TEMPLATE_TAG_CONFIG (String) |
-ENGINE (String) |ORIGIN (String) |TRIDENT (String) |
-EXPOSE_ROUTE_API (String) |OS (String) |VERBOSE_LOGS (String) |
-FIREFOX (String) |PAGE_NAME (String) |VERSION (String) |
-FIREFOX_VERSION (String) |PAGE_NAME_RAW (String) |VISIBLE (String) |
-GEKKO (String) |PALM (String) |WAIT (String) |
-HANDPOINT (String) |POINTER (String) |WEBKIT (String) |
-HIDDEN (String) |PRAGMA (String) |WINDOWS (String) |
-HTTP_STATUS_TEMPLATE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
-IE (String) |PRINCE (String) |
-IE6 (String) |PROTOCOL (String) |
+| ACCEPT_ENCODING (String) |IE7 (String) |PRINCE (String) |
+ACCEPT_LANGUAGE (String) |IE8 (String) |PROTOCOL (String) |
+AMAYA (String) |IE_VERSION (String) |PUBLIC_IP (String) |
+ANDROID (String) |IPAD (String) |REFERER (String) |
+BLACKBERRY (String) |IPHONE (String) |REFERER_IP (String) |
+BROWSER (String) |IPOD (String) |RESPONSES (String) |
+CHROME (String) |JSONPA (String) |REST_API_TEMPLATE (String) |
+CHROME_VERSION (String) |JSONSA (String) |ROUTE_API_PATH (String) |
+CLI (String) |KHTML (String) |ROUTE_LOGO_URL (String) |
+CLICK (String) |LINUX (String) |SAFARI (String) |
+CLIENT (String) |LOCAL_IP (String) |SAFARI_VERSION (String) |
+CORES_SUPPORT (String) |MAC (String) |SERVER (String) |
+DEBUG_MODE (String) |ONMOUSEDOWN (String) |SERVER_PATH (String) |
+DEVICE (String) |ONMOUSEUP (String) |SYMBIAN (String) |
+ENGINE (String) |OPERA (String) |TEMPLATE_TAG_CONFIG (String) |
+EXPOSE_ROUTE_API (String) |OPERA_VERSION (String) |TEMPLATE_VARS (String) |
+FIREFOX (String) |ORIGIN (String) |TRIDENT (String) |
+FIREFOX_VERSION (String) |OS (String) |VERBOSE_LOGS (String) |
+GEKKO (String) |PAGE_NAME (String) |VERSION (String) |
+HANDPOINT (String) |PAGE_NAME_RAW (String) |VISIBLE (String) |
+HIDDEN (String) |PALM (String) |WAIT (String) |
+HTTP_STATUS_TEMPLATE (String) |POINTER (String) |WEBKIT (String) |
+IE (String) |PRAGMA (String) |WINDOWS (String) |
+IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -737,6 +737,36 @@ IE6 (String) |PROTOCOL (String) |
 
 * params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
 * returnData: (String) Specifies which data to return when using Promise pattern
+
+*** 
+#### _awaitable_ 
+***
+
+**Info:** Makes a value yieldable via a Promise.
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* value: (Mixed) Value to make yieldable
+
+**Overloads:**
+
+1)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+
+2)
+
+* func: (Function) Function to make yieldable
+* callbackIndex: (Integer) Index of callback argument.
+
+3)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
 
 *** 
 #### _clearCache_ 
@@ -1530,6 +1560,22 @@ IE6 (String) |PROTOCOL (String) |
 * None
 
 *** 
+#### _noop_ 
+***
+
+**Info:** Place holder function for a blank function
+
+**Return:** (void)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
 #### _now_ 
 ***
 
@@ -1674,7 +1720,9 @@ IE6 (String) |PROTOCOL (String) |
 
 **Overloads:**
 
-* None
+1)
+
+* async: (AsyncFunction) Async function to execute
 
 *** 
 #### _tryEval_ 
