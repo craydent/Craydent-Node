@@ -5,26 +5,33 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = $c || {};
+var $c = global.$c || {};
 
-function average (obj){
+require('./average');
+
+function stdev (obj){
     try {
-        var length = 0, sum = 0;
+        if (!obj.length) { return 0; }
+        var avg = $c.average(obj),
+            sum = null, sdlen = 0;
         for (var i = 0, len = obj.length; i < len; i++) {
-            if ($c.isNumber(obj[i])) {
-                sum += obj[i];
-                length++;
-            }
+            if (!$c.isNumber(obj[i])) { continue; }
+            sdlen++;
+            sum = sum || 0;
+            var diff = obj[i] - avg;
+            sum += diff * diff;
         }
-        return sum/length;
+        return Math.sqrt(sum/sdlen);
     } catch (e) {
-        error("Array.average", e);
+        console.log(e);
+        $c.error && $c.error("Array.stdev", e);
     }
 }
 
 function init (ctx) {
-    $c = ctx || $c;
-    ctx.average = average;
+    $c = ctx.isEmpty($c) ? ctx : $c;
+    require('./average')($c);
+    $c.stdev = ctx.stdev = $c.stdev || ctx.stdev || stdev;
 }
-init.average = average;
+init.stdev = stdev;
 module.exports = init;

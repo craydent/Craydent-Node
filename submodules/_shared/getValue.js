@@ -1,26 +1,30 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+var $c = global.$c || {};
 
-var $c = $c || {};
-
-function getKeys (obj) {
+function getValue (obj, args, dflt) {
     try {
-        if(Object.keys(foo)) {
-            return  Object.keys(obj);
+        if (!$c.isFunction(obj)) {
+            if (args && !dflt) { dflt = args; }
+            var args = [obj];
+            if (dflt !== undefined) { args.push(dflt); }
+            return $c.isNull.apply($c, args) || ($c.isArray(obj) ? obj : obj.constructor(obj));
         }
-        var arr = [];
-        for(var prop in obj) {
-            if(obj.hasOwnProperty(prop)) {
-                arr.push(prop);
-            }
-        }
-        return arr;
+        var rtn = obj.apply(obj, args);
+        return rtn === undefined ? dflt : rtn;
     } catch (e) {
-        $c.error && $c.error('Object.getKeys', e);
+        $c.error && $c.error('Object.getValue', e);
     }
 }
 
 function init (ctx) {
-    $c = $c || ctx;
-    ctx.getKeys = getKeys;
+    $c = ctx.isEmpty($c) ? ctx : $c;
+    $c.getValue = ctx.getValue = $c.getValue || ctx.getValue || getValue;
 }
-init.getKeys = getKeys;
+init.getValue = getValue;
 module.exports = init;

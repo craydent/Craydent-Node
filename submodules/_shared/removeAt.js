@@ -1,27 +1,24 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+var $c = global.$c || {};
 
-var $c = $c || {};
-
-function toSet(obj) {
+function removeAt (obj, index) {
     try {
-        for (var i = 0, len = obj.length; i < len; i++) {
-            var item = obj[i];
-            for (var j = i + 1; j < len; j++) {
-                var citem = obj[j];
-                if ($c.equals(item,citem)) {
-                    $c.removeAt(obj,j--);
-                    len--;
-                }
-            }
-        }
+        if(obj[index] === undefined) { return false; }
+        return obj.splice(index, 1)[0];
     } catch (e) {
-        error("Array.toSet", e);
-        return false;
+        $c.error && $c.error("Array.removeAt", e);
     }
 }
 
 function init (ctx) {
-    $c = $c || ctx;
-    ctx.toSet = toSet;
+    $c = ctx.isEmpty($c) ? ctx : $c;
+    $c.removeAt = ctx.removeAt = $c.removeAt || ctx.removeAt || removeAt;
 }
-init.toSet = toSet;
+init.removeAt = removeAt;
 module.exports = init;

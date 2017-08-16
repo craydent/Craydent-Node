@@ -1,26 +1,29 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+var $c = global.$c || {};
 
-var $c = $c || {};
-
-function getKeys (obj) {
+function keyOf (obj, value) {
     try {
-        if(Object.keys(foo)) {
-            return  Object.keys(obj);
-        }
-        var arr = [];
         for(var prop in obj) {
             if(obj.hasOwnProperty(prop)) {
-                arr.push(prop);
+                if(obj[prop] === value)
+                    return prop;
             }
         }
-        return arr;
+        return null;
     } catch (e) {
-        $c.error && $c.error('Object.getKeys', e);
+        $c.error && $c.error('Object.keyOf', e);
     }
 }
 
 function init (ctx) {
-    $c = $c || ctx;
-    ctx.getKeys = getKeys;
+    $c = ctx.isEmpty($c) ? ctx : $c;
+    $c.keyOf = ctx.keyOf = $c.keyOf || ctx.keyOf || keyOf;
 }
-init.getKeys = getKeys;
+init.keyOf = keyOf;
 module.exports = init;

@@ -1,18 +1,26 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+var $c = global.$c || {};
 
-var $c = $c || {};
-
-function removeAt (obj, index) {
+function remove (obj, value, indexOf) {
     try {
-        if(obj[index] === undefined) { return false; }
+        indexOf = indexOf || obj.indexOf;
+        var index = indexOf.call(obj, value);
+        if(!~index) { return false; }
         return obj.splice(index, 1)[0];
     } catch (e) {
-        $c.error && $c.error("Array.removeAt", e);
+        $c.error && $c.error("Array.remove", e);
     }
 }
 
 function init (ctx) {
-    $c = $c || ctx;
-    ctx.removeAt = removeAt;
+    $c = ctx.isEmpty($c) ? ctx : $c;
+    $c.remove = ctx.remove = $c.remove || ctx.remove || remove;
 }
-init.removeAt = removeAt;
+init.remove = remove;
 module.exports = init;

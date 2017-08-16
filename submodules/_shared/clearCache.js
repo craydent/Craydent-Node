@@ -1,41 +1,46 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+var $c = global.$c || {};
 
-var $c = $c || {},
-    relativePathFinder = require('./relativePathFinder').relativePathFinder,
-    startsWithAny = require('./startsWithAny').startsWithAny;
-
-function include(path, refresh){
+function clearCache (module) {
     /*|{
-        "info": "Require without erroring when module does not exist.",
+        "info": "Clear a module from the require cache.",
         "category": "Global",
         "parameters":[
-            {"path": "(String) Module or Path to module."}],
+            {"module": "(String) Single module to remove."}],
 
         "overloads":[
-            {"parameters":[
-                {"path": "(String) Module or Path to module."},
-                {"refresh": "(Boolean) Flag to clear cache for the specific include."}]}],
+            {"parameters":[]}],
 
-        "url": "http://www.craydent.com/library/1.9.3/docs#include",
-        "returnType": "(Mixed)"
+        "url": "http://www.craydent.com/library/1.9.3/docs#clearCache",
+        "returnType": "(Boolean)"
     }|*/
     try {
-        if (refresh) { clearCache(path); }
-        if ( startsWithAny(path, ['/','.'])) {
-            return require(relativePathFinder(path));
+        if (module) {
+            delete require.cache[require.resolve(module)];
+            return true;
         }
-        return require(path);
+        for (var prop in require.cache) {
+            if (!require.cache.hasOwnProperty(prop)) {
+                continue;
+            }
+            delete require.cache[prop];
+        }
+        return true;
     } catch (e) {
-        try {
-            return require(relativePathFinder(path));
-        } catch (err) {
-            return false;
-        }
+        $c.error && $c.error('clearCache', e);
+        return false;
     }
 }
 
 function init (ctx) {
-    $c = $c || ctx;
-    ctx.include = include;
+    $c = ctx.isEmpty($c) ? ctx : $c;
+    $c.clearCache = ctx.clearCache = $c.clearCache || ctx.clearCache || clearCache;
 }
-init.include = include;
+init.clearCache = clearCache;
 module.exports = init;

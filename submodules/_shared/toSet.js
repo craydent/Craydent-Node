@@ -1,18 +1,36 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+var $c = global.$c || {};
 
-var $c = $c || {};
+require('./removeAt');
 
-function on (obj, ev, func){
+function toSet(obj) {
     try {
-        obj["_"+ev] = obj["_"+ev] || [];
-        obj["_"+ev].push(func);
+        for (var i = 0, len = obj.length; i < len; i++) {
+            var item = obj[i];
+            for (var j = i + 1; j < len; j++) {
+                var citem = obj[j];
+                if ($c.equals(item,citem)) {
+                    $c.removeAt(obj,j--);
+                    len--;
+                }
+            }
+        }
     } catch (e) {
-        $c.error && $c.error("Function.on", e);
+        $c.error && $c.error("Array.toSet", e);
+        return false;
     }
 }
 
 function init (ctx) {
-    $c = $c || ctx;
-    ctx.on = on;
+    $c = ctx.isEmpty($c) ? ctx : $c;
+    require('./removeAt')($c);
+    $c.toSet = ctx.toSet = $c.toSet || ctx.toSet || toSet;
 }
-init.on = on;
+init.toSet = toSet;
 module.exports = init;

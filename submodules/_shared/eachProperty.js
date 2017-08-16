@@ -5,20 +5,22 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = $c || {};
+var $c = global.$c || {};
 
-function on (obj, ev, func){
+function eachProperty (obj, callback) {
     try {
-        obj["_"+ev] = obj["_"+ev] || [];
-        obj["_"+ev].push(func);
+        for (var prop in obj) {
+            if (!obj.hasOwnProperty(prop)) { continue; }
+            if (callback.call(obj, obj[prop], prop)) { break; }
+        }
     } catch (e) {
-        $c.error && $c.error("Function.on", e);
+        $c.error && $c.error('Object.eachProperty', e);
     }
 }
 
 function init (ctx) {
     $c = ctx.isEmpty($c) ? ctx : $c;
-    ctx.on = on;
+    $c.eachProperty = ctx.eachProperty = $c.eachProperty || ctx.eachProperty || eachProperty;
 }
-init.on = on;
+init.eachProperty = eachProperty;
 module.exports = init;

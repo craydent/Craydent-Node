@@ -1,18 +1,31 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+var $c = global.$c || {};
 
-var $c = $c || {};
-
-function isValidDate (obj) {
+function itemCount(obj) {
     try {
-        return !isNaN(obj.getTime());
+        if ($c.isObject(obj)) {
+            var count = 0;
+            for (var prop in obj){
+                if (obj.hasOwnProperty(prop)) { count++; }
+            }
+            return count;
+        }
+        return undefined;
     } catch (e) {
-        $c.error && $c.error && $c.error("Date.isValidDate", e);
+        $c.error && $c.error('Object.itemCount', e);
     }
 }
 
 function init (ctx) {
-    $c = $c || ctx;
-    ctx.isValidDate = isValidDate;
+    $c = ctx.isEmpty($c) ? ctx : $c;
+    $c.itemCount = ctx.itemCount = $c.itemCount || ctx.itemCount || itemCount;
 }
-init.isValidDate = isValidDate;
+init.itemCount = itemCount;
 
 module.exports = init;

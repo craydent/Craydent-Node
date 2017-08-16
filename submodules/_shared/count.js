@@ -5,24 +5,44 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = $c || {};
+var $c = global.$c || {};
 
-function getValue (obj, args, dflt) {
+require('./where');
+
+function count (obj, option){
     try {
-        if (!$c.isFunction(obj)) {
-            if (args && !dflt) { dflt = args; }
-            return $c.isNull(obj, dflt) || obj;
+        if ($c.isObject(obj)) {
+            var count = 0;
+            for (var prop in obj){
+                if (obj.hasOwnProperty(prop)) { count++; }
+            }
+            return count;
         }
-        var rtn = obj.apply(obj, args);
-        return rtn === undefined ? dflt : rtn;
+        if ($c.isArray(obj)) {
+            return $c.where(obj,option).length;
+        }
+        if ($c.isString(obj)) {
+            var word = option;
+            if (!$c.isRegExp(word)) {
+                word = new RegExp(word, "g");
+            } else if (!option.global) {
+                var reg_str = word.toString(),
+                    index = reg_str.lastIndexOf('/'),
+                    options = reg_str.substring(index + 1);
+                word = new RegExp($c.strip(reg_str,'/'), "g"+options);
+            }
+            return (obj.match(word) || []).length;
+        }
+        return undefined;
     } catch (e) {
-        $c.error && $c.error('Object.getValue', e);
+        $c.error && $c.error('Object.count', e);
     }
 }
 
 function init (ctx) {
-    $c = $c || ctx;
-    ctx.getValue = getValue;
+    $c = ctx.isEmpty($c) ? ctx : $c;
+    require('./where')(ctx);
+    $c.count = ctx.count = $c.count || ctx.count || count;
 }
-init.getValue = getValue;
+init.count = count;
 module.exports = init;

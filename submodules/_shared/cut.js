@@ -5,20 +5,21 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = $c || {};
+var $c = global.$c || {};
 
-function on (obj, ev, func){
+function cut(obj, si, ei, replacement) {
     try {
-        obj["_"+ev] = obj["_"+ev] || [];
-        obj["_"+ev].push(func);
+        if ($c.isNull(si) || $c.isNull(ei)) { return obj; }
+        if (ei == 0 && si != 0) { ei = si; }
+        return obj.slice(0, si) + (replacement || "")+ obj.slice(ei);
     } catch (e) {
-        $c.error && $c.error("Function.on", e);
+        $c.error && $c.error("String.cut", e);
     }
 }
 
 function init (ctx) {
     $c = ctx.isEmpty($c) ? ctx : $c;
-    ctx.on = on;
+    $c.cut = ctx.cut = $c.cut || ctx.cut || cut;
 }
-init.on = on;
+init.cut = cut;
 module.exports = init;

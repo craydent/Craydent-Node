@@ -5,43 +5,26 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = $c || {},
-    where = require('../array/where').where;
+var $c = global.$c || {};
 
-function count (obj, option){
+function average (obj){
     try {
-        if ($c.isObject(obj)) {
-            var count = 0;
-            for (var prop in obj){
-                if (obj.hasOwnProperty(prop)) { count++; }
+        var length = 0, sum = 0;
+        for (var i = 0, len = obj.length; i < len; i++) {
+            if ($c.isNumber(obj[i])) {
+                sum += obj[i];
+                length++;
             }
-            return count;
         }
-        if ($c.isArray(obj)) {
-            return where(obj,option).length;
-        }
-        if ($c.isString(obj)) {
-            var word = option;
-            if (!$c.isRegExp(word)) {
-                word = new RegExp(word, "g");
-            } else if (!option.global) {
-                var reg_str = word.toString(),
-                    index = reg_str.lastIndexOf('/'),
-                    options = reg_str.substring(index + 1);
-                word = new RegExp($c.strip(reg_str,'/'), "g"+options);
-            }
-            return (obj.match(word) || []).length;
-        }
-        return undefined;
+        return sum/length;
     } catch (e) {
-        console.log(e);
-        $c.error && $c.error('Object.count', e);
+        $c.error && $c.error("Array.average", e);
     }
 }
 
 function init (ctx) {
-    $c = ctx || $c;
-    ctx.count = count;
+    $c = ctx.isEmpty($c) ? ctx : $c;
+    $c.average = ctx.average = $c.average || ctx.average || average;
 }
-init.count = count;
+init.average = average;
 module.exports = init;

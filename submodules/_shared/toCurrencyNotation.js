@@ -5,7 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = $c || {};
+var $c = global.$c || {};
 
 function toCurrencyNotation(obj, sep) {
     sep = sep || ",";
@@ -21,8 +21,8 @@ function toCurrencyNotation(obj, sep) {
 }
 
 function init (ctx) {
-    $c = $c || ctx;
-    ctx.toCurrencyNotation = toCurrencyNotation;
+    $c = ctx.isEmpty($c) ? ctx : $c;
+    $c.toCurrencyNotation = ctx.toCurrencyNotation = $c.toCurrencyNotation || ctx.toCurrencyNotation || toCurrencyNotation;
 }
 init.toCurrencyNotation = toCurrencyNotation;
 module.exports = init;
