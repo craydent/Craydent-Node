@@ -5,7 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {}, $s = {};
 
 function _contains_lessthan (vals, val) {
     for (var i = 0, len = vals.length; i < len; i++) {
@@ -44,77 +44,93 @@ function _contains_type (vals, val) {
     return false;
 }
 
+var _isFunction = $c.isFunction,
+    _isArray = $c.isArray,
+    _isObject = $c.isObject,
+    _isRegExp = $c.isRegExp,
+    _isString = $c.isString,
+    _isNumber = $c.isNumber,
+    _indexOfAlt = $c.indexOfAlt;
+
 function contains (obj, val, func) {
-    try {
-        if ($c.isFunction(val)) {
-            for (var prop in obj) {
-                if (val(obj[prop], prop, obj)) {
-                    return true;
+    if (_isFunction(val)) {
+        for (var prop in obj) {
+            if (val(obj[prop], prop, obj)) {
+                return true;
+            }
+        }
+    }
+    if (_isArray(obj)) {
+        if (~obj.indexOf(val)) {
+            return true;
+        }
+        if (_isFunction(func) || _isRegExp(val)) {
+            return !!~_indexOfAlt(obj, val, func);
+        }
+        if (_isString(func)) {
+            var f = $c.foo;
+            switch (func) {
+                case "$lt":
+                    f = _contains_lessthan;
+                    break;
+                case "$lte":
+                    f = _contains_lessthanequal;
+                    break;
+                case "$gt":
+                    f = _contains_greaterthan;
+                    break;
+                case "$gte":
+                    f = _contains_greaterthanequal;
+                    break;
+                case "$mod":
+                    f = _contains_mod;
+                    break;
+                case "$type":
+                    f = _contains_type;
+                    break;
+            }
+            return !!f(obj, val);
+        }
+        if (_isArray(val)) {
+            for (var i = 0, len = val.length; i < len; i++) {
+                var item = val[i];
+                if (contains(obj, item, func)) {
+                    return item;
                 }
             }
         }
-        switch (true) {
-            case $c.isArray(obj):
-                if (~obj.indexOf(val)) {
-                    return true;
-                }
-                if ($c.isFunction(func) || $c.isRegExp(val)) {
-                    return !!~$c.indexOfAlt(obj, val, func);
-                } else if ($c.isString(func)) {
-                    var f = $c.foo;
-                    switch (func) {
-                        case "$lt":
-                            f = _contains_lessthan;
-                            break;
-                        case "$lte":
-                            f = _contains_lessthanequal;
-                            break;
-                        case "$gt":
-                            f = _contains_greaterthan;
-                            break;
-                        case "$gte":
-                            f = _contains_greaterthanequal;
-                            break;
-                        case "$mod":
-                            f = _contains_mod;
-                            break;
-                        case "$type":
-                            f = _contains_type;
-                            break;
-                    }
-                    return !!f(obj, val);
-                } else if ($c.isArray(val)) {
-                    for (var i = 0, len = val.length; i < len; i++) {
-                        var item = val[i];
-                        if ($c.contains(obj, item, func)) {
-                            return item;
-                        }
-                    }
-                }
-                return false;
-            case $c.isString(obj):
-                return !!~($c.isRegExp(val) ? obj.search(val) : obj.indexOf(val));
-            case $c.isObject(obj):
-                for (var prop in obj) {
-                    if (!obj.hasOwnProperty(prop)) {
-                        continue;
-                    }
-                    if ((func && func(obj[prop])) || obj[prop] == val) {
-                        return true;
-                    }
-                }
-                break;
-            case $c.isNumber(obj):
-                return !!~obj.toString().indexOf(val);
+    }
+    if (_isString(obj)) {
+        return !!~(_isRegExp(val) ? obj.search(val) : obj.indexOf(val));
+    }
+    if (_isObject(obj)) {
+        for (var prop in obj) {
+            if (!obj.hasOwnProperty(prop)) {
+                continue;
+            }
+            if ((func && func(obj[prop])) || obj[prop] == val) {
+                return true;
+            }
         }
         return false;
-    } catch (e) {
-        $c.error && $c.error("Object.contains", e);
     }
+    if (_isNumber(obj)) {
+        return !!~obj.toString().indexOf(val);
+    }
+    return false;
 }
 
 function init (ctx) {
     $c = ctx.isEmpty($c) ? ctx : $c;
+    $s = ctx;
+    _isFunction = $s.isFunction || $c.isFunction;
+    _isArray = $s.isArray || $c.isArray;
+    _isObject = $s.isObject || $c.isObject;
+    _isRegExp = $s.isRegExp || $c.isRegExp;
+    _isString = $s.isString || $c.isString;
+    _isNumber = $s.isNumber || $c.isNumber;
+    _indexOfAlt = $s.isFunction || $c.indexOfAlt;
+
     $c._contains_lessthan = ctx._contains_lessthan = $c._contains_lessthan || ctx._contains_lessthan || _contains_lessthan;
     $c._contains_greaterthan = ctx._contains_greaterthan = $c._contains_greaterthan || ctx._contains_greaterthan || _contains_greaterthan;
     $c._contains_lessthanequal = ctx._contains_lessthanequal = $c._contains_lessthanequal || ctx._contains_lessthanequal || _contains_lessthanequal;
