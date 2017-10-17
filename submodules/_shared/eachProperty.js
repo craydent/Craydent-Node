@@ -5,7 +5,8 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _error = $c.error;
 
 function eachProperty (obj, callback) {
     try {
@@ -14,13 +15,15 @@ function eachProperty (obj, callback) {
             if (callback.call(obj, obj[prop], prop)) { break; }
         }
     } catch (e) {
-        $c.error && $c.error('Object.eachProperty', e);
+        _error && _error('Object.eachProperty', e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
-    $c.eachProperty = ctx.eachProperty = $c.eachProperty || ctx.eachProperty || eachProperty;
+    _error = ctx.error || $c.error;
+    $c.eachProperty = ctx.eachProperty = $c.hasOwnProperty('eachProperty') && $c.eachProperty || ctx.hasOwnProperty('eachProperty') && ctx.eachProperty || eachProperty;
 }
 init.eachProperty = eachProperty;
 module.exports = init;

@@ -5,12 +5,14 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _isArray = $c.isArray,
+    _error = $c.error;
 
 function startsWithAny (obj) {
     try {
         var args = arguments;
-        if (arguments.length < 3 && ($c.isArray(arguments[0]) || $c.isArray(arguments[1]))) {
+        if (arguments.length < 3 && (_isArray(arguments[0]) || _isArray(arguments[1]))) {
             args = arguments[1] || arguments[0];
         }
         for (var i = typeof craydent_ctx != "undefined" ? 1 : 0, len = args.length; i < len; i++) {
@@ -19,12 +21,17 @@ function startsWithAny (obj) {
         }
         return false;
     } catch (e) {
-        $c.error && $c.error('String.startsWith', e);
+        _error && _error('String.startsWith', e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
+
+    _isArray = ctx.isArray || $c.isArray;
+    _error = ctx.error || $c.error;
+
     $c.startsWithAny = ctx.startsWithAny = $c.startsWithAny || ctx.startsWithAny || startsWithAny;
 }
 init.startsWithAny = startsWithAny;

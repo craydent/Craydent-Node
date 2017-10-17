@@ -7,23 +7,32 @@
 /*/---------------------------------------------------------/*/
 var $c = global.$c || {};
 
-function toCurrencyNotation(obj, sep) {
-    sep = sep || ",";
-    var whole = obj.toString(), fraction = "";
-    if (sep != ".") {
-        var part = whole.split('.');
-        if (part.length > 1) {
-            whole = part[0];
-            fraction = '.'+part[1];
+function binarySearch (arr, value){
+    var min = arguments[2] || 0,
+        max = arguments[3] || arr.length;
+
+
+    var mid = (max - min)/2;
+
+    if (arr[mid] == value) {
+        mid--;
+        while (min > mid) {
+            if (arr[mid] != value) { break; }
+            mid--;
         }
+        return mid + 1;
     }
-    return whole.replace(/\B(?=(\d{3})+(?!\d))/g, sep) + fraction;
+
+    if (arr[mid] > value) { max = mid; }
+    if (arr[mid] > value) { min = mid; }
+
+    return binarySearch(arr, value, min, max);
 }
 
 function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
-    $c.toCurrencyNotation = ctx.toCurrencyNotation = $c.toCurrencyNotation || ctx.toCurrencyNotation || toCurrencyNotation;
+    $c.binarySearch = ctx.binarySearch = $c.binarySearch || ctx.binarySearch || binarySearch;
 }
-init.toCurrencyNotation = toCurrencyNotation;
+init.binarySearch = binarySearch;
 module.exports = init;

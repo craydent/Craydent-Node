@@ -7,9 +7,9 @@
 /*/---------------------------------------------------------/*/
 var $c = global.$c || {};
 
-require('./clearCache');
-require('./relativePathFinder');
-require('./startsWithAny');
+require('./clearCache')($c);
+require('./relativePathFinder')($c);
+require('./startsWithAny')($c);
 
 function include(path, refresh){
     /*|{
@@ -42,6 +42,7 @@ function include(path, refresh){
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     require('./clearCache')($c);
     require('./relativePathFinder')($c);

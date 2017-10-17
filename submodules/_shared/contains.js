@@ -7,6 +7,12 @@
 /*/---------------------------------------------------------/*/
 var $c = global.$c || {}, $s = {};
 
+function _contains_matches (vals, val) {
+    for (var i = 0, len = vals.length; i < len; i++) {
+        if (val.test(vals[i])) { return true; }
+    }
+    return false;
+}
 function _contains_lessthan (vals, val) {
     for (var i = 0, len = vals.length; i < len; i++) {
         if (vals[i] < val) { return true; }
@@ -65,10 +71,13 @@ function contains (obj, val, func) {
             return true;
         }
         if (_isFunction(func) || _isRegExp(val)) {
+            if (!func) {
+                return _contains_matches(obj, val);
+            }
             return !!~_indexOfAlt(obj, val, func);
         }
         if (_isString(func)) {
-            var f = $c.foo;
+            var f = _foo;
             switch (func) {
                 case "$lt":
                     f = _contains_lessthan;
@@ -121,6 +130,7 @@ function contains (obj, val, func) {
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     $s = ctx;
     _isFunction = $s.isFunction || $c.isFunction;
@@ -130,6 +140,7 @@ function init (ctx) {
     _isString = $s.isString || $c.isString;
     _isNumber = $s.isNumber || $c.isNumber;
     _indexOfAlt = $s.isFunction || $c.indexOfAlt;
+    _foo = $s.foo || $c.foo;
 
     $c._contains_lessthan = ctx._contains_lessthan = $c._contains_lessthan || ctx._contains_lessthan || _contains_lessthan;
     $c._contains_greaterthan = ctx._contains_greaterthan = $c._contains_greaterthan || ctx._contains_greaterthan || _contains_greaterthan;
@@ -137,7 +148,7 @@ function init (ctx) {
     $c._contains_greaterthanequal = ctx._contains_greaterthanequal = $c._contains_greaterthanequal || ctx._contains_greaterthanequal || _contains_greaterthanequal;
     $c._contains_mod = ctx._contains_mod = $c._contains_mod || ctx._contains_mod || _contains_mod;
     $c._contains_type = ctx._contains_type = $c._contains_type || ctx._contains_type || _contains_type;
-    $c.contains = ctx.contains = $c.contains || ctx.contains || contains;
+    $c.contains = ctx.contains = $c.hasOwnProperty('contains') && $c.contains || ctx.hasOwnProperty('contains') && ctx.contains || contains;
 }
 init._contains_lessthan =  _contains_lessthan;
 init._contains_greaterthan =  _contains_greaterthan;

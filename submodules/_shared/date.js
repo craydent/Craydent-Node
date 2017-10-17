@@ -160,10 +160,13 @@ var $c = $c || {},
     'Western Standard Time':'WST',
     'Yakutsk Time':'YAKT',
     'Yekaterinburg Time':'YEKT'
-};
+},
+    _isInt = $c.isInt,
+    _error = $c.error;
 
-var isValidDate = require('./isValidDate').isValidDate;
-require('./keyOf');
+
+require('./isValidDate')($c);
+require('./keyOf')($c);
 
 function format (obj, format, options) {
     try {
@@ -190,161 +193,6 @@ function format (obj, format, options) {
             second = datetime.getSeconds(),
             GMTDiff = options.offset || hour - (hour > uhour ? 24 : 0) - uhour,
             epoch = datetime.getTime(),
-            timezones = {
-                'Afghanistan Time':'AFT',
-                'AIX specific equivalent of Central European Time':'DFT',
-                'Alaska Daylight Time':'AKDT',
-                'Alaska Standard Time':'AKST',
-                'Arab Standard Time (Kuwait, Riyadh)':'AST',
-                'Arab Standard Time':'AST',
-                'Arabian Standard Time (Abu Dhabi, Muscat)':'AST',
-                'Arabian Standard Time':'AST',
-                'Arabic Standard Time (Baghdad)':'AST',
-                'Arabic Standard Time':'AST',
-                'Argentina Time':'ART',
-                'Armenia Summer Time':'AMST',
-                'Armenia Time':'AMT',
-                'ASEAN Common Time':'ACT',
-                'Atlantic Daylight Time':'ADT',
-                'Atlantic Standard Time':'AST',
-                'Australian Central Daylight Time':'ACDT',
-                'Australian Central Standard Time':'ACST',
-                'Australian Eastern Daylight Time':'AEDT',
-                'Australian Eastern Standard Time':'AEST',
-                'Australian Western Daylight Time':'AWDT',
-                'Australian Western Standard Time':'AWST',
-                'Azerbaijan Time':'AZT',
-                'Azores Standard Time':'AZOST',
-                'Baker Island Time':'BIT',
-                'Bangladesh Standard Time':'BST',
-                'Bhutan Time':'BTT',
-                'Bolivia Time':'BOT',
-                'Brasilia Time':'BRT',
-                'British Indian Ocean Time':'BIOT',
-                'British Summer Time (British Standard Time from Feb 1968 to Oct 1971)':'BST',
-                'British Summer Time':'BST',
-                'Brunei Time':'BDT',
-                'Cape Verde Time':'CVT',
-                'Central Africa Time':'CAT',
-                'Central Daylight Time (North America)':'CDT',
-                'Central Daylight Time':'CDT',
-                'Central European Daylight Time':'CEDT',
-                'Central European Summer Time (Cf. HAEC)':'CEST',
-                'Central European Summer Time':'CEST',
-                'Central European Time':'CET',
-                'Central Standard Time (Australia)':'ACST',
-                'Central Standard Time':'CST',
-                'Central Standard Time (North America)':'CST',
-                'Chamorro Standard Time':'CHST',
-                'Chatham Daylight Time':'CHADT',
-                'Chatham Standard Time':'CHAST',
-                'Chile Standard Time':'CLT',
-                'Chile Summer Time':'CLST',
-                'China Standard Time':'CST',
-                'China Time':'CT',
-                'Christmas Island Time':'CXT',
-                'Clipperton Island Standard Time':'CIST',
-                'Cocos Islands Time':'CCT',
-                'Colombia Summer Time':'COST',
-                'Colombia Time':'COT',
-                'Cook Island Time':'CKT',
-                'Coordinated Universal Time':'UTC',
-                'East Africa Time':'EAT',
-                'Easter Island Standard Time':'EAST',
-                'Eastern Caribbean Time (does not recognise DST)':'ECT',
-                'Eastern Caribbean Time':'ECT',
-                'Eastern Daylight Time (North America)':'EDT',
-                'Eastern Daylight Time':'EDT',
-                'Eastern European Daylight Time':'EEDT',
-                'Eastern European Summer Time':'EEST',
-                'Eastern European Time':'EET',
-                'Eastern Standard Time (North America)':'EST',
-                'Eastern Standard Time':'EST',
-                'Ecuador Time':'ECT',
-                'Falkland Islands Summer Time':'FKST',
-                'Falkland Islands Time':'FKT',
-                'Fiji Time':'FJT',
-                'French Guiana Time':'GFT',
-                'Further-eastern_European_Time':'FET',
-                'Galapagos Time':'GALT',
-                'Gambier Island Time':'GIT',
-                'Georgia Standard Time':'GET',
-                'Gilbert Island Time':'GILT',
-                'Greenwich Mean Time':'GMT',
-                'Gulf Standard Time':'GST',
-                'Guyana Time':'GYT',
-                'Hawaii Standard Time':'HST',
-                'Hawaii-Aleutian Daylight Time':'HADT',
-                'Hawaii-Aleutian Standard Time':'HAST',
-                'Heard and McDonald Islands Time':'HMT',
-                'Heure Avancée d\'Europe Centrale francised name for CEST':'HAEC',
-                'Hong Kong Time':'HKT',
-                'Indian Standard Time':'IST',
-                'Indochina Time':'ICT',
-                'Iran Standard Time':'IRST',
-                'Irish Summer Time':'IST',
-                'Irkutsk Time':'IRKT',
-                'Israel Standard Time':'IST',
-                'Israeli Daylight Time':'IDT',
-                'Japan Standard Time':'JST',
-                'Kamchatka Time':'PETT',
-                'Korea Standard Time':'KST',
-                'Krasnoyarsk Time':'KRAT',
-                'Line Islands Time':'LINT',
-                'Lord Howe Standard Time':'LHST',
-                'Magadan Time':'MAGT',
-                'Malaysia Time':'MYT',
-                'Malaysian Standard Time':'MST',
-                'Marquesas Islands Time':'MIT',
-                'Mauritius Time':'MUT',
-                'Middle European Saving Time Same zone as CEST':'MEST',
-                'Middle European Time Same zone as CET':'MET',
-                'Moscow Standard Time':'MSK',
-                'Moscow Summer Time':'MSD',
-                'Mountain Daylight Time (North America)':'MDT',
-                'Mountain Daylight Time':'MDT',
-                'Mountain Standard Time (North America)':'MST',
-                'Mountain Standard Time':'MST',
-                'Myanmar Standard Time':'MST',
-                'Nepal Time':'NPT',
-                'New Zealand Daylight Time':'NZDT',
-                'New Zealand Standard Time':'NZST',
-                'Newfoundland Daylight Time':'NDT',
-                'Newfoundland Standard Time':'NST',
-                'Newfoundland Time':'NT',
-                'Norfolk Time':'NFT',
-                'Omsk Time':'OMST',
-                'Pacific Daylight Time (North America)':'PDT',
-                'Pacific Daylight Time':'PDT',
-                'Pacific Standard Time (North America)':'PST',
-                'Pacific Standard Time':'PST',
-                'Pakistan Standard Time':'PKT',
-                'Philippine Standard Time':'PST',
-                'Phoenix Island Time':'PHOT',
-                'Reunion Time':'RET',
-                'Samara Time':'SAMT',
-                'Samoa Standard Time':'SST',
-                'Seychelles Time':'SCT',
-                'Singapore Standard Time':'SST',
-                'Singapore Time':'SGT',
-                'Solomon Islands Time':'SBT',
-                'South African Standard Time':'SAST',
-                'South Georgia and the South Sandwich Islands':'GST',
-                'Sri Lanka Time':'SLT',
-                'Tahiti Time':'TAHT',
-                'Thailand Standard Time':'THA',
-                'Uruguay Standard Time':'UYT',
-                'Uruguay Summer Time':'UYST',
-                'Venezuelan Standard Time':'VET',
-                'Vladivostok Time':'VLAT',
-                'West Africa Time':'WAT',
-                'Western European Daylight Time':'WEDT',
-                'Western European Summer Time':'WEST',
-                'Western European Time':'WET',
-                'Western Standard Time':'WST',
-                'Yakutsk Time':'YAKT',
-                'Yekaterinburg Time':'YEKT'
-            },
             ct = datetime.toTimeString().replace(/.*?\((.*?)\).*?/, '$1'),
             ctkey = $c.keyOf(timezones,ct),
             currentTimezone = "\\"+(!ctkey ? (timezones[ct] || "") : ct).split('').join("\\"),
@@ -407,10 +255,10 @@ function format (obj, format, options) {
         // replace all n's with Numeric representation of a month, without leading zeros
         /*option n*/replace(/([^\\])n|^n/g, '$1' + month).replace(/([^\\])n|^n/g, '$1' + month).
         // replace all t's with Number of days in the given month
-        /*option t*/replace(/([^\\])t|^t/g, '$1' + (month == 2 && $c.isInt(year/4) ? 29 :[31,28,31,30,31,30,31,31,30,31,30,31][month - 1])).replace(/([^\\])t|^t/g, '$1' + (month == 2 && $c.isInt(year/4) ? 29 :[31,28,31,30,31,30,31,31,30,31,30,31][month - 1])).
+        /*option t*/replace(/([^\\])t|^t/g, '$1' + (month == 2 && _isInt(year/4) ? 29 :[31,28,31,30,31,30,31,31,30,31,30,31][month - 1])).replace(/([^\\])t|^t/g, '$1' + (month == 2 && _isInt(year/4) ? 29 :[31,28,31,30,31,30,31,31,30,31,30,31][month - 1])).
 
         //replace all L's with Whether it's a leap year
-        /*option L*/replace(/([^\\%])L|^L/g, '$1' + $c.isInt(year%4) ? 1 : 0).replace(/([^\\%])L|^L/g, '$1' + $c.isInt(year%4) ? 1 : 0).
+        /*option L*/replace(/([^\\%])L|^L/g, '$1' + _isInt(year%4) ? 1 : 0).replace(/([^\\%])L|^L/g, '$1' + _isInt(year%4) ? 1 : 0).
         //replace all o's with A full numeric representation of a year, 4 digits.  If 'W' belongs to the previous or next year, that year is used instead.
         /*option o*/replace(/([^\\])o|^o/g, '$1' + (week > 0 ? year : year - 1)).replace(/([^\\])o|^o/g, '$1' + (week > 0 ? year : year - 1)).
         //replace all Y's with A full numeric representation of a year, 4 digits
@@ -463,14 +311,14 @@ function format (obj, format, options) {
         /*option U*/replace(/([^\\])U|^U/g, '$1' + epoch / 1000).replace(/([^\\])U|^U/g, '$1' + epoch / 1000).
         replace(/\\/gi, "");
     } catch (e) {
-        $c.error && $c.error("Date.format", e);
+        _error && _error("Date.format", e);
     }
 }
 function getDayOfYear (obj) {
     try {
         return Math.floor((obj - new Date(obj.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
     } catch (e) {
-        $c.error && $c.error("Date.getDayOfYear", e);
+        _error && _error("Date.getDayOfYear", e);
     }
 }
 function getGMTOffset (dt) {
@@ -478,7 +326,7 @@ function getGMTOffset (dt) {
         var diff = dt.getHours() - dt.getUTCHours();
         return diff - (diff <= 12 ? (diff <= 0 ? (diff <= -12 ? -24:0):0):24);
     } catch (e) {
-        $c.error && $c.error('getGMTOffset', e);
+        _error && _error('getGMTOffset', e);
     }
 }
 function getWeek (obj) {
@@ -488,7 +336,7 @@ function getWeek (obj) {
         var fdate = new Date(d.getFullYear(), 0, 1);
         return Math.ceil((((d - fdate) / 8.64e7) + 1 +fdate.getDay()) / 7);
     } catch (e) {
-        $c.error && $c.error("Date.getWeek", e);
+        _error && _error("Date.getWeek", e);
     }
 }
 function now (format) {
@@ -506,13 +354,19 @@ function now (format) {
     }|*/
     try {
         return format ? $c.format((new Date()),format) : new Date();
-    } catch (e) { $c.error && $c.error('now', e); }
+    } catch (e) {
+        _error && _error('now', e);
+    }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     require('./isValidDate')($c);
     require('./keyOf')($c);
+
+    _isInt = ctx.isInt || $c.isInt;
+    _error = ctx.isInt || $c.error;
 
     $c.format = ctx.format = $c.format || ctx.format || format;
     $c.getDayOfYear = ctx.getDayOfYear = $c.getDayOfYear || ctx.getDayOfYear || getDayOfYear;
@@ -525,7 +379,7 @@ init.format = format;
 init.getDayOfYear = getDayOfYear;
 init.getGMTOffset = getGMTOffset;
 init.getWeek = getWeek;
-init.isValidDate = isValidDate;
+init.isValidDate = $c.isValidDate;
 init.now = now;
 
 module.exports = init;

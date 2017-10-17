@@ -5,7 +5,9 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _error = $c.error,
+    _duplicate = $c.duplicate;
 
 function _orderListHelper(value, sorter, arr) {
     try {
@@ -22,7 +24,7 @@ function _orderListHelper(value, sorter, arr) {
         return ii;
 
     } catch (e) {
-        $c.error && $c.error("OrderedList._orderListHelper", e);
+        _error && _error("OrderedList._orderListHelper", e);
         return false;
     }
 }
@@ -46,7 +48,7 @@ function OrderedList (records,sorter)  {
     }|*/
     try {
         sorter = sorter || function(a,b){ if (a < b) { return -1; } if (a > b) { return 1; } return 0; };
-        var arr = $c.duplicate(records || [],true).sort(sorter), nextIndex = 0;
+        var arr = _duplicate(records || [],true).sort(sorter), nextIndex = 0;
         arr.add = function(value){
             if (!this.length) { return this.push(value); }
             var index = _orderListHelper(value, sorter, this);
@@ -59,12 +61,15 @@ function OrderedList (records,sorter)  {
         arr.size = function(){ return this.length; };
         return arr;
     } catch (e) {
-        $c.error && $c.error('OrderedList', e);
+        _error && _error('OrderedList', e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
+    _error = ctx.error || $c.error;
+    _duplicate = ctx.duplicate || $c.duplicate;
     $c.OrderedList = ctx.OrderedList = $c.OrderedList || ctx.OrderedList || OrderedList;
 }
 init.OrderedList = OrderedList;

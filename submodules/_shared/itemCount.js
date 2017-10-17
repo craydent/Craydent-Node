@@ -5,11 +5,13 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _error = $c.error,
+    _isObject = $c.isObject;
 
 function itemCount(obj) {
     try {
-        if ($c.isObject(obj)) {
+        if (_isObject(obj)) {
             var count = 0;
             for (var prop in obj){
                 if (obj.hasOwnProperty(prop)) { count++; }
@@ -18,13 +20,17 @@ function itemCount(obj) {
         }
         return undefined;
     } catch (e) {
-        $c.error && $c.error('Object.itemCount', e);
+        _error && _error('Object.itemCount', e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
-    $c.itemCount = ctx.itemCount = $c.itemCount || ctx.itemCount || itemCount;
+    _error = ctx.error || $c.error,
+    _isObject = ctx.isObject || $c.isObject
+
+    $c.itemCount = ctx.itemCount = $c.hasOwnProperty('itemCount') && $c.itemCount || ctx.hasOwnProperty('itemCount') && ctx.itemCount || itemCount;
 }
 init.itemCount = itemCount;
 

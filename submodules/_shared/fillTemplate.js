@@ -5,25 +5,41 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {}, scope = {eval:function (str) { return eval(str); }}, tryEval;
+var $c = global.$c || {},
+    scope = {eval:function (str) { return eval(str); }},
+    _error = $c.error,
+    _suid = $c.suid,
+    _isArray = $c.isArray,
+    _isObject = $c.isObject,
+    _isString = $c.isString,
+    _isFunction = $c.isFunction,
+    _isNull = $c.isNull,
+    _foo = $c.foo,
+    _merge = $c.merge,
+    _parseRaw = $c.parseRaw,
+    _getProperty = $c.getProperty,
+    _replace_all = function (str, replace, subject) { return $c.replace_all(str, replace, subject, 'g'); },
+    _indexOfAlt = $c.indexOfAlt,
+    _condense = $c.condense,
+    _strip = $c.strip;
 
-require('./addFlags');
-require('./count');
-require('./cut');
-require('./eachProperty');
-require('./orderedlist');
-require('./removeAt');
-require('./startsWithAny');
+require('./addFlags')($c);
+require('./count')($c);
+require('./cut')($c);
+require('./eachProperty')($c);
+require('./orderedlist')($c);
+require('./removeAt')($c);
+require('./startsWithAny')($c);
 
 function __add_fillTemplate_ref (obj){
     try {
-        var uid = $c.suid();
+        var uid = _suid();
         scope.ctx.fillTemplate.refs["ref_" + scope.ctx.fillTemplate.refs.length] = uid;
         scope.ctx.fillTemplate.refs[uid] = obj;
         scope.ctx.fillTemplate.refs.push(obj);
         return uid;
     } catch (e) {
-        $c.error && $c.error('fillTemplate.__add_fillTemplate_ref', e);
+        _error && _error('fillTemplate.__add_fillTemplate_ref', e);
     }
 }
 function __and (){
@@ -35,14 +51,14 @@ function __and (){
         }
         return arguments[a - 1];
     } catch (e) {
-        $c.error && $c.error('fillTemplate.__and', e);
+        _error && _error('fillTemplate.__and', e);
     }
 }
 function __count(arr){
     try {
         return arr.length;
     } catch (e) {
-        $c.error && $c.error('fillTemplate.count', e);
+        _error && _error('fillTemplate.count', e);
     }
 }
 function __enum(obj, delimiter, prePost){
@@ -51,9 +67,9 @@ function __enum(obj, delimiter, prePost){
         prePost = prePost || ["",""];
         var props = [],
             str = "";
-        if ($c.isArray(obj)) {
+        if (_isArray(obj)) {
             props = obj.slice(0);
-        } else if ($c.isObject(obj)) {
+        } else if (_isObject(obj)) {
             for (var prp in obj) {
                 if (obj.hasOwnProperty(prp)) {
                     props.push(prp);
@@ -62,26 +78,26 @@ function __enum(obj, delimiter, prePost){
         }
         for (var i = 0, len = props.length; i < len; i++) {
             var prop = props[i];
-            var pre = $c.replace_all(prePost[0],['{ENUM_VAR}','{ENUM_VAL}'],[prop,obj[prop]]),
-                post = $c.replace_all(prePost[1],['{ENUM_VAR}','{ENUM_VAL}'],[prop,obj[prop]]);
+            var pre = _replace_all(prePost[0],['{ENUM_VAR}','{ENUM_VAL}'],[prop,obj[prop]]),
+                post = _replace_all(prePost[1],['{ENUM_VAR}','{ENUM_VAL}'],[prop,obj[prop]]);
             str += pre + prop + post + delimiter;
         }
         return str.slice(0,-1*delimiter.length);
     } catch (e) {
-        $c.error && $c.error('fillTemplate.enum', e);
+        _error && _error('fillTemplate.enum', e);
     }
 }
 function __logic_parser (code, obj, bind) {
     if (!code) { return ""; }
     var ttc = $c.TEMPLATE_TAG_CONFIG, indexes = [], logic = {};
-    code = $c.replace_all(code,ttc.IGNORE_CHARS,['']);
+    code = _replace_all(code,ttc.IGNORE_CHARS,['']);
     $c.eachProperty(ttc, function (value) {
         if (!value.begin) { return; }
-        var index = $c.indexOfAlt(code,value.begin);
+        var index = _indexOfAlt(code,value.begin);
         indexes.push(index);
         logic[index] = value;
     });
-    var index = Math.min.apply(Math,$c.condense(indexes,[-1]));
+    var index = Math.min.apply(Math,_condense(indexes,[-1]));
 
     if (!logic[index]) { return code; }
 
@@ -95,19 +111,19 @@ function __or (){
         }
         return "";
     } catch (e) {
-        $c.error && $c.error('fillTemplate.__or', e);
+        _error && _error('fillTemplate.__or', e);
     }
 }
 function __processBlocks (start, end, code, lookups) {
     lookups = lookups || {};
     var blocks = [], sindexes = [], sindex = 0, eindexes = [], eindex = 0;
-    while (~(sindex = $c.indexOfAlt(code,start, sindex)) && ~(eindex = $c.indexOfAlt(code,end, eindex))) {
+    while (~(sindex = _indexOfAlt(code,start, sindex)) && ~(eindex = _indexOfAlt(code,end, eindex))) {
         ~sindex && (sindexes.push(sindex), sindex++);
         ~eindex && (eindexes.push(eindex), eindex++);
     }
     // if true syntax error, start end missmatch
     if (sindexes.length != eindexes.length) {
-        blocks.push({id: "##" + $c.suid() + "##", block: "", body:"", code: code});
+        blocks.push({id: "##" + _suid() + "##", block: "", body:"", code: code});
         return blocks;
     }
 
@@ -131,7 +147,7 @@ function __processBlocks (start, end, code, lookups) {
     var endlength = code.match(end)[0].length;
     var k = 0, pair;
     while (pair = pairs[k++]) {
-        var uid = "##" + $c.suid() + "##",
+        var uid = "##" + _suid() + "##",
             block = code.slice(pair.begin, pair.end + endlength),
             beginLength = block.match(start)[0].length,
             body = code.slice(pair.begin + beginLength, pair.end);
@@ -160,30 +176,30 @@ function __run_replace (reg, template, use_run, obj) {
             var funcValue = [],
                 func = "";
 
-            funcValue = $c.replace_all(match[1],['\\[','\\]'],['[',']']).split(split_param);
+            funcValue = _replace_all(match[1],['\\[','\\]'],['[',']']).split(split_param);
             while ($c.count(funcValue[0],"{") != $c.count(funcValue[0],"}")) {
                 if (scope.tryEval(funcValue[0])) { break; }
-                funcValue[0]+= ($c.isString(split_param)?split_param:";")+funcValue[1];
+                funcValue[0]+= (_isString(split_param)?split_param:";")+funcValue[1];
                 funcValue.splice(1,1);
             }
-            func = $c.strip(funcValue.splice(0,1)[0],";");
+            func = _strip(funcValue.splice(0,1)[0],";");
             for (var i = 0, len = funcValue.length; i < len; i++) {
                 var fv = funcValue[i];
                 if (~fv.indexOf("${")) {
                     funcValue[i] = scope.ctx.fillTemplate(fv, obj);
                 }
                 try {
-                    funcValue[i] = eval("(" + $c.replace_all(fv,[';\\'], [';']) + ")");
+                    funcValue[i] = eval("(" + _replace_all(fv,[';\\'], [';']) + ")");
                 } catch (e) {}
             }
             funcValue = funcValue.map(function(item){ return scope.tryEval(item) || item; });
-            template = ~template.indexOf(match[1]) ? template.replace(match[1], (match[1] = $c.replace_all(match[1],['\\[', '\\]'], ['[', ']']))) : template;
-            template = $c.replace_all(template,"${" + pre + match[1] + post +"}",
-                $c.getProperty($g, func) ? $c.getProperty($g, func).apply(obj, funcValue) : (scope.tryEval("("+func+")")||$c.foo).apply(obj,funcValue) || "");
+            template = ~template.indexOf(match[1]) ? template.replace(match[1], (match[1] = _replace_all(match[1],['\\[', '\\]'], ['[', ']']))) : template;
+            template = _replace_all(template,"${" + pre + match[1] + post +"}",
+                _getProperty($g, func) ? _getProperty($g, func).apply(obj, funcValue) : (scope.tryEval("("+func+")")||_foo).apply(obj,funcValue) || "");
         }
         return template;
     } catch (e) {
-        $c.error && $c.error('fillTemplate.__run_replace', e);
+        _error && _error('fillTemplate.__run_replace', e);
     }
 }
 
@@ -238,20 +254,20 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
             scope.ctx.fillTemplate.declared = {};
             scope.ctx.fillTemplate.refs = [];
         }
-        if (!htmlTemplate || !$c.isString(htmlTemplate)) { scope.ctx.fillTemplate.declared = scope.ctx.fillTemplate.refs = undefined; return ""; }
-        if ($c.isObject(offset)) {
+        if (!htmlTemplate || !_isString(htmlTemplate)) { scope.ctx.fillTemplate.declared = scope.ctx.fillTemplate.refs = undefined; return ""; }
+        if (_isObject(offset)) {
             max = offset.max || 0;
-            newlineToHtml = $c.isNull(offset.newlineToHtml, true);
+            newlineToHtml = _isNull(offset.newlineToHtml, true);
             preserve_nonmatching = offset.preserve_nonmatching;
             offset = offset.offset;
-        } else if (!$c.isNull(offset) && $c.isNull(max)) {
+        } else if (!_isNull(offset) && _isNull(max)) {
             max = offset;
             offset = 0;
         }
-        if (htmlTemplate.trim() == "" || $c.isString(objs) && !(objs = tryEval(objs))) { return ""; }
+        if (htmlTemplate.trim() == "" || _isString(objs) && !(objs = scope.tryEval(objs))) { return ""; }
 
         objs = objs || [{}];
-        if (!$c.isArray(objs)) { objs = [objs]; }
+        if (!_isArray(objs)) { objs = [objs]; }
         var html = "", variable, value, ttc = $c.TEMPLATE_TAG_CONFIG, tvs = $c.TEMPLATE_VARS,
             hasDataProps = !!~htmlTemplate.indexOf('${dataproperties}'),
             vsyntax = ttc.VARIABLE,
@@ -260,61 +276,61 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
             variable = tv.variable || tv.name;
             value = tv.value;
             if (!variable) { continue; }
-            value = $c.isFunction(value) ? value(variable, j - 1):value;
-            htmlTemplate = $c.replace_all(htmlTemplate,"${"+variable+"}", value);
+            value = _isFunction(value) ? value(variable, j - 1):value;
+            htmlTemplate = _replace_all(htmlTemplate,"${"+variable+"}", value);
         }
 
         max = max || objs.length;
         offset = offset || 0;
 
-        var props = $c.condense(htmlTemplate.match(vsyntax) || [], true);
+        var props = _condense(htmlTemplate.match(vsyntax) || [], true);
 
         for (var i = offset; i < max; i++) {
             var obj = objs[i], regex, template = htmlTemplate, match, bind = "";
 
             if (~template.indexOf("${this}") || ~template.indexOf("${index}")) {
                 var uid = __add_fillTemplate_ref(obj);
-                template = $c.replace_all(template, ["${this}","${index}"],["scope.ctx.fillTemplate.refs['" + uid + "']",i]);
+                template = _replace_all(template, ["${this}","${index}"],["scope.ctx.fillTemplate.refs['" + uid + "']",i]);
             }
 
 
             while (~template.indexOf("${this.") && (match=/\$\{this\.(.+?)\}/.exec(template))) {
-                value = $c.getProperty(obj, match[1]);
+                value = _getProperty(obj, match[1]);
                 if (typeof value == "object") {
                     value = "scope.ctx.fillTemplate.refs['" + __add_fillTemplate_ref(value) + "']";
                 } else {
-                    value = $c.parseRaw(value, $c.isString(value));
+                    value = _parseRaw(value, _isString(value));
                 }
-                template = $c.replace_all(template,"${this."+match[1]+"}", value);
+                template = _replace_all(template,"${this."+match[1]+"}", value);
             }
             var objval, expression;
             for (var j = 0, jlen = props.length; j < jlen; j++) {
                 expression = props[j];
-                var property = $c.isFunction(vnsyntax) ? vnsyntax(expression) : vnsyntax.exec && vnsyntax.exec(expression);
-                if (!obj.hasOwnProperty(property) && !$c.getProperty(obj,property)) { continue; }
-                if (~template.indexOf(expression) && !$c.isNull(objval = $c.getProperty(obj,property,null,{noInheritance:true}))) {
+                var property = _isFunction(vnsyntax) ? vnsyntax(expression) : vnsyntax.exec && vnsyntax.exec(expression);
+                if (!obj.hasOwnProperty(property) && !_getProperty(obj,property)) { continue; }
+                if (~template.indexOf(expression) && !_isNull(objval = _getProperty(obj,property,null,{noInheritance:true}))) {
                     if (typeof objval == "object") {
                         objval = "scope.ctx.fillTemplate.refs['" + __add_fillTemplate_ref(objval) + "']";
                     } else {
-                        objval = $c.parseRaw(objval, $c.isString(objval));
+                        objval = _parseRaw(objval, _isString(objval));
                     }
                     var replacee_arr = [';'], replacer_arr = [';\\'];
                     if (newlineToHtml) {
                         replacee_arr.push('\n');
                         replacer_arr.push('<br />');
                     }
-                    objval = $c.replace_all(objval,replacee_arr,replacer_arr);
+                    objval = _replace_all(objval,replacee_arr,replacer_arr);
                     if (~objval.indexOf('${')) {
                         objval = scope.ctx.fillTemplate(objval,[obj]);
                     }
-                    template = $c.replace_all(template,expression, objval);
+                    template = _replace_all(template,expression, objval);
 
                     if (hasDataProps) {
-                        template = $c.replace_all(template,'${dataproperties}', "data-" + property + "='" + (objval.indexOf('<') && "" || objval) + "' ${dataproperties}");
+                        template = _replace_all(template,'${dataproperties}', "data-" + property + "='" + (objval.indexOf('<') && "" || objval) + "' ${dataproperties}");
                     }
                 }
             }
-            template = $c.replace_all(template,'\n', "scope.ctx.fillTemplate.refs['newline']");
+            template = _replace_all(template,'\n', "scope.ctx.fillTemplate.refs['newline']");
             // special run sytax
             template = ~template.indexOf("${COUNT") ? template.replace(/\$\{COUNT\[(.*?)\]\}/g, '${RUN[__count;$1]}') : template;
             template = ~template.indexOf("${ENUM") ? template.replace(/\$\{ENUM\[(.*?)\]\}/g, '${RUN[__enum;$1]}') : template;
@@ -329,10 +345,10 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
                     }
                 }
                 if (!skiplogicals) {
-                    tmp = $c.strip(tmp[1], '|').replace(/\|{3,}/, '');
+                    tmp = _strip(tmp[1], '|').replace(/\|{3,}/, '');
                     if (~tmp.indexOf('||')) {
-                        rptmp = (tmp && "__or|" + $c.replace_all(tmp, '||', "|") || "");
-                        template = $c.replace_all(template, tmp, rptmp);
+                        rptmp = (tmp && "__or|" + _replace_all(tmp, '||', "|") || "");
+                        template = _replace_all(template, tmp, rptmp);
                     }
                     template = template.replace("||", '|');
                 }
@@ -347,8 +363,8 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
                 }
                 if (!skiplogicals) {
                     tmp = tmp[1];
-                    rptmp = (tmp && "__and|" + $c.replace_all(tmp, '&&', "|") || "");
-                    template = $c.replace_all(template, tmp, rptmp);
+                    rptmp = (tmp && "__and|" + _replace_all(tmp, '&&', "|") || "");
+                    template = _replace_all(template, tmp, rptmp);
                 }
             }
             var leftovervars = template.match(vsyntax);
@@ -356,7 +372,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
                 for (var k = 0, klen = leftovervars.length; k < klen; k++) {
                     var variable = leftovervars[k];
                     if (~variable.indexOf('|')) {
-                        var regex = new RegExp($c.replace_all(variable,['$','{','}','|'],['\\$','\\{(',')\\}','\\|']));
+                        var regex = new RegExp(_replace_all(variable,['$','{','}','|'],['\\$','\\{(',')\\}','\\|']));
                         template = __run_replace (regex, template, false, obj);
                     }
                 }
@@ -368,7 +384,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
                 template = ttc.DECLARE.parser(template, declarations[j]);
             }
             template = __logic_parser(template, obj, bind);
-            html += $c.replace_all(( !preserve_nonmatching && vsyntax.test(template) ? template.replace(vsyntax,"") : template),';\\', ';');
+            html += _replace_all(( !preserve_nonmatching && vsyntax.test(template) ? template.replace(vsyntax,"") : template),';\\', ';');
         }
 
         if (!nested) {
@@ -377,11 +393,12 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
         }
         return html;
     } catch (e) {
-        $c.error && $c.error('fillTemplate', e);
+        _error && _error('fillTemplate', e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     require('./addFlags')($c);
     require('./count')($c);
@@ -393,6 +410,24 @@ function init (ctx) {
 
     scope.tryEval = eval("("+($c.tryEval || ctx.tryEval).toString()+")");
     scope.ctx = $c;
+
+    _error = ctx.error || $c.error;
+    _suid = ctx.suid || $c.suid;
+    _isArray = ctx.isArray || $c.isArray;
+    _isObject = ctx.isObject || $c.isObject;
+    _isString = ctx.isString || $c.isString;
+    _isFunction = ctx.isFunction || $c.isFunction;
+    _isNull = ctx.isNull || $c.isNull;
+    _foo = ctx.foo || $c.foo;
+    _merge = ctx.merge || $c.merge;
+    _parseRaw = ctx.parseRaw|| $c.parseRaw;
+    _getProperty = ctx.getProperty || $c.getProperty;
+    _replace_all = ctx.replace_all ?
+        function (str, replace, subject) { return ctx.replace_all(str, replace, subject, 'g'); } :
+        function (str, replace, subject) { return $c.replace_all(str, replace, subject, 'g'); };
+    _indexOfAlt = ctx.indexOfAlt || $c.indexOfAlt;
+    _condense = ctx.condense || $c.condense;
+    _strip = ctx.strip || $c.strip;
 
     $c.fillTemplate = ctx.fillTemplate = $c.fillTemplate || ctx.fillTemplate || fillTemplate;
 
@@ -410,7 +445,7 @@ function init (ctx) {
 
                     for (var j = 1, jlen = mresult.length; j < jlen; j++) {
                         if (!mresult[j]) { continue; }
-                        mresult[j] = $c.replace_all(mresult[j],['\\[', '\\]'], ['[', ']']).toString();
+                        mresult[j] = _replace_all(mresult[j],['\\[', '\\]'], ['[', ']']).toString();
                     }
 
                     condition = ttc.VARIABLE_NAME(mresult[2] || mresult[5] || "");
@@ -444,7 +479,7 @@ function init (ctx) {
 
                         code_result = code_result || obj.code;
                         if (!~code_result.indexOf(obj.id)) { continue; }
-                        code_result = $c.replace_all(code_result,id, FOR.helper(block, obj.body));
+                        code_result = _replace_all(code_result,id, FOR.helper(block, obj.body));
                     }
                     var ____execMatches = code_result.match($c.TEMPLATE_TAG_CONFIG.VARIABLE), ____execMatchIndex = 0;
 
@@ -468,7 +503,7 @@ function init (ctx) {
 
                     for (var j = 0, jlen = mresult.length; j < jlen; j++) {
                         if (!mresult[j]) { continue; }
-                        mresult[j] = $c.replace_all(mresult[j],['\\[', '\\]'], ['[', ']']).toString();
+                        mresult[j] = _replace_all(mresult[j],['\\[', '\\]'], ['[', ']']).toString();
                     }
                     var value = mresult[2] || mresult[4];
                     objs = scope.tryEval(value);
@@ -513,7 +548,7 @@ function init (ctx) {
                         }
                         code_result = code_result || obj.code;
                         if (!~code_result.indexOf(obj.id)) { continue; }
-                        code_result = $c.replace_all(code_result,id, FOREACH.helper(block, obj.body, result_obj, uid, obj, bind, ref_obj));
+                        code_result = _replace_all(code_result,id, FOREACH.helper(block, obj.body, result_obj, uid, obj, bind, ref_obj));
                         if (!code_result) { break; }
                     }
                     eval(result_obj[uid]);
@@ -602,7 +637,7 @@ function init (ctx) {
 
                         code_result = code_result || obj.code;
                         if (!~code_result.indexOf(obj.id)) { continue; }
-                        code_result = $c.replace_all(code_result,id, WHILE.helper(block, obj.body));
+                        code_result = _replace_all(code_result,id, WHILE.helper(block, obj.body));
                     }
 
                     for (var prop in declared) {
@@ -620,7 +655,7 @@ function init (ctx) {
                             var_match_index += var_match.length;
                         }
 
-                        before = $c.replace_all(code_result.substring(0, var_match_index),var_match, eval(var_match_name));
+                        before = _replace_all(code_result.substring(0, var_match_index),var_match, eval(var_match_name));
                         after = code_result.substring(code_result.indexOf(var_match) + var_match.length);
                         code_result = before + after;
                     }
@@ -648,7 +683,7 @@ function init (ctx) {
                     if (ifmatch.length) {
                         for (var j = 1, jlen = ifmatch.length; j < jlen; j++) {
                             var ifm = ifmatch[j];
-                            ifmatch[j] = $c.replace_all(ifm,['\\[', '\\]'], ['[', ']']).toString();
+                            ifmatch[j] = _replace_all(ifm,['\\[', '\\]'], ['[', ']']).toString();
                         }
                         var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
                             ifsyntax = new RegExp(IF.begin.source + "|" + IF.elseif.source + "|" + IF["else"].source, 'i');
@@ -720,7 +755,7 @@ function init (ctx) {
                     if (switchmatch.length) {
                         for (var j = 1, jlen = switchmatch.length; j < jlen; j++) {
                             var swmatch = switchmatch[j];
-                            switchmatch[j] = $c.replace_all(swmatch,['\\[', '\\]'], ['[', ']']).toString();
+                            switchmatch[j] = _replace_all(swmatch,['\\[', '\\]'], ['[', ']']).toString();
                         }
                         var pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
                             val = scope.tryEval(switchmatch[2]) || switchmatch[2],
@@ -842,7 +877,7 @@ function init (ctx) {
                             tend = ~findex ? findex : eindex;
                             var catchBlock = code.substring(cindex, tend),
                                 catchLine = catchBlock.match(TRY["catch"]),
-                                errorString = $c.replace_all(e.toString(),'\'','\\\'');
+                                errorString = _replace_all(e.toString(),'\'','\\\'');
                             catchBlock = catchBlock.replace(catchLine[0], '');
 
                             match = catchBlock.match(regex);
@@ -888,8 +923,8 @@ function init (ctx) {
                      var_nameValue = (matches[1]||matches[2]).strip(';').split("=");
 
                      scope.ctx.fillTemplate.declared[var_nameValue[0]] = var_nameValue[1];*/
-                    $c.merge(scope.ctx.fillTemplate.declared, scope.tryEval("({" + $c.replace_all(matches[1],'=', ":") + "})"));
-                    return $c.replace_all(htmlTemplate,declare, '');
+                    _merge(scope.ctx.fillTemplate.declared, scope.tryEval('({' + _replace_all(matches[1],'=', ':') + '})'));
+                    return _replace_all(htmlTemplate,declare, '');
                 }
             }
             /* end tokens config */

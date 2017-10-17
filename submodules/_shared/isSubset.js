@@ -5,18 +5,21 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _error = $c.error,
+    _isArray = $c.isArray,
+    _isObject = $c.isObject;
 
-require('./contains');
+require('./contains')($c);
 
 function isSubset (obj, compare, sharesAny) {
     try {
-        var isArray = $c.isArray(obj) && $c.isArray(compare);
-        if (($c.isObject(obj) && $c.isObject(compare)) || isArray) {
+        var isArray = _isArray(obj) && _isArray(compare);
+        if ((_isObject(obj) && _isObject(compare)) || isArray) {
 
             for (var prop in obj){
                 if (!obj.hasOwnProperty(prop)) { continue; }
-                if (!$c.isArray && !compare.hasOwnProperty(prop) || $c.isArray && !$c.contains(compare, obj[prop])) { return false; }
+                if (!_isArray && !compare.hasOwnProperty(prop) || _isArray && !$c.contains(compare, obj[prop])) { return false; }
                 if (sharesAny) { return true; }
             }
 
@@ -25,14 +28,20 @@ function isSubset (obj, compare, sharesAny) {
             return ~obj.toString().indexOf(compare.toString()) && obj.constructor == compare.constructor;
         }
     } catch (e) {
-        $c.error && $c.error('Object.isSubset', e);
+        _error && _error('Object.isSubset', e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     require('./contains')($c);
-    $c.isSubset = ctx.isSubset = $c.isSubset || ctx.isSubset || isSubset;
+
+    _error = ctx.error || $c.error;
+    _isArray = ctx.isArray || $c.isArray;
+    _isObject = ctx.isObject || $c.isObject;
+
+    $c.isSubset = ctx.isSubset = $c.hasOwnProperty('isSubset') && $c.isSubset || ctx.hasOwnProperty('isSubset') && ctx.isSubset || isSubset;
 }
 init.isSubset = isSubset;
 module.exports = init;

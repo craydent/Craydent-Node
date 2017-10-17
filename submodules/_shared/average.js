@@ -5,25 +5,30 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _isNumber = $c.isNumber,
+    _error = $c.error;
 
 function average (obj){
     try {
         var length = 0, sum = 0;
         for (var i = 0, len = obj.length; i < len; i++) {
-            if ($c.isNumber(obj[i])) {
+            if (_isNumber(obj[i])) {
                 sum += obj[i];
                 length++;
             }
         }
         return sum/length;
     } catch (e) {
-        $c.error && $c.error("Array.average", e);
+        _error && _error("Array.average", e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
+    _isNumber = ctx.isNumber || $c.isNumber;
+    _error = ctx.error || $c.error;
     $c.average = ctx.average = $c.average || ctx.average || average;
 }
 init.average = average;

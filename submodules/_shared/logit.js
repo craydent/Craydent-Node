@@ -5,7 +5,9 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _error = $c.error,
+    _cout = $c.cout;
 
 function logit(){
     /*|{
@@ -25,14 +27,17 @@ function logit(){
         $c.VERBOSE_LOGS && err.stack && (location = "\t\t\t\t    " + err.stack.split('\n')[2]);
         for (var i = 0, len = arguments.length; i < len; i++) { args.push( arguments[i]); }
         if ($c.VERBOSE_LOGS) { args.push(location); }
-        $c.cout.apply(this, arguments);
+        _cout.apply(this, arguments);
     } catch (e) {
-        $c.error && $c.error('logit', e);
+        _error && _error('logit', e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
+    _error = ctx.error || $c.error;
+    _cout = ctx.cout || $c.cout;
     $c.logit = ctx.logit = $c.logit || ctx.logit || logit;
 }
 init.logit = logit;

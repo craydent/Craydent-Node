@@ -5,9 +5,11 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _equals = $c.equals,
+    _error = $c.error;
 
-require('./removeAt');
+require('./removeAt')($c);
 
 function toSet(obj) {
     try {
@@ -15,21 +17,25 @@ function toSet(obj) {
             var item = obj[i];
             for (var j = i + 1; j < len; j++) {
                 var citem = obj[j];
-                if ($c.equals(item,citem)) {
+                if (_equals(item,citem)) {
                     $c.removeAt(obj,j--);
                     len--;
                 }
             }
         }
     } catch (e) {
-        $c.error && $c.error("Array.toSet", e);
+        _error && _error("Array.toSet", e);
         return false;
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     require('./removeAt')($c);
+    _equals = ctx.equals || $c.equals;
+    _error = ctx.error || $c.error;
+
     $c.toSet = ctx.toSet = $c.toSet || ctx.toSet || toSet;
 }
 init.toSet = toSet;

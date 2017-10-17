@@ -5,7 +5,11 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _error = $c.error,
+    _getFuncName = $c.getFuncName,
+    _getProperty = $c.getProperty,
+    _setProperty = $c.setProperty;
 
 function namespace (name, clazz, fn) {
     /*|{
@@ -25,20 +29,28 @@ function namespace (name, clazz, fn) {
         "returnType":"(void)"
     }|*/
     try {
-        var className = $c.getName(clazz);
+        var className = _getFuncName(clazz);
         $c.namespaces = $c.namespaces || {};
+        var dclass = _getProperty($c.namespaces,name + '.' + className);
+        if (dclass){
+            $g[name] = $g[name].replace(dclass.toString(),'');
+        }
         $c.namespaces[className] = namespace[className] || clazz;
-        $c.setProperty($c.namespaces, name + "." + className, clazz);
+        _setProperty($c.namespaces, name + "." + className, clazz);
         $g[name] = ($g[name] || "") + clazz.toString();
         fn && fn.call(clazz);
         return clazz;
     } catch (e) {
-        $c.error && $c.error('namespace', e);
+        _error && _error('namespace', e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
+    _error = ctx.error || $c.error;
+    _getFuncName = ctx.getFuncName || $c.getFuncName;
+    _setProperty = ctx.setProperty || $c.setProperty;
     $c.namespace = ctx.namespace = $c.namespace || ctx.namespace || namespace;
 }
 init.namespace = namespace;

@@ -5,9 +5,15 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _getFuncName = $c.getFuncName,
+    _general_trim = $c.general_trim,
+    _isString = $c.isString,
+    _isArray = $c.isArray,
+    _isBoolean = $c.isBoolean,
+    _error = $c.error;
 
-function universal_trim (chars) {
+function universal_trim (subject, chars) {
     /*|{
         "info": "Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.",
         "category": "Array",
@@ -24,30 +30,39 @@ function universal_trim (chars) {
         "returnType": "(Bool)"
     }|*/
     try {
-        if ($c.isString(this)) {
-            return $c.general_trim(this, undefined, chars);
+        if (_isString(subject)) {
+            return _general_trim(subject, undefined, chars);
         }
-        if ($c.isArray(this)) {
+        if (_isArray(subject)) {
             var ref = chars,
                 arr = [],
                 alter = false;
-            if ($c.isBoolean(ref)) { alter = true; }
+            if (_isBoolean(ref)) { alter = true; }
 
-            for (var i = 0, len = this.length; i < len; i++) {
-                var item = this[i];
-                $c.isString(item) && (arr[i] = item.toString().trim()) || (arr[i] = item);
-                alter && (this[i] = arr[i]);
+            for (var i = 0, len = subject.length; i < len; i++) {
+                var item = subject[i];
+                _isString(item) && (arr[i] = item.toString().trim()) || (arr[i] = item);
+                alter && (subject[i] = arr[i]);
             }
             return arr;
         }
     } catch (e) {
-        $c.error && $c.error($c.getName(this.constructor) + ".trim", e);
+        _error && _error(_getFuncName(subject.constructor) + ".trim", e);
         return false;
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
+
+    _getFuncName = ctx.getFuncName || $c.getFuncName;
+    _general_trim = ctx.general_trim || $c.general_trim;
+    _isString = ctx.isString || $c.isString;
+    _isArray = ctx.isArray || $c.isArray;
+    _isBoolean = ctx.isBoolean || $c.isBoolean;
+    _error = ctx.error || $c.error;
+
     $c.universal_trim = ctx.universal_trim = $c.universal_trim || ctx.universal_trim || universal_trim;
 }
 init.universal_trim = universal_trim;

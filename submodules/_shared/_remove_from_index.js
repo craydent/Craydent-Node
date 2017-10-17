@@ -5,31 +5,27 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error;
+var $c = global.$c || {};
 
-function getKeys (obj) {
-    try {
-        if(Object.keys) {
-            return  Object.keys(obj);
+function _remove_from_index (buckets, obj){
+    for (var prop in buckets) {
+        var sarr = buckets[prop][obj[prop]],
+        index = sarr.indexOf(obj);
+        if (~index) {
+            sarr.splice(index, 1);
         }
-        var arr = [];
-        for(var prop in obj) {
-            if(obj.hasOwnProperty(prop)) {
-                arr.push(prop);
-            }
+        if (!sarr.length) {
+            delete buckets[prop][obj[prop]];
+            var keys = buckets[prop].__bucket__keys;
+            keys.splice(keys.indexOf(obj[prop]), 1);
         }
-        return arr;
-    } catch (e) {
-        _error && _error('Object.getKeys', e);
     }
 }
 
 function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
-    _error = ctx.error || $c.error;
-    $c.getKeys = ctx.getKeys = $c.hasOwnProperty('getKeys') && $c.getKeys || ctx.hasOwnProperty('getKeys') && ctx.getKeys || getKeys;
+    $c._remove_from_index = ctx._remove_from_index = $c._remove_from_index || ctx._remove_from_index || _remove_from_index;
 }
-init.getKeys = getKeys;
+init._remove_from_index = _remove_from_index;
 module.exports = init;

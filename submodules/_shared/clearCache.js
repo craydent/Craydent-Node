@@ -33,13 +33,15 @@ function clearCache (module) {
         }
         return true;
     } catch (e) {
-        $c.error && $c.error('clearCache', e);
+        _error && _error('clearCache', e);
         return false;
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
+    _error = ctx.error || $c.error;
     $c.clearCache = ctx.clearCache = $c.clearCache || ctx.clearCache || clearCache;
 }
 init.clearCache = clearCache;

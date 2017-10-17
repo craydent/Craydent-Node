@@ -5,19 +5,25 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _error = $c.error;
 
 function isValidDate (obj) {
     try {
+        console.log(obj);
         return !isNaN(obj.getTime());
     } catch (e) {
-        $c.error && $c.error && $c.error("Date.isValidDate", e);
+        _error && _error("Date.isValidDate", e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
-    $c.isValidDate = ctx.isValidDate = $c.isValidDate || ctx.isValidDate || isValidDate;
+
+    _error = ctx.error || $c.error;
+
+    $c.isValidDate = ctx.isValidDate = $c.hasOwnProperty('isValidDate') && $c.isValidDate || ctx.hasOwnProperty('isValidDate') && ctx.isValidDate || isValidDate;
 }
 init.isValidDate = isValidDate;
 

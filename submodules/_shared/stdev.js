@@ -5,9 +5,11 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _isNumber = $c.isNumber,
+    _error = $c.error;
 
-require('./average');
+require('./average')($c);
 
 function stdev (obj){
     try {
@@ -15,7 +17,7 @@ function stdev (obj){
         var avg = $c.average(obj),
             sum = null, sdlen = 0;
         for (var i = 0, len = obj.length; i < len; i++) {
-            if (!$c.isNumber(obj[i])) { continue; }
+            if (!_isNumber(obj[i])) { continue; }
             sdlen++;
             sum = sum || 0;
             var diff = obj[i] - avg;
@@ -23,14 +25,16 @@ function stdev (obj){
         }
         return Math.sqrt(sum/sdlen);
     } catch (e) {
-        console.log(e);
-        $c.error && $c.error("Array.stdev", e);
+        _error && _error("Array.stdev", e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     require('./average')($c);
+    _isNumber = ctx.isNumber || $c.isNumber;
+    _error = ctx.error || $c.error;
     $c.stdev = ctx.stdev = $c.stdev || ctx.stdev || stdev;
 }
 init.stdev = stdev;

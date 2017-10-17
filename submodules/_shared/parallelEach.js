@@ -5,26 +5,33 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _syncroit = $c.syncroit,
+    _isArray = $c.isArray,
+    _isFunction = $c.isFunction,
+    _isAsync = $c.isAsync,
+    _isGenerator = $c.isGenerator,
+    _isPromise = $c.isPromise,
+    _error = $c.error;
 
 function parallelEach(obj, gen, args) {
     try {
         var self = obj, arr = obj;
-        if ($c.isArray(gen)) {
+        if (_isArray(gen)) {
             args = gen;
             gen = undefined;
         }
-        if (!$c.isArray(args)) {
+        if (!_isArray(args)) {
             args = [];
         }
         var len = arr.length, results = Array(len), completed = 0;
         if (!len) { return new Promise(function (res) { res(results); }); }
         if (gen) {
-            var isgen = $c.isGenerator(gen), isfunc = $c.isFunction(gen), isasync = $c.isAsync(gen);
+            var isgen = _isGenerator(gen), isfunc = _isFunction(gen), isasync = _isAsync(gen);
             return new Promise(function (res, rej) {
                 for (var i = 0; i < len; i++) {
                     if (isgen) {
-                        eval('$c.syncroit(function*(){ results[' + i + '] = yield* gen.call(self, arr[' + i + '],' + i + '); if (++completed == len) { res(results); } });');
+                        eval('_syncroit(function*(){ results[' + i + '] = yield* gen.call(self, arr[' + i + '],' + i + '); if (++completed == len) { res(results); } });');
                     } else if (isasync) {
                         eval('(async function (){ results[' + i + '] = await gen.call(self, arr[' + i + '],' + i + '); if (++completed == len) { res(results); } })();');
                     } else if (isfunc) {
@@ -36,13 +43,13 @@ function parallelEach(obj, gen, args) {
         }
         return new Promise(function (res, rej) {
             for (var i = 0; i < len; i++) {
-                if ($c.isGenerator(arr[i])) {
-                    eval('$c.syncroit(function*(){ results[' + i + '] = yield* arr[' + i + '].apply(self,args); if (++completed == len) { res(results); } });');
-                } else if ($c.isAsync(arr[i])) {
+                if (_isGenerator(arr[i])) {
+                    eval('_syncroit(function*(){ results[' + i + '] = yield* arr[' + i + '].apply(self,args); if (++completed == len) { res(results); } });');
+                } else if (_isAsync(arr[i])) {
                     eval('(async function () { results[' + i + '] = await arr[' + i + ']; if (++completed == len) { res(results); } })();');
-                } else if ($c.isPromise(arr[i])) {
-                    eval('$c.syncroit(function*(){ results[' + i + '] = yield arr[' + i + ']; if (++completed == len) { res(results); } });');
-                } else if ($c.isFunction(arr[i])) {
+                } else if (_isPromise(arr[i])) {
+                    eval('_syncroit(function*(){ results[' + i + '] = yield arr[' + i + ']; if (++completed == len) { res(results); } });');
+                } else if (_isFunction(arr[i])) {
                     eval('setTimeout(function(){ results[' + i + '] = arr[' + i + '].apply(self,args);if (++completed == len) { res(results); } },0);');
                 } else {
                     results[i] = arr[i];
@@ -51,12 +58,21 @@ function parallelEach(obj, gen, args) {
             }
         });
     } catch(e) {
-        $c.error && $c.error("Array.parallelEach", e);
+        _error && _error("Array.parallelEach", e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
+    _syncroit = ctx.syncroit || $c.syncroit;
+    _isArray = ctx.isArray || $c.isArray;
+    _isFunction = ctx.isFunction || $c.isFunction;
+    _isAsync = ctx.isAsync || $c.isAsync;
+    _isGenerator = ctx.isGenerator || $c.isGenerator;
+    _isPromise = ctx.isPromise || $c.isPromise;
+    _error = ctx.error || $c.error;
+
     $c.parallelEach = ctx.parallelEach = $c.parallelEach || ctx.parallelEach || parallelEach;
 }
 init.parallelEach = parallelEach;

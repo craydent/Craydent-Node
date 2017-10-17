@@ -5,7 +5,11 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _isString = $c.isString,
+    _isNumber = $c.isNumber,
+    _isBoolean = $c.isBoolean,
+    _error = $c.error;
 
 function parseBoolean(value) {
     /*|{
@@ -20,22 +24,28 @@ function parseBoolean(value) {
         "returnType": "(Mixed)"
     }|*/
     try {
-        if ($c.isString(value)) {
+        if (_isString(value)) {
             value = value.toLowerCase();
             return (value == "true" ? true : value == "false" ? false : value == "1" ? true : value == "0" ? false : undefined);
-        } else if ($c.isNumber(value)) {
+        } else if (_isNumber(value)) {
             return (value === 1 ? true : value === 0 ? false : undefined);
-        } else if ($c.isBoolean(value)) {
+        } else if (_isBoolean(value)) {
             return value;
         }
         return undefined;
     } catch (e) {
-        $c.error && $c,error('parseBoolean', e);
+        _error && _error('parseBoolean', e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
+    _isString = ctx.isString || $c.isString;
+    _isNumber = ctx.isNumber || $c.isNumber;
+    _isBoolean = ctx.isBoolean || $c.isBoolean;
+    _error = ctx.error || $c.error;
+
     $c.parseBoolean = ctx.parseBoolean = $c.parseBoolean || ctx.parseBoolean || parseBoolean;
 }
 init.parseBoolean = parseBoolean;

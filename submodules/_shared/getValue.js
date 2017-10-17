@@ -5,26 +5,34 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _isFunction = $c.isFunction,
+    _isArray = $c.isArray,
+    _isNull = $c.isNull;
 
 function getValue (obj, args, dflt) {
     try {
-        if (!$c.isFunction(obj)) {
+        if (!_isFunction(obj)) {
             if (args && !dflt) { dflt = args; }
             var args = [obj];
             if (dflt !== undefined) { args.push(dflt); }
-            return $c.isNull.apply($c, args) || ($c.isArray(obj) ? obj : obj.constructor(obj));
+            return _isNull.apply($c, args) || (_isArray(obj) ? obj : obj.constructor(obj));
         }
         var rtn = obj.apply(obj, args);
         return rtn === undefined ? dflt : rtn;
     } catch (e) {
-        $c.error && $c.error('Object.getValue', e);
+        _error && _error('Object.getValue', e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
-    $c.getValue = ctx.getValue = $c.getValue || ctx.getValue || getValue;
+    _isFunction = ctx.isFunction || $c.isFunction;
+    _isArray = ctx.isArray || $c.isArray;
+    _isNull = ctx.isNull || $c.isNull;
+
+    $c.getValue = ctx.getValue = $c.hasOwnProperty('getValue') && $c.getValue || ctx.hasOwnProperty('getValue') && ctx.getValue || getValue;
 }
 init.getValue = getValue;
 module.exports = init;

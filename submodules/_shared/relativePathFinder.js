@@ -14,7 +14,7 @@ function relativePathFinder (path, depth) {
 
     // first clause is for linux based files systems, second clause is for windows based file system
     if (!(path.startsWith('/') || /^[a-zA-Z]:\/|^\/\/.*/.test(path))) {
-        callingPath = new Error().stack.split('\n')[3 + depth].replace(/.*?\((.*)/,'$1');
+        callingPath = new Error().stack.split('\n')[3 + depth].replace(/.*?\((.*)/,'$1').replace(/.*?at\s*?(.*)/,'$1').trim();
         if (~callingPath.indexOf('\\')) {
             callingPath = callingPath.replace(/\\/g,'/');
         }
@@ -24,6 +24,7 @@ function relativePathFinder (path, depth) {
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     $c.relativePathFinder = ctx.relativePathFinder = $c.relativePathFinder || ctx.relativePathFinder || relativePathFinder;
 }

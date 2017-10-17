@@ -5,43 +5,57 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
+var $c = global.$c || {},
+    _error = $c.error,
+    _isObject = $c.isObject,
+    _isArray = $c.isArray,
+    _isString = $c.isString,
+    _isRegExp = $c.isRegExp,
+    _strip = $c.strip;
 
-require('./where');
+require('./where')($c);
 
 function count (obj, option){
     try {
-        if ($c.isObject(obj)) {
+        if (_isObject(obj)) {
             var count = 0;
             for (var prop in obj){
                 if (obj.hasOwnProperty(prop)) { count++; }
             }
             return count;
         }
-        if ($c.isArray(obj)) {
+        if (_isArray(obj)) {
             return $c.where(obj,option).length;
         }
-        if ($c.isString(obj)) {
+        if (_isString(obj)) {
             var word = option;
-            if (!$c.isRegExp(word)) {
+            if (!_isRegExp(word)) {
                 word = new RegExp(word, "g");
             } else if (!option.global) {
                 var reg_str = word.toString(),
                     index = reg_str.lastIndexOf('/'),
                     options = reg_str.substring(index + 1);
-                word = new RegExp($c.strip(reg_str,'/'), "g"+options);
+                word = new RegExp(_strip(reg_str,'/'), "g"+options);
             }
             return (obj.match(word) || []).length;
         }
         return undefined;
     } catch (e) {
-        $c.error && $c.error('Object.count', e);
+        _error && _error('Object.count', e);
     }
 }
 
 function init (ctx) {
+    if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./where')(ctx);
+    require('./where')($c);
+    _error = ctx.error || $c.error;
+    _isObject = ctx.isObject || $c.isObject;
+    _isArray = ctx.isArray || $c.isArray;
+    _isString = ctx.isString || $c.isString;
+    _isRegExp = ctx.isRegExp || $c.isRegExp;
+    _strip = ctx.strip || $c.strip;
+
     $c.count = ctx.count = $c.count || ctx.count || count;
 }
 init.count = count;
