@@ -23,7 +23,11 @@ function toCurrencyNotation(obj, sep) {
 function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
-    $c.toCurrencyNotation = ctx.toCurrencyNotation = $c.toCurrencyNotation || ctx.toCurrencyNotation || toCurrencyNotation;
+
+    ctx.toCurrencyNotation = ctx.hasOwnProperty('toCurrencyNotation') && ctx.toCurrencyNotation || toCurrencyNotation;
+    if ($c !== ctx) {
+        $c.toCurrencyNotation = $c.hasOwnProperty('toCurrencyNotation') && $c.toCurrencyNotation || ctx.toCurrencyNotation
+    }
 }
 init.toCurrencyNotation = toCurrencyNotation;
 module.exports = init;

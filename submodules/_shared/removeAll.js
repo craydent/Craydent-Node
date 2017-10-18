@@ -39,7 +39,10 @@ function init (ctx) {
     _error = ctx.error || $c.error;
     _isInt = ctx.isInt || $c.isInt;
 
-    $c.removeAll = ctx.removeAll = $c.removeAll || ctx.removeAll || removeAll;
+    ctx.removeAll = ctx.hasOwnProperty('removeAll') && ctx.removeAll || removeAll;
+    if ($c !== ctx) {
+        $c.removeAll = $c.hasOwnProperty('removeAll') && $c.removeAll || ctx.removeAll
+    }
 }
 init.removeAll = removeAll;
 module.exports = init;

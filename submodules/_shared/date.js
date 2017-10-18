@@ -362,18 +362,26 @@ function now (format) {
 function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./isValidDate')($c);
+    require('./isValidDate')(ctx);
     require('./keyOf')($c);
 
     _isInt = ctx.isInt || $c.isInt;
     _error = ctx.isInt || $c.error;
 
-    $c.format = ctx.format = $c.format || ctx.format || format;
-    $c.getDayOfYear = ctx.getDayOfYear = $c.getDayOfYear || ctx.getDayOfYear || getDayOfYear;
-    $c.getGMTOffset = ctx.getGMTOffset = $c.getGMTOffset || ctx.getGMTOffset || getGMTOffset;
-    $c.getWeek = ctx.getWeek = $c.getWeek || ctx.getWeek || getWeek;
-    $c.isValidDate = ctx.isValidDate = $c.isValidDate || ctx.isValidDate || isValidDate;
-    $c.now = ctx.now = $c.now || ctx.now || now;
+
+    ctx.format = ctx.hasOwnProperty('format') && ctx.format || format;
+    ctx.getDayOfYear = ctx.hasOwnProperty('getDayOfYear') && ctx.getDayOfYear || getDayOfYear;
+    ctx.getGMTOffset = ctx.hasOwnProperty('getGMTOffset') && ctx.getGMTOffset || getGMTOffset;
+    ctx.getWeek = ctx.hasOwnProperty('getWeek') && ctx.getWeek || getWeek;
+    ctx.now = ctx.hasOwnProperty('now') && ctx.now || now;
+    if ($c !== ctx) {
+        $c.format = $c.hasOwnProperty('format') && $c.format || ctx.format
+        $c.getDayOfYear = $c.hasOwnProperty('getDayOfYear') && $c.getDayOfYear || ctx.getDayOfYear;
+        $c.getGMTOffset = $c.hasOwnProperty('getGMTOffset') && $c.getGMTOffset || ctx.getGMTOffset;
+        $c.getWeek = $c.hasOwnProperty('getWeek') && $c.getWeek || ctx.getWeek;
+        $c.isValidDate = $c.hasOwnProperty('isValidDate') && $c.isValidDate || ctx.isValidDate;
+        $c.now = $c.hasOwnProperty('now') && $c.now || ctx.now;
+    }
 }
 init.format = format;
 init.getDayOfYear = getDayOfYear;

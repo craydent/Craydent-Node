@@ -31,7 +31,10 @@ function init (ctx) {
     $c = ctx.isEmpty($c) ? ctx : $c;
     _isObject = ctx.isObject || $c.isObject;
 
-    $c.toStringAlt = ctx.toStringAlt = $c.hasOwnProperty('toStringAlt') && $c.toStringAlt || ctx.hasOwnProperty('toStringAlt') && ctx.toStringAlt || toStringAlt;
+    ctx.toStringAlt = ctx.hasOwnProperty('toStringAlt') && ctx.toStringAlt || toStringAlt;
+    if ($c !== ctx) {
+        $c.toStringAlt = $c.hasOwnProperty('toStringAlt') && $c.toStringAlt || ctx.toStringAlt
+    }
 }
 init.toStringAlt = toStringAlt;
 module.exports = init;

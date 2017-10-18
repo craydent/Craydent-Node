@@ -56,7 +56,10 @@ function init (ctx) {
     _isRegExp = ctx.isRegExp || $c.isRegExp;
     _strip = ctx.strip || $c.strip;
 
-    $c.count = ctx.count = $c.count || ctx.count || count;
+    ctx.count = ctx.hasOwnProperty('count') && ctx.count || count;
+    if ($c !== ctx) {
+        $c.count = $c.hasOwnProperty('count') && $c.count || ctx.count
+    }
 }
 init.count = count;
 module.exports = init;

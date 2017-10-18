@@ -28,7 +28,11 @@ function init (ctx) {
     $c = ctx.isEmpty($c) ? ctx : $c;
     require('./_remove_from_index')($c);
     _error = ctx.error || $c.error
-    $c.remove = ctx.remove = $c.remove || ctx.remove || remove;
+
+    ctx.remove = ctx.hasOwnProperty('remove') && ctx.remove || remove;
+    if ($c !== ctx) {
+        $c.remove = $c.hasOwnProperty('remove') && $c.remove || ctx.remove
+    }
 }
 init.remove = remove;
 module.exports = init;

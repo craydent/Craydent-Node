@@ -41,7 +41,10 @@ function init (ctx) {
     _isArray = ctx.isArray || $c.isArray;
     _isObject = ctx.isObject || $c.isObject;
 
-    $c.isSubset = ctx.isSubset = $c.hasOwnProperty('isSubset') && $c.isSubset || ctx.hasOwnProperty('isSubset') && ctx.isSubset || isSubset;
+    ctx.isSubset = ctx.hasOwnProperty('isSubset') && ctx.isSubset || isSubset;
+    if ($c !== ctx) {
+        $c.isSubset = $c.hasOwnProperty('isSubset') && $c.isSubset || ctx.isSubset
+    }
 }
 init.isSubset = isSubset;
 module.exports = init;

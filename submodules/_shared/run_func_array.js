@@ -43,7 +43,10 @@ function init (ctx) {
     _tryEval = ctx.tryEval || $c.tryEval;
     _syncroit = ctx.syncroit || $c.syncroit;
 
-    $c.run_func_array = ctx.run_func_array = $c.run_func_array || ctx.run_func_array || run_func_array;
+    ctx.run_func_array = ctx.hasOwnProperty('run_func_array') && ctx.run_func_array || run_func_array;
+    if ($c !== ctx) {
+        $c.run_func_array = $c.hasOwnProperty('run_func_array') && $c.run_func_array || ctx.run_func_array
+    }
 }
 init.run_func_array = run_func_array;
 module.exports = init;

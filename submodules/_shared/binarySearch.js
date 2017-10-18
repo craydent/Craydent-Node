@@ -32,7 +32,11 @@ function binarySearch (arr, value){
 function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
-    $c.binarySearch = ctx.binarySearch = $c.binarySearch || ctx.binarySearch || binarySearch;
+
+   ctx.binarySearch = ctx.hasOwnProperty('binarySearch') && ctx.binarySearch || binarySearch;
+   if ($c !== ctx) {
+       $c.binarySearch = $c.hasOwnProperty('binarySearch') && $c.binarySearch || ctx.binarySearch
+   }
 }
 init.binarySearch = binarySearch;
 module.exports = init;

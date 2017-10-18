@@ -35,7 +35,11 @@ function init (ctx) {
     require('./average')($c);
     _isNumber = ctx.isNumber || $c.isNumber;
     _error = ctx.error || $c.error;
-    $c.stdev = ctx.stdev = $c.stdev || ctx.stdev || stdev;
+
+    ctx.stdev = ctx.hasOwnProperty('stdev') && ctx.stdev || stdev;
+    if ($c !== ctx) {
+        $c.stdev = $c.hasOwnProperty('stdev') && $c.stdev || ctx.stdev
+    }
 }
 init.stdev = stdev;
 module.exports = init;

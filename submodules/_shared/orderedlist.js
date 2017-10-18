@@ -70,7 +70,11 @@ function init (ctx) {
     $c = ctx.isEmpty($c) ? ctx : $c;
     _error = ctx.error || $c.error;
     _duplicate = ctx.duplicate || $c.duplicate;
-    $c.OrderedList = ctx.OrderedList = $c.OrderedList || ctx.OrderedList || OrderedList;
+
+    ctx.OrderedList = ctx.hasOwnProperty('OrderedList') && ctx.OrderedList || OrderedList;
+    if ($c !== ctx) {
+        $c.OrderedList = $c.hasOwnProperty('OrderedList') && $c.OrderedList || ctx.OrderedList
+    }
 }
 init.OrderedList = OrderedList;
 module.exports = init;

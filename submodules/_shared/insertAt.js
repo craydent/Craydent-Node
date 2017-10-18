@@ -27,7 +27,11 @@ function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     _error = ctx.error || $c.error;
-    $c.insertAt = ctx.insertAt = $c.insertAt || ctx.insertAt || insertAt;
+
+    ctx.insertAt = ctx.hasOwnProperty('insertAt') && ctx.insertAt || insertAt;
+    if ($c !== ctx) {
+        $c.insertAt = $c.hasOwnProperty('insertAt') && $c.insertAt || ctx.insertAt
+    }
 }
 init.insertAt = insertAt;
 module.exports = init;

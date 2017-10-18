@@ -26,7 +26,11 @@ function relativePathFinder (path, depth) {
 function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
-    $c.relativePathFinder = ctx.relativePathFinder = $c.relativePathFinder || ctx.relativePathFinder || relativePathFinder;
+
+    ctx.relativePathFinder = ctx.hasOwnProperty('relativePathFinder') && ctx.relativePathFinder || relativePathFinder;
+    if ($c !== ctx) {
+        $c.relativePathFinder = $c.hasOwnProperty('relativePathFinder') && $c.relativePathFinder || ctx.relativePathFinder
+    }
 }
 init.relativePathFinder = relativePathFinder;
 module.exports = init;

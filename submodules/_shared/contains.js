@@ -148,7 +148,11 @@ function init (ctx) {
     $c._contains_greaterthanequal = ctx._contains_greaterthanequal = $c._contains_greaterthanequal || ctx._contains_greaterthanequal || _contains_greaterthanequal;
     $c._contains_mod = ctx._contains_mod = $c._contains_mod || ctx._contains_mod || _contains_mod;
     $c._contains_type = ctx._contains_type = $c._contains_type || ctx._contains_type || _contains_type;
-    $c.contains = ctx.contains = $c.hasOwnProperty('contains') && $c.contains || ctx.hasOwnProperty('contains') && ctx.contains || contains;
+
+    ctx.contains = ctx.hasOwnProperty('contains') && ctx.contains || contains;
+    if ($c !== ctx) {
+        $c.contains = $c.hasOwnProperty('contains') && $c.contains || ctx.contains
+    }
 }
 init._contains_lessthan =  _contains_lessthan;
 init._contains_greaterthan =  _contains_greaterthan;

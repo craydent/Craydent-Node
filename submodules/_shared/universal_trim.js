@@ -63,7 +63,10 @@ function init (ctx) {
     _isBoolean = ctx.isBoolean || $c.isBoolean;
     _error = ctx.error || $c.error;
 
-    $c.universal_trim = ctx.universal_trim = $c.universal_trim || ctx.universal_trim || universal_trim;
+    ctx.universal_trim = ctx.hasOwnProperty('universal_trim') && ctx.universal_trim || universal_trim;
+    if ($c !== ctx) {
+        $c.universal_trim = $c.hasOwnProperty('universal_trim') && $c.universal_trim || ctx.universal_trim
+    }
 }
 init.universal_trim = universal_trim;
 module.exports = init;

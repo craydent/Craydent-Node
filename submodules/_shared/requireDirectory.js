@@ -120,7 +120,10 @@ function init (ctx) {
     _isString = ctx.isString || $c.isString;
     _error = ctx.error || $c.error;
 
-    $c.requireDirectory = ctx.requireDirectory = $c.requireDirectory || ctx.requireDirectory || requireDirectory;
+    ctx.requireDirectory = ctx.hasOwnProperty('requireDirectory') && ctx.requireDirectory || requireDirectory;
+    if ($c !== ctx) {
+        $c.requireDirectory = $c.hasOwnProperty('requireDirectory') && $c.requireDirectory || ctx.requireDirectory
+    }
 }
 init.requireDirectory = requireDirectory;
 module.exports = init;

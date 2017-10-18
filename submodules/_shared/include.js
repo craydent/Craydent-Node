@@ -47,7 +47,11 @@ function init (ctx) {
     require('./clearCache')($c);
     require('./relativePathFinder')($c);
     require('./startsWithAny')($c);
-    $c.include = ctx.include = $c.include || ctx.include || include;
+
+    ctx.include = ctx.hasOwnProperty('include') && ctx.include || include;
+    if ($c !== ctx) {
+        $c.include = $c.hasOwnProperty('include') && $c.include || ctx.include
+    }
 }
 init.include = include;
 module.exports = init;

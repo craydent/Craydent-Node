@@ -26,7 +26,10 @@ function init (ctx) {
     _isNull = ctx.isNull || $c.isNull;
     _error = ctx.error || $c.error;
 
-    $c.cut = ctx.cut = $c.cut || ctx.cut || cut;
+    ctx.cut = ctx.hasOwnProperty('cut') && ctx.cut || cut;
+    if ($c !== ctx) {
+        $c.cut = $c.hasOwnProperty('cut') && $c.cut || ctx.cut
+    }
 }
 init.cut = cut;
 module.exports = init;

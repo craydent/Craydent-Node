@@ -23,7 +23,11 @@ function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     _error = ctx.error || $c.error;
-    $c.eachProperty = ctx.eachProperty = $c.hasOwnProperty('eachProperty') && $c.eachProperty || ctx.hasOwnProperty('eachProperty') && ctx.eachProperty || eachProperty;
+
+    ctx.eachProperty = ctx.hasOwnProperty('eachProperty') && ctx.eachProperty || eachProperty;
+    if ($c !== ctx) {
+        $c.eachProperty = $c.hasOwnProperty('eachProperty') && $c.eachProperty || ctx.eachProperty
+    }
 }
 init.eachProperty = eachProperty;
 module.exports = init;

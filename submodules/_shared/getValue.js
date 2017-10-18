@@ -32,7 +32,10 @@ function init (ctx) {
     _isArray = ctx.isArray || $c.isArray;
     _isNull = ctx.isNull || $c.isNull;
 
-    $c.getValue = ctx.getValue = $c.hasOwnProperty('getValue') && $c.getValue || ctx.hasOwnProperty('getValue') && ctx.getValue || getValue;
+    ctx.getValue = ctx.hasOwnProperty('getValue') && ctx.getValue || getValue;
+    if ($c !== ctx) {
+        $c.getValue = $c.hasOwnProperty('getValue') && $c.getValue || ctx.getValue
+    }
 }
 init.getValue = getValue;
 module.exports = init;

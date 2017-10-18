@@ -29,7 +29,11 @@ function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     _error = ctx.error || $c.error;
-    $c.getKeys = ctx.getKeys = $c.hasOwnProperty('getKeys') && $c.getKeys || ctx.hasOwnProperty('getKeys') && ctx.getKeys || getKeys;
+
+    ctx.getKeys = ctx.hasOwnProperty('getKeys') && ctx.getKeys || getKeys;
+    if ($c !== ctx) {
+        $c.getKeys = $c.hasOwnProperty('getKeys') && $c.getKeys || ctx.getKeys
+    }
 }
 init.getKeys = getKeys;
 module.exports = init;

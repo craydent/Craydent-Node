@@ -36,7 +36,10 @@ function init (ctx) {
     _equals = ctx.equals || $c.equals;
     _error = ctx.error || $c.error;
 
-    $c.toSet = ctx.toSet = $c.toSet || ctx.toSet || toSet;
+    ctx.toSet = ctx.hasOwnProperty('toSet') && ctx.toSet || toSet;
+    if ($c !== ctx) {
+        $c.toSet = $c.hasOwnProperty('toSet') && $c.toSet || ctx.toSet
+    }
 }
 init.toSet = toSet;
 module.exports = init;

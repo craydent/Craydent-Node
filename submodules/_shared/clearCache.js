@@ -42,7 +42,11 @@ function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     _error = ctx.error || $c.error;
-    $c.clearCache = ctx.clearCache = $c.clearCache || ctx.clearCache || clearCache;
+
+    ctx.clearCache = ctx.hasOwnProperty('clearCache') && ctx.clearCache || clearCache;
+    if ($c !== ctx) {
+        $c.clearCache = $c.hasOwnProperty('clearCache') && $c.clearCache || ctx.clearCache
+    }
 }
 init.clearCache = clearCache;
 module.exports = init;

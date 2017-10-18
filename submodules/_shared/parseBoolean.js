@@ -46,7 +46,10 @@ function init (ctx) {
     _isBoolean = ctx.isBoolean || $c.isBoolean;
     _error = ctx.error || $c.error;
 
-    $c.parseBoolean = ctx.parseBoolean = $c.parseBoolean || ctx.parseBoolean || parseBoolean;
+    ctx.parseBoolean = ctx.hasOwnProperty('parseBoolean') && ctx.parseBoolean || parseBoolean;
+    if ($c !== ctx) {
+        $c.parseBoolean = $c.hasOwnProperty('parseBoolean') && $c.parseBoolean || ctx.parseBoolean
+    }
 }
 init.parseBoolean = parseBoolean;
 module.exports = init;

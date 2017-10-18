@@ -29,7 +29,11 @@ function init (ctx) {
     $c = ctx.isEmpty($c) ? ctx : $c;
     _isNumber = ctx.isNumber || $c.isNumber;
     _error = ctx.error || $c.error;
-    $c.average = ctx.average = $c.average || ctx.average || average;
+
+    ctx.average = ctx.hasOwnProperty('average') && ctx.average || average;
+       if ($c !== ctx) {
+           $c.average = $c.hasOwnProperty('average') && $c.average || ctx.average
+       }
 }
 init.average = average;
 module.exports = init;

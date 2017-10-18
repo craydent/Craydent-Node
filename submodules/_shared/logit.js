@@ -38,7 +38,11 @@ function init (ctx) {
     $c = ctx.isEmpty($c) ? ctx : $c;
     _error = ctx.error || $c.error;
     _cout = ctx.cout || $c.cout;
-    $c.logit = ctx.logit = $c.logit || ctx.logit || logit;
+
+    ctx.logit = ctx.hasOwnProperty('logit') && ctx.logit || logit;
+    if ($c !== ctx) {
+        $c.logit = $c.hasOwnProperty('logit') && $c.logit || ctx.logit
+    }
 }
 init.logit = logit;
 module.exports = init;

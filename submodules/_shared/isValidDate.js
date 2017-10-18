@@ -10,7 +10,6 @@ var $c = global.$c || {},
 
 function isValidDate (obj) {
     try {
-        console.log(obj);
         return !isNaN(obj.getTime());
     } catch (e) {
         _error && _error("Date.isValidDate", e);
@@ -23,7 +22,10 @@ function init (ctx) {
 
     _error = ctx.error || $c.error;
 
-    $c.isValidDate = ctx.isValidDate = $c.hasOwnProperty('isValidDate') && $c.isValidDate || ctx.hasOwnProperty('isValidDate') && ctx.isValidDate || isValidDate;
+    ctx.isValidDate = ctx.hasOwnProperty('isValidDate') && ctx.isValidDate || isValidDate;
+    if ($c !== ctx) {
+        $c.isValidDate = $c.hasOwnProperty('isValidDate') && $c.isValidDate || ctx.isValidDate
+    }
 }
 init.isValidDate = isValidDate;
 

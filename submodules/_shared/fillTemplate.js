@@ -429,7 +429,11 @@ function init (ctx) {
     _condense = ctx.condense || $c.condense;
     _strip = ctx.strip || $c.strip;
 
-    $c.fillTemplate = ctx.fillTemplate = $c.fillTemplate || ctx.fillTemplate || fillTemplate;
+    ctx.fillTemplate = ctx.hasOwnProperty('fillTemplate') && ctx.fillTemplate || fillTemplate;
+    if ($c !== ctx) {
+        $c.fillTemplate = $c.hasOwnProperty('fillTemplate') && $c.fillTemplate || ctx.fillTemplate
+    }
+//    $c.fillTemplate = ctx.fillTemplate = $c.fillTemplate || ctx.fillTemplate || fillTemplate;
 
     $c.TEMPLATE_VARS = ctx.TEMPLATE_VARS = $c.TEMPLATE_VARS || ctx.TEMPLATE_VARS || [];
     $c.TEMPLATE_TAG_CONFIG = ctx.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || ctx.TEMPLATE_TAG_CONFIG || {

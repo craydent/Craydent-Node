@@ -32,7 +32,10 @@ function init (ctx) {
     _isArray = ctx.isArray || $c.isArray;
     _error = ctx.error || $c.error;
 
-    $c.startsWithAny = ctx.startsWithAny = $c.startsWithAny || ctx.startsWithAny || startsWithAny;
+    ctx.startsWithAny = ctx.hasOwnProperty('startsWithAny') && ctx.startsWithAny || startsWithAny;
+    if ($c !== ctx) {
+        $c.startsWithAny = $c.hasOwnProperty('startsWithAny') && $c.startsWithAny || ctx.startsWithAny
+    }
 }
 init.startsWithAny = startsWithAny;
 module.exports = init;

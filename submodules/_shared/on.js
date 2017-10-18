@@ -24,7 +24,11 @@ function init (ctx) {
     $c = ctx.isEmpty($c) ? ctx : $c;
     require('./emit')($c);
     _error = ctx.error || $c.error;
-    $c.on = ctx.on = $c.on || ctx.on || on;
+
+    ctx.on = ctx.hasOwnProperty('on') && ctx.on || on;
+    if ($c !== ctx) {
+        $c.on = $c.hasOwnProperty('on') && $c.on || ctx.on
+    }
 }
 init.on = on;
 module.exports = init;

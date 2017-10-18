@@ -23,7 +23,11 @@ function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     _error = ctx.error || $c.error;
-    $c.addFlags = ctx.addFlags = $c.addFlags || ctx.addFlags || addFlags;
+
+    ctx.addFlags = ctx.hasOwnProperty('addFlags') && ctx.addFlags || addFlags;
+    if ($c !== ctx) {
+        $c.addFlags = $c.hasOwnProperty('addFlags') && $c.addFlags || ctx.addFlags
+    }
 }
 init.addFlags = addFlags;
 module.exports = init;

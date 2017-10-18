@@ -1091,7 +1091,12 @@ function init(ctx) {
     $c._rangeSearch = ctx._rangeSearch = $c._rangeSearch || ctx._rangeSearch || _rangeSearch;
     $c._copyWithProjection = ctx._copyWithProjection = $c._copyWithProjection || ctx._copyWithProjection || _copyWithProjection;
     $c._subQuery = ctx._subQuery = $c._subQuery || ctx._subQuery || _subQuery;
-    $c.where = ctx.where = $c.where || ctx.where || where;
+
+
+    ctx.where = ctx.hasOwnProperty('where') && ctx.where || where;
+    if ($c !== ctx) {
+        $c.where = $c.hasOwnProperty('where') && $c.where || ctx.where
+    }
 }
 init.__queryNestedProperty = __queryNestedProperty;
 init.__parseCond = __parseCond;

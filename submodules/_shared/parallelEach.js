@@ -73,7 +73,10 @@ function init (ctx) {
     _isPromise = ctx.isPromise || $c.isPromise;
     _error = ctx.error || $c.error;
 
-    $c.parallelEach = ctx.parallelEach = $c.parallelEach || ctx.parallelEach || parallelEach;
+    ctx.parallelEach = ctx.hasOwnProperty('parallelEach') && ctx.parallelEach || parallelEach;
+    if ($c !== ctx) {
+        $c.parallelEach = $c.hasOwnProperty('parallelEach') && $c.parallelEach || ctx.parallelEach
+    }
 }
 init.parallelEach = parallelEach;
 module.exports = init;

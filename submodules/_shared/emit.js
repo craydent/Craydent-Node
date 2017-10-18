@@ -53,7 +53,11 @@ function init (ctx) {
     $c = ctx.isEmpty($c) ? ctx : $c;
     require('./run_func_array')($c);
     _error = ctx.error || $c.error;
-    $c.emit = ctx.emit = $c.emit || ctx.emit || emit;
+
+    ctx.emit = ctx.hasOwnProperty('emit') && ctx.emit || emit;
+    if ($c !== ctx) {
+        $c.emit = $c.hasOwnProperty('emit') && $c.emit || ctx.emit
+    }
 }
 init.on = emit;
 module.exports = init;

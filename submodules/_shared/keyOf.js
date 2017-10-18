@@ -25,7 +25,11 @@ function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     _error = ctx.error || $c.error
-    $c.keyOf = ctx.keyOf = $c.hasOwnProperty('keyOf') && $c.keyOf || ctx.hasOwnProperty('keyOf') && ctx.keyOf || keyOf;
+
+    ctx.keyOf = ctx.hasOwnProperty('keyOf') && ctx.keyOf || keyOf;
+    if ($c !== ctx) {
+        $c.keyOf = $c.hasOwnProperty('keyOf') && $c.keyOf || ctx.keyOf
+    }
 }
 init.keyOf = keyOf;
 module.exports = init;

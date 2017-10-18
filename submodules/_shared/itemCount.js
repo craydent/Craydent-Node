@@ -30,7 +30,10 @@ function init (ctx) {
     _error = ctx.error || $c.error,
     _isObject = ctx.isObject || $c.isObject
 
-    $c.itemCount = ctx.itemCount = $c.hasOwnProperty('itemCount') && $c.itemCount || ctx.hasOwnProperty('itemCount') && ctx.itemCount || itemCount;
+    ctx.itemCount = ctx.hasOwnProperty('itemCount') && ctx.itemCount || itemCount;
+    if ($c !== ctx) {
+        $c.itemCount = $c.hasOwnProperty('itemCount') && $c.itemCount || ctx.itemCount
+    }
 }
 init.itemCount = itemCount;
 
