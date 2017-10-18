@@ -1,0 +1,48 @@
+{
+    "name": "@craydent/craydent-object",
+    "version": "0.8.2",
+    "description": "",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/object.git"
+    },
+    "keywords": [
+        "craydent",
+        "object",
+        "library",
+        "jquery",
+        "es6",
+        "sugar",
+        "array",
+        "class",
+        "co",
+        "control flow",
+        "date",
+        "function",
+        "json",
+        "moment",
+        "mongo",
+        "mongodb",
+        "number",
+        "object",
+        "regexp",
+        "string",
+        "template",
+        "typeof",
+        "utilities"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/object#readme",
+    "dependencies": {
+        "craydent-typeof": "file:../typeof"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}

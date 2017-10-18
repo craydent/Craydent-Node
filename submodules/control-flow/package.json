@@ -1,0 +1,32 @@
+{
+    "name": "@craydent/craydent-control-flow",
+    "version": "0.8.2",
+    "description": "Node module for control flow and async functionality to simplify code for maintainability and readability",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/control-flow.git"
+    },
+    "keywords": [
+        "craydent",
+        "control-flow",
+        "library",
+        "jquery",
+        "es6",
+        "sugar",
+        "utilities"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/control-flow#readme",
+    "dependencies": {
+        "craydent-typeof": "file:../typeof"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}

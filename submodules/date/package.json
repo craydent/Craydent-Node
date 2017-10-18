@@ -1,0 +1,34 @@
+{
+    "name": "@craydent/craydent-date",
+    "version": "0.8.2",
+    "description": "Node module to extend fs/file system functionality and simplify code for maintainability and readability",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/date.git"
+    },
+    "keywords": [
+        "craydent",
+        "date",
+        "library",
+        "jquery",
+        "es6",
+        "sugar",
+        "moment",
+        "parser",
+        "utilities"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/date#readme",
+    "dependencies": {
+        "craydent-typeof": "file:../typeof"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}

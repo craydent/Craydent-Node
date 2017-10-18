@@ -5,51 +5,21 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var cm = require('./common'),
-    $c = cm.$c,
-    _ext = c.ext,
-    _getFuncArgs = cm.getFuncArgs,
-    syncroit = cm.syncroit,
-    tryEval = cm.tryEval,
+var $s = require('./dependencies/common')(),
+    $c = $s.$c,
+    ext = $s.ext,
+    error = $s.error;
 
-    t = require('craydent-typeof');
+if ($c.MODULES_LOADED[$s.info.name]) { return; }
+$s.__log_module();
+$s.scope.eval = function (str) { return eval(str); };
 
+require($s.dir + 'on')($s);
+require($s.dir + 'emit')($s);
+require($s.dir + 'getValue')($s);
+require($s.dir + 'namespace')($s);
+require($s.dir + 'run_func_array')($s);
 
-function emit(ev) {
-    /*|{
-        "info": "Call the next function(s) in queue",
-        "category": "Global",
-        "parameters":[
-            {"event": "Event to trigger."}],
-
-        "overloads":[
-            {"parameters":[
-                {"event": "Event to trigger."},
-                {"infinite": "any number of arguments can be passed and will be applied to listening functions."}]}],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#emit",
-        "returnType":"(void)"
-    }|*/
-    var args = arguments, vals = [];
-    try {
-        if (!t.isArray(args)) {
-            args = [];
-            for (var prop in arguments) {
-                args[prop] = arguments[prop];
-            }
-            args.callee = arguments.callee;
-        }
-        if (args.callee.caller['_emit']) {
-            vals = vals.concat(_run_func_array.call(this, args.callee.caller['_emit'], args));
-        }
-        if (ev && args.callee.caller['_'+ev]) {
-            vals = vals.concat(_run_func_array.call(this, args.callee.caller['_' + ev], args.splice(1)));
-        }
-        return vals;
-    } catch (e) {
-        return e != 'catch' && _run_func_array.call(this, arguments.callee.caller['_catch'], args.length == arguments.length ? args.splice(1) : args);
-    }
-}
 function next () {
     /*|{
         "info": "Call the next function(s) in queue",
@@ -64,54 +34,42 @@ function next () {
     }|*/
     var args = arguments;
     try {
-        if (!t.isArray(args)) {
+        if (!$s.isArray(args)) {
             args = [];
             for (var prop in arguments) {
                 args[prop] = arguments[prop];
             }
             args.callee = arguments.callee;
         }
-        return _run_func_array.call(this, arguments.callee.caller._then, arguments);
+        return $s.run_func_array.call(this, arguments.callee.caller._then, arguments);
     } catch (e) {
-        return e != 'catch' && _run_func_array.call(this, arguments.callee.caller['_catch'], args.length == arguments.length ? args.splice(1) : args);
+        return e != 'catch' && $s.run_func_array.call(this, arguments.callee.caller['_catch'], args.length == arguments.length ? args.splice(1) : args);
     }
 }
 
-_ext(Function, 'getParameters', function () {
+
+ext(Function, "equals", function (compare, props){
     /*|{
-        "info": "Function class extension to get parameters in definition",
-        "category": "Function",
-        "parameters":[],
+        "info": "Object class extension to check if object values are equal",
+        "category": "Object",
+        "parameters":[
+            {"compare": "(Object) Object to compare against"}],
 
-        "overloads":[],
+        "overloads":[
+            {"parameters":[
+                {"compare": "(Object) Object to compare against"},
+                {"props": "(String[]) Array of property values to compare against"}]}],
 
-        "url": "http://www.craydent.com/library/1.9.3/docs#function.getParameters",
-        "returnType": "(Array)"
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.equals",
+        "returnType": "(Bool)"
     }|*/
     try {
-        return _getFuncArgs(this);
+        return $s.equals(this, compare, props);
     } catch (e) {
-        error("Function.getParameters", e);
+        error('Function.equals', e);
     }
 }, true);
-_ext(Function, 'getName', function () {
-    /*|{
-        "info": "Function class extension to get the name of the function",
-        "category": "Function",
-        "parameters":[],
-
-        "overloads":[],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#function.getName",
-        "returnType": "(String)"
-    }|*/
-    try {
-        return this.name || getFuncName(this);
-    } catch (e) {
-        error("Function.getName", e);
-    }
-}, true);
-_ext(Function, 'extends',function(extendee, inheritAsOwn){
+ext(Function, 'extends',function(extendee, inheritAsOwn){
     /*|{
         "info": "Function class extension to extend another class",
         "category": "Function",
@@ -127,9 +85,9 @@ _ext(Function, 'extends',function(extendee, inheritAsOwn){
         "returnType": "(Function)"
     }|*/
     try {
-        var className = $c.getName(this),
+        var className = $s.getFuncName(this),
             cls = new extendee();
-        $c.namespace[className] = $c.namespaces && $c.namespaces[className];
+        $s.namespace[className] = $s.namespaces && $s.namespaces[className];
         for (var prop in cls) {
             if (inheritAsOwn && !cls.hasOwnProperty(prop)) { continue; }
             this.prototype[prop] = /* this[prop] || */ this.prototype[prop] || cls[prop];
@@ -142,14 +100,71 @@ _ext(Function, 'extends',function(extendee, inheritAsOwn){
                 this[prop] = this[prop] || extendee[prop];
             }
         }
-        this.prototype.construct = this.prototype.construct || cls.construct || foo;
+        this.prototype.construct = this.prototype.construct || cls.construct || $s.foo;
 
         return this;
     } catch (e) {
         error("Function.extends", e);
     }
 }, true);
-_ext(Function, 'on',function(ev, func){
+ext(Function, 'getParameters', function () {
+    /*|{
+        "info": "Function class extension to get parameters in definition",
+        "category": "Function",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#function.getParameters",
+        "returnType": "(Array)"
+    }|*/
+    try {
+        return $s.getFuncArgs(this);
+    } catch (e) {
+        error("Function.getParameters", e);
+    }
+}, true);
+ext(Function, 'getName', function () {
+    /*|{
+        "info": "Function class extension to get the name of the function",
+        "category": "Function",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#function.getName",
+        "returnType": "(String)"
+    }|*/
+    try {
+        return this.name || $s.getFuncName(this);
+    } catch (e) {
+        error("Function.getName", e);
+    }
+}, true);
+ext(Function, "getValue" ,function (args, dflt) {
+    /*|{
+        "info": "Object class extension to retrieve value of an object property",
+        "category": "Object",
+        "parameters":[],
+
+        "overloads":[
+            {"parameters":[
+                {"dflt": "(Mixed) Default value to return if context is not a function"}]},
+
+            {"parameters":[
+                {"args": "(Mixed[]) An array of arguments to pass to context when it is a function"},
+                {"dflt": "(Mixed) Default value to return if context is not a function"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.getValue",
+        "returnType": "(Mixed)"
+    }|*/
+    try {
+        return $s.getValue(this, args, dflt);
+    } catch (e) {
+        error('Function.getValue', e);
+    }
+}, true);
+ext(Function, 'on',function(ev, func){
     /*|{
         "info": "Function listener to register events",
         "category": "Function",
@@ -163,14 +178,13 @@ _ext(Function, 'on',function(ev, func){
         "returnType": "(String)"
     }|*/
     try {
-        this["_"+ev] = this["_"+ev] || [];
-        this["_"+ev].push(func);
+        return $s.on(this, ev, func);
     } catch (e) {
-        error("Function.on", e);
+        error('Function.on', e);
     }
 }, true);
-var _genConstruct = tryEval(('(function *(){}).constructor'));
-_genConstruct && _ext(_genConstruct, 'toPromise',function(){
+var _genConstruct = $s.tryEval(('(function *(){}).constructor'));
+_genConstruct && ext(_genConstruct, 'toPromise',function(){
     /*|{
         "info": "Function listener to register events",
         "category": "Function",
@@ -185,13 +199,13 @@ _genConstruct && _ext(_genConstruct, 'toPromise',function(){
     }|*/
     try {
         return new Promise(function(resolve,reject){
-            syncroit(_genConstruct);
+            $s.syncroit(_genConstruct);
         });
     } catch (e) {
         error("GeneratorFunction.toPromise", e);
     }
 }, true);
-_ext(Function, 'then',function(func){
+ext(Function, 'then',function(func){
     /*|{
         "info": "Function listener to register the then event",
         "category": "Function",
@@ -204,12 +218,12 @@ _ext(Function, 'then',function(func){
         "returnType": "(String)"
     }|*/
     try {
-        $c.on(this,'then',func);
+        $s.on(this,'then',func);
     } catch (e) {
         error("Function.then", e);
     }
 }, true);
-_ext(Function, 'catch',function(func){
+ext(Function, 'catch',function(func){
     /*|{
         "info": "Function listener to register the catch event",
         "category": "Function",
@@ -222,8 +236,14 @@ _ext(Function, 'catch',function(func){
         "returnType": "(String)"
     }|*/
     try {
-        $c.on(this,'catch',func);
+        $s.on(this,'catch',func);
     } catch (e) {
         error("Function.catch", e);
     }
 }, true);
+
+$c.emit = $s.emit;
+$c.namespace = $s.namespace;
+$c.next = next;
+
+module.exports = $c;

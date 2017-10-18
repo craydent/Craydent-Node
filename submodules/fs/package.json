@@ -1,0 +1,35 @@
+{
+    "name": "@craydent/craydent-fs",
+    "version": "0.8.2",
+    "description": "Node module to extend fs functionality and simplify code for maintainability and readability",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/fs.git"
+    },
+    "keywords": [
+        "craydent",
+        "fs",
+        "library",
+        "jquery",
+        "es6",
+        "sugar",
+        "require",
+        "require directory",
+        "file",
+        "utilities"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/fs#readme",
+    "dependencies": {
+        "craydent-typeof": "file:../typeof"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}

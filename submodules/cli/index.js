@@ -5,9 +5,51 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var c = require('./common'),
-    t = require('craydent-typeof'),
-    f = require('craydent-control-flow');
+var $s = require('./dependencies/common')(),
+    $c = $s.$c,
+    error = $s.error;
+
+if ($c.MODULES_LOADED[$s.info.name]) { return; }
+$s.__log_module();
+$s.scope.eval = function (str) { return eval(str); };
+
+require($s.dir + 'logit')($s);
+require($s.dir + 'parseBoolean')($s);
+
+function _cli_exec (command, options, callback) {
+    var child = require('child_process');
+    if (typeof options == 'function') {
+        callback = options;
+        options = undefined;
+    }
+    return new Promise(function(res,rej) {
+        try {
+            if (!command) { res(false); }
+            options = options || {};
+            options.silent = !!options.silent;
+
+            var output = '';
+            var cprocess = child.exec(command, {env: process.env, maxBuffer: 20 * 1024 * 1024}, function (err) {
+                var re = callback || (!err || options.alwaysResolve ? res : rej);
+                if (options.outputOnly) { return re(output); }
+                if (callback) { return re.call(cprocess, err ? err.code : 0, output); }
+                re({code: err ? err.code : 0, output: output});
+            });
+
+            cprocess.stdout.on('data', function (data) {
+                output += data;
+                if (!options.silent) { process.stdout.write(data); }
+            });
+
+            cprocess.stderr.on('data', function (data) {
+                output += data;
+                if (!options.silent) { process.stdout.write(data); }
+            });
+        } catch (e) {
+            error('CLI.exec', e);
+        }
+    });
+}
 
 /*----------------------------------------------------------------------------------------------------------------
  /-	CLI Class
@@ -91,13 +133,13 @@ function CLI (params) {
                     self.isHelp = true;
                 }
                 if (!args[i + 1] || args[i + 1][0] == '-') {
-                    cself[c.strip(arg,'-')] = true;
+                    cself[$s.strip(arg,'-')] = true;
                     continue;
                 }
                 i++;
-                cself[c.strip(arg,'-')] = args[i];
+                cself[$s.strip(arg,'-')] = args[i];
             } else if (arg[0] == '-') { // this is a single char label
-                var opts = c.strip(arg,'-');
+                var opts = $s.strip(arg,'-');
                 if (opts.length == 1) {
                     if (!args[i + 1] || args[i + 1][0] == '-') {
                         cself[opts] = true;
@@ -113,18 +155,18 @@ function CLI (params) {
             }
         }
         self.isValid = function () {
-            try { validate(); return true;} catch (e) { c.logit(e); return false;}
+            try { validate(); return true;} catch (e) { $s.logit(e); return false;}
         };
         self.validate = validate;
         function processOptions (option, value) {
             value = value || {};
-            if (!t.isObject(option)) { throw "Error: Option [" + JSON.stringify(option) + "] must be an object.  Option will be ignored."; }
+            if (!$s.isObject(option)) { throw "Error: Option [" + JSON.stringify(option) + "] must be an object.  Option will be ignored."; }
             if (!option.option) { return [option]; }
             var o = option.option.split(',');
             if (o.length === 1) { return [option]; }
             var arr = [];
             for (var i = 0, len = o.length; i < len; i++) {
-                var prop = c.strip(o[i], '-');
+                var prop = $s.strip(o[i], '-');
                 if (prop != "name" && self[prop]) { value.value = self[prop]; }
                 arr.push({
                     option:o[i],
@@ -145,23 +187,23 @@ function CLI (params) {
             }
 
             for (var i = 0, len = options.length; i < len; i++) {
-                var option = options[i], copt = c.strip(option.option.split(',')[0],'-');
+                var option = options[i], copt = $s.strip(option.option.split(',')[0],'-');
                 if (self[copt] === undefined) { self[copt] = self.UsingLabels && self.Arguments[i] || option.default; }
-                if (option.required && t.isNull(self[copt])) {
+                if (option.required && $s.isNull(self[copt])) {
                     throw 'Option ' + option.option + ' is required.';
-                } else if (option.type && !t.isNull(self[copt])){
+                } else if (option.type && !$s.isNull(self[copt])){
                     switch (option.type.toLowerCase()) {
                         case "number":
                             self[copt] = isNaN(Number(self[copt])) ? self[copt] : Number(self[copt]);
                             break;
                         case "array":
                         case "object":
-                            self[copt] = c.tryEval(self[copt],JSON.parseAdvanced) || self[copt];
+                            self[copt] = $s.tryEval(self[copt],JSON.parseAdvanced) || self[copt];
                             break;
                         case "bool":
                         case "boolean":
-                            var tmp = c.parseBoolean(self[copt]);
-                            self[copt] =  t.isNull(tmp) ? self[copt] : tmp;
+                            var tmp = $s.parseBoolean(self[copt]);
+                            self[copt] =  $s.isNull(tmp) ? self[copt] : tmp;
                             break;
                     }
                     if (typeof self[copt] != option.type) {
@@ -176,7 +218,7 @@ function CLI (params) {
                 var value = {}, popt = processOptions(opt, value), options = self.Options;
                 options = self.Commands[opt.command] = self.Commands[opt.command] || [];
                 _commandIndex.push(opt.command);
-                if (!t.isNull(_command_possible) && _command_possible == opt.command) {
+                if (!$s.isNull(_command_possible) && _command_possible == opt.command) {
                     for (var i = 0, len = self.Commands['*'].length; i < len; i++) {
                         var topt = processOptions(self.Commands['*'][i]);
 
@@ -193,7 +235,7 @@ function CLI (params) {
                         self.Arguments.splice(0,1);
                     }
                     var val = !self.UsingLabels && self.Arguments[options.length] || value.value || opt.default;
-                    for (var i = 0, len = popt.length; i < len && !t.isNull(val); i++) {
+                    for (var i = 0, len = popt.length; i < len && !$s.isNull(val); i++) {
                         var v = val;
                         switch (popt[i].type.toLowerCase()) {
                             case "number":
@@ -202,12 +244,12 @@ function CLI (params) {
                                 break;
                             case "array":
                             case "object":
-                                v = c.tryEval(v,JSON.parseAdvanced) || v;
+                                v = $s.tryEval(v,JSON.parseAdvanced) || v;
                                 break;
                             case "bool":
                             case "boolean":
-                                var tmp = c.parseBoolean(v);
-                                v =  t.isNull(tmp) ? v : tmp;
+                                var tmp = $s.parseBoolean(v);
+                                v =  $s.isNull(tmp) ? v : tmp;
                                 break;
                         }
                         self[popt[i]._property] = v;
@@ -223,14 +265,14 @@ function CLI (params) {
         self.command = function (cmd, opts) {
             try {
                 opts = opts || [];
-                if (t.isNull(cmd)) { throw "Command name must be provided. This operation will be ignored."; }
+                if ($s.isNull(cmd)) { throw "Command name must be provided. This operation will be ignored."; }
                 var cindexCMD = cmd.split(/\s/)[0];
                 _commandIndex.push(cindexCMD);
                 if (args[2] == cindexCMD) { self.CommandName = cindexCMD; }
-                if (!t.isArray(opts)) { opts = [opts]; }
+                if (!$s.isArray(opts)) { opts = [opts]; }
                 for (var i = 0, len = opts.length; i < len; i++) {
                     var opt = opts[i];
-                    if (!t.isObject(opt)) {
+                    if (!$s.isObject(opt)) {
                         error('CLI.command', new Error("Option [" + JSON.stringify(opt) + "] must be an object.  Option will be ignored."));
                         continue;
                     }
@@ -244,15 +286,15 @@ function CLI (params) {
             }
         };
         self.action = function (name, cb) {
-            if (t.isFunction(name) || t.isGenerator(name) || t.isAsync(name)) {
+            if ($s.isFunction(name) || $s.isGenerator(name) || $s.isAsync(name)) {
                 cb = name;
                 name = _commandIndex[_commandIndex.length - 1];
             }
 
             if (self.CommandName == name) {
-                if (t.isGenerator(cb)) {
-                    eval('f.syncroit(function*(){ return yield* cb.call(self,args[2]); });');
-                } else if (t.isAsync(cb)) {
+                if ($s.isGenerator(cb)) {
+                    eval('$s.syncroit(function*(){ return yield* cb.call(self,args[2]); });');
+                } else if ($s.isAsync(cb)) {
                     eval('(async function (){ return await cb.call(self,args[2]); })();');
                 } else {
                     cb.call(self, args[2]);
@@ -325,4 +367,6 @@ function CLI (params) {
 }
 CLI.exec = _cli_exec;
 
-module.exports.CLI = CLI;
+$c.CLI = CLI;
+
+module.exports = $c;

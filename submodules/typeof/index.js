@@ -5,11 +5,35 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-//TODO: document methods
+var info = require('./package.json');
+global.$g = global;
+var $c = $g.$c = $g.$c || { VERSION: info.version, MODULES_LOADED: {} };
+
+//require('./dependencies/itemCount');
+
+function __isNewer(loadedVersion, thisVersion){
+    if (loadedVersion[0] == thisVersion[0]) {
+        loadedVersion.splice(0,1);
+        thisVersion.splice(0,1);
+        if (!thisVersion.length || !loadedVersion.length) {
+            return false;
+        }
+        return __isNewer(loadedVersion, thisVersion);
+    }
+    return parseInt(loadedVersion[0]) < parseInt(thisVersion[0]);
+}
+!$c.MODULES_LOADED && console.log($c);
+if ($c.MODULES_LOADED[info.name] && __isNewer($c.VERSION.split('.'), info.version.split('.'))) { return; }
+$c.MODULES_LOADED[info.name] = true;
+
 function _type_check (obj, cls, backward_compatible){
-    if (isNull(obj)) { return false; }
-    if (backward_compatible) { return obj.constructor.name == cls; }
-    return obj.constructor == cls;
+    try {
+        if (isNull(obj)) { return false; }
+        if (backward_compatible) { return obj.constructor.name == cls; }
+        return obj.constructor == cls;
+    } catch (e) {
+        $c.error && $c.error('is' + cls.constructor.name, e);
+    }
 }
 
 function isArray (obj) {
@@ -23,11 +47,7 @@ function isArray (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isArray",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, Array);
-    } catch (e) {
-        error('_isArray', e);
-    }
+    return _type_check(obj, Array);
 }
 function isAsync (obj) {
     /*|{
@@ -40,11 +60,7 @@ function isAsync (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isAsnyc",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, "AsyncFunction", true);
-    } catch (e) {
-        error('Object.isAsync', e);
-    }
+    return _type_check(obj, "AsyncFunction", true);
 }
 function isBetween (obj, lowerBound, upperBound, inclusive) {
     /*|{
@@ -63,15 +79,11 @@ function isBetween (obj, lowerBound, upperBound, inclusive) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isBetween",
         "returnType": "(Bool)"
     }|*/
-    try {
-        if (isNull(obj)) {return false;}
-        if (inclusive) {
-            return (obj >= lowerBound && obj <= upperBound);
-        } else {
-            return (obj > lowerBound && obj < upperBound);
-        }
-    } catch (e) {
-        error('Object.isBetween', e);
+    if (isNull(obj)) {return false;}
+    if (inclusive) {
+        return (obj >= lowerBound && obj <= upperBound);
+    } else {
+        return (obj > lowerBound && obj < upperBound);
     }
 }
 function isBoolean (obj) {
@@ -85,11 +97,7 @@ function isBoolean (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isBoolean",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, Boolean);
-    } catch (e) {
-        error('Object.isBoolean', e);
-    }
+    return _type_check(obj, Boolean);
 }
 function isDate (obj) {
     /*|{
@@ -102,11 +110,7 @@ function isDate (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isDate",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, Date);
-    } catch (e) {
-        error('Object.isDate', e);
-    }
+    return _type_check(obj, Date);
 }
 function isDomElement (obj) {
     /*|{
@@ -120,10 +124,10 @@ function isDomElement (obj) {
         "returnType": "(Bool)"
     }|*/
     try {
-        if (isNull(obj)) {return false;}
+        if (isNull(obj)) { return false; }
         return (obj.nodeType == 1);
     } catch (e) {
-        error('Object.isDomElement', e);
+        $c.error && $c.error('Object.isDomElement', e);
     }
 }
 function isEmpty (obj) {
@@ -141,12 +145,11 @@ function isEmpty (obj) {
         if (isArray(obj) || isString(obj)) { return !obj.length; }
         if (isObject(obj)) { return !$c.itemCount(obj); }
         if (isFunction(obj)) {
-            return /function.*?\(.*?\)\{\}/.test(this.toString().replace(/[\n ]/g,''));
+            return /function.*?\(.*?\)\{\}/.test(obj.toString().replace(/[\n ]/g,''));
         }
         return false;
     } catch (e) {
-        error("Object.isEmpty", e);
-        return false;
+        $c.error && $c.error("Object.isEmpty", e);
     }
 }
 function isError (obj) {
@@ -160,11 +163,7 @@ function isError (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isError",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, Error);
-    } catch (e) {
-        error('Object.isError', e);
-    }
+    return _type_check(obj, Error);
 }
 function isFloat (obj) {
     /*|{
@@ -179,9 +178,9 @@ function isFloat (obj) {
     }|*/
     try {
         if (isNull(obj)) {return false;}
-        return (isNumber(obj) && (parseFloat(obj) == this || parseFloat(obj) === 0));
+        return (isNumber(obj) && (parseFloat(obj) == obj || parseFloat(obj) === 0));
     } catch (e) {
-        error('Object.isFloat', e);
+        $c.error && $c.error('Object.isFloat', e);
     }
 }
 function isFunction(obj) {
@@ -195,11 +194,7 @@ function isFunction(obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isFunction",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, Function);
-    } catch (e) {
-        error('Object.isFunction', e);
-    }
+    return _type_check(obj, Function);
 }
 function isGenerator (obj) {
     /*|{
@@ -212,11 +207,7 @@ function isGenerator (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isGenerator",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, "GeneratorFunction", true);
-    } catch (e) {
-        error('Object.isGenerator', e);
-    }
+    return _type_check(obj, "GeneratorFunction", true);
 }
 function isGeolocation (obj) {
     /*|{
@@ -229,11 +220,7 @@ function isGeolocation (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isGeoLocation",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, "Geolocation", true);
-    } catch (e) {
-        error('Object.isGeolocation', e);
-    }
+    return _type_check(obj, "Geolocation", true);
 }
 function isInt (obj) {
     /*|{
@@ -250,10 +237,10 @@ function isInt (obj) {
         if (isNull(obj) || isArray(obj)) { return false; }
         return (parseInt(obj) == obj || parseInt(obj) === 0);
     } catch (e) {
-        error('Object.isInt', e);
+        $c.error && $c.error('Object.isInt', e);
     }
 }
-function isNull(obj, value, defaultValue) {
+function isNull(value, defaultValue) {
     /*|{
         "info": "Check if a value is Null",
         "category": "Global",
@@ -268,11 +255,15 @@ function isNull(obj, value, defaultValue) {
         "url": "http://www.craydent.com/library/1.9.3/docs#isNull",
         "returnType": "(Mixed)"
     }|*/
-    var isnull = value == null || value == undefined;
-    if (arguments.length === 1) {
-        return isnull;
+    try {
+        var isnull = value == null || value == undefined;
+        if (arguments.length === 1) {
+            return isnull;
+        }
+        return isnull ? defaultValue : value;
+    } catch (e) {
+        $c.error && $c.error('isNull', e);
     }
-    return isnull ? defaultValue : value;
 }
 function isNumber (obj) {
     /*|{
@@ -285,11 +276,7 @@ function isNumber (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isNumber",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, Number);
-    } catch (e) {
-        error('Object.isNumber', e);
-    }
+    return _type_check(obj, Number);
 }
 function isObject (obj, check_instance) {
     /*|{
@@ -306,7 +293,7 @@ function isObject (obj, check_instance) {
         if (isNull(obj)) { return false; }
         return (obj.constructor == Object || (!!check_instance && obj instanceof Object));
     } catch (e) {
-        error('Object.isObject', e);
+        $c.error && $c.error('Object.isObject', e);
     }
 }
 function isPromise (obj) {
@@ -320,11 +307,7 @@ function isPromise (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isPromise",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, "Promise", true);
-    } catch (e) {
-        error('Object.isPromise', e);
-    }
+    return _type_check(obj, "Promise", true);
 }
 function isRegExp(obj) {
     /*|{
@@ -337,11 +320,7 @@ function isRegExp(obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isRegExp",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, RegExp);
-    } catch (e) {
-        error('Object.isRegExp', e);
-    }
+    return _type_check(obj, RegExp);
 }
 function isString (obj) {
     /*|{
@@ -354,29 +333,29 @@ function isString (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isString",
         "returnType": "(Bool)"
     }|*/
-    try {
-        return _type_check(obj, String);
-    } catch (e) {
-        error('_isString', e);
-    }
+    return _type_check(obj, String);
 }
 
-module.exports.isArray = isArray;
-module.exports.isAsync = isAsync;
-module.exports.isBetween = isBetween;
-module.exports.isBoolean = isBoolean;
-module.exports.isDate = isDate;
-module.exports.isDomElement = isDomElement;
-module.exports.isEmpty = isEmpty;
-module.exports.isError = isError;
-module.exports.isFloat = isFloat;
-module.exports.isFunction = isFunction;
-module.exports.isGenerator = isGenerator;
-module.exports.isGeolocation = isGeolocation;
-module.exports.isInt = isInt;
-module.exports.isNull = isNull;
-module.exports.isNumber = isNumber;
-module.exports.isObject = isObject;
-module.exports.isPromise = isPromise;
-module.exports.isRegExp = isRegExp;
-module.exports.isString = isString;
+$c.isArray = isArray;
+$c.isAsync = isAsync;
+$c.isBetween = isBetween;
+$c.isBoolean = isBoolean;
+$c.isDate = isDate;
+$c.isDomElement = isDomElement;
+$c.isEmpty = isEmpty;
+$c.isError = isError;
+$c.isFloat = isFloat;
+$c.isFunction = isFunction;
+$c.isGenerator = isGenerator;
+$c.isGeolocation = isGeolocation;
+$c.isInt = isInt;
+$c.isNull = isNull;
+$c.isNumber = isNumber;
+$c.isObject = isObject;
+$c.isPromise = isPromise;
+$c.isRegExp = isRegExp;
+$c.isString = isString;
+
+require('./dependencies/itemCount')($c);
+
+module.exports = $c;

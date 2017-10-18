@@ -1,0 +1,34 @@
+{
+    "name": "@craydent/craydent-array",
+    "version": "0.8.2",
+    "description": "Node module to extend array functionality and simplify code for maintainability and readability",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/array.git"
+    },
+    "keywords": [
+        "craydent",
+        "array",
+        "library",
+        "jquery",
+        "es6",
+        "sugar",
+        "mongo",
+        "mongodb",
+        "utilities"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/array#readme",
+    "dependencies": {
+        "craydent-typeof": "file:../typeof"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}

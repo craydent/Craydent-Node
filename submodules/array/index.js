@@ -5,26 +5,120 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var cm = require('./common'),
-    $c = cm.$c,
-    _condense = cm.condense,
-    _ext = cm.ext,
-    _indexOf = cm.indexOf,
-    _indexOfAlt = cm.indexOfAlt,
-    _isArray = cm.isArray,
-    _isAsync = cm.isAsync,
-    _isBoolean = cm.isBoolean,
-    _isFunction = cm.isFunction,
-    _isGenerator = cm.isGenerator,
-    _isNumber = cm.isNumber,
-    _isObject = cm.isObject,
-    _isString = cm.isString,
-    _duplicate = cm.duplicate,
-    _equals = cm.equals,
-    _merge = cm.merge,
-    rand = cm.rand;
+var $s = require('./dependencies/common')(),
+    $c = $s.$c,
+    ext = $s.ext,
+    error = $s.error;
 
+if ($c.MODULES_LOADED[$s.info.name]) { return; }
+$s.__log_module();
+$s.scope.eval = function(str) { return eval(str); };
 
+require($s.dir + '_add_to_index')($s);
+require($s.dir + '_remove_from_index')($s);
+require($s.dir + 'average')($s);
+require($s.dir + 'contains')($s);
+require($s.dir + 'count')($s);
+require($s.dir + 'date')($s);
+require($s.dir + 'emit')($s);
+require($s.dir + 'getKeys')($s);
+require($s.dir + 'getValue')($s);
+require($s.dir + 'insertAt')($s);
+require($s.dir + 'isSubset')($s);
+require($s.dir + 'on')($s);
+require($s.dir + 'parallelEach')($s);
+require($s.dir + 'parseBoolean')($s);
+require($s.dir + 'remove')($s);
+require($s.dir + 'removeAll')($s);
+require($s.dir + 'removeAt')($s);
+require($s.dir + 'stdev')($s);
+require($s.dir + 'toSet')($s);
+require($s.dir + 'universal_trim')($s);
+require($s.dir + 'where')($s);
+
+function __create_index(obj, indexes) {
+    indexes = $c.condense(indexes, true);
+    if (!indexes || !indexes.length) { return false; }
+    if (!$s.isArray(indexes)) { indexes = indexes.split(','); }
+    // obj.__indexes = {};
+    obj.__indexed_buckets = obj.__indexed_buckets || {};
+    for (var i = 0, len = indexes.length; i < len; i++) {
+        var prop = indexes[i], arr = obj.slice();
+
+        var bucket = obj.__indexed_buckets[prop] = {};
+        // bucket.__sorted_array = arr;
+        var keys = bucket.__bucket__keys = [];
+        // obj.__indexes[prop] = arr;
+        // obj.__indexes.buckets = obj.__indexes.buckets || {};
+        // arr.buckets = arr.buckets || {};
+        // var bucket = arr.buckets[prop] = arr.buckets[prop] || {};
+        // var bucket = obj.__indexes.buckets[prop] =
+        // obj.__indexes.buckets[prop] || {__bucket__keys:[]};
+
+        arr.sort(function(a, b) {
+            if (a[prop] < b[prop]) { return -1; }
+            if (a[prop] > b[prop]) { return 1; }
+            return 0;
+        });
+        var last_key = '';
+        for (var j = 0, jlen = arr.length; j < jlen; j++) {
+            var item = arr[j];
+            if (last_key !== item[prop]) {
+                last_key = item[prop];
+                keys.push(item[prop]);
+            }
+            bucket[item[prop]] = bucket[item[prop]] || [];
+            bucket[item[prop]].push(item);
+
+        }
+        // for (var j = 0, jlen = obj.length; j < jlen; j++) {
+        //     var index = $s._binarySearch(arr, {
+        //         prop: prop,
+        //         condition: obj[j][prop],
+        //         find_index: true
+        //     });
+        //     if (bucket.__bucket__keys[bucket.__bucket__keys.length - 1] != obj[j][prop]) {
+        //         $c.insertAt(bucket.__bucket__keys,index,obj[j][prop]);
+        //     }
+        //     bucket[obj[j][prop]] = bucket[obj[j][prop]] || [];
+        //     $c.insertAt(bucket[obj[j][prop]],index,obj[j]);
+        //
+        //     // var index = $s.__binarySearch(arr, prop, obj[j][prop], null, null, true);
+        //     $c.insertAt(arr,index,obj[j]);
+        //
+        // }
+        // console.log(arr);
+    }
+}
+function __processGroup (docs, expr) {
+    try {
+        var _ids = expr._id, i = 0, groupings = {}, results = [], meta = {index:0,length:docs.length, sample:docs.sample/*,stop:false*/}, doc;
+        while(doc = docs[meta.index = i++]) {
+            var result, key = "null", keys = null;
+            if (_ids) {
+                keys = {};
+                for (var prop in _ids) {
+                    if (!_ids.hasOwnProperty(prop)) { continue; }
+                    keys[prop] = $s.__processExpression(doc, _ids[prop]);
+                }
+                key = JSON.stringify(keys);
+            }
+            if (!groupings[key]) {
+                result = groupings[key] = {_id:keys};
+                results.push(result);
+            } else {
+                result = groupings[key];
+            }
+            for (var prop in expr) {
+                if (!expr.hasOwnProperty(prop) || prop == "_id") { continue; }
+                result[prop] = $s.__processAccumulator(doc, expr[prop],result.hasOwnProperty(prop) ? result[prop] : undefined, meta);
+            }
+        }
+        return results;
+    } catch (e) {
+        error('aggregate.__processGroup', e);
+    }
+}
 function __processStage(docs, stage) {
     try {
         var operator = "", value = {};
@@ -62,18 +156,18 @@ function __processStage(docs, stage) {
                 }
                 return $c.sortBy(docs,sorter);
             case "$out":
-                var rtnDocs = $c.duplicate(docs,true);
-                if ($c.isString(value)) {
+                var rtnDocs = $s.duplicate(docs,true);
+                if ($s.isString(value)) {
                     $g[value] = rtnDocs;
-                } else if ($c.isArray(value)) {
+                } else if ($s.isArray(value)) {
                     $c.removeAll(value);
-                    rtnDocs = $c.merge(value,rtnDocs);
+                    rtnDocs = $s.merge(value,rtnDocs);
                 }
                 return rtnDocs;
             case "$sample":
                 var arr = [], i = 0, eindex = docs.length - 1;
                 while (i < value.size) {
-                    arr.push(docs[Math.round(rand(0,eindex,true))]);
+                    arr.push(docs[Math.round($s.rand(0,eindex,true))]);
                     i++;
                 }
                 docs.sample = arr;
@@ -91,80 +185,34 @@ function __processStage(docs, stage) {
         error('aggregate.__processStage', e);
     }
 }
-function __universal_trim(chars) {
-    /*|{
-        "info": "Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.",
-        "category": "Array",
-        "parameters":[],
-
-        "overloads":[
-            {"parameters":[
-                {"ref":"(Boolean) Whether or not to mutate the original array."}]},
-            {"parameters":[
-                {"character": "(Char[]) Character to remove in the String"}]}],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#String.trim",
-        "returnType": "(Bool)"
-    }|*/
-    try {
-        if (_isArray(this)) {
-            var ref = chars,
-                arr = [],
-                alter = false;
-            if (_isBoolean(ref)) { alter = true; }
-
-            for (var i = 0, len = this.length; i < len; i++) {
-                var item = this[i];
-                _isString(item) && (arr[i] = item.toString().trim()) || (arr[i] = item);
-                alter && (this[i] = arr[i]);
+function __pullHelper(target, lookup) {
+    for (var i = 0, len = lookup.length; i < len; i++) {
+        var value = lookup[i];
+        for (var j = 0, jlen = target.length; j < jlen; j++) {
+            if ($s.equals(value, target[j])) {
+                $c.removeAt(target, j);
+                j--, jlen--;
             }
-            return arr;
         }
-    } catch (e) {
-        error("Array.trim", e);
-        return false;
+
     }
 }
 
-function _binarySearch(sarr, prop, value, sindex, eindex, findIndex){
-    sindex = $c.isNull(sindex) ? 0 : sindex;
-    eindex = $c.isNull(eindex) ? sarr.length - 1 : eindex;
-    if (findIndex) {
-        if (!~eindex) { return 0; }
-        if (sarr[sindex][prop] > value) { return sindex; }
-        if (sarr[eindex][prop] < value) { return eindex; }
+function _groupFieldHelper (obj, fields) {
+    var prop = "", j = 0, field;
+    while (field = fields[j++]) {
+        prop += field + ":" + $s.getProperty(obj,field) + ",";
     }
-    if (sindex == eindex) {
-        if (sarr[sindex][prop] != value) { return []; }
-        return [sarr[sindex]];
-    }
-
-    var index = sindex + parseInt((eindex - sindex) / 2);
-
-    if (sarr[index][prop] > value) {
-        return _binarySearch(sarr, prop, value, sindex, index, findIndex);
-    }
-
-    if (sarr[index][prop] < value) {
-        return _binarySearch(sarr, prop, value, index, eindex, findIndex);
-    }
-    while (sarr[sindex][prop] < value) { sindex++; }
-    while (sarr[eindex][prop] > value) { eindex--; }
-
-    if (findIndex) { return eindex; }
-
-    var len = eindex - sindex + 1;
-    if (sindex == 0 && len == sarr.length) { return sarr; }
-    return sarr.slice(sindex, eindex + len);
+    return prop;
 }
 function _joinHelper (objs, arr, on, exclusive) {
     var records = [], propRef = [], objRef = arr[0] || {};
 
-    if (_isString(on)) {
+    if ($s.isString(on)) {
         on = on.split('=');
         if (on.length == 1) { on = [on,on]; }
-        var name = $c.getName(arguments.callee.caller);
-        on = __universal_trim(on);
+        var name = $s.getFuncName(arguments.callee.caller);
+        on = $c.trim(on);
         name == "joinRight" && (on = [on[1],on[0]]);
     }
 
@@ -174,11 +222,11 @@ function _joinHelper (objs, arr, on, exclusive) {
         }
     }
     for (var i = 0, len = objs.length; i < len; i++)  {
-        var record = _duplicate(objs[i],true), query = {},results;
+        var record = $s.duplicate(objs[i],true), query = {},results;
         query[on[1]] = record[on[0]];
         results = $c.where(arr,query);
         if (results.length > 0)  {
-            records.push(_merge(record, results[0]));
+            records.push($s.merge(record, results[0]));
         } else if (!exclusive)  {
             for (var j = 0, jlen = propRef.length; j < jlen; j++) {
                 record[propRef[j]] = record[propRef[j]] || null;
@@ -188,8 +236,179 @@ function _joinHelper (objs, arr, on, exclusive) {
     }
     return records;
 }
+function _processClause (clause) {
+    try {
+        var index = $s.indexOfAlt(clause,/between/i);
+        if (~index) { // contains between predicate
+            //replace AND in the between to prevent confusion for AND clause separator
+            clause.replace(/between( .*? )and( .*?)( |$)/gi,'between$1&and$2$3');
+        }
 
-_ext(Array, 'aggregate', function (pipelines) {
+        var ORs = clause.split(/ or /i), query = {"$or":[]}, i = 0, or;
+        while (or = ORs[i++]) {
+            var ANDs = or.split(/ and /i),
+                aquery = {'$and':[]}, j = 0, and;
+            while (and = ANDs[j++]) {
+                var predicateClause = and,
+                    cond = {};
+
+                //=, <>, >, >=, <, <=, IN, BETWEEN, LIKE, IS NULL or IS NOT NULL
+                switch (true) {
+                    case !!~(index = predicateClause.indexOf('=')) :
+                        cond[predicateClause.substring(0, index).trim()] = {'$equals':$s.tryEval(predicateClause.substring(index + 1).trim())};
+                        aquery['$and'].push(cond);
+                        break;
+                    case !!~(index = predicateClause.indexOf('<>')) :
+                        cond[predicateClause.substring(0, index).trim()] = {'$ne':$s.tryEval(predicateClause.substring(index + 1).trim())};
+                        aquery['$and'].push(cond);
+                        break;
+                    case !!~(index = predicateClause.indexOf('>')) :
+                        cond[predicateClause.substring(0, index).trim()] = {'$gt':$s.tryEval(predicateClause.substring(index + 1).trim())};
+                        aquery['$and'].push(cond);
+                        break;
+                    case !!~(index = predicateClause.indexOf('>=')) :
+                        cond[predicateClause.substring(0, index).trim()] = {'$gte':$s.tryEval(predicateClause.substring(index + 1).trim())};
+                        aquery['$and'].push({'$gte':cond});
+                        break;
+                    case !!~(index = predicateClause.indexOf('<')) :
+                        cond[predicateClause.substring(0, index).trim()] = {'$lt':$s.tryEval(predicateClause.substring(index + 1).trim())};
+                        aquery['$and'].push(cond);
+                        break;
+                    case !!~(index = predicateClause.indexOf('<=')) :
+                        cond[predicateClause.substring(0, index).trim()] = {'$lte':$s.tryEval(predicateClause.substring(index + 1).trim())};
+                        aquery['$and'].push(cond);
+                        break;
+                    case $s.indexOfAlt(predicateClause,/between/i) == 0 :
+                        var nums = predicateClause.replace(/between (.*?) &and (.*?) ( |$)/i,'$1,$2').split(',');
+                        aquery['$and'].push({'$gte':$s.tryEval(nums[0])});
+                        aquery['$and'].push({'$lte':$s.tryEval(nums[1])});
+                        break;
+                    case !!~(index = $s.indexOfAlt(predicateClause,/ in /i)) :
+                        var _in = $s.tryEval(predicateClause.substring(index + 4).trim().replace(/\((.*)\)/,'[$1]'));
+                        if (!_in) {
+                            //noinspection ExceptionCaughtLocallyJS
+                            throw "Invalid syntax near 'in'";
+                        }
+                        cond[predicateClause.substring(0, index).trim()] = _in;
+                        aquery['$and'].push({'$in':cond});
+                        break;
+                    case !!~(index = $s.indexOfAlt(predicateClause,/is null/i)) :
+                        cond[predicateClause.substring(0, index).trim()] = null;
+                        aquery['$and'].push({'$equals':cond});
+                        break;
+                    case !!~(index = $s.indexOfAlt(predicateClause,/is not null/i)) :
+                        cond[predicateClause.substring(0, index).trim()] = null;
+                        aquery['$and'].push({'$ne':cond});
+                        break;
+                    case !!~(index = $s.indexOfAlt(predicateClause,/ like /i)) :
+                        var likeVal = "^" + $s.replace_all($s.general_trim(predicateClause.substring(index + 6),null,[' ', "'", '"']),"%",".*?") + "$";
+                        cond[predicateClause.substring(0, index).trim()] = {'$regex': new RegExp(likeVal,'i')};
+                        aquery['$and'].push(cond);
+                        break;
+                }
+            }
+            query['$or'].push(aquery);
+        }
+
+        return query;
+    } catch (e) {
+        error('where.processClause', e);
+    }
+}
+function _redact(docs, expr) {
+    try {
+        docs = $s.isArray(docs) ? docs : [docs];
+        var result = [], i = 0, doc;
+        while (doc = docs[i++]) {
+            var action = $s.__parseCond(doc, expr);
+            if (action == "$$KEEP") {
+                result.push(doc);
+            } else if (action == "$$DESCEND") { // return all fields at current document without embedded documents
+                result.push(doc);
+                for (var prop in doc) {
+                    if (!doc.hasOwnProperty(prop) || $s.isArray(doc[prop]) && !$s.isObject(doc[prop][0]) || !$s.isArray(doc[prop]) && !$s.isObject(doc[prop])) {
+                        continue;
+                    }
+                    doc[prop] = _redact(doc[prop], expr);
+                    if (doc[prop] === undefined) {
+                        delete doc[prop];
+                    }
+                }
+            } else if (action == "$$PRUNE") {
+
+            } else {
+                //noinspection ExceptionCaughtLocallyJS
+                throw "exception: $redact's expression should not return anything aside from the variables $$KEEP, $$DESCEND, and $$PRUNE, but returned " + $s.parseRaw(action);
+            }
+        }
+        return result.length ? result : undefined;
+    } catch (e) {
+        error('aggregate._redact', e);
+    }
+}
+function _unwind(docs, path) {
+    try {
+        var results = [], doc, i = 0, options = {};
+        if ($s.isObject(path)) {
+            options = path;
+            path = options.path;
+        }
+        while (doc = docs[i++]) {
+            var arr = $s.__processExpression(doc, path);
+            if ($s.isNull(arr) || $s.isArray(arr) && $s.isEmpty(arr)) {
+                doc = $s.duplicate(doc);
+                if (options.includeArrayIndex) {
+                    doc[options.includeArrayIndex] = 0;
+                }
+                options.preserveNullAndEmptyArrays && results.push(doc);
+                continue;
+            }
+            if (!$s.isArray(arr)) {
+                //noinspection ExceptionCaughtLocallyJS
+                throw "Exception: Value at end of $unwind field path '"+path+"' must be an Array, but is a " + $s.capitalize(typeof arr) +".";
+            }
+            if (path[0] == "$") {
+                path = path.substr(1);
+            }
+            for (var j = 0, jlen = arr.length; j < jlen; j++) {
+                var dup = $s.duplicate(doc);
+                if (options.includeArrayIndex) {
+                    dup[options.includeArrayIndex] = j;
+                }
+                $s.setProperty(dup, path, arr[j]);
+                results.push(dup);
+            }
+        }
+        return results;
+    } catch (e) {
+        error('aggregate._unwind', e);
+    }
+}
+
+
+ext(Array, 'add', function (obj) {
+    /*|{
+        "info": "Array class extension to perform push and update indexes if used",
+        "category": "Array",
+        "featured": true,
+        "parameters":[
+            {"value": "(Mixed) value to find"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.add",
+        "returnType": "(Array)"
+    }|*/
+    try {
+        this.push(obj);
+        if (this.__indexed_buckets) {
+            $c._add_to_index(this.__indexed_buckets, obj);
+        }
+    } catch (e) {
+        error("Array.add", e);
+    }
+}, true);
+ext(Array, 'aggregate', function (pipelines) {
     /*|{
         "info": "Array class extension to perform mongo style aggregation",
         "category": "Array",
@@ -213,7 +432,7 @@ _ext(Array, 'aggregate', function (pipelines) {
         error("Array.aggregate", e);
     }
 }, true);
-_ext(Array, 'average', function () {
+ext(Array, 'average', function () {
     /*|{
         "info": "Array class extension to perform average of all the values (any value which is not a number is 0).",
         "category": "Array",
@@ -226,19 +445,12 @@ _ext(Array, 'average', function () {
         "returnType": "(Array)"
     }|*/
     try {
-        var length = 0, sum = 0;
-        for (var i = 0, len = this.length; i < len; i++) {
-            if (_isNumber(this[i])) {
-                sum += this[i];
-                length++;
-            }
-        }
-        return sum/length;
+        return $s.average(this);
     } catch (e) {
         error("Array.average", e);
     }
 }, true);
-_ext(Array, 'buildTree', function (parentFinder,childFinder,options) {
+ext(Array, 'buildTree', function (parentFinder,childFinder,options) {
     /*|{
         "info": "Array class extension to create a parent/child hierarchy",
         "category": "Array",
@@ -270,7 +482,7 @@ _ext(Array, 'buildTree', function (parentFinder,childFinder,options) {
         var i = 0,objt,cats=[],catDict={},tmp={}, singles = {};
         var cprop = options.childProperty || "children";
         while(objt=this[i++]){
-            var cat = _isFunction(childFinder) ? childFinder(objt) : objt[childFinder],
+            var cat = $s.isFunction(childFinder) ? childFinder(objt) : objt[childFinder],
                 rootFound = ~cats.indexOf(cat);
 
             objt[cprop] = objt[cprop] || [];
@@ -311,7 +523,7 @@ _ext(Array, 'buildTree', function (parentFinder,childFinder,options) {
         error('Array.buildTree', e);
     }
 });
-_ext(Array, 'condense', function (check_values) {
+ext(Array, 'condense', function (check_values) {
     /*|{
         "info": "Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls",
         "category": "Array",
@@ -324,43 +536,83 @@ _ext(Array, 'condense', function (check_values) {
         "url": "http://www.craydent.com/library/1.9.3/docs#array.condense",
         "returnType": "(Array)"
     }|*/
-    return _condense(this, check_values);
-}, true);
-_ext(Array, 'createIndex', function (indexes) {
-        /*|{
-         "info": "Array class extension to create indexes for faster searches during where",
-         "category": "Array",
-         "parameters":[
-         {"properties": "(String) Property or comma delimited property list to index."}],
-
-         "overloads":[
-         {"parameters":[
-         {"indexes": "(String[]) Array of properties to index"}]}],
-
-         "url": "http://www.craydent.com/library/1.9.3/docs#array.condense",
-         "returnType": "(Array)"
-         }|*/
     try {
-        if (!indexes || !indexes.length) { return false; }
-        if (!_isArray(indexes)) { indexes = indexes.split(','); }
-        this.__indexes = {};
+        return $s.condense(this, check_values);
+    } catch (e) {
+        error("Array.condense", e);
+    }
+}, true);
+ext(Array, "contains", function(val, func){
+    /*|{
+        "info": "Object class extension to check if value exists",
+        "category": "Object",
+        "parameters":[
+            {"val": "(Mixed) Value to check or custom function to determine validity"}],
 
-        for (var i = 0, len = indexes.length; i < len; i++) {
-            var prop = indexes[i], arr = [];
+        "overloads":[
+            {"parameters":[
+                {"val": "(Mixed) Value to check"},
+                {"func": "(Function) Callback function used to do the comparison"}]},
 
-            for (var j = 0, jlen = this.length; j < jlen; j++) {
-                var index = _binarySearch(arr, prop, this[j][prop], null, null, true);
-                $c.insertAt(arr,index,this[j]);
+            {"parameters":[
+                {"arr": "(Array) Array of values to return first matching value"}]}],
 
-            }
-            this.__indexes[prop] = arr;
-        }
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.contains",
+        "returnType": "(Bool)"
+    }|*/
+    try {
+        return $s.contains(this, val, func);
+    } catch (e) {
+        error("Array.contains", e);
+    }
+}, true);
+ext(Array, "count", function(option){
+    /*|{
+        "info": "Object class extension to count the properties in the object/elements in arrays/characters in strings.",
+        "category": "Object",
+        "parameters":[],
+
+        "overloads":[
+            {"parameters":[
+                {"option": "(Mixed) Query used in Array.where when counting elements in an Array"}]},
+
+            {"parameters":[
+                {"option": "(String) Word or phrase to count in the String"}]},
+
+            {"parameters":[
+                {"option": "(RegExp) Word or phrase pattern to count in the String"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.count",
+        "returnType": "(Int)"
+    }|*/
+    try {
+        return $s.count(this, option);
+    } catch (e) {
+        error("Array.count", e);
+    }
+}, true);
+ext(Array, 'createIndex', function (indexes) {
+    /*|{
+        "info": "Array class extension to create indexes for faster searches during where",
+        "category": "Array",
+        "parameters":[
+            {"properties": "(String) Property or comma delimited property list to index."}],
+
+        "overloads":[
+            {"parameters":[
+                {"indexes": "(String[]) Array of properties to index"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.condense",
+        "returnType": "(Array)"
+    }|*/
+    try {
+        __create_index(this, indexes);
     } catch(e) {
         error("Array.createIndex", e);
         return false;
     }
 });
-_ext(Array, 'delete', function(condition, justOne) {
+ext(Array, 'delete', function(condition, justOne) {
     /*|{
         "info": "Array class extension to delete records",
         "category": "Array",
@@ -376,26 +628,39 @@ _ext(Array, 'delete', function(condition, justOne) {
         "returnType": "(Array)"
     }|*/
     try {
-        var thiz = this, _qnp = __queryNestedProperty,
-            _clt = _contains_lessthan,
-            _clte = _contains_lessthanequal,
-            _cgt = _contains_greaterthan,
-            _cgte = _contains_greaterthanequal,
-            _ct = _contains_type, _cm = _contains_mod;
-        justOne = parseBoolean($c.isNull(justOne) ? true : $c.isNull(justOne.justOne, justOne));
+        var thiz = this,
+            _equals = $c.equals,
+            _contains = $c.contains,
+            _isArray = $c.isArray,
+            _isNull = $c.isNull,
+            _isFunction = $c.isFunction,
+            _isObject = $c.isObject,
+            _isString = $c.isString,
+            _isRegExp = $c.isRegExp,
+            _isInt = $c.isInt,
+            _qnp = $s.__queryNestedProperty,
+            _clt = $s._contains_lessthan,
+            _clte = $s._contains_lessthanequal,
+            _cgt = $s._contains_greaterthan,
+            _cgte = $s._contains_greaterthanequal,
+            _ct = $s._contains_type,
+            _cm = $s._contains_mod;
+        justOne = $s.parseBoolean($s.isNull(justOne) ? true : $s.isNull(justOne.justOne, justOne));
         // if no condition was given, remove all
         if (!condition) { return this.splice(0,justOne ? 1 : this.length); }
-
         var arr = [], indexes = [], cb = function (obj, i) {
             if (justOne) {
+                if (thiz.__indexed_buckets) {
+                    $s._remove_from_index(thiz.__indexed_buckets, obj);
+                }
                 arr = arr.concat(this.splice(i,1));
-                return false
+                return false;
             }
             indexes.push(i);
             return true;
         };
 
-        var _refs = [], ifblock = _subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
+        var _refs = [], ifblock = $s._subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
             "	var values,finished;" +
             "	if ("+ifblock+") {" +
             "		if(!cb.call(thiz,record,i)) { throw 'keep going'; }" +
@@ -410,12 +675,16 @@ _ext(Array, 'delete', function(condition, justOne) {
         }
         try {
             this.filter(eval(func));
-        } catch(e) {
+        } catch (e) {
             if (e != 'keep going') { throw e;}
         }
 
         for (var i = indexes.length - 1; i >= 0; i--) {
-            arr = this.splice(indexes[i],1).concat(arr);
+            var item = this.splice(indexes[i], 1);
+            if (thiz.__indexed_buckets) {
+                $s._remove_from_index(thiz.__indexed_buckets, item[0]);
+            }
+            arr = item.concat(arr);
         }
 
         return arr;
@@ -424,7 +693,7 @@ _ext(Array, 'delete', function(condition, justOne) {
         return false;
     }
 }, true);
-_ext(Array, 'distinct', function(fields, condition) {
+ext(Array, 'distinct', function(fields, condition) {
     /*|{
         "info": "Array class extension to get all unique records by fields specified",
         "category": "Array",
@@ -455,7 +724,7 @@ _ext(Array, 'distinct', function(fields, condition) {
         "returnType": "(Array)"
     }|*/
     try {
-        if (_isString(fields)) { fields = fields.split(","); }
+        if ($s.isString(fields)) { fields = fields.split(","); }
 
         var records = $c.group(this,{field:fields,cond:condition},true);
         if (fields.length == 1) {
@@ -471,7 +740,28 @@ _ext(Array, 'distinct', function(fields, condition) {
         return false;
     }
 });
-_ext(Array, 'every', function(callback, thisObject) {
+ext(Array, "equals", function (compare, props){
+    /*|{
+        "info": "Object class extension to check if object values are equal",
+        "category": "Object",
+        "parameters":[
+            {"compare": "(Object) Object to compare against"}],
+
+        "overloads":[
+            {"parameters":[
+                {"compare": "(Object) Object to compare against"},
+                {"props": "(String[]) Array of property values to compare against"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.equals",
+        "returnType": "(Bool)"
+    }|*/
+    try {
+        return $s.equals(this, compare, props);
+    } catch (e) {
+        error("Array.equals", e);
+    }
+}, true);
+ext(Array, 'every', function(callback, thisObject) {
     /*|{
         "info": "Array class extension to implement .every method",
         "category": "Array",
@@ -497,7 +787,7 @@ _ext(Array, 'every', function(callback, thisObject) {
         error("Array.every", e);
     }
 }, true);
-_ext(Array, 'filter', function(func /*, thiss*/) {
+ext(Array, 'filter', function(func /*, thiss*/) {
     /*|{
         "info": "Array class extension to implement filter",
         "category": "Array",
@@ -513,7 +803,7 @@ _ext(Array, 'filter', function(func /*, thiss*/) {
         "returnType": "(Array)"
     }|*/
     try {
-        if (!_isFunction(func)) {
+        if (!$s.isFunction(func)) {
             throw new TypeError();
         }
         var filtered = [],
@@ -531,62 +821,93 @@ _ext(Array, 'filter', function(func /*, thiss*/) {
         return false;
     }
 }, true);
-_ext(Array, 'find', function(condition, projection) {
-        /*|{
-         "info": "Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)",
-         "category": "Array",
-         "featured": true,
-         "parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"}],
+ext(Array, 'find', function(condition, projection) {
+    /*|{
+        "info": "Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)",
+        "category": "Array",
+        "featured": true,
+        "parameters":[
+            {"condition": "(Mixed) Query following find/where clause syntax"}],
 
-         "overloads":[
-         {"parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"},
-         {"projection": "(Mixed) Indicate which properties to return"}]},
+        "overloads":[
+            {"parameters":[
+                {"condition": "(Mixed) Query following find/where clause syntax"},
+                {"projection": "(Mixed) Indicate which properties to return"}]},
 
-         {"parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"},
-         {"useReference": "(Bool) Flag to make a copy instead of using references"}]}],
+            {"parameters":[
+                {"condition": "(Mixed) Query following find/where clause syntax"},
+                {"useReference": "(Bool) Flag to make a copy instead of using references"}]}],
 
-         "url": "http://www.craydent.com/library/1.9.3/docs#array.where",
-         "returnType": "(Array)"
-         }|*/
-    return $c.where(this,condition, projection);
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.where",
+        "returnType": "(Array)"
+    }|*/
+    try {
+        return $c.where(this,condition, projection);
+    } catch (e) {
+        error("Array.find", e);
+    }
 });
-_ext(Array, 'findOne', function(condition, projection) {
-        /*|{
-         "info": "Array class extension to use mongo or sql queries returning the first item match",
-         "category": "Array",
-         "featured": true,
-         "parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"}],
+ext(Array, 'findOne', function(condition, projection) {
+    /*|{
+        "info": "Array class extension to use mongo or sql queries returning the first item match",
+        "category": "Array",
+        "featured": true,
+        "parameters":[
+            {"condition": "(Mixed) Query following find/where clause syntax"}],
 
-         "overloads":[
-         {"parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"},
-         {"projection": "(Mixed) Indicate which properties to return"}]},
+        "overloads":[
+            {"parameters":[
+                {"condition": "(Mixed) Query following find/where clause syntax"},
+                {"projection": "(Mixed) Indicate which properties to return"}]},
 
-         {"parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"},
-         {"useReference": "(Bool) Flag to make a copy instead of using references"}]}],
+            {"parameters":[
+                {"condition": "(Mixed) Query following find/where clause syntax"},
+                {"useReference": "(Bool) Flag to make a copy instead of using references"}]}],
 
-         "url": "http://www.craydent.com/library/1.9.3/docs#array.where",
-         "returnType": "(Object)"
-         }|*/
-    return $c.where(this,condition, projection, 1)[0];
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.where",
+        "returnType": "(Object)"
+    }|*/
+    try {
+        return $c.where(this,condition, projection, 1)[0];
+    } catch (e) {
+        error("Array.findOne", e);
+    }
 });
-_ext(Array, 'group', function(params, removeProps) {
-        /*|{
-         "info": "Array class extension to group records by fields",
-         "category": "Array",
-         "parameters":[
-         {"params": "(Object) specs with common properties:<br />(Object) key<br />(Mixed) cond<br />(Function) reduce<br />(Object) initial"}],
+ext(Array, "getValue" ,function (args, dflt) {
+    /*|{
+        "info": "Object class extension to retrieve value of an object property",
+        "category": "Object",
+        "parameters":[],
 
-         "overloads":[],
+        "overloads":[
+            {"parameters":[
+                {"dflt": "(Mixed) Default value to return if context is not a function"}]},
 
-         "url": "http://www.craydent.com/library/1.9.3/docs#array.group",
-         "returnType": "(Array)"
-         }|*/
+            {"parameters":[
+                {"args": "(Mixed[]) An array of arguments to pass to context when it is a function"},
+                {"dflt": "(Mixed) Default value to return if context is not a function"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.getValue",
+        "returnType": "(Mixed)"
+    }|*/
+    try {
+        return $s.getValue(this, args, dflt);
+    } catch (e) {
+        error("Array.getValue", e);
+    }
+}, true);
+ext(Array, 'group', function(params, removeProps) {
+    /*|{
+        "info": "Array class extension to group records by fields",
+        "category": "Array",
+        "parameters":[
+            {"params": "(Object) specs with common properties:<br />(Object) key<br />(Mixed) cond<br />(Function) reduce<br />(Object) initial"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.group",
+        "returnType": "(Array)"
+    }|*/
 
         /*    parameters:[
          *        {fields: "(Mixed) Fields to use as the projection and to group by"}],
@@ -607,13 +928,13 @@ _ext(Array, 'group', function(params, removeProps) {
     try {
         var key = params.field || params.key,
             condition = params.cond || {},
-            reduce = params.reduce || foo,
+            reduce = params.reduce || $s.foo,
             initial = params.initial || {},
             keyf = params.keyf,
             finalize = params.finalize || function(o) { return o;};
 
-        if ($c.isString(key)) { key = key.split(','); }
-        if ($c.isArray(key)) {
+        if ($s.isString(key)) { key = key.split(','); }
+        if ($s.isArray(key)) {
             var tmp = {};
             for (var i = 0, len = key.length; i < len; i++) {
                 tmp[key[i]] = 1;
@@ -621,36 +942,47 @@ _ext(Array, 'group', function(params, removeProps) {
             key = tmp;
         }
 
-        var props = $c.getKeys(initial),
-            fields = $c.getKeys(key),
-            arr = [], result = {}, id = suid(),
+        var props = $s.getKeys(initial),
+            fields = $s.getKeys(key),
+            arr = [], result = {}, id = $s.suid(),
             cb = function (ob, i) {
                 // _groupFieldHelper creates a grouping string based on the field value pairs
                 if (!fields && keyf) {
-                    fields = $c.isFunction(keyf) ? keyf(doc) : keyf;
+                    fields = $s.isFunction(keyf) ? keyf(doc) : keyf;
                 }
                 var prop = _groupFieldHelper(ob, fields), addit = false;
                 if (!result[prop]) {
                     addit = true;
-                    var tmp = $c.duplicate(initial);
+                    var tmp = $s.duplicate(initial);
                     result[prop] = tmp;
                 }
-                var curr = $c.duplicate(ob), item;
+                var curr = $s.duplicate(ob), item;
                 reduce(curr, result[prop]);
-                item = _copyWithProjection(fields, ob, !removeProps);
+                item = $s._copyWithProjection(fields, ob, !removeProps);
                 item[id] = prop;
                 addit && arr.push(item);
                 return true;
             };
 
 
-
-        var thiz = this, _qnp = __queryNestedProperty,
-            _clt = _contains_lessthan,
-            _clte = _contains_lessthanequal,
-            _cgt = _contains_greaterthan,
-            _cgte = _contains_greaterthanequal,
-            _ct = _contains_type, _cm = _contains_mod, _refs = [], ifblock = _subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
+        var thiz = this,
+            _equals = $c.equals,
+            _contains = $c.contains,
+            _isArray = $c.isArray,
+            _isNull = $c.isNull,
+            _isFunction = $c.isFunction,
+            _isObject = $c.isObject,
+            _isString = $c.isString,
+            _isRegExp = $c.isRegExp,
+            _isInt = $c.isInt,
+            _qnp = $s.__queryNestedProperty,
+            _clt = $s._contains_lessthan,
+            _clte = $s._contains_lessthanequal,
+            _cgt = $s._contains_greaterthan,
+            _cgte = $s._contains_greaterthanequal,
+            _ct = $s._contains_type,
+            _cm = $s._contains_mod,
+            _refs = [], ifblock = $s._subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
                 "	var values,finished;" +
                 "	if ("+ifblock+") {" +
                 "		if(!cb.call(thiz,record,i)) { throw 'keep going'; }" +
@@ -669,14 +1001,14 @@ _ext(Array, 'group', function(params, removeProps) {
             if (e != 'keep going') { throw e;}
         }
 
-        var keyObj = $c.duplicate(initial);
+        var keyObj = $s.duplicate(initial);
         for (var prop in key) {
             if (!key.hasOwnProperty(prop)) { continue; }
-            $c.setProperty(keyObj,prop,key[prop]);
+            $s.setProperty(keyObj,prop,key[prop]);
         }
         for (var i = 0, len = arr.length; i < len; i++) {
-            var merge1 = $c.merge(arr[i],result[arr[i][id]]);
-            arr[i] = $c.merge(keyObj,finalize(merge1) || merge1,{clone:true,intersect:true});
+            var merge1 = $s.merge(arr[i],result[arr[i][id]]);
+            arr[i] = $s.merge(keyObj,finalize(merge1) || merge1,{clone:true,intersect:true});
         }
         return arr;
     } catch (e) {
@@ -684,7 +1016,7 @@ _ext(Array, 'group', function(params, removeProps) {
         return false;
     }
 });
-_ext(Array, 'indexOf', function(value) {
+ext(Array, 'indexOf', function(value) {
     /*|{
         "info": "Array class extension to implement indexOf",
         "category": "Array",
@@ -696,10 +1028,38 @@ _ext(Array, 'indexOf', function(value) {
         "url": "http://www.craydent.com/library/1.9.3/docs#array.indexOf",
         "returnType": "(Int)"
     }|*/
-    return _indexOf(this, value);
+    try {
+        return $s.indexOf(this, value);
+    } catch (e) {
+        error("Array.indexOf", e);
+    }
 }, true);
-_ext(Array, 'indexOfAlt', _indexOfAlt, true);
-_ext(Array, "innerJoin", function (arr, on) {
+ext(Array, 'indexOfAlt', function (value, option) {
+    /*|{
+        "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
+        "category": "Array",
+        "parameters":[
+            {"value": "(Mixed) value to find"},
+            {"func": "(Function) Callback function used to do the comparison"}],
+
+        "overloads":[
+            {"parameters":[
+                {"regex": "(RegExp) Regular expression to check value against"}]},
+
+            {"parameters":[
+                {"regex": "(RegExp) Regular expression to check value against"},
+                {"pos": "(Int) Index offset to start"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.indexOfAlt",
+        "returnType": "(Integer)"
+    }|*/
+    try {
+        return $s.indexOfAlt(this, value, option);
+    } catch (e) {
+        error("Array.indexOfAlt", e);
+    }
+}, true);
+ext(Array, "innerJoin", function (arr, on) {
     /*|{
         "info": "Array class extension to do an inner join on arrays",
         "category": "Array",
@@ -718,7 +1078,7 @@ _ext(Array, "innerJoin", function (arr, on) {
         error('Array.innerJoin', e);
     }
 });
-_ext(Array, 'insert', function(value) {
+ext(Array, 'insert', function(value) {
     /*|{
         "info": "Array class extension to add to the array",
         "category": "Array",
@@ -729,12 +1089,12 @@ _ext(Array, 'insert', function(value) {
         "returnType": "(Bool)"
     }|*/
     try {
-        if (_isArray(value)) {
+        if ($s.isArray(value)) {
             for (var i = 0, len = value.length; i < len; i++) {
-                this.push(value[i]);
+                $c.add(this, value[i]);
             }
         } else {
-            this.push(value);
+            $c.add(this, value);
         }
         return true;
     } catch (e) {
@@ -742,7 +1102,7 @@ _ext(Array, 'insert', function(value) {
         return false;
     }
 }, true);
-_ext(Array, 'insertAfter', function(index, value) {
+ext(Array, 'insertAfter', function(index, value) {
     /*|{
         "info": "Array class extension to add to the array after a specific index",
          "category": "Array",
@@ -757,13 +1117,16 @@ _ext(Array, 'insertAfter', function(index, value) {
     }|*/
     try {
         this.splice(index + 1, 0, value);
+        if (this.__indexed_buckets) {
+            $c._add_to_index(this.__indexed_buckets, value);
+        }
         return true;
     } catch (e) {
         error("Array.insertAfter", e);
         return false;
     }
 }, true);
-_ext(Array, 'insertAt', function(index, value) {
+ext(Array, 'insertAt', function(index, value) {
     /*|{
         "info": "Array class extension to add to the array at a specific index and push the all indexes down",
         "category": "Array",
@@ -777,14 +1140,12 @@ _ext(Array, 'insertAt', function(index, value) {
         "returnType": "(Bool)"
     }|*/
     try {
-        this.splice(index, 0, value);
-        return true;
+        return $s.insertAt(this, index, value);
     } catch (e) {
         error("Array.insertAt", e);
-        return false;
     }
 }, true);
-_ext(Array, 'insertBefore', function(index, value) {
+ext(Array, 'insertBefore', function(index, value) {
     /*|{
         "info": "Array class extension to add to the array before a specific index",
         "category": "Array",
@@ -799,13 +1160,33 @@ _ext(Array, 'insertBefore', function(index, value) {
     }|*/
     try {
         this.splice(index, 0, value);
+        if (this.__indexed_buckets) {
+            $c._add_to_index(this.__indexed_buckets, value);
+        }
         return true;
     } catch (e) {
         error("Array.insertBefore", e);
         return false;
     }
 }, true);
-_ext(Array, "joinLeft", function (arr, on) {
+ext(Array, "isEmpty", function () {
+    /*|{
+        "info": "Array class extension to check if it is empty",
+        "category": "Array",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.isEmpty",
+        "returnType": "(Array)"
+    }|*/
+    try {
+        return $s.isEmpty(this);
+    } catch (e) {
+        error('Array.isEmpty', e);
+    }
+});
+ext(Array, "joinLeft", function (arr, on) {
     /*|{
         "info": "Array class extension to do an outer left join on arrays",
         "category": "Array",
@@ -824,7 +1205,7 @@ _ext(Array, "joinLeft", function (arr, on) {
         error('Array.joinLeft', e);
     }
 });
-_ext(Array, "joinRight", function (arr, on) {
+ext(Array, "joinRight", function (arr, on) {
     /*|{
         "info": "Array class extension to do an outer right join on arrays",
         "category": "Array",
@@ -843,7 +1224,7 @@ _ext(Array, "joinRight", function (arr, on) {
         error('Array.joinRight', e);
     }
 });
-_ext(Array, "last", function () {
+ext(Array, "last", function () {
     /*|{
         "info": "Array class extension to retrieve the last item in the array.",
         "category": "Array",
@@ -860,7 +1241,7 @@ _ext(Array, "last", function () {
         error('Array.last', e);
     }
 }, true);
-_ext(Array, 'limit', function(max, skip) {
+ext(Array, 'limit', function(max, skip) {
     /*|{
         "info": "Array class extension to return a limited amount of items",
         "category": "Array",
@@ -882,7 +1263,7 @@ _ext(Array, 'limit', function(max, skip) {
         error("Array.limit", e);
     }
 }, true);
-_ext(Array, 'map', function(callback /*, thisObject*/) {
+ext(Array, 'map', function(callback /*, thisObject*/) {
     /*|{
         "info": "Array class extension to implement map",
         "category": "Array",
@@ -910,7 +1291,7 @@ _ext(Array, 'map', function(callback /*, thisObject*/) {
         error("Array.map", e);
     }
 }, true);
-_ext(Array, 'mapReduce', function(map, reduce, options) {
+ext(Array, 'mapReduce', function(map, reduce, options) {
     /*|{
         "info": "Array class extension to run map-reduce aggregation over records",
         "category": "Array",
@@ -931,7 +1312,7 @@ _ext(Array, 'mapReduce', function(map, reduce, options) {
         options = options || {};
         var obj = {}, results = $c.where(this,options.query,null,options.limit), rtnArr = [], final = options.finalize;
         if (options.sort) {
-            if (_isObject(options.sort)) {
+            if ($s.isObject(options.sort)) {
                 var sortProps = [];
                 for (var prop in options.sort) {
                     if (!options.sort.hasOwnProperty(prop)) { continue; }
@@ -943,7 +1324,7 @@ _ext(Array, 'mapReduce', function(map, reduce, options) {
                 results = $c.sortBy(results,options.sort);
             }
         }
-        $c.on(map,'emit',function(key,value){
+        $s.on(map,'emit',function(key,value){
             obj[key] = obj[key] || [];
             obj[key].push(value);
         });
@@ -951,15 +1332,15 @@ _ext(Array, 'mapReduce', function(map, reduce, options) {
         for (var key in obj) {
             if (!obj.hasOwnProperty(key)) { continue; }
             var reducedValue = reduce(key,obj[key]);
-            if (_isFunction(final)) { reducedValue = final(key,reducedValue); }
+            if ($s.isFunction(final)) { reducedValue = final(key,reducedValue); }
             rtnArr.push({_id:key, value: reducedValue});
         }
 
-        if (_isString(options.out)) {
-            $g[options.out] = _duplicate(rtnArr,true);
-        } else if (_isArray(options.out)) {
+        if ($s.isString(options.out)) {
+            $g[options.out] = $s.duplicate(rtnArr,true);
+        } else if ($s.isArray(options.out)) {
             $c.removeAll(options.out);
-            return _merge(options.out,rtnArr);
+            return $s.merge(options.out,rtnArr);
         }
         return rtnArr;
     } catch (e) {
@@ -967,7 +1348,7 @@ _ext(Array, 'mapReduce', function(map, reduce, options) {
         return false;
     }
 });
-_ext(Array, 'normalize', function () {
+ext(Array, 'normalize', function () {
     /*|{
         "info": "Array class extension to normalize all properties in the object array",
         "category": "Array",
@@ -982,7 +1363,7 @@ _ext(Array, 'normalize', function () {
         var allProps = {}, arrObj = [], len = this.length;
         for(var i = 0; i < len; i++) {
             var json = this[i];
-            if (!_isObject(json)) {
+            if (!$s.isObject(json)) {
                 error("normalize", {description:'index: ' + i + ' (skipped) is not an object'});
                 continue;
             }
@@ -1004,7 +1385,7 @@ _ext(Array, 'normalize', function () {
         error("Array.normalize", e);
     }
 }, true);
-_ext(Array, 'parallelEach', function (gen, args) {
+$s.ext(Array, 'parallelEach', function (gen, args) {
     /*|{
         "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
         "category": "Array",
@@ -1024,52 +1405,12 @@ _ext(Array, 'parallelEach', function (gen, args) {
         "returnType": "(Promise)"
     }|*/
     try {
-        var self = this, arr = this;
-        if (_isArray(gen)) {
-            args = gen;
-            gen = undefined;
-        }
-        if (!_isArray(args)) {
-            args = [];
-        }
-        var len = arr.length, results = Array(len), completed = 0;
-        if (!len) { return new Promise(function (res) { res(results); }); }
-        if (gen) {
-            var isgen = _isGenerator(gen), isfunc = _isFunction(gen), isasync = _isAsync(gen);
-            return new Promise(function (res, rej) {
-                for (var i = 0; i < len; i++) {
-                    if (isgen) {
-                        eval('$c.syncroit(function*(){ results[' + i + '] = yield* gen.call(self, arr[' + i + '],' + i + '); if (++completed == len) { res(results); } });');
-                    } else if (isasync) {
-                        eval('(async function (){ results[' + i + '] = await gen.call(self, arr[' + i + '],' + i + '); if (++completed == len) { res(results); } })();');
-                    } else if (isfunc) {
-                        results[i] = gen.call(self,arr[i],i);
-                        if (++completed == len) { res(results); }
-                    }
-                }
-            });
-        }
-        return new Promise(function (res, rej) {
-            for (var i = 0; i < len; i++) {
-                if ($c.isGenerator(arr[i])) {
-                    eval('$c.syncroit(function*(){ results[' + i + '] = yield* arr[' + i + '].apply(self,args); if (++completed == len) { res(results); } });');
-                } else if ($c.isAsync(arr[i])) {
-                    eval('(async function () { results[' + i + '] = await arr[' + i + ']; if (++completed == len) { res(results); } })();');
-                } else if ($c.isPromise(arr[i])) {
-                    eval('$c.syncroit(function*(){ results[' + i + '] = yield arr[' + i + ']; if (++completed == len) { res(results); } });');
-                } else if ($c.isFunction(arr[i])) {
-                    eval('setTimeout(function(){ results[' + i + '] = arr[' + i + '].apply(self,args);if (++completed == len) { res(results); } },0);');
-                } else {
-                    results[i] = arr[i];
-                    if (++completed == len) { res(results); }
-                }
-            }
-        });
-    } catch(e) {
-        error("Array.parallelEach", e);
+        return $s.parallelEach(this, gen, args);
+    } catch (e) {
+        error('Array.parallelEach', e);
     }
 }, true);
-_ext(Array, 'remove', function (value, indexOf) {
+ext(Array, 'remove', function (value, indexOf) {
     /*|{
         "info": "Array class extension to remove an item by value",
         "category": "Array",
@@ -1085,15 +1426,12 @@ _ext(Array, 'remove', function (value, indexOf) {
         "returnType": "(Mixed)"
     }|*/
     try {
-        indexOf = indexOf || this.indexOf;
-        var index = indexOf.call(this, value);
-        if(!~index) { return false; }
-        return this.splice(index, 1)[0];
+        return $s.remove(this, value, indexOf);
     } catch (e) {
         error("Array.remove", e);
     }
 }, true);
-_ext(Array, 'removeAll', function (value, indexOf) {
+ext(Array, 'removeAll', function (value, indexOf) {
     /*|{
         "info": "Array class extension to remove all items by value",
         "category": "Array",
@@ -1109,23 +1447,12 @@ _ext(Array, 'removeAll', function (value, indexOf) {
         "returnType": "(Array)"
     }|*/
     try {
-        if (value) {
-            indexOf = indexOf || this.indexOf;
-            var  removed = [], index = indexOf.call(this, value);
-            if (!~index) { return false; }
-            while (~index && $c.isInt(index)) {
-                removed.push($c.remove(this,value, indexOf));
-                index = indexOf.call(this, value);
-            }
-            return removed;
-        }
-        return this.splice(0,this.length);
-
+        return $s.removeAll(this, value, indexOf);
     } catch (e) {
         error("Array.removeAll", e);
     }
 }, true);
-_ext(Array, 'removeAt', function (index) {
+ext(Array, 'removeAt', function (index) {
     /*|{
         "info": "Array class extension to remove item at a specific index",
         "category": "Array",
@@ -1136,13 +1463,12 @@ _ext(Array, 'removeAt', function (index) {
         "returnType": "(Mixed)"
     }|*/
     try {
-        if(this[index] === undefined) { return false; }
-        return this.splice(index, 1)[0];
+        return $s.removeAt(this, index);
     } catch (e) {
         error("Array.removeAt", e);
     }
 }, true);
-_ext(Array, 'replaceAt', function(index, value) {
+ext(Array, 'replaceAt', function(index, value) {
     /*|{
         "info": "Array class extension to replace item at a specific index",
         "category": "Array",
@@ -1156,12 +1482,17 @@ _ext(Array, 'replaceAt', function(index, value) {
         "returnType": "(Array)"
     }|*/
     try {
-        return this.splice(index, 1, value)[0];
+        var item = this.splice(index, 1, value)[0];
+        if (this.__indexed_buckets) {
+            $c._remove_from_index(this.__indexed_buckets, item);
+            $c._add_to_index(this.__indexed_buckets, value);
+        }
+        return item;
     } catch (e) {
         error("Array.replaceAt", e);
     }
 }, true);
-_ext(Array, 'scramble', function() {
+ext(Array, 'scramble', function() {
     /*|{
         "info": "Array class extension to scramble the order.",
         "category": "Array",
@@ -1173,13 +1504,12 @@ _ext(Array, 'scramble', function() {
         "returnType": "(Array)"
     }|*/
     try {
-        var min = 0, max = this.length;
-        return this.sort(function(){ return Math.round(rand(min,max,true)); });
+        return this.sort(function() { return Math.round($s.rand(-1, 1, true)); });
     } catch (e) {
         error("Array.scramble", e);
     }
 }, true);
-_ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
+ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
     /*|{
         "info": "Array class extension to sort the array",
         "category": "Array",
@@ -1238,9 +1568,9 @@ _ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
         "returnType": "(Array)"
     }|*/
     try {
-        options = (_isString(options) && options in {"i":1,"ignoreCase":1}) ? {i:1} : {};
+        options = ($s.isString(options) && options in {"i":1,"ignoreCase":1}) ? {i:1} : {};
         primer = primer || function(x){return x;};
-        if(_isString(props)){ props = props.split(','); }
+        if($s.isString(props)){ props = props.split(','); }
         var key = function (x) { return primer(x[prop]); };
         var tmpVal;
         var prop_sort = function (a,b,p) {
@@ -1265,11 +1595,9 @@ _ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
             tmpVal = bVal;
             bVal = ((bVal = parseInt(bVal)) && bVal.toString() == tmpVal && parseInt(tmpVal)) || tmpVal;
 
-
-
             if (aVal == bVal) {return prop_sort(a,b,p+1);}
-            if (isNull(aVal)) {return 1;}
-            if (isNull(bVal)) {return -1;}
+            if ($s.isNull(aVal)) {return 1;}
+            if ($s.isNull(bVal)) {return -1;}
             if(!reverseProp) {
                 if (aVal > bVal) {return 1;}
                 return -1;
@@ -1287,7 +1615,7 @@ _ext(Array, 'sortBy', function(props, rev, primer, lookup, options){
         error('Array.sortBy', e);
     }
 }, true);
-_ext(Array, 'stdev', function (con) {
+ext(Array, 'stdev', function () {
     /*|{
         "info": "Array class extension to perform standard deviation (any value which is not a number is 0).",
         "category": "Array",
@@ -1300,22 +1628,12 @@ _ext(Array, 'stdev', function (con) {
         "returnType": "(Array)"
     }|*/
     try {
-        if (!this.length) { return 0; }
-        var avg = $c.average(this),
-            sum = null, sdlen = 0;
-        for (var i = 0, len = this.length; i < len; i++) {
-            if (!_isNumber(this[i])) { continue; }
-            sdlen++;
-            sum = sum || 0;
-            var diff = this[i] - avg;
-            sum += diff * diff;
-        }
-        return Math.sqrt(sum/sdlen);
+        return $s.stdev(this);
     } catch (e) {
         error("Array.stdev", e);
     }
 }, true);
-_ext(Array, 'sum', function () {
+ext(Array, 'sum', function () {
     /*|{
         "info": "Array class extension to perform summation of all the values (any value which is not a number is 0).",
         "category": "Array",
@@ -1330,14 +1648,14 @@ _ext(Array, 'sum', function () {
     try {
         var value = 0;
         for (var i = 0, len = this.length; i < len; i++) {
-            value += _isNumber(this[i]) ? this[i] : 0;
+            value += $s.isNumber(this[i]) ? this[i] : 0;
         }
         return value;
     } catch (e) {
         error("Array.sum", e);
     }
 }, true);
-_ext(Array, 'toSet', function() {
+ext(Array, 'toSet', function() {
     /*|{
         "info": "Array class extension to convert the array to a set",
         "category": "Array",
@@ -1349,52 +1667,63 @@ _ext(Array, 'toSet', function() {
         "returnType": "(Array)"
     }|*/
     try {
-        for (var i = 0, len = this.length; i < len; i++) {
-            var item = this[i];
-            for (var j = i + 1; j < len; j++) {
-                var citem = this[j];
-                if (_equals(item,citem)) {
-                    $c.removeAt(this,j--);
-                    len--;
-                }
-            }
-        }
+        return $s.toSet(this);
     } catch (e) {
         error("Array.toSet", e);
-        return false;
     }
 }, true);
-_ext(Array, 'trim', __universal_trim, true);
-_ext(Array, 'update', function(condition, setClause, options) {
-        /*|{
-         "info": "Array class extension to update records in the array",
-         "category": "Array",
-         "parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"},
-         {"setClause": "(Mixed) Set clause used to update the records"}],
+ext(Array, 'trim', function (chars) {
+    /*|{
+        "info": "Array class extension to remove all white space/chars from the beginning and end of all string values in the array.",
+        "category": "Array",
+        "parameters":[],
 
-         "overloads":[
-         {"parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"},
-         {"setClause": "(Mixed) Set clause used to update the records"},
-         {"options": "(Object) Options to specify if mulit update and/or upsert"}]}],
+        "overloads":[
+            {"parameters":[
+                {"ref":"(Boolean) Whether or not to mutate the original array."}]},
 
-         "url": "http://www.craydent.com/library/1.9.3/docs#array.update",
-         "returnType": "(Array)"
-         }|*/
+            {"parameters":[
+                {"character": "(Char[]) Character to remove in the String"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#String.trim",
+        "returnType": "(Bool)"
+    }|*/
+    try {
+        return $s.universal_trim(this, chars);
+    } catch (e) {
+        error("Array.trim", e);
+    }
+}, true);
+ext(Array, 'update', function(condition, setClause, options) {
+    /*|{
+        "info": "Array class extension to update records in the array",
+        "category": "Array",
+        "parameters":[
+            {"condition": "(Mixed) Query following find/where clause syntax"},
+            {"setClause": "(Mixed) Set clause used to update the records"}],
+
+        "overloads":[
+            {"parameters":[
+                {"condition": "(Mixed) Query following find/where clause syntax"},
+                {"setClause": "(Mixed) Set clause used to update the records"},
+                {"options": "(Object) Options to specify if mulit update and/or upsert"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.update",
+        "returnType": "(Array)"
+    }|*/
     try {
         options = options || {};
         // if sql syntax convert to mongo object syntax
-        if ($c.isString(condition)) {
+        if ($s.isString(condition)) {
             condition = _processClause(condition);
         }
-        var setObject = $c.isObject(setClause) ? setClause : {'$set':null};
-        if ($c.isString(setClause)) {
+        var setObject = $s.isObject(setClause) ? setClause : {'$set':null};
+        if ($s.isString(setClause)) {
             setClause = setClause.split(',');
             setObject['$set'] = {};
             for (var i = 0, len = setClause.length; i < len; i++) {
                 var keyVal = setClause[i].split("=");
-                setObject['$set'][_trim(keyVal[0])] = _trim(keyVal[0]);
+                setObject['$set'][$s.general_trim(keyVal[0])] = $s.general_trim(keyVal[0]);
             }
         }
         var found = false, plainObject = true, operations = {"$set":1,"$unset":1,"$currentDate":1,"$inc":1,"$max":1,"$min":1,"$mul":1,"$bit":1,"$rename":1
@@ -1406,12 +1735,25 @@ _ext(Array, 'update', function(condition, setClause, options) {
             }
         }
 
-        var thiz = this, _qnp = __queryNestedProperty,
-            _clt = _contains_lessthan,
-            _clte = _contains_lessthanequal,
-            _cgt = _contains_greaterthan,
-            _cgte = _contains_greaterthanequal,
-            _ct = _contains_type, _cm = _contains_mod, _refs= [], ifblock = _subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
+        var thiz = this,
+            _equals = $c.equals,
+            _contains = $c.contains,
+            _qnp = $s.__queryNestedProperty,
+            _clt = $s._contains_lessthan,
+            _clte = $s._contains_lessthanequal,
+            _cgt = $s._contains_greaterthan,
+            _cgte = $s._contains_greaterthanequal,
+            _ct = $s._contains_type,
+            _cm = $s._contains_mod,
+            _contains = $c.contains,
+            _isArray = $c.isArray,
+            _isNull = $c.isNull,
+            _isFunction = $c.isFunction,
+            _isObject = $c.isObject,
+            _isString = $c.isString,
+            _isRegExp = $c.isRegExp,
+            _isInt = $c.isInt,
+            _refs= [], ifblock = $s._subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
                 "	var values,finished;" +
                 "	if ("+ifblock+") {" +
                 "		if(!cb.call(thiz,record,i)) { throw 'keep going'; }" +
@@ -1423,7 +1765,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
                 }
                 if (setObject['$set']) {
                     for (var prop in setObject['$set']) {
-                        setObject['$set'].hasOwnProperty(prop) && $c.setProperty(obj, prop, setObject['$set'][prop]);
+                        setObject['$set'].hasOwnProperty(prop) && $s.setProperty(obj, prop, setObject['$set'][prop]);
                     }
                 }
                 if (setObject['$unset']) {
@@ -1444,7 +1786,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
                 if (setObject['$max']) {
                     for (var prop in setObject['$max']) {
                         if (!setObject['$max'].hasOwnProperty(prop)) { continue; }
-                        obj[prop] = $c.isNull(obj[prop], setObject['$max'][prop]);
+                        obj[prop] = $s.isNull(obj[prop], setObject['$max'][prop]);
                         var value = obj[prop];
                         value < setObject['$max'][prop] && (obj[prop] = setObject['$max'][prop]);
                     }
@@ -1452,7 +1794,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
                 if (setObject['$min']) {
                     for (var prop in setObject['$min']) {
                         if (!setObject['$min'].hasOwnProperty(prop)) { continue; }
-                        obj[prop] = $c.isNull(obj[prop], setObject['$min'][prop]);
+                        obj[prop] = $s.isNull(obj[prop], setObject['$min'][prop]);
                         var value = obj[prop];
                         value > setObject['$min'][prop] && (obj[prop] = setObject['$min'][prop]);
                     }
@@ -1464,12 +1806,12 @@ _ext(Array, 'update', function(condition, setClause, options) {
                 }
                 if (setObject['$bit']) {
                     for (var prop in setObject['$bit']) {
-                        if (!setObject['$bit'].hasOwnProperty(prop) || !$c.isInt(obj[prop])) {continue;}
-                        if ($c.isInt(setObject['$bit'][prop]['and'])) {
+                        if (!setObject['$bit'].hasOwnProperty(prop) || !$s.isInt(obj[prop])) {continue;}
+                        if ($s.isInt(setObject['$bit'][prop]['and'])) {
                             obj[prop] &= setObject['$bit'][prop]['and'];
-                        } else if ($c.isInt(setObject['$bit'][prop]['or'])) {
+                        } else if ($s.isInt(setObject['$bit'][prop]['or'])) {
                             obj[prop] |= setObject['$bit'][prop]['and'];
-                        } else if ($c.isInt(setObject['$bit'][prop]['xor'])) {
+                        } else if ($s.isInt(setObject['$bit'][prop]['xor'])) {
                             obj[prop] ^= setObject['$bit'][prop]['and'];
                         }
                     }
@@ -1490,7 +1832,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
                     for (var prop in setObject['$addToSet']) {
                         if (!setObject['$addToSet'].hasOwnProperty(prop)) { continue; }
                         var each;
-                        if (each = $c.getProperty(setObject,'$addToSet.'+prop+'.$each')) {
+                        if (each = $s.getProperty(setObject,'$addToSet.'+prop+'.$each')) {
                             for (var i = 0, len = each.length; i < len; i++) {
                                 obj[prop].push(each[i]);
                             }
@@ -1502,27 +1844,27 @@ _ext(Array, 'update', function(condition, setClause, options) {
                 }
                 if (setObject['$pop']) {
                     for (var prop in setObject['$pop']) {
-                        if(!setObject['$pop'].hasOwnProperty(prop) || !$c.isArray(obj[prop])) { continue; }
+                        if(!setObject['$pop'].hasOwnProperty(prop) || !$s.isArray(obj[prop])) { continue; }
                         if (setObject['$pop'][prop] == 1) { obj[prop].pop(); }
                         else if (!~setObject['$pop'][prop]) { obj[prop].shift(); }
                     }
                 }
                 if (setObject['$pullAll']) {
                     for (var prop in setObject['$pullAll']) {
-                        var arr = $c.getProperty(obj,prop),
+                        var arr = $s.getProperty(obj,prop),
                             values = setObject['$pullAll'][prop];
-                        if (!$c.isArray(arr)) { continue; }
+                        if (!$s.isArray(arr)) { continue; }
                         __pullHelper(arr,values);
                     }
                 }
                 if (setObject['$pull']) {
                     for (var prop in setObject['$pull']) {
-                        var arr = $c.getProperty(obj,prop),
+                        var arr = $s.getProperty(obj,prop),
                             values = setObject['$pullAll'][prop];
-                        if (!$c.isArray(arr)) { continue; }
-                        if ($c.isArray(values)) {
+                        if (!$s.isArray(arr)) { continue; }
+                        if ($s.isArray(values)) {
                             __pullHelper(arr,values);
-                        } else if ($c.isObject(values)) {
+                        } else if ($s.isObject(values)) {
                             $c.delete(values,false);
                         }
                     }
@@ -1530,14 +1872,14 @@ _ext(Array, 'update', function(condition, setClause, options) {
                 if (setObject['$push']) {
                     for (var prop in setObject['$push']) {
                         if (!setObject['$push'].hasOwnProperty(prop)) { continue; }
-                        var each = $c.getProperty(setObject,'$push.'+prop+'.$each'),
-                            slice = $c.getProperty(setObject,'$push.'+prop+'.$slice'),
-                            sort = $c.getProperty(setObject,'$push.'+prop+'.$sort'),
-                            position = $c.getProperty(setObject,'$push.'+prop+'.$position');
+                        var each = $s.getProperty(setObject,'$push.'+prop+'.$each'),
+                            slice = $s.getProperty(setObject,'$push.'+prop+'.$slice'),
+                            sort = $s.getProperty(setObject,'$push.'+prop+'.$sort'),
+                            position = $s.getProperty(setObject,'$push.'+prop+'.$position');
 
 
                         if (each) {
-                            if ($c.isNull(position)) {
+                            if ($s.isNull(position)) {
                                 for (var i = 0, len = each.length; i < len; i++) {
                                     obj[prop].push(each[i]);
                                 }
@@ -1564,7 +1906,7 @@ _ext(Array, 'update', function(condition, setClause, options) {
                             $c.sortBy(obj[prop],sorter);
                         }
 
-                        if (each && !$c.isNull(slice)) {
+                        if (each && !$s.isNull(slice)) {
                             obj[prop] = obj[prop].slice(slice);
                         }
                     }
@@ -1597,34 +1939,34 @@ _ext(Array, 'update', function(condition, setClause, options) {
         return false;
     }
 }, true);
-_ext(Array, 'upsert', function(records, prop, callback) {
-        /*|{
-         "info": "Array class extension to upsert records to array",
-         "category": "Array",
-         "parameters":[
-         {"records": "(Array) Records to use to insert/update array"}],
+ext(Array, 'upsert', function(records, prop, callback) {
+    /*|{
+        "info": "Array class extension to upsert records to array",
+        "category": "Array",
+        "parameters":[
+            {"records": "(Array) Records to use to insert/update array"}],
 
-         "overloads":[
-         {"parameters":[
-         {"records": "(Array) Records to use to insert/update array"},
-         {"callback": "(Function) Method to use to determine if the records are equal"}]},
+        "overloads":[
+            {"parameters":[
+                {"records": "(Array) Records to use to insert/update array"},
+                {"callback": "(Function) Method to use to determine if the records are equal"}]},
 
-         {"parameters":[
-         {"records": "(Array) Records to use to insert/update array"},
-         {"prop": "(String) Property to use as the primary key"}]},
+            {"parameters":[
+                {"records": "(Array) Records to use to insert/update array"},
+                {"prop": "(String) Property to use as the primary key"}]},
 
-         {"parameters":[
-         {"records": "(Array) Records to use to insert/update array"},
-         {"prop": "(String) Property to use as the primary key"},
-         {"callback": "(Function) Method to use to determine if the records are equal"}]}],
+            {"parameters":[
+                {"records": "(Array) Records to use to insert/update array"},
+                {"prop": "(String) Property to use as the primary key"},
+                {"callback": "(Function) Method to use to determine if the records are equal"}]}],
 
-         "url": "http://www.craydent.com/library/1.9.3/docs#array.upsert",
-         "returnType": "(Object)"
-         }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.upsert",
+        "returnType": "(Object)"
+    }|*/
     try {
         var usePrimaryKey = true;
-        if (!$c.isArray(records)) { records = [records]; }
-        if ($c.isFunction(prop)) {
+        if (!$s.isArray(records)) { records = [records]; }
+        if ($s.isFunction(prop)) {
             callback = prop;
             prop = undefined;
         }
@@ -1648,28 +1990,43 @@ _ext(Array, 'upsert', function(records, prop, callback) {
                 isEqual = callback && callback(obj,record),
                 index = uIndex,
                 arr = uArr;
-            if ($c.isNull(isEqual, $c.equals(record,obj))) {
+            if ($s.isNull(isEqual, $s.equals(record,obj))) {
                 index = sIndex;
                 arr = sArr;
             } else {
-                $c.merge(obj, record);
+                $s.merge(obj, record);
             }
             index.push(i);
             arr.push(obj);
             ids.splice(ref.index-(j++), 1);
             return true;
         };
-        var _qnp = __queryNestedProperty,
-            _clt = _contains_lessthan,
-            _clte = _contains_lessthanequal,
-            _cgt = _contains_greaterthan,
-            _cgte = _contains_greaterthanequal,
-            _ct = _contains_type, _cm = _contains_mod, _refs = [], ifblock = _subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
-                "	var values,finished;" +
-                "	if ("+ifblock+") {" +
-                "		cb(record,i);" +
-                "	}" +
-                "})";
+        var _equals = $c.equals,
+            _contains = $c.contains,
+            where = $c.where,
+            _isArray = $c.isArray,
+            _qnp = $s.__queryNestedProperty,
+            _clt = $s._contains_lessthan,
+            _clte = $s._contains_lessthanequal,
+            _cgt = $s._contains_greaterthan,
+            _cgte = $s._contains_greaterthanequal,
+            _ct = $s._contains_type,
+            _cm = $s._contains_mod,
+            _contains = $c.contains,
+            _isNull = $c.isNull,
+            _isFunction = $c.isFunction,
+            _isObject = $c.isObject,
+            _isString = $c.isString,
+            _isRegExp = $c.isRegExp,
+            _isInt = $c.isInt;
+            _refs = [],
+            ifblock = $s._subQuery(condition,null,null,_refs),
+            func = "(function (record,i) {"+
+            "	var values,finished;" +
+            "	if ("+ifblock+") {" +
+            "		cb(record,i);" +
+            "	}" +
+            "})";
         if (_refs.length) {
             var varStrings = "";
             for (var i = 0, len = _refs.length; i < len; i++) {
@@ -1683,7 +2040,7 @@ _ext(Array, 'upsert', function(records, prop, callback) {
             var objRef = refs[ids[i]];
             iIndex.push(this.length);
             iArr.push(objRef.record);
-            this.push($c.duplicate(objRef.record));
+            $c.add(this, $s.duplicate(objRef.record));
         }
 
         return {
@@ -1699,172 +2056,46 @@ _ext(Array, 'upsert', function(records, prop, callback) {
         return false;
     }
 }, true);
-_ext(Array, 'where', function(condition, projection, limit) {
-        /*|{
-         "info": "Array class extension to use mongo or sql queries",
-         "category": "Array",
-         "featured": true,
-         "parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"}],
+ext(Array, 'where', function(condition, projection, limit) {
+    /*|{
+        "info": "Array class extension to use mongo or sql queries",
+        "category": "Array",
+        "featured": true,
+        "parameters":[
+            {"condition": "(Mixed) Query following find/where clause syntax"}],
 
-         "overloads":[
-         {"parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"},
-         {"projection": "(Mixed) Indicate which properties to return"}]},
+        "overloads":[
+            {"parameters":[
+                {"condition": "(Mixed) Query following find/where clause syntax"},
+                {"limit": "(Int) Limit the number of the results returned."}]},
 
-         {"parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"},
-         {"useReference": "(Bool) Flag to make a copy instead of using references"}]},
+            {"parameters":[
+                {"condition": "(Mixed) Query following find/where clause syntax"},
+                {"projection": "(Mixed) Indicate which properties to return"}]},
 
-         {"parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"},
-         {"projection": "(Mixed) Indicate which properties to return"},
-         {"limit": "(Int) Limit the number of the results returned."}]},
+            {"parameters":[
+                {"condition": "(Mixed) Query following find/where clause syntax"},
+                {"useReference": "(Bool) Flag to make a copy instead of using references"}]},
 
-         {"parameters":[
-         {"condition": "(Mixed) Query following find/where clause syntax"},
-         {"useReference": "(Bool) Flag to make a copy instead of using references"},
-         {"limit": "(Int) Limit the number of the results returned."}]}],
+            {"parameters":[
+                {"condition": "(Mixed) Query following find/where clause syntax"},
+                {"projection": "(Mixed) Indicate which properties to return"},
+                {"limit": "(Int) Limit the number of the results returned."}]},
 
-         "url": "http://www.craydent.com/library/1.9.3/docs#array.where",
-         "returnType": "(Array)"
-         }|*/
+            {"parameters":[
+                {"condition": "(Mixed) Query following find/where clause syntax"},
+                {"useReference": "(Bool) Flag to make a copy instead of using references"},
+                {"limit": "(Int) Limit the number of the results returned."}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.where",
+        "returnType": "(Array)"
+    }|*/
     try {
-        var useReference = !projection,
-            _qnp = __queryNestedProperty,
-            _clt = _contains_lessthan,
-            _clte = _contains_lessthanequal,
-            _cgt = _contains_greaterthan,
-            _cgte = _contains_greaterthanequal,
-            _ct = _contains_type, _cm = _contains_mod;
-
-        // if no condition was given, return all
-        if (!condition) { return this.slice(0,limit); }
-        if (limit === 0) { return []; }
-
-
-        if ($c.isFunction(condition) && !projection) {
-            var arr = this.filter(function(item){ return condition.call(item); });
-            return limit ? arr.slice(0,limit) : arr;
-        }
-
-        // check if there is query MongoDB syntax
-        var simple = !projection;
-        var condStr;
-        try {
-            condStr = simple && JSON.stringify(condition, function (key, val) {
-                    if (key[0] == "$") {
-                        simple = false;
-                        throw '';
-                    }
-                    return val;
-                });
-        } catch (e) { }
-
-        if (simple) {
-            limit = limit || 0;//this.length;
-            var props = [],indexProps = [];
-            if (this.__indexes) {
-                for (var prop in condition) {
-                    if (condition.hasOwnProperty(prop)) {
-                        //props.push(prop);
-                        if (this.__indexes[prop]) {
-                            indexProps.push(prop);
-                        }
-                    }
-                }
-            }
-            var arr = this,ipHasLength = !!indexProps.length;
-            if (ipHasLength) {
-                var prop, i = 0;
-
-                var orderedLists = [], fi = 0,len = arr.length;
-                while (prop = indexProps[i++]) {
-                    var ordered = _binarySearch(arr.__indexes[prop],prop,condition[prop]);
-                    if (len > ordered.length) {
-                        len = ordered.length;
-                        fi = i - 1;
-                    }
-                    orderedLists.push(ordered);
-                }
-                if (len < 1000) {
-                    var farr = orderedLists[fi];
-                    arr = [];
-                    for (var i = 0; i < len; i++) {
-                        var addit = true;
-                        for (var j = 0, jlen = orderedLists.length; j < jlen; j++) {
-                            if (fi == j) { continue; }
-                            if (!~orderedLists[j].indexOf(farr[i])) {
-                                addit = false;
-                                break;
-                            }
-                        }
-                        addit && arr.push(farr[i]);
-                    }
-                }
-            }
-            var boolCond = "", useQueryNested = false, func = function (cobj,index,arr) {
-                if (arr.temp_count++ < this.temp_limit) { return false; }
-                for (var prop in condition) {
-                    if (~prop.indexOf('.')) {
-                        if (!$c.contains(_qnp(cobj, prop),condition[prop])) {
-                            return false;
-                        }
-                    } else if (cobj[prop] && cobj[prop] !== condition[prop] || $c.isNull(cobj[prop])) {
-                        return false;
-                    }
-                }
-                return true;
-            };
-            for (var prop in condition) {
-                if (!condition.hasOwnProperty(prop) || ipHasLength && ~indexProps.indexOf(prop)) { continue; }
-                if (~prop.indexOf('.')) { useQueryNested = true; break; }
-                var q = $c.isString(condition[prop]) ? "\"" : "";
-                if ($c.isRegExp(condition[prop])) {
-                    boolCond += condition[prop] + ".test(cobj[\"" + prop + "\"]) && ";
-                } else if (typeof condition[prop] == "object") {
-                    boolCond += "$c.equals(cobj[\"" + prop + "\"]," + JSON.stringify(condition[prop]) + ") && ";
-                } else {
-                    boolCond += "cobj[\"" + prop + "\"]==" + q + condition[prop] + q + " && ";
-                }
-            }
-            if (!useQueryNested) {
-                var limitLogic = "";
-                limit && (limitLogic = "arr.temp_count++ < arr.temp_limit && ");
-                func = (eval("(function(cobj,index,arr){ return " + limitLogic + boolCond + "true;})") || func);
-            }
-            arr.temp_count = 0;
-            arr.temp_limit = limit;
-
-            arr = arr.filter(func);
-            delete arr.temp_count;
-            delete arr.temp_limit;
-
-            return arr;
-        }
-
-        var arr = [], rarr, _refs = [];
-        var ifblock = _subQuery(condition,null,null,_refs),
-            func = eval("(function (record) {var values;" +
-                (limit ? "if (arr.length == limit) { throw 'keep going'; } " : "") +
-                "return " + (useReference ? ifblock : ifblock + " && arr.push(_copyWithProjection(projection, record))") + ";})");
-
-        if (_refs.length) {
-            var varStrings = "";
-            for (var i = 0, len = _refs.length; i < len; i++) {
-                varStrings += "var __where_cb" + (i+1) + "=_refs["+i+"];"
-            }
-            eval(varStrings);
-        }
-        try {
-            rarr = this.filter(func);
-        } catch(e) {
-            if (e != 'keep going') { throw e;}
-        }
-        if (!useReference) { return arr; }
-        return rarr;
+        return $s.where(this, condition, projection, limit);
     } catch (e) {
         error("Array.where", e);
-        return false;
     }
 }, true);
+
+$c.emit = $c.emit || $s.emit;
+module.exports = $c;

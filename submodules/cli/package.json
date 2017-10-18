@@ -1,0 +1,33 @@
+{
+    "name": "@craydent/craydent-cli",
+    "version": "0.8.2",
+    "description": "Node module to manage command line execution and arguments",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/cli.git"
+    },
+    "keywords": [
+        "craydent",
+        "cli",
+        "library",
+        "jquery",
+        "es6",
+        "sugar",
+        "commander",
+        "utilities"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/cli#readme",
+    "dependencies": {
+        "craydent-typeof": "file:../typeof"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}

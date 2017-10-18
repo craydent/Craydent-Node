@@ -5,40 +5,197 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var cm = require('./common'),
-    $c = cm.$c,
-    _ext = cm.ext,
-    _toCurrencyNotation = cm.toCurrencyNotation,
-    isNull = cm.isNull;
+var $s = require('./dependencies/common')(),
+    $c = $s.$c,
+    error = $s.error;
+
+if ($c.MODULES_LOADED[$s.info.name]) { return; }
+$s.__log_module();
+$s.scope.eval = function (str) { return eval(str); };
+
+require($s.dir + 'fillTemplate')($s);
+require($s.dir + 'include')($s);
+require($s.dir + 'isValidDate')($s);
+require($s.dir + 'itemCount')($s);
+require($s.dir + 'logit')($s);
+require($s.dir + 'where')($s);
+
+$c.RESPONSES = {
+    100:{"status":100,"success":true,"message":"Continue"},
+    101:{"status":101,"success":true,"message":"Switching Protocols"},
+    102:{"status":102,"success":true,"message":"Processing"},
+
+    200:{"status":200,"success":true,"message":"OK"},
+    201:{"status":201,"success":true,"message":"Created"},
+    202:{"status":202,"success":true,"message":"Accepted"},
+    203:{"status":203,"success":true,"message":"Non-Authoritative Information"},
+    204:{"status":204,"success":true,"message":"No Content"},
+    205:{"status":205,"success":true,"message":"Reset Content"},
+    206:{"status":206,"success":true,"message":"Partial Content"},
+    207:{"status":207,"success":true,"message":"Multi-Status"},
+    208:{"status":208,"success":true,"message":"Already Reported"},
+    226:{"status":226,"success":true,"message":"IM Used"},
+
+    300:{"status":300,"success":true,"message":"Multiple Choices"},
+    301:{"status":301,"success":true,"message":"Moved Permanently"},
+    302:{"status":302,"success":true,"message":"Found"},
+    303:{"status":303,"success":true,"message":"See Other"},
+    304:{"status":304,"success":true,"message":"Not Modified"},
+    305:{"status":305,"success":true,"message":"Use Proxy"},
+    306:{"status":306,"success":true,"message":"Unused"},
+    307:{"status":307,"success":true,"message":"Temporary Redirect"},
+    308:{"status":308,"success":true,"message":"Permanent Redirect"},
+
+    400:{"status":400,"success":false,"message":"Bad Request"},
+    401:{"status":401,"success":false,"message":"Unauthorized"},
+    402:{"status":402,"success":false,"message":"Payment Required"},
+    403:{"status":403,"success":false,"message":"Forbidden"},
+    404:{"status":404,"success":false,"message":"Not Found"},
+    405:{"status":405,"success":false,"message":"Method Not Allowed"},
+    406:{"status":406,"success":false,"message":"Not Acceptable"},
+    407:{"status":407,"success":false,"message":"Proxy Authentication Required"},
+    408:{"status":408,"success":false,"message":"Request Timeout"},
+    409:{"status":409,"success":false,"message":"Conflict"},
+    410:{"status":410,"success":false,"message":"Gone"},
+    411:{"status":411,"success":false,"message":"Length Required"},
+    412:{"status":412,"success":false,"message":"Precondition Failed"},
+    413:{"status":413,"success":false,"message":"Request Entity Too Large"},
+    414:{"status":414,"success":false,"message":"Request-URI Too Long"},
+    415:{"status":415,"success":false,"message":"Unsupported Media Type"},
+    416:{"status":416,"success":false,"message":"Requested Range Not Satisfiable"},
+    417:{"status":417,"success":false,"message":"Expectation Failed"},
+    418:{"status":418,"success":false,"message":"I'm a teapot"},
+    420:{"status":420,"success":false,"message":"Enhanced Your Calm"},
+    422:{"status":422,"success":false,"message":"Unprocessable Entity"},
+    423:{"status":423,"success":false,"message":"Locked"},
+    424:{"status":424,"success":false,"message":"Failed Dependency"},
+    425:{"status":425,"success":false,"message":"Reserved for WebDAV"},
+    426:{"status":426,"success":false,"message":"Upgrade Required"},
+    428:{"status":428,"success":false,"message":"Precondition Required"},
+    429:{"status":429,"success":false,"message":"Too Many Requests"},
+    431:{"status":431,"success":false,"message":"Request Header Fields Too Large"},
+    444:{"status":444,"success":false,"message":"No Response"},
+    449:{"status":449,"success":false,"message":"Retry With"},
+    450:{"status":450,"success":false,"message":"Blocked By Windows Parental Controls"},
+    451:{"status":451,"success":false,"message":"Unavailable For Legal Reasons"},
+    499:{"status":499,"success":false,"message":"Client Closed Request"},
+
+    500:{"status":500,"success":false,"message":"Internal Server Error"},
+    501:{"status":501,"success":false,"message":"Not Implemented"},
+    502:{"status":502,"success":false,"message":"Bad Gateway"},
+    503:{"status":503,"success":false,"message":"Service Unavailable"},
+    504:{"status":504,"success":false,"message":"Gateway Timeout"},
+    505:{"status":505,"success":false,"message":"HTTP Version Not Supported"},
+    506:{"status":506,"success":false,"message":"Variant Also Negotiates"},
+    507:{"status":507,"success":false,"message":"Insufficient Storage"},
+    508:{"status":508,"success":false,"message":"Loop Detected"},
+    509:{"status":509,"success":false,"message":"Bandwidth Limit Exceeded"},
+    510:{"status":510,"success":false,"message":"Not Extended"},
+    511:{"status":511,"success":false,"message":"Network Authentication Require"},
+    598:{"status":598,"success":false,"message":"Network read timeout error"},
+    599:{"status":599,"success":false,"message":"Network connect timeout error"}
+};
+$c.HTTP_STATUS_TEMPLATE = $c.HTTP_STATUS_TEMPLATE || [];
+
+function __rest_docs(req,res,params){
+    var routes = {
+        all:$s.where(this.server.routes.all,{path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+        delete:$s.where(this.server.routes.delete,{path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+        get:$s.where(this.server.routes.get,{path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+        post:$s.where(this.server.routes.post,{path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]}),
+        put:$s.where(this.server.routes.put,{path:{$ne:"/craydent/api/docs"}},{path:1,parameters:[]})
+    };
+    if(req.method.toLowerCase() == "post" || params.f == 'json'){
+        return this.send(routes);
+    }
+    params.logo_url = $c.ROUTE_LOGO_URL;
+    this.header({'Content-Type': 'text/html'},200);
+    this.end($s.fillTemplate($c.REST_API_TEMPLATE,$s.merge(routes,params)));
+
+}
+function __set_path (verb, http, path, callback) {
+    try {
+        callback = callback || [];
+        if($s.isFunction(callback) || $s.isGenerator(callback) || $s.isAsync(callback)) { callback = [callback]; }
+        if (!$s.isArray(path)) { path = [path]; }
+        for (var i = 0, len = path.length; i < len; i++) {
+            var route = path[i];
+            if ($s.isString(route)) {
+                route = {path: route, callback: callback, method: verb};
+            } else if (callback) {
+                route.callback = route.callback || [];
+                if ($s.isFunction(route.callback) || $s.isGenerator(route.callback) || $s.isAsync(route.callback)) {
+                    route.callback = [route.callback];
+                }
+                route.callback = route.callback.concat(callback);
+                route.method = verb;
+            }
+            http.routes.push(route);
+        }
+    } catch (e) {
+        error('CraydentServer.' + verb, e);
+    }
+}
+
+function _getBrowserVersion(browser){
+    try {
+        var index = this.navigator.userAgent.indexOf(browser);
+        if (!~index && this["is"+browser]()) return -1;
+        var version = parseFloat(this.navigator.userAgent.substring(index+browser.length+1));
+        return version === 0 || version ? version : -1;
+    } catch(e){
+        error('_getBrowserVersion', e);
+    }
+}
+function _verb_payload_helper (variable, options) {
+    this.raw = this.raw || "";
+    if (!variable) { return this.rawData || this.raw; }
+    this.rawData = this.rawData || {};
+    if (!options) {
+        return this.rawData[variable] === undefined ? false : this.rawData[variable];
+    }
+
+    if (options == 'i' || options.ignoreCase || options == "ignoreCase") {
+        for (var prop in this.rawData) {
+            if (!this.rawData.hasOwnProperty(prop)) { continue; }
+            if (prop.toLowerCase() == variable.toLowerCase()) { return this.rawData[prop]; }
+        }
+        return false;
+    }
+
+    return this.raw[variable] || false;
+}
 
 function $COOKIE(key, value, options) {
     /*|{
-     "info": "Get/set Cookies",
-     "category": "Global",
-     "featured": true,
-     "parameters":[
-     {"key": "(String) Key for cookie value"}],
+        "info": "Get/set Cookies",
+        "category": "Global",
+        "featured": true,
+        "parameters":[
+            {"key": "(String) Key for cookie value"}],
 
-     "overloads":[
-     {"parameters":[
-     {"key": "(String) Key for cookie"},
-     {"option": "(Object) Specify delete"}]},
-     {"parameters":[
-     {"keyValue": "(Object) Specify the key value pair"},
-     {"option": "(Object) Specify path, domain, and/or expiration of cookie"}]},
-     {"parameters":[
-     {"key": "(String) Key for cookie value"},
-     {"value": "(String) Value to store"},
-     {"option": "(Object) Specify path and/or expiration of cookie"}]}],
+        "overloads":[
+            {"parameters":[
+                {"key": "(String) Key for cookie"},
+                {"option": "(Object) Specify delete"}]},
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#$COOKIE",
-     "returnType": "(Mixed)"
-     }|*/
+            {"parameters":[
+                {"keyValue": "(Object) Specify the key value pair"},
+                {"option": "(Object) Specify path, domain, and/or expiration of cookie"}]},
+
+            {"parameters":[
+                {"key": "(String) Key for cookie value"},
+                {"value": "(String) Value to store"},
+                {"option": "(Object) Specify path and/or expiration of cookie"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#$COOKIE",
+        "returnType": "(Mixed)"
+    }|*/
     try {
         options = options || {};
-        var c = $c.getProperty(this, 'request.headers.cookie');
+        var c = $s.getProperty(this, 'request.headers.cookie');
         options.cookie && (c = options.cookie);
-        if($c.isObject(key)) {
+        if($s.isObject(key)) {
             options = value;
             for (var prop in key) {
                 if (!key.hasOwnProperty(prop)) { continue; }
@@ -50,9 +207,10 @@ function $COOKIE(key, value, options) {
             values.push(JSON.stringify(value));
         }
 
+        var path = "", domain = "";
         if (!c && !values.length) { return {}; }
-        if (options.path && $c.isString(options.path)) {path = 'path=' + (options.path || '/') + ';'}
-        if (options.domain && $c.isString(options.domain)) {domain = 'domain=' + options.domain + ';'}
+        if (options.path && $s.isString(options.path)) { path = 'path=' + (options.path || '/') + ';' }
+        if (options.domain && $s.isString(options.domain)) { domain = 'domain=' + options.domain + ';' }
         if (options["delete"]) {
             this.response.setHeader("Set-Cookie", [key + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;' + path + domain]);
             return true;
@@ -60,12 +218,11 @@ function $COOKIE(key, value, options) {
 
         if (values.length) {
             var expires = "";
-            if ($c.isInt(options.expiration)) {
+            if ($s.isInt(options.expiration)) {
                 var dt = new Date();
                 dt.setDate(dt.getDate() + options.expiration);
                 expires = ";expires=" + dt.toUTCString();
             }
-            var j = 0, key;
             for (var j = 0, jlen = keys.length; j < jlen; j++) {
                 this.response.setHeader("Set-Cookie", [encodeURIComponent(keys[j]) + "=" + encodeURIComponent(values[j]) + expires + path + domain]);
             }
@@ -77,8 +234,8 @@ function $COOKIE(key, value, options) {
             var cookie = arr[i];
             var parts = cookie.split(/=/, 2),
                 name = decodeURIComponent(parts[0] && parts[0].ltrim && parts[0].ltrim() || ""),
-                value = parts.length > 1 ? decodeURIComponent($c.rtrim(parts[1])) : null;
-            cookies[name] = $c.tryEval(value) || value;
+                value = parts.length > 1 ? decodeURIComponent($s.rtrim(parts[1])) : null;
+            cookies[name] = $s.tryEval(value) || value;
             if (key && key == name) {
                 return cookies[name];
             }
@@ -92,64 +249,66 @@ function $COOKIE(key, value, options) {
 }
 function $DELETE(variable, options) {
     /*|{
-     "info": "Retrieve all or specific variables in the Body",
-     "category": "Global",
-     "featured": true,
-     "parameters":[],
+        "info": "Retrieve all or specific variables in the Body",
+        "category": "Global",
+        "featured": true,
+        "parameters":[],
 
-     "overloads":[
-     {"parameters":[
-     {"key": "(String) key for query value"}]},
-     {"parameters":[
-     {"key": "(String) key for query value"},
-     {"options": "(Object) Options to defer, ignore case, etc"}]}],
+        "overloads":[
+            {"parameters":[
+                {"key": "(String) key for query value"}]},
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#$DELETE",
-     "returnType": "(Mixed)"
-     }|*/
+            {"parameters":[
+                {"key": "(String) key for query value"},
+                {"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#$DELETE",
+        "returnType": "(Mixed)"
+    }|*/
     try {
         return _verb_payload_helper.call(this, variable, options);
     } catch (e) {
-        logit('$DELETE');
-        logit(e);
+        error('$DELETE', e);
     }
 }
 function $DEL () {
     /*|{
-     "info": "Retrieve all or specific variables in the Body",
-     "category": "Global",
-     "featured": true,
-     "parameters":[],
+        "info": "Retrieve all or specific variables in the Body",
+        "category": "Global",
+        "featured": true,
+        "parameters":[],
 
-     "overloads":[
-     {"parameters":[
-     {"key": "(String) key for query value"}]},
-     {"parameters":[
-     {"key": "(String) key for query value"},
-     {"options": "(Object) Options to defer, ignore case, etc"}]}],
+        "overloads":[
+            {"parameters":[
+                {"key": "(String) key for query value"}]},
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#$DELETE",
-     "returnType": "(Mixed)"
-     }|*/
+            {"parameters":[
+                {"key": "(String) key for query value"},
+                {"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#$DEL",
+        "returnType": "(Mixed)"
+    }|*/
     return $DELETE.apply(this,arguments);
 }
 function $GET(variable, options) {
     /*|{
-     "info": "Retrieve all or specific variables in the url",
-     "category": "Global",
-     "featured": true,
-     "parameters":[],
+        "info": "Retrieve all or specific variables in the url",
+        "category": "Global",
+        "featured": true,
+        "parameters":[],
 
-     "overloads":[
-     {"parameters":[
-     {"key": "(String) key for query value"}]},
-     {"parameters":[
-     {"key": "(String) key for query value"},
-     {"options": "(Object) Options to defer, ignore case, etc"}]}],
+        "overloads":[
+            {"parameters":[
+                {"key": "(String) key for query value"}]},
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#$GET",
-     "returnType": "(Mixed)"
-     }|*/
+            {"parameters":[
+                {"key": "(String) key for query value"},
+                {"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#$GET",
+        "returnType": "(Mixed)"
+    }|*/
     try {
         options = options || {};
         if (!variable) {
@@ -189,7 +348,7 @@ function $GET(variable, options) {
         location.hash = this.$l.hash;
         location.search = this.$l.search;
 
-        if (options.url || $c && $c.isString && ($c.isString(options) && (~options.indexOf("?") || ~options.indexOf("#")))) {
+        if (options.url || $s.isString && ($s.isString(options) && (~options.indexOf("?") || ~options.indexOf("#")))) {
             var query = options.url || options,
                 hindex, qindex = query.indexOf("?");
 
@@ -210,27 +369,27 @@ function $GET(variable, options) {
         regex = new RegExp('(.*)?(' + variable +'=)(.*?)(([&]|[@])(.*)|$)', ignoreCase);
         return decodeURI(location[attr].replace(regex, '$3'));
     } catch (e) {
-        logit('$GET');
-        logit(e);
+        error('$GET', e);
     }
 }
 function $HEADER(variable, options) {
     /*|{
-     "info": "Retrieve all or specific variables in the headers",
-     "category": "Global",
-     "featured": true,
-     "parameters":[],
+        "info": "Retrieve all or specific variables in the headers",
+        "category": "Global",
+        "featured": true,
+        "parameters":[],
 
-     "overloads":[
-     {"parameters":[
-     {"key": "(String) key for query value"}]},
-     {"parameters":[
-     {"key": "(String) key for query value"},
-     {"options": "(Object) Options to defer, ignore case, etc"}]}],
+        "overloads":[
+            {"parameters":[
+                {"key": "(String) key for query value"}]},
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#$HEADER",
-     "returnType": "(Mixed)"
-     }|*/
+            {"parameters":[
+                {"key": "(String) key for query value"},
+                {"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#$HEADER",
+        "returnType": "(Mixed)"
+    }|*/
     try {
         this.request.headers = this.request.headers || {};
 
@@ -238,101 +397,100 @@ function $HEADER(variable, options) {
         if (!options) { return this.request.headers[variable] === undefined ? false : this.request.headers[variable]; }
 
         if (options == 'i' || options.ignoreCase || options == "ignoreCase") {
-            for (var prop in this.request.headers) {
+            for (var prop in $c.request.headers) {
                 if (!this.request.headers.hasOwnProperty(prop)) { continue; }
                 if (prop.toLowerCase() == variable.toLowerCase()) { return this.request.headers[prop]; }
             }
         }
         return false;
     } catch (e) {
-        logit('$HEADER');
-        logit(e);
+        error('$HEADER', e);
     }
 }
 function $PAYLOAD(variable, options) {
     /*|{
-     "info": "Retrieve all or specific variables in the Body",
-     "category": "Global",
-     "featured": true,
-     "parameters":[],
+        "info": "Retrieve all or specific variables in the Body",
+        "category": "Global",
+        "featured": true,
+        "parameters":[],
 
-     "overloads":[
-     {"parameters":[
-     {"key": "(String) key for query value"}]},
-     {"parameters":[
-     {"key": "(String) key for query value"},
-     {"options": "(Object) Options to defer, ignore case, etc"}]}],
+        "overloads":[
+            {"parameters":[
+                {"key": "(String) key for query value"}]},
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#$PAYLOAD",
-     "returnType": "(Mixed)"
-     }|*/
+            {"parameters":[
+                {"key": "(String) key for query value"},
+                {"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#$PAYLOAD",
+        "returnType": "(Mixed)"
+    }|*/
     try {
         return _verb_payload_helper.call(this, variable, options);
     } catch (e) {
-        logit('$PAYLOAD');
-        logit(e);
+        error('$PAYLOAD', e);
     }
 }
 function $POST(variable, options) {
     /*|{
-     "info": "Retrieve all or specific variables in the Body",
-     "category": "Global",
-     "featured": true,
-     "parameters":[],
+        "info": "Retrieve all or specific variables in the Body",
+        "category": "Global",
+        "featured": true,
+        "parameters":[],
 
-     "overloads":[
-     {"parameters":[
-     {"key": "(String) key for query value"}]},
-     {"parameters":[
-     {"key": "(String) key for query value"},
-     {"options": "(Object) Options to defer, ignore case, etc"}]}],
+        "overloads":[
+            {"parameters":[
+                {"key": "(String) key for query value"}]},
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#$POST",
-     "returnType": "(Mixed)"
-     }|*/
+            {"parameters":[
+                {"key": "(String) key for query value"},
+                {"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#$POST",
+        "returnType": "(Mixed)"
+    }|*/
     try {
         return _verb_payload_helper.call(this, variable, options);
     } catch (e) {
-        logit('$POST');
-        logit(e);
+        error('$POST', e);
     }
 }
 function $PUT(variable, options) {
     /*|{
-     "info": "Retrieve all or specific variables in the Body",
-     "category": "Global",
-     "featured": true,
-     "parameters":[],
+        "info": "Retrieve all or specific variables in the Body",
+        "category": "Global",
+        "featured": true,
+        "parameters":[],
 
-     "overloads":[
-     {"parameters":[
-     {"key": "(String) key for query value"}]},
-     {"parameters":[
-     {"key": "(String) key for query value"},
-     {"options": "(Object) Options to defer, ignore case, etc"}]}],
+        "overloads":[
+            {"parameters":[
+                {"key": "(String) key for query value"}]},
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#$PUT",
-     "returnType": "(Mixed)"
-     }|*/
+            {"parameters":[
+                {"key": "(String) key for query value"},
+                {"options": "(Object) Options to defer, ignore case, etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#$PUT",
+        "returnType": "(Mixed)"
+    }|*/
     try {
         return _verb_payload_helper.call(this, variable, options);
     } catch (e) {
-        logit('$PUT');
-        logit(e);
+        error('$PUT', e);
     }
 }
 
 function ChromeVersion (){
     /*|{
-     "info": "Get Chrome version",
-     "category": "Global",
-     "parameters":[],
+        "info": "Get Chrome version",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#ChromeVersion",
-     "returnType": "(Float)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#ChromeVersion",
+        "returnType": "(Float)"
+    }|*/
     try {
         return _getBrowserVersion.call(this, "Chrome");
     } catch(e){
@@ -341,15 +499,15 @@ function ChromeVersion (){
 }
 function FirefoxVersion (){
     /*|{
-     "info": "Get Firefox version",
-     "category": "Global",
-     "parameters":[],
+        "info": "Get Firefox version",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#FirefoxVersion",
-     "returnType": "(Float)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#FirefoxVersion",
+        "returnType": "(Float)"
+    }|*/
     try {
         return _getBrowserVersion.call(this, "Firefox");
     } catch(e){
@@ -358,15 +516,15 @@ function FirefoxVersion (){
 }
 function IEVersion () {
     /*|{
-     "info": "Get Internet Explorer version",
-     "category": "Global",
-     "parameters":[],
+        "info": "Get Internet Explorer version",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#IEVersion",
-     "returnType": "(Float)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#IEVersion",
+        "returnType": "(Float)"
+    }|*/
     try {
         var rv = -1;
         if (this.navigator.appName == 'Microsoft Internet Explorer') {
@@ -381,15 +539,15 @@ function IEVersion () {
 }
 function OperaVersion (){
     /*|{
-     "info": "Get Opera version",
-     "category": "Global",
-     "parameters":[],
+        "info": "Get Opera version",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#OperaVersion",
-     "returnType": "(Float)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#OperaVersion",
+        "returnType": "(Float)"
+    }|*/
     try {
         return _getBrowserVersion.call(this, "Opera");
     } catch(e){
@@ -398,15 +556,15 @@ function OperaVersion (){
 }
 function SafariVersion (){
     /*|{
-     "info": "Get Safari version",
-     "category": "Global",
-     "parameters":[],
+        "info": "Get Safari version",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#SafariVersion",
-     "returnType": "(Float)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#SafariVersion",
+        "returnType": "(Float)"
+    }|*/
     try {
         return this.isChrome() ? -1 : _getBrowserVersion.call(this, "Safari");
     } catch(e){
@@ -415,15 +573,15 @@ function SafariVersion (){
 }
 function isAmaya() {
     /*|{
-     "info": "Check if browser is Amaya",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if browser is Amaya",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isAmaya",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isAmaya",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/amaya/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -432,15 +590,15 @@ function isAmaya() {
 }
 function isAndroid(){
     /*|{
-     "info": "Check if device is Android",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if device is Android",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isAndroid",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isAndroid",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/android/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -449,15 +607,15 @@ function isAndroid(){
 }
 function isBlackBerry() {
     /*|{
-     "info": "Check if device is BlackBerry",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if device is BlackBerry",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isBlackBerry",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isBlackBerry",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/blackberry/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -466,15 +624,15 @@ function isBlackBerry() {
 }
 function isChrome(){
     /*|{
-     "info": "Check if browser is Chrome",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if browser is Chrome",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isChrome",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isChrome",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/chrome/i.test(this.navigator.userAgent));
     } catch(e){
@@ -483,15 +641,15 @@ function isChrome(){
 }
 function isFirefox(){
     /*|{
-     "info": "Check if browser is Firefox",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if browser is Firefox",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isFirefox",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isFirefox",
+        "returnType": "(Bool)"
+    }|*/
     try {
         var nu = this.navigator.userAgent;
         return (!/chrome/i.test(nu)
@@ -504,15 +662,15 @@ function isFirefox(){
 }
 function isGecko() {
     /*|{
-     "info": "Check if engine is Gecko",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if engine is Gecko",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isGecko",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isGecko",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return !this.isWebkit() && !this.isKHTML() && (/gecko/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -521,17 +679,17 @@ function isGecko() {
 }
 function isIE6() {
     /*|{
-     "info": "Check if browser is Internet Explorer 6",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if browser is Internet Explorer 6",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isIE6",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isIE6",
+        "returnType": "(Bool)"
+    }|*/
     try {
-        var rv = IEVersion();
+        var rv = IEVersion.call(this);
         return (~rv && rv < 7.0);
     } catch (e) {
         error('isIE6', e);
@@ -539,32 +697,32 @@ function isIE6() {
 }
 function isIE() {
     /*|{
-     "info": "Check if browser is Internet Explorer",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if browser is Internet Explorer",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isIE",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isIE",
+        "returnType": "(Bool)"
+    }|*/
     try {
-        return (!!~IEVersion());
+        return (!!~IEVersion.call(this));
     } catch (e) {
         error('isIE', e);
     }
 }
 function isIPad() {
     /*|{
-     "info": "Check if device is iPad",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if device is iPad",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isIPad",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isIPad",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/iPad|iPhone OS 3_[1|2]_2/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -573,15 +731,15 @@ function isIPad() {
 }
 function isIPhone(){
     /*|{
-     "info": "Check if device is IPhone",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if device is IPhone",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isIphone",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isIphone",
+        "returnType": "(Bool)"
+    }|*/
     try{
         return !this.isIPad() && /iphone/i.test(this.navigator.userAgent);
     } catch (e) {
@@ -590,15 +748,15 @@ function isIPhone(){
 }
 function isIPod() {
     /*|{
-     "info": "Check if device is IPod",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if device is IPod",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isIPod",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isIPod",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/ipod/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -607,15 +765,15 @@ function isIPod() {
 }
 function isKHTML() {
     /*|{
-     "info": "Check if engine is KHTML",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if engine is KHTML",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isKHTML",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isKHTML",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return !this.isWebkit() && (/khtml/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -624,15 +782,15 @@ function isKHTML() {
 }
 function isLinux(){
     /*|{
-     "info": "Check if OS is Linux",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if OS is Linux",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isLinux",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isLinux",
+        "returnType": "(Bool)"
+    }|*/
     try{
         return /linux/i.test(this.navigator.platform);
     } catch (e) {
@@ -641,15 +799,15 @@ function isLinux(){
 }
 function isMac(){
     /*|{
-     "info": "Check if OS is Mac Based",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if OS is Mac Based",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isMac",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isMac",
+        "returnType": "(Bool)"
+    }|*/
     try{
         return /mac/i.test(this.navigator.platform);
     } catch (e) {
@@ -658,15 +816,15 @@ function isMac(){
 }
 function isMobile(){
     /*|{
-     "info": "Check if the device is a Mobile device",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if the device is a Mobile device",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isMobile",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isMobile",
+        "returnType": "(Bool)"
+    }|*/
     try{
         return this.isAndroid() || this.isBlackBerry() || this.isIPad() || this.isIPhone() || this.isIPod() || this.isPalmOS() || this.isSymbian() || this.isWindowsMobile();
     } catch (e) {
@@ -675,15 +833,15 @@ function isMobile(){
 }
 function isOpera(){
     /*|{
-     "info": "Check if browser is Opera",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if browser is Opera",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isOpera",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isOpera",
+        "returnType": "(Bool)"
+    }|*/
     try {
         var nu = this.navigator.userAgent;
         return /chrome/i.test(nu)
@@ -695,15 +853,15 @@ function isOpera(){
 }
 function isPalmOS(){
     /*|{
-     "info": "Check if OS is PalmOS",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if OS is PalmOS",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isPalmOS",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isPalmOS",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/palm/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -712,15 +870,15 @@ function isPalmOS(){
 }
 function isPresto() {
     /*|{
-     "info": "Check if engine is Presto",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if engine is Presto",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isPresto",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isPresto",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/presto/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -729,15 +887,15 @@ function isPresto() {
 }
 function isPrince() {
     /*|{
-     "info": "Check if engine is Prince",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if engine is Prince",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isPrince",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isPrince",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/prince/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -746,15 +904,15 @@ function isPrince() {
 }
 function isSafari(){
     /*|{
-     "info": "Check if browser is Safari",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if browser is Safari",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isSafari",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isSafari",
+        "returnType": "(Bool)"
+    }|*/
     try {
         var nu = this.navigator.userAgent;
         return !this.isChrome() && (/chrome/i.test(nu)) && (/apple/i.test(nu));
@@ -764,15 +922,15 @@ function isSafari(){
 }
 function isSymbian () {
     /*|{
-     "info": "Check if OS is Symbian",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if OS is Symbian",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isSymbian",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isSymbian",
+        "returnType": "(Bool)"
+    }|*/
     try {
         var nu = this.navigator.userAgent;
         return (this.isWebkit() && (/series60/i.test(nu) || /symbian/i.test(nu)));
@@ -782,15 +940,15 @@ function isSymbian () {
 }
 function isTrident() {
     /*|{
-     "info": "Check if engine is Trident",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if engine is Trident",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isTrident",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isTrident",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/trident/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -799,15 +957,15 @@ function isTrident() {
 }
 function isWebkit() {
     /*|{
-     "info": "Check if engine is Webkit",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if engine is Webkit",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isWebkit",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isWebkit",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/webkit/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -816,15 +974,15 @@ function isWebkit() {
 }
 function isWindows(){
     /*|{
-     "info": "Check if OS is Windows",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if OS is Windows",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isWindows",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isWindows",
+        "returnType": "(Bool)"
+    }|*/
     try{
         return /win/i.test(this.navigator.platform);
     } catch (e) {
@@ -833,15 +991,15 @@ function isWindows(){
 }
 function isWindowsMobile() {
     /*|{
-     "info": "Check if device is Windows Mobile",
-     "category": "Global",
-     "parameters":[],
+        "info": "Check if device is Windows Mobile",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#isWindowsMobile",
-     "returnType": "(Bool)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#isWindowsMobile",
+        "returnType": "(Bool)"
+    }|*/
     try {
         return (/windows ce/i.test(this.navigator.userAgent));
     } catch (e) {
@@ -852,22 +1010,22 @@ function isWindowsMobile() {
 
 function createServer (callback, options) {
     /*|{
-     "info": "Create http server, ability to run middleware, and define routes.",
-     "category": "Global",
-     "parameters":[
-     {"callback": "(Function) Function to callback when a request is received"}],
+        "info": "Create http server, ability to run middleware, and define routes.",
+        "category": "Global",
+        "parameters":[
+            {"callback": "(Function) Function to callback when a request is received"}],
 
-     "overloads":[{
-     "parameters":[
-     {"callback": "(Function) Function to callback when a request is received"},
-     {"createServer": "(Object) Options for creating the server (ex: {createServer:require('http').createServer})"}]}],
+        "overloads":[{
+            "parameters":[
+                {"callback": "(Function) Function to callback when a request is received"},
+                {"createServer": "(Object) Options for creating the server (ex: {createServer:require('http').createServer})"}]}],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#createServer",
-     "returnType": "(Server)"
-     }|*/
-    if (!callback || $c.isObject(callback)) {
+        "url": "http://www.craydent.com/library/1.9.3/docs#createServer",
+        "returnType": "(Server)"
+    }|*/
+    if (!callback || $s.isObject(callback)) {
         options = callback;
-        callback = foo;
+        callback = $s.foo;
     }
     options = options || {};
     if (options.logo_url) {
@@ -877,10 +1035,11 @@ function createServer (callback, options) {
         var cray = new Craydent(request, response);
         cray.server = http;
         $c.GarbageCollector = [];
+        __set_context (cray);
         if (request.url == '/favicon.ico') {
             var code = 404;
             var cb = function (err, data) {
-                if (err) { $c.logit(err); code = 500; }
+                if (err) { $s.logit(err); code = 500; }
                 response.writeHead(code, {"Content-Type": "image/x-icon"});
                 response.end(data);
             };
@@ -900,42 +1059,42 @@ function createServer (callback, options) {
         function onRequestReceived(methods, body) {
             try {
                 body = body || {};
-                var url = $c.strip(request.url.split(/[?#]/)[0],'/'), params = $c.merge(body, cray.$GET() || {}), haveRoutes = false;
+                var url = $s.strip(request.url.split(/[?#]/)[0],'/'), params = $s.merge(body, cray.$GET() || {}), haveRoutes = false;
 
-                if (!$c.equals(params,{})) {
+                if (!$s.equals(params,{})) {
                     cray.callback = params.callback || "";
                     delete params.callback;
                 }
-                var routes = $c.where(http.routes,{method:{$in:methods}});
+                var routes = $s.where(http.routes,{method:{$in:methods}});
                 var i = 0, route, execute = [];
                 while (route = routes[i++]) {
                     cray.rest = haveRoutes = true;
 
                     var cbs = route.callback;
                     if (route.path != "/*" && route.path != "*") {
-                        var rout_parts = $c.condense($c.strip(route.path,"*").split('/')),
+                        var rout_parts = $s.condense($s.strip(route.path,"*").split('/')),
                             requ_parts = url.split('/'), vars = {};
 
-                        if (rout_parts.length > requ_parts.length + $c.itemCount(params)) {
+                        if (rout_parts.length > requ_parts.length + $s.itemCount(params)) {
                             continue;
                         }
-                        rout_parts = $c.condense(route.path.split('/'));
+                        rout_parts = $s.condense(route.path.split('/'));
 
                         var var_regex = /\$\{(.*?)\}/;
                         for (var k = 0, l = 0, klen = Math.max(rout_parts.length, requ_parts.length); k < klen; k++, l++) {
-                            var ro = rout_parts[k], re = decodeURIComponent($c.replace_all(requ_parts[l],'+', '%20')), prop = (ro || "").replace(var_regex, '$1'),
+                            var ro = rout_parts[k], re = decodeURIComponent($s.replace_all(requ_parts[l],'+', '%20')), prop = (ro || "").replace(var_regex, '$1'),
                                 qVal = params[prop], no_route = false;
                             if (ro == "*") {
                                 break;
                             }
                             if (var_regex.test(ro)) {
                                 if (qVal) {
-                                    qVal = decodeURIComponent($c.replace_all(qVal,'+', '%20'));
-                                    vars[prop] = $c.tryEval(qVal) || qVal;
+                                    qVal = decodeURIComponent($s.replace_all(qVal,'+', '%20'));
+                                    vars[prop] = $s.tryEval(qVal) || qVal;
                                     l--;
                                     continue;
                                 }
-                                vars[prop] = $c.tryEval(re) || re;
+                                vars[prop] = $s.tryEval(re) || re;
                             } else if (ro != re) {
                                 no_route = true;
                                 break;
@@ -946,11 +1105,11 @@ function createServer (callback, options) {
                         for (var prop in params) {
                             if (!params.hasOwnProperty(prop)) { continue; }
                             var val = vars[prop] || params[prop], obj;
-                            vars[prop] = isNull(params[prop]) ? undefined : ($c.isString(val) ? decodeURIComponent($c.replace_all(val,'+', '%20')) : val);
+                            vars[prop] = $s.isNull(params[prop]) ? undefined : ($s.isString(val) ? decodeURIComponent($s.replace_all(val,'+', '%20')) : val);
 
-                            obj = $c.tryEval(vars[prop],JSON.parseAdvanced) || vars[prop];
+                            obj = $s.tryEval(vars[prop],JSON.parseAdvanced) || vars[prop];
                             // this is probably a date
-                            if ($c.isNumber(obj) && obj.toString() != vars[prop]) {
+                            if ($s.isNumber(obj) && obj.toString() != vars[prop]) {
                                 continue;
                             }
                             vars[prop] = obj;
@@ -959,7 +1118,7 @@ function createServer (callback, options) {
                             p = 0, parameter, bad = [];
                         while (parameter = parameters[p++]) {
                             var name = parameter.name, type = (parameter.type || "").toLowerCase();
-                            if (parameter.required && isNull(vars[name])) {
+                            if (parameter.required && $s.isNull(vars[name])) {
                                 bad.push("Required parameter " + name + " was not provided.");
                                 continue;
                             }
@@ -967,7 +1126,7 @@ function createServer (callback, options) {
                             if (type == "string") { continue; }
                             if (type == "date") {
                                 var dt = new Date(vars[name]);
-                                if ($c.isValidDate(dt)) {
+                                if ($s.isValidDate(dt)) {
                                     vars[name] = dt;
                                 } else {
                                     bad.push("Invalid parameter type, " + name + " must be a " + type + ".");
@@ -977,9 +1136,9 @@ function createServer (callback, options) {
 
                             if (type && type != "string") {
                                 if (type == "regexp") { type = "RegExp"; }
-                                var checker = "is"+type.capitalize(), value = $c.tryEval(vars[name],JSON.parseAdvanced);
+                                var checker = "is"+$c.capitalize(type), value = $s.tryEval(vars[name],JSON.parseAdvanced);
 
-                                if(!$c[checker](value) && !$c[checker](vars[name])) {
+                                if(!$s[checker](value) && !$s[checker](vars[name])) {
                                     var an = type[0] in {a:1,e:1,i:1,o:1,u:1} ? "an" : "a";
                                     bad.push("Invalid parameter type, " + name + " must be " + an + " " + type + ".");
                                     continue;
@@ -999,21 +1158,21 @@ function createServer (callback, options) {
 
                     function setUpNext (exec, i) {
                         i++;
-                        if ($c.isFunction(exec[0])) {
+                        if ($s.isFunction(exec[0])) {
                             return function() {
                                 exec[0] && exec[0].call(cray, request, response, execute['v' + i],setUpNext(exec.slice(1), i));
                             }
                         }
-                        if ($c.isGenerator(exec[0])) {
+                        if ($s.isGenerator(exec[0])) {
                             return eval("function* () {exec[0] && exec[0].call(cray, request, response, execute['v' + i], setUpNext(exec.slice(1), i));}");
                         }
-                        if ($c.isAsync(exec[0])) {
+                        if ($s.isAsync(exec[0])) {
                             return eval("(async function () {exec[0] && (await exec[0].call(cray, request, response, execute['v' + i], setUpNext(exec.slice(1), i)));})()");
                         }
                     }
-                    if ($c.isGenerator(execute[0])) {
-                        eval("$c.syncroit(function*(){_complete(yield* execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1)));});");
-                    } else if ($c.isAsync(execute[0])) {
+                    if ($s.isGenerator(execute[0])) {
+                        eval("$s.syncroit(function*(){_complete(yield* execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1)));});");
+                    } else if ($s.isAsync(execute[0])) {
                         eval("(async function(){_complete(await execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1)));})();");
                     } else {
                         _complete(execute[0].call(cray, request, response, execute['v1'],setUpNext(execute.slice(1), 1)));
@@ -1022,7 +1181,7 @@ function createServer (callback, options) {
 
                 } else { _complete(); }
                 function _complete(value) {
-                    if (haveRoutes && callback == foo) {
+                    if (haveRoutes && callback == $s.foo) {
                         return cray.send(404, cray.RESPONSES["404"]);
                     }
 
@@ -1033,13 +1192,13 @@ function createServer (callback, options) {
                             appPath = parts[0],
                             sindex = ~parts[1].indexOf('/') ? parts[1].indexOf('/') : 0,
                             port = parts[1].substring(0, sindex),
-                            path = $c.strip(parts[1].substring(sindex),'/'),
+                            path = $s.strip(parts[1].substring(sindex),'/'),
                             callingPath = process.cwd();
                         if (~callingPath.indexOf('\\')) { callingPath = callingPath.replace(/\\/g, '/'); }
                         appPath = callingPath + "/" + appPath;
-                        var app = include(appPath) || {};
+                        var app = $s.include(appPath) || {};
                         if (!process.listeners('uncaughtException').length) {
-                            logit("listening for uncaught errors");
+                            $s.logit("listening for uncaught errors");
                             process.on('uncaughtException', function (err) {
                                 if (err.errno === 'EADDRINUSE') { console.error('caught address in use'); }
                                 else { console.error(err); }
@@ -1060,7 +1219,7 @@ function createServer (callback, options) {
                     cray.echo.out = "";
 
                     function _cleanup (val) {
-                        value = $c.isNull(val, value);
+                        value = $s.isNull(val, value);
 
                         if (!value && !cray.DEFER_END) {
                             cray.send(404, cray.RESPONSES["404"]);
@@ -1069,9 +1228,9 @@ function createServer (callback, options) {
                             cray.send(value);
                         }
                     }
-                    if ($c.isGenerator(callback)) {
-                        eval("$c.syncroit(function* (){ return (yield* callback.call(cray, request, response, value)); }).then(_cleanup);");
-                    } else if ($c.isAsync(callback)) {
+                    if ($s.isGenerator(callback)) {
+                        eval("$s.syncroit(function* (){ return (yield* callback.call(cray, request, response, value)); }).then(_cleanup);");
+                    } else if ($s.isAsync(callback)) {
                         eval("(async function (){ return (await callback.call(cray, request, response, value)); })().then(_cleanup);");
                     } else {
                         _cleanup(callback.call(cray, request, response, value));
@@ -1079,7 +1238,7 @@ function createServer (callback, options) {
 
                 }
             } catch (e) {
-                logit(e);
+                error('createServer.onRequestReceived', e);
                 response.writeHead(500, header.headers);
                 return cray.end(JSON.stringify(cray.RESPONSES["500"]));
                 throw e;
@@ -1103,9 +1262,9 @@ function createServer (callback, options) {
                 if (request.method == "POST") { body = cray.$PAYLOAD(); }
                 var ct = cray.$HEADER('content-type','i') || "";
                 if (~ct.indexOf('/json')) {
-                    body = $c.tryEval(body);
+                    body = $s.tryEval(body);
                 } else if (~ct.indexOf('/x-www-form-urlencoded') || ~ct.indexOf('text/plain')) {
-                    body = $c.toObject(body);
+                    body = $s.toObject(body);
                 }
                 onRequestReceived(["all", request.method.toLowerCase(),"middleware"], body);
             });
@@ -1114,10 +1273,10 @@ function createServer (callback, options) {
         }
     });
     http.loadBalance = function (ips) {
-        var list = ips.isString() ? ips.split(',') : ips
+        var list = $s.isString(ips) ? ips.split(',') : ips;
         $c.BALANCE_SERVER_LIST = list;
 
-        if ($c.isArray(list)) {
+        if ($s.isArray(list)) {
             var ip, i = 0;
             while (ip = list[i++]) {
                 if (!/^\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3}$/.test(ip)) { break; }
@@ -1129,12 +1288,12 @@ function createServer (callback, options) {
 
     http.routes = [];
     http.use = function(path, callback){
-        if (($c.isFunction(path) || $c.isGenerator(path) || $c.isAsync(path)) && !callback) {
+        if (($s.isFunction(path) || $s.isGenerator(path) || $s.isAsync(path)) && !callback) {
             callback = path;
             path = '/*';
         }
         callback = callback || [];
-        if($c.isFunction(callback) || $c.isGenerator(path) || $c.isAsync(path)) { callback = [callback]; }
+        if($s.isFunction(callback) || $s.isGenerator(path) || $s.isAsync(path)) { callback = [callback]; }
         http.routes.push({path: path, callback: callback,method:'middleware'});
     };
     if ($c.EXPOSE_ROUTE_API && $c.ROUTE_API_PATH) {
@@ -1151,42 +1310,42 @@ function createServer (callback, options) {
 }
 function echo (output) {
     /*|{
-     "info": "Echo to buffer and use in response",
-     "category": "Global",
-     "parameters":[
-     {"output": "Data to send in response"}],
+        "info": "Echo to buffer and use in response",
+        "category": "Global",
+        "parameters":[
+            {"output": "Data to send in response"}],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#echo",
-     "returnType":"(void)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#echo",
+        "returnType":"(void)"
+    }|*/
     try { echo.out += output; } catch (e) { error('echo', e); }
 }
 function end(status, output, encoding) {
     /*|{
-     "info": "Call the next function(s) in queue",
-     "category": "Global",
-     "parameters":[
-     {"event": "Event to trigger."}],
+        "info": "Call the next function(s) in queue",
+        "category": "Global",
+        "parameters":[
+            {"event": "Event to trigger."}],
 
-     "overloads":[
-     {"parameters":[
-     {"event": "Event to trigger."},
-     {"infinite": "any number of arguments can be passed and will be applied to listening functions."}]}],
+        "overloads":[
+            {"parameters":[
+                {"event": "Event to trigger."},
+                {"infinite": "any number of arguments can be passed and will be applied to listening functions."}]}],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#emit",
-     "returnType":"(void)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#emit",
+        "returnType":"(void)"
+    }|*/
     if (this.response_sent) { return; }
-    if (status && !$c.isInt(status)) {
+    if (status && !$s.isInt(status)) {
         encoding = output;
         output = status;
         status = undefined;
     }
     output = output || "";
     var response = this.response;
-    if (encoding && !encoding.isString()) { response = encoding; }
+    if (encoding && !$s.isString(encoding)) { response = encoding; }
     // response already ended
     if (!response) { return; }
 
@@ -1198,7 +1357,7 @@ function end(status, output, encoding) {
         var heads = typeof header != "undefined" ? header : {headers:{}},
             eco = (typeof echo != "undefined" ? echo : this.echo);
 
-        var headers = $c.merge(heads.headers, this.header.headers),
+        var headers = $s.merge(heads.headers, this.header.headers),
             code = status || heads.code || this.header.code,
             eco = (typeof echo != "undefined" && echo.out || "") + (this.echo.out || "") + output;
 
@@ -1214,7 +1373,7 @@ function end(status, output, encoding) {
                     eco = $c.HTTP_STATUS_TEMPLATE[404] || "<html><head></head><body><h1>"+code+": Resource Not Found</h1><p>The resource you are trying to receive was not found</p></body></html>";
                     break;
                 case !!~ctype.indexOf('/json'):
-                    eco = JSON.stringify(this.RESPONSES["404"]);
+                    eco = JSON.stringify($c.RESPONSES["404"]);
                     break;
             }
 
@@ -1227,27 +1386,27 @@ function end(status, output, encoding) {
         }
 
         !response.headersSent && response.writeHead(code, headers);
-        response.end($c.isString(output) ? pre + eco + post : output, encoding);
+        response.end($s.isString(output) ? pre + eco + post : output, encoding);
         this.respond_sent = true;
-        logit('end*******************************************************');
+        $s.logit('end*******************************************************');
     } catch(e) {
         response.writeHead(500, this.header.headers);
-        response.end($c.DEBUG_MODE ? e.stack : JSON.stringify(this.RESPONSES["500"]));
+        response.end($c.DEBUG_MODE ? e.stack : JSON.stringify($c.RESPONSES["500"]));
     } finally {
-        logit("response ended");
+        $s.logit("response ended");
     }
 }
 function getSessionID() {
     /*|{
-     "info": "Retrieve the session id when used in conjunction with createServer",
-     "category": "Global",
-     "parameters":[],
+        "info": "Retrieve the session id when used in conjunction with createServer",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#getSessionID",
-     "returnType": "(void)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#getSessionID",
+        "returnType": "(void)"
+    }|*/
     try {
         return this.sessionid;
     } catch (e) {
@@ -1256,19 +1415,19 @@ function getSessionID() {
 }
 function getSession(sid, callback) {
     /*|{
-     "info": "Retrieve the session object when used in conjunction with createServer",
-     "category": "Global",
-     "parameters":[
-     {"sid": "(String) Session id of the session object to retrieve syncronously."}],
+        "info": "Retrieve the session object when used in conjunction with createServer",
+        "category": "Global",
+        "parameters":[
+            {"sid": "(String) Session id of the session object to retrieve syncronously."}],
 
-     "overloads":[
-     {"parameters":[
-     {"sid": "(String) Session id of the session object to retrieve."},
-     {"callback": "(Function) callback function to invoke once the session object is retrieved."}]}],
+        "overloads":[
+            {"parameters":[
+                {"sid": "(String) Session id of the session object to retrieve."},
+                {"callback": "(Function) callback function to invoke once the session object is retrieved."}]}],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#getSession",
-     "returnType": "(void)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#getSession",
+        "returnType": "(void)"
+    }|*/
     try {
         if (arguments.length == 0) {
             return this.getSessionSync(sid);
@@ -1280,16 +1439,16 @@ function getSession(sid, callback) {
 }
 function getSessionSync(sid) {
     /*|{
-     "info": "Syncronously retrieve the session object when used in conjunction with createServer",
-     "category": "Global",
-     "parameters":[
-     {"sid": "(String) Session id of the session object to retrieve syncronously."}],
+        "info": "Syncronously retrieve the session object when used in conjunction with createServer",
+        "category": "Global",
+        "parameters":[
+            {"sid": "(String) Session id of the session object to retrieve syncronously."}],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#getSessionSync",
-     "returnType": "(void)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#getSessionSync",
+        "returnType": "(void)"
+    }|*/
     try {
         return this._getSession(sid);
     } catch (e) {
@@ -1298,28 +1457,28 @@ function getSessionSync(sid) {
 }
 function header(headers, code) {
     /*|{
-     "info": "Set Http Headers to send",
-     "category": "Global",
-     "parameters":[
-     {"header": "(String) Http header."}],
+        "info": "Set Http Headers to send",
+        "category": "Global",
+        "parameters":[
+            {"header": "(String) Http header."}],
 
-     "overloads":[
-     {"parameters":[
-     {"headers": "(Object) Http headers."}]},
+        "overloads":[
+            {"parameters":[
+                {"headers": "(Object) Http headers."}]},
 
-     {"parameters":[
-     {"header": "(String) Http header."},
-     {"code": "(Integer) Http response code."}]},
+            {"parameters":[
+                {"header": "(String) Http header."},
+                {"code": "(Integer) Http response code."}]},
 
-     {"parameters":[
-     {"headers": "(Object) Http headers."},
-     {"code": "(Integer) Http response code."}]}],
+            {"parameters":[
+                {"headers": "(Object) Http headers."},
+                {"code": "(Integer) Http response code."}]}],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#header",
-     "returnType": "(void)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#header",
+        "returnType": "(void)"
+    }|*/
     try {
-        if ($c.isString(headers) && !code) {
+        if ($s.isString(headers) && !code) {
             if (!~headers.indexOf(':')) {
                 code = parseInt(headers.replace(/.*?([\d]{3}).*/, '$1'));
             }
@@ -1331,8 +1490,8 @@ function header(headers, code) {
                 headers[parts[0].trim()] = parts[1].trim();
             }
         }
-        header.headers = $c.merge(header.headers,headers);
-        if (code && $c.isInt(code)) { header.code = code; }
+        header.headers = $s.merge(header.headers,headers);
+        if (code && $s.isInt(code)) { header.code = code; }
 
     } catch (e) {
         error('header', e);
@@ -1340,19 +1499,19 @@ function header(headers, code) {
 }
 function send (status, data) {
     /*|{
-     "info": "Recursively require the entire directory and returns an object containing the required modules.",
-     "category": "Global",
-     "parameters":[
-     {"data": "(Object) Object to send in response."}],
+        "info": "Recursively require the entire directory and returns an object containing the required modules.",
+        "category": "Global",
+        "parameters":[
+            {"data": "(Object) Object to send in response."}],
 
-     "overloads":[
-     {"parameters":[
-     {"status": "(Integer) Status code for response."},
-     {"data": "(Object) Object to send in response."}]}],
+        "overloads":[
+            {"parameters":[
+                {"status": "(Integer) Status code for response."},
+                {"data": "(Object) Object to send in response."}]}],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#send",
-     "returnType": "(Object)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#send",
+        "returnType": "(Object)"
+    }|*/
     if (!data && typeof status == "object") {
         data = status;
         status = undefined;
@@ -1362,16 +1521,16 @@ function send (status, data) {
 }
 function var_dump() {
     /*|{
-     "info": "Dump of variables to response.",
-     "category": "Global",
-     "parameters":[
-     {"infinite": "any number of arguments can be passed."}],
+        "info": "Dump of variables to response.",
+        "category": "Global",
+        "parameters":[
+            {"infinite": "any number of arguments can be passed."}],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#var_dump",
-     "returnType": "(void)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#var_dump",
+        "returnType": "(void)"
+    }|*/
     try {
         var type = "", value;
         for (var i = 0, len = arguments.length; i < len; i++) {
@@ -1400,15 +1559,15 @@ function var_dump() {
 }
 function writeSession() {
     /*|{
-     "info": "Writes session to filesystem to be retrieved later.",
-     "category": "Global",
-     "parameters":[],
+        "info": "Writes session to filesystem to be retrieved later.",
+        "category": "Global",
+        "parameters":[],
 
-     "overloads":[],
+        "overloads":[],
 
-     "url": "http://www.craydent.com/library/1.9.3/docs#writeSession",
-     "returnType": "(void)"
-     }|*/
+        "url": "http://www.craydent.com/library/1.9.3/docs#writeSession",
+        "returnType": "(void)"
+    }|*/
     try {
         var fs = require('fs'), sessionid = this.sessionid, session = this.session;
         if (sessionid) {
@@ -1418,20 +1577,77 @@ function writeSession() {
                 });
                 // save session to other load balanced servers
                 for (var i = 0, len = otherServers.length; i < len; i++) {
-                    if ($c.getProperty(this,'response.setHeader') && !$c.getProperty(this,'response.headersSent')) {
+                    if ($s.getProperty(this,'response.setHeader') && !$s.getProperty(this,'response.headersSent')) {
                         this.response.setHeader("Set-Cookie", ["NODEJSSESSION=" + sessionid + "; path=/"]);
                     }
-                    fs.writeFile('craydent/session/' + sessionid, JSON.stringify(session), foo);
+                    fs.writeFile('craydent/session/' + sessionid, JSON.stringify(session), $s.foo);
                 }
             }
             // save session to this server
-            if ($c.getProperty(this,'response.setHeader') && !$c.getProperty(this,'response.headersSent')) {
+            if ($s.getProperty(this,'response.setHeader') && !$s.getProperty(this,'response.headersSent')) {
                 this.response.setHeader("Set-Cookie", ["NODEJSSESSION=" + sessionid + "; path=/"]);
             }
-            fs.writeFile('craydent/session/' + sessionid, JSON.stringify(session), foo);
+            fs.writeFile('craydent/session/' + sessionid, JSON.stringify(session), $s.foo);
         }
 
     } catch (e) {
         error('writeSession', e);
     }
 }
+
+function __set_context (ctx) {
+    ctx.$COOKIE = $COOKIE;
+    ctx.$DELETE = $DELETE;
+    ctx.$DEL = $DEL;
+    ctx.$GET = $GET;
+    ctx.$HEADER = $HEADER;
+    ctx.$PAYLOAD = $PAYLOAD;
+    ctx.$POST = $POST;
+    ctx.$PUT = $PUT;
+
+    ctx.ChromeVersion = ChromeVersion;
+    ctx.FirefoxVersion = FirefoxVersion;
+    ctx.IEVersion = IEVersion;
+    ctx.OperaVersion = OperaVersion;
+    ctx.SafariVersion = SafariVersion;
+    ctx.isAmaya = isAmaya;
+    ctx.isAndroid = isAndroid;
+    ctx.isBlackBerry = isBlackBerry;
+    ctx.isChrome = isChrome;
+    ctx.isFirefox = isFirefox;
+    ctx.isGecko = isGecko;
+    ctx.isIE6 = isIE6;
+    ctx.isIE = isIE;
+    ctx.isIPad = isIPad;
+    ctx.isIPhone = isIPhone;
+    ctx.isIPod = isIPod;
+    ctx.isKHTML = isKHTML;
+    ctx.isLinux = isLinux;
+    ctx.isMac = isMac;
+    ctx.isMobile = isMobile;
+    ctx.isOpera = isOpera;
+    ctx.isPalmOS = isPalmOS;
+    ctx.isPresto = isPresto;
+    ctx.isPrince = isPrince;
+    ctx.isSafari = isSafari;
+    ctx.isSymbian = isSymbian;
+    ctx.isTrident = isTrident;
+    ctx.isWebkit = isWebkit;
+    ctx.isWindows = isWindows;
+    ctx.isWindowsMobile = isWindowsMobile;
+
+    ctx.createServer = createServer;
+    ctx.echo = echo;
+    ctx.end = end;
+    ctx.getSessionID = getSessionID;
+    ctx.getSession = getSession;
+    ctx.getSessionSync = getSessionSync;
+    ctx.header = header;
+    ctx.send = send;
+    ctx.var_dump = var_dump;
+    ctx.writeSession = writeSession;
+}
+
+__set_context($c);
+
+module.exports = $c;

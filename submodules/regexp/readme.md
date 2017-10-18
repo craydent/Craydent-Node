@@ -1,4 +1,4 @@
-<img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
+readme.md<img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
 # Craydent 0.8.2
 **by Clark Inada**

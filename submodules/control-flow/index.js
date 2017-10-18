@@ -5,55 +5,17 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var cm = require('./common'),
-    t = require('craydent-typeof');
+var $s = require('./dependencies/common')(),
+    $c = $s.$c,
+    error = $s.error;
 
-function syncroit(gen) {
-    /*|{
-        "info": "Generator based control flow to allow for more \"syncronous\" programing structure",
-        "category": "Global",
-        "parameters":[
-            {"gen": "(GeneratorFunction) Generator function to execute"}],
+if ($c.MODULES_LOADED[$s.info.name]) { return; }
+$s.__log_module();
+$s.scope.eval = function (str) { return eval(str); };
 
-        "overloads":[{
-            "parameters":[
-                {"async": "(AsyncFunction) Async function to execute"}]}],
+require($s.dir + 'insertAt')($s);
+require($s.dir + 'parallelEach')($s);
 
-        "url": "http://www.craydent.com/library/1.9.3/docs#syncroit",
-        "returnType": "(Promise)"
-    }|*/
-    try {
-        if (t.isAsync(gen)) { return gen(); }
-        return new Promise(function(res){
-            var geno = gen();
-            try {
-                t.isGenerator(gen) && (function cb(value) {
-                    var obj = geno.next(value);
-
-                    if (!obj.done) {
-                        if (t.isPromise(obj.value)) {
-                            return obj.value.then(cb).catch(cb);
-                        }
-                        setTimeout(function () {
-                            cb(obj.value);
-                        }, 0);
-                    } else {
-                        res(t.isNull(obj.value, value));
-                    }
-                })();
-            } catch(e) {
-                if (process.listenerCount('uncaughtException')) {
-                    return process.emit('uncaughtException', e);
-                }
-                throw e;
-            }
-        });
-
-    } catch (e) {
-        error('syncroit', e);
-        throw e;
-    }
-}
 function yieldable(value,context,callbackIndex,returnIndex) {
     /*|{
         "info": "Makes a value yieldable via a Promise.",
@@ -79,15 +41,15 @@ function yieldable(value,context,callbackIndex,returnIndex) {
         "returnType": "(Promise)"
     }|*/
     try {
-        if (arguments.length == 1 && t.isObject(value)) {
+        if (arguments.length == 1 && $s.isObject(value)) {
             context = value.context;
             callbackIndex = value.callbackIndex;
             returnIndex = value.returnIndex;
             value = value.method;
         }
-        if (t.isPromise(value) || t.isAsync(value)) { return value; }
-        if (t.isGenerator(value)) { return syncroit(value); }
-        if (t.isFunction(value)) {
+        if ($s.isPromise(value) || $s.isAsync(value)) { return value; }
+        if ($s.isGenerator(value)) { return $s.syncroit(value); }
+        if ($s.isFunction(value)) {
             context = context || this;
             return function () {
                 var args = [];
@@ -99,18 +61,18 @@ function yieldable(value,context,callbackIndex,returnIndex) {
                         if (arguments.length == 1) {
                             return res(arguments[0]);
                         }
-                        if (t.isBoolean(returnIndex) && returnIndex) {
+                        if ($s.isBoolean(returnIndex) && returnIndex) {
                             for (var i = 0, len = arguments.length; i < len;) {
                                 if (arguments[i]) { return arguments[i]; }
                             }
                         }
-                        if (t.isNumber(returnIndex)) { return arguments[returnIndex]; }
+                        if ($s.isNumber(returnIndex)) { return arguments[returnIndex]; }
                         return res(arguments);
                     };
-                    if (t.isNull(callbackIndex)) {
+                    if ($s.isNull(callbackIndex)) {
                         args.push(fn);
                     } else {
-                        cm.insertAt(args, callbackIndex, fn);
+                        $s.insertAt(args, callbackIndex, fn);
                     }
                     value.apply(context,args);
                 });
@@ -123,6 +85,34 @@ function yieldable(value,context,callbackIndex,returnIndex) {
     }
 }
 
-module.exports.awaitable = yieldable;
-module.exports.syncroit = syncroit;
-module.exports.yieldable = yieldable;
+$s.ext(Array, 'parallelEach', function (gen, args) {
+    /*|{
+        "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
+        "category": "Array",
+        "parameters":[],
+
+        "overloads":[
+            {"parameters":[
+                {"gen": "(Generator) Generator function to apply to each item"}]},
+
+            {"parameters":[
+                {"func": "(Function) Function to apply to each item"}]},
+
+            {"parameters":[
+                {"args": "(Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.parallelEach",
+        "returnType": "(Promise)"
+    }|*/
+    try {
+        return $s.parallelEach(this, gen, args);
+    } catch (e) {
+        error('Array.parallelEach', e);
+    }
+}, true);
+
+$c.awaitable = yieldable;
+$c.syncroit = $s.syncroit;
+$c.yieldable = yieldable;
+
+module.exports = $c;

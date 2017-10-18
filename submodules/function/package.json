@@ -1,0 +1,33 @@
+{
+    "name": "@craydent/craydent-function",
+    "version": "0.8.2",
+    "description": "Node module to extend function functionality and simplify code for maintainability and readability",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/function.git"
+    },
+    "keywords": [
+        "craydent",
+        "function",
+        "library",
+        "jquery",
+        "es6",
+        "sugar",
+        "control flow",
+        "utilities"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/function#readme",
+    "dependencies": {
+        "craydent-typeof": "file:../typeof"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}
