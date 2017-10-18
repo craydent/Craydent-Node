@@ -7,8 +7,15 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 
+var module = '../craydent';
+var name = "craydent";
+if (process.argv[2] == "publish" && process.argv[3]) {
+	module = process.argv[3];
+	name += "-" + module.substring(module.lastIndexOf('/') + 1);
+}
+
 var fs = require('fs'),
-	Craydent = require('../craydent'),
+	Craydent = require(module),
 	instC = new Craydent({headers:{host:"",cookie:""},url:"",connection:{encrypted:""}}),
 	ln = '\n\n',tab = '>',tab2 = "",
 	readme = "<img src=\"http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg\" width=75 height=75/>" + ln +
@@ -19,6 +26,7 @@ var fs = require('fs'),
 	orderedConstants = new $c.OrderedList();
 var categories = ['Constants','Featured','Global','Array','Date','Function','Module','Number','Object','RegExp','String'];
 
+/*
 readme += "Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
 	"More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).\n" +
 	"More detailed documentation on methods can be found at [Craydent Methods](http://www.craydent.com/JsonObjectEditor/docs.html#/method/CraydentNode)" + ln +
@@ -46,7 +54,32 @@ readme += "Craydent is all inclusive utility library.  There are several ways to
 	"arr.where({name:'craydent'});\n" +
 	"```" +
 	ln;
+*/
 
+readme += "Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
+	"More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).\n" +
+	"More detailed documentation on methods can be found at [Craydent Methods](http://www.craydent.com/JsonObjectEditor/docs.html#/method/CraydentNode)" + ln +
+	"```js\n" +
+	"// require with prototypes - this require will add prototypes to extend classes and add two constants ($c, $g) to the global space.\n" +
+	"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
+	"require('" + name + "');\n" +
+	"$c.logit($c.VERSION);\n" +
+	"arr.prototypedMethod(args);\n" +
+	"```" + ln +
+	"```js\n" +
+	"// require no conflict - this require is the fully modular version with no global constants, prototypes, or methods.\n" +
+	"var $c = require('" + name + "/noConflict');\n" +
+	"$c.logit($c.VERSION);\n" +
+	"$c.prototypedMethod(arr, args);\n" +
+	"```" +ln +
+	"```js\n" +
+	"// require global - this require constants and methods in the global space and add prototypes to extend classes.\n" +
+	"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
+	"require('" + name + "/global');\n" +
+	"logit($c.VERSION);\n" +
+	"arr.prototypedMethod(args);\n" +
+	"```" +
+	ln;
 // fill ordered arrays
 for (var o = 0; o < 2; o++) {
 	var c = [$c, instC][o];
@@ -123,31 +156,35 @@ for (var i = 0, len = categories.length; i < len; i++) {
 readme += '\n';
 
 // Constants ----------------------------------------------------------------------------------------------
-readme += "<a name='markdown-header-constants'></a>\n## Constants" + ln;
-var grid = [], headerdiv = [], headers = [], cols = 3;
-for (var i = 0, len = orderedConstants.length, grid_row_count = Math.ceil(len/cols); i < len; i++) {
-	var index = parseInt(i%grid_row_count), hindex = parseInt(i/grid_row_count);
-	if (!headerdiv[hindex]) { headerdiv[hindex] = "| ----- "; headers[hindex] = "| "}
-	grid[index] = grid[index] || "";
-	grid[index] += constants[orderedConstants[i]] + " |";
-	//readme += constants[orderedConstants[i]];
+if (orderedConstants.length) {
+	readme += "<a name='markdown-header-constants'></a>\n## Constants" + ln;
+	var grid = [], headerdiv = [], headers = [], cols = 3;
+	for (var i = 0, len = orderedConstants.length, grid_row_count = Math.ceil(len/cols); i < len; i++) {
+		var index = parseInt(i%grid_row_count), hindex = parseInt(i/grid_row_count);
+		if (!headerdiv[hindex]) { headerdiv[hindex] = "| ----- "; headers[hindex] = "| "}
+		grid[index] = grid[index] || "";
+		grid[index] += constants[orderedConstants[i]] + " |";
+		//readme += constants[orderedConstants[i]];
+	}
+	readme += headers.join('') + "|\n" + headerdiv.join('') + "|\n| " + grid.join('\n') + ln;
 }
-readme += headers.join('') + "|\n" + headerdiv.join('') + "|\n| " + grid.join('\n') + ln;
 // Constants end ------------------------------------------------------------------------------------------
 
 // Featured -----------------------------------------------------------------------------------------------
-readme += "<a name='markdown-header-featured'></a>\n## Featured" + ln;
-//for (var prop in featured) {
-//	if (!featured.hasOwnProperty(prop)) { continue; }
-for (var i = 0, len = categories.length; i < len; i++) {
-	var category = categories[i];
-	if (category in {Featured:1,Constants:1}) { continue; }
-	if (featured[category]) {
-		readme += "### " + category + ln;
-	}
-	for (var f = 0, flen = orderedFeatured.length; f < flen; f++) {
-		if (featured[category] && featured[category][orderedFeatured[f]]) {
-			readme += featured[category][orderedFeatured[f]];
+if (orderedFeatured.length) {
+	readme += "<a name='markdown-header-featured'></a>\n## Featured" + ln;
+	//for (var prop in featured) {
+	//	if (!featured.hasOwnProperty(prop)) { continue; }
+	for (var i = 0, len = categories.length; i < len; i++) {
+		var category = categories[i];
+		if (category in {Featured:1,Constants:1}) { continue; }
+		if (featured[category]) {
+			readme += "### " + category + ln;
+		}
+		for (var f = 0, flen = orderedFeatured.length; f < flen; f++) {
+			if (featured[category] && featured[category][orderedFeatured[f]]) {
+				readme += featured[category][orderedFeatured[f]];
+			}
 		}
 	}
 }
