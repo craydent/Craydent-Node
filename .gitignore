@@ -1,3 +1,13 @@
 .idea/
-./index.js
+/index*
+/code.asm
+/craydenttmp.js
+/hydrogen-*
+/log.txt
+/z_*
+/zz_*
+.history/
+.vscode/
+.DS_Store
+/submodules/*/dependencies/
 node_modules/

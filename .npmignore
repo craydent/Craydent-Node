@@ -4,3 +4,6 @@ test
 ./index.js
 node_modules
 submodules
+prepubish
+z_*
+zz_*

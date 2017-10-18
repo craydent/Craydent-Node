@@ -5,25 +5,24 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-
-require('./common');
-require('./submodules/array');
-require('./submodules/class');
-require('./submodules/cli');
-require('./submodules/control-flow');
-require('./submodules/date');
-require('./submodules/fs');
-require('./submodules/function');
-require('./submodules/http');
-require('./submodules/json-parser');
-require('./submodules/number');
-require('./submodules/object');
-require('./submodules/regexp');
-require('./submodules/string');
-require('./submodules/template');
-require('./submodules/typeof');
-require('./submodules/utility');
-require('./submodules/xml-to-json');
+var pre = require('./package.json').name;
+require(pre + '-array');
+require(pre + '-class');
+require(pre + '-cli');
+require(pre + '-control-flow');
+require(pre + '-date');
+require(pre + '-fs');
+require(pre + '-function');
+require(pre + '-http');
+require(pre + '-json-parser');
+require(pre + '-number');
+require(pre + '-object');
+require(pre + '-regexp');
+require(pre + '-string');
+require(pre + '-template');
+require(pre + '-typeof');
+require(pre + '-utility');
+require(pre + '-xml-to-json');
 
 JSON.parseAdvanced = $c.parseAdvanced;
 JSON.stringifyAdvanced = $c.stringifyAdvanced;
