@@ -36,7 +36,7 @@ var package = fs.readFileSync(root + '/submodules/package.json', "utf8");
 var base = root + "/submodules/",
     source_base = base + "_shared/",
     depdir = "dependencies/",
-    scripts = root + "/_local_scripts/";
+    scripts = root + "/local_scripts/";
 
 // var readmeCommand = [];
 for (var folder in dependencies) {
