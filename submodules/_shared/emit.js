@@ -15,7 +15,7 @@ require('./run_func_array')($c);
 function emit (ev){
     /*|{
         "info": "Call the next function(s) in queue",
-        "category": "Global",
+        "category": "Function",
         "parameters":[
             {"event": "Event to trigger."}],
 

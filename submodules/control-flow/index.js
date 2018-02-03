@@ -19,7 +19,7 @@ require($s.dir + 'parallelEach')($s);
 function yieldable(value,context,callbackIndex,returnIndex) {
     /*|{
         "info": "Makes a value yieldable via a Promise.",
-        "category": "Global",
+        "category": "Control Flow|Utility",
         "parameters":[
             {"value": "(Mixed) Value to make yieldable"}],
 
@@ -85,10 +85,10 @@ function yieldable(value,context,callbackIndex,returnIndex) {
     }
 }
 
-$s.ext(Array, 'parallelEach', function (gen, args) {
+$s._ext(Array, 'parallelEach', function (gen, args) {
     /*|{
         "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
-        "category": "Array",
+        "category": "Control Flow|Array",
         "parameters":[],
 
         "overloads":[

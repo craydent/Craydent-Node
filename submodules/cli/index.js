@@ -57,7 +57,7 @@ function _cli_exec (command, options, callback) {
 function CLI (params) {
     /*|{
         "info": "CLI parser for arguments and simplem method to execute shell commands",
-        "category": "Global",
+        "category": "CLI",
         "parameters":[],
 
         "overloads":[

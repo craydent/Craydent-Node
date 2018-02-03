@@ -28,7 +28,7 @@ require($s.dir + 'requireDirectory')($s);
 function ajax(params, returnData){
     /*|{
         "info": "Method to make ajax calls",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"params": "(Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"}],
 
@@ -279,7 +279,7 @@ ajax.put = function (params, returnData) {
 function catchAll (callback, append) {
     /*|{
         "info": "Creates an catch all for exceptions in the current node service.",
-        "category": "Global",
+        "category": "Utility",
         "featured": true,
         "parameters":[
             {"callback": "(Function) Callback function to call when there is an uncaught exception"}],
@@ -312,7 +312,7 @@ function catchAll (callback, append) {
 function clusterit(options, callback){
     /*|{
         "info": "Enable clustering",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"callback": "Method to call for Workers.  Callback is passed the cluster object as an argument."}],
 
@@ -367,7 +367,7 @@ function clusterit(options, callback){
 function cuid(msFormat) {
     /*|{
         "info": "Creates a Craydent/Global Unique Identifier",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"msFormat": "(Bool) use microsoft format if true"}],
 
@@ -390,7 +390,7 @@ function cuid(msFormat) {
 function exclude(list) {
     /*|{
         "info": "Exclude prototyping",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"list": "(String[]) Array of strings in containing the property to exclude from prototyping."}],
 
@@ -423,7 +423,7 @@ function exclude(list) {
 function noop () {
     /*|{
         "info": "Place holder function for a blank function",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[],
 
         "overloads":[],
@@ -435,7 +435,7 @@ function noop () {
 function md5(str) {
     /*|{
         "info": "MD5 encode a string.",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"str": "(String) String to encode."}],
 
@@ -456,7 +456,7 @@ function md5(str) {
 function mkdirRecursive(path, callback, _processedPath) {
     /*|{
         "info": "Recursively create folders.",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"path": "(String) Path to create."},
             {"callback": "(Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors)."}],
@@ -497,7 +497,7 @@ function mkdirRecursive(path, callback, _processedPath) {
 function wait(condition) { // TODO: allow for nested wait calls
     /*|{
         "info": "Stops execution until the condition is satisfied",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"condition": "(Mixed) Condition equivalent to js true to resume execution"}],
 
@@ -569,7 +569,7 @@ function wait(condition) { // TODO: allow for nested wait calls
 function zipit(files, content/*=NULL*/) {
     /*|{
         "info": "Download a zip of files from file contents",
-        "category": "Global",
+        "category": "Utility",
         "featured": true,
         "parameters":[
             {"files": "(Object[]) Objects containing properties name for file name and content for file content"}],

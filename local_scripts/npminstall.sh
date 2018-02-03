@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd /Users/cinada/source/cprojects/craydent-npm-library/submodules;
+cd ../submodules;
 
 cd array;
 rm -r node_modules;

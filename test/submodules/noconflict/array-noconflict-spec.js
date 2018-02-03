@@ -340,6 +340,18 @@ describe ('No Conflict Array', function () {
 				{id:2,p:"20",share:"shared", index : 20,std:4},
 				{id:3,p:"30",share:"shared", index: 30,std:4},
 				{id:4,std:4}],
+			arrObjsScramble = [
+				{id:1,p:"10",share:"shared", index: 10,std:4},
+				{id:2,p:"20",share:"shared", index : 20,std:4},
+				{id:3,p:"30",share:"shared", index: 30,std:4},
+				{id:4,p:"30",share:"shared", index: 30,std:4},
+				{id:5,p:"30",share:"shared", index: 30,std:4},
+				{id:6,p:"30",share:"shared", index: 30,std:4},
+				{id:7,p:"30",share:"shared", index: 30,std:4},
+				{id:8,p:"30",share:"shared", index: 30,std:4},
+				{id:9,p:"30",share:"shared", index: 30,std:4},
+				{id:10,p:"30",share:"shared", index: 30,std:4},
+				{id:11,std:4}],
 			arrStrings = ["string 1","string 2","string 3","string 4"],
 			arrMix = [1,{},"adsf",10],
 			arrSort = [{id:1, s:5},{id:2, s:5},{id:3, s:6},{id:4, s:3},{id:5, s:2}],
@@ -601,7 +613,7 @@ describe ('No Conflict Array', function () {
 			{id:3,p:"30",share:"shared", index: 30,std:4,cc:[]}]
 		},{id:5,share:"shared1",odd:true,cc:[]}]);
 		expect($c.buildTree($c.duplicate(arrTree,true), function(item){
-			return !$c.isNull(item.odd);
+			return !$t.isNull(item.odd);
 		},function(item){ return item.id%2; },{childProperty:"cc"})).toEqual([
 			{id:4,share:"shared",odd:false,cc:[{id:2,p:"20",share:"shared", index : 20,std:4,cc:[]}]},
 			{id:5,share:"shared1",odd:true,cc:[{id:1,p:"10",share:"shared", index: 10,std:4,cc:[]}, {id:3,p:"30",share:"shared", index: 30,std:4,cc:[]}]}
@@ -655,8 +667,8 @@ describe ('No Conflict Array', function () {
 	});
 	it('every',function(){
 		var arr = ['a','','b',0,'c',false,'d',null,'e',undefined];
-		expect(arr.every(function(item,i,arr){ return !$c.isNull(item); })).toBe(false);
-		expect($c.condense(arr).every(function(item,i,arr){ return !$c.isNull(item); })).toBe(true);
+		expect(arr.every(function(item,i,arr){ return !$t.isNull(item); })).toBe(false);
+		expect($c.condense(arr).every(function(item,i,arr){ return !$t.isNull(item); })).toBe(true);
 	});
 	it('filter',function(){
 		var arr = ['a','','b',0,'c',false,'d',null,'e',undefined];
@@ -998,9 +1010,9 @@ describe ('No Conflict Array', function () {
 			{id:4,std:4}]);
 	});
 	it('scramble',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		expect($c.scramble(temp)).not.toEqual(arrObjs);
-		expect(temp.length).toEqual(arrObjs.length);
+		var temp = $c.duplicate(arrObjsScramble,true);
+		expect($c.scramble(temp)).not.toEqual(arrObjsScramble);
+		expect(temp.length).toEqual(arrObjsScramble.length);
 	});
 	it('sortBy',function(){
 		var temp = $c.duplicate(arrSort,true);

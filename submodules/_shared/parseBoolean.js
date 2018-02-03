@@ -14,7 +14,7 @@ var $c = global.$c || {},
 function parseBoolean(value) {
     /*|{
         "info": "Try to parse value to a Boolean",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"value": "(Mixed) value to parse as boolean"}],
 

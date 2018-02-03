@@ -7,25 +7,81 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 
-var module = '../craydent';
+var mod = '../craydent';
 var name = "craydent";
-if (process.argv[2] == "publish" && process.argv[3]) {
-	module = process.argv[3];
-	name += "-" + module.substring(module.lastIndexOf('/') + 1);
+var categories = [
+    'Constants',
+    'Featured',
+    "Array",
+    "Class",
+    "CLI",
+    "Control Flow",
+    "Date",
+    "FS",
+    "Junction",
+    "HTTP",
+    "JSON Parser",
+    "Number",
+    "Object",
+    "RegExp",
+    "String",
+    "Template",
+    "TypeOf",
+    "Utility",
+    "XML to JSON"
+];
+var categories_map = {
+	"array": "Array",
+	"class": "Class",
+	"cli": "CLI",
+	"control-flow": "Control Flow",
+	"date": "Date",
+	"fs": "FS",
+	"function": "Junction",
+	"http": "HTTP",
+	"json-parser": "JSON Parser",
+	"number": "Number",
+	"object": "Object",
+	"regexp": "RegExp",
+	"string": "String",
+	"template": "Template",
+	"typeof": "TypeOf",
+	"utility": "Utility",
+	"xml-to-json": "XML to JSON"
+};
+// if (process.argv[2] == "publish" && process.argv[3]) {
+if (process.argv[2]) {
+	var modName = process.argv[2].substring(process.argv[2].lastIndexOf('/') + 1);
+	if (categories_map[modName]) {
+		categories = ['Constants','Featured'];
+		mod = process.argv[2];
+		name += "-" + modName;
+		categories.push(categories_map[modName]);
+	}
 }
-
+// console.log(require(mod),mod);
+var $arr = require(require.resolve('../submodules/array/noConflict'));
+var $cls = require(require.resolve('../submodules/class/noConflict'));
+var $str = require(require.resolve('../submodules/string/noConflict'));
+var $typ = require(require.resolve('../submodules/typeof/noConflict'));
+var $c = require(mod + '/noConflict');
 var fs = require('fs'),
-	Craydent = require(module),
-	instC = new Craydent({headers:{host:"",cookie:""},url:"",connection:{encrypted:""}}),
+	// Craydent = require(mod),
+	instC,
 	ln = '\n\n',tab = '>',tab2 = "",
 	readme = "<img src=\"http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg\" width=75 height=75/>" + ln +
-		"# Craydent " + Craydent.VERSION + "\n**by Clark Inada**" + ln,
+		"# Craydent " + $c.VERSION + "\n**by Clark Inada**" + ln,
 	constants = {}, methods = {},featured = {},
-	orderedFeatured = new $c.OrderedList(),
-	orderedMethods = new $c.OrderedList(),
-	orderedConstants = new $c.OrderedList();
-var categories = ['Constants','Featured','Global','Array','Date','Function','Module','Number','Object','RegExp','String'];
+	orderedFeatured = new $cls.OrderedList(),
+	orderedMethods = new $cls.OrderedList(),
+	orderedConstants = new $cls.OrderedList();
 
+	try {
+		if (modName == "craydent-http") {
+			instC = new $c({headers:{host:"",cookie:""},url:"",connection:{encrypted:""}})
+		}
+	}
+	 catch (e) {}
 /*
 readme += "Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
 	"More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).\n" +
@@ -83,55 +139,65 @@ readme += "Craydent is all inclusive utility library.  There are several ways to
 // fill ordered arrays
 for (var o = 0; o < 2; o++) {
 	var c = [$c, instC][o];
+	if (!c) { continue; }
 	for (var prop in c) {
 		//console.log(prop);
 		if (!c.hasOwnProperty(prop) || prop[0] == "_") { continue; }
 		// constants
 		if (/^[A-Z_0-9]*$/.test(prop)) {
-			if (orderedConstants.contains(prop)) { continue; }
+			if ($arr.contains(orderedConstants,prop)) { continue; }
 			orderedConstants.add(prop);
 			constants[prop] = constants[prop] || "";
 			constants[prop] += prop + ' ('+ constants[prop].constructor.name +')';
 		// methods
-		} else if ($c.isFunction(c[prop])) {
+		} else if ($typ.isFunction(c[prop])) {
 			var fstr = c[prop].toString(),
-				doc = Craydent.tryEval(fstr.replace_all('\n', '').replace(/.*\/\*\|(.*?)?\|\*\/.*/, '$1'));
-			if (doc && c.isObject(doc)) {
+				code = $str.replace_all(fstr,['\n','\\n','\t','\\t'], '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1'),
+				doc = $c.tryEval(code);
+			if (doc && $typ.isObject(doc)) {
 				var obj = methods, ordered = orderedMethods;
 				if (doc.featured) {
 					obj = featured;
 					ordered = orderedFeatured;
 				}
 				prop = 'p' + prop;
-				if (ordered.contains(prop)) { continue; }
+				if ($arr.contains(ordered,prop)) { continue; }
 				ordered.add(prop);
-				obj[doc.category] = obj[doc.category] || {};
-				obj[doc.category][prop] = obj[doc.category][prop] || "";
-				obj[doc.category][prop] += "*** \n#### _" + prop.substring(1) + "_ \n***" + ln +
-					"**Info:** " + doc.info + ln +
-					"**Return:** " + doc.returnType + ln +
-					"**Parameters:**" + ln;
 
 				var params = doc.parameters || [];
 				var overloads = doc.overloads || [];
-				obj[doc.category][prop] += outParams(params);
 
-				obj[doc.category][prop] += "**Overloads:**" + ln;
-				for (var i = 0, len = overloads.length; i < len; i++) {
-					(obj[doc.category][prop] += (i+1) + ")" + ln);
-					obj[doc.category][prop] += outParams(overloads[i].parameters);
+				var categs = doc.category.split('|');
+				for (var k = 0, klen = categs.length; k < klen; k++) {
+					obj[categs[k]] = obj[categs[k]] || {};
+					obj[categs[k]][prop] = obj[categs[k]][prop] || "";
+					obj[categs[k]][prop] += "*** \n#### _" + prop.substring(1) + "_ \n***" + ln +
+						"**Info:** " + doc.info + ln +
+						"**Return:** " + doc.returnType + ln +
+						"**Parameters:**" + ln;
+
+					obj[categs[k]][prop] += outParams(params);
+
+					obj[categs[k]][prop] += "**Overloads:**" + ln;
+
+					for (var i = 0, len = overloads.length; i < len; i++) {
+						(obj[categs[k]][prop] += (i+1) + ")" + ln);
+						obj[categs[k]][prop] += outParams(overloads[i].parameters);
+					}
+					if (!overloads.length) { obj[categs[k]][prop] += outParams([]); }
 				}
-				if (!overloads.length) { obj[doc.category][prop] += outParams([]); }
-			} else {
-				console.error("Failed on " + prop.substring(1));
+			} else if (!doc && prop != "format") {
 				try {
-					eval("(" + fstr.replace_all('\n', '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1') + ")");
+					code = $str.replace_all(fstr.replace(/\/\*[\s\S]*?\*\//g,'').replace(/\/\/[\s\S]*?\n/g,''),['\n','\\n','\t','\\t'], '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1');
+
+					eval("(" + code + ")");
 				} catch (e) {
-					console.error(e, fstr.replace_all('\n', '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1').replace_all('\t', ''));
+					console.error("Failed on " + modName + ":" + prop);
+					console.error(e, code);
 				}
 			}
-		} else {
-			console.log(prop);
+		} else if (!(prop in {info:1,scope:1})) {
+			console.log("<"+c[prop]+">", prop,"is not a method",c.hasOwnProperty(prop));
 		}
 	}
 }
@@ -209,8 +275,7 @@ for (var i = 0, len = categories.length; i < len; i++)
 	}
 }
 // Method end ---------------------------------------------------------------------------------------------
-
-fs.writeFile("../readme.md", readme, function(err) {
+fs.writeFile(mod + "/readme.md", readme, function(err) {
 	if(err) {
 		return console.log(err);
 	}

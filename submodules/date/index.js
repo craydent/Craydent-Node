@@ -7,7 +7,7 @@
 /*/---------------------------------------------------------/*/
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    ext = $s.ext,
+    ext = $s._ext,
     error = console.log;$s.error;
 
 if ($c.MODULES_LOADED[$s.info.name]) { return; }
@@ -20,7 +20,7 @@ require($s.dir + 'getValue')($s);
 ext(Date, "equals", function (compare, props){
     /*|{
         "info": "Object class extension to check if object values are equal",
-        "category": "Object",
+        "category": "Date|Object",
         "parameters":[
             {"compare": "(Object) Object to compare against"}],
 
@@ -81,7 +81,7 @@ ext(Date, 'getDayOfYear', function () {
 ext(Date, "getValue" ,function (args, dflt) {
     /*|{
         "info": "Object class extension to retrieve value of an object property",
-        "category": "Object",
+        "category": "Date|Object",
         "parameters":[],
 
         "overloads":[

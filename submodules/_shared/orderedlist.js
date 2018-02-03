@@ -32,7 +32,7 @@ function _orderListHelper(value, sorter, arr) {
 function OrderedList (records,sorter)  {
     /*|{
         "info": "Collection class that filters out duplicate values and maintains an ordered list",
-        "category": "Global",
+        "category": "Class",
         "parameters":[],
 
         "overloads":[

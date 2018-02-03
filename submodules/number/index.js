@@ -7,7 +7,7 @@
 /*/---------------------------------------------------------/*/
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    ext = $s.ext;
+    ext = $s._ext;
 
 if ($c.MODULES_LOADED[$s.info.name]) { return; }
 $s.__log_module();
@@ -49,7 +49,7 @@ ext(Number, 'aboutEqualTo', function (compare, giveOrTake) {
 ext(Number, "contains", function(val, func){
     /*|{
         "info": "Object class extension to check if value exists",
-        "category": "Object",
+        "category": "Number|Object",
         "parameters":[
             {"val": "(Mixed) Value to check or custom function to determine validity"}],
 
@@ -73,7 +73,7 @@ ext(Number, "contains", function(val, func){
 ext(Number, "equals", function (compare, props){
     /*|{
         "info": "Object class extension to check if object values are equal",
-        "category": "Object",
+        "category": "Number|Object",
         "parameters":[
             {"compare": "(Object) Object to compare against"}],
 
@@ -94,7 +94,7 @@ ext(Number, "equals", function (compare, props){
 ext(Number, "getValue" ,function (args, dflt) {
     /*|{
         "info": "Object class extension to retrieve value of an object property",
-        "category": "Object",
+        "category": "Number|Object",
         "parameters":[],
 
         "overloads":[
@@ -117,7 +117,7 @@ ext(Number, "getValue" ,function (args, dflt) {
 ext(Number, 'isBetween', function(lowerBound, upperBound, inclusive) {
     /*|{
         "info": "Object class extension to check if object is between lower and upper bounds",
-        "category": "Object",
+        "category": "Number|Object",
         "parameters":[
             {"lowerBound": "(Mixed) Lower bound comparison"},
             {"upperBound": "(Mixed) Upper bound comparison"}],
@@ -179,7 +179,7 @@ ext(Number, 'isOdd', function () {
 ext(Number, 'toCurrencyNotation', function (sep) {
     /*|{
         "info": "Number class extension to change number to use separater character",
-        "category": "String",
+        "category": "Number|String",
         "parameters":[],
 
         "overloads":[

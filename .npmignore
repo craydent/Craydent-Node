@@ -4,6 +4,7 @@ test
 ./index.js
 node_modules
 submodules
-prepubish
+local_scripts
 z_*
 zz_*
+common-bk.js

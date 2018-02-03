@@ -10,7 +10,7 @@ var $c = global.$c || {};
 function clearCache (module) {
     /*|{
         "info": "Clear a module from the require cache.",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"module": "(String) Single module to remove."}],
 

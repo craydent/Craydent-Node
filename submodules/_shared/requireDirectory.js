@@ -16,7 +16,7 @@ require('./parallelEach')($c);
 function requireDirectory (path, options, __basepath, __objs, __fs){
     /*|{
         "info": "Recursively require the entire directory and returns an object containing the required modules.",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"path": "(String) Path to directory."}],
 

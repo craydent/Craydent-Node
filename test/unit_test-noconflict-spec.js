@@ -175,6 +175,18 @@ describe ('No Conflict Array', function () {
 				{id:2,p:"20",share:"shared", index : 20,std:4},
 				{id:3,p:"30",share:"shared", index: 30,std:4},
 				{id:4,std:4}],
+			arrObjsScramble = [
+				{id:1,p:"10",share:"shared", index: 10,std:4},
+				{id:2,p:"20",share:"shared", index : 20,std:4},
+				{id:3,p:"30",share:"shared", index: 30,std:4},
+				{id:4,p:"30",share:"shared", index: 30,std:4},
+				{id:5,p:"30",share:"shared", index: 30,std:4},
+				{id:6,p:"30",share:"shared", index: 30,std:4},
+				{id:7,p:"30",share:"shared", index: 30,std:4},
+				{id:8,p:"30",share:"shared", index: 30,std:4},
+				{id:9,p:"30",share:"shared", index: 30,std:4},
+				{id:10,p:"30",share:"shared", index: 30,std:4},
+				{id:11,std:4}],
 			arrStrings = ["string 1","string 2","string 3","string 4"],
 			arrMix = [1,{},"adsf",10],
 			arrSort = [{id:1, s:5},{id:2, s:5},{id:3, s:6},{id:4, s:3},{id:5, s:2}],
@@ -833,9 +845,9 @@ describe ('No Conflict Array', function () {
 			{id:4,std:4}]);
 	});
 	it('scramble',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		expect($c.scramble(temp)).not.toEqual(arrObjs);
-		expect(temp.length).toEqual(arrObjs.length);
+		var temp = $c.duplicate(arrObjsScramble,true);
+		expect($c.scramble(temp)).not.toEqual(arrObjsScramble);
+		expect(temp.length).toEqual(arrObjsScramble.length);
 	});
 	it('sortBy',function(){
 		var temp = $c.duplicate(arrSort,true);
@@ -2357,7 +2369,7 @@ describe ('No Conflict Global methods', function () {
 
 
         expect($c.namespace("Test2",function TestClass(){}).toString()).toEqual('function TestClass(){}');
-        expect($c.getFuncName((new ($c.namespace.Test2.TestClass)()).constructor)).toBe("TestClass");
+        expect($c._getFuncName((new ($c.namespace.Test2.TestClass)()).constructor)).toBe("TestClass");
         expect(Test2).toBe('function TestClass(){}');
 	});
 	it('next',function(){

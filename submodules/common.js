@@ -192,15 +192,71 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/) {
         error('_duplicate', e);
     }
 }
-
-function defineFunction (name, func, override) {
+function _ext (cls, property, func, override) {
     try {
-        var args = getFuncArgs(func),
+        $g.__craydentNoConflict || (cls['prototype'][property] = cls['prototype'][property] || func);
+        __defineFunction(property, func, override);
+    } catch (e) {
+        error('_ext', e);
+    }
+}
+function _general_trim (str, side, characters) {
+    try {
+        var temp = str,
+            trimChars = {
+                " ":1,
+                "\t":1,
+                "\n":1
+            };
+        if (characters) {
+            if ($t.isArray(characters)) {
+                var ch, i = 0;
+                trimChars = {};
+                while (ch = characters[i++]) {
+                    trimChars[ch] = 1;
+                }
+            } else if ($t.isString(characters)) {
+                trimChars = eval('({"'+__convert_regex_safe(characters)+'":1})');
+            }
+        }
+        if (!side || side == 'l') {
+            while (temp.charAt(0) in trimChars) {
+                temp = temp.substring(1);
+            }
+        }
+        if (!side || side == 'r') {
+            while (temp.charAt(temp.length - 1) in trimChars) {
+                temp = temp.substring(0, temp.length - 1);
+            }
+        }
+        return temp.toString();
+    } catch (e) {
+        error("_general_trim", e);
+    }
+}
+function _getFuncArgs (func) {
+    try {
+        return condense(_general_trim(strip(func.toString(), '(')).replace(/\s*/gi, '').replace(/\/\*.*?\*\//g,'').replace(/.*?\((.*?)\).*/, '$1').split(',')) || [];
+    } catch (e) {
+        error('_getFuncArgs', e);
+    }
+}
+function _getFuncName (func) {
+    try {
+        return _general_trim(func.toString().replace(/\/\/.*?[\r\n]/gi,'').replace(/[\t\r\n]*/gi, '').replace(/\/\*.*?\*\//gi, '').replace(/.*?function\s*?(.*?)\s*?\(.*/,'$1'));
+    } catch (e) {
+        error('_getFuncName', e);
+    }
+}
+
+function __defineFunction (name, func, override) {
+    try {
+        var args = _getFuncArgs(func),
             fstr = func.toString().replace(/this/g,'craydent_ctx'),
 
             // extra code to account for when this == global
             extra_code = "if(arguments.length == 0 && this == $c){return;}",
-            fnew = args.length === 0 || (args.length === 1 && !general_trim(args[0])) ?
+            fnew = args.length === 0 || (args.length === 1 && !_general_trim(args[0])) ?
                 fstr.toString().replace(/(\(\s*?\)\s*?\{)/, ' (craydent_ctx){'+extra_code) :
                 "(" + fstr.toString().replace(/\((.*?)\)\s*?\{/, '(craydent_ctx,$1){'+extra_code) + ")";
 
@@ -212,14 +268,40 @@ function defineFunction (name, func, override) {
         }
         return scope.eval("$c."+name+" = "+fnew);
     } catch (ex) {
-        error("defineFunction", ex);
+        error("__defineFunction", ex);
     }
 }
 function duplicate (obj, recursive) {
+    /*|{
+        "info": "Object class extension to copy an object including constructor",
+        "category": "Object",
+        "parameters":[],
+
+        "overloads":[
+            {"parameters":[
+                {"recursive": "(Boolean) Flag to copy all child objects recursively"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.duplicate",
+        "returnType": "(Object)"
+    }|*/
     if ($t.isNull(obj)) { return obj; }
     return _duplicate(new obj.constructor(), obj, recursive);
 }
 function capitalize (str, pos, everyWord) {
+    /*|{
+        "info": "String class extension to capitalize parts of the string",
+        "category": "String",
+        "parameters":[
+            {"pos": "(Int[]) Index of the string to capitalize"}],
+
+        "overloads":[
+            {"parameters":[
+                {"pos": "(Int) Index of the string to capitalize"},
+                {"everyWord": "(Bool) Flag to capital every word"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#string.capitalize",
+        "returnType": "(String)"
+    }|*/
    try {
         pos = pos || [0];
         !$t.isArray(pos) && (pos = [pos]);
@@ -235,6 +317,18 @@ function capitalize (str, pos, everyWord) {
     }
 }
 function condense (objs, check_values) {
+    /*|{
+        "info": "Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls",
+        "category": "Array",
+        "parameters":[],
+
+        "overloads":[
+            {"parameters":[
+                {"check_values": "(Bool) Flag to remove duplicates"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.condense",
+        "returnType": "(Array)"
+    }|*/
     try {
         var skip = [], arr = [], without = false;
         if ($t.isArray(check_values)) {
@@ -265,7 +359,7 @@ function condense (objs, check_values) {
 function cout () {
     /*|{
         "info": "Log to console when DEBUG_MODE is true and when the console is available",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"infinite": "any number of arguments can be passed."}],
 
@@ -333,7 +427,7 @@ function equals (obj, compare, props){
 function error (fname, e) {
     /*|{
         "info": "User implemented place holder function to handle errors",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"fname": "(String) The function name the error was thrown"},
             {"e": "(Error) Exception object thrown"}],
@@ -349,18 +443,10 @@ function error (fname, e) {
         cout("Error in " + fname + "\n" + (e.description || e));
     }
 }
-function ext (cls, property, func, override) {
-    try {
-        $g.__craydentNoConflict || (cls['prototype'][property] = cls['prototype'][property] || func);
-        defineFunction(property, func, override);
-    } catch (e) {
-        error('ext', e);
-    }
-}
 function foo () {
     /*|{
         "info": "Place holder function for a blank function",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[],
 
         "overloads":[],
@@ -369,21 +455,34 @@ function foo () {
         "returnType": "(void)"
     }|*/
 }
-function getFuncArgs (func) {
-    try {
-        return condense(general_trim(strip(func.toString(), '(')).replace(/\s*/gi, '').replace(/\/\*.*?\*\//g,'').replace(/.*?\((.*?)\).*/, '$1').split(',')) || [];
-    } catch (e) {
-        error('getFuncArgs', e);
-    }
-}
-function getFuncName (func) {
-    try {
-        return general_trim(func.toString().replace(/\/\/.*?[\r\n]/gi,'').replace(/[\t\r\n]*/gi, '').replace(/\/\*.*?\*\//gi, '').replace(/.*?function\s*?(.*?)\s*?\(.*/,'$1'));
-    } catch (e) {
-        error('getFuncName', e);
-    }
-}
 function getProperty (obj, path, delimiter, options) {
+    /*|{
+        "info": "Object class extension to retrieve nested properties without error when property path does not exist",
+        "category": "Object",
+        "featured": true,
+        "parameters":[
+            {"path": "(String) Path to nested property"}],
+
+        "overloads":[
+            {"parameters":[
+                {"path": "(String) Path to nested property"},
+                {"delimiter": "(Char) Separator used to parse path"}]},
+
+            {"parameters":[
+                {"path": "(RegExp) Regex match for the property"}]},
+
+            {"parameters":[
+                {"path": "(String) Path to nested property"},
+                {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]},
+
+            {"parameters":[
+                {"path": "(String) Path to nested property"},
+                {"delimiter": "(Char) Separator used to parse path"},
+                {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.getProperty",
+        "returnType": "(Mixed)"
+    }|*/
     try {
         if ($t.isRegExp(path)) {
             for (var prop in obj) {
@@ -434,6 +533,17 @@ function globalize () {
     }
 };
 function indexOf (objs, value) {
+    /*|{
+        "info": "Array class extension to implement indexOf",
+        "category": "Array",
+        "parameters":[
+            {"value": "(Mixed) value to find"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.indexOf",
+        "returnType": "(Int)"
+    }|*/
     try {
         var len = objs.length,
             i = 0;
@@ -443,7 +553,7 @@ function indexOf (objs, value) {
         }
         return -1;
     } catch (e) {
-        error("_indexOf", e);
+        error("indexOf", e);
     }
 }
 function indexOfAlt (obj, value, option) {
@@ -487,10 +597,24 @@ function indexOfAlt (obj, value, option) {
             return (index >= 0) ? (index + pos) : index;
         }
     } catch (e) {
-        error(getFuncName(obj.constructor) + ".indexOfAlt", e);
+        error(_getFuncName(obj.constructor) + ".indexOfAlt", e);
     }
 }
 function merge (obj, secondary, condition) {
+    /*|{
+        "info": "Object class extension to merge objects",
+        "category": "Object",
+        "parameters":[
+            {"secondary": "(Object) Object to merge with"}],
+
+        "overloads":[
+            {"parameters":[
+                {"secondary": "(Object) Object to merge with"},
+                {"condition": "(Mixed) Flags to recurse, merge only shared value, clone, intersect etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.merge",
+        "returnType": "(Object)"
+    }|*/
     try {
         condition = condition || {};
         var recurse = condition == "recurse" || condition.recurse,
@@ -536,7 +660,7 @@ function merge (obj, secondary, condition) {
 function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarNames) {
     /*|{
         "info": "Creates an evaluable string",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"value": "value to parse"}],
 
@@ -611,7 +735,7 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
 function rand(num1, num2, inclusive) {
     /*|{
         "info": "Create a random number between two numbers",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"num1": "(Number) Lower bound"},
             {"num2": "(Number) Upper bound"}],
@@ -640,6 +764,21 @@ function rand(num1, num2, inclusive) {
     }
 }
 function replace_all(str, replace, subject, flag) {
+    /*|{
+        "info": "String class extension to replace all substrings (case sensitive)",
+        "category": "String",
+        "parameters":[
+            {"replace": "(String) String to replace"},
+            {"subject": "(String) String to replace with"}],
+
+        "overloads":[{
+            "parameters":[
+                {"replace": "(String[]) Array of string to replace"},
+                {"subject": "(String[]) Array of string to replace with"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#string.replace_all",
+        "returnType": "(String)"
+    }|*/
     try {
         if (!$t.isArray(replace)){
             replace = [replace];
@@ -661,6 +800,28 @@ function replace_all(str, replace, subject, flag) {
     }
 }
 function setProperty (obj, path, value, delimiter, options) {
+    /*|{
+        "info": "Object class extension to set nested properties creating necessary property paths",
+        "category": "Object",
+        "parameters":[
+            {"path": "(String) Path to nested property"},
+            {"value": "(Mixed) Value to set"}],
+
+        "overloads":[
+            {"parameters":[
+                {"path": "(String) Path to nested property"},
+                {"value": "(Mixed) Value to set"},
+                {"delimiter": "(Char) Separator used to parse path"}]},
+
+            {"parameters":[
+                {"path": "(String) Path to nested property"},
+                {"delimiter": "(Char) Separator used to parse path"},
+                {"value": "(Mixed) Value to set"},
+                {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.setProperty",
+        "returnType": "(Bool)"
+    }|*/
     try {
         options = options || {};
         delimiter = delimiter || ".";
@@ -690,8 +851,19 @@ function setProperty (obj, path, value, delimiter, options) {
     }
 }
 function strip (str, character) {
+    /*|{
+        "info": "String class extension to remove characters from the beginning and end of the string",
+        "category": "String",
+        "parameters":[
+            {"character": "(Char[]) Character to remove"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#string.strip",
+        "returnType": "(String)"
+    }|*/
     try {
-        return general_trim(str, undefined, character);
+        return _general_trim(str, undefined, character);
     } catch (e) {
         error("_strip", e);
     }
@@ -699,7 +871,7 @@ function strip (str, character) {
 function suid(length) {
     /*|{
         "info": "Creates a short Craydent/Global Unique Identifier",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[],
 
         "overloads":[
@@ -724,7 +896,7 @@ function suid(length) {
 function syncroit (gen) {
     /*|{
         "info": "Generator based control flow to allow for more \"syncronous\" programing structure",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"gen": "(GeneratorFunction) Generator function to execute"}],
 
@@ -767,44 +939,10 @@ function syncroit (gen) {
         throw e;
     }
 }
-function general_trim (str, side, characters) {
-    try {
-        var temp = str,
-            trimChars = {
-                " ":1,
-                "\t":1,
-                "\n":1
-            };
-        if (characters) {
-            if ($t.isArray(characters)) {
-                var ch, i = 0;
-                trimChars = {};
-                while (ch = characters[i++]) {
-                    trimChars[ch] = 1;
-                }
-            } else if ($t.isString(characters)) {
-                trimChars = eval('({"'+__convert_regex_safe(characters)+'":1})');
-            }
-        }
-        if (!side || side == 'l') {
-            while (temp.charAt(0) in trimChars) {
-                temp = temp.substring(1);
-            }
-        }
-        if (!side || side == 'r') {
-            while (temp.charAt(temp.length - 1) in trimChars) {
-                temp = temp.substring(0, temp.length - 1);
-            }
-        }
-        return temp.toString();
-    } catch (e) {
-        error("general_trim", e);
-    }
-}
 function tryEval (expression, evaluator) {
     /*|{
         "info": "Evaluates an expression without throwing an error",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"expression": "(Mixed) Expression to evaluate"}],
 
@@ -900,14 +1038,14 @@ module.exports = function () {
     obj.capitalize = $c.capitalize = capitalize;
     obj.condense = $c.condense = condense;
     obj.cout = $c.cout = cout;
-    obj.defineFunction = $c.defineFunction = defineFunction;
+    obj.__defineFunction = $c.__defineFunction = __defineFunction;
     obj.duplicate = $c.duplicate = duplicate;
     obj.equals = $c.equals = equals;
     obj.error = $c.error = error;
-    obj.ext = $c.ext = ext;
+    obj._ext = $c._ext = _ext;
     obj.foo = $c.foo = foo;
-    obj.getFuncArgs = $c.getFuncArgs = getFuncArgs;
-    obj.getFuncName = $c.getFuncName = getFuncName;
+    obj._getFuncArgs = $c._getFuncArgs = _getFuncArgs;
+    obj._getFuncName = $c._getFuncName = _getFuncName;
     obj.getProperty = $c.getProperty = getProperty;
     obj.indexOf = $c.indexOf = indexOf;
     obj.indexOfAlt = $c.indexOfAlt = indexOfAlt;
@@ -920,7 +1058,7 @@ module.exports = function () {
     obj.strip = $c.strip = strip;
     obj.suid = $c.suid = suid;
     obj.syncroit = $c.syncroit = syncroit;
-    obj.general_trim = $c.general_trim = general_trim;
+    obj._general_trim = $c._general_trim = _general_trim;
     obj.tryEval = $c.tryEval = tryEval;
     obj.scope = $c.scope = scope;
 

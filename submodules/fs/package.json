@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-fs",
-    "version": "0.8.2",
+    "version": "0.8.3",
     "description": "Node module to extend fs functionality and simplify code for maintainability and readability",
     "main": "craydent.js",
     "scripts": {

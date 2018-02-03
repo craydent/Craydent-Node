@@ -1,10 +1,10 @@
 {
     "name": "@craydent/craydent",
-    "version": "0.8.2",
+    "version": "0.8.3",
     "description": "node library based on craydent-1.9.3",
     "main": "craydent.js",
     "scripts": {
-        "test": "jasmine-node test/ --color",
+        "test": "./local_scripts/test.sh",
         "test-main": "jasmine-node test/ --color --autotest --watch craydent.js --match -main-",
         "test-noconflict": "jasmine-node test/ --color --autotest --watch craydent.js --match -noconflict-",
         "publish": "git push public;"

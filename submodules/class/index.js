@@ -23,7 +23,7 @@ require($s.dir + 'orderedlist')($s);
 function Benchmarker () {
     /*|{
         "info": "Class used to measure the run time of code",
-        "category": "Global",
+        "category": "Class",
         "parameters":[],
 
         "overloads":[],
@@ -53,7 +53,7 @@ function Benchmarker () {
 function Cursor (records) {
     /*|{
         "info": "Cursor class to facilitate iteration",
-        "category": "Global",
+        "category": "Class",
         "parameters":[
             {"records": "(Array) Array used to create the iterator to iterate each item"}],
 
@@ -104,7 +104,7 @@ function Cursor (records) {
 function Queue (records) {
     /*|{
         "info": "Collection class that follows FIFO",
-        "category": "Global",
+        "category": "Class",
         "parameters":[
             {"records": "(Array) Array used to create the iterator to iterate each item"}],
 
@@ -128,7 +128,7 @@ function Queue (records) {
 function Set (records) {
     /*|{
         "info": "Collection class that filters out duplicate values",
-        "category": "Global",
+        "category": "Class",
         "parameters":[
             {"records": "(Array) Array used to create the iterator to iterate each item"}],
 

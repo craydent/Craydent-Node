@@ -8,7 +8,7 @@
 //TODO: remove all $c refs
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    ext = $s.ext,
+    ext = $s._ext,
     error = $s.error,
     _irregularNouns = {
         "addendum":"addenda",
@@ -140,7 +140,7 @@ function startsWith () {
 
 ext(String, 'acronymize', function (capsOnly, delimiter) {
     /*|{
-        "info": "String class extension to capitalize parts of the string",
+        "info": "String class extension to create an acronym from the given string",
         "category": "String",
         "parameters":[
             {"capsOnly": "(Boolean) Flag to indicate to use capital letters only."}],
@@ -165,7 +165,7 @@ ext(String, 'acronymize', function (capsOnly, delimiter) {
                 {"match": "(RegExp) Pattern to match to qualify the Acronym."},
                 {"delimiter": "(RegExp) RegExp pattern that delimits the string."}]}],
 
-        "url": "http://www.craydent.com/library/1.9.3/docs#string.capitalize",
+        "url": "http://www.craydent.com/library/1.9.3/docs#string.acronymize",
         "returnType": "(String)"
     }|*/
     try {
@@ -211,7 +211,7 @@ ext(String, 'capitalize', function (pos, everyWord) {
 ext(String, "contains", function(val, func){
     /*|{
         "info": "Object class extension to check if value exists",
-        "category": "Object",
+        "category": "String|Object",
         "parameters":[
             {"val": "(Mixed) Value to check or custom function to determine validity"}],
 
@@ -260,7 +260,7 @@ ext(String, 'convertUTCDate', function (delimiter) 	{
 ext(String, "count", function(option){
     /*|{
         "info": "Object class extension to count the properties in the object/elements in arrays/characters in strings.",
-        "category": "Object",
+        "category": "String|Object",
         "parameters":[],
 
         "overloads":[
@@ -352,7 +352,7 @@ ext(String, 'endsWithAny', endsWith);
 ext(String, "equals", function (compare, props){
     /*|{
         "info": "Object class extension to check if object values are equal",
-        "category": "Object",
+        "category": "String|Object",
         "parameters":[
             {"compare": "(Object) Object to compare against"}],
 
@@ -373,7 +373,7 @@ ext(String, "equals", function (compare, props){
 ext(String, "getValue" ,function (args, dflt) {
     /*|{
         "info": "Object class extension to retrieve value of an object property",
-        "category": "Object",
+        "category": "String|Object",
         "parameters":[],
 
         "overloads":[
@@ -444,7 +444,7 @@ ext(String, 'highlight', function (search, cssClass, tag) {
 ext(String, 'indexOfAlt', function (value, option) {
     /*|{
         "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
-        "category": "Array",
+        "category": "String|Array",
         "parameters":[
             {"value": "(Mixed) value to find"},
             {"func": "(Function) Callback function used to do the comparison"}],
@@ -590,7 +590,7 @@ ext(String, 'ltrim', function (character) {
 		"returnType": "(String)"
 	}|*/
     try {
-        return $s.general_trim(this, 'l', character);
+        return $s._general_trim(this, 'l', character);
     } catch (e) {
         error("String.ltrim", e);
     }
@@ -685,7 +685,7 @@ ext(String, 'rtrim', function (character) {
         "returnType": "(String)"
     }|*/
     try {
-        return $s.general_trim(this, 'r', character);
+        return $s._general_trim(this, 'r', character);
     } catch (e) {
         error("String.rtrim", e);
     }

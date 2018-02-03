@@ -169,7 +169,7 @@ function _verb_payload_helper (variable, options) {
 function $COOKIE(key, value, options) {
     /*|{
         "info": "Get/set Cookies",
-        "category": "Global",
+        "category": "HTTP",
         "featured": true,
         "parameters":[
             {"key": "(String) Key for cookie value"}],
@@ -250,7 +250,7 @@ function $COOKIE(key, value, options) {
 function $DELETE(variable, options) {
     /*|{
         "info": "Retrieve all or specific variables in the Body",
-        "category": "Global",
+        "category": "HTTP",
         "featured": true,
         "parameters":[],
 
@@ -274,7 +274,7 @@ function $DELETE(variable, options) {
 function $DEL () {
     /*|{
         "info": "Retrieve all or specific variables in the Body",
-        "category": "Global",
+        "category": "HTTP",
         "featured": true,
         "parameters":[],
 
@@ -294,7 +294,7 @@ function $DEL () {
 function $GET(variable, options) {
     /*|{
         "info": "Retrieve all or specific variables in the url",
-        "category": "Global",
+        "category": "HTTP",
         "featured": true,
         "parameters":[],
 
@@ -375,7 +375,7 @@ function $GET(variable, options) {
 function $HEADER(variable, options) {
     /*|{
         "info": "Retrieve all or specific variables in the headers",
-        "category": "Global",
+        "category": "HTTP",
         "featured": true,
         "parameters":[],
 
@@ -410,7 +410,7 @@ function $HEADER(variable, options) {
 function $PAYLOAD(variable, options) {
     /*|{
         "info": "Retrieve all or specific variables in the Body",
-        "category": "Global",
+        "category": "HTTP",
         "featured": true,
         "parameters":[],
 
@@ -434,7 +434,7 @@ function $PAYLOAD(variable, options) {
 function $POST(variable, options) {
     /*|{
         "info": "Retrieve all or specific variables in the Body",
-        "category": "Global",
+        "category": "HTTP",
         "featured": true,
         "parameters":[],
 
@@ -458,7 +458,7 @@ function $POST(variable, options) {
 function $PUT(variable, options) {
     /*|{
         "info": "Retrieve all or specific variables in the Body",
-        "category": "Global",
+        "category": "HTTP",
         "featured": true,
         "parameters":[],
 
@@ -483,7 +483,7 @@ function $PUT(variable, options) {
 function ChromeVersion (){
     /*|{
         "info": "Get Chrome version",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -500,7 +500,7 @@ function ChromeVersion (){
 function FirefoxVersion (){
     /*|{
         "info": "Get Firefox version",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -517,7 +517,7 @@ function FirefoxVersion (){
 function IEVersion () {
     /*|{
         "info": "Get Internet Explorer version",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -540,7 +540,7 @@ function IEVersion () {
 function OperaVersion (){
     /*|{
         "info": "Get Opera version",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -557,7 +557,7 @@ function OperaVersion (){
 function SafariVersion (){
     /*|{
         "info": "Get Safari version",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -574,7 +574,7 @@ function SafariVersion (){
 function isAmaya() {
     /*|{
         "info": "Check if browser is Amaya",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -591,7 +591,7 @@ function isAmaya() {
 function isAndroid(){
     /*|{
         "info": "Check if device is Android",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -608,7 +608,7 @@ function isAndroid(){
 function isBlackBerry() {
     /*|{
         "info": "Check if device is BlackBerry",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -625,7 +625,7 @@ function isBlackBerry() {
 function isChrome(){
     /*|{
         "info": "Check if browser is Chrome",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -642,7 +642,7 @@ function isChrome(){
 function isFirefox(){
     /*|{
         "info": "Check if browser is Firefox",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -663,7 +663,7 @@ function isFirefox(){
 function isGecko() {
     /*|{
         "info": "Check if engine is Gecko",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -680,7 +680,7 @@ function isGecko() {
 function isIE6() {
     /*|{
         "info": "Check if browser is Internet Explorer 6",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -698,7 +698,7 @@ function isIE6() {
 function isIE() {
     /*|{
         "info": "Check if browser is Internet Explorer",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -715,7 +715,7 @@ function isIE() {
 function isIPad() {
     /*|{
         "info": "Check if device is iPad",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -732,7 +732,7 @@ function isIPad() {
 function isIPhone(){
     /*|{
         "info": "Check if device is IPhone",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -749,7 +749,7 @@ function isIPhone(){
 function isIPod() {
     /*|{
         "info": "Check if device is IPod",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -766,7 +766,7 @@ function isIPod() {
 function isKHTML() {
     /*|{
         "info": "Check if engine is KHTML",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -783,7 +783,7 @@ function isKHTML() {
 function isLinux(){
     /*|{
         "info": "Check if OS is Linux",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -800,7 +800,7 @@ function isLinux(){
 function isMac(){
     /*|{
         "info": "Check if OS is Mac Based",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -817,7 +817,7 @@ function isMac(){
 function isMobile(){
     /*|{
         "info": "Check if the device is a Mobile device",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -834,7 +834,7 @@ function isMobile(){
 function isOpera(){
     /*|{
         "info": "Check if browser is Opera",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -854,7 +854,7 @@ function isOpera(){
 function isPalmOS(){
     /*|{
         "info": "Check if OS is PalmOS",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -871,7 +871,7 @@ function isPalmOS(){
 function isPresto() {
     /*|{
         "info": "Check if engine is Presto",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -888,7 +888,7 @@ function isPresto() {
 function isPrince() {
     /*|{
         "info": "Check if engine is Prince",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -905,7 +905,7 @@ function isPrince() {
 function isSafari(){
     /*|{
         "info": "Check if browser is Safari",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -923,7 +923,7 @@ function isSafari(){
 function isSymbian () {
     /*|{
         "info": "Check if OS is Symbian",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -941,7 +941,7 @@ function isSymbian () {
 function isTrident() {
     /*|{
         "info": "Check if engine is Trident",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -958,7 +958,7 @@ function isTrident() {
 function isWebkit() {
     /*|{
         "info": "Check if engine is Webkit",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -975,7 +975,7 @@ function isWebkit() {
 function isWindows(){
     /*|{
         "info": "Check if OS is Windows",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -992,7 +992,7 @@ function isWindows(){
 function isWindowsMobile() {
     /*|{
         "info": "Check if device is Windows Mobile",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -1011,7 +1011,7 @@ function isWindowsMobile() {
 function createServer (callback, options) {
     /*|{
         "info": "Create http server, ability to run middleware, and define routes.",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[
             {"callback": "(Function) Function to callback when a request is received"}],
 
@@ -1311,7 +1311,7 @@ function createServer (callback, options) {
 function echo (output) {
     /*|{
         "info": "Echo to buffer and use in response",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[
             {"output": "Data to send in response"}],
 
@@ -1325,7 +1325,7 @@ function echo (output) {
 function end(status, output, encoding) {
     /*|{
         "info": "Call the next function(s) in queue",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[
             {"event": "Event to trigger."}],
 
@@ -1399,7 +1399,7 @@ function end(status, output, encoding) {
 function getSessionID() {
     /*|{
         "info": "Retrieve the session id when used in conjunction with createServer",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],
@@ -1416,7 +1416,7 @@ function getSessionID() {
 function getSession(sid, callback) {
     /*|{
         "info": "Retrieve the session object when used in conjunction with createServer",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[
             {"sid": "(String) Session id of the session object to retrieve syncronously."}],
 
@@ -1440,7 +1440,7 @@ function getSession(sid, callback) {
 function getSessionSync(sid) {
     /*|{
         "info": "Syncronously retrieve the session object when used in conjunction with createServer",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[
             {"sid": "(String) Session id of the session object to retrieve syncronously."}],
 
@@ -1458,7 +1458,7 @@ function getSessionSync(sid) {
 function header(headers, code) {
     /*|{
         "info": "Set Http Headers to send",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[
             {"header": "(String) Http header."}],
 
@@ -1500,7 +1500,7 @@ function header(headers, code) {
 function send (status, data) {
     /*|{
         "info": "Recursively require the entire directory and returns an object containing the required modules.",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[
             {"data": "(Object) Object to send in response."}],
 
@@ -1522,7 +1522,7 @@ function send (status, data) {
 function var_dump() {
     /*|{
         "info": "Dump of variables to response.",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[
             {"infinite": "any number of arguments can be passed."}],
 
@@ -1560,7 +1560,7 @@ function var_dump() {
 function writeSession() {
     /*|{
         "info": "Writes session to filesystem to be retrieved later.",
-        "category": "Global",
+        "category": "HTTP",
         "parameters":[],
 
         "overloads":[],

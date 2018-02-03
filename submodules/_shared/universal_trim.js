@@ -6,8 +6,8 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 var $c = global.$c || {},
-    _getFuncName = $c.getFuncName,
-    _general_trim = $c.general_trim,
+    _getFuncName = $c._getFuncName,
+    _general_trim = $c._general_trim,
     _isString = $c.isString,
     _isArray = $c.isArray,
     _isBoolean = $c.isBoolean,
@@ -56,8 +56,8 @@ function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
 
-    _getFuncName = ctx.getFuncName || $c.getFuncName;
-    _general_trim = ctx.general_trim || $c.general_trim;
+    _getFuncName = ctx._getFuncName || $c._getFuncName;
+    _general_trim = ctx._general_trim || $c._general_trim;
     _isString = ctx.isString || $c.isString;
     _isArray = ctx.isArray || $c.isArray;
     _isBoolean = ctx.isBoolean || $c.isBoolean;

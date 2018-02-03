@@ -7,7 +7,7 @@
 /*/---------------------------------------------------------/*/
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    ext = $s.ext,
+    ext = $s._ext,
     error = $s.error;
 
 if ($c.MODULES_LOADED[$s.info.name]) { return; }
@@ -23,7 +23,7 @@ require($s.dir + 'run_func_array')($s);
 function next () {
     /*|{
         "info": "Call the next function(s) in queue",
-        "category": "Global",
+        "category": "Function",
         "parameters":[
             {"infinite": "any number of arguments can be passed."}],
 
@@ -51,7 +51,7 @@ function next () {
 ext(Function, "equals", function (compare, props){
     /*|{
         "info": "Object class extension to check if object values are equal",
-        "category": "Object",
+        "category": "Function|Object",
         "parameters":[
             {"compare": "(Object) Object to compare against"}],
 
@@ -85,7 +85,7 @@ ext(Function, 'extends',function(extendee, inheritAsOwn){
         "returnType": "(Function)"
     }|*/
     try {
-        var className = $s.getFuncName(this),
+        var className = $s._getFuncName(this),
             cls = new extendee();
         $s.namespace[className] = $s.namespaces && $s.namespaces[className];
         for (var prop in cls) {
@@ -119,7 +119,7 @@ ext(Function, 'getParameters', function () {
         "returnType": "(Array)"
     }|*/
     try {
-        return $s.getFuncArgs(this);
+        return $s._getFuncArgs(this);
     } catch (e) {
         error("Function.getParameters", e);
     }
@@ -136,7 +136,7 @@ ext(Function, 'getName', function () {
         "returnType": "(String)"
     }|*/
     try {
-        return this.name || $s.getFuncName(this);
+        return this.name || $s._getFuncName(this);
     } catch (e) {
         error("Function.getName", e);
     }
@@ -144,7 +144,7 @@ ext(Function, 'getName', function () {
 ext(Function, "getValue" ,function (args, dflt) {
     /*|{
         "info": "Object class extension to retrieve value of an object property",
-        "category": "Object",
+        "category": "Function|Object",
         "parameters":[],
 
         "overloads":[

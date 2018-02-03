@@ -7,14 +7,14 @@
 /*/---------------------------------------------------------/*/
 var $c = global.$c || {},
     _error = $c.error,
-    _getFuncName = $c.getFuncName,
+    _getFuncName = $c._getFuncName,
     _getProperty = $c.getProperty,
     _setProperty = $c.setProperty;
 
 function namespace (name, clazz, fn) {
     /*|{
         "info": "Adds the class to a namespace instead of the global space",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"name":"(String) Name of the namespace to add to."},
             {"clazz":"(Class) Class to add to the given namespace"}],
@@ -48,7 +48,7 @@ function init (ctx) {
     if (!ctx.isEmpty) { return; }
     $c = ctx.isEmpty($c) ? ctx : $c;
     _error = ctx.error || $c.error;
-    _getFuncName = ctx.getFuncName || $c.getFuncName;
+    _getFuncName = ctx._getFuncName || $c._getFuncName;
     _setProperty = ctx.setProperty || $c.setProperty;
 
     $c.namespace = ctx.namespace = $c.namespace || ctx.namespace || namespace;

@@ -7,7 +7,7 @@
 /*/---------------------------------------------------------/*/
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    ext = $s.ext;
+    ext = $s._ext;
 
 if ($c.MODULES_LOADED[$s.info.name]) { return; }
 $s.__log_module();
@@ -18,7 +18,7 @@ require($s.dir + 'fillTemplate')($s);
 ext(String, 'fillTemplate', function (arr_objs, offset, max, bound) {
     /*|{
         "info": "String class extension to fill template based on template syntax",
-        "category": "String",
+        "category": "String|Template",
         "featured": true,
         "parameters":[
             {"objs": "(Objects[]) Objects to fill the template variables"}],

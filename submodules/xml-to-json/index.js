@@ -24,7 +24,7 @@ function __processAttributes(node) {
         text = node.substring(tagend + 1, node.indexOf('<', tagend));
 
     if (attr[attr.length - 1] == "/") { attr = attr.substring(0,attr.length - 1); }
-    attr = $s.general_trim(attr);
+    attr = $s._general_trim(attr);
 
     if (attr) {
         obj['#text'] = $s.fillTemplate(text,xmlToJson.refs);
@@ -155,7 +155,7 @@ function _xmlToJson(xml, ignoreAttributes) {
 function xmlToJson(xml, ignoreAttributes) {
     /*|{
         "info": "Converts XML to JSON",
-        "category": "Global",
+        "category": "XML to JSON",
         "parameters":[
             {"xml": "(Mixed) XML string or XML DOM"}],
 

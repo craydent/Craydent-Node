@@ -7,7 +7,7 @@
 /*/---------------------------------------------------------/*/
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    ext = $s.ext;
+    ext = $s._ext;
 
 if ($c.MODULES_LOADED[$s.info.name]) { return; }
 $s.__log_module();
@@ -38,7 +38,7 @@ ext(RegExp, 'addFlags',function (flags) {
 ext(RegExp, "equals", function (compare, props){
     /*|{
         "info": "Object class extension to check if object values are equal",
-        "category": "Object",
+        "category": "RegExp|Object",
         "parameters":[
             {"compare": "(Object) Object to compare against"}],
 
@@ -59,7 +59,7 @@ ext(RegExp, "equals", function (compare, props){
 ext(RegExp, "getValue" ,function (args, dflt) {
     /*|{
         "info": "Object class extension to retrieve value of an object property",
-        "category": "Object",
+        "category": "RegExp|Object",
         "parameters":[],
 
         "overloads":[

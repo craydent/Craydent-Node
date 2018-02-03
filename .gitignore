@@ -11,3 +11,7 @@
 .DS_Store
 /submodules/*/dependencies/
 node_modules/
+/test/benchmarks.sh
+code.asm
+common-bk.js
+z_shared_bk

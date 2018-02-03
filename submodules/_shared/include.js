@@ -14,7 +14,7 @@ require('./startsWithAny')($c);
 function include(path, refresh){
     /*|{
         "info": "Require without erroring when module does not exist.",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[
             {"path": "(String) Module or Path to module."}],
 

@@ -52,7 +52,7 @@ $c.DEBUG_MODE = true;
 function foo () {
     /*|{
         "info": "Place holder function for a blank function",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[],
 
         "overloads":[],

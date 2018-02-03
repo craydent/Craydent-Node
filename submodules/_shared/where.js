@@ -28,7 +28,7 @@ var _contains = $c.contains,
     _isRegExp = $c.isRegExp,
     _isInt = $c.isInt,
     _parseRaw = $c.parseRaw,
-    _getFuncName = $c.getFuncName,
+    _getFuncName = $c._getFuncName,
     _duplicate = $c.duplicate,
     _capitalize = $c.capitalize,
     _getProperty = $c.getProperty,
@@ -1074,7 +1074,7 @@ function init(ctx) {
     _isInt = $s.isInt || $c.isInt;
 
     _parseRaw = $s.parseRaw || $c.parseRaw;
-    _getFuncName = $s.getFuncName || $c.getFuncName;
+    _getFuncName = $s._getFuncName || $c._getFuncName;
     _duplicate = $s.duplicate || $c.duplicate;
     _capitalize = $s.capitalize || $c.capitalize;
     _getProperty = $s.getProperty || $c.getProperty;

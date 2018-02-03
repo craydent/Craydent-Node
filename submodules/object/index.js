@@ -29,7 +29,7 @@ require($s.dir + 'where')($s);
 function addObjectPrototype(name, fn, override) {
     /*|{
         "info": "Method to extend the Object Class",
-        "category": "Global",
+        "category": "Object|Utility",
         "parameters":[
             {"name": "(String) name of the method to add"},
             {"fn": "(Function) method implementation"}],
@@ -74,7 +74,7 @@ function addObjectPrototype(name, fn, override) {
             error("addPrototype:Non-ECMAScript 5", e);
         }
     }
-    return $s.defineFunction(name, fn, override);
+    return $s.__defineFunction(name, fn, override);
 }
 
 //TODO: finish
@@ -286,7 +286,7 @@ _ao("getClass", function() {
         "returnType": "(String)"
     }|*/
     try {
-        return $s.getFuncName(this.constructor);
+        return $s._getFuncName(this.constructor);
     } catch (e) {
         error('Object.getClass', e)
     }

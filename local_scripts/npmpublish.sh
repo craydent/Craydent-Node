@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd submodules;
+cd ../submodules;
 
 cd typeof;
 rm -r node_modules;

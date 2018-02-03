@@ -207,7 +207,7 @@ function __run_replace (reg, template, use_run, obj) {
 function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_nonmatching) {
     /*|{
         "info": "Function for templetizing",
-        "category": "Global",
+        "category": "Template",
         "featured": true,
         "parameters":[
             {"htmlTemplate": "(String) Template to be used"},
@@ -217,7 +217,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
             {"parameters":[
                 {"htmlTemplate": "(String) Template to be used"},
                 {"objs": "(Objects[]) Objects to fill the template variables"},
-                {"max": "(Int) The maximum number of records to process"}]}
+                {"max": "(Int) The maximum number of records to process"}]},
 
             {"parameters":[
                 {"htmlTemplate": "(String) Template to be used"},

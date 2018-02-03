@@ -7,7 +7,7 @@
 /*/---------------------------------------------------------/*/
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    ext = $s.ext,
+    ext = $s._ext,
     error = $s.error;
 
 if ($c.MODULES_LOADED[$s.info.name]) { return; }
@@ -211,7 +211,7 @@ function _joinHelper (objs, arr, on, exclusive) {
     if ($s.isString(on)) {
         on = on.split('=');
         if (on.length == 1) { on = [on,on]; }
-        var name = $s.getFuncName(arguments.callee.caller);
+        var name = $s._getFuncName(arguments.callee.caller);
         on = $c.trim(on);
         name == "joinRight" && (on = [on[1],on[0]]);
     }
@@ -301,7 +301,7 @@ function _processClause (clause) {
                         aquery['$and'].push({'$ne':cond});
                         break;
                     case !!~(index = $s.indexOfAlt(predicateClause,/ like /i)) :
-                        var likeVal = "^" + $s.replace_all($s.general_trim(predicateClause.substring(index + 6),null,[' ', "'", '"']),"%",".*?") + "$";
+                        var likeVal = "^" + $s.replace_all($s._general_trim(predicateClause.substring(index + 6),null,[' ', "'", '"']),"%",".*?") + "$";
                         cond[predicateClause.substring(0, index).trim()] = {'$regex': new RegExp(likeVal,'i')};
                         aquery['$and'].push(cond);
                         break;
@@ -545,7 +545,7 @@ ext(Array, 'condense', function (check_values) {
 ext(Array, "contains", function(val, func){
     /*|{
         "info": "Object class extension to check if value exists",
-        "category": "Object",
+        "category": "Array|Object",
         "parameters":[
             {"val": "(Mixed) Value to check or custom function to determine validity"}],
 
@@ -569,7 +569,7 @@ ext(Array, "contains", function(val, func){
 ext(Array, "count", function(option){
     /*|{
         "info": "Object class extension to count the properties in the object/elements in arrays/characters in strings.",
-        "category": "Object",
+        "category": "Array|Object",
         "parameters":[],
 
         "overloads":[
@@ -743,7 +743,7 @@ ext(Array, 'distinct', function(fields, condition) {
 ext(Array, "equals", function (compare, props){
     /*|{
         "info": "Object class extension to check if object values are equal",
-        "category": "Object",
+        "category": "Array|Object",
         "parameters":[
             {"compare": "(Object) Object to compare against"}],
 
@@ -876,7 +876,7 @@ ext(Array, 'findOne', function(condition, projection) {
 ext(Array, "getValue" ,function (args, dflt) {
     /*|{
         "info": "Object class extension to retrieve value of an object property",
-        "category": "Object",
+        "category": "Array|Object",
         "parameters":[],
 
         "overloads":[
@@ -1186,6 +1186,39 @@ ext(Array, "isEmpty", function () {
         error('Array.isEmpty', e);
     }
 });
+ext(Array, "isSubset", function () {
+    /*|{
+        "info": "Object class extension to check if item is a subset",
+        "category": "Array|Object",
+        "parameters":[
+            {"compare": "(Mixed) Superset to compare against"}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.isSubset",
+        "returnType": "(Bool)"
+    }|*/
+    try {
+        return $s.isSubset(this, compare, sharesAny);
+    } catch (e) {
+        error('Object.isSubset', e);
+    }
+});
+ext(Array, "itemCount", function () {
+    /*|{
+        "info": "Object class extension to count the properties in item",
+        "category": "Array|Object",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.itemCount",
+        "returnType": "(Int)"
+    }|*/
+    try {
+        return $s.itemCount(this);
+    } catch (e) {
+        error('Object.itemCount', e);
+    }
+});
 ext(Array, "joinLeft", function (arr, on) {
     /*|{
         "info": "Array class extension to do an outer left join on arrays",
@@ -1385,7 +1418,7 @@ ext(Array, 'normalize', function () {
         error("Array.normalize", e);
     }
 }, true);
-$s.ext(Array, 'parallelEach', function (gen, args) {
+$s._ext(Array, 'parallelEach', function (gen, args) {
     /*|{
         "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
         "category": "Array",
@@ -1504,7 +1537,7 @@ ext(Array, 'scramble', function() {
         "returnType": "(Array)"
     }|*/
     try {
-        return this.sort(function() { return Math.round($s.rand(-1, 1, true)); });
+        return this.sort(function() { return Math.round($s.rand(-1.5, 1.5)); });
     } catch (e) {
         error("Array.scramble", e);
     }
@@ -1723,7 +1756,7 @@ ext(Array, 'update', function(condition, setClause, options) {
             setObject['$set'] = {};
             for (var i = 0, len = setClause.length; i < len; i++) {
                 var keyVal = setClause[i].split("=");
-                setObject['$set'][$s.general_trim(keyVal[0])] = $s.general_trim(keyVal[0]);
+                setObject['$set'][$s._general_trim(keyVal[0])] = $s._general_trim(keyVal[0]);
             }
         }
         var found = false, plainObject = true, operations = {"$set":1,"$unset":1,"$currentDate":1,"$inc":1,"$max":1,"$min":1,"$mul":1,"$bit":1,"$rename":1

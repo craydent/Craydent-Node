@@ -178,12 +178,12 @@ describe ('Global methods', function () {
     });
     it('namespace',function(){
         expect($c.namespace("Test2",function TestClass(){}).toString()).toEqual('function TestClass(){}');
-        expect($c.getFuncName((new ($c.namespace.Test2.TestClass)()).constructor)).toBe("TestClass");
+        expect($c._getFuncName((new ($c.namespace.Test2.TestClass)()).constructor)).toBe("TestClass");
         expect(Test2).toBe('function TestClass(){}');
     });
     it('now',function(){
         expect($c.now().getTime()).toBeCloseTo(new Date().getTime(),-1);
-        expect($c.now('m')).toBe(((new Date()).getMonth()+1).toString());
+        expect($c.now('n')).toBe(((new Date()).getMonth()+1).toString());
     });
     it('parseRaw',function(){
         expect($c.parseRaw("str")).toBe("\"str\"");

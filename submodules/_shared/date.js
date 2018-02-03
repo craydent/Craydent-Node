@@ -342,7 +342,7 @@ function getWeek (obj) {
 function now (format) {
     /*|{
         "info": "Get the DateTime of now",
-        "category": "Global",
+        "category": "Utility",
         "parameters":[],
 
         "overloads":[

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*/---------------------------------------------------------/*/
 /*/ Craydent LLC node-v0.8.2                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
@@ -5,7 +6,9 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var cpkg = require('../package.json');
+var root = require.resolve('../package.json').replace('/package.json','');
+var cpkg = require(root + '/package.json');
+var exec = require('child_process').exec;
 var version = cpkg.version;
 var spaces = 37 - version.length;
 var pre_text = "/*/---------------------------------------------------------/*/\n\
@@ -22,7 +25,6 @@ pre_text += "/*/\n\
 module.exports = function (ctx) {\n",
     post_text = "};";
 
-var root = require.resolve('../submodules/dependencies').replace('/submodules/dependencies.js','');
 var config = require(root + '/submodules/dependencies');
 var details = config.details;
 var dependencies = config.primary,
@@ -33,9 +35,10 @@ var package = fs.readFileSync(root + '/submodules/package.json', "utf8");
 
 var base = root + "/submodules/",
     source_base = base + "_shared/",
-    depdir = "dependencies/";
+    depdir = "dependencies/",
+    scripts = root + "/_local_scripts/";
 
-
+// var readmeCommand = [];
 for (var folder in dependencies) {
     if (!dependencies.hasOwnProperty(folder)) { continue; }
 
@@ -45,9 +48,11 @@ for (var folder in dependencies) {
         try { fs.unlinkSync(base + folder + "/" + depdir + files[i]); } catch (e) { console.log(e); }
     }
 
-    try { fs.unlinkSync(base + folder + "/global.js"); } catch (e) { console.log(e); }
-    try { fs.unlinkSync(base + folder + "/noConflict.js"); } catch (e) { console.log(e); }
-    try { fs.unlinkSync(base + folder + "/package.json"); } catch (e) { console.log(e); }
+    try { fs.unlinkSync(base + folder + "/global.js"); } catch (e) { /*console.log(e);*/ }
+    try { fs.unlinkSync(base + folder + "/noConflict.js"); } catch (e) { /*console.log(e);*/ }
+    try { fs.unlinkSync(base + folder + "/package.json"); } catch (e) { /*console.log(e);*/ }
+    try { fs.unlinkSync(base + folder + "/package-lock.json"); } catch (e) { /*console.log(e);*/ }
+    try { fs.unlinkSync(base + folder + "/readme.md"); } catch (e) { /*console.log(e);*/ }
 
     fs.createReadStream(base + 'common.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'common.js'));
     fs.createReadStream(base + 'global.js').pipe(fs.createWriteStream(base + folder + '/global.js'));
@@ -64,13 +69,12 @@ for (var folder in dependencies) {
     if (details[folder].keywords.length) {
         keywords = JSON.stringify(details[folder].keywords, null, 4).replace('[','').replace(']',',');
     }
-    fs.writeFile(base + folder + '/package.json',
+    fs.writeFileSync(base + folder + '/package.json',
         package.replace(/\$\{submodule\}/g, folder)
             .replace(/\$\{version\}/g, version)
             .replace(/\$\{dependencies\}/g, module_dependencies)
             .replace(/"\$\{keywords\}",/g, keywords)
-            .replace(/\$\{description\}/g, details[folder].description)
-        , function(){})
+            .replace(/\$\{description\}/g, details[folder].description));
 
     var already_added = [];
     for (var i = 0, len = dependencies[folder].length; i < len; i++) {
@@ -80,10 +84,10 @@ for (var folder in dependencies) {
         already_added.push(dependencies[folder][i]);
         recurse_sub(already_added, folder, dependencies[folder][i]);
     }
+    // readmeCommand.push(scripts + '_createReadme.js ' + base + folder + ';');
 }
 if (process.argv[2] != "publish") {
-    var exec = require('child_process').exec;
-    var cmd = 'cd ..; ' + root + '/npminstall.sh';
+    var cmd = scripts + 'npminstall.sh';
 
     exec(cmd, function(error, stdout, stderr) {
         console.log(error);
@@ -91,6 +95,7 @@ if (process.argv[2] != "publish") {
         console.log(stderr);
     });
 }
+
 function recurse_sub (already_added, folder, module) {
     if (!sub_dependencies[module]) { return; }
 

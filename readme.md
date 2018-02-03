@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.2
+# Craydent 0.8.3
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -12,16 +12,14 @@ More detailed documentation on methods can be found at [Craydent Methods](http:/
 // $g is an alias to global and $c is the constant containing all the utility methods and properties.
 require('craydent');
 $c.logit($c.VERSION);
-var arr = [{name:'craydent'},{name:'is awesome!'}];
-arr.where({name:'craydent'});
+arr.prototypedMethod(args);
 ```
 
 ```js
 // require no conflict - this require is the fully modular version with no global constants, prototypes, or methods.
 var $c = require('craydent/noConflict');
 $c.logit($c.VERSION);
-var arr = [{name:'craydent'},{name:'is awesome!'}];
-$c.where(arr, {name:'craydent'});
+$c.prototypedMethod(arr, args);
 ```
 
 ```js
@@ -29,61 +27,240 @@ $c.where(arr, {name:'craydent'});
 // $g is an alias to global and $c is the constant containing all the utility methods and properties.
 require('craydent/global');
 logit($c.VERSION);
-var arr = [{name:'craydent',descr:'is fantastic'},{name:'nodejs'}];
-arr.where({name:'craydent'});
+arr.prototypedMethod(args);
 ```
 
 ## Categories
 
 * [Constants](#markdown-header-constants)
 * [Featured](#markdown-header-featured)
-* [Global](#markdown-header-global)
 * [Array](#markdown-header-array)
+* [Class](#markdown-header-class)
+* [CLI](#markdown-header-cli)
+* [Control Flow](#markdown-header-control flow)
 * [Date](#markdown-header-date)
-* [Function](#markdown-header-function)
-* [Module](#markdown-header-module)
+* [FS](#markdown-header-fs)
+* [Junction](#markdown-header-junction)
+* [HTTP](#markdown-header-http)
+* [JSON Parser](#markdown-header-json parser)
 * [Number](#markdown-header-number)
 * [Object](#markdown-header-object)
 * [RegExp](#markdown-header-regexp)
 * [String](#markdown-header-string)
+* [Template](#markdown-header-template)
+* [TypeOf](#markdown-header-typeof)
+* [Utility](#markdown-header-utility)
+* [XML to JSON](#markdown-header-xml to json)
 
 <a name='markdown-header-constants'></a>
 ## Constants
 
 | | | |
 | ----- | ----- | ----- |
-| ACCEPT_ENCODING (String) |IE7 (String) |PRINCE (String) |
-ACCEPT_LANGUAGE (String) |IE8 (String) |PROTOCOL (String) |
-AMAYA (String) |IE_VERSION (String) |PUBLIC_IP (String) |
-ANDROID (String) |IPAD (String) |REFERER (String) |
-BLACKBERRY (String) |IPHONE (String) |REFERER_IP (String) |
-BROWSER (String) |IPOD (String) |RESPONSES (String) |
-CHROME (String) |JSONPA (String) |REST_API_TEMPLATE (String) |
-CHROME_VERSION (String) |JSONSA (String) |ROUTE_API_PATH (String) |
-CLI (String) |KHTML (String) |ROUTE_LOGO_URL (String) |
-CLICK (String) |LINUX (String) |SAFARI (String) |
-CLIENT (String) |LOCAL_IP (String) |SAFARI_VERSION (String) |
-CORES_SUPPORT (String) |MAC (String) |SERVER (String) |
-DEBUG_MODE (String) |ONMOUSEDOWN (String) |SERVER_PATH (String) |
-DEVICE (String) |ONMOUSEUP (String) |SYMBIAN (String) |
-ENGINE (String) |OPERA (String) |TEMPLATE_TAG_CONFIG (String) |
-EXPOSE_ROUTE_API (String) |OPERA_VERSION (String) |TEMPLATE_VARS (String) |
-FIREFOX (String) |ORIGIN (String) |TRIDENT (String) |
-FIREFOX_VERSION (String) |OS (String) |VERBOSE_LOGS (String) |
-GEKKO (String) |PAGE_NAME (String) |VERSION (String) |
-HANDPOINT (String) |PAGE_NAME_RAW (String) |VISIBLE (String) |
-HIDDEN (String) |PALM (String) |WAIT (String) |
-HTTP_STATUS_TEMPLATE (String) |POINTER (String) |WEBKIT (String) |
-IE (String) |PRAGMA (String) |WINDOWS (String) |
-IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
+| CLI (String) |MODULES_LOADED (String) |TEMPLATE_VARS (String) |
+ERROR_TYPES (String) |PUBLIC_IP (String) |VERSION (String) |
+HTTP_STATUS_TEMPLATE (String) |RESPONSES (String) |
+LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
 
-### Global
+### Array
 
-*** 
-#### _$COOKIE_ 
+***
+#### _add_
+***
+
+**Info:** Array class extension to perform push and update indexes if used
+
+**Return:** (Array)
+
+**Parameters:**
+
+* value: (Mixed) value to find
+
+**Overloads:**
+
+* None
+
+***
+#### _aggregate_
+***
+
+**Info:** Array class extension to perform mongo style aggregation
+
+**Return:** (Array)
+
+**Parameters:**
+
+* pipelines: (Object[]) Array of stages defined in mongodb
+
+**Overloads:**
+
+* None
+
+***
+#### _average_
+***
+
+**Info:** Array class extension to perform average of all the values (any value which is not a number is 0).
+
+**Return:** (Array)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _find_
+***
+
+**Info:** Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)
+
+**Return:** (Array)
+
+**Parameters:**
+
+* condition: (Mixed) Query following find/where clause syntax
+
+**Overloads:**
+
+1)
+
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
+
+2)
+
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
+
+***
+#### _findOne_
+***
+
+**Info:** Array class extension to use mongo or sql queries returning the first item match
+
+**Return:** (Object)
+
+**Parameters:**
+
+* condition: (Mixed) Query following find/where clause syntax
+
+**Overloads:**
+
+1)
+
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
+
+2)
+
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
+
+***
+#### _stdev_
+***
+
+**Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
+
+**Return:** (Array)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _sum_
+***
+
+**Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
+
+**Return:** (Array)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _where_
+***
+
+**Info:** Array class extension to use mongo or sql queries
+
+**Return:** (Array)
+
+**Parameters:**
+
+* condition: (Mixed) Query following find/where clause syntax
+
+**Overloads:**
+
+1)
+
+* condition: (Mixed) Query following find/where clause syntax
+* limit: (Int) Limit the number of the results returned.
+
+2)
+
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
+
+3)
+
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
+
+4)
+
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
+* limit: (Int) Limit the number of the results returned.
+
+5)
+
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
+* limit: (Int) Limit the number of the results returned.
+
+### Date
+
+***
+#### _format_
+***
+
+**Info:** Date class extension to convert to formatted string
+
+**Return:** (String)
+
+**Parameters:**
+
+* format: (String) Format syntax to use to to format date
+
+**Overloads:**
+
+1)
+
+* format: (String) Format syntax to use to to format date
+* options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset
+
+### HTTP
+
+***
+#### _$COOKIE_
 ***
 
 **Info:** Get/set Cookies
@@ -112,8 +289,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * value: (String) Value to store
 * option: (Object) Specify path and/or expiration of cookie
 
-*** 
-#### _$DELETE_ 
+***
+#### _$DEL_
 ***
 
 **Info:** Retrieve all or specific variables in the Body
@@ -135,8 +312,31 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
 
-*** 
-#### _$GET_ 
+***
+#### _$DELETE_
+***
+
+**Info:** Retrieve all or specific variables in the Body
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* key: (String) key for query value
+
+2)
+
+* key: (String) key for query value
+* options: (Object) Options to defer, ignore case, etc
+
+***
+#### _$GET_
 ***
 
 **Info:** Retrieve all or specific variables in the url
@@ -158,8 +358,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
 
-*** 
-#### _$HEADER_ 
+***
+#### _$HEADER_
 ***
 
 **Info:** Retrieve all or specific variables in the headers
@@ -181,8 +381,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
 
-*** 
-#### _$PAYLOAD_ 
+***
+#### _$PAYLOAD_
 ***
 
 **Info:** Retrieve all or specific variables in the Body
@@ -204,8 +404,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
 
-*** 
-#### _$POST_ 
+***
+#### _$POST_
 ***
 
 **Info:** Retrieve all or specific variables in the Body
@@ -227,8 +427,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
 
-*** 
-#### _$PUT_ 
+***
+#### _$PUT_
 ***
 
 **Info:** Retrieve all or specific variables in the Body
@@ -249,256 +449,11 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
-
-*** 
-#### _catchAll_ 
-***
-
-**Info:** Creates an catch all for exceptions in the current node service.
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* callback: (Function) Callback function to call when there is an uncaught exception
-
-**Overloads:**
-
-1)
-
-* callback: (Function) Callback function to call when there is an uncaught exception
-* append: (Boolean) Options to defer, ignore case, etc
-
-*** 
-#### _zipit_ 
-***
-
-**Info:** Download a zip of files from file contents
-
-**Return:** (void)
-
-**Parameters:**
-
-* files: (Object[]) Objects containing properties name for file name and content for file content
-
-**Overloads:**
-
-1)
-
-* files: (String) Name of the file
-* content: (String) contents of the file
-
-### Array
-
-*** 
-#### _aggregate_ 
-***
-
-**Info:** Array class extension to perform mongo style aggregation
-
-**Return:** (Array)
-
-**Parameters:**
-
-* pipelines: (Object[]) Array of stages defined in mongodb
-
-**Overloads:**
-
-* None
-
-*** 
-#### _average_ 
-***
-
-**Info:** Array class extension to perform average of all the values (any value which is not a number is 0).
-
-**Return:** (Array)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _find_ 
-***
-
-**Info:** Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)
-
-**Return:** (Array)
-
-**Parameters:**
-
-* condition: (Mixed) Query following find/where clause syntax
-
-**Overloads:**
-
-1)
-
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-
-2)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
-
-*** 
-#### _findOne_ 
-***
-
-**Info:** Array class extension to use mongo or sql queries returning the first item match
-
-**Return:** (Object)
-
-**Parameters:**
-
-* condition: (Mixed) Query following find/where clause syntax
-
-**Overloads:**
-
-1)
-
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-
-2)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
-
-*** 
-#### _stdev_ 
-***
-
-**Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
-
-**Return:** (Array)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _sum_ 
-***
-
-**Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
-
-**Return:** (Array)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _where_ 
-***
-
-**Info:** Array class extension to use mongo or sql queries
-
-**Return:** (Array)
-
-**Parameters:**
-
-* condition: (Mixed) Query following find/where clause syntax
-
-**Overloads:**
-
-1)
-
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-
-2)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
-
-3)
-
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-* limit: (Int) Limit the number of the results returned.
-
-4)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
-* limit: (Int) Limit the number of the results returned.
-
-### Date
-
-*** 
-#### _format_ 
-***
-
-**Info:** Date class extension to convert to formatted string
-
-**Return:** (String)
-
-**Parameters:**
-
-* format: (String) Format syntax to use to to format date
-
-**Overloads:**
-
-1)
-
-* format: (String) Format syntax to use to to format date
-* options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset
-
-### Object
-
-*** 
-#### _getProperty_ 
-***
-
-**Info:** Object class extension to retrieve nested properties without error when property path does not exist
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* path: (String) Path to nested property
-
-**Overloads:**
-
-1)
-
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
-
-2)
-
-* path: (RegExp) Regex match for the property
-
-3)
-
-* path: (String) Path to nested property
-* options: (Object) Options for ignoring inheritance, validPath, etc
-
-4)
-
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
-* options: (Object) Options for ignoring inheritance, validPath, etc
 
 ### String
 
-*** 
-#### _fillTemplate_ 
+***
+#### _fillTemplate_
 ***
 
 **Info:** String class extension to fill template based on template syntax
@@ -522,1329 +477,55 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * objs: (Objects[]) Objects to fill the template variables
 * max: (Int) The maximum number of records to process
 
+### Utility
+
+***
+#### _catchAll_
+***
+
+**Info:** Creates an catch all for exceptions in the current node service.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* callback: (Function) Callback function to call when there is an uncaught exception
+
+**Overloads:**
+
+1)
+
+* callback: (Function) Callback function to call when there is an uncaught exception
+* append: (Boolean) Options to defer, ignore case, etc
+
+***
+#### _zipit_
+***
+
+**Info:** Download a zip of files from file contents
+
+**Return:** (void)
+
+**Parameters:**
+
+* files: (Object[]) Objects containing properties name for file name and content for file content
+
+**Overloads:**
+
+1)
+
+* files: (String) Name of the file
+* content: (String) contents of the file
+
 
 
 ## Methods
 
-<a name='markdown-header-global'></a>
-## Global
-
-*** 
-#### _Benchmarker_ 
-***
-
-**Info:** Class used to measure the run time of code
-
-**Return:** (void)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _ChromeVersion_ 
-***
-
-**Info:** Get Chrome version
-
-**Return:** (Float)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _Cursor_ 
-***
-
-**Info:** Cursor class to facilitate iteration
-
-**Return:** (Cursor)
-
-**Parameters:**
-
-* records: (Array) Array used to create the iterator to iterate each item
-
-**Overloads:**
-
-1)
-
-* records: (Object) Object used to create the iterator to iterate each property
-
-*** 
-#### _FirefoxVersion_ 
-***
-
-**Info:** Get Firefox version
-
-**Return:** (Float)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _IEVersion_ 
-***
-
-**Info:** Get Internet Explorer version
-
-**Return:** (Float)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _OperaVersion_ 
-***
-
-**Info:** Get Opera version
-
-**Return:** (Float)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _OrderedList_ 
-***
-
-**Info:** Collection class that filters out duplicate values and maintains an ordered list
-
-**Return:** (OrderedList)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* records: (Array) Array used to create the initial items in the ordered list
-
-2)
-
-* records: (Array) Array used to create the initial items in the ordered list
-* sorter: (Function) Function for sorting logic
-
-*** 
-#### _Queue_ 
-***
-
-**Info:** Collection class that follows FIFO
-
-**Return:** (Queue)
-
-**Parameters:**
-
-* records: (Array) Array used to create the iterator to iterate each item
-
-**Overloads:**
-
-* None
-
-*** 
-#### _SafariVersion_ 
-***
-
-**Info:** Get Safari version
-
-**Return:** (Float)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _Set_ 
-***
-
-**Info:** Collection class that filters out duplicate values
-
-**Return:** (Set)
-
-**Parameters:**
-
-* records: (Array) Array used to create the iterator to iterate each item
-
-**Overloads:**
-
-* None
-
-*** 
-#### _addObjectPrototype_ 
-***
-
-**Info:** Method to extend the Object Class
-
-**Return:** (void)
-
-**Parameters:**
-
-* name: (String) name of the method to add
-* fn: (Function) method implementation
-
-**Overloads:**
-
-1)
-
-* name: (String) name of the method to add
-* fn: (Function) method implementation
-* override: (Bool) if true, override the previously defined prototype
-
-*** 
-#### _ajax_ 
-***
-
-**Info:** Method to make ajax calls
-
-**Return:** (void)
-
-**Parameters:**
-
-* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
-
-**Overloads:**
-
-1)
-
-* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
-* returnData: (String) Specifies which data to return when using Promise pattern
-
-*** 
-#### _awaitable_ 
-***
-
-**Info:** Makes a value yieldable via a Promise.
-
-**Return:** (Promise)
-
-**Parameters:**
-
-* value: (Mixed) Value to make yieldable
-
-**Overloads:**
-
-1)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-
-2)
-
-* func: (Function) Function to make yieldable
-* callbackIndex: (Integer) Index of callback argument.
-
-3)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-
-*** 
-#### _clearCache_ 
-***
-
-**Info:** Clear a module from the require cache.
-
-**Return:** (Boolean)
-
-**Parameters:**
-
-* module: (String) Single module to remove.
-
-**Overloads:**
-
-1)
-
-* None
-
-*** 
-#### _clusterit_ 
-***
-
-**Info:** Enable clustering
-
-**Return:** (void)
-
-**Parameters:**
-
-* callback: Method to call for Workers.  Callback is passed the cluster object as an argument.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _cout_ 
-***
-
-**Info:** Log to console when DEBUG_MODE is true and when the console is available
-
-**Return:** (void)
-
-**Parameters:**
-
-* infinite: any number of arguments can be passed.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _createServer_ 
-***
-
-**Info:** Create http server, ability to run middleware, and define routes.
-
-**Return:** (Server)
-
-**Parameters:**
-
-* callback: (Function) Function to callback when a request is received
-
-**Overloads:**
-
-1)
-
-* callback: (Function) Function to callback when a request is received
-* createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
-
-*** 
-#### _cuid_ 
-***
-
-**Info:** Creates a Craydent/Global Unique Identifier
-
-**Return:** (String)
-
-**Parameters:**
-
-* msFormat: (Bool) use microsoft format if true
-
-**Overloads:**
-
-* None
-
-*** 
-#### _echo_ 
-***
-
-**Info:** Echo to buffer and use in response
-
-**Return:** (void)
-
-**Parameters:**
-
-* output: Data to send in response
-
-**Overloads:**
-
-* None
-
-*** 
-#### _emit_ 
-***
-
-**Info:** Call the next function(s) in queue
-
-**Return:** (void)
-
-**Parameters:**
-
-* event: Event to trigger.
-
-**Overloads:**
-
-1)
-
-* event: Event to trigger.
-* infinite: any number of arguments can be passed and will be applied to listening functions.
-
-*** 
-#### _end_ 
-***
-
-**Info:** Call the next function(s) in queue
-
-**Return:** (void)
-
-**Parameters:**
-
-* event: Event to trigger.
-
-**Overloads:**
-
-1)
-
-* event: Event to trigger.
-* infinite: any number of arguments can be passed and will be applied to listening functions.
-
-*** 
-#### _error_ 
-***
-
-**Info:** User implemented place holder function to handle errors
-
-**Return:** (void)
-
-**Parameters:**
-
-* fname: (String) The function name the error was thrown
-* e: (Error) Exception object thrown
-
-**Overloads:**
-
-* None
-
-*** 
-#### _exclude_ 
-***
-
-**Info:** Exclude prototyping
-
-**Return:** (void)
-
-**Parameters:**
-
-* list: (String[]) Array of strings in containing the property to exclude from prototyping.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _foo_ 
-***
-
-**Info:** Place holder function for a blank function
-
-**Return:** (void)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _getSession_ 
-***
-
-**Info:** Retrieve the session object when used in conjunction with createServer
-
-**Return:** (void)
-
-**Parameters:**
-
-* sid: (String) Session id of the session object to retrieve syncronously.
-
-**Overloads:**
-
-1)
-
-* sid: (String) Session id of the session object to retrieve.
-* callback: (Function) callback function to invoke once the session object is retrieved.
-
-*** 
-#### _getSessionID_ 
-***
-
-**Info:** Retrieve the session id when used in conjunction with createServer
-
-**Return:** (void)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _getSessionSync_ 
-***
-
-**Info:** Syncronously retrieve the session object when used in conjunction with createServer
-
-**Return:** (void)
-
-**Parameters:**
-
-* sid: (String) Session id of the session object to retrieve syncronously.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _header_ 
-***
-
-**Info:** Set Http Headers to send
-
-**Return:** (void)
-
-**Parameters:**
-
-* header: (String) Http header.
-
-**Overloads:**
-
-1)
-
-* headers: (Object) Http headers.
-
-2)
-
-* header: (String) Http header.
-* code: (Integer) Http response code.
-
-3)
-
-* headers: (Object) Http headers.
-* code: (Integer) Http response code.
-
-*** 
-#### _include_ 
-***
-
-**Info:** Require without erroring when module does not exist.
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* path: (String) Module or Path to module.
-
-**Overloads:**
-
-1)
-
-* path: (String) Module or Path to module.
-* refresh: (Boolean) Flag to clear cache for the specific include.
-
-*** 
-#### _isAmaya_ 
-***
-
-**Info:** Check if browser is Amaya
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isAndroid_ 
-***
-
-**Info:** Check if device is Android
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isBlackBerry_ 
-***
-
-**Info:** Check if device is BlackBerry
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isChrome_ 
-***
-
-**Info:** Check if browser is Chrome
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isFirefox_ 
-***
-
-**Info:** Check if browser is Firefox
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isGecko_ 
-***
-
-**Info:** Check if engine is Gecko
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isIE_ 
-***
-
-**Info:** Check if browser is Internet Explorer
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isIE6_ 
-***
-
-**Info:** Check if browser is Internet Explorer 6
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isIPad_ 
-***
-
-**Info:** Check if device is iPad
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isIPhone_ 
-***
-
-**Info:** Check if device is IPhone
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isIPod_ 
-***
-
-**Info:** Check if device is IPod
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isKHTML_ 
-***
-
-**Info:** Check if engine is KHTML
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isLinux_ 
-***
-
-**Info:** Check if OS is Linux
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isMac_ 
-***
-
-**Info:** Check if OS is Mac Based
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isMobile_ 
-***
-
-**Info:** Check if the device is a Mobile device
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isNull_ 
-***
-
-**Info:** Check if a value is Null
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* value: (Mixed) Value to check
-
-**Overloads:**
-
-1)
-
-* value: (Mixed) Value to check
-* defaultValue: (Mixed) Value to return if null
-
-*** 
-#### _isOpera_ 
-***
-
-**Info:** Check if browser is Opera
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isPalmOS_ 
-***
-
-**Info:** Check if OS is PalmOS
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isPresto_ 
-***
-
-**Info:** Check if engine is Presto
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isPrince_ 
-***
-
-**Info:** Check if engine is Prince
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isSafari_ 
-***
-
-**Info:** Check if browser is Safari
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isSymbian_ 
-***
-
-**Info:** Check if OS is Symbian
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isTrident_ 
-***
-
-**Info:** Check if engine is Trident
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isWebkit_ 
-***
-
-**Info:** Check if engine is Webkit
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isWindows_ 
-***
-
-**Info:** Check if OS is Windows
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isWindowsMobile_ 
-***
-
-**Info:** Check if device is Windows Mobile
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _logit_ 
-***
-
-**Info:** Log to console when DEBUG_MODE is true and when the console is available
-
-**Return:** (void)
-
-**Parameters:**
-
-* infinite: any number of arguments can be passed.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _md5_ 
-***
-
-**Info:** MD5 encode a string.
-
-**Return:** (String)
-
-**Parameters:**
-
-* str: (String) String to encode.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _mkdirRecursive_ 
-***
-
-**Info:** Recursively create folders.
-
-**Return:** (void)
-
-**Parameters:**
-
-* path: (String) Path to create.
-* callback: (Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors).
-
-**Overloads:**
-
-* None
-
-*** 
-#### _namespace_ 
-***
-
-**Info:** Adds the class to a namespace instead of the global space
-
-**Return:** (void)
-
-**Parameters:**
-
-* name: (String) Name of the namespace to add to.
-* clazz: (Class) Class to add to the given namespace
-
-**Overloads:**
-
-1)
-
-* name: (String) Name of the namespace to add to.
-* clazz: (Class) Class to add to the given namespace
-* fn: (Function) Method to call after the class has been added to the namespace
-
-*** 
-#### _next_ 
-***
-
-**Info:** Call the next function(s) in queue
-
-**Return:** (void)
-
-**Parameters:**
-
-* infinite: any number of arguments can be passed.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _noop_ 
-***
-
-**Info:** Place holder function for a blank function
-
-**Return:** (void)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _now_ 
-***
-
-**Info:** Get the DateTime of now
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* format: (String) Format syntax to return formatted string of now
-
-*** 
-#### _parseBoolean_ 
-***
-
-**Info:** Try to parse value to a Boolean
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* value: (Mixed) value to parse as boolean
-
-**Overloads:**
-
-* None
-
-*** 
-#### _parseRaw_ 
-***
-
-**Info:** Creates an evaluable string
-
-**Return:** (String)
-
-**Parameters:**
-
-* value: value to parse
-
-**Overloads:**
-
-1)
-
-* value: (Mixed) Value to parse
-* skipQuotes: (Bool) Flag to skip quotes for strings
-* saveCircular: (Bool) Flag to save circular references
-
-*** 
-#### _rand_ 
-***
-
-**Info:** Create a random number between two numbers
-
-**Return:** (Number)
-
-**Parameters:**
-
-* num1: (Number) Lower bound
-* num2: (Number) Upper bound
-
-**Overloads:**
-
-1)
-
-* num1: (Number) Lower bound
-* num2: (Number) Upper bound
-* inclusive: (Bool) Flag to include the given numbers
-
-*** 
-#### _requireDirectory_ 
-***
-
-**Info:** Recursively require the entire directory and returns an object containing the required modules.
-
-**Return:** (Object)
-
-**Parameters:**
-
-* path: (String) Path to directory.
-
-**Overloads:**
-
-1)
-
-* path: (String) Path to directory.
-* options: (Char) 'r' Flag to use to indicate recursively require
-
-*** 
-#### _send_ 
-***
-
-**Info:** Recursively require the entire directory and returns an object containing the required modules.
-
-**Return:** (Object)
-
-**Parameters:**
-
-* data: (Object) Object to send in response.
-
-**Overloads:**
-
-1)
-
-* status: (Integer) Status code for response.
-* data: (Object) Object to send in response.
-
-*** 
-#### _suid_ 
-***
-
-**Info:** Creates a short Craydent/Global Unique Identifier
-
-**Return:** (String)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* length: (Integer) Custom length of the short unique identifier
-
-*** 
-#### _syncroit_ 
-***
-
-**Info:** Generator based control flow to allow for more "syncronous" programing structure
-
-**Return:** (Promise)
-
-**Parameters:**
-
-* gen: (GeneratorFunction) Generator function to execute
-
-**Overloads:**
-
-1)
-
-* async: (AsyncFunction) Async function to execute
-
-*** 
-#### _tryEval_ 
-***
-
-**Info:** Evaluates an expression without throwing an error
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* expression: (Mixed) Expression to evaluate
-
-**Overloads:**
-
-1)
-
-* expression: (Mixed) Expression to evaluate
-* evaluator: (Function) Method to use to evaluate the expression
-
-*** 
-#### _var_dump_ 
-***
-
-**Info:** Dump of variables to response.
-
-**Return:** (void)
-
-**Parameters:**
-
-* infinite: any number of arguments can be passed.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _wait_ 
-***
-
-**Info:** Stops execution until the condition is satisfied
-
-**Return:** (void)
-
-**Parameters:**
-
-* condition: (Mixed) Condition equivalent to js true to resume execution
-
-**Overloads:**
-
-* None
-
-*** 
-#### _xmlToJson_ 
-***
-
-**Info:** Converts XML to JSON
-
-**Return:** (Object)
-
-**Parameters:**
-
-* xml: (Mixed) XML string or XML DOM
-
-**Overloads:**
-
-1)
-
-* xml: (Mixed) XML string or XML DOM
-* ignoreAttributes: (Bool) Flag to ignore attributes
-
-*** 
-#### _yieldable_ 
-***
-
-**Info:** Makes a value yieldable via a Promise.
-
-**Return:** (Promise)
-
-**Parameters:**
-
-* value: (Mixed) Value to make yieldable
-
-**Overloads:**
-
-1)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-
-2)
-
-* func: (Function) Function to make yieldable
-* callbackIndex: (Integer) Index of callback argument.
-
-3)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-
-*** 
-#### _writeSession_ 
-***
-
-**Info:** Writes session to filesystem to be retrieved later.
-
-**Return:** (void)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
 <a name='markdown-header-array'></a>
 ## Array
 
-*** 
-#### _buildTree_ 
+***
+#### _buildTree_
 ***
 
 **Info:** Array class extension to create a parent/child hierarchy
@@ -1875,26 +556,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * childFinder: (String) Property name of the object to use as a grouping.
 * options: (Object) Options to customize properties,  Valid property is:<br />childProperty
 
-*** 
-#### _condense_ 
 ***
-
-**Info:** Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls
-
-**Return:** (Array)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* check_values: (Bool) Flag to remove duplicates
-
-*** 
-#### _createIndex_ 
+#### _createIndex_
 ***
 
 **Info:** Array class extension to create indexes for faster searches during where
@@ -1911,8 +574,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * indexes: (String[]) Array of properties to index
 
-*** 
-#### _delete_ 
+***
+#### _delete_
 ***
 
 **Info:** Array class extension to delete records
@@ -1930,8 +593,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * condition: (Mixed) Query following find/where clause syntax
 * justOne: (Boolean) Flag for deleting just one records [Default is: true]
 
-*** 
-#### _distinct_ 
+***
+#### _distinct_
 ***
 
 **Info:** Array class extension to get all unique records by fields specified
@@ -1968,8 +631,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
 * condition: (Object) Query following MongoDB find clause syntax
 
-*** 
-#### _filter_ 
+***
+#### _filter_
 ***
 
 **Info:** Array class extension to implement filter
@@ -1987,8 +650,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * func: (Function) Callback function used to determine if value should be returned
 * craydent_ctxs: (Mixed) Specify the context on callback function
 
-*** 
-#### _group_ 
+***
+#### _group_
 ***
 
 **Info:** Array class extension to group records by fields
@@ -2003,24 +666,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _indexOf_ 
 ***
-
-**Info:** Array class extension to implement indexOf
-
-**Return:** (Int)
-
-**Parameters:**
-
-* value: (Mixed) value to find
-
-**Overloads:**
-
-* None
-
-*** 
-#### _indexOfAlt_ 
+#### _indexOfAlt_
 ***
 
 **Info:** Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression
@@ -2043,8 +690,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * regex: (RegExp) Regular expression to check value against
 * pos: (Int) Index offset to start
 
-*** 
-#### _innerJoin_ 
+***
+#### _innerJoin_
 ***
 
 **Info:** Array class extension to do an inner join on arrays
@@ -2060,8 +707,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _insert_ 
+***
+#### _insert_
 ***
 
 **Info:** Array class extension to add to the array
@@ -2076,8 +723,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _insertAfter_ 
+***
+#### _insertAfter_
 ***
 
 **Info:** Array class extension to add to the array after a specific index
@@ -2093,8 +740,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _insertAt_ 
+***
+#### _insertAt_
 ***
 
 **Info:** Array class extension to add to the array at a specific index and push the all indexes down
@@ -2110,8 +757,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _insertBefore_ 
+***
+#### _insertBefore_
 ***
 
 **Info:** Array class extension to add to the array before a specific index
@@ -2127,8 +774,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _joinLeft_ 
+***
+#### _joinLeft_
 ***
 
 **Info:** Array class extension to do an outer left join on arrays
@@ -2144,8 +791,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _joinRight_ 
+***
+#### _joinRight_
 ***
 
 **Info:** Array class extension to do an outer right join on arrays
@@ -2161,8 +808,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _last_ 
+***
+#### _last_
 ***
 
 **Info:** Array class extension to retrieve the last item in the array.
@@ -2177,8 +824,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _limit_ 
+***
+#### _limit_
 ***
 
 **Info:** Array class extension to return a limited amount of items
@@ -2196,8 +843,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * max: (Int) Maximum number of items to return
 * skip: (Int) Number of items to skip
 
-*** 
-#### _mapReduce_ 
+***
+#### _mapReduce_
 ***
 
 **Info:** Array class extension to run map-reduce aggregation over records
@@ -2217,8 +864,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * reduce: (Function) Function used to condense the items
 * options: (Object) Options specified in the Mongo Doc
 
-*** 
-#### _normalize_ 
+***
+#### _normalize_
 ***
 
 **Info:** Array class extension to normalize all properties in the object array
@@ -2233,8 +880,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _parallelEach_ 
+***
+#### _parallelEach_
 ***
 
 **Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
@@ -2259,8 +906,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * args: (Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
 
-*** 
-#### _remove_ 
+***
+#### _remove_
 ***
 
 **Info:** Array class extension to remove an item by value
@@ -2278,8 +925,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * value: (Mixed) Value to remove
 * indexOf: (Function) Callback function to use to find the item based on the value
 
-*** 
-#### _removeAll_ 
+***
+#### _removeAll_
 ***
 
 **Info:** Array class extension to remove all items by value
@@ -2297,8 +944,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * value: (Mixed) Value to remove
 * indexOf: (Function) Callback function to use to find the item based on the value
 
-*** 
-#### _removeAt_ 
+***
+#### _removeAt_
 ***
 
 **Info:** Array class extension to remove item at a specific index
@@ -2313,8 +960,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _replaceAt_ 
+***
+#### _replaceAt_
 ***
 
 **Info:** Array class extension to replace item at a specific index
@@ -2330,8 +977,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _scramble_ 
+***
+#### _scramble_
 ***
 
 **Info:** Array class extension to scramble the order.
@@ -2346,8 +993,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _sortBy_ 
+***
+#### _sortBy_
 ***
 
 **Info:** Array class extension to sort the array
@@ -2416,8 +1063,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * lookup: (Object) Look up object to use as values instead of the array values.
 * options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
-*** 
-#### _toSet_ 
+***
+#### _toSet_
 ***
 
 **Info:** Array class extension to convert the array to a set
@@ -2432,8 +1079,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _trim_ 
+***
+#### _universal_trim_
 ***
 
 **Info:** Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.
@@ -2454,8 +1101,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * character: (Char[]) Character to remove in the String
 
-*** 
-#### _update_ 
+***
+#### _update_
 ***
 
 **Info:** Array class extension to update records in the array
@@ -2475,8 +1122,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * setClause: (Mixed) Set clause used to update the records
 * options: (Object) Options to specify if mulit update and/or upsert
 
-*** 
-#### _upsert_ 
+***
+#### _upsert_
 ***
 
 **Info:** Array class extension to upsert records to array
@@ -2505,11 +1152,103 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * prop: (String) Property to use as the primary key
 * callback: (Function) Method to use to determine if the records are equal
 
+<a name='markdown-header-class'></a>
+## Class
+
+***
+#### _Benchmarker_
+***
+
+**Info:** Class used to measure the run time of code
+
+**Return:** (void)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _Cursor_
+***
+
+**Info:** Cursor class to facilitate iteration
+
+**Return:** (Cursor)
+
+**Parameters:**
+
+* records: (Array) Array used to create the iterator to iterate each item
+
+**Overloads:**
+
+1)
+
+* records: (Object) Object used to create the iterator to iterate each property
+
+***
+#### _OrderedList_
+***
+
+**Info:** Collection class that filters out duplicate values and maintains an ordered list
+
+**Return:** (OrderedList)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* records: (Array) Array used to create the initial items in the ordered list
+
+2)
+
+* records: (Array) Array used to create the initial items in the ordered list
+* sorter: (Function) Function for sorting logic
+
+***
+#### _Queue_
+***
+
+**Info:** Collection class that follows FIFO
+
+**Return:** (Queue)
+
+**Parameters:**
+
+* records: (Array) Array used to create the iterator to iterate each item
+
+**Overloads:**
+
+* None
+
+***
+#### _Set_
+***
+
+**Info:** Collection class that filters out duplicate values
+
+**Return:** (Set)
+
+**Parameters:**
+
+* records: (Array) Array used to create the iterator to iterate each item
+
+**Overloads:**
+
+* None
+
 <a name='markdown-header-date'></a>
 ## Date
 
-*** 
-#### _getDayOfYear_ 
+***
+#### _getDayOfYear_
 ***
 
 **Info:** Date class extension to retrieve the day of the year
@@ -2524,8 +1263,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _getWeek_ 
+***
+#### _getWeek_
 ***
 
 **Info:** Date class extension to retrieve the week number in the year
@@ -2540,8 +1279,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isValidDate_ 
+***
+#### _isValidDate_
 ***
 
 **Info:** Date class extension to check if the date is valid
@@ -2556,51 +1295,169 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-<a name='markdown-header-function'></a>
-## Function
+<a name='markdown-header-http'></a>
+## HTTP
 
-*** 
-#### _catch_ 
+***
+#### _ChromeVersion_
 ***
 
-**Info:** Function listener to register the catch event
+**Info:** Get Chrome version
 
-**Return:** (String)
+**Return:** (Float)
 
 **Parameters:**
 
-* func: (Function) Function to call on emit
+* None
 
 **Overloads:**
 
 * None
 
-*** 
-#### _extends_ 
+***
+#### _FirefoxVersion_
 ***
 
-**Info:** Function class extension to extend another class
+**Info:** Get Firefox version
 
-**Return:** (Function)
+**Return:** (Float)
 
 **Parameters:**
 
-* extendee: (Object) Class to extend
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _IEVersion_
+***
+
+**Info:** Get Internet Explorer version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _OperaVersion_
+***
+
+**Info:** Get Opera version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _SafariVersion_
+***
+
+**Info:** Get Safari version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _createServer_
+***
+
+**Info:** Create http server, ability to run middleware, and define routes.
+
+**Return:** (Server)
+
+**Parameters:**
+
+* callback: (Function) Function to callback when a request is received
 
 **Overloads:**
 
 1)
 
-* extendee: (Object) Class to extend
-* inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
+* callback: (Function) Function to callback when a request is received
+* createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
 
-*** 
-#### _getName_ 
+***
+#### _echo_
 ***
 
-**Info:** Function class extension to get the name of the function
+**Info:** Echo to buffer and use in response
 
-**Return:** (String)
+**Return:** (void)
+
+**Parameters:**
+
+* output: Data to send in response
+
+**Overloads:**
+
+* None
+
+***
+#### _end_
+***
+
+**Info:** Call the next function(s) in queue
+
+**Return:** (void)
+
+**Parameters:**
+
+* event: Event to trigger.
+
+**Overloads:**
+
+1)
+
+* event: Event to trigger.
+* infinite: any number of arguments can be passed and will be applied to listening functions.
+
+***
+#### _getSession_
+***
+
+**Info:** Retrieve the session object when used in conjunction with createServer
+
+**Return:** (void)
+
+**Parameters:**
+
+* sid: (String) Session id of the session object to retrieve syncronously.
+
+**Overloads:**
+
+1)
+
+* sid: (String) Session id of the session object to retrieve.
+* callback: (Function) callback function to invoke once the session object is retrieved.
+
+***
+#### _getSessionID_
+***
+
+**Info:** Retrieve the session id when used in conjunction with createServer
+
+**Return:** (void)
 
 **Parameters:**
 
@@ -2610,13 +1467,57 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _getParameters_ 
+***
+#### _getSessionSync_
 ***
 
-**Info:** Function class extension to get parameters in definition
+**Info:** Syncronously retrieve the session object when used in conjunction with createServer
 
-**Return:** (Array)
+**Return:** (void)
+
+**Parameters:**
+
+* sid: (String) Session id of the session object to retrieve syncronously.
+
+**Overloads:**
+
+* None
+
+***
+#### _header_
+***
+
+**Info:** Set Http Headers to send
+
+**Return:** (void)
+
+**Parameters:**
+
+* header: (String) Http header.
+
+**Overloads:**
+
+1)
+
+* headers: (Object) Http headers.
+
+2)
+
+* header: (String) Http header.
+* code: (Integer) Http response code.
+
+3)
+
+* headers: (Object) Http headers.
+* code: (Integer) Http response code.
+
+***
+#### _isAmaya_
+***
+
+**Info:** Check if browser is Amaya
+
+**Return:** (Bool)
 
 **Parameters:**
 
@@ -2626,66 +1527,432 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _on_ 
+***
+#### _isAndroid_
 ***
 
-**Info:** Function listener to register events
+**Info:** Check if device is Android
 
-**Return:** (String)
+**Return:** (Bool)
 
 **Parameters:**
 
-* event: (String) Event to listen on and invoked on emit
-* func: (Function) Function to call on emit
+* None
 
 **Overloads:**
 
 * None
 
-*** 
-#### _then_ 
+***
+#### _isBlackBerry_
 ***
 
-**Info:** Function listener to register the then event
+**Info:** Check if device is BlackBerry
 
-**Return:** (String)
+**Return:** (Bool)
 
 **Parameters:**
 
-* func: (Function) Function to call on emit
+* None
 
 **Overloads:**
 
 * None
 
-*** 
-#### _toPromise_ 
+***
+#### _isChrome_
 ***
 
-**Info:** Function listener to register events
+**Info:** Check if browser is Chrome
 
-**Return:** (String)
+**Return:** (Bool)
 
 **Parameters:**
 
-* event: (String) Event to listen on and invoked on emit
-* func: (Function) Function to call on emit
+* None
 
 **Overloads:**
 
 * None
 
-<a name='markdown-header-module'></a>
-## Module
-
-*** 
-#### _globalize_ 
+***
+#### _isFirefox_
 ***
 
-**Info:** Module method to globalize functions
+**Info:** Check if browser is Firefox
 
-**Return:** (Array)
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isGecko_
+***
+
+**Info:** Check if engine is Gecko
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isIE_
+***
+
+**Info:** Check if browser is Internet Explorer
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isIE6_
+***
+
+**Info:** Check if browser is Internet Explorer 6
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isIPad_
+***
+
+**Info:** Check if device is iPad
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isIPhone_
+***
+
+**Info:** Check if device is IPhone
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isIPod_
+***
+
+**Info:** Check if device is IPod
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isKHTML_
+***
+
+**Info:** Check if engine is KHTML
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isLinux_
+***
+
+**Info:** Check if OS is Linux
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isMac_
+***
+
+**Info:** Check if OS is Mac Based
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isMobile_
+***
+
+**Info:** Check if the device is a Mobile device
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isOpera_
+***
+
+**Info:** Check if browser is Opera
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isPalmOS_
+***
+
+**Info:** Check if OS is PalmOS
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isPresto_
+***
+
+**Info:** Check if engine is Presto
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isPrince_
+***
+
+**Info:** Check if engine is Prince
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isSafari_
+***
+
+**Info:** Check if browser is Safari
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isSymbian_
+***
+
+**Info:** Check if OS is Symbian
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isTrident_
+***
+
+**Info:** Check if engine is Trident
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isWebkit_
+***
+
+**Info:** Check if engine is Webkit
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isWindows_
+***
+
+**Info:** Check if OS is Windows
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _isWindowsMobile_
+***
+
+**Info:** Check if device is Windows Mobile
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _send_
+***
+
+**Info:** Recursively require the entire directory and returns an object containing the required modules.
+
+**Return:** (Object)
+
+**Parameters:**
+
+* data: (Object) Object to send in response.
+
+**Overloads:**
+
+1)
+
+* status: (Integer) Status code for response.
+* data: (Object) Object to send in response.
+
+***
+#### _var_dump_
+***
+
+**Info:** Dump of variables to response.
+
+**Return:** (void)
+
+**Parameters:**
+
+* infinite: any number of arguments can be passed.
+
+**Overloads:**
+
+* None
+
+***
+#### _writeSession_
+***
+
+**Info:** Writes session to filesystem to be retrieved later.
+
+**Return:** (void)
 
 **Parameters:**
 
@@ -2698,8 +1965,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 <a name='markdown-header-number'></a>
 ## Number
 
-*** 
-#### _aboutEqualTo_ 
+***
+#### _aboutEqualTo_
 ***
 
 **Info:** Number class extension to check if values are approximately equal
@@ -2715,8 +1982,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isEven_ 
+***
+#### _isEven_
 ***
 
 **Info:** Number class extension to check if number is even
@@ -2731,8 +1998,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isOdd_ 
+***
+#### _isOdd_
 ***
 
 **Info:** Number class extension to check if number is odd
@@ -2750,8 +2017,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 <a name='markdown-header-object'></a>
 ## Object
 
-*** 
-#### _changes_ 
+***
+#### _changes_
 ***
 
 **Info:** Object class extension to compare properties that have changed
@@ -2766,8 +2033,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _contains_ 
+***
+#### _contains_
 ***
 
 **Info:** Object class extension to check if value exists
@@ -2789,8 +2056,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * arr: (Array) Array of values to return first matching value
 
-*** 
-#### _copyObject_ 
+***
+#### _copyObject_
 ***
 
 **Info:** Object class extension to copy an object excluding constructor
@@ -2805,8 +2072,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _count_ 
+***
+#### _count_
 ***
 
 **Info:** Object class extension to count the properties in the object/elements in arrays/characters in strings.
@@ -2831,26 +2098,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * option: (RegExp) Word or phrase pattern to count in the String
 
-*** 
-#### _duplicate_ 
 ***
-
-**Info:** Object class extension to copy an object including constructor
-
-**Return:** (Object)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* recursive: (Boolean) Flag to copy all child objects recursively
-
-*** 
-#### _eachProperty_ 
+#### _eachProperty_
 ***
 
 **Info:** Object class extension to loop through all properties where hasOwnValue is true.
@@ -2865,8 +2114,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _equals_ 
+***
+#### _equals_
 ***
 
 **Info:** Object class extension to check if object values are equal
@@ -2884,8 +2133,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * compare: (Object) Object to compare against
 * props: (String[]) Array of property values to compare against
 
-*** 
-#### _every_ 
+***
+#### _every_
 ***
 
 **Info:** Object class extension to check property values against a function
@@ -2903,8 +2152,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * callback: (Function) Callback to apply to each value
 * craydent_ctxObject: (Mixed) Context for the callback function
 
-*** 
-#### _getClass_ 
+***
+#### _getClass_
 ***
 
 **Info:** Object class extension to get the constructor name
@@ -2919,8 +2168,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _getKeys_ 
+***
+#### _getKeys_
 ***
 
 **Info:** Object class extension to get the keys of the object
@@ -2935,8 +2184,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _getValue_ 
+***
+#### _getValue_
 ***
 
 **Info:** Object class extension to retrieve value of an object property
@@ -2958,8 +2207,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * args: (Mixed[]) An array of arguments to pass to context when it is a function
 * dflt: (Mixed) Default value to return if context is not a function
 
-*** 
-#### _has_ 
+***
+#### _has_
 ***
 
 **Info:** Alias to Object.prototype.hasOwnProperty
@@ -2974,8 +2223,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isArray_ 
+***
+#### _isArray_
 ***
 
 **Info:** Object class extension to check if object is an array
@@ -2990,8 +2239,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isAsync_ 
+***
+#### _isAsync_
 ***
 
 **Info:** Object class extension to check if object is a async function
@@ -3006,8 +2255,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isBetween_ 
+***
+#### _isBetween_
 ***
 
 **Info:** Object class extension to check if object is between lower and upper bounds
@@ -3027,8 +2276,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * upperBound: (Mixed) Upper bound comparison
 * inclusive: (Bool) Flag to include give bounds
 
-*** 
-#### _isBoolean_ 
+***
+#### _isBoolean_
 ***
 
 **Info:** Object class extension to check if object is a boolean
@@ -3043,8 +2292,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isDate_ 
+***
+#### _isDate_
 ***
 
 **Info:** Object class extension to check if object is a date
@@ -3059,8 +2308,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isDomElement_ 
+***
+#### _isDomElement_
 ***
 
 **Info:** Object class extension to check if object is a DOM element
@@ -3075,8 +2324,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isEmpty_ 
+***
+#### _isEmpty_
 ***
 
 **Info:** Object class extension to check if it is empty
@@ -3091,8 +2340,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isError_ 
+***
+#### _isError_
 ***
 
 **Info:** Object class extension to check if object is a boolean
@@ -3107,8 +2356,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isFloat_ 
+***
+#### _isFloat_
 ***
 
 **Info:** Object class extension to check if object is a float
@@ -3123,8 +2372,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isFunction_ 
+***
+#### _isFunction_
 ***
 
 **Info:** Object class extension to check if object is a function
@@ -3139,8 +2388,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isGenerator_ 
+***
+#### _isGenerator_
 ***
 
 **Info:** Object class extension to check if object is a generator function
@@ -3155,8 +2404,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isGeolocation_ 
+***
+#### _isGeolocation_
 ***
 
 **Info:** Object class extension to check if object is a geolocation
@@ -3171,8 +2420,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isInt_ 
+***
+#### _isInt_
 ***
 
 **Info:** Object class extension to check if object is an integer
@@ -3187,8 +2436,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isNumber_ 
+***
+#### _isNumber_
 ***
 
 **Info:** Object class extension to check if object is a number
@@ -3203,8 +2452,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isObject_ 
+***
+#### _isObject_
 ***
 
 **Info:** Object class extension to check if object is an object
@@ -3219,8 +2468,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isPromise_ 
+***
+#### _isPromise_
 ***
 
 **Info:** Object class extension to check if object is a promise object
@@ -3235,8 +2484,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isRegExp_ 
+***
+#### _isRegExp_
 ***
 
 **Info:** Object class extension to check if object is a RegExp
@@ -3251,8 +2500,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isString_ 
+***
+#### _isString_
 ***
 
 **Info:** Object class extension to check if object is a string
@@ -3267,8 +2516,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isSubset_ 
+***
+#### _isSubset_
 ***
 
 **Info:** Object class extension to check if item is a subset
@@ -3283,8 +2532,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _itemCount_ 
+***
+#### _itemCount_
 ***
 
 **Info:** Object class extension to count the properties in item
@@ -3299,8 +2548,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _keyOf_ 
+***
+#### _keyOf_
 ***
 
 **Info:** Object class extension to get the key of the give value
@@ -3315,8 +2564,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _map_ 
+***
+#### _map_
 ***
 
 **Info:** Object class extension to apply method to every value
@@ -3334,8 +2583,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * callback: (Function) Callback to apply to each value
 * craydent_ctxObject: (Mixed) Context for the callback function
 
-*** 
-#### _merge_ 
+***
+#### _merge_
 ***
 
 **Info:** Object class extension to merge objects
@@ -3353,36 +2602,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * secondary: (Object) Object to merge with
 * condition: (Mixed) Flags to recurse, merge only shared value, clone, intersect etc
 
-*** 
-#### _setProperty_ 
 ***
-
-**Info:** Object class extension to set nested properties creating necessary property paths
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* path: (String) Path to nested property
-* value: (Mixed) Value to set
-
-**Overloads:**
-
-1)
-
-* path: (String) Path to nested property
-* value: (Mixed) Value to set
-* delimiter: (Char) Separator used to parse path
-
-2)
-
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
-* value: (Mixed) Value to set
-* options: (Object) Options for ignoring inheritance, validPath, etc
-
-*** 
-#### _toStringAlt_ 
+#### _toStringAlt_
 ***
 
 **Info:** Object class extension for an alternate way to stringify object to formatted string
@@ -3413,8 +2634,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 <a name='markdown-header-regexp'></a>
 ## RegExp
 
-*** 
-#### _addFlags_ 
+***
+#### _addFlags_
 ***
 
 **Info:** RegExp class extension to add flags to regex
@@ -3432,8 +2653,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 <a name='markdown-header-string'></a>
 ## String
 
-*** 
-#### _acronymize_ 
+***
+#### _acronymize_
 ***
 
 **Info:** String class extension to capitalize parts of the string
@@ -3470,27 +2691,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * match: (RegExp) Pattern to match to qualify the Acronym.
 * delimiter: (RegExp) RegExp pattern that delimits the string.
 
-*** 
-#### _capitalize_ 
 ***
-
-**Info:** String class extension to capitalize parts of the string
-
-**Return:** (String)
-
-**Parameters:**
-
-* pos: (Int[]) Index of the string to capitalize
-
-**Overloads:**
-
-1)
-
-* pos: (Int) Index of the string to capitalize
-* everyWord: (Bool) Flag to capital every word
-
-*** 
-#### _convertUTCDate_ 
+#### _convertUTCDate_
 ***
 
 **Info:** String class extension to convert date string to UTC format
@@ -3505,8 +2707,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _cut_ 
+***
+#### _cut_
 ***
 
 **Info:** String class extension to remove between the provided indexes
@@ -3526,8 +2728,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * end_index: (Integer) End index to cut
 * replacement: (String) String to put in place of the cut
 
-*** 
-#### _ellipsis_ 
+***
+#### _ellipsis_
 ***
 
 **Info:** String class extension to shorten by ellipsis
@@ -3545,8 +2747,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * before: (Int) Number of characters to use before using ellipsis
 * after: (Int) Number of characters to use after the ellipsis
 
-*** 
-#### _endItWith_ 
+***
+#### _endItWith_
 ***
 
 **Info:** String class extension to guarantee the original string ends with the passed string
@@ -3561,8 +2763,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _endsWith_ 
+***
+#### _endsWith_
 ***
 
 **Info:** String class extension to check if the string ends with the given string
@@ -3579,8 +2781,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * arr: (String[]) An array of strings to check
 
-*** 
-#### _endsWithAny_ 
+***
+#### _endsWithAny_
 ***
 
 **Info:** String class extension to check if the string ends with the given string
@@ -3597,8 +2799,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * arr: (String[]) An array of strings to check
 
-*** 
-#### _highlight_ 
+***
+#### _highlight_
 ***
 
 **Info:** String class extension to surround search words with the given tag(default span) and class (default chighlight)
@@ -3637,8 +2839,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * cssClass: (String) Class to add for highlighting
 * tag: (String) Tag to use to surround the search
 
-*** 
-#### _ireplace_all_ 
+***
+#### _ireplace_all_
 ***
 
 **Info:** String class extension to replace all substrings ignoring case
@@ -3654,8 +2856,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isBlank_ 
+***
+#### _isBlank_
 ***
 
 **Info:** String class extension to check if the string is empty
@@ -3670,8 +2872,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isCuid_ 
+***
+#### _isCuid_
 ***
 
 **Info:** String class extension to check if the string is a cuid
@@ -3686,8 +2888,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _isValidEmail_ 
+***
+#### _isValidEmail_
 ***
 
 **Info:** String class extension to check if string is a valid email
@@ -3702,8 +2904,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _lastIndexOfAlt_ 
+***
+#### _lastIndexOfAlt_
 ***
 
 **Info:** String class extension to find the last index based on a regular expression
@@ -3721,8 +2923,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * regex: (RegExp) Regular expression to check value against
 * pos: (Int) Max index to go up to in the search
 
-*** 
-#### _ltrim_ 
+***
+#### _ltrim_
 ***
 
 **Info:** String class extension to remove characters from the beginning of the string
@@ -3737,8 +2939,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _pluralize_ 
+***
+#### _pluralize_
 ***
 
 **Info:** String class extension to do a best guess pluralization of the string
@@ -3753,8 +2955,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _replace_all_ 
+***
+#### _replace_all_
 ***
 
 **Info:** String class extension to replace all substrings (case sensitive)
@@ -3773,8 +2975,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 * replace: (String[]) Array of string to replace
 * subject: (String[]) Array of string to replace with
 
-*** 
-#### _reverse_ 
+***
+#### _reverse_
 ***
 
 **Info:** String class extension to reverse the string
@@ -3789,8 +2991,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _rtrim_ 
+***
+#### _rtrim_
 ***
 
 **Info:** String class extension to remove characters from the end of the string
@@ -3805,8 +3007,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _sanitize_ 
+***
+#### _sanitize_
 ***
 
 **Info:** String class extension to remove potential XSS threats
@@ -3821,8 +3023,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _singularize_ 
+***
+#### _singularize_
 ***
 
 **Info:** String class extension to do a best guess singularization of the string
@@ -3837,8 +3039,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _startItWith_ 
+***
+#### _startItWith_
 ***
 
 **Info:** String class extension to guarantee the original string starts with the passed string
@@ -3853,8 +3055,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _startsWith_ 
+***
+#### _startsWith_
 ***
 
 **Info:** String class extension to check if the string starts with the given string
@@ -3871,8 +3073,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * arr: (String[]) An array of strings to check
 
-*** 
-#### _startsWithAny_ 
+***
+#### _startsWithAny_
 ***
 
 **Info:** String class extension to check if the string starts with the given string
@@ -3889,24 +3091,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * arr: (String[]) An array of strings to check
 
-*** 
-#### _strip_ 
 ***
-
-**Info:** String class extension to remove characters from the beginning and end of the string
-
-**Return:** (String)
-
-**Parameters:**
-
-* character: (Char[]) Character to remove
-
-**Overloads:**
-
-* None
-
-*** 
-#### _substringBetween_ 
+#### _substringBetween_
 ***
 
 **Info:** String class extension to substring by character instead of using indexes
@@ -3928,8 +3114,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * start: (Char) Character to use for the starting index
 
-*** 
-#### _substringEndAt_ 
+***
+#### _substringEndAt_
 ***
 
 **Info:** String class extension to substring by character instead of using indexes
@@ -3944,8 +3130,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _substringStartFrom_ 
+***
+#### _substringStartFrom_
 ***
 
 **Info:** String class extension to substring by character instead of using indexes
@@ -3960,11 +3146,11 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * None
 
-*** 
-#### _toCurrencyNotation_ 
+***
+#### _toCurrencyNotation_
 ***
 
-**Info:** Number/String class extension to change number to currency
+**Info:** String class extension to change number to use separater character
 
 **Return:** (String)
 
@@ -3978,8 +3164,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * separator: (Char) Character to use as delimiter
 
-*** 
-#### _toDateTime_ 
+***
+#### _toDateTime_
 ***
 
 **Info:** String class extension to convert string to datetime
@@ -3996,8 +3182,8 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format
 
-*** 
-#### _toObject_ 
+***
+#### _toObject_
 ***
 
 **Info:** String class extension to convert to JSON
@@ -4018,4 +3204,554 @@ IE6 (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
 
 * assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '&'.
 * delimiter: (Char) Character to use as pair delimiter
+
+***
+#### _trim_
+***
+
+**Info:** String class extension to remove characters from the beginning and end of the string.
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* character: (Char[]) Character to remove in the String
+
+<a name='markdown-header-typeof'></a>
+## TypeOf
+
+***
+#### _isNull_
+***
+
+**Info:** Check if a value is Null
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* value: (Mixed) Value to check
+
+**Overloads:**
+
+1)
+
+* value: (Mixed) Value to check
+* defaultValue: (Mixed) Value to return if null
+
+<a name='markdown-header-utility'></a>
+## Utility
+
+***
+#### _addObjectPrototype_
+***
+
+**Info:** Method to extend the Object Class
+
+**Return:** (void)
+
+**Parameters:**
+
+* name: (String) name of the method to add
+* fn: (Function) method implementation
+
+**Overloads:**
+
+1)
+
+* name: (String) name of the method to add
+* fn: (Function) method implementation
+* override: (Bool) if true, override the previously defined prototype
+
+***
+#### _ajax_
+***
+
+**Info:** Method to make ajax calls
+
+**Return:** (void)
+
+**Parameters:**
+
+* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+
+**Overloads:**
+
+1)
+
+* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+* returnData: (String) Specifies which data to return when using Promise pattern
+
+***
+#### _awaitable_
+***
+
+**Info:** Makes a value yieldable via a Promise.
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* value: (Mixed) Value to make yieldable
+
+**Overloads:**
+
+1)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+
+2)
+
+* func: (Function) Function to make yieldable
+* callbackIndex: (Integer) Index of callback argument.
+
+3)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+
+***
+#### _clearCache_
+***
+
+**Info:** Clear a module from the require cache.
+
+**Return:** (Boolean)
+
+**Parameters:**
+
+* module: (String) Single module to remove.
+
+**Overloads:**
+
+1)
+
+* None
+
+***
+#### _clusterit_
+***
+
+**Info:** Enable clustering
+
+**Return:** (void)
+
+**Parameters:**
+
+* callback: Method to call for Workers.  Callback is passed the cluster object as an argument.
+
+**Overloads:**
+
+* None
+
+***
+#### _cout_
+***
+
+**Info:** Log to console when DEBUG_MODE is true and when the console is available
+
+**Return:** (void)
+
+**Parameters:**
+
+* infinite: any number of arguments can be passed.
+
+**Overloads:**
+
+* None
+
+***
+#### _cuid_
+***
+
+**Info:** Creates a Craydent/Global Unique Identifier
+
+**Return:** (String)
+
+**Parameters:**
+
+* msFormat: (Bool) use microsoft format if true
+
+**Overloads:**
+
+* None
+
+***
+#### _error_
+***
+
+**Info:** User implemented place holder function to handle errors
+
+**Return:** (void)
+
+**Parameters:**
+
+* fname: (String) The function name the error was thrown
+* e: (Error) Exception object thrown
+
+**Overloads:**
+
+* None
+
+***
+#### _exclude_
+***
+
+**Info:** Exclude prototyping
+
+**Return:** (void)
+
+**Parameters:**
+
+* list: (String[]) Array of strings in containing the property to exclude from prototyping.
+
+**Overloads:**
+
+* None
+
+***
+#### _foo_
+***
+
+**Info:** Place holder function for a blank function
+
+**Return:** (void)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _include_
+***
+
+**Info:** Require without erroring when module does not exist.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* path: (String) Module or Path to module.
+
+**Overloads:**
+
+1)
+
+* path: (String) Module or Path to module.
+* refresh: (Boolean) Flag to clear cache for the specific include.
+
+***
+#### _logit_
+***
+
+**Info:** Log to console when DEBUG_MODE is true and when the console is available
+
+**Return:** (void)
+
+**Parameters:**
+
+* infinite: any number of arguments can be passed.
+
+**Overloads:**
+
+* None
+
+***
+#### _md5_
+***
+
+**Info:** MD5 encode a string.
+
+**Return:** (String)
+
+**Parameters:**
+
+* str: (String) String to encode.
+
+**Overloads:**
+
+* None
+
+***
+#### _mkdirRecursive_
+***
+
+**Info:** Recursively create folders.
+
+**Return:** (void)
+
+**Parameters:**
+
+* path: (String) Path to create.
+* callback: (Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors).
+
+**Overloads:**
+
+* None
+
+***
+#### _namespace_
+***
+
+**Info:** Adds the class to a namespace instead of the global space
+
+**Return:** (void)
+
+**Parameters:**
+
+* name: (String) Name of the namespace to add to.
+* clazz: (Class) Class to add to the given namespace
+
+**Overloads:**
+
+1)
+
+* name: (String) Name of the namespace to add to.
+* clazz: (Class) Class to add to the given namespace
+* fn: (Function) Method to call after the class has been added to the namespace
+
+***
+#### _noop_
+***
+
+**Info:** Place holder function for a blank function
+
+**Return:** (void)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+***
+#### _now_
+***
+
+**Info:** Get the DateTime of now
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* format: (String) Format syntax to return formatted string of now
+
+***
+#### _parseBoolean_
+***
+
+**Info:** Try to parse value to a Boolean
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* value: (Mixed) value to parse as boolean
+
+**Overloads:**
+
+* None
+
+***
+#### _parseRaw_
+***
+
+**Info:** Creates an evaluable string
+
+**Return:** (String)
+
+**Parameters:**
+
+* value: value to parse
+
+**Overloads:**
+
+1)
+
+* value: (Mixed) Value to parse
+* skipQuotes: (Bool) Flag to skip quotes for strings
+* saveCircular: (Bool) Flag to save circular references
+
+***
+#### _rand_
+***
+
+**Info:** Create a random number between two numbers
+
+**Return:** (Number)
+
+**Parameters:**
+
+* num1: (Number) Lower bound
+* num2: (Number) Upper bound
+
+**Overloads:**
+
+1)
+
+* num1: (Number) Lower bound
+* num2: (Number) Upper bound
+* inclusive: (Bool) Flag to include the given numbers
+
+***
+#### _requireDirectory_
+***
+
+**Info:** Recursively require the entire directory and returns an object containing the required modules.
+
+**Return:** (Promise/Object)
+
+**Parameters:**
+
+* path: (String) Path to directory.
+
+**Overloads:**
+
+1)
+
+* path: (String) Path to directory.
+* options: (Char) 'r' Flag to use to indicate recursively require, (Char) 's' Flag to indicate use syncronous instead of Promise Pattern
+
+***
+#### _suid_
+***
+
+**Info:** Creates a short Craydent/Global Unique Identifier
+
+**Return:** (String)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* length: (Integer) Custom length of the short unique identifier
+
+***
+#### _syncroit_
+***
+
+**Info:** Generator based control flow to allow for more "syncronous" programing structure
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* gen: (GeneratorFunction) Generator function to execute
+
+**Overloads:**
+
+1)
+
+* async: (AsyncFunction) Async function to execute
+
+***
+#### _tryEval_
+***
+
+**Info:** Evaluates an expression without throwing an error
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* expression: (Mixed) Expression to evaluate
+
+**Overloads:**
+
+1)
+
+* expression: (Mixed) Expression to evaluate
+* evaluator: (Function) Method to use to evaluate the expression
+
+***
+#### _yieldable_
+***
+
+**Info:** Makes a value yieldable via a Promise.
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* value: (Mixed) Value to make yieldable
+
+**Overloads:**
+
+1)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+
+2)
+
+* func: (Function) Function to make yieldable
+* callbackIndex: (Integer) Index of callback argument.
+
+3)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+
+***
+#### _wait_
+***
+
+**Info:** Stops execution until the condition is satisfied
+
+**Return:** (void)
+
+**Parameters:**
+
+* condition: (Mixed) Condition equivalent to js true to resume execution
+
+**Overloads:**
+
+* None
+
+<a name='markdown-header-xml to json'></a>
+## XML to JSON
+
+***
+#### _xmlToJson_
+***
+
+**Info:** Converts XML to JSON
+
+**Return:** (Object)
+
+**Parameters:**
+
+* xml: (Mixed) XML string or XML DOM
+
+**Overloads:**
+
+1)
+
+* xml: (Mixed) XML string or XML DOM
+* ignoreAttributes: (Bool) Flag to ignore attributes
 
