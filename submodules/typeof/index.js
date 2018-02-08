@@ -25,7 +25,7 @@ function __isNewer(loadedVersion, thisVersion){
 }
 
 if ($c.MODULES_LOADED[info.name] && __isNewer($c.VERSION.split('.'), info.version.split('.'))) { return; }
-$c.MODULES_LOADED[info.name] = true;
+$c.MODULES_LOADED[info.name] = info.version;
 
 function _type_check (obj, cls, backward_compatible){
     try {

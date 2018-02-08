@@ -11,11 +11,13 @@ var $c = global.$c || {},
 
 function startsWithAny (obj) {
     try {
+        var i = 1;
         var args = arguments;
-        if (arguments.length < 3 && (_isArray(arguments[0]) || _isArray(arguments[1]))) {
-            args = arguments[1] || arguments[0];
+        if (arguments.length < 3 && _isArray(arguments[1])) {
+            args = arguments[1];
+            i = 0;
         }
-        for (var i = typeof craydent_ctx != "undefined" ? 1 : 0, len = args.length; i < len; i++) {
+        for (var len = args.length; i < len; i++) {
             var arg = args[i];
             if (arg == obj.slice(0, arg.length)) { return arg; }
         }

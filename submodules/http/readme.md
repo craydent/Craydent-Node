@@ -30,9 +30,36 @@ logit($c.VERSION);
 arr.prototypedMethod(args);
 ```
 
+Note: All methods and properties defined in the http module must be used as a property of the context (this) within the createServer callback method.
+
+Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
+More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).
+More detailed documentation on methods can be found at [Craydent Methods](http://www.craydent.com/JsonObjectEditor/docs.html#/method/CraydentNode)
+
+```js
+// require with prototypes - this require will add prototypes to extend classes and add two constants ($c, $g) to the global space.
+// $g is an alias to global and $c is the constant containing all the utility methods and properties.
+require('craydent-http');
+$c.createServer(function(req, res){ this.$GET(); });
+```
+
+```js
+// require no conflict - this require is the fully modular version with no global constants, prototypes, or methods.
+var $c = require('craydent-http/noConflict');
+$c.createServer(function(req, res){ this.$GET(); });
+```
+
+```js
+// require global - this require constants and methods in the global space and add prototypes to extend classes.
+// $g is an alias to global and $c is the constant containing all the utility methods and properties.
+require('craydent-http/global');
+createServer(function(req, res){ this.$GET(); });
+```
+
 ## Categories
 
 * [Constants](#markdown-header-constants)
+* [Properties](#markdown-header-properties)
 * [Featured](#markdown-header-featured)
 * [HTTP](#markdown-header-http)
 
@@ -41,9 +68,36 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (String) |MODULES_LOADED (String) |TEMPLATE_TAG_CONFIG (String) |
-HTTP_STATUS_TEMPLATE (String) |PUBLIC_IP (String) |VERSION (String) |
-LOCAL_IP (String) |RESPONSES (String) |TEMPLATE_VARS (String) |
+| ACCEPT_ENCODING (String) |IE7 (Boolean) |PROTOCOL (String) |
+ACCEPT_LANGUAGE (String) |IE8 (Boolean) |PUBLIC_IP (String) |
+AMAYA (Boolean) |IE_VERSION (Number) |REFERER (String) |
+ANDROID (Boolean) |IPAD (Boolean) |REFERER_IP (String) |
+BLACKBERRY (Boolean) |IPHONE (Boolean) |RESPONSES (Object) |
+BROWSER (Object) |IPOD (Boolean) |REST_API_TEMPLATE (String) |
+CHROME (Boolean) |KHTML (Boolean) |ROUTE_API_PATH (String) |
+CHROME_VERSION (String) |LINUX (Boolean) |ROUTE_LOGO_URL (String) |
+CLIENT (Object) |LOCAL_IP (String) |SAFARI (Boolean) |
+CORES_SUPPORT (Boolean) |MAC (Boolean) |SAFARI_VERSION (String) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |SERVER (String) |
+DEVICE (Object) |OPERA (Boolean) |SERVER_PATH (String) |
+ENGINE (Object) |OPERA_VERSION (String) |SYMBIAN (Boolean) |
+ERROR_TYPES (Array) |ORIGIN (String) |TEMPLATE_TAG_CONFIG (Object) |
+EXPOSE_ROUTE_API (Boolean) |OS (Object) |TEMPLATE_VARS (Array) |
+FIREFOX (Boolean) |PAGE_NAME (String) |TRIDENT (Boolean) |
+FIREFOX_VERSION (String) |PAGE_NAME_RAW (String) |VERBOSE_LOGS (Boolean) |
+GEKKO (Boolean) |PALM (Boolean) |VERSION (String) |
+HTTP_STATUS_TEMPLATE (Array) |PRAGMA (String) |WEBKIT (Boolean) |
+IE (Boolean) |PRESTO (Boolean) |WINDOWS (Boolean) |
+IE6 (Boolean) |PRINCE (Boolean) |WINDOWS_MOBILE (Boolean) |
+
+<a name='markdown-header-properties'></a>
+## Properties
+
+| | | |
+| ----- | ----- | ----- |
+| $l (Object) |request (Object) |sessionid (String) |
+location (Object) |response (Object) |
+navigator (Object) |session (Object) |
 
 <a name='markdown-header-featured'></a>
 ## Featured

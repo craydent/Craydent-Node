@@ -77,6 +77,7 @@ require($s.dir + 'cut')($s);
 require($s.dir + 'date')($s);
 require($s.dir + 'getValue')($s);
 require($s.dir + 'keyOf')($s);
+require($s.dir + 'startsWithAny')($s);
 require($s.dir + 'toCurrencyNotation')($s);
 require($s.dir + 'universal_trim')($s);
 
@@ -123,15 +124,11 @@ function startsWith () {
 		"returnType": "(Bool)"
 	}|*/
     try {
-        var args = arguments;
-        if (arguments.length < 3 && ($s.isArray(arguments[0]) || $s.isArray(arguments[1]))) {
-            args = arguments[1] || arguments[0];
+        var args = [this];
+        for (var i = typeof craydent_ctx != "undefined" ? 1 : 0, len = arguments.length; i < len; i++) {
+            args.push(arguments[i]);
         }
-        for (var i = typeof craydent_ctx != "undefined" ? 1 : 0, len = args.length; i < len; i++) {
-            var arg = args[i];
-            if (arg == this.slice(0, arg.length)) { return arg; }
-        }
-        return false;
+        return $s.startsWithAny.apply($s, args);
     } catch (e) {
         error('String.startsWith', e);
     }

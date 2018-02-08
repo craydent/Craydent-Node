@@ -11,15 +11,17 @@ var $c = global.$c || {},
 
 function _orderListHelper(value, sorter, arr) {
     try {
-        var ii = 0, i = 0, len = arr.length;
+        var ii = 0, i = 0, len = arr.length, origlen = arr.length;
         if (!~sorter(value, arr[0])) { return 0; }
         if (sorter(value, arr[len - 1]) === 1) { return len; }
         while (len > 1) {
             len = Math.ceil(len/2);
             ii = i + len;
+            if (ii >= origlen) { ii = origlen - 1; }
             var order = sorter(value, arr[ii]);
             if (order === 0) { return ii; }
             if (order === 1) { i = ii++; }
+            if (ii + 1 == origlen && len > 1) { len = 2; }
         }
         return ii;
 
@@ -28,6 +30,7 @@ function _orderListHelper(value, sorter, arr) {
         return false;
     }
 }
+
 
 function OrderedList (records,sorter)  {
     /*|{

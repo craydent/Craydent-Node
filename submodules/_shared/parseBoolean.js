@@ -11,14 +11,17 @@ var $c = global.$c || {},
     _isBoolean = $c.isBoolean,
     _error = $c.error;
 
-function parseBoolean(value) {
+function parseBoolean(value, strict) {
     /*|{
-        "info": "Try to parse value to a Boolean",
+        "info": "Try to parse value to a Boolean (0, 1, '0', and '1' are valid unless strict is set to true).",
         "category": "Utility",
         "parameters":[
-            {"value": "(Mixed) value to parse as boolean"}],
+            {"value": "(Mixed) value to parse as boolean."}],
 
-        "overloads":[],
+        "overloads":[
+            {"parameters":[
+                {"value": "(Mixed) value to parse as boolean."},
+                {"strict": "(Boolean) Disable parsing of 0, 1, '0', and '1'."}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#parseBoolean",
         "returnType": "(Mixed)"
@@ -26,8 +29,11 @@ function parseBoolean(value) {
     try {
         if (_isString(value)) {
             value = value.toLowerCase();
-            return (value == "true" ? true : value == "false" ? false : value == "1" ? true : value == "0" ? false : undefined);
-        } else if (_isNumber(value)) {
+            var valids = strict ? { "true": 1, "false": 1} : { "true": 1, "false": 1, "0": 1, "1": 1};
+            if (value in valids) {
+                return (value == "true" ? true : value == "false" ? false : value == "1" ? true : value == "0" ? false : undefined);
+            }
+        } else if (_isNumber(value) && !strict) {
             return (value === 1 ? true : value === 0 ? false : undefined);
         } else if (_isBoolean(value)) {
             return value;

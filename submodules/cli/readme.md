@@ -33,7 +33,6 @@ arr.prototypedMethod(args);
 ## Categories
 
 * [Constants](#markdown-header-constants)
-* [Featured](#markdown-header-featured)
 * [CLI](#markdown-header-cli)
 
 <a name='markdown-header-constants'></a>
@@ -41,13 +40,31 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| CLI (String) |LOCAL_IP (String) |PUBLIC_IP (String) |
-DEBUG_MODE (String) |MODULES_LOADED (String) |VERSION (String) |
-
-<a name='markdown-header-featured'></a>
-## Featured
-
+| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |
+LOCAL_IP (String) |VERBOSE_LOGS (Boolean) |
 
 
 ## Methods
+
+<a name='markdown-header-cli'></a>
+## CLI
+
+*** 
+#### _CLI_ 
+***
+
+**Info:** CLI parser for arguments and simplem method to execute shell commands
+
+**Return:** (Cursor)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* options: (Object[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false).
 

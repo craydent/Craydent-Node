@@ -8,6 +8,7 @@
 var info = require('./package.json');
 global.$g = global;
 var $c = $g.$c = $g.$c || { VERSION: info.version, MODULES_LOADED: {} };
+$c.ERROR_TYPES = $c.ERROR_TYPES || [];
 
 //require('./dependencies/itemCount');
 
@@ -24,7 +25,7 @@ function __isNewer(loadedVersion, thisVersion){
 }
 
 if ($c.MODULES_LOADED[info.name] && __isNewer($c.VERSION.split('.'), info.version.split('.'))) { return; }
-$c.MODULES_LOADED[info.name] = true;
+$c.MODULES_LOADED[info.name] = info.version;
 
 function _type_check (obj, cls, backward_compatible){
     try {
@@ -39,7 +40,7 @@ function _type_check (obj, cls, backward_compatible){
 function isArray (obj) {
     /*|{
         "info": "Object class extension to check if object is an array",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -52,7 +53,7 @@ function isArray (obj) {
 function isAsync (obj) {
     /*|{
         "info": "Object class extension to check if object is a async function",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -65,7 +66,7 @@ function isAsync (obj) {
 function isBetween (obj, lowerBound, upperBound, inclusive) {
     /*|{
         "info": "Object class extension to check if object is between lower and upper bounds",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[
             {"lowerBound": "(Mixed) Lower bound comparison"},
             {"upperBound": "(Mixed) Upper bound comparison"}],
@@ -89,7 +90,7 @@ function isBetween (obj, lowerBound, upperBound, inclusive) {
 function isBoolean (obj) {
     /*|{
         "info": "Object class extension to check if object is a boolean",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -102,7 +103,7 @@ function isBoolean (obj) {
 function isDate (obj) {
     /*|{
         "info": "Object class extension to check if object is a date",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -115,7 +116,7 @@ function isDate (obj) {
 function isDomElement (obj) {
     /*|{
         "info": "Object class extension to check if object is a DOM element",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -133,7 +134,7 @@ function isDomElement (obj) {
 function isEmpty (obj) {
     /*|{
         "info": "Object class extension to check if it is empty",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -155,7 +156,7 @@ function isEmpty (obj) {
 function isError (obj) {
     /*|{
         "info": "Object class extension to check if object is an error object",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -163,12 +164,17 @@ function isError (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isError",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, Error);
+    try{
+        var is = _type_check(obj, Error);
+        return is || !!~$c.ERROR_TYPES.indexOf(obj) || !!~$c.ERROR_TYPES.indexOf(obj.constructor.name);
+    } catch (e) {
+        $c.error && $c.error('Object.isError', e);
+    }
 }
 function isFloat (obj) {
     /*|{
         "info": "Object class extension to check if object is a float",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -186,7 +192,7 @@ function isFloat (obj) {
 function isFunction(obj) {
     /*|{
         "info": "Object class extension to check if object is a function",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -199,7 +205,7 @@ function isFunction(obj) {
 function isGenerator (obj) {
     /*|{
         "info": "Object class extension to check if object is a generator function",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -212,7 +218,7 @@ function isGenerator (obj) {
 function isGeolocation (obj) {
     /*|{
         "info": "Object class extension to check if object is a geolocation",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -225,7 +231,7 @@ function isGeolocation (obj) {
 function isInt (obj) {
     /*|{
         "info": "Object class extension to check if object is an integer",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -243,7 +249,7 @@ function isInt (obj) {
 function isNull(value, defaultValue) {
     /*|{
         "info": "Check if a value is Null",
-        "category": "Global",
+        "category": "TypeOf|TypeOf",
         "parameters":[
             {"value": "(Mixed) Value to check"}],
 
@@ -268,7 +274,7 @@ function isNull(value, defaultValue) {
 function isNumber (obj) {
     /*|{
         "info": "Object class extension to check if object is a number",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -281,7 +287,7 @@ function isNumber (obj) {
 function isObject (obj, check_instance) {
     /*|{
         "info": "Object class extension to check if object is an object",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -299,7 +305,7 @@ function isObject (obj, check_instance) {
 function isPromise (obj) {
     /*|{
         "info": "Object class extension to check if object is a promise object",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -312,7 +318,7 @@ function isPromise (obj) {
 function isRegExp(obj) {
     /*|{
         "info": "Object class extension to check if object is a RegExp",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],
@@ -325,7 +331,7 @@ function isRegExp(obj) {
 function isString (obj) {
     /*|{
         "info": "Object class extension to check if object is a string",
-        "category": "Object",
+        "category": "Object|TypeOf",
         "parameters":[],
 
         "overloads":[],

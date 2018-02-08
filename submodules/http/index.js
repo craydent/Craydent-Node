@@ -7,7 +7,8 @@
 /*/---------------------------------------------------------/*/
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    error = $s.error;
+    error = $s.error,
+    __GLOBALSESSION = [];
 
 if ($c.MODULES_LOADED[$s.info.name]) { return; }
 $s.__log_module();
@@ -18,7 +19,266 @@ require($s.dir + 'include')($s);
 require($s.dir + 'isValidDate')($s);
 require($s.dir + 'itemCount')($s);
 require($s.dir + 'logit')($s);
+require($s.dir + 'mkdirRecursive')($s);
+require($s.dir + 'parseBoolean')($s);
 require($s.dir + 'where')($s);
+
+function Craydent(req, res) {
+    /*|{
+        "info": "Class used to create a new context for HTTP server",
+        "category": "Class",
+        "parameters":[
+            {"request": "(HTTPRequest) HTTP request object provided by createServer"},
+            {"response": "(HTTPResponse) HTTP response object provided by createServer"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#HTTPContext",
+        "returnType": "(void)"
+    }|*/
+    var self = this;
+
+    var fs = require('fs');
+
+    this.sessionid = null;
+    this.session = null;
+    this.request = req;
+    this.response = res;
+    this.$l = null;
+    this.location = null;
+    this.navigator = {};
+
+    this.getSessionID = getSessionID;
+    this.getSession = getSession;
+    this.getSessionSync = getSessionSync;
+    this._sessionFileCreateAndRetrieve = _sessionFileCreateAndRetrievefunction;
+    this._getSession = _getSession;
+
+    this.end = end;
+    this.writeSession = writeSession;
+    this.header = header;
+    this.header.headers = {};
+    this.header.code = 200;
+    this.echo = echo;
+    this.echo.out = "";
+    this.send = send;
+    this.var_dump = var_dump;
+
+    this.$COOKIE = $COOKIE;
+    this.$GET = $GET;
+    this.$HEADER = $HEADER;
+    this.$DELETE = $DELETE;
+    this.$PAYLOAD = $PAYLOAD;
+    this.$POST = $POST;
+    this.$PUT = $PUT;
+    this.isIE6 = isIE6;
+    this.isIE = isIE;
+    this.IEVersion = IEVersion;
+    this.isChrome = isChrome;
+    this.isSafari = isSafari;
+    this.isOpera = isOpera;
+    this.isFirefox = isFirefox;
+
+    this._getBrowserVersion = _getBrowserVersion;
+    this.ChromeVersion = ChromeVersion;
+    this.SafariVersion = SafariVersion;
+    this.OperaVersion = OperaVersion;
+    this.FirefoxVersion = FirefoxVersion;
+
+    this.isIPhone = isIPhone;
+    this.isIPod = isIPod;
+    this.isIPad = isIPad;
+    this.isAndroid = isAndroid;
+    this.isWindowsMobile = isWindowsMobile;
+    this.isBlackBerry = isBlackBerry;
+    this.isPalmOS = isPalmOS;
+    this.isSymbian = isSymbian;
+    this.isMobile = isMobile;
+    this.isWebkit = isWebkit;
+    this.isAmaya = isAmaya;
+    this.isGecko = isGecko;
+    this.isKHTML = isKHTML;
+    this.isPresto = isPresto;
+    this.isPrince = isPrince;
+    this.isTrident = isTrident;
+    this.isWindows = isWindows;
+    this.isMac = isMac;
+    this.isLinux = isLinux;
+
+    var parts = req.headers.host.split(":"),
+        queryparts = req.url.split("?"),
+        query = queryparts.length > 1 ? queryparts.splice(1).join('?') : "",
+        protocol = "http" + (req.connection.encrypted ? "s" : ""),
+        cookies = (req.headers.cookie || "").split('; '),
+        hash = "";
+
+    for (var i = 0, len = cookies.length; i < len; i++) {
+        if (~cookies[i].indexOf("CRAYDENTHASH=")) {
+            hash = cookies[i].substring(13);
+            break;
+        }
+    }
+
+    this.location = this.$l = {
+        hash: hash,
+        host: req.headers.host,
+        hostname: parts[0],
+        href: protocol + "://" + req.headers.host + req.url + (hash && "#" + hash),
+        method: req.headers.method,
+        origin: protocol + "://" + req.headers.host,
+        pathname: req.url,
+        port: parts[1],
+        protocol: protocol,
+        search: query
+    };
+    this.navigator = {userAgent: req.headers['user-agent'], platform: req.headers['user-agent']};
+
+    // this.PAGE_NAME = (function () {
+    //     var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/([^#^?]*).*/gi, '$1');
+    //     return !pn || !~pn.indexOf('.') ? "index.html" : pn;
+    // })();
+    // this.PAGE_NAME_RAW = (function () {
+    //     var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/(.*)?\?.*/gi, '$1');
+    //     return !pn || !~pn.indexOf('.') ? "index.html" : pn;
+    // })();
+    this.PROTOCOL = self.$l.protocol;
+    this.SERVER = self.$l.host;
+    this.SERVER_PATH = self.$l.pathname;
+    this.REFERER = req.headers.referer;
+    this.ORIGIN = req.headers.origin;
+    this.PRAGMA = req.headers.pragma;
+    this.ACCEPT_ENCODING = req.headers["accept-encoding"];
+    this.ACCEPT_LANGUAGE = req.headers["accept-language"];
+    this.REFERER_IP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    this.PUBLIC_IP = $c.PUBLIC_IP;
+    this.LOCAL_IP = $c.LOCAL_IP;
+
+    var _ie = this.IEVersion(), _chrm = this.ChromeVersion(), _ff = this.FirefoxVersion(), _op = this.OperaVersion(), _saf = this.SafariVersion(),
+            _droid = this.isAndroid(), _bbery = this.isBlackBerry(), _ipad = this.isIPad(), _ifon = this.isIPhone(), _ipod = this.isIPod(), _linx = this.isLinux(), _mac = this.isMac(), _palm = this.isPalmOS(), _symb = this.isSymbian(), _win = this.isWindows(), _winm = this.isWindowsMobile(),
+            _amay = this.isAmaya(), _gekk = this.isGecko(), _khtm = this.isKHTML(), _pres = this.isPresto(), _prin = this.isPrince(), _trid = this.isTrident(), _webk = this.isWebkit(),
+            _browser = (~_ie && 'Internet Explorer') || (~_chrm && 'Chrome') || (~_ff && 'Firefox') || (~_saf && 'Safari'),
+            _os = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_linx && 'Linux') || ((_ipad || _ifon || _ipod) && 'iOS') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
+            _device = (_droid && 'Android') || (_bbery && 'BlackBerry') || (_ipad && 'iPad') || (_ifon && 'iPhone') || (_ipod && 'iPod') || (_linx && 'Linux') || (_mac && 'Mac') || (_palm && 'PalmOS') || (_symb && 'Symbian') || (_win && 'Windows') || (_winm && 'Windows Mobile'),
+            _engine = (_amay && 'Amaya') || (_gekk && 'Gekko') || (_khtm && 'KHTML') || (_pres && 'Presto') || (_prin && 'Prince') || (_trid && 'Trident') || (_webk && 'WebKit');
+
+    // constants
+    this.BROWSER = {
+        CURRENT: _browser,
+        CURRENT_VERSION: (~_ie && _ie) || (~_chrm && _chrm) || (~_ff && _ff) || (~_saf && _saf),
+        IE: this.isIE(),
+        IE_VERSION: _ie,
+        IE6: (_ie < 7.0 && _ie >= 6.0),
+        IE7: (_ie < 8.0 && _ie >= 7.0),
+        IE8: (_ie < 9.0 && _ie >= 8.0),
+        CHROME: this.isChrome(),
+        CHROME_VERSION: _chrm,
+        FIREFOX: this.isFirefox(),
+        FIREFOX_VERSION: _ff,
+        OPERA: this.isOpera(),
+        OPERA_VERSION: _op,
+        SAFARI: this.isSafari(),
+        SAFARI_VERSION: _saf
+    };
+    this.CLIENT = {
+        BROWSER: _browser,
+        CORES_SUPPORT: true,
+        DEVICE: _device,
+        ENGINE: _engine,
+        OS: _os
+    };
+    this.ENGINE = {
+        CURRENT: _engine,
+        AMAYA: _amay,
+        GEKKO: _gekk,
+        KHTML: _khtm,
+        PRESTO: _pres,
+        PRINCE: _prin,
+        TRIDENT: _trid,
+        WEBKIT: _webk
+    };
+    this.OS = {
+        CURRENT: _os,
+        ANDROID: _droid,
+        BLACKBERRY: _bbery,
+        LINUX: _linx,
+        IOS: (_ipad || _ifon || _ipod),
+        MAC: _mac,
+        PALM: _palm,
+        SYMBIAN: _symb,
+        WINDOWS: _win,
+        WINDOWS_MOBILE: _winm
+    };
+    this.DEVICE = {
+        CURRENT: _device,
+        ANDROID: _droid,
+        BLACKBERRY: _bbery,
+        IPAD: _ipad,
+        IPHONE: _ifon,
+        IPOD: _ipod,
+        LINUX: _linx,
+        MAC: _mac,
+        PALM: _palm,
+        SYMBIAN: _symb,
+        WINDOWS: _win,
+        WINDOWS_MOBILE: _winm
+    };
+    this.ANDROID = _droid;
+    this.AMAYA = _amay;
+    this.BLACKBERRY = _bbery;
+    this.CHROME = this.isChrome();
+    this.CHROME_VERSION = _chrm;
+    this.CORES_SUPPORT = true;
+    this.DEBUG_MODE = $c.DEBUG_MODE = $c.DEBUG_MODE || !!this.$GET("debug");
+    this.EXPOSE_ROUTE_API = $c.EXPOSE_ROUTE_API;
+    this.FIREFOX = this.isFirefox();
+    this.FIREFOX_VERSION = this.FirefoxVersion();
+    this.FIREFOX = this.isFirefox();
+    this.GEKKO = this.isGecko();
+    this.IE = this.isIE();
+    this.IE_VERSION = _ie;
+    this.IE6 = (_ie < 7.0 && _ie >= 6.0);
+    this.IE7 = (_ie < 8.0 && _ie >= 7.0);
+    this.IE8 = (_ie < 9.0 && _ie >= 8.0);
+    this.IPAD = this.isIPad();
+    this.IPHONE = this.isIPhone();
+    this.IPOD = this.isIPod();
+    this.KHTML = this.isKHTML();
+    this.LINUX = this.isLinux();
+    this.MAC = this.isMac();
+    this.OPERA = this.isOpera();
+    this.OPERA_VERSION = this.OperaVersion();
+    this.PAGE_NAME = (function () {
+        var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/([^#^?]*).*/gi, '$1');
+        return !pn || !~pn.indexOf('.') ? "index.html" : pn;
+    })();
+    this.PAGE_NAME_RAW = (function () {
+        var pn = self.$l.href.substring(self.$l.href.lastIndexOf('/') + 1).replace(/(.*)?\?.*/gi, '$1');
+        return !pn || !~pn.indexOf('.') ? "index.html" : pn;
+    })();
+    this.PALM = this.isPalmOS();
+    this.PRESTO = this.isPresto();
+    this.PRINCE = this.isPrince();
+    this.PROTOCOL = this.$l.protocol;
+    this.RESPONSES = $c.RESPONSES;
+    this.REST_API_TEMPLATE = $c.REST_API_TEMPLATE;
+    this.ROUTE_API_PATH = $c.ROUTE_API_PATH;
+    this.ROUTE_LOGO_URL = $c.ROUTE_LOGO_URL || "http://www.craydent.com/craydent-logo.svg";
+    this.SAFARI = this.isSafari();
+    this.SAFARI_VERSION = this.SafariVersion();
+    this.SERVER = this.$l.host;
+    this.SERVER_PATH = this.$l.pathname;
+    this.SYMBIAN = this.isSymbian();
+    this.TEMPLATE_VARS = $c.TEMPLATE_VARS;
+    this.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG;
+    this.TRIDENT = this.isTrident();
+    this.VERBOSE_LOGS = $c.VERBOSE_LOGS;
+    this.VERSION = $c.VERSION;
+    this.WEBKIT = this.isWebkit();
+    this.WINDOWS = this.isWindows();
+    this.WINDOWS_MOBILE = this.isWindowsMobile();
+
+    return this;
+}
 
 $c.RESPONSES = {
     100:{"status":100,"success":true,"message":"Continue"},
@@ -96,6 +356,23 @@ $c.RESPONSES = {
     599:{"status":599,"success":false,"message":"Network connect timeout error"}
 };
 $c.HTTP_STATUS_TEMPLATE = $c.HTTP_STATUS_TEMPLATE || [];
+$c.REST_API_TEMPLATE = $c.REST_API_TEMPLATE || "<html><head></head><body>" +
+        "<h1>Routes:</h1>" +
+        "<h2>All -> </h2>" +
+        "<div>" +
+        "	${FOREACH ${route} in ${get}}" +
+        "		<div>${route.path}</div>" +
+        "		<div>" +
+        "			${FOREACH ${parameter} in ${route.parameters}}" +
+        "				<div>Name: ${parameter.name}<br />Description: ${parameter.description}<br />Type: ${parameter.type}<br />Required: ${parameter.required}</div>" +
+        "			${END FOREACH}" +
+        "		</div>" +
+        "	${END FOREACH}" +
+        "</div>"+
+        "</body></html>";
+$c.ROUTE_API_PATH = $c.ROUTE_API_PATH || '/craydent/api/docs';
+$c.ROUTE_LOGO_URL = $c.ROUTE_LOGO_URL || "http://www.craydent.com/craydent-logo.svg";
+$c.EXPOSE_ROUTE_API = $c.EXPOSE_ROUTE_API || false;
 
 function __rest_docs(req,res,params){
     var routes = {
@@ -145,6 +422,82 @@ function _getBrowserVersion(browser){
         return version === 0 || version ? version : -1;
     } catch(e){
         error('_getBrowserVersion', e);
+    }
+}
+function _getSession(sid, callback) {
+    try {
+        var ctx = this, request = ctx.request;
+        if (ctx.session || __GLOBALSESSION[ctx.sessionid]) {
+            ctx.session = ctx.session ? (__GLOBALSESSION[sid] = ctx.session) : (__GLOBALSESSION[ctx.sessionid]);
+            return callback ? callback(ctx.session) : ctx.session;
+        }
+        var sync = !callback;
+
+        var cookies, sessionCookieKey = "NODEJSSESSION";
+        cookies = ($c.getProperty(request, 'headers.cookie') || '').split('; ');
+        // get thes session cookie cuid from the cookie
+        var sessionCookie = cookies.filter(function (c) {return ~c.indexOf(sessionCookieKey + "=");})[0];
+        if (sessionCookie) {
+            ctx.sessionid = sessionCookie.substring(sessionCookieKey.length + 1);
+        } else {
+            ctx.sessionid = cuid();
+        }
+
+        if (true || !__GLOBALSESSION[ctx.sessionid] && __GLOBALSESSION.length > 1000000) {
+            // make room for this session to be store globally
+            for (var prop in __GLOBALSESSION) {
+                delete __GLOBALSESSION[prop];
+                break;
+            }
+
+            var dir = 'craydent/session',
+                path = dir + "/" + ctx.sessionid;
+
+            var csession = this._sessionFileCreateAndRetrieve(dir, path, sync, function(retrievedSession){
+                __GLOBALSESSION[ctx.sessionid] = ctx.session = retrievedSession;
+                callback && callback(ctx.session);
+            });
+            if (csession) {
+                return __GLOBALSESSION[ctx.sessionid] = ctx.session = csession;
+            }
+        } else {
+            return callback ? callback(__GLOBALSESSION[ctx.sessionid]) : __GLOBALSESSION[ctx.sessionid];
+        }
+    } catch(e) {
+        error('_getSession', e);
+    }
+}
+function _sessionFileCreateAndRetrievefunction (dir, path, sync, callback) {
+    try {
+        var fs = require('fs');
+        if (sync) {
+            if (!fs.existsSync(path)) {
+                if (!fs.existsSync(dir)) {
+                    var dirPath = "";
+                    // create all missing parent directories sync
+                    var dirs = dir.split('/'), i = 0, dir;
+                    while (dir = dirs[i++]) {
+                        dirPath += dir + '/';
+                        if (!fs.existsSync(dirPath)) {
+                            fs.mkdirSync(dirPath);
+                        }
+                    }
+                }
+                // creates the file
+                fs.openSync(path, 'w+');
+            }
+            return $s.tryEval(fs.readFileSync(path).toString()) || {};
+        }
+        fs.exists(path, function (exists) {
+            if (!exists) {
+                // create all missing parent directories async then create the file
+                return $s.mkdirRecursive(dir, function () { fs.open(path, 'w+', function () { callback({}); }); });
+            }
+            fs.readFile(path, function (err, data) { callback($s.tryEval(data)); });
+        });
+
+    } catch (e) {
+        error('_sessionFileCreateAndRetrieve', e);
     }
 }
 function _verb_payload_helper (variable, options) {
@@ -397,7 +750,7 @@ function $HEADER(variable, options) {
         if (!options) { return this.request.headers[variable] === undefined ? false : this.request.headers[variable]; }
 
         if (options == 'i' || options.ignoreCase || options == "ignoreCase") {
-            for (var prop in $c.request.headers) {
+            for (var prop in this.request.headers) {
                 if (!this.request.headers.hasOwnProperty(prop)) { continue; }
                 if (prop.toLowerCase() == variable.toLowerCase()) { return this.request.headers[prop]; }
             }
@@ -1136,7 +1489,13 @@ function createServer (callback, options) {
 
                             if (type && type != "string") {
                                 if (type == "regexp") { type = "RegExp"; }
-                                var checker = "is"+$c.capitalize(type), value = $s.tryEval(vars[name],JSON.parseAdvanced);
+                                var checker = "is"+$s.capitalize(type), value = $s.tryEval(vars[name],JSON.parseAdvanced);
+                                if (type == "bool") {
+                                    type = "boolean";
+                                    checker = "isBoolean";
+                                    value = $s.parseBoolean(value, true);
+                                    vars[name] = $s.parseBoolean(vars[name], true);
+                                }
 
                                 if(!$s[checker](value) && !$s[checker](vars[name])) {
                                     var an = type[0] in {a:1,e:1,i:1,o:1,u:1} ? "an" : "a";
@@ -1649,5 +2008,6 @@ function __set_context (ctx) {
 }
 
 __set_context($c);
+$c.context = Craydent;
 
 module.exports = $c;

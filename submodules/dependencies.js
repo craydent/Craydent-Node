@@ -45,9 +45,9 @@ module.exports.primary = {
     "date": ["date", "getValue"],
     "fs": [
         "parallelEach",
+        "mkdirRecursive",
         "relativePathFinder",
         "requireDirectory",
-        "startsWithAny",
         "include"
     ],
     "function": ["emit", "getValue", "on", "namespace", "run_func_array"],
@@ -57,6 +57,8 @@ module.exports.primary = {
         "isValidDate",
         "itemCount",
         "logit",
+        "mkdirRecursive",
+        "parseBoolean",
         "where"
     ],
     "json-parser": [
@@ -99,10 +101,10 @@ module.exports.primary = {
         "logit",
         "namespace",
         "parseBoolean",
+        "mkdirRecursive",
         "relativePathFinder",
         "requireDirectory",
         "run_func_array",
-        "startsWithAny",
         "toStringAlt"],
     "xml-to-json": ["fillTemplate"]
 };
@@ -122,6 +124,7 @@ module.exports.secondary = {
     "isSubset": ["contains"],
     // "keyOf": [],
     // "logit": [],
+    "mkdirRecursive": ["startsWithAny"],
      "on": ["emit"],
     // "orderedlist": [],
     // "parallelEach": [],

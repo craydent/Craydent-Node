@@ -33,7 +33,6 @@ arr.prototypedMethod(args);
 ## Categories
 
 * [Constants](#markdown-header-constants)
-* [Featured](#markdown-header-featured)
 * [JSON Parser](#markdown-header-json parser)
 
 <a name='markdown-header-constants'></a>
@@ -41,13 +40,9 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (String) |PUBLIC_IP (String) |TEMPLATE_VARS (String) |
-LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
-MODULES_LOADED (String) |VERSION (String) |
-
-<a name='markdown-header-featured'></a>
-## Featured
-
+| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |VERSION (String) |
+LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
 
 
 ## Methods

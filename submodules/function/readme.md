@@ -33,21 +33,213 @@ arr.prototypedMethod(args);
 ## Categories
 
 * [Constants](#markdown-header-constants)
-* [Featured](#markdown-header-featured)
-* [Junction](#markdown-header-junction)
+* [Function](#markdown-header-function)
 
 <a name='markdown-header-constants'></a>
 ## Constants
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (String) |MODULES_LOADED (String) |VERSION (String) |
-LOCAL_IP (String) |PUBLIC_IP (String) |
-
-<a name='markdown-header-featured'></a>
-## Featured
-
+| DEBUG_MODE (Boolean) |LOCAL_IP (String) |PUBLIC_IP (String) |
+ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 
 
 ## Methods
+
+<a name='markdown-header-function'></a>
+## Function
+
+*** 
+#### _catch_ 
+***
+
+**Info:** Function listener to register the catch event
+
+**Return:** (String)
+
+**Parameters:**
+
+* func: (Function) Function to call on emit
+
+**Overloads:**
+
+* None
+
+*** 
+#### _emit_ 
+***
+
+**Info:** Call the next function(s) in queue
+
+**Return:** (void)
+
+**Parameters:**
+
+* event: Event to trigger.
+
+**Overloads:**
+
+1)
+
+* event: Event to trigger.
+* infinite: any number of arguments can be passed and will be applied to listening functions.
+
+*** 
+#### _equals_ 
+***
+
+**Info:** Object class extension to check if object values are equal
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* compare: (Object) Object to compare against
+
+**Overloads:**
+
+1)
+
+* compare: (Object) Object to compare against
+* props: (String[]) Array of property values to compare against
+
+*** 
+#### _extends_ 
+***
+
+**Info:** Function class extension to extend another class
+
+**Return:** (Function)
+
+**Parameters:**
+
+* extendee: (Object) Class to extend
+
+**Overloads:**
+
+1)
+
+* extendee: (Object) Class to extend
+* inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
+
+*** 
+#### _getName_ 
+***
+
+**Info:** Function class extension to get the name of the function
+
+**Return:** (String)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _getParameters_ 
+***
+
+**Info:** Function class extension to get parameters in definition
+
+**Return:** (Array)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _getValue_ 
+***
+
+**Info:** Object class extension to retrieve value of an object property
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* dflt: (Mixed) Default value to return if context is not a function
+
+2)
+
+* args: (Mixed[]) An array of arguments to pass to context when it is a function
+* dflt: (Mixed) Default value to return if context is not a function
+
+*** 
+#### _next_ 
+***
+
+**Info:** Call the next function(s) in queue
+
+**Return:** (void)
+
+**Parameters:**
+
+* infinite: any number of arguments can be passed.
+
+**Overloads:**
+
+* None
+
+*** 
+#### _on_ 
+***
+
+**Info:** Function listener to register events
+
+**Return:** (String)
+
+**Parameters:**
+
+* event: (String) Event to listen on and invoked on emit
+* func: (Function) Function to call on emit
+
+**Overloads:**
+
+* None
+
+*** 
+#### _toPromise_ 
+***
+
+**Info:** Function listener to register events
+
+**Return:** (String)
+
+**Parameters:**
+
+* event: (String) Event to listen on and invoked on emit
+* func: (Function) Function to call on emit
+
+**Overloads:**
+
+* None
+
+*** 
+#### _then_ 
+***
+
+**Info:** Function listener to register the then event
+
+**Return:** (String)
+
+**Parameters:**
+
+* func: (Function) Function to call on emit
+
+**Overloads:**
+
+* None
 

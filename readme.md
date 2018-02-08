@@ -40,8 +40,7 @@ arr.prototypedMethod(args);
 * [Control Flow](#markdown-header-control flow)
 * [Date](#markdown-header-date)
 * [FS](#markdown-header-fs)
-* [Junction](#markdown-header-junction)
-* [HTTP](#markdown-header-http)
+* [Function](#markdown-header-function)
 * [JSON Parser](#markdown-header-json parser)
 * [Number](#markdown-header-number)
 * [Object](#markdown-header-object)
@@ -57,18 +56,19 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| CLI (String) |MODULES_LOADED (String) |TEMPLATE_VARS (String) |
-ERROR_TYPES (String) |PUBLIC_IP (String) |VERSION (String) |
-HTTP_STATUS_TEMPLATE (String) |RESPONSES (String) |
-LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
+| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
+EXPOSE_ROUTE_API (Boolean) |RESPONSES (Object) |TEMPLATE_VARS (Array) |
+HTTP_STATUS_TEMPLATE (Array) |REST_API_TEMPLATE (String) |VERBOSE_LOGS (Boolean) |
+LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
 
 ### Array
 
-***
-#### _add_
+*** 
+#### _add_ 
 ***
 
 **Info:** Array class extension to perform push and update indexes if used
@@ -83,8 +83,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _aggregate_
+*** 
+#### _aggregate_ 
 ***
 
 **Info:** Array class extension to perform mongo style aggregation
@@ -99,8 +99,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _average_
+*** 
+#### _average_ 
 ***
 
 **Info:** Array class extension to perform average of all the values (any value which is not a number is 0).
@@ -115,8 +115,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _find_
+*** 
+#### _find_ 
 ***
 
 **Info:** Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)
@@ -139,8 +139,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * condition: (Mixed) Query following find/where clause syntax
 * useReference: (Bool) Flag to make a copy instead of using references
 
-***
-#### _findOne_
+*** 
+#### _findOne_ 
 ***
 
 **Info:** Array class extension to use mongo or sql queries returning the first item match
@@ -163,24 +163,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * condition: (Mixed) Query following find/where clause syntax
 * useReference: (Bool) Flag to make a copy instead of using references
 
-***
-#### _stdev_
-***
-
-**Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
-
-**Return:** (Array)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-***
-#### _sum_
+*** 
+#### _sum_ 
 ***
 
 **Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
@@ -195,8 +179,24 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
+*** 
+#### _stdev_ 
 ***
-#### _where_
+
+**Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
+
+**Return:** (Array)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _where_ 
 ***
 
 **Info:** Array class extension to use mongo or sql queries
@@ -238,8 +238,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 ### Date
 
-***
-#### _format_
+*** 
+#### _format_ 
 ***
 
 **Info:** Date class extension to convert to formatted string
@@ -259,8 +259,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 ### HTTP
 
-***
-#### _$COOKIE_
+*** 
+#### _$COOKIE_ 
 ***
 
 **Info:** Get/set Cookies
@@ -289,31 +289,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * value: (String) Value to store
 * option: (Object) Specify path and/or expiration of cookie
 
-***
-#### _$DEL_
-***
-
-**Info:** Retrieve all or specific variables in the Body
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
-
-***
-#### _$DELETE_
+*** 
+#### _$DEL_ 
 ***
 
 **Info:** Retrieve all or specific variables in the Body
@@ -335,8 +312,31 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
 
+*** 
+#### _$DELETE_ 
 ***
-#### _$GET_
+
+**Info:** Retrieve all or specific variables in the Body
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* key: (String) key for query value
+
+2)
+
+* key: (String) key for query value
+* options: (Object) Options to defer, ignore case, etc
+
+*** 
+#### _$GET_ 
 ***
 
 **Info:** Retrieve all or specific variables in the url
@@ -358,8 +358,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
 
-***
-#### _$HEADER_
+*** 
+#### _$HEADER_ 
 ***
 
 **Info:** Retrieve all or specific variables in the headers
@@ -381,31 +381,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
 
-***
-#### _$PAYLOAD_
-***
-
-**Info:** Retrieve all or specific variables in the Body
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
-
-***
-#### _$POST_
+*** 
+#### _$PAYLOAD_ 
 ***
 
 **Info:** Retrieve all or specific variables in the Body
@@ -427,8 +404,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
 
-***
-#### _$PUT_
+*** 
+#### _$POST_ 
 ***
 
 **Info:** Retrieve all or specific variables in the Body
@@ -449,11 +426,97 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
+
+*** 
+#### _$PUT_ 
+***
+
+**Info:** Retrieve all or specific variables in the Body
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* key: (String) key for query value
+
+2)
+
+* key: (String) key for query value
+* options: (Object) Options to defer, ignore case, etc
+
+### Object
+
+*** 
+#### _getProperty_ 
+***
+
+**Info:** Object class extension to retrieve nested properties without error when property path does not exist
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* path: (String) Path to nested property
+
+**Overloads:**
+
+1)
+
+* path: (String) Path to nested property
+* delimiter: (Char) Separator used to parse path
+
+2)
+
+* path: (RegExp) Regex match for the property
+
+3)
+
+* path: (String) Path to nested property
+* options: (Object) Options for ignoring inheritance, validPath, etc
+
+4)
+
+* path: (String) Path to nested property
+* delimiter: (Char) Separator used to parse path
+* options: (Object) Options for ignoring inheritance, validPath, etc
 
 ### String
 
+*** 
+#### _fillTemplate_ 
 ***
-#### _fillTemplate_
+
+**Info:** String class extension to fill template based on template syntax
+
+**Return:** (String)
+
+**Parameters:**
+
+* objs: (Objects[]) Objects to fill the template variables
+
+**Overloads:**
+
+1)
+
+* objs: (Objects[]) Objects to fill the template variables
+* offset: (Int) The start index of the Object array
+* max: (Int) The maximum number of records to process
+
+2)
+
+* objs: (Objects[]) Objects to fill the template variables
+* max: (Int) The maximum number of records to process
+
+### Template
+
+*** 
+#### _fillTemplate_ 
 ***
 
 **Info:** String class extension to fill template based on template syntax
@@ -479,8 +542,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 ### Utility
 
-***
-#### _catchAll_
+*** 
+#### _catchAll_ 
 ***
 
 **Info:** Creates an catch all for exceptions in the current node service.
@@ -498,8 +561,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * callback: (Function) Callback function to call when there is an uncaught exception
 * append: (Boolean) Options to defer, ignore case, etc
 
-***
-#### _zipit_
+*** 
+#### _zipit_ 
 ***
 
 **Info:** Download a zip of files from file contents
@@ -524,8 +587,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 <a name='markdown-header-array'></a>
 ## Array
 
-***
-#### _buildTree_
+*** 
+#### _buildTree_ 
 ***
 
 **Info:** Array class extension to create a parent/child hierarchy
@@ -556,8 +619,26 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * childFinder: (String) Property name of the object to use as a grouping.
 * options: (Object) Options to customize properties,  Valid property is:<br />childProperty
 
+*** 
+#### _condense_ 
 ***
-#### _createIndex_
+
+**Info:** Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls
+
+**Return:** (Array)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* check_values: (Bool) Flag to remove duplicates
+
+*** 
+#### _createIndex_ 
 ***
 
 **Info:** Array class extension to create indexes for faster searches during where
@@ -574,8 +655,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * indexes: (String[]) Array of properties to index
 
-***
-#### _delete_
+*** 
+#### _delete_ 
 ***
 
 **Info:** Array class extension to delete records
@@ -593,8 +674,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * condition: (Mixed) Query following find/where clause syntax
 * justOne: (Boolean) Flag for deleting just one records [Default is: true]
 
-***
-#### _distinct_
+*** 
+#### _distinct_ 
 ***
 
 **Info:** Array class extension to get all unique records by fields specified
@@ -631,8 +712,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
 * condition: (Object) Query following MongoDB find clause syntax
 
-***
-#### _filter_
+*** 
+#### _filter_ 
 ***
 
 **Info:** Array class extension to implement filter
@@ -650,8 +731,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * func: (Function) Callback function used to determine if value should be returned
 * craydent_ctxs: (Mixed) Specify the context on callback function
 
-***
-#### _group_
+*** 
+#### _group_ 
 ***
 
 **Info:** Array class extension to group records by fields
@@ -666,8 +747,24 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
+*** 
+#### _indexOf_ 
 ***
-#### _indexOfAlt_
+
+**Info:** Array class extension to implement indexOf
+
+**Return:** (Int)
+
+**Parameters:**
+
+* value: (Mixed) value to find
+
+**Overloads:**
+
+* None
+
+*** 
+#### _indexOfAlt_ 
 ***
 
 **Info:** Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression
@@ -690,8 +787,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * regex: (RegExp) Regular expression to check value against
 * pos: (Int) Index offset to start
 
-***
-#### _innerJoin_
+*** 
+#### _innerJoin_ 
 ***
 
 **Info:** Array class extension to do an inner join on arrays
@@ -707,8 +804,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _insert_
+*** 
+#### _insert_ 
 ***
 
 **Info:** Array class extension to add to the array
@@ -723,8 +820,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _insertAfter_
+*** 
+#### _insertAfter_ 
 ***
 
 **Info:** Array class extension to add to the array after a specific index
@@ -740,8 +837,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _insertAt_
+*** 
+#### _insertAt_ 
 ***
 
 **Info:** Array class extension to add to the array at a specific index and push the all indexes down
@@ -757,8 +854,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _insertBefore_
+*** 
+#### _insertBefore_ 
 ***
 
 **Info:** Array class extension to add to the array before a specific index
@@ -774,8 +871,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _joinLeft_
+*** 
+#### _joinLeft_ 
 ***
 
 **Info:** Array class extension to do an outer left join on arrays
@@ -791,8 +888,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _joinRight_
+*** 
+#### _joinRight_ 
 ***
 
 **Info:** Array class extension to do an outer right join on arrays
@@ -808,8 +905,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _last_
+*** 
+#### _last_ 
 ***
 
 **Info:** Array class extension to retrieve the last item in the array.
@@ -824,8 +921,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _limit_
+*** 
+#### _limit_ 
 ***
 
 **Info:** Array class extension to return a limited amount of items
@@ -843,8 +940,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * max: (Int) Maximum number of items to return
 * skip: (Int) Number of items to skip
 
-***
-#### _mapReduce_
+*** 
+#### _mapReduce_ 
 ***
 
 **Info:** Array class extension to run map-reduce aggregation over records
@@ -864,8 +961,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * reduce: (Function) Function used to condense the items
 * options: (Object) Options specified in the Mongo Doc
 
-***
-#### _normalize_
+*** 
+#### _normalize_ 
 ***
 
 **Info:** Array class extension to normalize all properties in the object array
@@ -880,8 +977,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _parallelEach_
+*** 
+#### _parallelEach_ 
 ***
 
 **Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
@@ -906,8 +1003,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * args: (Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
 
-***
-#### _remove_
+*** 
+#### _remove_ 
 ***
 
 **Info:** Array class extension to remove an item by value
@@ -925,8 +1022,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * value: (Mixed) Value to remove
 * indexOf: (Function) Callback function to use to find the item based on the value
 
-***
-#### _removeAll_
+*** 
+#### _removeAll_ 
 ***
 
 **Info:** Array class extension to remove all items by value
@@ -944,8 +1041,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * value: (Mixed) Value to remove
 * indexOf: (Function) Callback function to use to find the item based on the value
 
-***
-#### _removeAt_
+*** 
+#### _removeAt_ 
 ***
 
 **Info:** Array class extension to remove item at a specific index
@@ -960,8 +1057,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _replaceAt_
+*** 
+#### _replaceAt_ 
 ***
 
 **Info:** Array class extension to replace item at a specific index
@@ -977,8 +1074,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _scramble_
+*** 
+#### _scramble_ 
 ***
 
 **Info:** Array class extension to scramble the order.
@@ -993,8 +1090,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _sortBy_
+*** 
+#### _sortBy_ 
 ***
 
 **Info:** Array class extension to sort the array
@@ -1063,8 +1160,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * lookup: (Object) Look up object to use as values instead of the array values.
 * options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
-***
-#### _toSet_
+*** 
+#### _toSet_ 
 ***
 
 **Info:** Array class extension to convert the array to a set
@@ -1079,8 +1176,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _universal_trim_
+*** 
+#### _universal_trim_ 
 ***
 
 **Info:** Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.
@@ -1101,8 +1198,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * character: (Char[]) Character to remove in the String
 
-***
-#### _update_
+*** 
+#### _update_ 
 ***
 
 **Info:** Array class extension to update records in the array
@@ -1122,8 +1219,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * setClause: (Mixed) Set clause used to update the records
 * options: (Object) Options to specify if mulit update and/or upsert
 
-***
-#### _upsert_
+*** 
+#### _upsert_ 
 ***
 
 **Info:** Array class extension to upsert records to array
@@ -1155,8 +1252,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 <a name='markdown-header-class'></a>
 ## Class
 
-***
-#### _Benchmarker_
+*** 
+#### _Benchmarker_ 
 ***
 
 **Info:** Class used to measure the run time of code
@@ -1171,8 +1268,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _Cursor_
+*** 
+#### _Cursor_ 
 ***
 
 **Info:** Cursor class to facilitate iteration
@@ -1189,8 +1286,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * records: (Object) Object used to create the iterator to iterate each property
 
-***
-#### _OrderedList_
+*** 
+#### _OrderedList_ 
 ***
 
 **Info:** Collection class that filters out duplicate values and maintains an ordered list
@@ -1212,8 +1309,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * records: (Array) Array used to create the initial items in the ordered list
 * sorter: (Function) Function for sorting logic
 
-***
-#### _Queue_
+*** 
+#### _Queue_ 
 ***
 
 **Info:** Collection class that follows FIFO
@@ -1228,8 +1325,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _Set_
+*** 
+#### _Set_ 
 ***
 
 **Info:** Collection class that filters out duplicate values
@@ -1244,11 +1341,138 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
+*** 
+#### _context_ 
+***
+
+**Info:** Class used to create a new context for HTTP server
+
+**Return:** (void)
+
+**Parameters:**
+
+* request: (HTTPRequest) HTTP request object provided by createServer
+* response: (HTTPResponse) HTTP response object provided by createServer
+
+**Overloads:**
+
+* None
+
+<a name='markdown-header-cli'></a>
+## CLI
+
+*** 
+#### _CLI_ 
+***
+
+**Info:** CLI parser for arguments and simplem method to execute shell commands
+
+**Return:** (Cursor)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* options: (Object[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false).
+
+<a name='markdown-header-control flow'></a>
+## Control Flow
+
+*** 
+#### _awaitable_ 
+***
+
+**Info:** Makes a value yieldable via a Promise.
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* value: (Mixed) Value to make yieldable
+
+**Overloads:**
+
+1)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+
+2)
+
+* func: (Function) Function to make yieldable
+* callbackIndex: (Integer) Index of callback argument.
+
+3)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+
+*** 
+#### _parallelEach_ 
+***
+
+**Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* gen: (Generator) Generator function to apply to each item
+
+2)
+
+* func: (Function) Function to apply to each item
+
+3)
+
+* args: (Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
+
+*** 
+#### _yieldable_ 
+***
+
+**Info:** Makes a value yieldable via a Promise.
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* value: (Mixed) Value to make yieldable
+
+**Overloads:**
+
+1)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+
+2)
+
+* func: (Function) Function to make yieldable
+* callbackIndex: (Integer) Index of callback argument.
+
+3)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+
 <a name='markdown-header-date'></a>
 ## Date
 
-***
-#### _getDayOfYear_
+*** 
+#### _getDayOfYear_ 
 ***
 
 **Info:** Date class extension to retrieve the day of the year
@@ -1263,8 +1487,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _getWeek_
+*** 
+#### _getWeek_ 
 ***
 
 **Info:** Date class extension to retrieve the week number in the year
@@ -1279,8 +1503,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isValidDate_
+*** 
+#### _isValidDate_ 
 ***
 
 **Info:** Date class extension to check if the date is valid
@@ -1295,16 +1519,16 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-<a name='markdown-header-http'></a>
-## HTTP
+<a name='markdown-header-fs'></a>
+## FS
 
+*** 
+#### _appendFile_ 
 ***
-#### _ChromeVersion_
-***
 
-**Info:** Get Chrome version
+**Info:** A promisified version of appendFile.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Float)
+**Return:** (Mixed)
 
 **Parameters:**
 
@@ -1314,13 +1538,13 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _FirefoxVersion_
+*** 
+#### _chmod_ 
 ***
 
-**Info:** Get Firefox version
+**Info:** A promisified version of chmod.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Float)
+**Return:** (Mixed)
 
 **Parameters:**
 
@@ -1330,13 +1554,13 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _IEVersion_
+*** 
+#### _chown_ 
 ***
 
-**Info:** Get Internet Explorer version
+**Info:** A promisified version of chown.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Float)
+**Return:** (Mixed)
 
 **Parameters:**
 
@@ -1346,13 +1570,13 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _OperaVersion_
+*** 
+#### _close_ 
 ***
 
-**Info:** Get Opera version
+**Info:** A promisified version of close.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Float)
+**Return:** (Mixed)
 
 **Parameters:**
 
@@ -1362,13 +1586,13 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _SafariVersion_
+*** 
+#### _fchmod_ 
 ***
 
-**Info:** Get Safari version
+**Info:** A promisified version of fchmod.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Float)
+**Return:** (Mixed)
 
 **Parameters:**
 
@@ -1378,43 +1602,459 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _createServer_
+*** 
+#### _fchown_ 
 ***
 
-**Info:** Create http server, ability to run middleware, and define routes.
+**Info:** A promisified version of fchown.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Server)
+**Return:** (Mixed)
 
 **Parameters:**
 
-* callback: (Function) Function to callback when a request is received
-
-**Overloads:**
-
-1)
-
-* callback: (Function) Function to callback when a request is received
-* createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
-
-***
-#### _echo_
-***
-
-**Info:** Echo to buffer and use in response
-
-**Return:** (void)
-
-**Parameters:**
-
-* output: Data to send in response
+* None
 
 **Overloads:**
 
 * None
 
+*** 
+#### _fdatasync_ 
 ***
-#### _end_
+
+**Info:** A promisified version of fdatasync.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _fstat_ 
+***
+
+**Info:** A promisified version of fstat.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _fsync_ 
+***
+
+**Info:** A promisified version of fsync.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _ftruncate_ 
+***
+
+**Info:** A promisified version of ftruncate.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _futimes_ 
+***
+
+**Info:** A promisified version of futimes.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _lchmod_ 
+***
+
+**Info:** A promisified version of lchmod.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _lchown_ 
+***
+
+**Info:** A promisified version of lchown.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _link_ 
+***
+
+**Info:** A promisified version of link.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _lstat_ 
+***
+
+**Info:** A promisified version of lstat.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _mkdir_ 
+***
+
+**Info:** A promisified version of mkdir.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _mkdtemp_ 
+***
+
+**Info:** A promisified version of mkdtemp.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _open_ 
+***
+
+**Info:** A promisified version of open.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _read_ 
+***
+
+**Info:** A promisified version of read.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _readFile_ 
+***
+
+**Info:** A promisified version of readFile.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _readdir_ 
+***
+
+**Info:** A promisified version of readdir.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _readlink_ 
+***
+
+**Info:** A promisified version of readlink.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _realpath_ 
+***
+
+**Info:** A promisified version of realpath.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _rename_ 
+***
+
+**Info:** A promisified version of rename.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _rmdir_ 
+***
+
+**Info:** A promisified version of rmdir.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _stat_ 
+***
+
+**Info:** A promisified version of stat.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _symlink_ 
+***
+
+**Info:** A promisified version of symlink.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _truncate_ 
+***
+
+**Info:** A promisified version of truncate.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _unlink_ 
+***
+
+**Info:** A promisified version of unlink.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _utimes_ 
+***
+
+**Info:** A promisified version of utimes.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _write_ 
+***
+
+**Info:** A promisified version of write.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _writeFile_ 
+***
+
+**Info:** A promisified version of writeFile.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+<a name='markdown-header-function'></a>
+## Function
+
+*** 
+#### _catch_ 
+***
+
+**Info:** Function listener to register the catch event
+
+**Return:** (String)
+
+**Parameters:**
+
+* func: (Function) Function to call on emit
+
+**Overloads:**
+
+* None
+
+*** 
+#### _emit_ 
 ***
 
 **Info:** Call the next function(s) in queue
@@ -1432,8 +2072,262 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * event: Event to trigger.
 * infinite: any number of arguments can be passed and will be applied to listening functions.
 
+*** 
+#### _extends_ 
 ***
-#### _getSession_
+
+**Info:** Function class extension to extend another class
+
+**Return:** (Function)
+
+**Parameters:**
+
+* extendee: (Object) Class to extend
+
+**Overloads:**
+
+1)
+
+* extendee: (Object) Class to extend
+* inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
+
+*** 
+#### _getName_ 
+***
+
+**Info:** Function class extension to get the name of the function
+
+**Return:** (String)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _getParameters_ 
+***
+
+**Info:** Function class extension to get parameters in definition
+
+**Return:** (Array)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _next_ 
+***
+
+**Info:** Call the next function(s) in queue
+
+**Return:** (void)
+
+**Parameters:**
+
+* infinite: any number of arguments can be passed.
+
+**Overloads:**
+
+* None
+
+*** 
+#### _on_ 
+***
+
+**Info:** Function listener to register events
+
+**Return:** (String)
+
+**Parameters:**
+
+* event: (String) Event to listen on and invoked on emit
+* func: (Function) Function to call on emit
+
+**Overloads:**
+
+* None
+
+*** 
+#### _then_ 
+***
+
+**Info:** Function listener to register the then event
+
+**Return:** (String)
+
+**Parameters:**
+
+* func: (Function) Function to call on emit
+
+**Overloads:**
+
+* None
+
+*** 
+#### _toPromise_ 
+***
+
+**Info:** Function listener to register events
+
+**Return:** (String)
+
+**Parameters:**
+
+* event: (String) Event to listen on and invoked on emit
+* func: (Function) Function to call on emit
+
+**Overloads:**
+
+* None
+
+<a name='markdown-header-http'></a>
+## HTTP
+
+*** 
+#### _ChromeVersion_ 
+***
+
+**Info:** Get Chrome version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _FirefoxVersion_ 
+***
+
+**Info:** Get Firefox version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _IEVersion_ 
+***
+
+**Info:** Get Internet Explorer version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _OperaVersion_ 
+***
+
+**Info:** Get Opera version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _SafariVersion_ 
+***
+
+**Info:** Get Safari version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _createServer_ 
+***
+
+**Info:** Create http server, ability to run middleware, and define routes.
+
+**Return:** (Server)
+
+**Parameters:**
+
+* callback: (Function) Function to callback when a request is received
+
+**Overloads:**
+
+1)
+
+* callback: (Function) Function to callback when a request is received
+* createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
+
+*** 
+#### _echo_ 
+***
+
+**Info:** Echo to buffer and use in response
+
+**Return:** (void)
+
+**Parameters:**
+
+* output: Data to send in response
+
+**Overloads:**
+
+* None
+
+*** 
+#### _end_ 
+***
+
+**Info:** Call the next function(s) in queue
+
+**Return:** (void)
+
+**Parameters:**
+
+* event: Event to trigger.
+
+**Overloads:**
+
+1)
+
+* event: Event to trigger.
+* infinite: any number of arguments can be passed and will be applied to listening functions.
+
+*** 
+#### _getSession_ 
 ***
 
 **Info:** Retrieve the session object when used in conjunction with createServer
@@ -1451,8 +2345,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * sid: (String) Session id of the session object to retrieve.
 * callback: (Function) callback function to invoke once the session object is retrieved.
 
-***
-#### _getSessionID_
+*** 
+#### _getSessionID_ 
 ***
 
 **Info:** Retrieve the session id when used in conjunction with createServer
@@ -1467,8 +2361,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _getSessionSync_
+*** 
+#### _getSessionSync_ 
 ***
 
 **Info:** Syncronously retrieve the session object when used in conjunction with createServer
@@ -1483,8 +2377,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _header_
+*** 
+#### _header_ 
 ***
 
 **Info:** Set Http Headers to send
@@ -1511,8 +2405,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * headers: (Object) Http headers.
 * code: (Integer) Http response code.
 
-***
-#### _isAmaya_
+*** 
+#### _isAmaya_ 
 ***
 
 **Info:** Check if browser is Amaya
@@ -1527,8 +2421,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isAndroid_
+*** 
+#### _isAndroid_ 
 ***
 
 **Info:** Check if device is Android
@@ -1543,8 +2437,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isBlackBerry_
+*** 
+#### _isBlackBerry_ 
 ***
 
 **Info:** Check if device is BlackBerry
@@ -1559,8 +2453,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isChrome_
+*** 
+#### _isChrome_ 
 ***
 
 **Info:** Check if browser is Chrome
@@ -1575,8 +2469,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isFirefox_
+*** 
+#### _isFirefox_ 
 ***
 
 **Info:** Check if browser is Firefox
@@ -1591,8 +2485,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isGecko_
+*** 
+#### _isGecko_ 
 ***
 
 **Info:** Check if engine is Gecko
@@ -1607,8 +2501,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isIE_
+*** 
+#### _isIE_ 
 ***
 
 **Info:** Check if browser is Internet Explorer
@@ -1623,8 +2517,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isIE6_
+*** 
+#### _isIE6_ 
 ***
 
 **Info:** Check if browser is Internet Explorer 6
@@ -1639,8 +2533,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isIPad_
+*** 
+#### _isIPad_ 
 ***
 
 **Info:** Check if device is iPad
@@ -1655,8 +2549,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isIPhone_
+*** 
+#### _isIPhone_ 
 ***
 
 **Info:** Check if device is IPhone
@@ -1671,8 +2565,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isIPod_
+*** 
+#### _isIPod_ 
 ***
 
 **Info:** Check if device is IPod
@@ -1687,8 +2581,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isKHTML_
+*** 
+#### _isKHTML_ 
 ***
 
 **Info:** Check if engine is KHTML
@@ -1703,8 +2597,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isLinux_
+*** 
+#### _isLinux_ 
 ***
 
 **Info:** Check if OS is Linux
@@ -1719,8 +2613,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isMac_
+*** 
+#### _isMac_ 
 ***
 
 **Info:** Check if OS is Mac Based
@@ -1735,8 +2629,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isMobile_
+*** 
+#### _isMobile_ 
 ***
 
 **Info:** Check if the device is a Mobile device
@@ -1751,8 +2645,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isOpera_
+*** 
+#### _isOpera_ 
 ***
 
 **Info:** Check if browser is Opera
@@ -1767,8 +2661,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isPalmOS_
+*** 
+#### _isPalmOS_ 
 ***
 
 **Info:** Check if OS is PalmOS
@@ -1783,8 +2677,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isPresto_
+*** 
+#### _isPresto_ 
 ***
 
 **Info:** Check if engine is Presto
@@ -1799,8 +2693,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isPrince_
+*** 
+#### _isPrince_ 
 ***
 
 **Info:** Check if engine is Prince
@@ -1815,8 +2709,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isSafari_
+*** 
+#### _isSafari_ 
 ***
 
 **Info:** Check if browser is Safari
@@ -1831,8 +2725,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isSymbian_
+*** 
+#### _isSymbian_ 
 ***
 
 **Info:** Check if OS is Symbian
@@ -1847,8 +2741,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isTrident_
+*** 
+#### _isTrident_ 
 ***
 
 **Info:** Check if engine is Trident
@@ -1863,8 +2757,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isWebkit_
+*** 
+#### _isWebkit_ 
 ***
 
 **Info:** Check if engine is Webkit
@@ -1879,8 +2773,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isWindows_
+*** 
+#### _isWindows_ 
 ***
 
 **Info:** Check if OS is Windows
@@ -1895,8 +2789,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isWindowsMobile_
+*** 
+#### _isWindowsMobile_ 
 ***
 
 **Info:** Check if device is Windows Mobile
@@ -1911,8 +2805,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _send_
+*** 
+#### _send_ 
 ***
 
 **Info:** Recursively require the entire directory and returns an object containing the required modules.
@@ -1930,8 +2824,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * status: (Integer) Status code for response.
 * data: (Object) Object to send in response.
 
-***
-#### _var_dump_
+*** 
+#### _var_dump_ 
 ***
 
 **Info:** Dump of variables to response.
@@ -1946,8 +2840,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _writeSession_
+*** 
+#### _writeSession_ 
 ***
 
 **Info:** Writes session to filesystem to be retrieved later.
@@ -1965,8 +2859,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 <a name='markdown-header-number'></a>
 ## Number
 
-***
-#### _aboutEqualTo_
+*** 
+#### _aboutEqualTo_ 
 ***
 
 **Info:** Number class extension to check if values are approximately equal
@@ -1982,8 +2876,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isEven_
+*** 
+#### _isEven_ 
 ***
 
 **Info:** Number class extension to check if number is even
@@ -1998,8 +2892,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isOdd_
+*** 
+#### _isOdd_ 
 ***
 
 **Info:** Number class extension to check if number is odd
@@ -2017,8 +2911,29 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 <a name='markdown-header-object'></a>
 ## Object
 
+*** 
+#### _addObjectPrototype_ 
 ***
-#### _changes_
+
+**Info:** Method to extend the Object Class
+
+**Return:** (void)
+
+**Parameters:**
+
+* name: (String) name of the method to add
+* fn: (Function) method implementation
+
+**Overloads:**
+
+1)
+
+* name: (String) name of the method to add
+* fn: (Function) method implementation
+* override: (Bool) if true, override the previously defined prototype
+
+*** 
+#### _changes_ 
 ***
 
 **Info:** Object class extension to compare properties that have changed
@@ -2033,8 +2948,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _contains_
+*** 
+#### _contains_ 
 ***
 
 **Info:** Object class extension to check if value exists
@@ -2056,8 +2971,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * arr: (Array) Array of values to return first matching value
 
-***
-#### _copyObject_
+*** 
+#### _copyObject_ 
 ***
 
 **Info:** Object class extension to copy an object excluding constructor
@@ -2072,8 +2987,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _count_
+*** 
+#### _count_ 
 ***
 
 **Info:** Object class extension to count the properties in the object/elements in arrays/characters in strings.
@@ -2098,8 +3013,26 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * option: (RegExp) Word or phrase pattern to count in the String
 
+*** 
+#### _duplicate_ 
 ***
-#### _eachProperty_
+
+**Info:** Object class extension to copy an object including constructor
+
+**Return:** (Object)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* recursive: (Boolean) Flag to copy all child objects recursively
+
+*** 
+#### _eachProperty_ 
 ***
 
 **Info:** Object class extension to loop through all properties where hasOwnValue is true.
@@ -2114,8 +3047,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _equals_
+*** 
+#### _equals_ 
 ***
 
 **Info:** Object class extension to check if object values are equal
@@ -2133,8 +3066,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * compare: (Object) Object to compare against
 * props: (String[]) Array of property values to compare against
 
-***
-#### _every_
+*** 
+#### _every_ 
 ***
 
 **Info:** Object class extension to check property values against a function
@@ -2152,8 +3085,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * callback: (Function) Callback to apply to each value
 * craydent_ctxObject: (Mixed) Context for the callback function
 
-***
-#### _getClass_
+*** 
+#### _getClass_ 
 ***
 
 **Info:** Object class extension to get the constructor name
@@ -2168,8 +3101,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _getKeys_
+*** 
+#### _getKeys_ 
 ***
 
 **Info:** Object class extension to get the keys of the object
@@ -2184,8 +3117,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _getValue_
+*** 
+#### _getValue_ 
 ***
 
 **Info:** Object class extension to retrieve value of an object property
@@ -2207,8 +3140,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * args: (Mixed[]) An array of arguments to pass to context when it is a function
 * dflt: (Mixed) Default value to return if context is not a function
 
-***
-#### _has_
+*** 
+#### _has_ 
 ***
 
 **Info:** Alias to Object.prototype.hasOwnProperty
@@ -2223,8 +3156,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isArray_
+*** 
+#### _isArray_ 
 ***
 
 **Info:** Object class extension to check if object is an array
@@ -2239,8 +3172,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isAsync_
+*** 
+#### _isAsync_ 
 ***
 
 **Info:** Object class extension to check if object is a async function
@@ -2255,8 +3188,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isBetween_
+*** 
+#### _isBetween_ 
 ***
 
 **Info:** Object class extension to check if object is between lower and upper bounds
@@ -2276,8 +3209,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * upperBound: (Mixed) Upper bound comparison
 * inclusive: (Bool) Flag to include give bounds
 
-***
-#### _isBoolean_
+*** 
+#### _isBoolean_ 
 ***
 
 **Info:** Object class extension to check if object is a boolean
@@ -2292,8 +3225,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isDate_
+*** 
+#### _isDate_ 
 ***
 
 **Info:** Object class extension to check if object is a date
@@ -2308,8 +3241,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isDomElement_
+*** 
+#### _isDomElement_ 
 ***
 
 **Info:** Object class extension to check if object is a DOM element
@@ -2324,8 +3257,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isEmpty_
+*** 
+#### _isEmpty_ 
 ***
 
 **Info:** Object class extension to check if it is empty
@@ -2340,8 +3273,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isError_
+*** 
+#### _isError_ 
 ***
 
 **Info:** Object class extension to check if object is a boolean
@@ -2356,8 +3289,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isFloat_
+*** 
+#### _isFloat_ 
 ***
 
 **Info:** Object class extension to check if object is a float
@@ -2372,8 +3305,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isFunction_
+*** 
+#### _isFunction_ 
 ***
 
 **Info:** Object class extension to check if object is a function
@@ -2388,8 +3321,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isGenerator_
+*** 
+#### _isGenerator_ 
 ***
 
 **Info:** Object class extension to check if object is a generator function
@@ -2404,8 +3337,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isGeolocation_
+*** 
+#### _isGeolocation_ 
 ***
 
 **Info:** Object class extension to check if object is a geolocation
@@ -2420,8 +3353,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isInt_
+*** 
+#### _isInt_ 
 ***
 
 **Info:** Object class extension to check if object is an integer
@@ -2436,8 +3369,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isNumber_
+*** 
+#### _isNumber_ 
 ***
 
 **Info:** Object class extension to check if object is a number
@@ -2452,8 +3385,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isObject_
+*** 
+#### _isObject_ 
 ***
 
 **Info:** Object class extension to check if object is an object
@@ -2468,8 +3401,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isPromise_
+*** 
+#### _isPromise_ 
 ***
 
 **Info:** Object class extension to check if object is a promise object
@@ -2484,8 +3417,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isRegExp_
+*** 
+#### _isRegExp_ 
 ***
 
 **Info:** Object class extension to check if object is a RegExp
@@ -2500,8 +3433,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isString_
+*** 
+#### _isString_ 
 ***
 
 **Info:** Object class extension to check if object is a string
@@ -2516,8 +3449,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isSubset_
+*** 
+#### _isSubset_ 
 ***
 
 **Info:** Object class extension to check if item is a subset
@@ -2532,8 +3465,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _itemCount_
+*** 
+#### _itemCount_ 
 ***
 
 **Info:** Object class extension to count the properties in item
@@ -2548,8 +3481,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _keyOf_
+*** 
+#### _keyOf_ 
 ***
 
 **Info:** Object class extension to get the key of the give value
@@ -2564,8 +3497,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _map_
+*** 
+#### _map_ 
 ***
 
 **Info:** Object class extension to apply method to every value
@@ -2583,8 +3516,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * callback: (Function) Callback to apply to each value
 * craydent_ctxObject: (Mixed) Context for the callback function
 
-***
-#### _merge_
+*** 
+#### _merge_ 
 ***
 
 **Info:** Object class extension to merge objects
@@ -2602,8 +3535,36 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * secondary: (Object) Object to merge with
 * condition: (Mixed) Flags to recurse, merge only shared value, clone, intersect etc
 
+*** 
+#### _setProperty_ 
 ***
-#### _toStringAlt_
+
+**Info:** Object class extension to set nested properties creating necessary property paths
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* path: (String) Path to nested property
+* value: (Mixed) Value to set
+
+**Overloads:**
+
+1)
+
+* path: (String) Path to nested property
+* value: (Mixed) Value to set
+* delimiter: (Char) Separator used to parse path
+
+2)
+
+* path: (String) Path to nested property
+* delimiter: (Char) Separator used to parse path
+* value: (Mixed) Value to set
+* options: (Object) Options for ignoring inheritance, validPath, etc
+
+*** 
+#### _toStringAlt_ 
 ***
 
 **Info:** Object class extension for an alternate way to stringify object to formatted string
@@ -2634,8 +3595,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 <a name='markdown-header-regexp'></a>
 ## RegExp
 
-***
-#### _addFlags_
+*** 
+#### _addFlags_ 
 ***
 
 **Info:** RegExp class extension to add flags to regex
@@ -2653,11 +3614,11 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 <a name='markdown-header-string'></a>
 ## String
 
-***
-#### _acronymize_
+*** 
+#### _acronymize_ 
 ***
 
-**Info:** String class extension to capitalize parts of the string
+**Info:** String class extension to create an acronym from the given string
 
 **Return:** (String)
 
@@ -2691,8 +3652,50 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * match: (RegExp) Pattern to match to qualify the Acronym.
 * delimiter: (RegExp) RegExp pattern that delimits the string.
 
+*** 
+#### _capitalize_ 
 ***
-#### _convertUTCDate_
+
+**Info:** String class extension to capitalize parts of the string
+
+**Return:** (String)
+
+**Parameters:**
+
+* pos: (Int[]) Index of the string to capitalize
+
+**Overloads:**
+
+1)
+
+* pos: (Int) Index of the string to capitalize
+* everyWord: (Bool) Flag to capital every word
+
+*** 
+#### _contains_ 
+***
+
+**Info:** Object class extension to check if value exists
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* val: (Mixed) Value to check or custom function to determine validity
+
+**Overloads:**
+
+1)
+
+* val: (Mixed) Value to check
+* func: (Function) Callback function used to do the comparison
+
+2)
+
+* arr: (Array) Array of values to return first matching value
+
+*** 
+#### _convertUTCDate_ 
 ***
 
 **Info:** String class extension to convert date string to UTC format
@@ -2707,8 +3710,34 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
+*** 
+#### _count_ 
 ***
-#### _cut_
+
+**Info:** Object class extension to count the properties in the object/elements in arrays/characters in strings.
+
+**Return:** (Int)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* option: (Mixed) Query used in Array.where when counting elements in an Array
+
+2)
+
+* option: (String) Word or phrase to count in the String
+
+3)
+
+* option: (RegExp) Word or phrase pattern to count in the String
+
+*** 
+#### _cut_ 
 ***
 
 **Info:** String class extension to remove between the provided indexes
@@ -2728,8 +3757,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * end_index: (Integer) End index to cut
 * replacement: (String) String to put in place of the cut
 
-***
-#### _ellipsis_
+*** 
+#### _ellipsis_ 
 ***
 
 **Info:** String class extension to shorten by ellipsis
@@ -2747,8 +3776,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * before: (Int) Number of characters to use before using ellipsis
 * after: (Int) Number of characters to use after the ellipsis
 
-***
-#### _endItWith_
+*** 
+#### _endItWith_ 
 ***
 
 **Info:** String class extension to guarantee the original string ends with the passed string
@@ -2763,26 +3792,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _endsWith_
-***
-
-**Info:** String class extension to check if the string ends with the given string
-
-**Return:** (Mix)
-
-**Parameters:**
-
-* infinite: any number of arguments can be passed
-
-**Overloads:**
-
-1)
-
-* arr: (String[]) An array of strings to check
-
-***
-#### _endsWithAny_
+*** 
+#### _endsWith_ 
 ***
 
 **Info:** String class extension to check if the string ends with the given string
@@ -2799,8 +3810,49 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * arr: (String[]) An array of strings to check
 
+*** 
+#### _endsWithAny_ 
 ***
-#### _highlight_
+
+**Info:** String class extension to check if the string ends with the given string
+
+**Return:** (Mix)
+
+**Parameters:**
+
+* infinite: any number of arguments can be passed
+
+**Overloads:**
+
+1)
+
+* arr: (String[]) An array of strings to check
+
+*** 
+#### _getValue_ 
+***
+
+**Info:** Object class extension to retrieve value of an object property
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* dflt: (Mixed) Default value to return if context is not a function
+
+2)
+
+* args: (Mixed[]) An array of arguments to pass to context when it is a function
+* dflt: (Mixed) Default value to return if context is not a function
+
+*** 
+#### _highlight_ 
 ***
 
 **Info:** String class extension to surround search words with the given tag(default span) and class (default chighlight)
@@ -2839,8 +3891,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * cssClass: (String) Class to add for highlighting
 * tag: (String) Tag to use to surround the search
 
-***
-#### _ireplace_all_
+*** 
+#### _ireplace_all_ 
 ***
 
 **Info:** String class extension to replace all substrings ignoring case
@@ -2856,8 +3908,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isBlank_
+*** 
+#### _isBlank_ 
 ***
 
 **Info:** String class extension to check if the string is empty
@@ -2872,8 +3924,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isCuid_
+*** 
+#### _isCuid_ 
 ***
 
 **Info:** String class extension to check if the string is a cuid
@@ -2888,8 +3940,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _isValidEmail_
+*** 
+#### _isValidEmail_ 
 ***
 
 **Info:** String class extension to check if string is a valid email
@@ -2904,8 +3956,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _lastIndexOfAlt_
+*** 
+#### _lastIndexOfAlt_ 
 ***
 
 **Info:** String class extension to find the last index based on a regular expression
@@ -2923,8 +3975,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * regex: (RegExp) Regular expression to check value against
 * pos: (Int) Max index to go up to in the search
 
-***
-#### _ltrim_
+*** 
+#### _ltrim_ 
 ***
 
 **Info:** String class extension to remove characters from the beginning of the string
@@ -2939,8 +3991,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _pluralize_
+*** 
+#### _pluralize_ 
 ***
 
 **Info:** String class extension to do a best guess pluralization of the string
@@ -2955,8 +4007,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _replace_all_
+*** 
+#### _replace_all_ 
 ***
 
 **Info:** String class extension to replace all substrings (case sensitive)
@@ -2975,8 +4027,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * replace: (String[]) Array of string to replace
 * subject: (String[]) Array of string to replace with
 
-***
-#### _reverse_
+*** 
+#### _reverse_ 
 ***
 
 **Info:** String class extension to reverse the string
@@ -2991,8 +4043,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _rtrim_
+*** 
+#### _rtrim_ 
 ***
 
 **Info:** String class extension to remove characters from the end of the string
@@ -3007,8 +4059,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _sanitize_
+*** 
+#### _sanitize_ 
 ***
 
 **Info:** String class extension to remove potential XSS threats
@@ -3023,8 +4075,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _singularize_
+*** 
+#### _singularize_ 
 ***
 
 **Info:** String class extension to do a best guess singularization of the string
@@ -3039,8 +4091,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _startItWith_
+*** 
+#### _startItWith_ 
 ***
 
 **Info:** String class extension to guarantee the original string starts with the passed string
@@ -3055,26 +4107,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _startsWith_
-***
-
-**Info:** String class extension to check if the string starts with the given string
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* infinite: any number of String arguments can be passed
-
-**Overloads:**
-
-1)
-
-* arr: (String[]) An array of strings to check
-
-***
-#### _startsWithAny_
+*** 
+#### _startsWith_ 
 ***
 
 **Info:** String class extension to check if the string starts with the given string
@@ -3091,8 +4125,42 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * arr: (String[]) An array of strings to check
 
+*** 
+#### _startsWithAny_ 
 ***
-#### _substringBetween_
+
+**Info:** String class extension to check if the string starts with the given string
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* infinite: any number of String arguments can be passed
+
+**Overloads:**
+
+1)
+
+* arr: (String[]) An array of strings to check
+
+*** 
+#### _strip_ 
+***
+
+**Info:** String class extension to remove characters from the beginning and end of the string
+
+**Return:** (String)
+
+**Parameters:**
+
+* character: (Char[]) Character to remove
+
+**Overloads:**
+
+* None
+
+*** 
+#### _substringBetween_ 
 ***
 
 **Info:** String class extension to substring by character instead of using indexes
@@ -3114,8 +4182,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * start: (Char) Character to use for the starting index
 
-***
-#### _substringEndAt_
+*** 
+#### _substringEndAt_ 
 ***
 
 **Info:** String class extension to substring by character instead of using indexes
@@ -3130,8 +4198,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _substringStartFrom_
+*** 
+#### _substringStartFrom_ 
 ***
 
 **Info:** String class extension to substring by character instead of using indexes
@@ -3146,8 +4214,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _toCurrencyNotation_
+*** 
+#### _toCurrencyNotation_ 
 ***
 
 **Info:** String class extension to change number to use separater character
@@ -3164,8 +4232,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * separator: (Char) Character to use as delimiter
 
-***
-#### _toDateTime_
+*** 
+#### _toDateTime_ 
 ***
 
 **Info:** String class extension to convert string to datetime
@@ -3182,8 +4250,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format
 
-***
-#### _toObject_
+*** 
+#### _toObject_ 
 ***
 
 **Info:** String class extension to convert to JSON
@@ -3205,8 +4273,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '&'.
 * delimiter: (Char) Character to use as pair delimiter
 
-***
-#### _trim_
+*** 
+#### _trim_ 
 ***
 
 **Info:** String class extension to remove characters from the beginning and end of the string.
@@ -3226,8 +4294,27 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 <a name='markdown-header-typeof'></a>
 ## TypeOf
 
+*** 
+#### _isNull_ 
 ***
-#### _isNull_
+
+**Info:** Check if a value is Null
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* value: (Mixed) Value to check
+
+**Overloads:**
+
+1)
+
+* value: (Mixed) Value to check
+* defaultValue: (Mixed) Value to return if null
+
+*** 
+#### _isNull_ 
 ***
 
 **Info:** Check if a value is Null
@@ -3248,8 +4335,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 <a name='markdown-header-utility'></a>
 ## Utility
 
-***
-#### _addObjectPrototype_
+*** 
+#### _addObjectPrototype_ 
 ***
 
 **Info:** Method to extend the Object Class
@@ -3269,8 +4356,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * fn: (Function) method implementation
 * override: (Bool) if true, override the previously defined prototype
 
-***
-#### _ajax_
+*** 
+#### _ajax_ 
 ***
 
 **Info:** Method to make ajax calls
@@ -3288,8 +4375,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
 * returnData: (String) Specifies which data to return when using Promise pattern
 
-***
-#### _awaitable_
+*** 
+#### _awaitable_ 
 ***
 
 **Info:** Makes a value yieldable via a Promise.
@@ -3318,8 +4405,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * context: (Mixed) Context to use to execute func.
 * callbackIndex: (Integer) Index of callback argument.
 
-***
-#### _clearCache_
+*** 
+#### _clearCache_ 
 ***
 
 **Info:** Clear a module from the require cache.
@@ -3336,8 +4423,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _clusterit_
+*** 
+#### _clusterit_ 
 ***
 
 **Info:** Enable clustering
@@ -3352,8 +4439,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _cout_
+*** 
+#### _cout_ 
 ***
 
 **Info:** Log to console when DEBUG_MODE is true and when the console is available
@@ -3368,8 +4455,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _cuid_
+*** 
+#### _cuid_ 
 ***
 
 **Info:** Creates a Craydent/Global Unique Identifier
@@ -3384,8 +4471,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _error_
+*** 
+#### _error_ 
 ***
 
 **Info:** User implemented place holder function to handle errors
@@ -3401,8 +4488,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _exclude_
+*** 
+#### _exclude_ 
 ***
 
 **Info:** Exclude prototyping
@@ -3417,8 +4504,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _foo_
+*** 
+#### _foo_ 
 ***
 
 **Info:** Place holder function for a blank function
@@ -3433,8 +4520,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _include_
+*** 
+#### _include_ 
 ***
 
 **Info:** Require without erroring when module does not exist.
@@ -3452,8 +4539,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * path: (String) Module or Path to module.
 * refresh: (Boolean) Flag to clear cache for the specific include.
 
-***
-#### _logit_
+*** 
+#### _logit_ 
 ***
 
 **Info:** Log to console when DEBUG_MODE is true and when the console is available
@@ -3468,8 +4555,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _md5_
+*** 
+#### _md5_ 
 ***
 
 **Info:** MD5 encode a string.
@@ -3484,8 +4571,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _mkdirRecursive_
+*** 
+#### _mkdirRecursive_ 
 ***
 
 **Info:** Recursively create folders.
@@ -3501,8 +4588,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _namespace_
+*** 
+#### _namespace_ 
 ***
 
 **Info:** Adds the class to a namespace instead of the global space
@@ -3522,8 +4609,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * clazz: (Class) Class to add to the given namespace
 * fn: (Function) Method to call after the class has been added to the namespace
 
-***
-#### _noop_
+*** 
+#### _noop_ 
 ***
 
 **Info:** Place holder function for a blank function
@@ -3538,8 +4625,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * None
 
-***
-#### _now_
+*** 
+#### _now_ 
 ***
 
 **Info:** Get the DateTime of now
@@ -3556,24 +4643,27 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * format: (String) Format syntax to return formatted string of now
 
-***
-#### _parseBoolean_
+*** 
+#### _parseBoolean_ 
 ***
 
-**Info:** Try to parse value to a Boolean
+**Info:** Try to parse value to a Boolean (0, 1, '0', and '1' are valid unless strict is set to true).
 
 **Return:** (Mixed)
 
 **Parameters:**
 
-* value: (Mixed) value to parse as boolean
+* value: (Mixed) value to parse as boolean.
 
 **Overloads:**
 
-* None
+1)
 
-***
-#### _parseRaw_
+* value: (Mixed) value to parse as boolean.
+* strict: (Boolean) Disable parsing of 0, 1, '0', and '1'.
+
+*** 
+#### _parseRaw_ 
 ***
 
 **Info:** Creates an evaluable string
@@ -3592,8 +4682,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * skipQuotes: (Bool) Flag to skip quotes for strings
 * saveCircular: (Bool) Flag to save circular references
 
-***
-#### _rand_
+*** 
+#### _rand_ 
 ***
 
 **Info:** Create a random number between two numbers
@@ -3613,8 +4703,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * num2: (Number) Upper bound
 * inclusive: (Bool) Flag to include the given numbers
 
-***
-#### _requireDirectory_
+*** 
+#### _requireDirectory_ 
 ***
 
 **Info:** Recursively require the entire directory and returns an object containing the required modules.
@@ -3632,8 +4722,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * path: (String) Path to directory.
 * options: (Char) 'r' Flag to use to indicate recursively require, (Char) 's' Flag to indicate use syncronous instead of Promise Pattern
 
-***
-#### _suid_
+*** 
+#### _suid_ 
 ***
 
 **Info:** Creates a short Craydent/Global Unique Identifier
@@ -3650,8 +4740,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * length: (Integer) Custom length of the short unique identifier
 
-***
-#### _syncroit_
+*** 
+#### _syncroit_ 
 ***
 
 **Info:** Generator based control flow to allow for more "syncronous" programing structure
@@ -3668,8 +4758,8 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 
 * async: (AsyncFunction) Async function to execute
 
-***
-#### _tryEval_
+*** 
+#### _tryEval_ 
 ***
 
 **Info:** Evaluates an expression without throwing an error
@@ -3687,8 +4777,24 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * expression: (Mixed) Expression to evaluate
 * evaluator: (Function) Method to use to evaluate the expression
 
+*** 
+#### _wait_ 
 ***
-#### _yieldable_
+
+**Info:** Stops execution until the condition is satisfied
+
+**Return:** (void)
+
+**Parameters:**
+
+* condition: (Mixed) Condition equivalent to js true to resume execution
+
+**Overloads:**
+
+* None
+
+*** 
+#### _yieldable_ 
 ***
 
 **Info:** Makes a value yieldable via a Promise.
@@ -3717,27 +4823,11 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (String) |
 * context: (Mixed) Context to use to execute func.
 * callbackIndex: (Integer) Index of callback argument.
 
-***
-#### _wait_
-***
-
-**Info:** Stops execution until the condition is satisfied
-
-**Return:** (void)
-
-**Parameters:**
-
-* condition: (Mixed) Condition equivalent to js true to resume execution
-
-**Overloads:**
-
-* None
-
 <a name='markdown-header-xml to json'></a>
 ## XML to JSON
 
-***
-#### _xmlToJson_
+*** 
+#### _xmlToJson_ 
 ***
 
 **Info:** Converts XML to JSON

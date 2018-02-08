@@ -33,7 +33,6 @@ arr.prototypedMethod(args);
 ## Categories
 
 * [Constants](#markdown-header-constants)
-* [Featured](#markdown-header-featured)
 * [TypeOf](#markdown-header-typeof)
 
 <a name='markdown-header-constants'></a>
@@ -41,12 +40,7 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| ERROR_TYPES (String) |MODULES_LOADED (String) |VERSION (String) |
-LOCAL_IP (String) |PUBLIC_IP (String) |
-
-<a name='markdown-header-featured'></a>
-## Featured
-
+| ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 
 
 ## Methods
@@ -144,6 +138,22 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 ***
 
 **Info:** Object class extension to check if object is a DOM element
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isEmpty_ 
+***
+
+**Info:** Object class extension to check if it is empty
 
 **Return:** (Bool)
 

@@ -33,7 +33,6 @@ arr.prototypedMethod(args);
 ## Categories
 
 * [Constants](#markdown-header-constants)
-* [Featured](#markdown-header-featured)
 * [String](#markdown-header-string)
 
 <a name='markdown-header-constants'></a>
@@ -41,12 +40,8 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (String) |MODULES_LOADED (String) |VERSION (String) |
-LOCAL_IP (String) |PUBLIC_IP (String) |
-
-<a name='markdown-header-featured'></a>
-## Featured
-
+| DEBUG_MODE (Boolean) |LOCAL_IP (String) |PUBLIC_IP (String) |
+ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 
 
 ## Methods

@@ -16,9 +16,9 @@ $s.scope.eval = function (str) { return eval(str); };
 
 require($s.dir + 'clearCache')($s);
 require($s.dir + 'include')($s);
+require($s.dir + 'mkdirRecursive')($s);
 require($s.dir + 'parallelEach')($s);
 require($s.dir + 'relativePathFinder')($s);
-require($s.dir + 'startsWithAny')($s);
 require($s.dir + 'requireDirectory')($s);
 
 var fsmethods = [
@@ -95,5 +95,6 @@ $c.clearCache = $s.clearCache;
 $c.include = $s.include;
 $c.relativePathFinder = $s.relativePathFinder;
 $c.requireDirectory = $s.requireDirectory;
+$c.mkdirRecursive = $s.mkdirRecursive;
 
 module.exports = $c;

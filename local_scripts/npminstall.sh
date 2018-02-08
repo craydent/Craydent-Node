@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-cd ../submodules;
+BASEDIR=$(dirname "$0")
+
+cd $BASEDIR/../submodules;
 
 cd array;
 rm -r node_modules;

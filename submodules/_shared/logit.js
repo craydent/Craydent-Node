@@ -9,6 +9,8 @@ var $c = global.$c || {},
     _error = $c.error,
     _cout = $c.cout;
 
+$c.VERBOSE_LOGS = false;
+
 function logit(){
     /*|{
         "info": "Log to console when DEBUG_MODE is true and when the console is available",

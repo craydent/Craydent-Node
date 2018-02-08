@@ -41,8 +41,8 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (String) |MODULES_LOADED (String) |VERSION (String) |
-LOCAL_IP (String) |PUBLIC_IP (String) |
+| DEBUG_MODE (Boolean) |LOCAL_IP (String) |PUBLIC_IP (String) |
+ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured

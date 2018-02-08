@@ -5,9 +5,12 @@
     "main": "craydent.js",
     "scripts": {
         "test": "./local_scripts/test.sh",
-        "test-main": "jasmine-node test/ --color --autotest --watch craydent.js --match -main-",
-        "test-noconflict": "jasmine-node test/ --color --autotest --watch craydent.js --match -noconflict-",
-        "publish": "git push public;"
+        "testMain": "jasmine-node test/ --color --autotest --watch craydent.js --match -main-",
+        "testNoConflict": "jasmine-node test/ --color --autotest --watch craydent.js --match -noconflict-",
+        "push": "git push public;",
+        "publish": "./local_scripts/publish.sh",
+        "buildDev": "./local_scripts/buildDev.sh",
+        "build": "./local_scripts/build.sh"
     },
     "repository": {
         "type": "git",

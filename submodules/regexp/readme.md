@@ -33,7 +33,6 @@ arr.prototypedMethod(args);
 ## Categories
 
 * [Constants](#markdown-header-constants)
-* [Featured](#markdown-header-featured)
 * [RegExp](#markdown-header-regexp)
 
 <a name='markdown-header-constants'></a>
@@ -41,12 +40,8 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (String) |MODULES_LOADED (String) |VERSION (String) |
-LOCAL_IP (String) |PUBLIC_IP (String) |
-
-<a name='markdown-header-featured'></a>
-## Featured
-
+| DEBUG_MODE (Boolean) |LOCAL_IP (String) |PUBLIC_IP (String) |
+ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 
 
 ## Methods
@@ -71,6 +66,25 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 * None
 
 *** 
+#### _equals_ 
+***
+
+**Info:** Object class extension to check if object values are equal
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* compare: (Object) Object to compare against
+
+**Overloads:**
+
+1)
+
+* compare: (Object) Object to compare against
+* props: (String[]) Array of property values to compare against
+
+*** 
 #### _getValue_ 
 ***
 
@@ -92,23 +106,4 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 * args: (Mixed[]) An array of arguments to pass to context when it is a function
 * dflt: (Mixed) Default value to return if context is not a function
-
-*** 
-#### _equals_ 
-***
-
-**Info:** Object class extension to check if object values are equal
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* compare: (Object) Object to compare against
-
-**Overloads:**
-
-1)
-
-* compare: (Object) Object to compare against
-* props: (String[]) Array of property values to compare against
 

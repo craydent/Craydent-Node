@@ -7,8 +7,10 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 
-var mod = '../craydent';
+var root = require.resolve('../package.json').replace('/package.json','');
+var mod = root;
 var name = "craydent";
+var exclude = [];
 var categories = [
     'Constants',
     'Featured',
@@ -18,7 +20,7 @@ var categories = [
     "Control Flow",
     "Date",
     "FS",
-    "Junction",
+    "Function",
     "HTTP",
     "JSON Parser",
     "Number",
@@ -37,7 +39,7 @@ var categories_map = {
 	"control-flow": "Control Flow",
 	"date": "Date",
 	"fs": "FS",
-	"function": "Junction",
+	"function": "Function",
 	"http": "HTTP",
 	"json-parser": "JSON Parser",
 	"number": "Number",
@@ -50,38 +52,89 @@ var categories_map = {
 	"xml-to-json": "XML to JSON"
 };
 // if (process.argv[2] == "publish" && process.argv[3]) {
+var modName = "";
 if (process.argv[2]) {
-	var modName = process.argv[2].substring(process.argv[2].lastIndexOf('/') + 1);
+	modName = process.argv[2].substring(process.argv[2].lastIndexOf('/') + 1);
 	if (categories_map[modName]) {
 		categories = ['Constants','Featured'];
-		mod = process.argv[2];
+		mod = root + process.argv[2];
 		name += "-" + modName;
 		categories.push(categories_map[modName]);
 	}
 }
 // console.log(require(mod),mod);
-var $arr = require(require.resolve('../submodules/array/noConflict'));
-var $cls = require(require.resolve('../submodules/class/noConflict'));
-var $str = require(require.resolve('../submodules/string/noConflict'));
-var $typ = require(require.resolve('../submodules/typeof/noConflict'));
 var $c = require(mod + '/noConflict');
+var $arr = require(root + '/submodules/array/noConflict');
+var $cls = require(root + '/submodules/class/noConflict');
+var $str = require(root + '/submodules/string/noConflict');
+var $typ = require(root + '/submodules/typeof/noConflict');
+var $utl = require(root + '/submodules/utility/noConflict');
 var fs = require('fs'),
 	// Craydent = require(mod),
 	instC,
 	ln = '\n\n',tab = '>',tab2 = "",
 	readme = "<img src=\"http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg\" width=75 height=75/>" + ln +
 		"# Craydent " + $c.VERSION + "\n**by Clark Inada**" + ln,
-	constants = {}, methods = {},featured = {},
+	constants = {}, properties = {}, methods = {},featured = {},
 	orderedFeatured = new $cls.OrderedList(),
 	orderedMethods = new $cls.OrderedList(),
-	orderedConstants = new $cls.OrderedList();
+	orderedConstants = new $cls.OrderedList(),
+	orderedHttpProps = new $cls.OrderedList(),
+	isHTTP = name == "craydent-http";
 
-	try {
-		if (modName == "craydent-http") {
-			instC = new $c({headers:{host:"",cookie:""},url:"",connection:{encrypted:""}})
-		}
+readme += "Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
+	"More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).\n" +
+	"More detailed documentation on methods can be found at [Craydent Methods](http://www.craydent.com/JsonObjectEditor/docs.html#/method/CraydentNode)" + ln +
+	"```js\n" +
+	"// require with prototypes - this require will add prototypes to extend classes and add two constants ($c, $g) to the global space.\n" +
+	"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
+	"require('" + name + "');\n" +
+	"$c.logit($c.VERSION);\n" +
+	"arr.prototypedMethod(args);\n" +
+	"```" + ln +
+	"```js\n" +
+	"// require no conflict - this require is the fully modular version with no global constants, prototypes, or methods.\n" +
+	"var $c = require('" + name + "/noConflict');\n" +
+	"$c.logit($c.VERSION);\n" +
+	"$c.prototypedMethod(arr, args);\n" +
+	"```" +ln +
+	"```js\n" +
+	"// require global - this require constants and methods in the global space and add prototypes to extend classes.\n" +
+	"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
+	"require('" + name + "/global');\n" +
+	"logit($c.VERSION);\n" +
+	"arr.prototypedMethod(args);\n" +
+	"```" +
+	ln;
+try {
+	if (isHTTP) {
+		categories.splice(1,0,"Properties");
+		instC = new $c.context({headers:{host:"",cookie:""},url:"",connection:{encrypted:""}});
+		readme += "Note: All methods and properties defined in the http module must be used as a property of the context (this) within the createServer callback method.\n\n"+
+			"Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
+			"More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).\n" +
+			"More detailed documentation on methods can be found at [Craydent Methods](http://www.craydent.com/JsonObjectEditor/docs.html#/method/CraydentNode)" + ln +
+			"```js\n" +
+			"// require with prototypes - this require will add prototypes to extend classes and add two constants ($c, $g) to the global space.\n" +
+			"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
+			"require('" + name + "');\n" +
+			"$c.createServer(function(req, res){ this.$GET(); });\n" +
+			"```" + ln +
+			"```js\n" +
+			"// require no conflict - this require is the fully modular version with no global constants, prototypes, or methods.\n" +
+			"var $c = require('" + name + "/noConflict');\n" +
+			"$c.createServer(function(req, res){ this.$GET(); });\n" +
+			"```" +ln +
+			"```js\n" +
+			"// require global - this require constants and methods in the global space and add prototypes to extend classes.\n" +
+			"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
+			"require('" + name + "/global');\n" +
+			"createServer(function(req, res){ this.$GET(); });\n" +
+			"```" +
+			ln;
 	}
-	 catch (e) {}
+}
+catch (e) { console.log(e); }
 /*
 readme += "Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
 	"More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).\n" +
@@ -112,30 +165,6 @@ readme += "Craydent is all inclusive utility library.  There are several ways to
 	ln;
 */
 
-readme += "Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
-	"More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).\n" +
-	"More detailed documentation on methods can be found at [Craydent Methods](http://www.craydent.com/JsonObjectEditor/docs.html#/method/CraydentNode)" + ln +
-	"```js\n" +
-	"// require with prototypes - this require will add prototypes to extend classes and add two constants ($c, $g) to the global space.\n" +
-	"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
-	"require('" + name + "');\n" +
-	"$c.logit($c.VERSION);\n" +
-	"arr.prototypedMethod(args);\n" +
-	"```" + ln +
-	"```js\n" +
-	"// require no conflict - this require is the fully modular version with no global constants, prototypes, or methods.\n" +
-	"var $c = require('" + name + "/noConflict');\n" +
-	"$c.logit($c.VERSION);\n" +
-	"$c.prototypedMethod(arr, args);\n" +
-	"```" +ln +
-	"```js\n" +
-	"// require global - this require constants and methods in the global space and add prototypes to extend classes.\n" +
-	"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
-	"require('" + name + "/global');\n" +
-	"logit($c.VERSION);\n" +
-	"arr.prototypedMethod(args);\n" +
-	"```" +
-	ln;
 // fill ordered arrays
 for (var o = 0; o < 2; o++) {
 	var c = [$c, instC][o];
@@ -144,16 +173,16 @@ for (var o = 0; o < 2; o++) {
 		//console.log(prop);
 		if (!c.hasOwnProperty(prop) || prop[0] == "_") { continue; }
 		// constants
-		if (/^[A-Z_0-9]*$/.test(prop)) {
+		if (/^[A-Z_0-9]*$/.test(prop) && !(prop in {"CLI":1,"JSONPA":1,"JSONSA":1})) {
 			if ($arr.contains(orderedConstants,prop)) { continue; }
 			orderedConstants.add(prop);
-			constants[prop] = constants[prop] || "";
-			constants[prop] += prop + ' ('+ constants[prop].constructor.name +')';
+			constants[prop] = $c.isNull(constants[prop], "");
+			constants[prop] += prop + ' ('+ ($utl.getProperty(c, prop+'.constructor.name') || 'String') +')';
 		// methods
 		} else if ($typ.isFunction(c[prop])) {
 			var fstr = c[prop].toString(),
 				code = $str.replace_all(fstr,['\n','\\n','\t','\\t'], '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1'),
-				doc = $c.tryEval(code);
+				doc = $utl.tryEval(code);
 			if (doc && $typ.isObject(doc)) {
 				var obj = methods, ordered = orderedMethods;
 				if (doc.featured) {
@@ -196,8 +225,19 @@ for (var o = 0; o < 2; o++) {
 					console.error(e, code);
 				}
 			}
-		} else if (!(prop in {info:1,scope:1})) {
-			console.log("<"+c[prop]+">", prop,"is not a method",c.hasOwnProperty(prop));
+		} else if (!(prop in {info:1,scope:1,context:1})) {
+			if (isHTTP) {
+				if ($arr.contains(orderedHttpProps,prop)) { continue; }
+				orderedHttpProps.add(prop);
+				var type = "Object";
+				if (prop == "sessionid") {
+					type = 'String';
+				}
+				properties[prop] = $c.isNull(properties[prop], "");
+				properties[prop] += prop + ' ('+ ($utl.getProperty(c, prop+'.constructor.name') || type) +')';
+			} else {
+				console.log("<"+c[prop]+">", prop,"is not a method");
+			}
 		}
 	}
 }
@@ -214,9 +254,14 @@ function outParams (params) {
 	return out || ("* " + "None" + ln);
 }
 
+if (!orderedConstants.length) { exclude.push('Constants'); }
+if (!orderedFeatured.length || modName && !featured[categories_map[modName]]) { exclude.push('Featured'), orderedFeatured.length = 0; }
+if (!orderedHttpProps.length) { exclude.push('HTTP'); }
+
 // Table of Contents
 readme += "## Categories" + ln;
 for (var i = 0, len = categories.length; i < len; i++) {
+	if (~exclude.indexOf(categories[i])) { continue; }
 	readme += "* [" + categories[i] + "](#markdown-header-" + categories[i].toLowerCase() + ")\n";
 };
 readme += '\n';
@@ -235,6 +280,20 @@ if (orderedConstants.length) {
 	readme += headers.join('') + "|\n" + headerdiv.join('') + "|\n| " + grid.join('\n') + ln;
 }
 // Constants end ------------------------------------------------------------------------------------------
+
+// Properties ----------------------------------------------------------------------------------------------
+if (orderedHttpProps.length) {
+	readme += "<a name='markdown-header-properties'></a>\n## Properties" + ln;
+	var grid = [], headerdiv = [], headers = [], cols = 3;
+	for (var i = 0, len = orderedHttpProps.length, grid_row_count = Math.ceil(len/cols); i < len; i++) {
+		var index = parseInt(i%grid_row_count), hindex = parseInt(i/grid_row_count);
+		if (!headerdiv[hindex]) { headerdiv[hindex] = "| ----- "; headers[hindex] = "| "}
+		grid[index] = grid[index] || "";
+		grid[index] += properties[orderedHttpProps[i]] + " |";
+	}
+	readme += headers.join('') + "|\n" + headerdiv.join('') + "|\n| " + grid.join('\n') + ln;
+}
+// Properties end ------------------------------------------------------------------------------------------
 
 // Featured -----------------------------------------------------------------------------------------------
 if (orderedFeatured.length) {
@@ -257,7 +316,7 @@ if (orderedFeatured.length) {
 // Featured end -------------------------------------------------------------------------------------------
 
 // Method -------------------------------------------------------------------------------------------------
-readme += ln;
+readme += !orderedFeatured.length ? '\n' :ln;
 readme += "## Methods" + ln;
 //for (var prop in methods) {
 //	if (!methods.hasOwnProperty(prop)) { continue; }
@@ -277,9 +336,9 @@ for (var i = 0, len = categories.length; i < len; i++)
 // Method end ---------------------------------------------------------------------------------------------
 fs.writeFile(mod + "/readme.md", readme, function(err) {
 	if(err) {
-		return console.log(err);
+		return console.log(err),process.exit(1);;
 	}
 
 	console.log("The file was saved!");
-	process.exit(1);
+	process.exit(0);
 });

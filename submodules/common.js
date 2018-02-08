@@ -986,14 +986,15 @@ module.exports = function () {
     $s = {};
     scope = { eval: eval }
     if (!$g.$c || __isNewer($g.$c.VERSION.split('.'), _craydent_version.split('.')) ) {
-    $g.$c = $c = $g.$c || {};
+        $g.$c = $c = $g.$c || {};
+
+        $c.VERSION = _craydent_version;
+        $c.MODULES_LOADED && delete $c.MODULES_LOADED[info.name];
+
+    }
 
     $c.DEBUG_MODE = $c.DEBUG_MODE || false;
-    $c.VERSION = _craydent_version;
     $c.MODULES_LOADED = $c.MODULES_LOADED || {};
-    delete $c.MODULES_LOADED[info.name];
-
-}
     $c.globalize = globalize;
     var obj = {};
     // merge typeof module to $c

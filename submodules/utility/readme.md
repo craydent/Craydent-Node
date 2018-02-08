@@ -41,8 +41,9 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (String) |MODULES_LOADED (String) |VERSION (String) |
-LOCAL_IP (String) |PUBLIC_IP (String) |
+| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |
+LOCAL_IP (String) |VERBOSE_LOGS (Boolean) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -355,17 +356,20 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 #### _parseBoolean_ 
 ***
 
-**Info:** Try to parse value to a Boolean
+**Info:** Try to parse value to a Boolean (0, 1, '0', and '1' are valid unless strict is set to true).
 
 **Return:** (Mixed)
 
 **Parameters:**
 
-* value: (Mixed) value to parse as boolean
+* value: (Mixed) value to parse as boolean.
 
 **Overloads:**
 
-* None
+1)
+
+* value: (Mixed) value to parse as boolean.
+* strict: (Boolean) Disable parsing of 0, 1, '0', and '1'.
 
 *** 
 #### _parseRaw_ 
