@@ -7,7 +7,9 @@
         "test": "./local_scripts/test.sh",
         "testMain": "jasmine-node test/ --color --autotest --watch craydent.js --match -main-",
         "testNoConflict": "jasmine-node test/ --color --autotest --watch craydent.js --match -noconflict-",
-        "push": "git push public;",
+        "pushPublic": "git push public;",
+        "push": "git push origin;",
+        "pushAll": "git push origin; git push public;",
         "publish": "./local_scripts/publish.sh",
         "buildDev": "./local_scripts/buildDev.sh",
         "build": "./local_scripts/build.sh"
