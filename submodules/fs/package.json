@@ -12,21 +12,21 @@
     },
     "keywords": [
         "craydent",
-        "fs",
-        "library",
-        "jquery",
         "es6",
-        "sugar",
+        "file",
+        "fs",
+        "jquery",
+        "library",
         "require",
         "require directory",
-        "file",
+        "sugar",
         "utilities"
     ],
     "author": "Clark Inada",
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/fs#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

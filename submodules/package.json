@@ -7,7 +7,7 @@
         "test": "jasmine-node test/ --color --autotest --watch craydent.js"
     },
     "repository": {
-    "type": "git",
+        "type": "git",
         "url": "git+https://cinada@bitbucket.org/craydent/${submodule}.git"
     },
     "keywords": [
@@ -23,7 +23,7 @@
     "author": "Clark Inada",
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/${submodule}#readme",
-    "dependencies": {${dependencies}},
+    "dependencies": {},
     "devDependencies": {
         "chai": "^3.5.0",
         "jasmine-node": "^1.14.5"

@@ -7,17 +7,16 @@
         "test": "jasmine-node test/ --color --autotest --watch craydent.js"
     },
     "repository": {
-    "type": "git",
+        "type": "git",
         "url": "git+https://cinada@bitbucket.org/craydent/typeof.git"
     },
     "keywords": [
         "craydent",
-        "typeof",
-        "library",
-        "jquery",
         "es6",
+        "jquery",
+        "library",
         "sugar",
-        
+        "typeof",
         "utilities"
     ],
     "author": "Clark Inada",

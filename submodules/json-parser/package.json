@@ -12,22 +12,22 @@
     },
     "keywords": [
         "craydent",
+        "es6",
+        "jquery",
+        "json",
         "json-parser",
         "library",
-        "jquery",
-        "es6",
-        "sugar",
-        "json",
         "object",
         "parser",
         "string",
+        "sugar",
         "utilities"
     ],
     "author": "Clark Inada",
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/json-parser#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

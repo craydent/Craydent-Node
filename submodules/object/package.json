@@ -11,26 +11,26 @@
         "url": "git+https://cinada@bitbucket.org/craydent/object.git"
     },
     "keywords": [
-        "craydent",
-        "object",
-        "library",
-        "jquery",
-        "es6",
-        "sugar",
         "array",
         "class",
         "co",
         "control flow",
+        "craydent",
         "date",
+        "es6",
         "function",
+        "jquery",
         "json",
+        "library",
         "moment",
         "mongo",
         "mongodb",
         "number",
         "object",
+        "object",
         "regexp",
         "string",
+        "sugar",
         "template",
         "typeof",
         "utilities"
@@ -39,7 +39,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/object#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

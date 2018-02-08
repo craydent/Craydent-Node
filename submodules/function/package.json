@@ -11,20 +11,20 @@
         "url": "git+https://cinada@bitbucket.org/craydent/function.git"
     },
     "keywords": [
-        "craydent",
-        "function",
-        "library",
-        "jquery",
-        "es6",
-        "sugar",
         "control flow",
+        "craydent",
+        "es6",
+        "function",
+        "jquery",
+        "library",
+        "sugar",
         "utilities"
     ],
     "author": "Clark Inada",
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/function#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

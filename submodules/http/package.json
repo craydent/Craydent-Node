@@ -11,20 +11,20 @@
         "url": "git+https://cinada@bitbucket.org/craydent/http.git"
     },
     "keywords": [
-        "craydent",
-        "http",
-        "library",
-        "jquery",
-        "es6",
-        "sugar",
+        "REST",
         "ajax",
+        "craydent",
+        "es6",
         "express",
         "http",
+        "http",
+        "jquery",
         "json",
         "koa",
+        "library",
         "parser",
-        "REST",
         "route",
+        "sugar",
         "swagger",
         "utilities"
     ],
@@ -32,7 +32,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/http#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

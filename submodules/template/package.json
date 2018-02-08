@@ -12,18 +12,18 @@
     },
     "keywords": [
         "craydent",
-        "template",
-        "library",
-        "jquery",
         "es6",
+        "jquery",
+        "library",
         "sugar",
+        "template",
         "utilities"
     ],
     "author": "Clark Inada",
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/template#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

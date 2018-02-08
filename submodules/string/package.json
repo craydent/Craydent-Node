@@ -12,10 +12,10 @@
     },
     "keywords": [
         "craydent",
-        "string",
-        "library",
-        "jquery",
         "es6",
+        "jquery",
+        "library",
+        "string",
         "sugar",
         "template",
         "utilities"
@@ -24,7 +24,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/string#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

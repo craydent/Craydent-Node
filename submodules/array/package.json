@@ -11,21 +11,21 @@
         "url": "git+https://cinada@bitbucket.org/craydent/array.git"
     },
     "keywords": [
-        "craydent",
         "array",
-        "library",
-        "jquery",
+        "craydent",
         "es6",
-        "sugar",
+        "jquery",
+        "library",
         "mongo",
         "mongodb",
+        "sugar",
         "utilities"
     ],
     "author": "Clark Inada",
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/array#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

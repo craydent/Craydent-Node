@@ -12,10 +12,10 @@
     },
     "keywords": [
         "craydent",
-        "regexp",
-        "library",
-        "jquery",
         "es6",
+        "jquery",
+        "library",
+        "regexp",
         "sugar",
         "utilities"
     ],
@@ -23,7 +23,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/regexp#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

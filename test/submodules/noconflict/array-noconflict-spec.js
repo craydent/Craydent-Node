@@ -1,4 +1,5 @@
 var pre = "@craydent/";
+var error = function(){ console.log(arguments); }
 delete global.$c;
 try { require.cache[require.resolve('../../../common.js')] && delete require.cache[require.resolve('../../../common.js')]; }catch(e){}
 try { require.cache[require.resolve(pre + 'craydent-array')] && delete require.cache[require.resolve(pre + 'craydent-array')]; }catch(e){}
@@ -49,6 +50,25 @@ var $t = require(pre + 'craydent-typeof');
 Array.prototype.duplicate = function (rec){
     return $s.duplicate(this,rec);
 };
+function run_func_array(funcs, args) {
+    var self = this;
+    !$t.isArray(funcs) && (funcs = [funcs]);
+    var i = 0, func, rtn = [];
+    while (func = funcs[i++]){
+        try {
+            if ($t.isFunction(func)){
+                rtn = rtn.concat(func.apply(self, args));
+            } else if ($t.isGenerator(func)) {
+                $c.tryEval('_syncroit(function *(){rtn = rtn.concat(yield func.apply(self,args));});');
+            } else if (_isAsync(func)) {
+                $c.tryEval('(async function (){rtn = rtn.concat(yield func.apply(self,args));})();');
+            }
+        } catch (e) {
+            throw e;
+        }
+    }
+    return rtn;
+}
 function syncroit (gen) {
     try {
         if ($t.isAsync(gen)) { return gen(); }
@@ -186,7 +206,7 @@ function ajax(params, returnData){
             params.query = undefined;
         }
 
-        $s.run_func_array.call((params.context||this),params.onbefore, [httpRequest, params.hitch, this]);
+        run_func_array.call((params.context||this),params.onbefore, [httpRequest, params.hitch, this]);
 
         var prms, defaults = {
             protocol: 'http',
@@ -903,28 +923,28 @@ describe ('No Conflict Array', function () {
 		beforeEach(function (done) {
 			$c.syncroit(function *() {
 				results = yield $c.parallelEach([
-					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+					function*(){ return yield $c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}); },
+					function*(){ return yield $c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}); },
+					function*(){ return yield $c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}); },
+					function*(){ return yield $c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}); },
+					function*(){ return yield $c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}); },
+					function*(){ return yield $c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}); },
+					function*(){ return yield $c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}); },
+					function*(){ return yield $c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}); },
+					function*(){ return yield $c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}); },
+					function*(){ return yield $c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}); },
 
 
-					$c.ajax('http://craydent.com/test/users.js'),
-					$c.ajax('http://craydent.com/test/users.js'),
-					$c.ajax('http://craydent.com/test/users.js'),
-					$c.ajax('http://craydent.com/test/users.js'),
-					$c.ajax('http://craydent.com/test/users.js'),
-					$c.ajax('http://craydent.com/test/users.js'),
-					$c.ajax('http://craydent.com/test/users.js'),
-					$c.ajax('http://craydent.com/test/users.js'),
-					$c.ajax('http://craydent.com/test/users.js'),
-					$c.ajax('http://craydent.com/test/users.js'),
+					$c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}),
+					$c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}),
+					$c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}),
+					$c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}),
+					$c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}),
+					$c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}),
+					$c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}),
+					$c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}),
+					$c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}),
+					$c.ajax({url:'http://craydent.com/test/users.js',alwaysResolve:true}),
 
 					function (a) { return 1 + a; },
 					function (a) { return 2 + a; },

@@ -11,27 +11,27 @@
         "url": "git+https://cinada@bitbucket.org/craydent/utility.git"
     },
     "keywords": [
-        "craydent",
-        "utility",
-        "library",
-        "jquery",
-        "es6",
-        "sugar",
         "ajax",
         "cluster",
-        "guid",
-        "uuid",
-        "md5",
+        "craydent",
+        "es6",
         "fs",
+        "guid",
+        "jquery",
+        "library",
+        "md5",
         "mkdir",
-        "zip",
-        "utilities"
+        "sugar",
+        "utilities",
+        "utility",
+        "uuid",
+        "zip"
     ],
     "author": "Clark Inada",
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/utility#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

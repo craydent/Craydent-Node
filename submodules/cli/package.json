@@ -11,20 +11,20 @@
         "url": "git+https://cinada@bitbucket.org/craydent/cli.git"
     },
     "keywords": [
-        "craydent",
         "cli",
-        "library",
-        "jquery",
-        "es6",
-        "sugar",
         "commander",
+        "craydent",
+        "es6",
+        "jquery",
+        "library",
+        "sugar",
         "utilities"
     ],
     "author": "Clark Inada",
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/cli#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

@@ -13,19 +13,19 @@
     "keywords": [
         "craydent",
         "date",
-        "library",
-        "jquery",
         "es6",
-        "sugar",
+        "jquery",
+        "library",
         "moment",
         "parser",
+        "sugar",
         "utilities"
     ],
     "author": "Clark Inada",
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/date#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

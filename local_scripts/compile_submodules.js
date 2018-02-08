@@ -8,9 +8,21 @@
 /*/---------------------------------------------------------/*/
 var root = require.resolve('../package.json').replace('/package.json','');
 var cpkg = require(root + '/package.json');
+var pkgPrefix = ~cpkg.name.indexOf('@craydent') ? "@craydent/" : "";
 var exec = require('child_process').exec;
+var publishing = process.argv[2] == "publish";
 var version = cpkg.version;
 var spaces = 37 - version.length;
+var gitUrlTemplate = "git+https://cinada@bitbucket.org/craydent/${submodule}.git";
+var homepageUrlTemplate = "https://bitbucket.org/craydent/${submodule}#readme";
+var defaultKeywords = [
+    "craydent",
+    "library",
+    "jquery",
+    "es6",
+    "sugar",
+    "utilities"
+];
 var pre_text = "/*/---------------------------------------------------------/*/\n\
 /*/ Craydent LLC node-v" + version;
 for (var i = 0; i < spaces; i++) {
@@ -31,7 +43,8 @@ var dependencies = config.primary,
     sub_dependencies = config.secondary,
     fs = require('fs');
 
-var package = fs.readFileSync(root + '/submodules/package.json', "utf8");
+// var package = fs.readFileSync(root + '/submodules/package.json', "utf8");
+var package = require(root + '/submodules/package.json', "utf8");
 
 var base = root + "/submodules/",
     source_base = base + "_shared/",
@@ -52,29 +65,42 @@ for (var folder in dependencies) {
     try { fs.unlinkSync(base + folder + "/noConflict.js"); } catch (e) { /*console.log(e);*/ }
     try { fs.unlinkSync(base + folder + "/package.json"); } catch (e) { /*console.log(e);*/ }
     try { fs.unlinkSync(base + folder + "/package-lock.json"); } catch (e) { /*console.log(e);*/ }
-    try { fs.unlinkSync(base + folder + "/readme.md"); } catch (e) { /*console.log(e);*/ }
+    try { !publishing && fs.unlinkSync(base + folder + "/readme.md"); } catch (e) { /*console.log(e);*/ }
 
     fs.createReadStream(base + 'common.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'common.js'));
     fs.createReadStream(base + 'global.js').pipe(fs.createWriteStream(base + folder + '/global.js'));
     fs.createReadStream(base + 'noConflict.js').pipe(fs.createWriteStream(base + folder + '/noConflict.js'));
-    var module_dependencies = "";
+    var module_dependencies = {};
     if (folder != "typeof") {
         if (process.argv[2] == 'publish') {
-            module_dependencies = " \"craydent-typeof\": \"^" + version + "\" ";
+            module_dependencies[pkgPrefix + "craydent-typeof"] = "^" + version;
+            // module_dependencies = " \"" + pkgPrefix + "craydent-typeof\": \"^" + version + "\" ";
         } else {
-            module_dependencies = " \"craydent-typeof\": \"file:../typeof\" ";
+            module_dependencies[pkgPrefix + "craydent-typeof"] = "file:../typeof";
+            // module_dependencies = " \"" + pkgPrefix + "craydent-typeof\": \"file:../typeof\" ";
         }
     }
     var keywords = "";
-    if (details[folder].keywords.length) {
-        keywords = JSON.stringify(details[folder].keywords, null, 4).replace('[','').replace(']',',');
-    }
-    fs.writeFileSync(base + folder + '/package.json',
-        package.replace(/\$\{submodule\}/g, folder)
-            .replace(/\$\{version\}/g, version)
-            .replace(/\$\{dependencies\}/g, module_dependencies)
-            .replace(/"\$\{keywords\}",/g, keywords)
-            .replace(/\$\{description\}/g, details[folder].description));
+    // if (details[folder].keywords.length) {
+    //     keywords = JSON.stringify(details[folder].keywords, null, 4).replace('[','').replace(']',',');
+    // }
+
+    package.name = pkgPrefix + "craydent-" + folder;
+    package.version = version;
+    package.description = details[folder].description;
+    package.keywords = details[folder].keywords.concat(defaultKeywords,[folder]).sort();
+    package.dependencies = module_dependencies;
+    package.repository.url = gitUrlTemplate.replace("${submodule}", folder);
+    package.homepage = homepageUrlTemplate.replace("${submodule}", folder);
+
+
+    // writeFile(base + folder + '/package.json',
+    //     package.replace(/\$\{submodule\}/g, folder)
+    //         .replace(/\$\{version\}/g, version)
+    //         .replace(/\$\{dependencies\}/g, module_dependencies)
+    //         .replace(/"\$\{keywords\}",/g, keywords)
+    //         .replace(/\$\{description\}/g, details[folder].description));
+    writeFile(base + folder + '/package.json', JSON.stringify(package, null, 4));
 
     var already_added = [];
     for (var i = 0, len = dependencies[folder].length; i < len; i++) {
@@ -86,7 +112,7 @@ for (var folder in dependencies) {
     }
     // readmeCommand.push(scripts + '_createReadme.js ' + base + folder + ';');
 }
-if (process.argv[2] != "publish") {
+if (!publishing) {
     var cmd = scripts + 'npminstall.sh';
 
     exec(cmd, function(error, stdout, stderr) {
@@ -106,4 +132,7 @@ function recurse_sub (already_added, folder, module) {
         already_added.push(sub_dependencies[i]);
         recurse_sub(already_added, folder, sub_dependencies[module][i]);
     }
+}
+function writeFile (path, content) {
+    fs.writeFile(path,content, function () { console.log("saved: " + path); });
 }

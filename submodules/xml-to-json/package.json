@@ -12,20 +12,20 @@
     },
     "keywords": [
         "craydent",
-        "xml-to-json",
-        "library",
-        "jquery",
         "es6",
+        "jquery",
+        "library",
         "sugar",
+        "utilities",
         "xml",
         "xml to json",
-        "utilities"
+        "xml-to-json"
     ],
     "author": "Clark Inada",
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/xml-to-json#readme",
     "dependencies": {
-        "craydent-typeof": "file:../typeof"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",
