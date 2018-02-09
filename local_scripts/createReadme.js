@@ -339,6 +339,6 @@ fs.writeFile(mod + "/readme.md", readme, function(err) {
 		return console.log(err),process.exit(1);;
 	}
 
-	console.log("saved: " + mod + "/readme.md");
+	console.log("saved: " + mod.replace(root,'') + "/readme.md");
 	process.exit(0);
 });

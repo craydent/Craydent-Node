@@ -6,11 +6,15 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
+
+// YES! this is super spagetti code
+
 var root = require.resolve('../package.json').replace('/package.json','');
 var cpkg = require(root + '/package.json');
 var pkgPrefix = ~cpkg.name.indexOf('@craydent') ? "@craydent/" : "";
 var exec = require('child_process').exec;
 var publishing = process.argv[2] == "publish";
+var staging = process.argv[2] == "stage";
 var version = cpkg.version;
 var spaces = 37 - version.length;
 var gitUrlTemplate = "git+https://cinada@bitbucket.org/craydent/${submodule}.git";
@@ -49,11 +53,17 @@ var package = require(root + '/submodules/package.json', "utf8");
 var base = root + "/submodules/",
     source_base = base + "_shared/",
     depdir = "dependencies/",
-    scripts = root + "/local_scripts/";
+    scripts = root + "/local_scripts/",
+    folders = [];
+
+var completed = 0, run = 0;
+
+try { !staging && fs.unlinkSync(root + "/package-lock.json"); } catch (e) { /*console.log(e);*/ }
 
 // var readmeCommand = [];
 for (var folder in dependencies) {
     if (!dependencies.hasOwnProperty(folder)) { continue; }
+    folders.push(folder);
 
     var files = fs.readdirSync(base + folder + "/" + depdir);
 
@@ -64,7 +74,7 @@ for (var folder in dependencies) {
     try { fs.unlinkSync(base + folder + "/global.js"); } catch (e) { /*console.log(e);*/ }
     try { fs.unlinkSync(base + folder + "/noConflict.js"); } catch (e) { /*console.log(e);*/ }
     try { fs.unlinkSync(base + folder + "/package.json"); } catch (e) { /*console.log(e);*/ }
-    try { fs.unlinkSync(base + folder + "/package-lock.json"); } catch (e) { /*console.log(e);*/ }
+    try { !staging && fs.unlinkSync(base + folder + "/package-lock.json"); } catch (e) { /*console.log(e);*/ }
     try { !publishing && fs.unlinkSync(base + folder + "/readme.md"); } catch (e) { /*console.log(e);*/ }
 
     fs.createReadStream(base + 'common.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'common.js'));
@@ -112,14 +122,22 @@ for (var folder in dependencies) {
     }
     // readmeCommand.push(scripts + '_createReadme.js ' + base + folder + ';');
 }
-if (!publishing) {
-    var cmd = scripts + 'npminstall.sh';
+function npminstall () {
+    if (!publishing && !staging) {
+        console.log('starting npm install');
+        folders.push('..')
+        for (var i = 0, len = folders.length; i < len; i++) {
+            var cmd = scripts + 'npminstall.sh ' + folders[i];
 
-    exec(cmd, function(error, stdout, stderr) {
-        console.log(error);
-        console.log(stdout);
-        console.log(stderr);
-    });
+            exec(cmd, function(error, stdout, stderr) {
+                error && console.log(error);
+                console.log(stdout);
+                stderr && console.log(
+                    stderr.replace(/npm WARN deprecated minimatch@.*?: Please update to minimatch 3\.0\.2 or higher to avoid a RegExp DoS issue\n/g, '')
+                    .replace(/npm notice created a lockfile as package-lock.json. You should commit this file.\n/g,''));
+            });
+        }
+    }
 }
 
 function recurse_sub (already_added, folder, module) {
@@ -134,5 +152,6 @@ function recurse_sub (already_added, folder, module) {
     }
 }
 function writeFile (path, content) {
-    fs.writeFile(path,content, function () { console.log("saved: " + path); });
+    run++;
+    fs.writeFile(path,content, function () { completed++; console.log("saved: " + path.replace(root,'')); if (completed == run) { npminstall(); }});
 }

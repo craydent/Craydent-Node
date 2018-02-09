@@ -1,4 +1,4 @@
 BASEDIR=$(dirname "$0")
 
 cd $BASEDIR;
-./compile_submodules.js && ./populateReadmes.sh && ./compile_submodules.js publish && ./updateMainPackageDependencies.js publish private && ./npmpublish.sh;
+./updateMainPackageDependencies.js && ./compile_submodules.js && ./populateReadmes.sh && ./updateMainPackageDependencies.js publish private && ./compile_submodules.js publish && ./npmpublish.sh;

@@ -247,7 +247,7 @@ module.exports.details = {
         "keywords": []
     },
     "object": {
-        "description": "",
+        "description": "Node module to extend all native class functionality and simplify code for maintainability and readability",
         "keywords": [
             "array",
             "class",

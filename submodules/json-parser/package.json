@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-json-parser",
-    "version": "0.8.3",
+    "version": "0.8.5",
     "description": "Node module to parse complex json including circular references",
     "main": "craydent.js",
     "scripts": {

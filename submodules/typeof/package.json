@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-typeof",
-    "version": "0.8.3",
+    "version": "0.8.5",
     "description": "Node module for type checking",
     "main": "craydent.js",
     "scripts": {

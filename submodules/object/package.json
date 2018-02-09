@@ -1,7 +1,7 @@
 {
     "name": "@craydent/craydent-object",
-    "version": "0.8.3",
-    "description": "",
+    "version": "0.8.5",
+    "description": "Node module to extend all native class functionality and simplify code for maintainability and readability",
     "main": "craydent.js",
     "scripts": {
         "test": "jasmine-node test/ --color --autotest --watch craydent.js"
