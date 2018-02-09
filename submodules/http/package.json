@@ -1,0 +1,41 @@
+{
+    "name": "@craydent/craydent-http",
+    "version": "0.8.5",
+    "description": "Node module http servers and routing",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/http.git"
+    },
+    "keywords": [
+        "REST",
+        "ajax",
+        "craydent",
+        "es6",
+        "express",
+        "http",
+        "http",
+        "jquery",
+        "json",
+        "koa",
+        "library",
+        "parser",
+        "route",
+        "sugar",
+        "swagger",
+        "utilities"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/http#readme",
+    "dependencies": {
+        "@craydent/craydent-typeof": "file:../typeof"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}
