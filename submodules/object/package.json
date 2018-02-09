@@ -1,0 +1,48 @@
+{
+    "name": "@craydent/craydent-object",
+    "version": "0.8.5",
+    "description": "Node module to extend all native class functionality and simplify code for maintainability and readability",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/object.git"
+    },
+    "keywords": [
+        "array",
+        "class",
+        "co",
+        "control flow",
+        "craydent",
+        "date",
+        "es6",
+        "function",
+        "jquery",
+        "json",
+        "library",
+        "moment",
+        "mongo",
+        "mongodb",
+        "number",
+        "object",
+        "object",
+        "regexp",
+        "string",
+        "sugar",
+        "template",
+        "typeof",
+        "utilities"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/object#readme",
+    "dependencies": {
+        "@craydent/craydent-typeof": "file:../typeof"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}

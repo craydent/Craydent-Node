@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.2
+# Craydent 0.8.5
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -12,16 +12,14 @@ More detailed documentation on methods can be found at [Craydent Methods](http:/
 // $g is an alias to global and $c is the constant containing all the utility methods and properties.
 require('craydent');
 $c.logit($c.VERSION);
-var arr = [{name:'craydent'},{name:'is awesome!'}];
-arr.where({name:'craydent'});
+arr.prototypedMethod(args);
 ```
 
 ```js
 // require no conflict - this require is the fully modular version with no global constants, prototypes, or methods.
 var $c = require('craydent/noConflict');
 $c.logit($c.VERSION);
-var arr = [{name:'craydent'},{name:'is awesome!'}];
-$c.where(arr, {name:'craydent'});
+$c.prototypedMethod(arr, args);
 ```
 
 ```js
@@ -29,58 +27,237 @@ $c.where(arr, {name:'craydent'});
 // $g is an alias to global and $c is the constant containing all the utility methods and properties.
 require('craydent/global');
 logit($c.VERSION);
-var arr = [{name:'craydent',descr:'is fantastic'},{name:'nodejs'}];
-arr.where({name:'craydent'});
+arr.prototypedMethod(args);
 ```
 
 ## Categories
 
 * [Constants](#markdown-header-constants)
 * [Featured](#markdown-header-featured)
-* [Global](#markdown-header-global)
 * [Array](#markdown-header-array)
+* [Class](#markdown-header-class)
+* [CLI](#markdown-header-cli)
+* [Control Flow](#markdown-header-control flow)
 * [Date](#markdown-header-date)
+* [FS](#markdown-header-fs)
 * [Function](#markdown-header-function)
-* [Module](#markdown-header-module)
+* [JSON Parser](#markdown-header-json parser)
 * [Number](#markdown-header-number)
 * [Object](#markdown-header-object)
 * [RegExp](#markdown-header-regexp)
 * [String](#markdown-header-string)
+* [Template](#markdown-header-template)
+* [TypeOf](#markdown-header-typeof)
+* [Utility](#markdown-header-utility)
+* [XML to JSON](#markdown-header-xml to json)
 
 <a name='markdown-header-constants'></a>
 ## Constants
 
 | | | |
 | ----- | ----- | ----- |
-| ACCEPT_ENCODING (String) |IE7 (String) |PUBLIC_IP (String) |
-ACCEPT_LANGUAGE (String) |IE8 (String) |REFERER (String) |
-AMAYA (String) |IE_VERSION (String) |REFERER_IP (String) |
-ANDROID (String) |IPAD (String) |RESPONSES (String) |
-BLACKBERRY (String) |IPHONE (String) |REST_API_TEMPLATE (String) |
-BROWSER (String) |IPOD (String) |ROUTE_API_PATH (String) |
-CHROME (String) |KHTML (String) |ROUTE_LOGO_URL (String) |
-CHROME_VERSION (String) |LINUX (String) |SAFARI (String) |
-CLI (String) |LOCAL_IP (String) |SAFARI_VERSION (String) |
-CLICK (String) |MAC (String) |SERVER (String) |
-CLIENT (String) |ONMOUSEDOWN (String) |SERVER_PATH (String) |
-CORES_SUPPORT (String) |ONMOUSEUP (String) |SYMBIAN (String) |
-DEBUG_MODE (String) |OPERA (String) |TEMPLATE_VARS (String) |
-DEVICE (String) |OPERA_VERSION (String) |TEMPLATE_TAG_CONFIG (String) |
-ENGINE (String) |ORIGIN (String) |TRIDENT (String) |
-EXPOSE_ROUTE_API (String) |OS (String) |VERBOSE_LOGS (String) |
-FIREFOX (String) |PAGE_NAME (String) |VERSION (String) |
-FIREFOX_VERSION (String) |PAGE_NAME_RAW (String) |VISIBLE (String) |
-GEKKO (String) |PALM (String) |WAIT (String) |
-HANDPOINT (String) |POINTER (String) |WEBKIT (String) |
-HIDDEN (String) |PRAGMA (String) |WINDOWS (String) |
-HTTP_STATUS_TEMPLATE (String) |PRESTO (String) |WINDOWS_MOBILE (String) |
-IE (String) |PRINCE (String) |
-IE6 (String) |PROTOCOL (String) |
+| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
+EXPOSE_ROUTE_API (Boolean) |RESPONSES (Object) |TEMPLATE_VARS (Array) |
+HTTP_STATUS_TEMPLATE (Array) |REST_API_TEMPLATE (String) |VERBOSE_LOGS (Boolean) |
+LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
 
-### Global
+### Array
+
+*** 
+#### _add_ 
+***
+
+**Info:** Array class extension to perform push and update indexes if used
+
+**Return:** (Array)
+
+**Parameters:**
+
+* value: (Mixed) value to find
+
+**Overloads:**
+
+* None
+
+*** 
+#### _aggregate_ 
+***
+
+**Info:** Array class extension to perform mongo style aggregation
+
+**Return:** (Array)
+
+**Parameters:**
+
+* pipelines: (Object[]) Array of stages defined in mongodb
+
+**Overloads:**
+
+* None
+
+*** 
+#### _average_ 
+***
+
+**Info:** Array class extension to perform average of all the values (any value which is not a number is 0).
+
+**Return:** (Array)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _find_ 
+***
+
+**Info:** Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)
+
+**Return:** (Array)
+
+**Parameters:**
+
+* condition: (Mixed) Query following find/where clause syntax
+
+**Overloads:**
+
+1)
+
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
+
+2)
+
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
+
+*** 
+#### _findOne_ 
+***
+
+**Info:** Array class extension to use mongo or sql queries returning the first item match
+
+**Return:** (Object)
+
+**Parameters:**
+
+* condition: (Mixed) Query following find/where clause syntax
+
+**Overloads:**
+
+1)
+
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
+
+2)
+
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
+
+*** 
+#### _sum_ 
+***
+
+**Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
+
+**Return:** (Array)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _stdev_ 
+***
+
+**Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
+
+**Return:** (Array)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _where_ 
+***
+
+**Info:** Array class extension to use mongo or sql queries
+
+**Return:** (Array)
+
+**Parameters:**
+
+* condition: (Mixed) Query following find/where clause syntax
+
+**Overloads:**
+
+1)
+
+* condition: (Mixed) Query following find/where clause syntax
+* limit: (Int) Limit the number of the results returned.
+
+2)
+
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
+
+3)
+
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
+
+4)
+
+* condition: (Mixed) Query following find/where clause syntax
+* projection: (Mixed) Indicate which properties to return
+* limit: (Int) Limit the number of the results returned.
+
+5)
+
+* condition: (Mixed) Query following find/where clause syntax
+* useReference: (Bool) Flag to make a copy instead of using references
+* limit: (Int) Limit the number of the results returned.
+
+### Date
+
+*** 
+#### _format_ 
+***
+
+**Info:** Date class extension to convert to formatted string
+
+**Return:** (String)
+
+**Parameters:**
+
+* format: (String) Format syntax to use to to format date
+
+**Overloads:**
+
+1)
+
+* format: (String) Format syntax to use to to format date
+* options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset
+
+### HTTP
 
 *** 
 #### _$COOKIE_ 
@@ -111,6 +288,29 @@ IE6 (String) |PROTOCOL (String) |
 * key: (String) Key for cookie value
 * value: (String) Value to store
 * option: (Object) Specify path and/or expiration of cookie
+
+*** 
+#### _$DEL_ 
+***
+
+**Info:** Retrieve all or specific variables in the Body
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* key: (String) key for query value
+
+2)
+
+* key: (String) key for query value
+* options: (Object) Options to defer, ignore case, etc
 
 *** 
 #### _$DELETE_ 
@@ -250,215 +450,6 @@ IE6 (String) |PROTOCOL (String) |
 * key: (String) key for query value
 * options: (Object) Options to defer, ignore case, etc
 
-*** 
-#### _catchAll_ 
-***
-
-**Info:** Creates an catch all for exceptions in the current node service.
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* callback: (Function) Callback function to call when there is an uncaught exception
-
-**Overloads:**
-
-1)
-
-* callback: (Function) Callback function to call when there is an uncaught exception
-* append: (Boolean) Options to defer, ignore case, etc
-
-*** 
-#### _zipit_ 
-***
-
-**Info:** Download a zip of files from file contents
-
-**Return:** (void)
-
-**Parameters:**
-
-* files: (Object[]) Objects containing properties name for file name and content for file content
-
-**Overloads:**
-
-1)
-
-* files: (String) Name of the file
-* content: (String) contents of the file
-
-### Array
-
-*** 
-#### _aggregate_ 
-***
-
-**Info:** Array class extension to perform mongo style aggregation
-
-**Return:** (Array)
-
-**Parameters:**
-
-* pipelines: (Object[]) Array of stages defined in mongodb
-
-**Overloads:**
-
-* None
-
-*** 
-#### _average_ 
-***
-
-**Info:** Array class extension to perform average of all the values (any value which is not a number is 0).
-
-**Return:** (Array)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _find_ 
-***
-
-**Info:** Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)
-
-**Return:** (Array)
-
-**Parameters:**
-
-* condition: (Mixed) Query following find/where clause syntax
-
-**Overloads:**
-
-1)
-
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-
-2)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
-
-*** 
-#### _findOne_ 
-***
-
-**Info:** Array class extension to use mongo or sql queries returning the first item match
-
-**Return:** (Object)
-
-**Parameters:**
-
-* condition: (Mixed) Query following find/where clause syntax
-
-**Overloads:**
-
-1)
-
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-
-2)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
-
-*** 
-#### _stdev_ 
-***
-
-**Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
-
-**Return:** (Array)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _sum_ 
-***
-
-**Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
-
-**Return:** (Array)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _where_ 
-***
-
-**Info:** Array class extension to use mongo or sql queries
-
-**Return:** (Array)
-
-**Parameters:**
-
-* condition: (Mixed) Query following find/where clause syntax
-
-**Overloads:**
-
-1)
-
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-
-2)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
-
-3)
-
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-* limit: (Int) Limit the number of the results returned.
-
-4)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
-* limit: (Int) Limit the number of the results returned.
-
-### Date
-
-*** 
-#### _format_ 
-***
-
-**Info:** Date class extension to convert to formatted string
-
-**Return:** (String)
-
-**Parameters:**
-
-* format: (String) Format syntax to use to to format date
-
-**Overloads:**
-
-1)
-
-* format: (String) Format syntax to use to to format date
-* options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset
-
 ### Object
 
 *** 
@@ -522,1275 +513,76 @@ IE6 (String) |PROTOCOL (String) |
 * objs: (Objects[]) Objects to fill the template variables
 * max: (Int) The maximum number of records to process
 
+### Template
+
+*** 
+#### _fillTemplate_ 
+***
+
+**Info:** String class extension to fill template based on template syntax
+
+**Return:** (String)
+
+**Parameters:**
+
+* objs: (Objects[]) Objects to fill the template variables
+
+**Overloads:**
+
+1)
+
+* objs: (Objects[]) Objects to fill the template variables
+* offset: (Int) The start index of the Object array
+* max: (Int) The maximum number of records to process
+
+2)
+
+* objs: (Objects[]) Objects to fill the template variables
+* max: (Int) The maximum number of records to process
+
+### Utility
+
+*** 
+#### _catchAll_ 
+***
+
+**Info:** Creates an catch all for exceptions in the current node service.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* callback: (Function) Callback function to call when there is an uncaught exception
+
+**Overloads:**
+
+1)
+
+* callback: (Function) Callback function to call when there is an uncaught exception
+* append: (Boolean) Options to defer, ignore case, etc
+
+*** 
+#### _zipit_ 
+***
+
+**Info:** Download a zip of files from file contents
+
+**Return:** (void)
+
+**Parameters:**
+
+* files: (Object[]) Objects containing properties name for file name and content for file content
+
+**Overloads:**
+
+1)
+
+* files: (String) Name of the file
+* content: (String) contents of the file
+
 
 
 ## Methods
-
-<a name='markdown-header-global'></a>
-## Global
-
-*** 
-#### _Benchmarker_ 
-***
-
-**Info:** Class used to measure the run time of code
-
-**Return:** (void)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _ChromeVersion_ 
-***
-
-**Info:** Get Chrome version
-
-**Return:** (Float)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _Cursor_ 
-***
-
-**Info:** Cursor class to facilitate iteration
-
-**Return:** (Cursor)
-
-**Parameters:**
-
-* records: (Array) Array used to create the iterator to iterate each item
-
-**Overloads:**
-
-1)
-
-* records: (Object) Object used to create the iterator to iterate each property
-
-*** 
-#### _FirefoxVersion_ 
-***
-
-**Info:** Get Firefox version
-
-**Return:** (Float)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _IEVersion_ 
-***
-
-**Info:** Get Internet Explorer version
-
-**Return:** (Float)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _OperaVersion_ 
-***
-
-**Info:** Get Opera version
-
-**Return:** (Float)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _OrderedList_ 
-***
-
-**Info:** Collection class that filters out duplicate values and maintains an ordered list
-
-**Return:** (OrderedList)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* records: (Array) Array used to create the initial items in the ordered list
-
-2)
-
-* records: (Array) Array used to create the initial items in the ordered list
-* sorter: (Function) Function for sorting logic
-
-*** 
-#### _Queue_ 
-***
-
-**Info:** Collection class that follows FIFO
-
-**Return:** (Queue)
-
-**Parameters:**
-
-* records: (Array) Array used to create the iterator to iterate each item
-
-**Overloads:**
-
-* None
-
-*** 
-#### _SafariVersion_ 
-***
-
-**Info:** Get Safari version
-
-**Return:** (Float)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _Set_ 
-***
-
-**Info:** Collection class that filters out duplicate values
-
-**Return:** (Set)
-
-**Parameters:**
-
-* records: (Array) Array used to create the iterator to iterate each item
-
-**Overloads:**
-
-* None
-
-*** 
-#### _addObjectPrototype_ 
-***
-
-**Info:** Method to extend the Object Class
-
-**Return:** (void)
-
-**Parameters:**
-
-* name: (String) name of the method to add
-* fn: (Function) method implementation
-
-**Overloads:**
-
-1)
-
-* name: (String) name of the method to add
-* fn: (Function) method implementation
-* override: (Bool) if true, override the previously defined prototype
-
-*** 
-#### _ajax_ 
-***
-
-**Info:** Method to make ajax calls
-
-**Return:** (void)
-
-**Parameters:**
-
-* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
-
-**Overloads:**
-
-1)
-
-* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
-* returnData: (String) Specifies which data to return when using Promise pattern
-
-*** 
-#### _clearCache_ 
-***
-
-**Info:** Clear a module from the require cache.
-
-**Return:** (Boolean)
-
-**Parameters:**
-
-* module: (String) Single module to remove.
-
-**Overloads:**
-
-1)
-
-* None
-
-*** 
-#### _clusterit_ 
-***
-
-**Info:** Enable clustering
-
-**Return:** (void)
-
-**Parameters:**
-
-* callback: Method to call for Workers.  Callback is passed the cluster object as an argument.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _cout_ 
-***
-
-**Info:** Log to console when DEBUG_MODE is true and when the console is available
-
-**Return:** (void)
-
-**Parameters:**
-
-* infinite: any number of arguments can be passed.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _createServer_ 
-***
-
-**Info:** Create http server, ability to run middleware, and define routes.
-
-**Return:** (Server)
-
-**Parameters:**
-
-* callback: (Function) Function to callback when a request is received
-
-**Overloads:**
-
-1)
-
-* callback: (Function) Function to callback when a request is received
-* createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
-
-*** 
-#### _cuid_ 
-***
-
-**Info:** Creates a Craydent/Global Unique Identifier
-
-**Return:** (String)
-
-**Parameters:**
-
-* msFormat: (Bool) use microsoft format if true
-
-**Overloads:**
-
-* None
-
-*** 
-#### _echo_ 
-***
-
-**Info:** Echo to buffer and use in response
-
-**Return:** (void)
-
-**Parameters:**
-
-* output: Data to send in response
-
-**Overloads:**
-
-* None
-
-*** 
-#### _emit_ 
-***
-
-**Info:** Call the next function(s) in queue
-
-**Return:** (void)
-
-**Parameters:**
-
-* event: Event to trigger.
-
-**Overloads:**
-
-1)
-
-* event: Event to trigger.
-* infinite: any number of arguments can be passed and will be applied to listening functions.
-
-*** 
-#### _end_ 
-***
-
-**Info:** Call the next function(s) in queue
-
-**Return:** (void)
-
-**Parameters:**
-
-* event: Event to trigger.
-
-**Overloads:**
-
-1)
-
-* event: Event to trigger.
-* infinite: any number of arguments can be passed and will be applied to listening functions.
-
-*** 
-#### _error_ 
-***
-
-**Info:** User implemented place holder function to handle errors
-
-**Return:** (void)
-
-**Parameters:**
-
-* fname: (String) The function name the error was thrown
-* e: (Error) Exception object thrown
-
-**Overloads:**
-
-* None
-
-*** 
-#### _exclude_ 
-***
-
-**Info:** Exclude prototyping
-
-**Return:** (void)
-
-**Parameters:**
-
-* list: (String[]) Array of strings in containing the property to exclude from prototyping.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _foo_ 
-***
-
-**Info:** Place holder function for a blank function
-
-**Return:** (void)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _getSession_ 
-***
-
-**Info:** Retrieve the session object when used in conjunction with createServer
-
-**Return:** (void)
-
-**Parameters:**
-
-* sid: (String) Session id of the session object to retrieve syncronously.
-
-**Overloads:**
-
-1)
-
-* sid: (String) Session id of the session object to retrieve.
-* callback: (Function) callback function to invoke once the session object is retrieved.
-
-*** 
-#### _getSessionID_ 
-***
-
-**Info:** Retrieve the session id when used in conjunction with createServer
-
-**Return:** (void)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _getSessionSync_ 
-***
-
-**Info:** Syncronously retrieve the session object when used in conjunction with createServer
-
-**Return:** (void)
-
-**Parameters:**
-
-* sid: (String) Session id of the session object to retrieve syncronously.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _header_ 
-***
-
-**Info:** Set Http Headers to send
-
-**Return:** (void)
-
-**Parameters:**
-
-* header: (String) Http header.
-
-**Overloads:**
-
-1)
-
-* headers: (Object) Http headers.
-
-2)
-
-* header: (String) Http header.
-* code: (Integer) Http response code.
-
-3)
-
-* headers: (Object) Http headers.
-* code: (Integer) Http response code.
-
-*** 
-#### _include_ 
-***
-
-**Info:** Require without erroring when module does not exist.
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* path: (String) Module or Path to module.
-
-**Overloads:**
-
-1)
-
-* path: (String) Module or Path to module.
-* refresh: (Boolean) Flag to clear cache for the specific include.
-
-*** 
-#### _isAmaya_ 
-***
-
-**Info:** Check if browser is Amaya
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isAndroid_ 
-***
-
-**Info:** Check if device is Android
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isBlackBerry_ 
-***
-
-**Info:** Check if device is BlackBerry
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isChrome_ 
-***
-
-**Info:** Check if browser is Chrome
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isFirefox_ 
-***
-
-**Info:** Check if browser is Firefox
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isGecko_ 
-***
-
-**Info:** Check if engine is Gecko
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isIE_ 
-***
-
-**Info:** Check if browser is Internet Explorer
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isIE6_ 
-***
-
-**Info:** Check if browser is Internet Explorer 6
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isIPad_ 
-***
-
-**Info:** Check if device is iPad
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isIPhone_ 
-***
-
-**Info:** Check if device is IPhone
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isIPod_ 
-***
-
-**Info:** Check if device is IPod
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isKHTML_ 
-***
-
-**Info:** Check if engine is KHTML
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isLinux_ 
-***
-
-**Info:** Check if OS is Linux
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isMac_ 
-***
-
-**Info:** Check if OS is Mac Based
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isMobile_ 
-***
-
-**Info:** Check if the device is a Mobile device
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isNull_ 
-***
-
-**Info:** Check if a value is Null
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* value: (Mixed) Value to check
-
-**Overloads:**
-
-1)
-
-* value: (Mixed) Value to check
-* defaultValue: (Mixed) Value to return if null
-
-*** 
-#### _isOpera_ 
-***
-
-**Info:** Check if browser is Opera
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isPalmOS_ 
-***
-
-**Info:** Check if OS is PalmOS
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isPresto_ 
-***
-
-**Info:** Check if engine is Presto
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isPrince_ 
-***
-
-**Info:** Check if engine is Prince
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isSafari_ 
-***
-
-**Info:** Check if browser is Safari
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isSymbian_ 
-***
-
-**Info:** Check if OS is Symbian
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isTrident_ 
-***
-
-**Info:** Check if engine is Trident
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isWebkit_ 
-***
-
-**Info:** Check if engine is Webkit
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isWindows_ 
-***
-
-**Info:** Check if OS is Windows
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _isWindowsMobile_ 
-***
-
-**Info:** Check if device is Windows Mobile
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
-#### _logit_ 
-***
-
-**Info:** Log to console when DEBUG_MODE is true and when the console is available
-
-**Return:** (void)
-
-**Parameters:**
-
-* infinite: any number of arguments can be passed.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _md5_ 
-***
-
-**Info:** MD5 encode a string.
-
-**Return:** (String)
-
-**Parameters:**
-
-* str: (String) String to encode.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _mkdirRecursive_ 
-***
-
-**Info:** Recursively create folders.
-
-**Return:** (void)
-
-**Parameters:**
-
-* path: (String) Path to create.
-* callback: (Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors).
-
-**Overloads:**
-
-* None
-
-*** 
-#### _namespace_ 
-***
-
-**Info:** Adds the class to a namespace instead of the global space
-
-**Return:** (void)
-
-**Parameters:**
-
-* name: (String) Name of the namespace to add to.
-* clazz: (Class) Class to add to the given namespace
-
-**Overloads:**
-
-1)
-
-* name: (String) Name of the namespace to add to.
-* clazz: (Class) Class to add to the given namespace
-* fn: (Function) Method to call after the class has been added to the namespace
-
-*** 
-#### _next_ 
-***
-
-**Info:** Call the next function(s) in queue
-
-**Return:** (void)
-
-**Parameters:**
-
-* infinite: any number of arguments can be passed.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _now_ 
-***
-
-**Info:** Get the DateTime of now
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* format: (String) Format syntax to return formatted string of now
-
-*** 
-#### _parseBoolean_ 
-***
-
-**Info:** Try to parse value to a Boolean
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* value: (Mixed) value to parse as boolean
-
-**Overloads:**
-
-* None
-
-*** 
-#### _parseRaw_ 
-***
-
-**Info:** Creates an evaluable string
-
-**Return:** (String)
-
-**Parameters:**
-
-* value: value to parse
-
-**Overloads:**
-
-1)
-
-* value: (Mixed) Value to parse
-* skipQuotes: (Bool) Flag to skip quotes for strings
-* saveCircular: (Bool) Flag to save circular references
-
-*** 
-#### _rand_ 
-***
-
-**Info:** Create a random number between two numbers
-
-**Return:** (Number)
-
-**Parameters:**
-
-* num1: (Number) Lower bound
-* num2: (Number) Upper bound
-
-**Overloads:**
-
-1)
-
-* num1: (Number) Lower bound
-* num2: (Number) Upper bound
-* inclusive: (Bool) Flag to include the given numbers
-
-*** 
-#### _requireDirectory_ 
-***
-
-**Info:** Recursively require the entire directory and returns an object containing the required modules.
-
-**Return:** (Object)
-
-**Parameters:**
-
-* path: (String) Path to directory.
-
-**Overloads:**
-
-1)
-
-* path: (String) Path to directory.
-* options: (Char) 'r' Flag to use to indicate recursively require
-
-*** 
-#### _send_ 
-***
-
-**Info:** Recursively require the entire directory and returns an object containing the required modules.
-
-**Return:** (Object)
-
-**Parameters:**
-
-* data: (Object) Object to send in response.
-
-**Overloads:**
-
-1)
-
-* status: (Integer) Status code for response.
-* data: (Object) Object to send in response.
-
-*** 
-#### _suid_ 
-***
-
-**Info:** Creates a short Craydent/Global Unique Identifier
-
-**Return:** (String)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* length: (Integer) Custom length of the short unique identifier
-
-*** 
-#### _syncroit_ 
-***
-
-**Info:** Generator based control flow to allow for more "syncronous" programing structure
-
-**Return:** (Promise)
-
-**Parameters:**
-
-* gen: (GeneratorFunction) Generator function to execute
-
-**Overloads:**
-
-* None
-
-*** 
-#### _tryEval_ 
-***
-
-**Info:** Evaluates an expression without throwing an error
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* expression: (Mixed) Expression to evaluate
-
-**Overloads:**
-
-1)
-
-* expression: (Mixed) Expression to evaluate
-* evaluator: (Function) Method to use to evaluate the expression
-
-*** 
-#### _var_dump_ 
-***
-
-**Info:** Dump of variables to response.
-
-**Return:** (void)
-
-**Parameters:**
-
-* infinite: any number of arguments can be passed.
-
-**Overloads:**
-
-* None
-
-*** 
-#### _wait_ 
-***
-
-**Info:** Stops execution until the condition is satisfied
-
-**Return:** (void)
-
-**Parameters:**
-
-* condition: (Mixed) Condition equivalent to js true to resume execution
-
-**Overloads:**
-
-* None
-
-*** 
-#### _xmlToJson_ 
-***
-
-**Info:** Converts XML to JSON
-
-**Return:** (Object)
-
-**Parameters:**
-
-* xml: (Mixed) XML string or XML DOM
-
-**Overloads:**
-
-1)
-
-* xml: (Mixed) XML string or XML DOM
-* ignoreAttributes: (Bool) Flag to ignore attributes
-
-*** 
-#### _yieldable_ 
-***
-
-**Info:** Makes a value yieldable via a Promise.
-
-**Return:** (Promise)
-
-**Parameters:**
-
-* value: (Mixed) Value to make yieldable
-
-**Overloads:**
-
-1)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-
-2)
-
-* func: (Function) Function to make yieldable
-* callbackIndex: (Integer) Index of callback argument.
-
-3)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-
-*** 
-#### _writeSession_ 
-***
-
-**Info:** Writes session to filesystem to be retrieved later.
-
-**Return:** (void)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
 
 <a name='markdown-header-array'></a>
 ## Array
@@ -2385,7 +1177,7 @@ IE6 (String) |PROTOCOL (String) |
 * None
 
 *** 
-#### _trim_ 
+#### _universal_trim_ 
 ***
 
 **Info:** Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.
@@ -2457,6 +1249,225 @@ IE6 (String) |PROTOCOL (String) |
 * prop: (String) Property to use as the primary key
 * callback: (Function) Method to use to determine if the records are equal
 
+<a name='markdown-header-class'></a>
+## Class
+
+*** 
+#### _Benchmarker_ 
+***
+
+**Info:** Class used to measure the run time of code
+
+**Return:** (void)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _Cursor_ 
+***
+
+**Info:** Cursor class to facilitate iteration
+
+**Return:** (Cursor)
+
+**Parameters:**
+
+* records: (Array) Array used to create the iterator to iterate each item
+
+**Overloads:**
+
+1)
+
+* records: (Object) Object used to create the iterator to iterate each property
+
+*** 
+#### _OrderedList_ 
+***
+
+**Info:** Collection class that filters out duplicate values and maintains an ordered list
+
+**Return:** (OrderedList)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* records: (Array) Array used to create the initial items in the ordered list
+
+2)
+
+* records: (Array) Array used to create the initial items in the ordered list
+* sorter: (Function) Function for sorting logic
+
+*** 
+#### _Queue_ 
+***
+
+**Info:** Collection class that follows FIFO
+
+**Return:** (Queue)
+
+**Parameters:**
+
+* records: (Array) Array used to create the iterator to iterate each item
+
+**Overloads:**
+
+* None
+
+*** 
+#### _Set_ 
+***
+
+**Info:** Collection class that filters out duplicate values
+
+**Return:** (Set)
+
+**Parameters:**
+
+* records: (Array) Array used to create the iterator to iterate each item
+
+**Overloads:**
+
+* None
+
+*** 
+#### _context_ 
+***
+
+**Info:** Class used to create a new context for HTTP server
+
+**Return:** (void)
+
+**Parameters:**
+
+* request: (HTTPRequest) HTTP request object provided by createServer
+* response: (HTTPResponse) HTTP response object provided by createServer
+
+**Overloads:**
+
+* None
+
+<a name='markdown-header-cli'></a>
+## CLI
+
+*** 
+#### _CLI_ 
+***
+
+**Info:** CLI parser for arguments and simplem method to execute shell commands
+
+**Return:** (Cursor)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* options: (Object[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false).
+
+<a name='markdown-header-control flow'></a>
+## Control Flow
+
+*** 
+#### _awaitable_ 
+***
+
+**Info:** Makes a value yieldable via a Promise.
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* value: (Mixed) Value to make yieldable
+
+**Overloads:**
+
+1)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+
+2)
+
+* func: (Function) Function to make yieldable
+* callbackIndex: (Integer) Index of callback argument.
+
+3)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+
+*** 
+#### _parallelEach_ 
+***
+
+**Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* gen: (Generator) Generator function to apply to each item
+
+2)
+
+* func: (Function) Function to apply to each item
+
+3)
+
+* args: (Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
+
+*** 
+#### _yieldable_ 
+***
+
+**Info:** Makes a value yieldable via a Promise.
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* value: (Mixed) Value to make yieldable
+
+**Overloads:**
+
+1)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+
+2)
+
+* func: (Function) Function to make yieldable
+* callbackIndex: (Integer) Index of callback argument.
+
+3)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+
 <a name='markdown-header-date'></a>
 ## Date
 
@@ -2508,6 +1519,521 @@ IE6 (String) |PROTOCOL (String) |
 
 * None
 
+<a name='markdown-header-fs'></a>
+## FS
+
+*** 
+#### _appendFile_ 
+***
+
+**Info:** A promisified version of appendFile.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _chmod_ 
+***
+
+**Info:** A promisified version of chmod.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _chown_ 
+***
+
+**Info:** A promisified version of chown.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _close_ 
+***
+
+**Info:** A promisified version of close.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _fchmod_ 
+***
+
+**Info:** A promisified version of fchmod.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _fchown_ 
+***
+
+**Info:** A promisified version of fchown.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _fdatasync_ 
+***
+
+**Info:** A promisified version of fdatasync.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _fstat_ 
+***
+
+**Info:** A promisified version of fstat.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _fsync_ 
+***
+
+**Info:** A promisified version of fsync.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _ftruncate_ 
+***
+
+**Info:** A promisified version of ftruncate.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _futimes_ 
+***
+
+**Info:** A promisified version of futimes.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _lchmod_ 
+***
+
+**Info:** A promisified version of lchmod.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _lchown_ 
+***
+
+**Info:** A promisified version of lchown.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _link_ 
+***
+
+**Info:** A promisified version of link.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _lstat_ 
+***
+
+**Info:** A promisified version of lstat.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _mkdir_ 
+***
+
+**Info:** A promisified version of mkdir.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _mkdtemp_ 
+***
+
+**Info:** A promisified version of mkdtemp.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _open_ 
+***
+
+**Info:** A promisified version of open.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _read_ 
+***
+
+**Info:** A promisified version of read.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _readFile_ 
+***
+
+**Info:** A promisified version of readFile.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _readdir_ 
+***
+
+**Info:** A promisified version of readdir.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _readlink_ 
+***
+
+**Info:** A promisified version of readlink.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _realpath_ 
+***
+
+**Info:** A promisified version of realpath.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _rename_ 
+***
+
+**Info:** A promisified version of rename.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _rmdir_ 
+***
+
+**Info:** A promisified version of rmdir.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _stat_ 
+***
+
+**Info:** A promisified version of stat.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _symlink_ 
+***
+
+**Info:** A promisified version of symlink.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _truncate_ 
+***
+
+**Info:** A promisified version of truncate.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _unlink_ 
+***
+
+**Info:** A promisified version of unlink.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _utimes_ 
+***
+
+**Info:** A promisified version of utimes.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _write_ 
+***
+
+**Info:** A promisified version of write.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _writeFile_ 
+***
+
+**Info:** A promisified version of writeFile.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
 <a name='markdown-header-function'></a>
 ## Function
 
@@ -2526,6 +2052,25 @@ IE6 (String) |PROTOCOL (String) |
 **Overloads:**
 
 * None
+
+*** 
+#### _emit_ 
+***
+
+**Info:** Call the next function(s) in queue
+
+**Return:** (void)
+
+**Parameters:**
+
+* event: Event to trigger.
+
+**Overloads:**
+
+1)
+
+* event: Event to trigger.
+* infinite: any number of arguments can be passed and will be applied to listening functions.
 
 *** 
 #### _extends_ 
@@ -2573,6 +2118,22 @@ IE6 (String) |PROTOCOL (String) |
 **Parameters:**
 
 * None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _next_ 
+***
+
+**Info:** Call the next function(s) in queue
+
+**Return:** (void)
+
+**Parameters:**
+
+* infinite: any number of arguments can be passed.
 
 **Overloads:**
 
@@ -2628,16 +2189,664 @@ IE6 (String) |PROTOCOL (String) |
 
 * None
 
-<a name='markdown-header-module'></a>
-## Module
+<a name='markdown-header-http'></a>
+## HTTP
 
 *** 
-#### _globalize_ 
+#### _ChromeVersion_ 
 ***
 
-**Info:** Module method to globalize functions
+**Info:** Get Chrome version
 
-**Return:** (Array)
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _FirefoxVersion_ 
+***
+
+**Info:** Get Firefox version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _IEVersion_ 
+***
+
+**Info:** Get Internet Explorer version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _OperaVersion_ 
+***
+
+**Info:** Get Opera version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _SafariVersion_ 
+***
+
+**Info:** Get Safari version
+
+**Return:** (Float)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _createServer_ 
+***
+
+**Info:** Create http server, ability to run middleware, and define routes.
+
+**Return:** (Server)
+
+**Parameters:**
+
+* callback: (Function) Function to callback when a request is received
+
+**Overloads:**
+
+1)
+
+* callback: (Function) Function to callback when a request is received
+* createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
+
+*** 
+#### _echo_ 
+***
+
+**Info:** Echo to buffer and use in response
+
+**Return:** (void)
+
+**Parameters:**
+
+* output: Data to send in response
+
+**Overloads:**
+
+* None
+
+*** 
+#### _end_ 
+***
+
+**Info:** Call the next function(s) in queue
+
+**Return:** (void)
+
+**Parameters:**
+
+* event: Event to trigger.
+
+**Overloads:**
+
+1)
+
+* event: Event to trigger.
+* infinite: any number of arguments can be passed and will be applied to listening functions.
+
+*** 
+#### _getSession_ 
+***
+
+**Info:** Retrieve the session object when used in conjunction with createServer
+
+**Return:** (void)
+
+**Parameters:**
+
+* sid: (String) Session id of the session object to retrieve syncronously.
+
+**Overloads:**
+
+1)
+
+* sid: (String) Session id of the session object to retrieve.
+* callback: (Function) callback function to invoke once the session object is retrieved.
+
+*** 
+#### _getSessionID_ 
+***
+
+**Info:** Retrieve the session id when used in conjunction with createServer
+
+**Return:** (void)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _getSessionSync_ 
+***
+
+**Info:** Syncronously retrieve the session object when used in conjunction with createServer
+
+**Return:** (void)
+
+**Parameters:**
+
+* sid: (String) Session id of the session object to retrieve syncronously.
+
+**Overloads:**
+
+* None
+
+*** 
+#### _header_ 
+***
+
+**Info:** Set Http Headers to send
+
+**Return:** (void)
+
+**Parameters:**
+
+* header: (String) Http header.
+
+**Overloads:**
+
+1)
+
+* headers: (Object) Http headers.
+
+2)
+
+* header: (String) Http header.
+* code: (Integer) Http response code.
+
+3)
+
+* headers: (Object) Http headers.
+* code: (Integer) Http response code.
+
+*** 
+#### _isAmaya_ 
+***
+
+**Info:** Check if browser is Amaya
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isAndroid_ 
+***
+
+**Info:** Check if device is Android
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isBlackBerry_ 
+***
+
+**Info:** Check if device is BlackBerry
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isChrome_ 
+***
+
+**Info:** Check if browser is Chrome
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isFirefox_ 
+***
+
+**Info:** Check if browser is Firefox
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isGecko_ 
+***
+
+**Info:** Check if engine is Gecko
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isIE_ 
+***
+
+**Info:** Check if browser is Internet Explorer
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isIE6_ 
+***
+
+**Info:** Check if browser is Internet Explorer 6
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isIPad_ 
+***
+
+**Info:** Check if device is iPad
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isIPhone_ 
+***
+
+**Info:** Check if device is IPhone
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isIPod_ 
+***
+
+**Info:** Check if device is IPod
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isKHTML_ 
+***
+
+**Info:** Check if engine is KHTML
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isLinux_ 
+***
+
+**Info:** Check if OS is Linux
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isMac_ 
+***
+
+**Info:** Check if OS is Mac Based
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isMobile_ 
+***
+
+**Info:** Check if the device is a Mobile device
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isOpera_ 
+***
+
+**Info:** Check if browser is Opera
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isPalmOS_ 
+***
+
+**Info:** Check if OS is PalmOS
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isPresto_ 
+***
+
+**Info:** Check if engine is Presto
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isPrince_ 
+***
+
+**Info:** Check if engine is Prince
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isSafari_ 
+***
+
+**Info:** Check if browser is Safari
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isSymbian_ 
+***
+
+**Info:** Check if OS is Symbian
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isTrident_ 
+***
+
+**Info:** Check if engine is Trident
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isWebkit_ 
+***
+
+**Info:** Check if engine is Webkit
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isWindows_ 
+***
+
+**Info:** Check if OS is Windows
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _isWindowsMobile_ 
+***
+
+**Info:** Check if device is Windows Mobile
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _send_ 
+***
+
+**Info:** Recursively require the entire directory and returns an object containing the required modules.
+
+**Return:** (Object)
+
+**Parameters:**
+
+* data: (Object) Object to send in response.
+
+**Overloads:**
+
+1)
+
+* status: (Integer) Status code for response.
+* data: (Object) Object to send in response.
+
+*** 
+#### _var_dump_ 
+***
+
+**Info:** Dump of variables to response.
+
+**Return:** (void)
+
+**Parameters:**
+
+* infinite: any number of arguments can be passed.
+
+**Overloads:**
+
+* None
+
+*** 
+#### _writeSession_ 
+***
+
+**Info:** Writes session to filesystem to be retrieved later.
+
+**Return:** (void)
 
 **Parameters:**
 
@@ -2701,6 +2910,27 @@ IE6 (String) |PROTOCOL (String) |
 
 <a name='markdown-header-object'></a>
 ## Object
+
+*** 
+#### _addObjectPrototype_ 
+***
+
+**Info:** Method to extend the Object Class
+
+**Return:** (void)
+
+**Parameters:**
+
+* name: (String) name of the method to add
+* fn: (Function) method implementation
+
+**Overloads:**
+
+1)
+
+* name: (String) name of the method to add
+* fn: (Function) method implementation
+* override: (Bool) if true, override the previously defined prototype
 
 *** 
 #### _changes_ 
@@ -3388,7 +3618,7 @@ IE6 (String) |PROTOCOL (String) |
 #### _acronymize_ 
 ***
 
-**Info:** String class extension to capitalize parts of the string
+**Info:** String class extension to create an acronym from the given string
 
 **Return:** (String)
 
@@ -3442,6 +3672,29 @@ IE6 (String) |PROTOCOL (String) |
 * everyWord: (Bool) Flag to capital every word
 
 *** 
+#### _contains_ 
+***
+
+**Info:** Object class extension to check if value exists
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* val: (Mixed) Value to check or custom function to determine validity
+
+**Overloads:**
+
+1)
+
+* val: (Mixed) Value to check
+* func: (Function) Callback function used to do the comparison
+
+2)
+
+* arr: (Array) Array of values to return first matching value
+
+*** 
 #### _convertUTCDate_ 
 ***
 
@@ -3456,6 +3709,32 @@ IE6 (String) |PROTOCOL (String) |
 **Overloads:**
 
 * None
+
+*** 
+#### _count_ 
+***
+
+**Info:** Object class extension to count the properties in the object/elements in arrays/characters in strings.
+
+**Return:** (Int)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* option: (Mixed) Query used in Array.where when counting elements in an Array
+
+2)
+
+* option: (String) Word or phrase to count in the String
+
+3)
+
+* option: (RegExp) Word or phrase pattern to count in the String
 
 *** 
 #### _cut_ 
@@ -3548,6 +3827,29 @@ IE6 (String) |PROTOCOL (String) |
 1)
 
 * arr: (String[]) An array of strings to check
+
+*** 
+#### _getValue_ 
+***
+
+**Info:** Object class extension to retrieve value of an object property
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* dflt: (Mixed) Default value to return if context is not a function
+
+2)
+
+* args: (Mixed[]) An array of arguments to pass to context when it is a function
+* dflt: (Mixed) Default value to return if context is not a function
 
 *** 
 #### _highlight_ 
@@ -3916,7 +4218,7 @@ IE6 (String) |PROTOCOL (String) |
 #### _toCurrencyNotation_ 
 ***
 
-**Info:** Number/String class extension to change number to currency
+**Info:** String class extension to change number to use separater character
 
 **Return:** (String)
 
@@ -3970,4 +4272,576 @@ IE6 (String) |PROTOCOL (String) |
 
 * assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '&'.
 * delimiter: (Char) Character to use as pair delimiter
+
+*** 
+#### _trim_ 
+***
+
+**Info:** String class extension to remove characters from the beginning and end of the string.
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* character: (Char[]) Character to remove in the String
+
+<a name='markdown-header-typeof'></a>
+## TypeOf
+
+*** 
+#### _isNull_ 
+***
+
+**Info:** Check if a value is Null
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* value: (Mixed) Value to check
+
+**Overloads:**
+
+1)
+
+* value: (Mixed) Value to check
+* defaultValue: (Mixed) Value to return if null
+
+*** 
+#### _isNull_ 
+***
+
+**Info:** Check if a value is Null
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* value: (Mixed) Value to check
+
+**Overloads:**
+
+1)
+
+* value: (Mixed) Value to check
+* defaultValue: (Mixed) Value to return if null
+
+<a name='markdown-header-utility'></a>
+## Utility
+
+*** 
+#### _addObjectPrototype_ 
+***
+
+**Info:** Method to extend the Object Class
+
+**Return:** (void)
+
+**Parameters:**
+
+* name: (String) name of the method to add
+* fn: (Function) method implementation
+
+**Overloads:**
+
+1)
+
+* name: (String) name of the method to add
+* fn: (Function) method implementation
+* override: (Bool) if true, override the previously defined prototype
+
+*** 
+#### _ajax_ 
+***
+
+**Info:** Method to make ajax calls
+
+**Return:** (void)
+
+**Parameters:**
+
+* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+
+**Overloads:**
+
+1)
+
+* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+* returnData: (String) Specifies which data to return when using Promise pattern
+
+*** 
+#### _awaitable_ 
+***
+
+**Info:** Makes a value yieldable via a Promise.
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* value: (Mixed) Value to make yieldable
+
+**Overloads:**
+
+1)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+
+2)
+
+* func: (Function) Function to make yieldable
+* callbackIndex: (Integer) Index of callback argument.
+
+3)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+
+*** 
+#### _clearCache_ 
+***
+
+**Info:** Clear a module from the require cache.
+
+**Return:** (Boolean)
+
+**Parameters:**
+
+* module: (String) Single module to remove.
+
+**Overloads:**
+
+1)
+
+* None
+
+*** 
+#### _clusterit_ 
+***
+
+**Info:** Enable clustering
+
+**Return:** (void)
+
+**Parameters:**
+
+* callback: Method to call for Workers.  Callback is passed the cluster object as an argument.
+
+**Overloads:**
+
+* None
+
+*** 
+#### _cout_ 
+***
+
+**Info:** Log to console when DEBUG_MODE is true and when the console is available
+
+**Return:** (void)
+
+**Parameters:**
+
+* infinite: any number of arguments can be passed.
+
+**Overloads:**
+
+* None
+
+*** 
+#### _cuid_ 
+***
+
+**Info:** Creates a Craydent/Global Unique Identifier
+
+**Return:** (String)
+
+**Parameters:**
+
+* msFormat: (Bool) use microsoft format if true
+
+**Overloads:**
+
+* None
+
+*** 
+#### _error_ 
+***
+
+**Info:** User implemented place holder function to handle errors
+
+**Return:** (void)
+
+**Parameters:**
+
+* fname: (String) The function name the error was thrown
+* e: (Error) Exception object thrown
+
+**Overloads:**
+
+* None
+
+*** 
+#### _exclude_ 
+***
+
+**Info:** Exclude prototyping
+
+**Return:** (void)
+
+**Parameters:**
+
+* list: (String[]) Array of strings in containing the property to exclude from prototyping.
+
+**Overloads:**
+
+* None
+
+*** 
+#### _foo_ 
+***
+
+**Info:** Place holder function for a blank function
+
+**Return:** (void)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _include_ 
+***
+
+**Info:** Require without erroring when module does not exist.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* path: (String) Module or Path to module.
+
+**Overloads:**
+
+1)
+
+* path: (String) Module or Path to module.
+* refresh: (Boolean) Flag to clear cache for the specific include.
+
+*** 
+#### _logit_ 
+***
+
+**Info:** Log to console when DEBUG_MODE is true and when the console is available
+
+**Return:** (void)
+
+**Parameters:**
+
+* infinite: any number of arguments can be passed.
+
+**Overloads:**
+
+* None
+
+*** 
+#### _md5_ 
+***
+
+**Info:** MD5 encode a string.
+
+**Return:** (String)
+
+**Parameters:**
+
+* str: (String) String to encode.
+
+**Overloads:**
+
+* None
+
+*** 
+#### _mkdirRecursive_ 
+***
+
+**Info:** Recursively create folders.
+
+**Return:** (void)
+
+**Parameters:**
+
+* path: (String) Path to create.
+* callback: (Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors).
+
+**Overloads:**
+
+* None
+
+*** 
+#### _namespace_ 
+***
+
+**Info:** Adds the class to a namespace instead of the global space
+
+**Return:** (void)
+
+**Parameters:**
+
+* name: (String) Name of the namespace to add to.
+* clazz: (Class) Class to add to the given namespace
+
+**Overloads:**
+
+1)
+
+* name: (String) Name of the namespace to add to.
+* clazz: (Class) Class to add to the given namespace
+* fn: (Function) Method to call after the class has been added to the namespace
+
+*** 
+#### _noop_ 
+***
+
+**Info:** Place holder function for a blank function
+
+**Return:** (void)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
+
+*** 
+#### _now_ 
+***
+
+**Info:** Get the DateTime of now
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* format: (String) Format syntax to return formatted string of now
+
+*** 
+#### _parseBoolean_ 
+***
+
+**Info:** Try to parse value to a Boolean (0, 1, '0', and '1' are valid unless strict is set to true).
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* value: (Mixed) value to parse as boolean.
+
+**Overloads:**
+
+1)
+
+* value: (Mixed) value to parse as boolean.
+* strict: (Boolean) Disable parsing of 0, 1, '0', and '1'.
+
+*** 
+#### _parseRaw_ 
+***
+
+**Info:** Creates an evaluable string
+
+**Return:** (String)
+
+**Parameters:**
+
+* value: value to parse
+
+**Overloads:**
+
+1)
+
+* value: (Mixed) Value to parse
+* skipQuotes: (Bool) Flag to skip quotes for strings
+* saveCircular: (Bool) Flag to save circular references
+
+*** 
+#### _rand_ 
+***
+
+**Info:** Create a random number between two numbers
+
+**Return:** (Number)
+
+**Parameters:**
+
+* num1: (Number) Lower bound
+* num2: (Number) Upper bound
+
+**Overloads:**
+
+1)
+
+* num1: (Number) Lower bound
+* num2: (Number) Upper bound
+* inclusive: (Bool) Flag to include the given numbers
+
+*** 
+#### _requireDirectory_ 
+***
+
+**Info:** Recursively require the entire directory and returns an object containing the required modules.
+
+**Return:** (Promise/Object)
+
+**Parameters:**
+
+* path: (String) Path to directory.
+
+**Overloads:**
+
+1)
+
+* path: (String) Path to directory.
+* options: (Char) 'r' Flag to use to indicate recursively require, (Char) 's' Flag to indicate use syncronous instead of Promise Pattern
+
+*** 
+#### _suid_ 
+***
+
+**Info:** Creates a short Craydent/Global Unique Identifier
+
+**Return:** (String)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* length: (Integer) Custom length of the short unique identifier
+
+*** 
+#### _syncroit_ 
+***
+
+**Info:** Generator based control flow to allow for more "syncronous" programing structure
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* gen: (GeneratorFunction) Generator function to execute
+
+**Overloads:**
+
+1)
+
+* async: (AsyncFunction) Async function to execute
+
+*** 
+#### _tryEval_ 
+***
+
+**Info:** Evaluates an expression without throwing an error
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* expression: (Mixed) Expression to evaluate
+
+**Overloads:**
+
+1)
+
+* expression: (Mixed) Expression to evaluate
+* evaluator: (Function) Method to use to evaluate the expression
+
+*** 
+#### _wait_ 
+***
+
+**Info:** Stops execution until the condition is satisfied
+
+**Return:** (void)
+
+**Parameters:**
+
+* condition: (Mixed) Condition equivalent to js true to resume execution
+
+**Overloads:**
+
+* None
+
+*** 
+#### _yieldable_ 
+***
+
+**Info:** Makes a value yieldable via a Promise.
+
+**Return:** (Promise)
+
+**Parameters:**
+
+* value: (Mixed) Value to make yieldable
+
+**Overloads:**
+
+1)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+
+2)
+
+* func: (Function) Function to make yieldable
+* callbackIndex: (Integer) Index of callback argument.
+
+3)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+
+<a name='markdown-header-xml to json'></a>
+## XML to JSON
+
+*** 
+#### _xmlToJson_ 
+***
+
+**Info:** Converts XML to JSON
+
+**Return:** (Object)
+
+**Parameters:**
+
+* xml: (Mixed) XML string or XML DOM
+
+**Overloads:**
+
+1)
+
+* xml: (Mixed) XML string or XML DOM
+* ignoreAttributes: (Bool) Flag to ignore attributes
 

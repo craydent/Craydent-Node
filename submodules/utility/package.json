@@ -1,0 +1,40 @@
+{
+    "name": "@craydent/craydent-utility",
+    "version": "0.8.5",
+    "description": "Node module to for commonly needed utility functions",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/utility.git"
+    },
+    "keywords": [
+        "ajax",
+        "cluster",
+        "craydent",
+        "es6",
+        "fs",
+        "guid",
+        "jquery",
+        "library",
+        "md5",
+        "mkdir",
+        "sugar",
+        "utilities",
+        "utility",
+        "uuid",
+        "zip"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/utility#readme",
+    "dependencies": {
+        "@craydent/craydent-typeof": "file:../typeof"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}

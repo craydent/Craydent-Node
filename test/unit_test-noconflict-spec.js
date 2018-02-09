@@ -1,4 +1,28 @@
 //var expect = require('chai').expect;
+var pre = "@craydent/";
+delete global.$c;
+require.cache[require.resolve('../common.js')] && console.log("common") && delete require.cache[require.resolve('../common.js')];
+require.cache[require.resolve(pre + 'craydent-array')] && console.log("array") && delete require.cache[require.resolve(pre + 'craydent-array')];
+require.cache[require.resolve(pre + 'craydent-class')] && delete require.cache[require.resolve(pre + 'craydent-class')];
+require.cache[require.resolve(pre + 'craydent-cli')] && delete require.cache[require.resolve(pre + 'craydent-cli')];
+require.cache[require.resolve(pre + 'craydent-control-flow')] && delete require.cache[require.resolve(pre + 'craydent-control-flow')];
+require.cache[require.resolve(pre + 'craydent-date')] && delete require.cache[require.resolve(pre + 'craydent-date')];
+require.cache[require.resolve(pre + 'craydent-fs')] && delete require.cache[require.resolve(pre + 'craydent-fs')];
+require.cache[require.resolve(pre + 'craydent-function')] && delete require.cache[require.resolve(pre + 'craydent-function')];
+require.cache[require.resolve(pre + 'craydent-http')] && delete require.cache[require.resolve(pre + 'craydent-http')];
+require.cache[require.resolve(pre + 'craydent-json-parser')] && delete require.cache[require.resolve(pre + 'craydent-json-parser')];
+require.cache[require.resolve(pre + 'craydent-number')] && delete require.cache[require.resolve(pre + 'craydent-number')];
+require.cache[require.resolve(pre + 'craydent-object')] && delete require.cache[require.resolve(pre + 'craydent-object')];
+require.cache[require.resolve(pre + 'craydent-regexp')] && delete require.cache[require.resolve(pre + 'craydent-regexp')];
+require.cache[require.resolve(pre + 'craydent-string')] && delete require.cache[require.resolve(pre + 'craydent-string')];
+require.cache[require.resolve(pre + 'craydent-template')] && delete require.cache[require.resolve(pre + 'craydent-template')];
+require.cache[require.resolve(pre + 'craydent-typeof')] && delete require.cache[require.resolve(pre + 'craydent-typeof')];
+require.cache[require.resolve(pre + 'craydent-utility')] && delete require.cache[require.resolve(pre + 'craydent-utility')];
+require.cache[require.resolve(pre + 'craydent-xml-to-json')] && delete require.cache[require.resolve(pre + 'craydent-xml-to-json')];
+
+
+require.cache[require.resolve('../noConflict.js')] && delete require.cache[require.resolve('../noConflict.js')];
+require.cache[require.resolve('../global.js')] && delete require.cache[require.resolve('../global.js')];
 require.cache[require.resolve('../craydent.js')] && delete require.cache[require.resolve('../craydent.js')];
 var craydent = require('../noConflict.js');
 var $c = craydent;
@@ -151,6 +175,18 @@ describe ('No Conflict Array', function () {
 				{id:2,p:"20",share:"shared", index : 20,std:4},
 				{id:3,p:"30",share:"shared", index: 30,std:4},
 				{id:4,std:4}],
+			arrObjsScramble = [
+				{id:1,p:"10",share:"shared", index: 10,std:4},
+				{id:2,p:"20",share:"shared", index : 20,std:4},
+				{id:3,p:"30",share:"shared", index: 30,std:4},
+				{id:4,p:"30",share:"shared", index: 30,std:4},
+				{id:5,p:"30",share:"shared", index: 30,std:4},
+				{id:6,p:"30",share:"shared", index: 30,std:4},
+				{id:7,p:"30",share:"shared", index: 30,std:4},
+				{id:8,p:"30",share:"shared", index: 30,std:4},
+				{id:9,p:"30",share:"shared", index: 30,std:4},
+				{id:10,p:"30",share:"shared", index: 30,std:4},
+				{id:11,std:4}],
 			arrStrings = ["string 1","string 2","string 3","string 4"],
 			arrMix = [1,{},"adsf",10],
 			arrSort = [{id:1, s:5},{id:2, s:5},{id:3, s:6},{id:4, s:3},{id:5, s:2}],
@@ -413,7 +449,7 @@ describe ('No Conflict Array', function () {
 		},{id:5,share:"shared1",odd:true,cc:[]}]);
 		expect($c.buildTree($c.duplicate(arrTree,true), function(item){
 			return !$c.isNull(item.odd);
-		},function(item){ return $c.isOdd(item.id); },{childProperty:"cc"})).toEqual([
+		},function(item){ return item.id%2; },{childProperty:"cc"})).toEqual([
 			{id:4,share:"shared",odd:false,cc:[{id:2,p:"20",share:"shared", index : 20,std:4,cc:[]}]},
 			{id:5,share:"shared1",odd:true,cc:[{id:1,p:"10",share:"shared", index: 10,std:4,cc:[]}, {id:3,p:"30",share:"shared", index: 30,std:4,cc:[]}]}
 		]);
@@ -809,9 +845,9 @@ describe ('No Conflict Array', function () {
 			{id:4,std:4}]);
 	});
 	it('scramble',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		expect($c.scramble(temp)).not.toEqual(arrObjs);
-		expect(temp.length).toEqual(arrObjs.length);
+		var temp = $c.duplicate(arrObjsScramble,true);
+		expect($c.scramble(temp)).not.toEqual(arrObjsScramble);
+		expect(temp.length).toEqual(arrObjsScramble.length);
 	});
 	it('sortBy',function(){
 		var temp = $c.duplicate(arrSort,true);
@@ -1358,12 +1394,17 @@ describe ('No Conflict Function', function () {
 		expect($c.getName(temp)).toEqual('temp');
 	});
 	it('extends',function(){
-		function cls(){
-			this.p3 = 0;
-		}
-		$c.extends(cls,temp);
-		//console.log(cls.extends(temp).toString(), (new cls()).p1, cls.prototype);
-		expect(new cls()).toEqual({p:1,p2:2,p3:0,construct: $c.foo});
+        function cls(){
+            this.p3 = 0;
+        }
+        $c.extends(cls,temp);
+        var clz = new cls();
+        //console.log(cls.extends(temp).toString(), (new cls()).p1, cls.prototype);
+        expect(clz.p).toEqual(1);
+        expect(clz.p2).toEqual(2);
+        expect(clz.p3).toEqual(0);
+        expect(clz.construct.toString()).toEqual($c.foo.toString());
+
 	});
 	it('on',function(){
 		function testEmit() { return $c.emit('listener'); }
@@ -1770,6 +1811,9 @@ describe ('No Conflict Object', function () {
 		obj1 = {id:1,prop1:{p1:"adsf"},arr:[]};
 		obj2 = {id:2,prop1:{p2:";lkj"},arr:['1234']};
 		expect($c.merge(obj1,obj2,{recurse:true})).toEqual({id:2,prop1:{p1:"adsf",p2:";lkj"},arr:['1234']});
+
+        var a = {a:"a"}, b = {b:"b"}, c = {c:"c"}, d = {d:"d"};
+        expect($c.merge(a,b,c,d)).toEqual({a:"a", b:"b", c:"c", d:"d"});
 	});
 	it('setProperty',function(){
 		var o = {};
@@ -2097,10 +2141,10 @@ describe ('No Conflict Global methods', function () {
 	});
 	it('JSON.parseAdvanced',function(){
 		expect(JSON.parseAdvanced({"routes": {"${domain}":"${bb}"}},null,{domain:"property",bb:"baby"})).toEqual({ routes: { property: 'baby' } });
-		expect(JSON.stringify(JSON.parseAdvanced({"routes": {"Function.${bb.b}":"function(${domain}){}","${domain}":"${bb.b}"}},null,{domain:"property",bb:{b:"baby"}}))).toEqual(JSON.stringify({ routes: { baby: function(property){}, property: "baby" } }));
-		expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"/test/test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
-		expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"./test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
-		expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
+		// expect(JSON.stringify(JSON.parseAdvanced({"routes": {"Function.${bb.b}":"function(${domain}){}","${domain}":"${bb.b}"}},null,{domain:"property",bb:{b:"baby"}}))).toEqual(JSON.stringify({ routes: { baby: function(property){}, property: "baby" } }));
+		// expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"/test/test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
+		// expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"./test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
+		// expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
 
 	});
 	it('addObjectPrototype',function(){
@@ -2319,9 +2363,14 @@ describe ('No Conflict Global methods', function () {
 		});
 	});
 	it('namespace',function(){
-		expect($c.namespace("Test",function TestClass(){}).toString()).toEqual('function TestClass(){}');
-		expect($c.getClass(new $c.namespaces.Test.TestClass())).toBe("TestClass");
-		expect(Test).toBe('function TestClass(){}');
+//		expect($c.namespace("Test2",function TestClass(){}).toString()).toEqual('function TestClass(){}');
+//		expect($c.getClass(new $c.namespace.Test.TestClass())).toBe("TestClass");
+//		expect(Test).toBe('function TestClass(){}');
+
+
+        expect($c.namespace("Test2",function TestClass(){}).toString()).toEqual('function TestClass(){}');
+        expect($c._getFuncName((new ($c.namespace.Test2.TestClass)()).constructor)).toBe("TestClass");
+        expect(Test2).toBe('function TestClass(){}');
 	});
 	it('next',function(){
 		function testNext() { return $c.next(1,2); }
@@ -2333,6 +2382,7 @@ describe ('No Conflict Global methods', function () {
 		expect($c.now('m')).toBeCloseTo($c.format(new Date(),'m'),20);
 	});
 	it('parseBoolean',function(){
+//		console.log($c.parseBoolean || $c);
 		expect($c.parseBoolean("true")).toBe(true);
 		expect($c.parseBoolean(true)).toBe(true);
 		expect($c.parseBoolean("1")).toBe(true);

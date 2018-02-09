@@ -1,0 +1,30 @@
+{
+    "name": "@craydent/craydent-typeof",
+    "version": "0.8.5",
+    "description": "Node module for type checking",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/typeof.git"
+    },
+    "keywords": [
+        "craydent",
+        "es6",
+        "jquery",
+        "library",
+        "sugar",
+        "typeof",
+        "utilities"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/typeof#readme",
+    "dependencies": {},
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}
