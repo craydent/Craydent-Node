@@ -1,5 +1,10 @@
 .*
 _*
 test
-index.js
+./index.js
 node_modules
+submodules
+local_scripts
+z_*
+zz_*
+common-bk.js
