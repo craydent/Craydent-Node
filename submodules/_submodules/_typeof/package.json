@@ -1,0 +1,24 @@
+{
+    "name": "craydent-typeof",
+    "version": "0.8.2",
+    "description": "node library based on craydent-1.9.3",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+    "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/typeof.git"
+    },
+    "keywords": [
+        "craydent",
+        "typeof"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/typeof#readme",
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}

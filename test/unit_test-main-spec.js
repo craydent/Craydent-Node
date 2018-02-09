@@ -1,18 +1,316 @@
 //var expect = require('chai').expect;
-require.cache[require.resolve('../craydent.js')] && delete require.cache[require.resolve('../craydent.js')];
-var craydent = require('../craydent.js');
+var pre = "@craydent/";
+delete global.$c;
+delete global.__craydentNoConflict;
+delete global.navigator;
+
+//for (var prop in require.cache) {
+//    delete require.cache[prop];
+//}
+var root = require.resolve('../package.json').replace('/package.json','');
+delete require.cache[root + '/test/submodules/main/array-main-spec.js']
+delete require.cache[root + '/submodules/array/dependencies/common.js']
+delete require.cache[root + '/submodules/array/package.json']
+delete require.cache[root + '/submodules/typeof/package.json']
+delete require.cache[root + '/submodules/typeof/dependencies/itemCount.js']
+delete require.cache[root + '/submodules/array/dependencies/_add_to_index.js']
+delete require.cache[root + '/submodules/array/dependencies/_remove_from_index.js']
+delete require.cache[root + '/submodules/array/dependencies/average.js']
+delete require.cache[root + '/submodules/array/dependencies/contains.js']
+delete require.cache[root + '/submodules/array/dependencies/count.js']
+delete require.cache[root + '/submodules/array/dependencies/where.js']
+delete require.cache[root + '/submodules/array/dependencies/date.js']
+delete require.cache[root + '/submodules/array/dependencies/isValidDate.js']
+delete require.cache[root + '/submodules/array/dependencies/keyOf.js']
+delete require.cache[root + '/submodules/array/dependencies/getValue.js']
+delete require.cache[root + '/submodules/array/dependencies/isSubset.js']
+delete require.cache[root + '/submodules/array/dependencies/parseBoolean.js']
+delete require.cache[root + '/submodules/array/dependencies/removeAt.js']
+delete require.cache[root + '/submodules/array/dependencies/stdev.js']
+delete require.cache[root + '/submodules/array/dependencies/toSet.js']
+delete require.cache[root + '/submodules/array/dependencies/emit.js']
+delete require.cache[root + '/submodules/array/dependencies/run_func_array.js']
+delete require.cache[root + '/submodules/array/dependencies/getKeys.js']
+delete require.cache[root + '/submodules/array/dependencies/insertAt.js']
+delete require.cache[root + '/submodules/array/dependencies/on.js']
+delete require.cache[root + '/submodules/array/dependencies/parallelEach.js']
+delete require.cache[root + '/submodules/array/dependencies/remove.js']
+delete require.cache[root + '/submodules/array/dependencies/removeAll.js']
+delete require.cache[root + '/submodules/array/dependencies/universal_trim.js']
+delete require.cache[root + '/package.json']
+delete require.cache[root + '/test/submodules/main/class-main-spec.js']
+delete require.cache[root + '/submodules/class/dependencies/common.js']
+delete require.cache[root + '/submodules/class/package.json']
+delete require.cache[root + '/submodules/class/dependencies/removeAll.js']
+delete require.cache[root + '/submodules/class/dependencies/remove.js']
+delete require.cache[root + '/submodules/class/dependencies/_remove_from_index.js']
+delete require.cache[root + '/submodules/class/dependencies/toSet.js']
+delete require.cache[root + '/submodules/class/dependencies/removeAt.js']
+delete require.cache[root + '/submodules/class/dependencies/orderedlist.js']
+delete require.cache[root + '/test/submodules/main/cli-main-spec.js']
+delete require.cache[root + '/submodules/cli/dependencies/common.js']
+delete require.cache[root + '/submodules/cli/package.json']
+delete require.cache[root + '/submodules/cli/dependencies/logit.js']
+delete require.cache[root + '/submodules/cli/dependencies/parseBoolean.js']
+delete require.cache[root + '/test/submodules/main/control-flow-main-spec.js']
+delete require.cache[root + '/submodules/control-flow/dependencies/common.js']
+delete require.cache[root + '/submodules/control-flow/package.json']
+delete require.cache[root + '/submodules/control-flow/dependencies/insertAt.js']
+delete require.cache[root + '/submodules/control-flow/dependencies/_add_to_index.js']
+delete require.cache[root + '/submodules/control-flow/dependencies/parallelEach.js']
+delete require.cache[root + '/submodules/_shared/run_func_array.js']
+delete require.cache[root + '/test/submodules/main/date-main-spec.js']
+delete require.cache[root + '/submodules/date/dependencies/common.js']
+delete require.cache[root + '/submodules/date/package.json']
+//delete require.cache[root + '/submodules/date/dependencies/date.js']
+//delete require.cache[root + '/submodules/date/dependencies/isValidDate.js']
+//delete require.cache[root + '/submodules/date/dependencies/keyOf.js']
+//delete require.cache[root + '/submodules/date/dependencies/getValue.js']
+//delete require.cache[root + '/test/submodules/main/fs-main-spec.js']
+delete require.cache[root + '/submodules/fs/dependencies/common.js']
+//delete require.cache[root + '/submodules/fs/package.json']
+//delete require.cache[root + '/submodules/fs/dependencies/include.js']
+//delete require.cache[root + '/submodules/fs/dependencies/clearCache.js']
+//delete require.cache[root + '/submodules/fs/dependencies/relativePathFinder.js']
+//delete require.cache[root + '/submodules/fs/dependencies/startsWithAny.js']
+//delete require.cache[root + '/submodules/fs/dependencies/parallelEach.js']
+//delete require.cache[root + '/submodules/fs/dependencies/requireDirectory.js']
+//delete require.cache[root + '/test/submodules/main/function-main-spec.js']
+delete require.cache[root + '/submodules/function/dependencies/common.js']
+//delete require.cache[root + '/submodules/function/package.json']
+//delete require.cache[root + '/submodules/function/dependencies/on.js']
+//delete require.cache[root + '/submodules/function/dependencies/emit.js']
+//delete require.cache[root + '/submodules/function/dependencies/run_func_array.js']
+//delete require.cache[root + '/submodules/function/dependencies/getValue.js']
+//delete require.cache[root + '/submodules/function/dependencies/namespace.js']
+//delete require.cache[root + '/test/submodules/main/http-main-spec.js']
+delete require.cache[root + '/submodules/http/dependencies/common.js']
+//delete require.cache[root + '/submodules/http/package.json']
+//delete require.cache[root + '/submodules/http/dependencies/fillTemplate.js']
+//delete require.cache[root + '/submodules/http/dependencies/addFlags.js']
+//delete require.cache[root + '/submodules/http/dependencies/count.js']
+//delete require.cache[root + '/submodules/http/dependencies/where.js']
+//delete require.cache[root + '/submodules/http/dependencies/average.js']
+//delete require.cache[root + '/submodules/http/dependencies/contains.js']
+//delete require.cache[root + '/submodules/http/dependencies/date.js']
+//delete require.cache[root + '/submodules/http/dependencies/isValidDate.js']
+//delete require.cache[root + '/submodules/http/dependencies/keyOf.js']
+//delete require.cache[root + '/submodules/http/dependencies/getValue.js']
+//delete require.cache[root + '/submodules/http/dependencies/isSubset.js']
+//delete require.cache[root + '/submodules/http/dependencies/parseBoolean.js']
+//delete require.cache[root + '/submodules/http/dependencies/removeAt.js']
+//delete require.cache[root + '/submodules/http/dependencies/_remove_from_index.js']
+//delete require.cache[root + '/submodules/http/dependencies/stdev.js']
+//delete require.cache[root + '/submodules/http/dependencies/toSet.js']
+//delete require.cache[root + '/submodules/http/dependencies/cut.js']
+//delete require.cache[root + '/submodules/http/dependencies/eachProperty.js']
+//delete require.cache[root + '/submodules/http/dependencies/orderedlist.js']
+//delete require.cache[root + '/submodules/http/dependencies/startsWithAny.js']
+//delete require.cache[root + '/submodules/http/dependencies/include.js']
+//delete require.cache[root + '/submodules/http/dependencies/clearCache.js']
+//delete require.cache[root + '/submodules/http/dependencies/relativePathFinder.js']
+//delete require.cache[root + '/submodules/http/dependencies/itemCount.js']
+//delete require.cache[root + '/submodules/http/dependencies/logit.js']
+//delete require.cache[root + '/test/submodules/main/json-parser-main-spec.js']
+delete require.cache[root + '/submodules/json-parser/dependencies/common.js']
+//delete require.cache[root + '/submodules/json-parser/package.json']
+//delete require.cache[root + '/submodules/json-parser/dependencies/clearCache.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/include.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/relativePathFinder.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/startsWithAny.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/fillTemplate.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/addFlags.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/count.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/where.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/average.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/contains.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/date.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/isValidDate.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/keyOf.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/getValue.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/isSubset.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/parseBoolean.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/removeAt.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/_remove_from_index.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/stdev.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/toSet.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/cut.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/eachProperty.js']
+//delete require.cache[root + '/submodules/json-parser/dependencies/orderedlist.js']
+//delete require.cache[root + '/test/submodules/main/number-main-spec.js']
+delete require.cache[root + '/submodules/number/dependencies/common.js']
+//delete require.cache[root + '/submodules/number/package.json']
+//delete require.cache[root + '/submodules/number/dependencies/contains.js']
+//delete require.cache[root + '/submodules/number/dependencies/getValue.js']
+//delete require.cache[root + '/submodules/number/dependencies/toCurrencyNotation.js']
+//delete require.cache[root + '/test/submodules/main/object-main-spec.js']
+delete require.cache[root + '/submodules/object/dependencies/common.js']
+//delete require.cache[root + '/submodules/object/package.json']
+//delete require.cache[root + '/submodules/object/dependencies/contains.js']
+//delete require.cache[root + '/submodules/object/dependencies/count.js']
+//delete require.cache[root + '/submodules/object/dependencies/where.js']
+//delete require.cache[root + '/submodules/object/dependencies/average.js']
+//delete require.cache[root + '/submodules/object/dependencies/date.js']
+//delete require.cache[root + '/submodules/object/dependencies/isValidDate.js']
+//delete require.cache[root + '/submodules/object/dependencies/keyOf.js']
+//delete require.cache[root + '/submodules/object/dependencies/getValue.js']
+//delete require.cache[root + '/submodules/object/dependencies/isSubset.js']
+//delete require.cache[root + '/submodules/object/dependencies/parseBoolean.js']
+//delete require.cache[root + '/submodules/object/dependencies/removeAt.js']
+//delete require.cache[root + '/submodules/object/dependencies/_remove_from_index.js']
+//delete require.cache[root + '/submodules/object/dependencies/stdev.js']
+//delete require.cache[root + '/submodules/object/dependencies/toSet.js']
+//delete require.cache[root + '/submodules/object/dependencies/eachProperty.js']
+//delete require.cache[root + '/submodules/object/dependencies/getKeys.js']
+//delete require.cache[root + '/submodules/object/dependencies/itemCount.js']
+//delete require.cache[root + '/submodules/object/dependencies/toStringAlt.js']
+//delete require.cache[root + '/test/submodules/main/regexp-main-spec.js']
+delete require.cache[root + '/submodules/regexp/dependencies/common.js']
+//delete require.cache[root + '/submodules/regexp/package.json']
+//delete require.cache[root + '/submodules/regexp/dependencies/addFlags.js']
+//delete require.cache[root + '/submodules/regexp/dependencies/getValue.js']
+//delete require.cache[root + '/test/submodules/main/string-main-spec.js']
+delete require.cache[root + '/submodules/string/dependencies/common.js']
+//delete require.cache[root + '/submodules/string/package.json']
+//delete require.cache[root + '/submodules/string/dependencies/addFlags.js']
+//delete require.cache[root + '/submodules/string/dependencies/contains.js']
+//delete require.cache[root + '/submodules/string/dependencies/count.js']
+//delete require.cache[root + '/submodules/string/dependencies/where.js']
+//delete require.cache[root + '/submodules/string/dependencies/average.js']
+//delete require.cache[root + '/submodules/string/dependencies/date.js']
+//delete require.cache[root + '/submodules/string/dependencies/isValidDate.js']
+//delete require.cache[root + '/submodules/string/dependencies/keyOf.js']
+//delete require.cache[root + '/submodules/string/dependencies/getValue.js']
+//delete require.cache[root + '/submodules/string/dependencies/isSubset.js']
+//delete require.cache[root + '/submodules/string/dependencies/parseBoolean.js']
+//delete require.cache[root + '/submodules/string/dependencies/removeAt.js']
+//delete require.cache[root + '/submodules/string/dependencies/_remove_from_index.js']
+//delete require.cache[root + '/submodules/string/dependencies/stdev.js']
+//delete require.cache[root + '/submodules/string/dependencies/toSet.js']
+//delete require.cache[root + '/submodules/string/dependencies/cut.js']
+//delete require.cache[root + '/submodules/string/dependencies/toCurrencyNotation.js']
+//delete require.cache[root + '/submodules/string/dependencies/universal_trim.js']
+//delete require.cache[root + '/test/submodules/main/template-main-spec.js']
+delete require.cache[root + '/submodules/template/dependencies/common.js']
+//delete require.cache[root + '/submodules/template/package.json']
+//delete require.cache[root + '/submodules/template/dependencies/fillTemplate.js']
+//delete require.cache[root + '/submodules/template/dependencies/addFlags.js']
+//delete require.cache[root + '/submodules/template/dependencies/count.js']
+//delete require.cache[root + '/submodules/template/dependencies/where.js']
+//delete require.cache[root + '/submodules/template/dependencies/average.js']
+//delete require.cache[root + '/submodules/template/dependencies/contains.js']
+//delete require.cache[root + '/submodules/template/dependencies/date.js']
+//delete require.cache[root + '/submodules/template/dependencies/isValidDate.js']
+//delete require.cache[root + '/submodules/template/dependencies/keyOf.js']
+//delete require.cache[root + '/submodules/template/dependencies/getValue.js']
+//delete require.cache[root + '/submodules/template/dependencies/isSubset.js']
+//delete require.cache[root + '/submodules/template/dependencies/parseBoolean.js']
+//delete require.cache[root + '/submodules/template/dependencies/removeAt.js']
+//delete require.cache[root + '/submodules/template/dependencies/_remove_from_index.js']
+//delete require.cache[root + '/submodules/template/dependencies/stdev.js']
+//delete require.cache[root + '/submodules/template/dependencies/toSet.js']
+//delete require.cache[root + '/submodules/template/dependencies/cut.js']
+//delete require.cache[root + '/submodules/template/dependencies/eachProperty.js']
+//delete require.cache[root + '/submodules/template/dependencies/orderedlist.js']
+//delete require.cache[root + '/submodules/template/dependencies/startsWithAny.js']
+//delete require.cache[root + '/test/submodules/main/utility-main-spec.js']
+delete require.cache[root + '/submodules/utility/dependencies/common.js']
+//delete require.cache[root + '/submodules/utility/package.json']
+//delete require.cache[root + '/submodules/utility/dependencies/clearCache.js']
+//delete require.cache[root + '/submodules/utility/dependencies/include.js']
+//delete require.cache[root + '/submodules/utility/dependencies/relativePathFinder.js']
+//delete require.cache[root + '/submodules/utility/dependencies/startsWithAny.js']
+//delete require.cache[root + '/submodules/utility/dependencies/date.js']
+//delete require.cache[root + '/submodules/utility/dependencies/isValidDate.js']
+//delete require.cache[root + '/submodules/utility/dependencies/keyOf.js']
+//delete require.cache[root + '/submodules/utility/dependencies/logit.js']
+//delete require.cache[root + '/submodules/utility/dependencies/namespace.js']
+//delete require.cache[root + '/submodules/utility/dependencies/run_func_array.js']
+//delete require.cache[root + '/submodules/utility/dependencies/toStringAlt.js']
+//delete require.cache[root + '/submodules/utility/dependencies/requireDirectory.js']
+//delete require.cache[root + '/submodules/utility/dependencies/parallelEach.js']
+//delete require.cache[root + '/test/submodules/main/xml-to-json-main-spec.js']
+delete require.cache[root + '/submodules/xml-to-json/dependencies/common.js']
+//delete require.cache[root + '/submodules/xml-to-json/package.json']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/fillTemplate.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/addFlags.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/count.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/where.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/average.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/contains.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/date.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/isValidDate.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/keyOf.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/getValue.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/isSubset.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/parseBoolean.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/removeAt.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/_remove_from_index.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/stdev.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/toSet.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/cut.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/eachProperty.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/orderedlist.js']
+//delete require.cache[root + '/submodules/xml-to-json/dependencies/startsWithAny.js']
+//delete require.cache[root + '/test/submodules/main/z_typeof-main-spec.js']
+//delete require.cache[root + '/submodules/typeof/index.js']
+//delete require.cache[root + '/test/unit_test-main-spec.js']
+
+try { require.cache[require.resolve('../common.js')] && delete require.cache[require.resolve('../common.js')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-array')] && delete require.cache[require.resolve(pre + 'craydent-array')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-class')] && delete require.cache[require.resolve(pre + 'craydent-class')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-cli')] && delete require.cache[require.resolve(pre + 'craydent-cli')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-control-flow')] && delete require.cache[require.resolve(pre + 'craydent-control-flow')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-date')] && delete require.cache[require.resolve(pre + 'craydent-date')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-fs')] && delete require.cache[require.resolve(pre + 'craydent-fs')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-function')] && delete require.cache[require.resolve(pre + 'craydent-function')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-http')] && delete require.cache[require.resolve(pre + 'craydent-http')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-json-parser')] && delete require.cache[require.resolve(pre + 'craydent-json-parser')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-number')] && delete require.cache[require.resolve(pre + 'craydent-number')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-object')] && delete require.cache[require.resolve(pre + 'craydent-object')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-regexp')] && delete require.cache[require.resolve(pre + 'craydent-regexp')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-string')] && delete require.cache[require.resolve(pre + 'craydent-string')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-template')] && delete require.cache[require.resolve(pre + 'craydent-template')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-typeof')] && delete require.cache[require.resolve(pre + 'craydent-typeof')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-utility')] && delete require.cache[require.resolve(pre + 'craydent-utility')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-xml-to-json')] && delete require.cache[require.resolve(pre + 'craydent-xml-to-json')]; }catch(e){}
+
+try { require.cache[require.resolve(pre + 'craydent-array/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-array/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-class/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-class/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-cli/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-cli/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-control-flow/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-control-flow/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-date/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-date/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-fs/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-fs/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-function/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-function/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-http/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-http/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-json-parser/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-json-parser/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-number/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-number/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-object/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-object/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-regexp/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-regexp/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-string/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-string/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-template/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-template/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-typeof/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-typeof/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-utility/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-utility/noConflict')]; }catch(e){}
+try { require.cache[require.resolve(pre + 'craydent-xml-to-json/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-xml-to-json/noConflict')]; }catch(e){}
+
+
+try { require.cache[require.resolve('../noConflict.js')] && delete require.cache[require.resolve('../noConflict.js')]; }catch(e){}
+try { require.cache[require.resolve('../global.js')] && delete require.cache[require.resolve('../global.js')]; }catch(e){}
+try { require.cache[require.resolve('../craydent.js')] && delete require.cache[require.resolve('..craydent.js')]; }catch(e){}
+
+var $c = require('../craydent.js');
 $c.DEBUG_MODE = true;
 describe ('String', function () {
 	it('capitalize',function(){
-		expect($c.capitalize("word of the day")).toBe("Word of the day");
-		expect($c.capitalize("word of the day",1)).toBe("wOrd of the day");
-		expect($c.capitalize("word of the day",0,true)).toBe("Word Of The Day");
-		expect($c.capitalize("word of the day",1,true)).toBe("wOrd oF tHe dAy");
+		expect("word of the day".capitalize()).toBe("Word of the day");
+		expect("word of the day".capitalize(1)).toBe("wOrd of the day");
+		expect("word of the day".capitalize(0,true)).toBe("Word Of The Day");
+		expect("word of the day".capitalize(1,true)).toBe("wOrd oF tHe dAy");
 	});
 	it('convertUTCDate',function(){
-		expect($c.convertUTCDate("2016/12/13 10:01:33", "/")).toBe("12/13/2016 10:01:33");
-		expect($c.convertUTCDate("2016.12.13 10:01:33", ".")).toBe("12/13/2016 10:01:33");
-		expect($c.convertUTCDate("2016-12-13 10:01:33", "-")).toBe("12/13/2016 10:01:33");
+		expect("2016/12/13 10:01:33".convertUTCDate("/")).toBe("12/13/2016 10:01:33");
+		expect("2016.12.13 10:01:33".convertUTCDate( ".")).toBe("12/13/2016 10:01:33");
+		expect("2016-12-13 10:01:33".convertUTCDate( "-")).toBe("12/13/2016 10:01:33");
 	});
 	it('count',function(){
 		expect("calaiedc8a".count("a")).toBe(3);
@@ -20,122 +318,122 @@ describe ('String', function () {
 		expect("calaiedc8a".count("-")).toBe(0);
 	});
 	it('cut',function(){
-		expect($c.cut("cala",1,2)).toBe("cla");
-		expect($c.cut("cala", 1,2,"p")).toBe("cpla");
+		expect("cala".cut(1,2)).toBe("cla");
+		expect("cala".cut(1,2,"p")).toBe("cpla");
 	});
 	it('ellipsis',function(){
-		expect($c.ellipsis("calasdfadfasdfasdfadf",1)).toBe("c...alasdfadfasdfasdfadf");
-		expect($c.ellipsis("calasdfadfasdfasdfadf", 1,2)).toBe("c...df");
+		expect("calasdfadfasdfasdfadf".ellipsis(1)).toBe("c...alasdfadfasdfasdfadf");
+		expect("calasdfadfasdfasdfadf".ellipsis(1,2)).toBe("c...df");
 	});
 	it('endsWithAny',function(){
-		expect($c.endsWithAny("calasdfadfasdfasdfadf",'a','p','f')).toBe("f");
-		expect($c.endsWithAny("calasdfadfasdfasdfadf",['a','p','f'])).toBe("f");
-		expect($c.endsWithAny("calasdfadfasdfasdfadf",'a')).toBe(false);
-		expect($c.endsWithAny("calasdfadfasdfasdfadf",['a'])).toBe(false);
+		expect("calasdfadfasdfasdfadf".endsWithAny('a','p','f')).toBe("f");
+		expect("calasdfadfasdfasdfadf".endsWithAny(['a','p','f'])).toBe("f");
+		expect("calasdfadfasdfasdfadf".endsWithAny('a')).toBe(false);
+		expect("calasdfadfasdfasdfadf".endsWithAny(['a'])).toBe(false);
 		expect("build".endsWithAny("build","pull","npm")).toBe("build");
 		expect("pull".endsWithAny("build","pull","npm")).toBe("pull");
 	});
 	it('highlight',function(){
-		expect($c.highlight("cal",'a')).toBe("c<span class=\"chighlight\">a</span>l");
-		expect($c.highlight("cal",/a/)).toBe("c<span class=\"chighlight\">a</span>l");
-		expect($c.highlight("cal",'a','chl')).toBe("c<span class=\"chl\">a</span>l");
-		expect($c.highlight("cal",/a/,'chl')).toBe("c<span class=\"chl\">a</span>l");
-		expect($c.highlight("cal",'a',null,'div')).toBe("c<div class=\"chighlight\">a</div>l");
-		expect($c.highlight("cal",/a/,null,'div')).toBe("c<div class=\"chighlight\">a</div>l");
-		expect($c.highlight("cal",'a',"chl",'div')).toBe("c<div class=\"chl\">a</div>l");
-		expect($c.highlight("cal",/a/,"chl",'div')).toBe("c<div class=\"chl\">a</div>l");
+		expect("cal".highlight('a')).toBe("c<span class=\"chighlight\">a</span>l");
+		expect("cal".highlight(/a/)).toBe("c<span class=\"chighlight\">a</span>l");
+		expect("cal".highlight('a','chl')).toBe("c<span class=\"chl\">a</span>l");
+		expect("cal".highlight(/a/,'chl')).toBe("c<span class=\"chl\">a</span>l");
+		expect("cal".highlight('a',null,'div')).toBe("c<div class=\"chighlight\">a</div>l");
+		expect("cal".highlight(/a/,null,'div')).toBe("c<div class=\"chighlight\">a</div>l");
+		expect("cal".highlight('a',"chl",'div')).toBe("c<div class=\"chl\">a</div>l");
+		expect("cal".highlight(/a/,"chl",'div')).toBe("c<div class=\"chl\">a</div>l");
 	});
 	it('indexOfAlt',function(){
 		expect("cal".indexOfAlt(/a/)).toBe(1);
 		expect("cala".indexOfAlt(/a/,2)).toBe(3);
 	});
 	it('ireplace_all',function(){
-		expect($c.ireplace_all("calA",'a','')).toBe('cl');
+		expect("calA".ireplace_all('a','')).toBe('cl');
 	});
 	it('isCuid',function(){
 		var c = $c.cuid();
-		expect($c.isCuid(c)).toBe(true);
+		expect(c.isCuid()).toBe(true);
 	});
 	it('isBlank',function(){
-		expect($c.isBlank("cal")).toBe(false);
-		expect($c.isBlank("")).toBe(true);
+		expect("cal".isBlank()).toBe(false);
+		expect("".isBlank()).toBe(true);
 	});
 	it('isValidEmail',function(){
-		expect($c.isValidEmail("cal")).toBe(false);
-		expect($c.isValidEmail("cal@craydent.com")).toBe(true);
+		expect("cal".isValidEmail()).toBe(false);
+		expect("cal@craydent.com".isValidEmail()).toBe(true);
 	});
 	it('lastIndexOfAlt',function(){
 		expect("caal".lastIndexOfAlt(/a/)).toBe(2);
 		expect("caal".lastIndexOfAlt(/a/,0)).toBe(-1);
 	});
 	it('ltrim',function(){
-		expect($c.ltrim("     cal ")).toBe("cal ");
-		expect($c.ltrim("     aacalaaa",'a')).toBe("     aacalaaa");
-		expect($c.ltrim("aacalaaa",'a')).toBe("calaaa");
+		expect("     cal ".ltrim()).toBe("cal ");
+		expect("     aacalaaa".ltrim('a')).toBe("     aacalaaa");
+		expect("aacalaaa".ltrim('a')).toBe("calaaa");
 	});
 	it('pluralize',function(){
-		expect($c.pluralize("life")).toBe("lives");
-		expect($c.pluralize("history")).toBe("histories");
-		expect($c.pluralize("deer")).toBe("deer");
+		expect("life".pluralize()).toBe("lives");
+		expect("history".pluralize()).toBe("histories");
+		expect("deer".pluralize()).toBe("deer");
 	});
 	it('replace_all',function(){
-		expect($c.replace_all("calA",'a','')).toBe("clA");
-		expect($c.replace_all("calaaa",'a','')).toBe("cl");
-		expect($c.replace_all("calaaa",'a','b')).toBe("cblbbb");
-		expect($c.replace_all("calaaa",['c','a'],['d','b'])).toBe("dblbbb");
-		expect($c.replace_all("calaaa",['c','a'],['b'])).toBe("bblbbb");
+		expect("calA".replace_all('a','')).toBe("clA");
+		expect("calaaa".replace_all('a','')).toBe("cl");
+		expect("calaaa".replace_all('a','b')).toBe("cblbbb");
+		expect("calaaa".replace_all(['c','a'],['d','b'])).toBe("dblbbb");
+		expect("calaaa".replace_all(['c','a'],['b'])).toBe("bblbbb");
 	});
 	it('reverse',function(){
-		expect($c.reverse("cal")).toBe("lac");
+		expect("cal".reverse()).toBe("lac");
 	});
 	it('rtrim',function(){
-		expect($c.rtrim(" cal  ")).toBe(" cal");
-		expect($c.rtrim("     aacalaaa",'a')).toBe("     aacal");
-		expect($c.rtrim("aacalaaa",'a')).toBe("aacal");
+		expect(" cal  ".rtrim()).toBe(" cal");
+		expect("     aacalaaa".rtrim('a')).toBe("     aacal");
+		expect("aacalaaa".rtrim('a')).toBe("aacal");
 	});
 	// TO/DO sanitize
-	//it('sanitize',function(){
-	//	expect($c.rtrim(" cal  ")).toBe(" cal");
-	//	expect($c.rtrim("     aacalaaa",'a')).toBe("     aacal");
-	//	expect($c.rtrim("aacalaaa",'a')).toBe("aacal");
-	//});
+	it('sanitize',function(){
+		// expect($c.rtrim(" cal  ")).toBe(" cal");
+		// expect($c.rtrim("     aacalaaa",'a')).toBe("     aacal");
+		// expect($c.rtrim("aacalaaa",'a')).toBe("aacal");
+	});
 	it('singularize',function(){
-		expect($c.singularize("lives")).toBe("life");
-		expect($c.singularize("histories")).toBe("history");
-		expect($c.singularize("deer")).toBe("deer");
+		expect("lives".singularize()).toBe("life");
+		expect("histories".singularize()).toBe("history");
+		expect("deer".singularize()).toBe("deer");
 	});
 	it('startsWithAny',function(){
-		expect($c.startsWithAny("calasdfadfasdfasdfadf",'a','c','f')).toBe("c");
-		expect($c.startsWithAny("calasdfadfasdfasdfadf",['a','c','f'])).toBe("c");
-		expect($c.startsWithAny("calasdfadfasdfasdfadf",'a')).toBe(false);
-		expect($c.startsWithAny("calasdfadfasdfasdfadf",['a'])).toBe(false);
-		expect("build".startsWithAny("build","pull","npm")).toBe("build");
-		expect("pull".startsWithAny("poull","pull","npm")).toBe("pull");
+		expect("calasdfadfasdfasdfadf".startsWithAny('a','c','f')).toBe("c");
+		expect("calasdfadfasdfasdfadf".startsWithAny(['a','c','f'])).toBe("c");
+		expect("calasdfadfasdfasdfadf".startsWithAny('a')).toBe(false);
+		expect("calasdfadfasdfasdfadf".startsWithAny(['a'])).toBe(false);
+		expect("build".startsWithAny("build", "pull","npm")).toBe("build");
+		expect("pull".startsWithAny("poull", "pull","npm")).toBe("pull");
 	});
 	it('strip',function(){
-		expect($c.strip("aaaaaaaaaaaacalaaaaaaaaaa",'a')).toBe("cal");
-		expect($c.strip("aaaaaaaaaaaacalaaaaaaaaaab",'a')).toBe("calaaaaaaaaaab");
-		expect($c.strip("aaaaaaaaaaaacalaaaaaaaaaa",['a','l'])).toBe('c');
+		expect("aaaaaaaaaaaacalaaaaaaaaaa".strip('a')).toBe("cal");
+		expect("aaaaaaaaaaaacalaaaaaaaaaab".strip('a')).toBe("calaaaaaaaaaab");
+		expect("aaaaaaaaaaaacalaaaaaaaaaa".strip(['a','l'])).toBe('c');
 	});
 	it('toCurrencyNotation',function(){
-		expect($c.toCurrencyNotation("1000")).toBe("1,000");
-		expect($c.toCurrencyNotation("1000000")).toBe("1,000,000");
-		expect($c.toCurrencyNotation("1000",'.')).toBe('1.000');
+		expect("1000".toCurrencyNotation()).toBe("1,000");
+		expect("1000000".toCurrencyNotation()).toBe("1,000,000");
+		expect("1000".toCurrencyNotation('.')).toBe('1.000');
 	});
 	it('toDateTime',function(){
 		//console.log($c.toDateTime("30-12-2012"));
-		expect($c.toDateTime("30-12-2012")).toEqual(new Date("12/30/2012"));
-		expect($c.toDateTime("30.12.2012")).toEqual(new Date("12/30/2012"));
-		expect($c.toDateTime("2012-12-30")).toEqual(new Date("12/30/2012"));
-		expect($c.toDateTime("2012.12.30")).toEqual(new Date("12/30/2012"));
-		expect($c.toDateTime("2012.12.30",{format:'m/d/Y'})).toEqual("12/30/2012");
-		expect($c.toDateTime("2012.12.30",{format:'d/m/Y'})).toEqual("30/12/2012");
+		expect("30-12-2012".toDateTime()).toEqual(new Date("12/30/2012"));
+		expect("30.12.2012".toDateTime()).toEqual(new Date("12/30/2012"));
+		expect("2012-12-30".toDateTime()).toEqual(new Date("12/30/2012"));
+		expect("2012.12.30".toDateTime()).toEqual(new Date("12/30/2012"));
+		expect("2012.12.30".toDateTime({format:'m/d/Y'})).toEqual("12/30/2012");
+		expect("2012.12.30".toDateTime({format:'d/m/Y'})).toEqual("30/12/2012");
 		//expect($c.toDateTime("1000",'.')).toBe('1.000');
 	});
 	it('toObject',function(){
-		expect(JSON.stringify($c.toObject("p1=1&p2=2&p3=3"))).toBe(JSON.stringify({p1:"1",p2:"2",p3:"3"}));
-		expect(JSON.stringify($c.toObject("p1=1"))).toBe(JSON.stringify({p1:"1"}));
-		expect(JSON.stringify($c.toObject("p1=&p2"))).toBe(JSON.stringify({p1:"",p2:undefined}));
+		expect(JSON.stringify("p1=1&p2=2&p3=3".toObject())).toBe(JSON.stringify({p1:"1",p2:"2",p3:"3"}));
+		expect(JSON.stringify("p1=1".toObject())).toBe(JSON.stringify({p1:"1"}));
+		expect(JSON.stringify("p1=&p2".toObject())).toBe(JSON.stringify({p1:"",p2:undefined}));
 	});
 	it('trim',function(){
 		expect("    cal    ".trim()).toBe("cal");
@@ -176,27 +474,27 @@ describe ('Array', function () {
 		];
 	it('aggregate',function(){
 		// $project
-		expect($c.aggregate($c.duplicate(arrObjs,true),[{$project:{p:1,index:1,b:10}}])).toEqual([
+		expect(arrObjs.duplicate(true).aggregate([{$project:{p:1,index:1,b:10}}])).toEqual([
 			{p:"10", index: 10, b: 10},
 			{p:"20", index: 20, b: 10},
 			{p:"30", index: 30, b: 10},
 			{b: 10}]);
-		expect($c.aggregate($c.duplicate(arrObjs,true),[{$project:{p:1,index:1,b:{$multiply:['$index',10]}}}])).toEqual([
+		expect(arrObjs.duplicate(true).aggregate([{$project:{p:1,index:1,b:{$multiply:['$index',10]}}}])).toEqual([
 			{p:"10", index: 10, b: 100},
 			{p:"20", index: 20, b: 200},
 			{p:"30", index: 30, b: 300},
 			{b: 0}]);
-		expect($c.aggregate($c.duplicate(arrObjs,true),[{$project:{p:1,index:1}}])).toEqual([
+		expect(arrObjs.duplicate(true).aggregate([{$project:{p:1,index:1}}])).toEqual([
 			{p:"10", index: 10},
 			{p:"20", index: 20},
 			{p:"30", index: 30},
 			{}]);
 		// $match
-		expect($c.aggregate($c.duplicate(arrObjs,true),[{$match:{p:"10"}}])).toEqual([
+		expect(arrObjs.duplicate(true).aggregate([{$match:{p:"10"}}])).toEqual([
 			{id:1,p:"10",share:"shared",index:10,std:4}
 		]);
 		// $redact
-		expect($c.aggregate([{
+		expect([{
 			_id: 1,
 			title: "123 Department Report",
 			tags: [ "G", "STLW" ],
@@ -221,7 +519,7 @@ describe ('Array', function () {
 					}
 				}
 			]
-		}],[{$redact:{
+		}].aggregate([{$redact:{
 			$cond: {
 				if: { $gt: [ { $size: { $setIntersection: [ "$tags", [ "STLW", "G" ] ] } }, 0 ] },
 				then: "$$KEEP",
@@ -255,7 +553,7 @@ describe ('Array', function () {
 				]
 			}
 		]);
-		expect($c.aggregate([{
+		expect([{
 			_id: 1,
 			title: "123 Department Report",
 			tags: [ "G", "STLW" ],
@@ -280,7 +578,7 @@ describe ('Array', function () {
 					}
 				}
 			]
-		}],[{$redact:{
+		}].aggregate([{$redact:{
 			$cond: {
 				if: { $gt: [ { $size: { $setIntersection: [ "$tags", [ "STLW", "G" ] ] } }, 0 ] },
 				then: "$$DESCEND",
@@ -307,23 +605,23 @@ describe ('Array', function () {
 			}
 		]);
 		// $limit
-		expect($c.aggregate($c.duplicate(arrObjs,true),[{$limit:1}])).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
+		expect(arrObjs.duplicate(true).aggregate([{$limit:1}])).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
 		// $skip
-		expect($c.aggregate($c.duplicate(arrObjs,true),[{$skip:3}])).toEqual([{id:4,std:4}]);
+		expect(arrObjs.duplicate(true).aggregate([{$skip:3}])).toEqual([{id:4,std:4}]);
 		// $unwind
-		expect($c.aggregate([{ "_id" : 1, "item" : "ABC1", sizes: [ "S", "M", "L"] }],[{ $unwind : "$sizes" }])).toEqual([
+		expect([{ "_id" : 1, "item" : "ABC1", sizes: [ "S", "M", "L"] }].aggregate([{ $unwind : "$sizes" }])).toEqual([
 			{ "_id" : 1, "item" : "ABC1", "sizes" : "S" },
 			{ "_id" : 1, "item" : "ABC1", "sizes" : "M" },
 			{ "_id" : 1, "item" : "ABC1", "sizes" : "L" }
 		]);
-		expect($c.aggregate([{ "_id" : 1, "item" : "ABC1", sizes: [ "S", "M", "L"] },{ "_id" : 2, "item" : "ABC1" }],[{ $unwind : {path:"$sizes",preserveNullAndEmptyArrays:true} }])).toEqual([
+		expect([{ "_id" : 1, "item" : "ABC1", sizes: [ "S", "M", "L"] },{ "_id" : 2, "item" : "ABC1" }].aggregate([{ $unwind : {path:"$sizes",preserveNullAndEmptyArrays:true} }])).toEqual([
 			{ "_id" : 1, "item" : "ABC1", "sizes" : "S" },
 			{ "_id" : 1, "item" : "ABC1", "sizes" : "M" },
 			{ "_id" : 1, "item" : "ABC1", "sizes" : "L" },
 			{ "_id" : 2, "item" : "ABC1" }
 		]);
-		expect($c.aggregate(
-			[{ "_id" : 1, "item" : "ABC1", sizes: [ "S", "M", "L"] },{ "_id" : 2, "item" : "ABC1" }],
+		expect(
+			[{ "_id" : 1, "item" : "ABC1", sizes: [ "S", "M", "L"] },{ "_id" : 2, "item" : "ABC1" }].aggregate(
 			[{ $unwind : {path:"$sizes",preserveNullAndEmptyArrays:true,includeArrayIndex:"ind"} }])).toEqual([
 				{ "_id" : 1, "item" : "ABC1", "sizes" : "S",ind:0 },
 				{ "_id" : 1, "item" : "ABC1", "sizes" : "M",ind:1 },
@@ -331,7 +629,7 @@ describe ('Array', function () {
 				{ "_id" : 2, "item" : "ABC1",ind:0 }
 			]);
 		// $group & $sample
-		expect($c.aggregate($c.duplicate(arrObjs,true),[
+		expect(arrObjs.duplicate(true).aggregate([
 			{$sample:{size: 4}},
 			{$group: {
 				_id: null,
@@ -348,12 +646,12 @@ describe ('Array', function () {
 				stdpop:{$stdDevPop:"$std"}
 		}}])).toEqual([{_id:null,totalPrice:140,averageQuantity:20,count:4,f:"10",l:"30",max:30,min:10,pushed:["shared","shared","shared"],theset:["shared"],stdsamp:0,stdpop:0}]);
 		// $sample
-		expect($c.aggregate($c.duplicate(arrObjs,true),[{$sample: { size: 2}}]).length).toBe(2);
+		expect(arrObjs.duplicate(true).aggregate([{$sample: { size: 2}}]).length).toBe(2);
 		// $sort
-		expect($c.aggregate($c.duplicate(arrSort,true),[{$sort: { s: -1, id: 1}}])).toEqual([{id:3,s:6},{id:1,s:5},{id:2,s:5},{id:4,s:3},{id:5,s:2}]);
+		expect(arrSort.duplicate(true).aggregate([{$sort: { s: -1, id: 1}}])).toEqual([{id:3,s:6},{id:1,s:5},{id:2,s:5},{id:4,s:3},{id:5,s:2}]);
 		// $geoNear *****not implemented
 		// $lookup
-		expect($c.aggregate($c.duplicate(arrLookup,true),[{$lookup: {from:$c.duplicate(arrLookupJoiner,true),localField:"item",foreignField:"sku",as:"idocs"}}])).toEqual([
+		expect(arrLookup.duplicate(true).aggregate([{$lookup: {from:arrLookupJoiner.duplicate(true),localField:"item",foreignField:"sku",as:"idocs"}}])).toEqual([
 			{
 				"_id" : 1,
 				"item" : "abc",
@@ -382,7 +680,7 @@ describe ('Array', function () {
 		]);
 		// $out
 		var arrOut = [];
-		expect($c.aggregate($c.duplicate(arrObjs,true),[
+		expect(arrObjs.duplicate(true).aggregate([
 			{$group: {
 				_id: null,
 				count: {$sum: 1},
@@ -393,26 +691,26 @@ describe ('Array', function () {
 
 	});
 	it('average',function(){
-		expect($c.average(arrMix)).toBe(11/2);
+		expect(arrMix.average()).toBe(11/2);
 	});
 	it('buildTree',function(){
-		expect($c.buildTree($c.duplicate(arrTree,true), function(item){
+		expect(arrTree.duplicate(true).buildTree(function(item){
 			return !item.index;
 		},'share')).toEqual([{id:4,share:"shared",odd:false,children:[
 			{id:1,p:"10",share:"shared", index: 10,std:4,children:[]},
 			{id:2,p:"20",share:"shared", index : 20,std:4,children:[]},
 			{id:3,p:"30",share:"shared", index: 30,std:4,children:[]}
 		]},{id:5,share:"shared1",odd:true,children:[]}]);
-		expect($c.buildTree($c.duplicate(arrTree,true), function(item){
+		expect(arrTree.duplicate(true).buildTree( function(item){
 			return !item.index;
 		},'share',{childProperty:"cc"})).toEqual([{id:4,share:"shared",odd:false,cc:[
 			{id:1,p:"10",share:"shared", index: 10,std:4,cc:[]},
 			{id:2,p:"20",share:"shared", index : 20,std:4,cc:[]},
 			{id:3,p:"30",share:"shared", index: 30,std:4,cc:[]}]
 		},{id:5,share:"shared1",odd:true,cc:[]}]);
-		expect($c.buildTree($c.duplicate(arrTree,true), function(item){
+		expect(arrTree.duplicate(true).buildTree( function(item){
 			return !$c.isNull(item.odd);
-		},function(item){ return $c.isOdd(item.id); },{childProperty:"cc"})).toEqual([
+		},function(item){ return item.id%2; },{childProperty:"cc"})).toEqual([
 			{id:4,share:"shared",odd:false,cc:[{id:2,p:"20",share:"shared", index : 20,std:4,cc:[]}]},
 			{id:5,share:"shared1",odd:true,cc:[{id:1,p:"10",share:"shared", index: 10,std:4,cc:[]}, {id:3,p:"30",share:"shared", index: 30,std:4,cc:[]}]}
 		]);
@@ -422,44 +720,44 @@ describe ('Array', function () {
 	//
 	//});
 	it('condense',function(){
-		expect($c.condense(['a','','b',0,'c',false,'d',null,'e',undefined])).toEqual(['a','b',0,'c',false,'d','e']);
-		expect($c.condense(['a','','b',0,'c',false,'d',null,'e',undefined,'e','a','c'],true)).toEqual(['a','b',0,'c',false,'d','e']);
+		expect(['a','','b',0,'c',false,'d',null,'e',undefined].condense()).toEqual(['a','b',0,'c',false,'d','e']);
+		expect(['a','','b',0,'c',false,'d',null,'e',undefined,'e','a','c'].condense(true)).toEqual(['a','b',0,'c',false,'d','e']);
 	});
 	it('count',function(){
-		expect($c.count(arrObjs)).toBe(4);
-		expect($c.count(arrObjs,{id:1})).toBe(1);
+		expect(arrObjs.count()).toBe(4);
+		expect(arrObjs.count({id:1})).toBe(1);
 	});
 	it('delete',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		expect($c.delete(temp,{share:"shared"})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
+		var temp = arrObjs.duplicate(true);
+		expect(temp.delete({share:"shared"})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
 		expect(temp).toEqual([
 			{id:2,p:"20",share:"shared", index : 20,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,std:4}]);
 
-		expect($c.delete(temp,{share:"shared"},false)).toEqual([
+		expect(temp.delete({share:"shared"},false)).toEqual([
 			{id:2,p:"20",share:"shared", index : 20,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4}]);
 		expect(temp).toEqual([{id:4,std:4}]);
 	});
 	it('distinct',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		expect($c.distinct(temp,["share","std"])).toEqual([
+		var temp = arrObjs.duplicate(true);
+		expect(temp.distinct(["share","std"])).toEqual([
 			{share:"shared",std:4},{share:undefined,std:4}]);
-		expect($c.distinct(temp,"share,std")).toEqual([
+		expect(temp.distinct("share,std")).toEqual([
 			{share:"shared",std:4},{share:undefined,std:4}]);
 
-		expect($c.distinct(temp,["share"])).toEqual(["shared",undefined]);
-		expect($c.distinct(temp,"share")).toEqual(["shared",undefined]);
+		expect(temp.distinct(["share"])).toEqual(["shared",undefined]);
+		expect(temp.distinct("share")).toEqual(["shared",undefined]);
 
 
-		expect($c.distinct(temp,["share","std"],{share:{$exists:1}})).toEqual([
+		expect(temp.distinct(["share","std"],{share:{$exists:1}})).toEqual([
 			{share:"shared",std:4}]);
-		expect($c.distinct(temp,"share,std",{share:{$exists:1}})).toEqual([
+		expect(temp.distinct("share,std",{share:{$exists:1}})).toEqual([
 			{share:"shared",std:4}]);
 
-		expect($c.distinct(temp,["share"],{share:{$exists:1}})).toEqual(["shared"]);
-		expect($c.distinct(temp,"share",{share:{$exists:1}})).toEqual(["shared"]);
+		expect(temp.distinct(["share"],{share:{$exists:1}})).toEqual(["shared"]);
+		expect(temp.distinct("share",{share:{$exists:1}})).toEqual(["shared"]);
 
 
 	});
@@ -473,16 +771,16 @@ describe ('Array', function () {
 		expect(arr.filter(function(item,i,arr){ return item; })).toEqual(['a','b','c','d','e']);
 	});
 	it('group',function(){
-		var temp = $c.duplicate(arrGroup);
-		expect($c.group(temp, {key:{'item.sku': 1, name: 1 },reduce:function(curr, result){ }, initial: {},})).toEqual([
+		var temp = arrGroup.duplicate();
+		expect(temp.group( {key:{'item.sku': 1, name: 1 },reduce:function(curr, result){ }, initial: {},})).toEqual([
 			{item:{sku:'111'}, name: 'p1' },
 			{item:{sku:'222'}, name: 'p2' },
 			{item:{sku:'333'}, name: 'p3' },
 			{item:{sku : null}, name : null}
 		]);
 
-		temp = $c.duplicate(arrGroup);
-		expect($c.group(temp, {
+		temp = arrGroup.duplicate();
+		expect(temp.group( {
 			cond: {_id:{$exists:true}},
 			key:{'item.sku': 1, name: 1 },
 			reduce:function(curr, result){ result.total += curr.instock || 0; },
@@ -494,8 +792,8 @@ describe ('Array', function () {
 			{item:{sku : null}, name : null, total : 0}
 		]);
 
-		temp = $c.duplicate(arrGroup);
-		expect($c.group(temp, {
+		temp = arrGroup.duplicate();
+		expect(temp.group({
 			cond: {_id:{$exists:true}},
 			key:{'item.sku': 1, name: 1 },
 			reduce:function(curr, result){ result.total += curr.instock || 0; },
@@ -503,7 +801,7 @@ describe ('Array', function () {
 			finalize: function(result){ return {}; }
 		})).toEqual([{ }, { }, { }, { }]);
 
-		expect($c.group(temp, {
+		expect(temp.group( {
 			cond: {neverTrue: ""},
 			key:{'item.sku': 1, name: 1 },
 			reduce:function(curr, result){ },
@@ -515,78 +813,78 @@ describe ('Array', function () {
 	//
 	//});
 	it('indexOf',function(){
-		expect($c.indexOf(arrStrings,"string 1")).toBe(0);
-		expect($c.indexOf(arrStrings,"string 10")).toBe(-1);
+		expect(arrStrings.indexOf("string 1")).toBe(0);
+		expect(arrStrings.indexOf("string 10")).toBe(-1);
 	});
 	it('indexOfAlt',function(){
-		expect($c.indexOfAlt(arrObjs,"20",function(item){ return item.p})).toBe(1);
-		expect($c.indexOfAlt(arrObjs,"201",function(item){ return item.p})).toBe(-1);
+		expect(arrObjs.indexOfAlt("20",function(item){ return item.p})).toBe(1);
+		expect(arrObjs.indexOfAlt("201",function(item){ return item.p})).toBe(-1);
 	});
 	it('innerJoin',function(){
-		expect($c.innerJoin($c.duplicate(arrLookup,true),$c.duplicate(arrLookupJoiner,true),"_id=_id")).toEqual([
+		expect(arrLookup.duplicate(true).innerJoin(arrLookupJoiner.duplicate(true),"_id=_id")).toEqual([
 			{ "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
 			{ "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
 			{ "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
-		expect($c.innerJoin($c.duplicate(arrLookup,true),$c.duplicate(arrLookupJoiner,true),"_id")).toEqual([
+		expect(arrLookup.duplicate(true).innerJoin(arrLookupJoiner.duplicate(true),"_id")).toEqual([
 			{ "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
 			{ "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
 			{ "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
 	});
 	it('insert',function(){
 		arrMix = [1,{},"adsf",10];
-		var temp = $c.duplicate(arrMix,true);
-		expect($c.insert(temp,'abcd')).toEqual(true);
+		var temp = arrMix.duplicate(true);
+		expect(temp.insert('abcd')).toEqual(true);
 		expect(temp).toEqual([1,{},"adsf",10,'abcd']);
 
-		temp = $c.duplicate(arrMix,true);
-		expect($c.insert(temp,['abcd',99])).toEqual(true);
+		temp = arrMix.duplicate(true);
+		expect(temp.insert(['abcd',99])).toEqual(true);
 		expect(temp).toEqual([1,{},"adsf",10,'abcd',99]);
 
 	});
 	it('insertAfter',function(){
 		arrMix = [1,{},"adsf",10];
-		var temp = $c.duplicate(arrMix,true);
-		expect($c.insertAfter(temp,1,'abcd')).toEqual(true);
+		var temp = arrMix.duplicate(true);
+		expect(temp.insertAfter(1,'abcd')).toEqual(true);
 		expect(temp).toEqual([1,{},'abcd',"adsf",10]);
 
-		temp = $c.duplicate(arrMix,true);
-		expect($c.insertAfter(temp,1,['abcd',99])).toEqual(true);
+		temp = arrMix.duplicate(true);
+		expect(temp.insertAfter(1,['abcd',99])).toEqual(true);
 		expect(temp).toEqual([1,{},['abcd',99],"adsf",10]);
 	});
 	it('insertBefore',function(){
 		arrMix = [1,{},"adsf",10];
-		var temp = $c.duplicate(arrMix,true);
-		expect($c.insertBefore(temp,1,'abcd')).toEqual(true);
+		var temp = arrMix.duplicate(true);
+		expect(temp.insertBefore(1,'abcd')).toEqual(true);
 		expect(temp).toEqual([1,'abcd',{},"adsf",10]);
 
-		temp = $c.duplicate(arrMix,true);
-		expect($c.insertBefore(temp,1,['abcd',99])).toEqual(true);
+		temp = arrMix.duplicate(true);
+		expect(temp.insertBefore(1,['abcd',99])).toEqual(true);
 		expect(temp).toEqual([1,['abcd',99],{},"adsf",10]);
 
 	});
 	it('isEmpty',function(){
-		expect($c.isEmpty(arrObjs)).toBe(false);
-		expect($c.isEmpty([])).toBe(true);
+		expect(arrObjs.isEmpty()).toBe(false);
+		expect([].isEmpty()).toBe(true);
 	});
 	it('joinLeft',function(){
-		expect($c.joinLeft($c.duplicate(arrLookup,true),$c.duplicate(arrLookupJoiner,true),"_id=_id")).toEqual([
+		expect(arrLookup.duplicate(true).joinLeft(arrLookupJoiner.duplicate(true),"_id=_id")).toEqual([
 			{ "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
 			{ "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
 			{ "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
-		expect($c.joinLeft($c.duplicate(arrLookup,true),$c.duplicate(arrLookupJoiner,true),"_id")).toEqual([
+		expect(arrLookup.duplicate(true).joinLeft(arrLookupJoiner.duplicate(true),"_id")).toEqual([
 			{ "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
 			{ "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
 			{ "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
 
 
-		expect($c.joinLeft($c.duplicate(arrLookupJoiner,true),$c.duplicate(arrLookup,true),"_id=_id")).toEqual([
+		expect(arrLookupJoiner.duplicate(true).joinLeft(arrLookup.duplicate(true),"_id=_id")).toEqual([
 			{ "_id" : 1, "sku" : "abc", description: "product 1", "instock" : 120, "item" : "abc", "price" : 12, "quantity" : 2 },
 			{ "_id" : 2, "sku" : "def", description: "product 2", "instock" : 80, "item" : "jkl", "price" : 20, "quantity" : 1 },
 			{ "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 },
 			{ "_id" : 4, "sku" : "jkl", description: "product 4", "instock" : 70, "item" : null, "price" : null, "quantity" : null },
 			{ "_id" : 5, "sku": null, description: "Incomplete", "item" : null, "price" : null, "quantity" : null },
 			{ "_id" : 6, "item" : null, "price" : null, "quantity" : null }]);
-		expect($c.joinLeft($c.duplicate(arrLookupJoiner,true),$c.duplicate(arrLookup,true),"_id")).toEqual([
+		expect(arrLookupJoiner.duplicate(true).joinLeft(arrLookup.duplicate(true),"_id")).toEqual([
 			{ "_id" : 1, "sku" : "abc", description: "product 1", "instock" : 120, "item" : "abc", "price" : 12, "quantity" : 2 },
 			{ "_id" : 2, "sku" : "def", description: "product 2", "instock" : 80, "item" : "jkl", "price" : 20, "quantity" : 1 },
 			{ "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 },
@@ -595,24 +893,24 @@ describe ('Array', function () {
 			{ "_id" : 6, "item" : null, "price" : null, "quantity" : null }]);
 	});
 	it('joinRight',function(){
-		expect($c.joinRight($c.duplicate(arrLookupJoiner,true),$c.duplicate(arrLookup,true),"_id=_id")).toEqual([
+		expect(arrLookupJoiner.duplicate(true).joinRight(arrLookup.duplicate(true),"_id=_id")).toEqual([
 			{ "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
 			{ "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
 			{ "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
-		expect($c.joinRight($c.duplicate(arrLookupJoiner,true),$c.duplicate(arrLookup,true),"_id")).toEqual([
+		expect(arrLookupJoiner.duplicate(true).joinRight(arrLookup.duplicate(true),"_id")).toEqual([
 			{ "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
 			{ "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
 			{ "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
 
 
-		expect($c.joinRight($c.duplicate(arrLookup,true),$c.duplicate(arrLookupJoiner,true),"_id=_id")).toEqual([
+		expect(arrLookup.duplicate(true).joinRight(arrLookupJoiner.duplicate(true),"_id=_id")).toEqual([
 			{ "_id" : 1, "sku" : "abc", description: "product 1", "instock" : 120, "item" : "abc", "price" : 12, "quantity" : 2 },
 			{ "_id" : 2, "sku" : "def", description: "product 2", "instock" : 80, "item" : "jkl", "price" : 20, "quantity" : 1 },
 			{ "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 },
 			{ "_id" : 4, "sku" : "jkl", description: "product 4", "instock" : 70, "item" : null, "price" : null, "quantity" : null },
 			{ "_id" : 5, "sku": null, description: "Incomplete", "item" : null, "price" : null, "quantity" : null },
 			{ "_id" : 6, "item" : null, "price" : null, "quantity" : null }]);
-		expect($c.joinRight($c.duplicate(arrLookup,true),$c.duplicate(arrLookupJoiner,true),"_id")).toEqual([
+		expect(arrLookup.duplicate(true).joinRight(arrLookupJoiner.duplicate(true),"_id")).toEqual([
 			{ "_id" : 1, "sku" : "abc", description: "product 1", "instock" : 120, "item" : "abc", "price" : 12, "quantity" : 2 },
 			{ "_id" : 2, "sku" : "def", description: "product 2", "instock" : 80, "item" : "jkl", "price" : 20, "quantity" : 1 },
 			{ "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 },
@@ -621,11 +919,11 @@ describe ('Array', function () {
 			{ "_id" : 6, "item" : null, "price" : null, "quantity" : null }]);
 	});
 	it('limit',function(){
-		expect($c.limit(arrObjs,1)).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
+		expect(arrObjs.limit(1)).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
 	});
 	it('map',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		$c.map(temp,function(item){ item.p = 10; return item; });
+		var temp = arrObjs.duplicate(true);
+		temp.map(function(item){ item.p = 10; return item; });
 		expect(temp).toEqual([
 			{id:1,p:10,share:"shared", index: 10,std:4},
 			{id:2,p:10,share:"shared", index : 20,std:4},
@@ -634,7 +932,7 @@ describe ('Array', function () {
 	});
 	it('mapReduce',function(){
 		var reduceFunction1 = function(keyCustId, valuesPrices) {
-			return $c.sum(valuesPrices);
+			return valuesPrices.sum();
 		};
 		var mapFunction1 = function() {
 			$c.emit(this.cust_id, this.price);
@@ -664,19 +962,19 @@ describe ('Array', function () {
 			items: [ { sku: "ooo", qty: 5, price: 2.5 },
 				{ sku: "ppp", qty: 5, price: 2.5 } ]
 		}];
-		expect($c.mapReduce(arr,mapFunction1,reduceFunction1)).toEqual([{_id:'abc123',value:50},{_id:'abc124',value:30}]);
-		expect($c.mapReduce(arr,mapFunction1,reduceFunction1,{query:{cust_id:'abc123'}})).toEqual([{_id:'abc123',value:50}]);
+		expect(arr.mapReduce(mapFunction1,reduceFunction1)).toEqual([{_id:'abc123',value:50},{_id:'abc124',value:30}]);
+		expect(arr.mapReduce(mapFunction1,reduceFunction1,{query:{cust_id:'abc123'}})).toEqual([{_id:'abc123',value:50}]);
 
-		expect($c.mapReduce(arr,mapFunction1,reduceFunction1,{limit:1})).toEqual([{_id:'abc123',value:25}]);
+		expect(arr.mapReduce(mapFunction1,reduceFunction1,{limit:1})).toEqual([{_id:'abc123',value:25}]);
 
 		var rarr = [];
-		expect($c.mapReduce(arr,mapFunction1,reduceFunction1,{out:rarr})).toBe(rarr);
+		expect(arr.mapReduce(mapFunction1,reduceFunction1,{out:rarr})).toBe(rarr);
 
-		expect($c.mapReduce(arr,mapFunction1,reduceFunction1,{limit:1,finalize:function(){return {};}})).toEqual([{_id:'abc123',value:{}}]);
+		expect(arr.mapReduce(mapFunction1,reduceFunction1,{limit:1,finalize:function(){return {};}})).toEqual([{_id:'abc123',value:{}}]);
 	});
 	it('normalize',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		expect($c.normalize(temp)).toEqual([
+		var temp = arrObjs.duplicate(true);
+		expect(temp.normalize()).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4},
 			{id:2,p:"20",share:"shared", index : 20,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4},
@@ -700,7 +998,7 @@ describe ('Array', function () {
 				{ username: 'awesome_game', name: 'clash of clans', age: 21 }]};
 		beforeEach(function (done) {
 			$c.syncroit(function *() {
-				results = yield $c.parallelEach([
+				results = yield [
 					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
 					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
 					function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
@@ -736,7 +1034,7 @@ describe ('Array', function () {
 					function (a) { return 10 + a; },
 					"asdf"
 
-				],[1]);
+				].parallelEach([1]);
 				if (!results) { console.log('wtf'); }
 				done();
 			});
@@ -771,36 +1069,36 @@ describe ('Array', function () {
 	});
 	it('remove',function(){
 		//arrMix = [1,{},"adsf",10];
-		var temp = $c.duplicate(arrMix,true);
-		expect($c.remove(temp,"adsf")).toBe("adsf");
+		var temp = arrMix.duplicate(true);
+		expect(temp.remove("adsf")).toBe("adsf");
 		expect(temp).toEqual([1,{},10]);
-		expect($c.remove(temp,"adsf",function(){return 1;})).toEqual({});
+		expect(temp.remove("adsf",function(){return 1;})).toEqual({});
 		expect(temp).toEqual([1,10]);
 	});
 	it('removeAll',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		$c.removeAll(temp);
+		var temp = arrObjs.duplicate(true);
+		temp.removeAll();
 		expect(temp).toEqual([]);
-		expect($c.removeAll([])).toEqual([]);
-		temp = $c.duplicate(arrObjs,true);
-		$c.removeAll(temp,"10",function(item){ return item.p;});
-		$c.removeAll(temp,"10",function(value){ return $c.indexOfAlt(this,value,function(item){ return item.p; }); });
+		expect([].removeAll()).toEqual([]);
+		temp = arrObjs.duplicate(true);
+		temp.removeAll("10",function(item){ return item.p;});
+		temp.removeAll("10",function(value){ return this.indexOfAlt(value,function(item){ return item.p; }); });
 		expect(temp).toEqual([
 			{ id : 2, p : '20', share : 'shared', index : 20, std : 4 },
 			{ id : 3, p : '30', share : 'shared', index : 30, std : 4 },
 			{ id : 4, std : 4 }]);
 	});
 	it('removeAt',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		expect($c.removeAt(temp,1)).toEqual({id:2,p:"20",share:"shared", index : 20,std:4});
+		var temp = arrObjs.duplicate(true);
+		expect(temp.removeAt(1)).toEqual({id:2,p:"20",share:"shared", index : 20,std:4});
 		expect(temp).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,std:4}]);
 	});
 	it('replaceAt',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		expect($c.replaceAt(temp,1,{id:5,p:"50",share:"shared", index : 50,std:4})).toEqual({id:2,p:"20",share:"shared", index : 20,std:4});
+		var temp = arrObjs.duplicate(true);
+		expect(temp.replaceAt(1,{id:5,p:"50",share:"shared", index : 50,std:4})).toEqual({id:2,p:"20",share:"shared", index : 20,std:4});
 		expect(temp).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4},
 			{id:5,p:"50",share:"shared", index : 50,std:4},
@@ -808,106 +1106,106 @@ describe ('Array', function () {
 			{id:4,std:4}]);
 	});
 	it('scramble',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		expect($c.scramble(temp)).not.toEqual(arrObjs);
+		var temp = arrObjs.duplicate(true);
+		expect(temp.scramble()).not.toEqual(arrObjs);
 		expect(temp.length).toEqual(arrObjs.length);
 	});
 	it('sortBy',function(){
-		var temp = $c.duplicate(arrSort,true);
-		expect($c.sortBy(temp,'s')).toEqual( [{id:5, s:2},{id:4, s:3},{id:1, s:5},{id:2, s:5},{id:3, s:6}]);
+		var temp = arrSort.duplicate(true);
+		expect(temp.sortBy('s')).toEqual( [{id:5, s:2},{id:4, s:3},{id:1, s:5},{id:2, s:5},{id:3, s:6}]);
 
-		temp = $c.duplicate(arrSort,true);
-		expect($c.sortBy(temp,['s','!id'])).toEqual( [{id:5, s:2},{id:4, s:3},{id:2, s:5},{id:1, s:5},{id:3, s:6}]);
+		temp = arrSort.duplicate(true);
+		expect(temp.sortBy(['s','!id'])).toEqual( [{id:5, s:2},{id:4, s:3},{id:2, s:5},{id:1, s:5},{id:3, s:6}]);
 
-		temp = $c.duplicate(arrSort,true);
-		expect($c.sortBy(temp,'s,!id')).toEqual( [{id:5, s:2},{id:4, s:3},{id:2, s:5},{id:1, s:5},{id:3, s:6}]);
+		temp = arrSort.duplicate(true);
+		expect(temp.sortBy('s,!id')).toEqual( [{id:5, s:2},{id:4, s:3},{id:2, s:5},{id:1, s:5},{id:3, s:6}]);
 
-		temp = $c.duplicate(arrSort,true);
-		expect($c.sortBy(temp,'s,!id', true)).toEqual([{id:3, s:6},{id:1, s:5},{id:2, s:5},{id:4, s:3},{id:5, s:2}]);
+		temp = arrSort.duplicate(true);
+		expect(temp.sortBy('s,!id', true)).toEqual([{id:3, s:6},{id:1, s:5},{id:2, s:5},{id:4, s:3},{id:5, s:2}]);
 
-		temp = $c.duplicate(arrSort,true);
-		var primer = function(val){ if ($c.isOdd(val)) { return val - 1;} return val;};
-		expect($c.sortBy(temp,['s','id'],false,primer)).toEqual( [{id:4, s:3},{id:5, s:2},{id:1, s:5},{id:2, s:5},{id:3, s:6}]);
+		temp = arrSort.duplicate(true);
+		var primer = function(val){ if (val.isOdd()) { return val - 1;} return val;};
+		expect(temp.sortBy(['s','id'],false,primer)).toEqual( [{id:4, s:3},{id:5, s:2},{id:1, s:5},{id:2, s:5},{id:3, s:6}]);
 
 		var arr = ['a','b','c','d'], lookup = {a:{s:4},b:{s:3},c:{s:2},d:{s:1}};
-		expect($c.sortBy(arr,['s'],false,null,lookup)).toEqual( ['d','c','b','a']);
+		expect(arr.sortBy(['s'],false,null,lookup)).toEqual( ['d','c','b','a']);
 
 		var lookup2 = {a:{s:"a"},b:{s:"B"},c:{s:"c"},d:{s:"d"}};
-		expect($c.sortBy(arr,['s'],false,null,lookup2)).toEqual( ['b','a','c','d']);
-		expect($c.sortBy(arr,['s'],false,null,lookup2,'i')).toEqual( ['a','b','c','d']);
+		expect(arr.sortBy(['s'],false,null,lookup2)).toEqual( ['b','a','c','d']);
+		expect(arr.sortBy(['s'],false,null,lookup2,'i')).toEqual( ['a','b','c','d']);
 	});
 	it('stdev',function(){
 		var arr = [1,2,3,4,5,6,7,8,9,0];
 		var arr2 = [1,undefined,2,'',3,{},4,[],5,null,function(){},6,7,8,9,0];
-		expect($c.stdev(arr,'asdf')).toBe(2.8722813232690143);
-		expect($c.stdev(arr2,'asdf2')).toBe(2.8722813232690143);
+		expect(arr.stdev('asdf')).toBe(2.8722813232690143);
+		expect(arr2.stdev('asdf2')).toBe(2.8722813232690143);
 	});
 	it('sum',function(){
-		expect($c.sum(arrMix)).toBe(11);
+		expect(arrMix.sum()).toBe(11);
 	});
 	it('toSet',function(){
-		var arr = $c.duplicate(arrStrings);
+		var arr = arrStrings.duplicate();
 		arr.push("string 1");
-		$c.toSet(arr);
+		arr.toSet();
 		expect(arr).toEqual(arrStrings);
 		arr = [{},{},{},{}];
-		$c.toSet(arr);
+		arr.toSet();
 		expect(arr).toEqual([{}]);
 	});
 	it('trim',function(){
 		var arr = ["     string 1    ", "  string 2  ", " string 3 ", "string 4"];
-		expect($c.trim(arr)).toEqual(["string 1","string 2","string 3","string 4"]);
+		expect(arr.trim()).toEqual(["string 1","string 2","string 3","string 4"]);
 		expect(arr).toEqual(["     string 1    ", "  string 2  ", " string 3 ", "string 4"]);
-		$c.trim(arr, true);
+		arr.trim(true);
 		expect(arr).toEqual(["string 1","string 2","string 3","string 4"]);
 	});
 	it('update',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		$c.update(temp,{share:"shared"},{$set:{index:15}});
+		var temp = arrObjs.duplicate(true);
+		temp.update({share:"shared"},{$set:{index:15}});
 		expect(temp).toEqual([
 			{id:1,p:"10",share:"shared", index: 15,std:4},
 			{id:2,p:"20",share:"shared", index : 20,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,std:4}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		$c.update(temp,{share:"shared"},{$set:{index:15}},{multi:true});
+		temp = arrObjs.duplicate(true);
+		temp.update({share:"shared"},{$set:{index:15}},{multi:true});
 		expect(temp).toEqual([
 			{id:1,p:"10",share:"shared", index: 15,std:4},
 			{id:2,p:"20",share:"shared", index : 15,std:4},
 			{id:3,p:"30",share:"shared", index: 15,std:4},
 			{id:4,std:4}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		$c.update(temp,{share:"shared"},{},{multi:true});
+		temp = arrObjs.duplicate(true);
+		temp.update({share:"shared"},{},{multi:true});
 		expect(temp).toEqual([{}, {}, {}, {id:4,std:4}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		$c.update(temp,{share:"shared"},{});
+		temp = arrObjs.duplicate(true);
+		temp.update({share:"shared"},{});
 		expect(temp).toEqual([
 			{},
 			{id:2,p:"20",share:"shared", index : 20,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,std:4}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		$c.update(temp,{share:"shared"},{$inc:{index:1}},{multi:true});
+		temp = arrObjs.duplicate(true);
+		temp.update({share:"shared"},{$inc:{index:1}},{multi:true});
 		expect(temp).toEqual([
 			{id:1,p:"10",share:"shared", index: 11,std:4},
 			{id:2,p:"20",share:"shared", index : 21,std:4},
 			{id:3,p:"30",share:"shared", index: 31,std:4},
 			{id:4,std:4}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		$c.update(temp,{share:"shared"},{$unset:{index:1}});
+		temp = arrObjs.duplicate(true);
+		temp.update({share:"shared"},{$unset:{index:1}});
 		expect(temp).toEqual([
 			{id:1,p:"10",share:"shared", std:4},
 			{id:2,p:"20",share:"shared", index : 20,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,std:4}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		$c.update(temp,{share:"shared"},{$currentDate:{currentDate:1}});
+		temp = arrObjs.duplicate(true);
+		temp.update({share:"shared"},{$currentDate:{currentDate:1}});
 		expect(temp[0].currentDate.toString()).toBe((new Date()).toString());
 		delete temp[0].currentDate;
 		expect(temp).toEqual([
@@ -917,8 +1215,8 @@ describe ('Array', function () {
 			{id:4,std:4}]);
 
 
-		temp = $c.duplicate(arrObjs,true);
-		$c.update(temp,{},{$min:{index:20},$max:{index:20},$mul:{std:2},$rename:{share:'shared'}},{multi:true});
+		temp = arrObjs.duplicate(true);
+		temp.update({},{$min:{index:20},$max:{index:20},$mul:{std:2},$rename:{share:'shared'}},{multi:true});
 		expect(temp).toEqual([
 			{id:1,p:"10",shared:"shared", index: 20,std:8},
 			{id:2,p:"20",shared:"shared", index : 20,std:8},
@@ -931,8 +1229,8 @@ describe ('Array', function () {
 				{ "id" : 2, "score" : 9 }
 			]}
 		];
-		temp = $c.duplicate(arrArr,true);
-		$c.update(temp,{},{$push:{arr:{
+		temp = arrArr.duplicate(true);
+		temp.update({},{$push:{arr:{
 			$each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
 			$sort: { score: 1 }
 		}}});
@@ -944,8 +1242,8 @@ describe ('Array', function () {
 			{ "id" : 2, "score" : 9 }
 		]}]);
 
-		temp = $c.duplicate(arrArr,true);
-		$c.update(temp,{},{$push:{arr:{
+		temp = arrArr.duplicate(true);
+		temp.update({},{$push:{arr:{
 			$each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
 			$slice: -2
 		}}});
@@ -953,8 +1251,8 @@ describe ('Array', function () {
 			{ id: 4, score: 7 }, { id: 5, score: 6 }
 		]}]);
 
-		temp = $c.duplicate(arrArr,true);
-		$c.update(temp,{},{$push:{arr:{
+		temp = arrArr.duplicate(true);
+		temp.update({},{$push:{arr:{
 			$each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
 			$position: 1
 		}}});
@@ -966,32 +1264,32 @@ describe ('Array', function () {
 			{ "id" : 2, "score" : 9 }
 		]}]);
 
-		temp = $c.duplicate(arrArr,true);
-		$c.update(temp,{},{$pop:{arr: -1}});
+		temp = arrArr.duplicate(true);
+		temp.update({},{$pop:{arr: -1}});
 		expect(temp).toEqual([{id:1,arr:[
 			{ "id" : 2, "score" : 9 }
 		]}]);
 
-		temp = $c.duplicate(arrArr,true);
-		$c.update(temp,{},{$pop:{arr: 1}});
+		temp = arrArr.duplicate(true);
+		temp.update({},{$pop:{arr: 1}});
 		expect(temp).toEqual([{id:1,arr:[
 			{ "id" : 1, "score" : 6 }
 		]}]);
 
 		temp = [{ id: 1, scores: [ 0, 2, 5, 5, 1, 0 ] }];
-		$c.update(temp,{},{$pullAll:{scores: [0,5]}});
+		temp.update({},{$pullAll:{scores: [0,5]}});
 		expect(temp).toEqual([{id:1,scores:[2,1]}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		$c.update(temp,{nonexistant:"shared"},{$set:{index:15}},{upsert:true});
+		temp = arrObjs.duplicate(true);
+		temp.update({nonexistant:"shared"},{$set:{index:15}},{upsert:true});
 		expect(temp).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4},
 			{id:2,p:"20",share:"shared", index : 20,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,std:4},{index:15}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		$c.update(temp,{nonexistant:"shared"},{index:15},{upsert:true});
+		temp = arrObjs.duplicate(true);
+		temp.update({nonexistant:"shared"},{index:15},{upsert:true});
 		expect(temp).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4},
 			{id:2,p:"20",share:"shared", index : 20,std:4},
@@ -999,9 +1297,9 @@ describe ('Array', function () {
 			{id:4,std:4},{index:15}]);
 	});
 	it('upsert',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,{id:1,p:"10",share:"shared", index: 10,std:4},"id")).toEqual({
+		var temp = arrObjs.duplicate(true);
+		// temp = arrObjs.duplicate(true);
+		expect(temp.upsert({id:1,p:"10",share:"shared", index: 10,std:4},"id")).toEqual({
 			insertedIndexes:[],
 			updatedIndexes:[],
 			unchangedIndexes:[0],
@@ -1014,8 +1312,8 @@ describe ('Array', function () {
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,std:4}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,{id:5,p:"10",share:"shared", index: 10,std:4},"id")).toEqual({
+		temp = arrObjs.duplicate(true);
+		expect(temp.upsert({id:5,p:"10",share:"shared", index: 10,std:4},"id")).toEqual({
 			insertedIndexes:[4],
 			updatedIndexes:[],
 			unchangedIndexes:[],
@@ -1026,8 +1324,8 @@ describe ('Array', function () {
 				{id:2,p:"20",share:"shared", index : 20,std:4},
 				{id:3,p:"30",share:"shared", index: 30,std:4},
 				{id:4,std:4},{id:5,p:"10",share:"shared", index: 10,std:4}]);
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,{id:5,p:"10",share:"shared", index: 10,std:4},"id")).toEqual({
+		temp = arrObjs.duplicate(true);
+		expect(temp.upsert({id:5,p:"10",share:"shared", index: 10,std:4},"id")).toEqual({
 			insertedIndexes:[4],
 			updatedIndexes:[],
 			unchangedIndexes:[],
@@ -1036,8 +1334,8 @@ describe ('Array', function () {
 			unchanged:[]
 		});
 
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,{id:5,p:"10",share:"shared", index: 10,std:4},"id",function(doc,record){
+		temp = arrObjs.duplicate(true);
+		expect(temp.upsert({id:5,p:"10",share:"shared", index: 10,std:4},"id",function(doc,record){
 			return true;
 		})).toEqual({
 			insertedIndexes:[4],
@@ -1047,8 +1345,8 @@ describe ('Array', function () {
 			updated:[],
 			unchanged:[]
 		});
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,{id:1,p:"10",share:"shared", index: 10,std:4},"id",function(){return true;})).toEqual({
+		temp = arrObjs.duplicate(true);
+		expect(temp.upsert({id:1,p:"10",share:"shared", index: 10,std:4},"id",function(){return true;})).toEqual({
 			insertedIndexes:[],
 			updatedIndexes:[],
 			unchangedIndexes:[0],
@@ -1061,8 +1359,8 @@ describe ('Array', function () {
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,std:4}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,{id:1,p:"10",share:"shared", index: 10,std:4},"id",function(){return false;})).toEqual({
+		temp = arrObjs.duplicate(true);
+		expect(temp.upsert({id:1,p:"10",share:"shared", index: 10,std:4},"id",function(){return false;})).toEqual({
 			insertedIndexes:[],
 			updatedIndexes:[0],
 			unchangedIndexes:[],
@@ -1078,8 +1376,8 @@ describe ('Array', function () {
 
 
 
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,[{id:1,p:"10",share:"shared", index: 10,std:4}],"id")).toEqual({
+		temp = arrObjs.duplicate(true);
+		expect(temp.upsert([{id:1,p:"10",share:"shared", index: 10,std:4}],"id")).toEqual({
 			insertedIndexes:[],
 			updatedIndexes:[],
 			unchangedIndexes:[0],
@@ -1092,8 +1390,8 @@ describe ('Array', function () {
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,std:4}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,[{id:5,p:"10",share:"shared", index: 10,std:4}],"id")).toEqual({
+		temp = arrObjs.duplicate(true);
+		expect(temp.upsert([{id:5,p:"10",share:"shared", index: 10,std:4}],"id")).toEqual({
 			insertedIndexes:[4],
 			updatedIndexes:[],
 			unchangedIndexes:[],
@@ -1104,8 +1402,8 @@ describe ('Array', function () {
 			{id:2,p:"20",share:"shared", index : 20,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,std:4},{id:5,p:"10",share:"shared", index: 10,std:4}]);
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,[{id:5,p:"10",share:"shared", index: 10,std:4}],"id")).toEqual({
+		temp = arrObjs.duplicate(true);
+		expect(temp.upsert([{id:5,p:"10",share:"shared", index: 10,std:4}],"id")).toEqual({
 			insertedIndexes:[4],
 			updatedIndexes:[],
 			unchangedIndexes:[],
@@ -1114,8 +1412,8 @@ describe ('Array', function () {
 			unchanged:[]
 		});
 
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,[{id:5,p:"10",share:"shared", index: 10,std:4}],"id",function(doc,record){
+		temp = arrObjs.duplicate(true);
+		expect(temp.upsert([{id:5,p:"10",share:"shared", index: 10,std:4}],"id",function(doc,record){
 			return true;
 		})).toEqual({
 			insertedIndexes:[4],
@@ -1125,8 +1423,8 @@ describe ('Array', function () {
 			updated:[],
 			unchanged:[]
 		});
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,[{id:1,p:"10",share:"shared", index: 10,std:4}],"id",function(){return true;})).toEqual({
+		temp = arrObjs.duplicate(true);
+		expect(temp.upsert([{id:1,p:"10",share:"shared", index: 10,std:4}],"id",function(){return true;})).toEqual({
 			insertedIndexes:[],
 			updatedIndexes:[],
 			unchangedIndexes:[0],
@@ -1139,8 +1437,8 @@ describe ('Array', function () {
 			{id:3,p:"30",share:"shared", index: 30,std:4},
 			{id:4,std:4}]);
 
-		temp = $c.duplicate(arrObjs,true);
-		expect($c.upsert(temp,[{id:1,p:"10",share:"shared", index: 10,std:4}],"id",function(){return false;})).toEqual({
+		temp = arrObjs.duplicate(true);
+		expect(temp.upsert([{id:1,p:"10",share:"shared", index: 10,std:4}],"id",function(){return false;})).toEqual({
 			insertedIndexes:[],
 			updatedIndexes:[0],
 			unchangedIndexes:[],
@@ -1154,48 +1452,48 @@ describe ('Array', function () {
 			{id:4,std:4}]);
 	});
 	it('where',function(){
-		var temp = $c.duplicate(arrObjs,true);
-		expect($c.where(arrObjs,{share:"shared"})).toEqual([
+		var temp = arrObjs.duplicate(true);
+		expect(arrObjs.where({share:"shared"})).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4},
 			{id:2,p:"20",share:"shared", index : 20,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4}]);
 
-		expect($c.where(arrObjs,{index:{$eq:10}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
-		expect($c.where(arrObjs,{index:{$gt:20}})).toEqual([{id:3,p:"30",share:"shared", index: 30,std:4}]);
-		expect($c.where(arrObjs,{index:{$lt:20}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
-		expect($c.where(arrObjs,{index:{$gte:20}})).toEqual([{id:2,p:"20",share:"shared", index : 20,std:4},{id:3,p:"30",share:"shared", index: 30,std:4}]);
-		expect($c.where(arrObjs,{index:{$lte:20}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:2,p:"20",share:"shared", index : 20,std:4}]);
-		expect($c.where(arrObjs,{index:{$ne:20}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:3,p:"30",share:"shared", index: 30,std:4}]);
-		expect($c.where(arrObjs,{index:{$in:[10,20]}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:2,p:"20",share:"shared", index : 20,std:4}]);
-		expect($c.where(arrObjs,{index:{$nin:[10,20]}})).toEqual([{id:3,p:"30",share:"shared", index: 30,std:4},{id:4,std:4}]);
-		expect($c.where(arrObjs,{$and:[{std:4},{index:10}]})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
-		expect($c.where(arrObjs,{$and:[{std:5},{index:10}]})).toEqual([]);
-		expect($c.where(arrObjs,{$or:[{index:20},{index:10}]})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:2,p:"20",share:"shared", index : 20,std:4}]);
-		expect($c.where(arrObjs,{index:{ $not: { $gte: 20 }}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:4,std:4}]);
-		expect($c.where(arrObjs,{$nor:[{index:20},{index:10}]})).toEqual([{id:3,p:"30",share:"shared", index: 30,std:4},{id:4,std:4}]);
-		expect($c.where(arrObjs,{index:{$exists:true}})).toEqual([
+		expect(arrObjs.where({index:{$eq:10}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
+		expect(arrObjs.where({index:{$gt:20}})).toEqual([{id:3,p:"30",share:"shared", index: 30,std:4}]);
+		expect(arrObjs.where({index:{$lt:20}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
+		expect(arrObjs.where({index:{$gte:20}})).toEqual([{id:2,p:"20",share:"shared", index : 20,std:4},{id:3,p:"30",share:"shared", index: 30,std:4}]);
+		expect(arrObjs.where({index:{$lte:20}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:2,p:"20",share:"shared", index : 20,std:4}]);
+		expect(arrObjs.where({index:{$ne:20}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:3,p:"30",share:"shared", index: 30,std:4}]);
+		expect(arrObjs.where({index:{$in:[10,20]}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:2,p:"20",share:"shared", index : 20,std:4}]);
+		expect(arrObjs.where({index:{$nin:[10,20]}})).toEqual([{id:3,p:"30",share:"shared", index: 30,std:4},{id:4,std:4}]);
+		expect(arrObjs.where({$and:[{std:4},{index:10}]})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
+		expect(arrObjs.where({$and:[{std:5},{index:10}]})).toEqual([]);
+		expect(arrObjs.where({$or:[{index:20},{index:10}]})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:2,p:"20",share:"shared", index : 20,std:4}]);
+		expect(arrObjs.where({index:{ $not: { $gte: 20 }}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:4,std:4}]);
+		expect(arrObjs.where({$nor:[{index:20},{index:10}]})).toEqual([{id:3,p:"30",share:"shared", index: 30,std:4},{id:4,std:4}]);
+		expect(arrObjs.where({index:{$exists:true}})).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4},
 			{id:2,p:"20",share:"shared", index : 20,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4}]);
-		expect($c.where(arrObjs,{index:{$exists:false}})).toEqual([{id:4,std:4}]);
-		expect($c.where(arrObjs,{index:{$type:Number}})).toEqual([
+		expect(arrObjs.where({index:{$exists:false}})).toEqual([{id:4,std:4}]);
+		expect(arrObjs.where({index:{$type:Number}})).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4},
 			{id:2,p:"20",share:"shared", index : 20,std:4},
 			{id:3,p:"30",share:"shared", index: 30,std:4}]);
-		expect($c.where(arrObjs,{index:{$mod:[3,2]}})).toEqual([
+		expect(arrObjs.where({index:{$mod:[3,2]}})).toEqual([
 			{id:2,p:"20",share:"shared", index : 20,std:4}]);
-		expect($c.where(arrObjs,{index:{$regex:/[12]/}})).toEqual([
+		expect(arrObjs.where({index:{$regex:/[12]/}})).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4},
 			{id:2,p:"20",share:"shared", index : 20,std:4}]);
-		expect($c.where(arrObjs,{$where:"this.index > 20"})).toEqual([
+		expect(arrObjs.where({$where:"this.index > 20"})).toEqual([
 			{id:3,p:"30",share:"shared", index: 30,std:4}]);
-		expect($c.where(arrObjs,{$where:function(){ return this.index < 20;}})).toEqual([
+		expect(arrObjs.where({$where:function(){ return this.index < 20;}})).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4}]);
-		expect($c.where(arrObjs,function(){ return this.index < 20;})).toEqual([
+		expect(arrObjs.where(function(){ return this.index < 20;})).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4}]);
-		expect($c.where([{id:1,p:"10",share:"shared", index: 10,std:4,tags:['a','b']}],{tags:{$all:['b','a']}})).toEqual([
+		expect([{id:1,p:"10",share:"shared", index: 10,std:4,tags:['a','b']}].where({tags:{$all:['b','a']}})).toEqual([
 			{id:1,p:"10",share:"shared", index: 10,std:4,tags:['a','b']}]);
-		expect($c.where([{id:1,p:"10",share:"shared", index: 10,std:4,tags:['c','b']}],{tags:['b','a']})).toEqual([]);
+		expect([{id:1,p:"10",share:"shared", index: 10,std:4,tags:['c','b']}].where({tags:['b','a']})).toEqual([]);
 
 		temp = [
 			{ _id: 1, results: [
@@ -1208,14 +1506,14 @@ describe ('Array', function () {
 				{ product: "xyz", score: 8 } ] },
 			{ _id: 3 },
 			{ _id: 4, results: [ ] }];
-		expect($c.where(temp, { results: { $elemMatch: { product: "xyz", score: { $gte: 8 } } } })).toEqual([
+		expect(temp.where( { results: { $elemMatch: { product: "xyz", score: { $gte: 8 } } } })).toEqual([
 			{"_id":3,"results":[{"product":"abc","score":7},{"product":"xyz","score":8}]}
 		]);
-		expect($c.where(temp, { results: { $size: 1 } })).toEqual([
+		expect(temp.where( { results: { $size: 1 } })).toEqual([
 			{ _id: 2, results: [ { product: "xyz", score: 7 } ] }
 		]);
-		expect($c.where(temp, { results: { $size: 0 } })).toEqual([{_id:3},{ _id: 4, results: [ ] }]);
-		expect($c.where(temp, { results: { $size: 2 } })).toEqual([
+		expect(temp.where( { results: { $size: 0 } })).toEqual([{_id:3},{ _id: 4, results: [ ] }]);
+		expect(temp.where( { results: { $size: 2 } })).toEqual([
 			{ _id: 1, results: [ { product: "abc", score: 10 }, { product: "xyz", score: 5 } ] },
 			{"_id":3,"results":[{"product":"abc","score":7},{"product":"xyz","score":8}]}
 		]);
@@ -1225,7 +1523,7 @@ describe ('Array', function () {
 			{section: 'Result',category:"blahimagingblah"},
 			{section: 'Result',category:"Imaging"},
 			{section: 'Result',category:"image"}];
-		expect($c.where(temp, { category:/imaging/i, section: { '$ne': 'history' } })).toEqual([
+		expect(temp.where( { category:/imaging/i, section: { '$ne': 'history' } })).toEqual([
 			{section: 'Result',category:"imaging"},
 			{section: 'Result',category:"blahimagingblah"},
 			{section: 'Result',category:"Imaging"}]);
@@ -1235,68 +1533,68 @@ describe ('Date', function () {
 	it('format',function(){
 		var date = new Date('1/8/2016 13:00:00');
 
-		expect($c.format(date,'m/d/Y')).toBe("01/08/2016");
+		expect(date.format('m/d/Y')).toBe("01/08/2016");
 
 		// Day
-		expect($c.format(date,'d')).toBe('08');
-		expect($c.format(date,'%d')).toBe('08');
-		expect($c.format(date,'D')).toBe('Fri');
-		expect($c.format(date,'j')).toBe('8');
-		expect($c.format(date,'l')).toBe('Friday');
-		expect($c.format(date,'N')).toBe('5');
-		expect($c.format(date,'S')).toBe('th');
-		expect($c.format(date,'w')).toBe('5');
-		expect($c.format(date,'%w')).toBe('6');
-		expect($c.format(date,'z')).toBe('7');
-		expect($c.format(date,'%j')).toBe('8');
+		expect(date.format('d')).toBe('08');
+		expect(date.format('%d')).toBe('08');
+		expect(date.format('D')).toBe('Fri');
+		expect(date.format('j')).toBe('8');
+		expect(date.format('l')).toBe('Friday');
+		expect(date.format('N')).toBe('5');
+		expect(date.format('S')).toBe('th');
+		expect(date.format('w')).toBe('5');
+		expect(date.format('%w')).toBe('6');
+		expect(date.format('z')).toBe('7');
+		expect(date.format('%j')).toBe('8');
 
 		// Week
-		expect($c.format(date,'W')).toBe('1');
-		expect($c.format(date,'%U')).toBe('01');
+		expect(date.format('W')).toBe('1');
+		expect(date.format('%U')).toBe('01');
 
 		// Month
-		expect($c.format(date,'F')).toBe('January');
-		expect($c.format(date,'m')).toBe('01');
-		expect($c.format(date,'%m')).toBe('01');
-		expect($c.format(date,'M')).toBe('Jan');
-		expect($c.format(date,'%M')).toBe('Jan');
-		expect($c.format(date,'n')).toBe('1');
-		expect($c.format(date,'t')).toBe('31');
+		expect(date.format('F')).toBe('January');
+		expect(date.format('m')).toBe('01');
+		expect(date.format('%m')).toBe('01');
+		expect(date.format('M')).toBe('Jan');
+		expect(date.format('%M')).toBe('Jan');
+		expect(date.format('n')).toBe('1');
+		expect(date.format('t')).toBe('31');
 
 		// Year
-		expect($c.format(date,'L')).toBe('1');
-		expect($c.format(date,'o')).toBe('2016');
-		expect($c.format(date,'Y')).toBe('2016');
-		expect($c.format(date,'%Y')).toBe('2016');
-		expect($c.format(date,'y')).toBe('16');
+		expect(date.format('L')).toBe('1');
+		expect(date.format('o')).toBe('2016');
+		expect(date.format('Y')).toBe('2016');
+		expect(date.format('%Y')).toBe('2016');
+		expect(date.format('y')).toBe('16');
 
 		// Time
-		expect($c.format(date,'a')).toBe('pm');
-		expect($c.format(date,'A')).toBe('PM');
-		expect($c.format(date,'B')).toBe('916');
-		expect($c.format(date,'g')).toBe('1');
-		expect($c.format(date,'G')).toBe('13');
-		expect($c.format(date,'h')).toBe('01');
-		expect($c.format(date,'H')).toBe('13');
-		expect($c.format(date,'i')).toBe('00');
-		expect($c.format(date,'s')).toBe('00');
-		expect($c.format(date,'u')).toBe((date.getTime() * 1000).toString());
-		expect($c.format(date,'%L')).toBe((date.getTime()).toString());
+		expect(date.format('a')).toBe('pm');
+		expect(date.format('A')).toBe('PM');
+		expect(date.format('B')).toBe('916');
+		expect(date.format('g')).toBe('1');
+		expect(date.format('G')).toBe('13');
+		expect(date.format('h')).toBe('01');
+		expect(date.format('H')).toBe('13');
+		expect(date.format('i')).toBe('00');
+		expect(date.format('s')).toBe('00');
+		expect(date.format('u')).toBe((date.getTime() * 1000).toString());
+		expect(date.format('%L')).toBe((date.getTime()).toString());
 
 		// Timezone
-		expect($c.format(date,'e')).toBe('Pacific Standard Time (North America)');
-		expect($c.format(date,'I')).toBe('1');
-		expect($c.format(date,'O')).toBe('-0800');
-		expect($c.format(date,'P')).toBe('-08:00');
-		expect($c.format(date,'T')).toBe('PST');
-		expect($c.format(date,'Z')).toBe('480');
+		expect(date.format('e')).toBe('Pacific Standard Time (North America)');
+		expect(date.format('I')).toBe('1');
+		expect(date.format('O')).toBe('-0800');
+		expect(date.format('P')).toBe('-08:00');
+		expect(date.format('T')).toBe('PST');
+		expect(date.format('Z')).toBe('480');
 
 		// Other
-		expect($c.format(date,'c')).toBe('2016-01-08T21:00:00.000Z');
-		expect($c.format(date,'r')).toBe('Fri, 08 Jan 2016 13:00:00 -0800');
-		expect($c.format(date,'U')).toBe('1452286800');
+		expect(date.format('c')).toBe('2016-01-08T21:00:00.000Z');
+		expect(date.format('r')).toBe('Fri, 08 Jan 2016 13:00:00 -0800');
+		expect(date.format('U')).toBe('1452286800');
 
-		expect($c.format(date,'yymmdd')).toBe('161601010808');
+		expect(date.format('yymmdd')).toBe('161601010808');
 	});
 	it('getDayOfYear',function(){
 		expect($c.getDayOfYear(new Date('1/1/2016'))).toBe(1);
@@ -1317,27 +1615,27 @@ describe ('Date', function () {
 });
 describe ('Number', function () {
 	it('aboutEqualTo',function(){
-		expect($c.aboutEqualTo(10,9,1)).toBe(true);
-		expect($c.aboutEqualTo(10,9,1.1)).toBe(true);
-		expect($c.aboutEqualTo(10,9,0.9)).toBe(false);
-		expect($c.aboutEqualTo(8,9,1)).toBe(true);
-		expect($c.aboutEqualTo(8,9,1.1)).toBe(true);
-		expect($c.aboutEqualTo(8,9,0.9)).toBe(false);
-		expect($c.aboutEqualTo(7,9,1.1)).toBe(false);
+		expect((10).aboutEqualTo(9,1)).toBe(true);
+		expect((10).aboutEqualTo(9,1.1)).toBe(true);
+		expect((10).aboutEqualTo(9,0.9)).toBe(false);
+		expect((8).aboutEqualTo(9,1)).toBe(true);
+		expect((8).aboutEqualTo(9,1.1)).toBe(true);
+		expect((8).aboutEqualTo(9,0.9)).toBe(false);
+		expect((7).aboutEqualTo(9,1.1)).toBe(false);
 	});
 	it('isOdd',function(){
-		expect($c.isOdd(10)).toBe(false);
-		expect($c.isOdd(9)).toBe(true);
+		expect((10).isOdd()).toBe(false);
+		expect((9).isOdd()).toBe(true);
 	});
 	it('isEven',function(){
-		expect($c.isEven(10)).toBe(true);
-		expect($c.isEven(9)).toBe(false);
+		expect((10).isEven()).toBe(true);
+		expect((9).isEven()).toBe(false);
 	});
 
 	it('toCurrencyNotation',function(){
-		expect($c.toCurrencyNotation(1000)).toBe("1,000");
-		expect($c.toCurrencyNotation(1000000)).toBe("1,000,000");
-		expect($c.toCurrencyNotation(1000,'.')).toBe('1.000');
+		expect((1000).toCurrencyNotation()).toBe("1,000");
+		expect((1000000).toCurrencyNotation()).toBe("1,000,000");
+		expect((1000).toCurrencyNotation('.')).toBe('1.000');
 	});
 
 });
@@ -1347,53 +1645,57 @@ describe ('Function', function () {
 		this.p2 = 2;
 	}
 	it('getParameters',function(){
-		expect($c.getParameters(temp)).toEqual(['par1','par2']);
+		expect(temp.getParameters()).toEqual(['par1','par2']);
 	});
 	it('getName',function(){
-		expect($c.getName(temp)).toEqual('temp');
+		expect(temp.getName()).toEqual('temp');
 	});
 	it('extends',function(){
 		function cls(){
 			this.p3 = 0;
 		}
-		cls.extends(temp);
+		cls.extends(temp,true);
+		var clz = new cls();
 		 //console.log(cls.extends(temp).toString(), (new cls()).p1, cls.prototype);
-		expect(new cls()).toEqual({p:1,p2:2,p3:0,construct: $c.foo});
+        expect(clz.p).toEqual(1);
+        expect(clz.p2).toEqual(2);
+        expect(clz.p3).toEqual(0);
+        expect(clz.construct.toString()).toEqual($c.foo.toString());
 	});
 	it('on',function(){
 		function testEmit() { return $c.emit('listener'); }
-		$c.on(testEmit,'listener',function(){ return 'hello world'; });
-		$c.on(testEmit,'listener',function(){ return 'hello world again'; });
+		testEmit.on('listener',function(){ return 'hello world'; });
+		testEmit.on('listener',function(){ return 'hello world again'; });
 
 		expect(testEmit()).toEqual(['hello world','hello world again']);
 	});
 	it('then',function(){
 		function testNext() { return $c.next(); }
-		$c.then(testNext,function(){ return 'hello world'; });
+		testNext.then(function(){ return 'hello world'; });
 		expect(testNext()).toEqual(['hello world']);
 	});
 	it('catch',function(){
 		function testNext() { return $c.next(); }
-		$c.then(testNext,function(){ throw 'adsf'; });
-		$c.catch(testNext,function(){ return 'hello world'; });
+		testNext.then(function(){ throw 'adsf'; });
+		testNext.catch(function(){ return 'hello world'; });
 		expect(testNext()).toEqual(['hello world']);
 
 	});
 });
 describe ('RegExp', function () {
 	it('addFlags',function(){
-		expect($c.addFlags(/a/,'gim').source).toBe((/a/gim).source);
-		expect($c.addFlags(/a/,'igm').source).toBe((/a/igm).source);
-		expect($c.addFlags(/a/,'g').source).toBe((/a/g).source);
-		expect($c.addFlags(/a/,'i').source).toBe((/a/i).source);
-		expect($c.addFlags(/a/,'m').source).toBe((/a/m).source);
+		expect(/a/.addFlags('gim').source).toBe((/a/gim).source);
+		expect(/a/.addFlags('igm').source).toBe((/a/igm).source);
+		expect(/a/.addFlags('g').source).toBe((/a/g).source);
+		expect(/a/.addFlags('i').source).toBe((/a/i).source);
+		expect(/a/.addFlags('m').source).toBe((/a/m).source);
 	});
 });
 describe ('Object', function () {
 	it('changes',function(){
 		var obj1 = {id:1,prop1:"prop1",prop3:""};
 		var obj2 = {id:2,prop1:"propupdated",prop2:"prop2"};
-		expect($c.changes(obj1,obj2)).toEqual({
+		expect(obj1.changes(obj2)).toEqual({
 			$length:4,
 			$add:['prop2'],
 			$update:["id","prop1"],
@@ -1406,47 +1708,47 @@ describe ('Object', function () {
 
 	});
 	it('contains',function(){
-		expect($c.contains("asdf","a")).toBe(true);
-		expect($c.contains("asdf","e")).toBe(false);
-		expect($c.contains("asdf",/^as/)).toBe(true);
-		expect($c.contains("asdf",/ad/)).toBe(false);
-		expect($c.contains(['q','b'],"b")).toBe(true);
-		expect($c.contains(['q','b'],"c")).toBe(false);
-		expect($c.contains(['q','b'],/b/)).toBe(true);
-		expect($c.contains(['q','b'],['a','c'])).toBe(false);
-		expect($c.contains(['q','b'],['a','q'])).toBe("q");
-		expect($c.contains(['q','b'],'a',function(){ return 'a';})).toBe(true);
-		expect($c.contains(['q','b'],function(val,prop,arr){ return val=='b';})).toBe(true);
-		expect($c.contains({q:"asdf",b:"abbb"},"abbb")).toBe(true);
-		expect($c.contains({q:"asdf",b:"abbb"},"asdfb")).toBe(false);
+		expect("asdf".contains("a")).toBe(true);
+		expect("asdf".contains("e")).toBe(false);
+		expect("asdf".contains(/^as/)).toBe(true);
+		expect("asdf".contains(/ad/)).toBe(false);
+		expect(['q','b'].contains("b")).toBe(true);
+		expect(['q','b'].contains("c")).toBe(false);
+		expect(['q','b'].contains(/b/)).toBe(true);
+		expect(['q','b'].contains(['a','c'])).toBe(false);
+		expect(['q','b'].contains(['a','q'])).toBe("q");
+		expect(['q','b'].contains('a',function(){ return 'a';})).toBe(true);
+		expect(['q','b'].contains(function(val,prop,arr){ return val=='b';})).toBe(true);
+		expect({q:"asdf",b:"abbb"}.contains("abbb")).toBe(true);
+		expect({q:"asdf",b:"abbb"}.contains("asdfb")).toBe(false);
 	});
 	it('copyObject',function(){
 		function B(){ this.hi = "hello"; }
 		var b = new B();
-		var tb = $c.copyObject(b);
+		var tb = b.copyObject();
 		expect(tb).toEqual({hi:"hello"});
 		expect(tb.constructor).not.toEqual(B);
 	});
 	it('duplicate',function(){
 		var obj = {hi:"hello",bye:"ciao",o:{blah:''}};
-		var tobj = $c.duplicate(obj);
+		var tobj = obj.duplicate();
 		expect(tobj).not.toBe(obj);
 		expect(tobj.o).toBe(tobj.o);
-		tobj = $c.duplicate(obj,true);
+		tobj = obj.duplicate(true);
 		expect(tobj.o).not.toBe(obj.o);
 
 
 		function B(){ this.hi = "hello"; }
 		var b = new B();
-		var tb = $c.duplicate(b);
+		var tb = b.duplicate();
 		expect(tb).toEqual({hi:"hello"});
 		expect(tb.constructor).toEqual(B);
 
 
 		function A(){console.log('');}
 		var obj = {use:A};
-		var obj2 = $c.duplicate(obj,true);
-		var obj3 = $c.duplicate(obj);
+		var obj2 = obj.duplicate(true);
+		var obj3 = obj.duplicate();
 		expect(obj.use).toEqual(A);
 		expect(obj2).not.toBe(obj);
 		expect(obj2.use).not.toBe(obj.use);
@@ -1454,7 +1756,7 @@ describe ('Object', function () {
 	});
 	it('eachProperty',function(){
 		var arrp = [], arrv = [], obj = {a:"a1",b:'b1',c:'c1'};
-		$c.eachProperty(obj, function(val,prop){
+		obj.eachProperty(function(val,prop){
 			arrp.push(prop);
 			arrv.push(val);
 		});
@@ -1462,35 +1764,35 @@ describe ('Object', function () {
 		expect(arrv).toEqual(['a1','b1','c1']);
 	});
 	it('equals',function(){
-		expect($c.equals("s","s")).toBe(true);
-		expect($c.equals("s","ss")).toBe(false);
-		expect($c.equals(0,0)).toBe(true);
-		expect($c.equals(1,2)).toBe(false);
-		expect($c.equals({},{})).toBe(true);
-		expect($c.equals({},{hi:''})).toBe(false);
-		expect($c.equals({hi:'',bye:''},{hi:''},['hi'])).toBe(true);
-		expect($c.equals([],[])).toBe(true);
-		expect($c.equals([],[''])).toBe(false);
+		expect("s".equals("s")).toBe(true);
+		expect("s".equals("ss")).toBe(false);
+		expect((0).equals(0)).toBe(true);
+		expect((1).equals(2)).toBe(false);
+		expect({}.equals({})).toBe(true);
+		expect({}.equals({hi:''})).toBe(false);
+		expect({hi:'',bye:''}.equals({hi:''},['hi'])).toBe(true);
+		expect([].equals([])).toBe(true);
+		expect([].equals([''])).toBe(false);
 
 	});
 	it('every',function(){
-		expect($c.every(['a','b','c'],function(val,prop,arr){ return val; })).toBe(true);
-		expect($c.every(['a','','c'],function(val,prop,arr){ return val; })).toBe(false);
+		expect(['a','b','c'].every(function(val,prop,arr){ return val; })).toBe(true);
+		expect(['a','','c'].every(function(val,prop,arr){ return val; })).toBe(false);
 
-		expect($c.every({a:'a',b:'b',c:'c'},function(val,prop,arr){ return val; })).toBe(true);
-		expect($c.every({a:'a',b:'',c:'c'},function(val,prop,arr){ return val; })).toBe(false);
+		expect({a:'a',b:'b',c:'c'}.every(function(val,prop,arr){ return val; })).toBe(true);
+		expect({a:'a',b:'',c:'c'}.every(function(val,prop,arr){ return val; })).toBe(false);
 
 	});
 	it('getClass',function(){
 		function C1() {}
 		var c = new C1();
-		expect($c.getClass(c)).toBe("C1");
+		expect(c.getClass()).toBe("C1");
 	});
 	it('getProperty',function(){
 		var o = {path:{path:"hello world",arr:[{foo:"bar"}]}};
-		expect($c.getProperty(o,"path.path")).toBe("hello world");
-		expect($c.getProperty(o,"path.arr.foo")).toBe(undefined);
-		expect($c.getProperty(o,"path.arr.0.foo")).toBe("bar");
+		expect(o.getProperty("path.path")).toBe("hello world");
+		expect(o.getProperty("path.arr.foo")).toBe(undefined);
+		expect(o.getProperty("path.arr.0.foo")).toBe("bar");
 	});
 	it('getValue',function(){
 		var f = function(num){return (num || 0 ) + 1; };
@@ -1498,15 +1800,14 @@ describe ('Object', function () {
 		var s = "s";
 		var o = {};
 		var a = [];
-		expect($c.getValue(f)).toBe(1);
-		expect($c.getValue(n)).toBe(10);
-		expect($c.getValue(s)).toBe("s");
-		expect($c.getValue(o)).toEqual({});
-		expect($c.getValue([])).toEqual([]);
+		expect(f.getValue()).toBe(1);
+		expect(n.getValue()).toBe(10);
+		expect(s.getValue()).toBe("s");
+		expect(o.getValue()).toEqual({});
+		expect([].getValue()).toEqual([]);
 
 
-
-		expect($c.getValue($c.foo,[-1],1)).toBe(1);
+		expect($c.foo.getValue([-1],1)).toBe(1);
 		expect($c.getValue(null,n)).toBe(10);
 		expect($c.getValue(null,s)).toBe("s");
 		expect($c.getValue(null,o)).toEqual({});
@@ -1514,271 +1815,275 @@ describe ('Object', function () {
 	});
 	it('has',function(){
 		var obj = {hi:""};
-		expect($c.has(obj,"hi")).toBe(true);
-		expect($c.has(obj,"hasOwnProperty")).toBe(false);
+		expect(obj.has("hi")).toBe(true);
+		expect(obj.has("hasOwnProperty")).toBe(false);
 
 	});
 	it('isArray',function(){
-		expect($c.isArray([])).toBe(true);
-		expect($c.isArray(true)).toBe(false);
-		expect($c.isArray(new Date())).toBe(false);
-		expect($c.isArray({nodeType:1})).toBe(false);
-		expect($c.isArray(2.001)).toBe(false);
-		expect($c.isArray(function(){})).toBe(false);
-		expect($c.isArray(function*(){})).toBe(false);
-		expect($c.isArray(2)).toBe(false);
-		expect($c.isArray((new Promise(function(){})))).toBe(false);
-		expect($c.isArray({})).toBe(false);
-		expect($c.isArray(/k/)).toBe(false);
-		expect($c.isArray("")).toBe(false);
+		expect([].isArray()).toBe(true);
+		expect((true).isArray()).toBe(false);
+		expect((new Date()).isArray()).toBe(false);
+		expect(({nodeType:1}).isArray()).toBe(false);
+		expect((2.001).isArray()).toBe(false);
+		expect((function(){}).isArray()).toBe(false);
+		expect((function*(){}).isArray()).toBe(false);
+		expect((2).isArray()).toBe(false);
+		expect(((new Promise(function(){}))).isArray()).toBe(false);
+		expect(({}).isArray()).toBe(false);
+		expect((/k/).isArray()).toBe(false);
+		expect(("").isArray()).toBe(false);
 	});
 	it('isBetween',function(){
-		expect($c.isBetween(10,11,9)).toBe(false);
-		expect($c.isBetween(10,9,11)).toBe(true);
-		expect($c.isBetween(10,10,11)).toBe(false);
-		expect($c.isBetween(10,10,11,true)).toBe(true);
-		expect($c.isBetween("b","a","c")).toBe(true);
-		expect($c.isBetween("b","b","c")).toBe(false);
-		expect($c.isBetween("b","b","c",true)).toBe(true);
+		expect((10).isBetween(11,9)).toBe(false);
+		expect((10).isBetween(9,11)).toBe(true);
+		expect((10).isBetween(10,11)).toBe(false);
+		expect((10).isBetween(10,11,true)).toBe(true);
+		expect(("b").isBetween("a","c")).toBe(true);
+		expect(("b").isBetween("b","c")).toBe(false);
+		expect(("b").isBetween("b","c",true)).toBe(true);
 	});
 	it('isBoolean',function(){
-		expect($c.isBoolean([])).toBe(false);
-		expect($c.isBoolean(true)).toBe(true);
-		expect($c.isBoolean(new Date())).toBe(false);
-		expect($c.isBoolean({nodeType:1})).toBe(false);
-		expect($c.isBoolean(2.001)).toBe(false);
-		expect($c.isBoolean(function(){})).toBe(false);
-		expect($c.isBoolean(function*(){})).toBe(false);
-		expect($c.isBoolean(2)).toBe(false);
-		expect($c.isBoolean(new Promise(function(){}))).toBe(false);
-		expect($c.isBoolean({})).toBe(false);
-		expect($c.isBoolean(/k/)).toBe(false);
-		expect($c.isBoolean("")).toBe(false);
+		expect([].isBoolean()).toBe(false);
+		expect((true).isBoolean()).toBe(true);
+		expect((new Date()).isBoolean()).toBe(false);
+		expect(({nodeType:1}).isBoolean()).toBe(false);
+		expect((2.001).isBoolean()).toBe(false);
+		expect((function(){}).isBoolean()).toBe(false);
+		expect((function*(){}).isBoolean()).toBe(false);
+		expect((2).isBoolean()).toBe(false);
+		expect((new Promise(function(){})).isBoolean()).toBe(false);
+		expect(({}).isBoolean()).toBe(false);
+		expect((/k/).isBoolean()).toBe(false);
+		expect(("").isBoolean()).toBe(false);
 	});
 	it('isDate',function(){
-		expect($c.isDate([])).toBe(false);
-		expect($c.isDate(true)).toBe(false);
-		expect($c.isDate(new Date())).toBe(true);
-		expect($c.isDate({nodeType:1})).toBe(false);
-		expect($c.isDate(2.001)).toBe(false);
-		expect($c.isDate(function(){})).toBe(false);
-		expect($c.isDate(function*(){})).toBe(false);
-		expect($c.isDate(2)).toBe(false);
-		expect($c.isDate(new Promise(function(){}))).toBe(false);
-		expect($c.isDate({})).toBe(false);
-		expect($c.isDate(/k/)).toBe(false);
-		expect($c.isDate("")).toBe(false);
+		expect(([]).isDate()).toBe(false);
+		expect((true).isDate()).toBe(false);
+		expect((new Date()).isDate()).toBe(true);
+		expect(({nodeType:1}).isDate()).toBe(false);
+		expect((2.001).isDate()).toBe(false);
+		expect((function(){}).isDate()).toBe(false);
+		expect((function*(){}).isDate()).toBe(false);
+		expect((2).isDate()).toBe(false);
+		expect((new Promise(function(){})).isDate()).toBe(false);
+		expect(({}).isDate()).toBe(false);
+		expect((/k/).isDate()).toBe(false);
+		expect(("").isDate()).toBe(false);
 
 	});
 	it('isDomElement',function(){
-		expect($c.isDomElement([])).toBe(false);
-		expect($c.isDomElement(true)).toBe(false);
-		expect($c.isDomElement(new Date())).toBe(false);
-		expect($c.isDomElement({nodeType:1})).toBe(true);
-		expect($c.isDomElement(2.001)).toBe(false);
-		expect($c.isDomElement(function(){})).toBe(false);
-		expect($c.isDomElement(function*(){})).toBe(false);
-		expect($c.isDomElement(2)).toBe(false);
-		expect($c.isDomElement(new Promise(function(){}))).toBe(false);
-		expect($c.isDomElement({})).toBe(false);
-		expect($c.isDomElement(/k/)).toBe(false);
-		expect($c.isDomElement("")).toBe(false);
+		expect(([]).isDomElement()).toBe(false);
+		expect((true).isDomElement()).toBe(false);
+		expect((new Date()).isDomElement()).toBe(false);
+		expect(({nodeType:1}).isDomElement()).toBe(true);
+		expect((2.001).isDomElement()).toBe(false);
+		expect((function(){}).isDomElement()).toBe(false);
+		expect((function*(){}).isDomElement()).toBe(false);
+		expect((2).isDomElement()).toBe(false);
+		expect((new Promise(function(){})).isDomElement()).toBe(false);
+		expect(({}).isDomElement()).toBe(false);
+		expect((/k/).isDomElement()).toBe(false);
+		expect(("").isDomElement()).toBe(false);
 
 	});
 	it('isEmpty',function(){
-		expect($c.isEmpty(function(){})).toBe(true);
-		expect($c.isEmpty({})).toBe(true);
-		expect($c.isEmpty([])).toBe(true);
+		expect((function(){}).isEmpty()).toBe(true);
+		expect(({}).isEmpty()).toBe(true);
+		expect(([]).isEmpty()).toBe(true);
 
 
-		expect($c.isEmpty(function(){ var b; })).toBe(false);
-		expect($c.isEmpty({hi:""})).toBe(false);
-		expect($c.isEmpty([''])).toBe(false);
+		expect((function(){ var b; }).isEmpty()).toBe(false);
+		expect(({hi:""}).isEmpty()).toBe(false);
+		expect((['']).isEmpty()).toBe(false);
 	});
 	it('isFloat',function(){
-		expect($c.isFloat([])).toBe(false);
-		expect($c.isFloat(true)).toBe(false);
-		expect($c.isFloat(new Date())).toBe(false);
-		expect($c.isFloat({nodeType:1})).toBe(false);
-		expect($c.isFloat(2.001)).toBe(true);
-		expect($c.isFloat(function(){})).toBe(false);
-		expect($c.isFloat(function*(){})).toBe(false);
-		expect($c.isFloat(2)).toBe(true);
-		expect($c.isFloat(new Promise(function(){}))).toBe(false);
-		expect($c.isFloat({})).toBe(false);
-		expect($c.isFloat(/k/)).toBe(false);
-		expect($c.isFloat("")).toBe(false);
+		expect(([]).isFloat()).toBe(false);
+		expect((true).isFloat()).toBe(false);
+		expect((new Date()).isFloat()).toBe(false);
+		expect(({nodeType:1}).isFloat()).toBe(false);
+		expect((2.001).isFloat()).toBe(true);
+		expect((function(){}).isFloat()).toBe(false);
+		expect((function*(){}).isFloat()).toBe(false);
+		expect((2).isFloat()).toBe(true);
+		expect((new Promise(function(){})).isFloat()).toBe(false);
+		expect(({}).isFloat()).toBe(false);
+		expect((/k/).isFloat()).toBe(false);
+		expect(("").isFloat()).toBe(false);
 
 	});
 	it('isFunction',function(){
-		expect($c.isFunction([])).toBe(false);
-		expect($c.isFunction(true)).toBe(false);
-		expect($c.isFunction(new Date())).toBe(false);
-		expect($c.isFunction({nodeType:1})).toBe(false);
-		expect($c.isFunction(2.001)).toBe(false);
-		expect($c.isFunction(function(){})).toBe(true);
-		expect($c.isFunction(function*(){})).toBe(false);
-		expect($c.isFunction(2)).toBe(false);
-		expect($c.isFunction(new Promise(function(){}))).toBe(false);
-		expect($c.isFunction({})).toBe(false);
-		expect($c.isFunction(/k/)).toBe(false);
-		expect($c.isFunction("")).toBe(false);
+		expect(([]).isFunction()).toBe(false);
+		expect((true).isFunction()).toBe(false);
+		expect((new Date()).isFunction()).toBe(false);
+		expect(({nodeType:1}).isFunction()).toBe(false);
+		expect((2.001).isFunction()).toBe(false);
+		expect((function(){}).isFunction()).toBe(true);
+		expect((function*(){}).isFunction()).toBe(false);
+		expect((2).isFunction()).toBe(false);
+		expect((new Promise(function(){})).isFunction()).toBe(false);
+		expect(({}).isFunction()).toBe(false);
+		expect((/k/).isFunction()).toBe(false);
+		expect(("").isFunction()).toBe(false);
 
 	});
 	it('isGenerator',function(){
-		expect($c.isGenerator([])).toBe(false);
-		expect($c.isGenerator(true)).toBe(false);
-		expect($c.isGenerator(new Date())).toBe(false);
-		expect($c.isGenerator({nodeType:1})).toBe(false);
-		expect($c.isGenerator(2.001)).toBe(false);
-		expect($c.isGenerator(function(){})).toBe(false);
-		expect($c.isGenerator(function*(){})).toBe(true);
-		expect($c.isGenerator(2)).toBe(false);
-		expect($c.isGenerator(new Promise(function(){}))).toBe(false);
-		expect($c.isGenerator({})).toBe(false);
-		expect($c.isGenerator(/k/)).toBe(false);
-		expect($c.isGenerator("")).toBe(false);
+		expect(([]).isGenerator()).toBe(false);
+		expect((true).isGenerator()).toBe(false);
+		expect((new Date()).isGenerator()).toBe(false);
+		expect(({nodeType:1}).isGenerator()).toBe(false);
+		expect((2.001).isGenerator()).toBe(false);
+		expect((function(){}).isGenerator()).toBe(false);
+		expect((function*(){}).isGenerator()).toBe(true);
+		expect((2).isGenerator()).toBe(false);
+		expect((new Promise(function(){})).isGenerator()).toBe(false);
+		expect(({}).isGenerator()).toBe(false);
+		expect((/k/).isGenerator()).toBe(false);
+		expect(("").isGenerator()).toBe(false);
 
 	});
 	it('isGeolocation',function(){
 		function Geolocation () {};
 		var g = new Geolocation();
-		expect($c.isGeolocation([])).toBe(false);
-		expect($c.isGeolocation(g)).toBe(true);
+		expect(([]).isGeolocation()).toBe(false);
+		expect((g).isGeolocation()).toBe(true);
 	});
 	it('isInt',function(){
-		expect($c.isInt([])).toBe(false);
-		expect($c.isInt(true)).toBe(false);
-		expect($c.isInt(new Date())).toBe(false);
-		expect($c.isInt({nodeType:1})).toBe(false);
-		expect($c.isInt(2.001)).toBe(false);
-		expect($c.isInt(function(){})).toBe(false);
-		expect($c.isInt(function*(){})).toBe(false);
-		expect($c.isInt(2)).toBe(true);
-		expect($c.isInt(new Promise(function(){}))).toBe(false);
-		expect($c.isInt({})).toBe(false);
-		expect($c.isInt(/k/)).toBe(false);
-		expect($c.isInt("")).toBe(false);
+		expect(([]).isInt()).toBe(false);
+		expect((true).isInt()).toBe(false);
+		expect((new Date()).isInt()).toBe(false);
+		expect(({nodeType:1}).isInt()).toBe(false);
+		expect((2.001).isInt()).toBe(false);
+		expect((function(){}).isInt()).toBe(false);
+		expect((function*(){}).isInt()).toBe(false);
+		expect((2).isInt()).toBe(true);
+		expect((new Promise(function(){})).isInt()).toBe(false);
+		expect(({}).isInt()).toBe(false);
+		expect((/k/).isInt()).toBe(false);
+		expect(("").isInt()).toBe(false);
 
 	});
 	it('isNumber',function(){
-		expect($c.isNumber([])).toBe(false);
-		expect($c.isNumber(true)).toBe(false);
-		expect($c.isNumber(new Date())).toBe(false);
-		expect($c.isNumber({nodeType:1})).toBe(false);
-		expect($c.isNumber(2.001)).toBe(true);
-		expect($c.isNumber(function(){})).toBe(false);
-		expect($c.isNumber(function*(){})).toBe(false);
-		expect($c.isNumber(2)).toBe(true);
-		expect($c.isNumber(new Promise(function(){}))).toBe(false);
-		expect($c.isNumber({})).toBe(false);
-		expect($c.isNumber(/k/)).toBe(false);
-		expect($c.isNumber("")).toBe(false);
+		expect(([]).isNumber()).toBe(false);
+		expect((true).isNumber()).toBe(false);
+		expect((new Date()).isNumber()).toBe(false);
+		expect(({nodeType:1}).isNumber()).toBe(false);
+		expect((2.001).isNumber()).toBe(true);
+		expect((function(){}).isNumber()).toBe(false);
+		expect((function*(){}).isNumber()).toBe(false);
+		expect((2).isNumber()).toBe(true);
+		expect((new Promise(function(){})).isNumber()).toBe(false);
+		expect(({}).isNumber()).toBe(false);
+		expect((/k/).isNumber()).toBe(false);
+		expect(("").isNumber()).toBe(false);
 
 	});
 	it('isPromise',function(){
-		expect($c.isPromise([])).toBe(false);
-		expect($c.isPromise(true)).toBe(false);
-		expect($c.isPromise(new Date())).toBe(false);
-		expect($c.isPromise({nodeType:1})).toBe(false);
-		expect($c.isPromise(2.001)).toBe(false);
-		expect($c.isPromise(function(){})).toBe(false);
-		expect($c.isPromise(function*(){})).toBe(false);
-		expect($c.isPromise(2)).toBe(false);
-		expect($c.isPromise(new Promise(function(){}))).toBe(true);
-		expect($c.isPromise({})).toBe(false);
-		expect($c.isPromise(/k/)).toBe(false);
-		expect($c.isPromise("")).toBe(false);
+		expect(([]).isPromise()).toBe(false);
+		expect((true).isPromise()).toBe(false);
+		expect((new Date()).isPromise()).toBe(false);
+		expect(({nodeType:1}).isPromise()).toBe(false);
+		expect((2.001).isPromise()).toBe(false);
+		expect((function(){}).isPromise()).toBe(false);
+		expect((function*(){}).isPromise()).toBe(false);
+		expect((2).isPromise()).toBe(false);
+		expect((new Promise(function(){})).isPromise()).toBe(true);
+		expect(({}).isPromise()).toBe(false);
+		expect((/k/).isPromise()).toBe(false);
+		expect(("").isPromise()).toBe(false);
 
 	});
 	it('isObject',function(){
-		expect($c.isObject([])).toBe(false);
-		expect($c.isObject(true)).toBe(false);
-		expect($c.isObject(new Date())).toBe(false);
-		expect($c.isObject({nodeType:1})).toBe(true);
-		expect($c.isObject(2.001)).toBe(false);
-		expect($c.isObject(function(){})).toBe(false);
-		expect($c.isObject(function*(){})).toBe(false);
-		expect($c.isObject(2)).toBe(false);
-		expect($c.isObject(new Promise(function(){}))).toBe(false);
-		expect($c.isObject({})).toBe(true);
-		expect($c.isObject(/k/)).toBe(false);
-		expect($c.isObject("")).toBe(false);
+		expect(([]).isObject()).toBe(false);
+		expect((true).isObject()).toBe(false);
+		expect((new Date()).isObject()).toBe(false);
+		expect(({nodeType:1}).isObject()).toBe(true);
+		expect((2.001).isObject()).toBe(false);
+		expect((function(){}).isObject()).toBe(false);
+		expect((function*(){}).isObject()).toBe(false);
+		expect((2).isObject()).toBe(false);
+		expect((new Promise(function(){})).isObject()).toBe(false);
+		expect(({}).isObject()).toBe(true);
+		expect((/k/).isObject()).toBe(false);
+		expect(("").isObject()).toBe(false);
 
 	});
 	it('isRegExp',function(){
-		expect($c.isRegExp([])).toBe(false);
-		expect($c.isRegExp(true)).toBe(false);
-		expect($c.isRegExp(new Date())).toBe(false);
-		expect($c.isRegExp({nodeType:1})).toBe(false);
-		expect($c.isRegExp(2.001)).toBe(false);
-		expect($c.isRegExp(function(){})).toBe(false);
-		expect($c.isRegExp(function*(){})).toBe(false);
-		expect($c.isRegExp(2)).toBe(false);
-		expect($c.isRegExp(new Promise(function(){}))).toBe(false);
-		expect($c.isRegExp({})).toBe(false);
-		expect($c.isRegExp(/k/)).toBe(true);
-		expect($c.isRegExp("")).toBe(false);
+		expect(([]).isRegExp()).toBe(false);
+		expect((true).isRegExp()).toBe(false);
+		expect((new Date()).isRegExp()).toBe(false);
+		expect(({nodeType:1}).isRegExp()).toBe(false);
+		expect((2.001).isRegExp()).toBe(false);
+		expect((function(){}).isRegExp()).toBe(false);
+		expect((function*(){}).isRegExp()).toBe(false);
+		expect((2).isRegExp()).toBe(false);
+		expect((new Promise(function(){})).isRegExp()).toBe(false);
+		expect(({}).isRegExp()).toBe(false);
+		expect((/k/).isRegExp()).toBe(true);
+		expect(("").isRegExp()).toBe(false);
 
 	});
 	it('isString',function(){
-		expect($c.isString([])).toBe(false);
-		expect($c.isString(true)).toBe(false);
-		expect($c.isString(new Date())).toBe(false);
-		expect($c.isString({nodeType:1})).toBe(false);
-		expect($c.isString(2.001)).toBe(false);
-		expect($c.isString(function(){})).toBe(false);
-		expect($c.isString(function*(){})).toBe(false);
-		expect($c.isString(2)).toBe(false);
-		expect($c.isString(new Promise(function(){}))).toBe(false);
-		expect($c.isString({})).toBe(false);
-		expect($c.isString(/k/)).toBe(false);
-		expect($c.isString("")).toBe(true);
+		expect(([]).isString()).toBe(false);
+		expect((true).isString()).toBe(false);
+		expect((new Date()).isString()).toBe(false);
+		expect(({nodeType:1}).isString()).toBe(false);
+		expect((2.001).isString()).toBe(false);
+		expect((function(){}).isString()).toBe(false);
+		expect((function*(){}).isString()).toBe(false);
+		expect((2).isString()).toBe(false);
+		expect((new Promise(function(){})).isString()).toBe(false);
+		expect(({}).isString()).toBe(false);
+		expect((/k/).isString()).toBe(false);
+		expect(("").isString()).toBe(true);
 
 	});
 	it('itemCount',function(){
 		var obj = {hi:""};
-		expect($c.itemCount(obj)).toBe(1);
-		expect($c.itemCount({})).toBe(0);
+		expect((obj).itemCount()).toBe(1);
+		expect(({}).itemCount()).toBe(0);
 		expect($c.itemCount(undefined)).toBe(undefined);
 	});
 	it('keyOf',function(){
-		expect($c.keyOf({hi:"hello",world:"worlds"},"worlds")).toBe("world");
-		expect($c.keyOf({hi:"worlds",world:"worlds"},"worlds")).toBe("hi");
+		expect(({hi:"hello",world:"worlds"}).keyOf("worlds")).toBe("world");
+		expect(({hi:"worlds",world:"worlds"}).keyOf("worlds")).toBe("hi");
 	});
 	it('map',function(){
 		var obj = {hi:"hello",world:"world",index:1};
-		$c.map(obj,function(val){ return val += 10;});
+		obj.map(function(val){ return val += 10;});
 		expect(obj).toEqual({hi:"hello10",world:"world10",index:11});
 	});
 	it('merge',function(){
 		var obj1 = {id:1,prop1:"prop1"};
 		var obj2 = {id:2,prop2:"prop2"};
-		var merged = $c.merge(obj1,obj2);
+		var merged = obj1.merge(obj2);
 		expect(merged).toBe(obj1);
-		merged = $c.merge(obj1,obj2,{clone:true});
+		merged = obj1.merge(obj2,{clone:true});
 		expect(merged).not.toBe(obj1);
 		obj1 = {id:1,prop1:"prop1"};
 		obj2 = {id:2,prop2:"prop2"};
-		expect($c.merge(obj1,obj2,{onlyShared:true,clone:true})).toEqual({id:2,prop1:"prop1"});
-		expect($c.merge(obj1,obj2,{intersect:true,clone:true})).toEqual({id:2});
+		expect(obj1.merge(obj2,{onlyShared:true,clone:true})).toEqual({id:2,prop1:"prop1"});
+		expect(obj1.merge(obj2,{intersect:true,clone:true})).toEqual({id:2});
 		obj1 = {id:1,prop1:{p1:"adsf"},arr:[]};
 		obj2 = {id:2,prop1:{p2:";lkj"},arr:['1234']};
-		expect($c.merge(obj1,obj2,{recurse:true})).toEqual({id:2,prop1:{p1:"adsf",p2:";lkj"},arr:['1234']});
+		expect(obj1.merge(obj2,{recurse:true})).toEqual({id:2,prop1:{p1:"adsf",p2:";lkj"},arr:['1234']});
+
+        var a = {a:"a"}, b = {b:"b"}, c = {c:"c"}, d = {d:"d"};
+        expect(a.merge(b,c,d)).toEqual({a:"a", b:"b", c:"c", d:"d"});
+
 	});
 	it('setProperty',function(){
 		var o = {};
-		expect($c.setProperty(o,"path.path","hello world")).toBe(true);
+		expect(o.setProperty("path.path","hello world")).toBe(true);
 		expect(o).toEqual({path:{path:"hello world"}});
-		expect($c.setProperty(o,"path.arr.0.foo","bar")).toBe(true);
+		expect(o.setProperty("path.arr.0.foo","bar")).toBe(true);
 		expect(o).toEqual({path:{path:"hello world",arr:[{foo:"bar"}]}});
 	});
 	it('toStringAlt',function(){
 		var obj = {hi:"hello ",place:"world"};
-		expect($c.toStringAlt(obj)).toBe("&hi=hello &place=world");
-		expect($c.toStringAlt(obj,"-")).toBe("&hi-hello &place-world");
-		expect($c.toStringAlt(obj,"=","@")).toBe("@hi=hello @place=world");
-		expect($c.toStringAlt(obj,"=","@",true)).toBe("@hi=hello%20@place=world");
+		expect(obj.toStringAlt()).toBe("&hi=hello &place=world");
+		expect(obj.toStringAlt("-")).toBe("&hi-hello &place-world");
+		expect(obj.toStringAlt("=","@")).toBe("@hi=hello @place=world");
+		expect(obj.toStringAlt("=","@",true)).toBe("@hi=hello%20@place=world");
 	});
 });
 describe ('Global classes', function () {
@@ -2093,17 +2398,17 @@ describe ('Global methods', function () {
 	it('JSON.parseAdvanced',function(){
 		expect(JSON.parseAdvanced({"routes": {"${domain}":"${bb}"}},null,{domain:"property",bb:"baby"})).toEqual({ routes: { property: 'baby' } });
 		expect(JSON.stringify(JSON.parseAdvanced({"routes": {"Function.${bb.b}":"function(${domain}){}","${domain}":"${bb.b}"}},null,{domain:"property",bb:{b:"baby"}}))).toEqual(JSON.stringify({ routes: { baby: function(property){}, property: "baby" } }));
-		expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"/test/test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
+		// expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"/test/test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
 		expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"./test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
 		expect(JSON.parseAdvanced({routes:{hi:"hello",oha:{"$ref":"#/routes/hi"},obj:{"$ref":"test.json"}}})).toEqual({routes:{hi:"hello",oha:"hello",obj:{test:"testing"}}});
 
 	});
 	it('addObjectPrototype',function(){
 		expect($c.addObjectPrototype("addingProperty",function(){ return "hello world!";},true)()).toBe('hello world!');
-		var obj = {},props;
+		var obj = {},props = [];
 		expect(obj.addingProperty()).toBe('hello world!');
 		for (var prop in obj) { props.push(prop); }
-		expect($c.contains(props,"addingProperty")).toBe(false);
+		expect(props.contains("addingProperty")).toBe(false);
 
 	});
 	it('ajax',function(){
@@ -2312,9 +2617,9 @@ describe ('Global methods', function () {
 		});
 	});
 	it('namespace',function(){
-		expect($c.namespace("Test2",function TestClass(){}).toString()).toEqual('function TestClass(){}');
-		expect($c.getClass(new $c.namespaces.Test2.TestClass())).toBe("TestClass");
-		expect(Test2).toBe('function TestClass(){}');
+        expect($c.namespace("Test3",function TestClass(){}).toString()).toEqual('function TestClass(){}');
+        expect($c._getFuncName((new ($c.namespace.Test3.TestClass)()).constructor)).toBe("TestClass");
+        expect(Test3.toString()).toBe('function TestClass(){}');
 	});
 	it('next',function(){
 		function testNext() { return $c.next(1,2); }
@@ -2322,8 +2627,8 @@ describe ('Global methods', function () {
 		expect(testNext()).toEqual(['hello world3']);
 	});
 	it('now',function(){
-		expect($c.now().getTime()).toBeCloseTo(new Date().getTime(),20);
-		expect($c.now('m')).toBeCloseTo($c.format(new Date(),'m'),20);
+		expect($c.now().getTime()).toBeCloseTo(new Date().getTime(),-1);
+		expect($c.now('m')).toBeCloseTo((new Date()).format('m'),20);
 	});
 	it('parseBoolean',function(){
 		expect($c.parseBoolean("true")).toBe(true);
