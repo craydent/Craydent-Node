@@ -1,0 +1,32 @@
+{
+    "name": "@craydent/craydent-number",
+    "version": "0.8.5",
+    "description": "Node module to extend number functionality and simplify code for maintainability and readability",
+    "main": "craydent.js",
+    "scripts": {
+        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://cinada@bitbucket.org/craydent/number.git"
+    },
+    "keywords": [
+        "craydent",
+        "es6",
+        "jquery",
+        "library",
+        "number",
+        "sugar",
+        "utilities"
+    ],
+    "author": "Clark Inada",
+    "license": "MIT",
+    "homepage": "https://bitbucket.org/craydent/number#readme",
+    "dependencies": {
+        "@craydent/craydent-typeof": "file:../typeof"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "jasmine-node": "^1.14.5"
+    }
+}
