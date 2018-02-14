@@ -334,6 +334,13 @@ for (var i = 0, len = categories.length; i < len; i++)
 	}
 }
 // Method end ---------------------------------------------------------------------------------------------
+
+readme += '\n\n\n## Download\n\n' +
+' * [GitHub](https://github.com/craydent/node-library)\n' +
+' * [BitBucket](https://bitbucket.org/craydent/node-library)\n' +
+' * [GitLab](https://gitlab.com/craydent/node-library)\n\n' +
+'Craydent-Deploy is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>';
+
 fs.writeFile(mod + "/readme.md", readme, function(err) {
 	if(err) {
 		return console.log(err),process.exit(1);;

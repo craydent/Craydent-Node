@@ -68,3 +68,13 @@ LOCAL_IP (String) |VERBOSE_LOGS (Boolean) |
 
 * options: (Object[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false).
 
+
+
+
+## Download
+
+ * [GitHub](https://github.com/craydent/node-library)
+ * [BitBucket](https://bitbucket.org/craydent/node-library)
+ * [GitLab](https://gitlab.com/craydent/node-library)
+
+Craydent-Deploy is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>

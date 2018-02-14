@@ -107,3 +107,13 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 * args: (Mixed[]) An array of arguments to pass to context when it is a function
 * dflt: (Mixed) Default value to return if context is not a function
 
+
+
+
+## Download
+
+ * [GitHub](https://github.com/craydent/node-library)
+ * [BitBucket](https://bitbucket.org/craydent/node-library)
+ * [GitLab](https://gitlab.com/craydent/node-library)
+
+Craydent-Deploy is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>

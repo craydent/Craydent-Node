@@ -135,3 +135,13 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 * context: (Mixed) Context to use to execute func.
 * callbackIndex: (Integer) Index of callback argument.
 
+
+
+
+## Download
+
+ * [GitHub](https://github.com/craydent/node-library)
+ * [BitBucket](https://bitbucket.org/craydent/node-library)
+ * [GitLab](https://gitlab.com/craydent/node-library)
+
+Craydent-Deploy is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>

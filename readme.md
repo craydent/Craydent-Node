@@ -4845,3 +4845,13 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 * xml: (Mixed) XML string or XML DOM
 * ignoreAttributes: (Bool) Flag to ignore attributes
 
+
+
+
+## Download
+
+ * [GitHub](https://github.com/craydent/node-library)
+ * [BitBucket](https://bitbucket.org/craydent/node-library)
+ * [GitLab](https://gitlab.com/craydent/node-library)
+
+Craydent-Deploy is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>
