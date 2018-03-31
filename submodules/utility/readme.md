@@ -249,6 +249,25 @@ LOCAL_IP (String) |VERBOSE_LOGS (Boolean) |
 * refresh: (Boolean) Flag to clear cache for the specific include.
 
 *** 
+#### _isNull_ 
+***
+
+**Info:** Check if a value is Null
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* value: (Mixed) Value to check
+
+**Overloads:**
+
+1)
+
+* value: (Mixed) Value to check
+* defaultValue: (Mixed) Value to return if null
+
+*** 
 #### _logit_ 
 ***
 
@@ -511,4 +530,4 @@ LOCAL_IP (String) |VERBOSE_LOGS (Boolean) |
  * [BitBucket](https://bitbucket.org/craydent/node-library)
  * [GitLab](https://gitlab.com/craydent/node-library)
 
-Craydent-Deploy is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>
+Craydent is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>

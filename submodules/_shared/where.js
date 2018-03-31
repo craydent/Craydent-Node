@@ -8,6 +8,7 @@
 var $c = global.$c || {}, $s = {};
 
 
+require('./_contains_comparisons')($c);
 require('./average')($c);
 require('./contains')($c);
 require('./date')($c);
@@ -36,7 +37,14 @@ var _contains = $c.contains,
     _getValue = $c.getValue,
     _foo = $c.foo,
     _tryEval = $c.tryEval,
-    _replace_all = $c.replace_all;
+    _replace_all = $c.replace_all,
+
+    _contains_lessthan = $c._contains_lessthan;
+    _contains_greaterthan = $c._contains_greaterthan;
+    _contains_lessthanequal = $c._contains_lessthanequal;
+    _contains_greaterthanequal = $c._contains_greaterthanequal;
+    _contains_mod = $c._contains_mod;
+    _contains_type = $c._contains_type;;
 
 function __queryNestedProperty(obj, path/*, value*/) {
     if (obj[path]) { return [obj[path]]; }
@@ -367,17 +375,17 @@ function __parseVariableExpr(doc, expr, field) {
 
 function __processAccumulator(doc, accumulator, previousValue_arg, meta) {
     var value = __processExpression(doc,
-        accumulator['$sum'] ||
-        accumulator['$avg'] ||
-        accumulator['$first'] ||
-        accumulator['$last'] ||
-        accumulator['$max'] ||
-        accumulator['$min'] ||
-        accumulator['$push'] ||
-        accumulator['$addToSet'] ||
-        accumulator['$stdDevPop'] ||
-        accumulator['$stdDevSamp']
-    ),
+            accumulator['$sum'] ||
+            accumulator['$avg'] ||
+            accumulator['$first'] ||
+            accumulator['$last'] ||
+            accumulator['$max'] ||
+            accumulator['$min'] ||
+            accumulator['$push'] ||
+            accumulator['$addToSet'] ||
+            accumulator['$stdDevPop'] ||
+            accumulator['$stdDevSamp']
+        ),
         previousValue = previousValue_arg;
     switch (true) {
         case !!accumulator['$sum']:
@@ -703,7 +711,7 @@ function _subQuery(query, field, index , _whereRefs_arg) {
     var _whereRefs = _whereRefs_arg || [];
     if (!_isObject(query)) {
         if (~field.indexOf('.')) {
-          return '_equals($s.getProperty(record.\'' +
+          return '_equals($s.getProperty(record,\'' +
           field + '\'), ' + _parseRaw(query) + ')';
         }
         return '_equals(record[\'' + field + '\'], ' + _parseRaw(query) + ')';
@@ -816,43 +824,6 @@ function _subQuery(query, field, index , _whereRefs_arg) {
 }
 
 
-function _contains_lessthan(vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i] < val) { return true; }
-    }
-    return false;
-}
-function _contains_greaterthan(vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i] > val) { return true; }
-    }
-    return false;
-}
-function _contains_lessthanequal(vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i] <= val) { return true; }
-    }
-    return false;
-}
-function _contains_greaterthanequal(vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i] >= val) { return true; }
-    }
-    return false;
-}
-function _contains_mod(vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i] % val[0] == val[1]) { return true; }
-    }
-    return false;
-}
-function _contains_type(vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i].constructor == val) { return true; }
-    }
-    return false;
-}
-
 function _create_func(args) {
     var _qnp = __queryNestedProperty,
         _clt = _contains_lessthan,
@@ -861,6 +832,7 @@ function _create_func(args) {
         _cgte = _contains_greaterthanequal,
         _ct = _contains_type,
         _cm = _contains_mod,
+        condition = args.condition,
         projection = args.projection,
         projected = [];
         ifblock = args.ifblock || 'true',
@@ -1032,7 +1004,8 @@ function where(obj, condition, projection, limit_arg) {
             ifblock: boolCond,
             _refs: null,
             arr: arr,
-            limit: limit
+            limit: limit,
+            condition: condition
         });
     }
 
@@ -1045,7 +1018,8 @@ function where(obj, condition, projection, limit_arg) {
         projection: projection,
         _refs: _refs,
         arr: arr,
-        limit: limit
+        limit: limit,
+        condition: condition
     });
 }
 

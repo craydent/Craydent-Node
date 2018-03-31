@@ -7,48 +7,7 @@
 /*/---------------------------------------------------------/*/
 var $c = global.$c || {}, $s = {};
 
-function _contains_matches (vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (val.test(vals[i])) { return true; }
-    }
-    return false;
-}
-function _contains_lessthan (vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i] < val) { return true; }
-    }
-    return false;
-}
-function _contains_greaterthan (vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i] > val) { return true; }
-    }
-    return false;
-}
-function _contains_lessthanequal (vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i] <= val) { return true; }
-    }
-    return false;
-}
-function _contains_greaterthanequal (vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i] >= val) { return true; }
-    }
-    return false;
-}
-function _contains_mod (vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i] % val[0] == val[1]) { return true; }
-    }
-    return false;
-}
-function _contains_type (vals, val) {
-    for (var i = 0, len = vals.length; i < len; i++) {
-        if (vals[i].constructor == val) { return true; }
-    }
-    return false;
-}
+require('./_contains_comparisons')($c);
 
 var _isFunction = $c.isFunction,
     _isArray = $c.isArray,
@@ -56,7 +15,16 @@ var _isFunction = $c.isFunction,
     _isRegExp = $c.isRegExp,
     _isString = $c.isString,
     _isNumber = $c.isNumber,
-    _indexOfAlt = $c.indexOfAlt;
+    _indexOfAlt = $c.indexOfAlt,
+
+    _contains_matches = $c._contains_matches,
+    _contains_lessthan = $c._contains_lessthan,
+    _contains_greaterthan = $c._contains_greaterthan,
+    _contains_lessthanequal = $c._contains_lessthanequal,
+    _contains_greaterthanequal = $c._contains_greaterthanequal,
+    _contains_mod = $c._contains_mod,
+    _contains_type = $c._contains_type;
+
 
 function contains (obj, val, func) {
     if (_isFunction(val)) {

@@ -242,7 +242,8 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
                 {"objs": "(Objects[]) Objects to fill the template variables"},
                 {"offset": "(Int) The start index of the Object array"},
                 {"max": "(Int) The maximum number of records to process"},
-                {"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."}]}],
+                {"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."},
+                {"preserve_nonmatching":"(Boolean) Flag to used to leave template variables that were not replaced."}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#fillTemplate",
         "returnType": "(String)"

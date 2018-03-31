@@ -112,7 +112,7 @@ module.exports.secondary = {
     // "addFlags": [],
     // "average": [],
     // "clearCache": [],
-    // "contains": [],
+    "contains": ['_contains_comparisons'],
     "count": ["where"],
     "date": ["keyOf", "isValidDate"],
     "emit": ["run_func_array"],
@@ -142,6 +142,7 @@ module.exports.secondary = {
     "toSet": ["removeAt"],
     "universal_trim": [],
     "where":[
+        "_contains_comparisons",
         "average",
         "contains",
         "date",

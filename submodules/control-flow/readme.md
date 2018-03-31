@@ -33,7 +33,7 @@ arr.prototypedMethod(args);
 ## Categories
 
 * [Constants](#markdown-header-constants)
-* [Control Flow](#markdown-header-control flow)
+* [Control Flow](#markdown-header-control-flow)
 
 <a name='markdown-header-constants'></a>
 ## Constants
@@ -46,7 +46,7 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 
 ## Methods
 
-<a name='markdown-header-control flow'></a>
+<a name='markdown-header-control-flow'></a>
 ## Control Flow
 
 *** 
@@ -78,6 +78,13 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 * func: (Function) Function to make yieldable
 * context: (Mixed) Context to use to execute func.
 * callbackIndex: (Integer) Index of callback argument.
+
+4)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+* returnIndex: (Integer) Index of callback argument.
 
 *** 
 #### _parallelEach_ 
@@ -135,6 +142,13 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 * context: (Mixed) Context to use to execute func.
 * callbackIndex: (Integer) Index of callback argument.
 
+4)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+* returnIndex: (Integer) Index of callback argument.
+
 
 
 
@@ -144,4 +158,4 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
  * [BitBucket](https://bitbucket.org/craydent/node-library)
  * [GitLab](https://gitlab.com/craydent/node-library)
 
-Craydent-Deploy is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>
+Craydent is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>

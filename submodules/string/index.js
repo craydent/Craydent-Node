@@ -482,6 +482,23 @@ ext(String, 'ireplace_all', function(replace, subject) {
         error("String.ireplace_all", e);
     }
 }, true);
+ext(String, 'isBlank', function () {
+    /*|{
+        "info": "String class extension to check if the string is empty",
+        "category": "String",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#string.isBlank",
+        "returnType": "(Bool)"
+    }|*/
+    try {
+        return !this.length;
+    } catch (e) {
+        error("String.isBlank", e);
+    }
+}, true);
 ext(String, 'isCuid', function (msFormat) {
     /*|{
         "info": "String class extension to check if the string is a cuid",
@@ -499,25 +516,7 @@ ext(String, 'isCuid', function (msFormat) {
         msFormat && ((pre = "{") && (post = "}"),length += 2);
         return this.length == length && (new RegExp(pre+"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}"+post)).test(this);
     } catch (e) {
-        console.log(e);
         error("String.isCuid", e);
-    }
-}, true);
-ext(String, 'isBlank', function () {
-    /*|{
-        "info": "String class extension to check if the string is empty",
-        "category": "String",
-        "parameters":[],
-
-        "overloads":[],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#string.isBlank",
-        "returnType": "(Bool)"
-    }|*/
-    try {
-        return !this.length;
-    } catch (e) {
-        error("String.isBlank", e);
     }
 }, true);
 ext(String, 'isValidEmail', function () {
@@ -730,7 +729,7 @@ ext(String, 'singularize', function () {
         var str = this.toString(), key;
 
         if (key = $s.keyOf(_irregularNouns, str)) {
-            str = key
+            str = key;
         } else if (str.slice(-3) == "ves") {
             if (str[str.length - 4] in {a:1,e:1,i:1,o:1,u:1}) {
                 str = str.slice(0,-3) + "fe";

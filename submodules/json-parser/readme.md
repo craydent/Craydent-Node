@@ -33,7 +33,7 @@ arr.prototypedMethod(args);
 ## Categories
 
 * [Constants](#markdown-header-constants)
-* [JSON Parser](#markdown-header-json parser)
+* [JSON Parser](#markdown-header-json-parser)
 
 <a name='markdown-header-constants'></a>
 ## Constants
@@ -56,4 +56,4 @@ LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
  * [BitBucket](https://bitbucket.org/craydent/node-library)
  * [GitLab](https://gitlab.com/craydent/node-library)
 
-Craydent-Deploy is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>
+Craydent is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>

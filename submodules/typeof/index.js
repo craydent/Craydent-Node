@@ -249,7 +249,7 @@ function isInt (obj) {
 function isNull(value, defaultValue) {
     /*|{
         "info": "Check if a value is Null",
-        "category": "TypeOf|TypeOf",
+        "category": "Utility|TypeOf",
         "parameters":[
             {"value": "(Mixed) Value to check"}],
 

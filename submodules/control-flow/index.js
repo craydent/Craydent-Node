@@ -35,7 +35,13 @@ function yieldable(value,context,callbackIndex,returnIndex) {
             {"parameters":[
                 {"func": "(Function) Function to make yieldable"},
                 {"context": "(Mixed) Context to use to execute func."},
-                {"callbackIndex": "(Integer) Index of callback argument."}]}],
+                {"callbackIndex": "(Integer) Index of callback argument."}]},
+
+            {"parameters":[
+                {"func": "(Function) Function to make yieldable"},
+                {"context": "(Mixed) Context to use to execute func."},
+                {"callbackIndex": "(Integer) Index of callback argument."},
+                {"returnIndex": "(Integer) Index of callback argument."}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#yieldable",
         "returnType": "(Promise)"
@@ -58,16 +64,16 @@ function yieldable(value,context,callbackIndex,returnIndex) {
                 }
                 return new Promise(function(res){
                     var fn = function () {
-                        if (arguments.length == 1) {
-                            return res(arguments[0]);
+                        if (args.length == 1) {
+                            return res(args[0]);
                         }
                         if ($s.isBoolean(returnIndex) && returnIndex) {
-                            for (var i = 0, len = arguments.length; i < len;) {
-                                if (arguments[i]) { return arguments[i]; }
+                            for (var i = 0, len = args.length; i < len;) {
+                                if (args[i]) { return args[i]; }
                             }
                         }
-                        if ($s.isNumber(returnIndex)) { return arguments[returnIndex]; }
-                        return res(arguments);
+                        if ($s.isNumber(returnIndex)) { return args[returnIndex]; }
+                        return res(args);
                     };
                     if ($s.isNull(callbackIndex)) {
                         args.push(fn);

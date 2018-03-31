@@ -8,7 +8,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://cinada@bitbucket.org/craydent/${submodule}.git"
+        "url": "git+https://github.com/craydent/Node-Library.git"
     },
     "keywords": [
         "craydent",
@@ -22,7 +22,7 @@
     ],
     "author": "Clark Inada",
     "license": "MIT",
-    "homepage": "https://bitbucket.org/craydent/${submodule}#readme",
+    "homepage": "https://github.com/craydent/Node-Library/tree/master/submodules/${submodule}",
     "dependencies": {},
     "devDependencies": {
         "chai": "^3.5.0",

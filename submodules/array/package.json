@@ -8,7 +8,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://cinada@bitbucket.org/craydent/array.git"
+        "url": "git+https://github.com/craydent/Node-Library.git"
     },
     "keywords": [
         "array",
@@ -23,7 +23,7 @@
     ],
     "author": "Clark Inada",
     "license": "MIT",
-    "homepage": "https://bitbucket.org/craydent/array#readme",
+    "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/array/",
     "dependencies": {
         "@craydent/craydent-typeof": "file:../typeof"
     },

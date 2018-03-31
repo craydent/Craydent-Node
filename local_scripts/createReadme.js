@@ -262,7 +262,7 @@ if (!orderedHttpProps.length) { exclude.push('HTTP'); }
 readme += "## Categories" + ln;
 for (var i = 0, len = categories.length; i < len; i++) {
 	if (~exclude.indexOf(categories[i])) { continue; }
-	readme += "* [" + categories[i] + "](#markdown-header-" + categories[i].toLowerCase() + ")\n";
+	readme += "* [" + categories[i] + "](#markdown-header-" + categories[i].toLowerCase().replace(/\s/g, '-') + ")\n";
 };
 readme += '\n';
 
@@ -325,7 +325,7 @@ for (var i = 0, len = categories.length; i < len; i++)
 	var category = categories[i];
 	if (category in {Featured:1,Constants:1}) { continue; }
 	if (methods[category]) {
-		readme += "<a name='markdown-header-" + category.toLowerCase() + "'></a>\n## " + category + ln;
+		readme += "<a name='markdown-header-" + category.toLowerCase().replace(/\s/g, '-') + "'></a>\n## " + category + ln;
 	}
 	for (var m = 0, mlen = orderedMethods.length; m < mlen; m++) {
 		if (methods[category] && methods[category][orderedMethods[m]]) {
@@ -339,7 +339,7 @@ readme += '\n\n\n## Download\n\n' +
 ' * [GitHub](https://github.com/craydent/node-library)\n' +
 ' * [BitBucket](https://bitbucket.org/craydent/node-library)\n' +
 ' * [GitLab](https://gitlab.com/craydent/node-library)\n\n' +
-'Craydent-Deploy is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>';
+'Craydent is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>';
 
 fs.writeFile(mod + "/readme.md", readme, function(err) {
 	if(err) {

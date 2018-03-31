@@ -230,7 +230,7 @@ function ajax(params, returnData){
                     var resrej = alwaysResolve ? resolve : reject;
                     resrej(e);
                 });
-                var req_body = $s.isObject(params.data) && ~params.contentType.indexOf("/json") ? JSON.stringify(params.data) : params.data;
+                var req_body = ($s.isObject(params.data) || $s.isArray(params.data)) && ~params.contentType.indexOf("/json") ? JSON.stringify(params.data) : params.data;
                 req.write(req_body || '');
                 req.end();
             } catch (e) {

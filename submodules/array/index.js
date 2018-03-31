@@ -190,7 +190,7 @@ function __pullHelper(target, lookup) {
         var value = lookup[i];
         for (var j = 0, jlen = target.length; j < jlen; j++) {
             if ($s.equals(value, target[j])) {
-                $c.removeAt(target, j);
+                $s.removeAt(target, j);
                 j--, jlen--;
             }
         }
@@ -726,7 +726,7 @@ ext(Array, 'distinct', function(fields, condition) {
     try {
         if ($s.isString(fields)) { fields = fields.split(","); }
 
-        var records = $c.group(this,{field:fields,cond:condition},true);
+        var records = $c.group(this, {field:fields,cond:condition}, true);
         if (fields.length == 1) {
             var arr = [];
             for (var i = 0, len = records.length; i < len; i++ ) {
@@ -1202,23 +1202,6 @@ ext(Array, "isSubset", function () {
         error('Object.isSubset', e);
     }
 });
-ext(Array, "itemCount", function () {
-    /*|{
-        "info": "Object class extension to count the properties in item",
-        "category": "Array|Object",
-        "parameters":[],
-
-        "overloads":[],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#object.itemCount",
-        "returnType": "(Int)"
-    }|*/
-    try {
-        return $s.itemCount(this);
-    } catch (e) {
-        error('Object.itemCount', e);
-    }
-});
 ext(Array, "joinLeft", function (arr, on) {
     /*|{
         "info": "Array class extension to do an outer left join on arrays",
@@ -1418,7 +1401,7 @@ ext(Array, 'normalize', function () {
         error("Array.normalize", e);
     }
 }, true);
-$s._ext(Array, 'parallelEach', function (gen, args) {
+ext(Array, 'parallelEach', function (gen, args) {
     /*|{
         "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
         "category": "Array",
@@ -1778,9 +1761,8 @@ ext(Array, 'update', function(condition, setClause, options) {
             _cgte = $s._contains_greaterthanequal,
             _ct = $s._contains_type,
             _cm = $s._contains_mod,
-            _contains = $c.contains,
             _isArray = $c.isArray,
-            _isNull = $c.isNull,
+            _isNull = $s.isNull,
             _isFunction = $c.isFunction,
             _isObject = $c.isObject,
             _isString = $c.isString,
@@ -1819,7 +1801,7 @@ ext(Array, 'update', function(condition, setClause, options) {
                 if (setObject['$max']) {
                     for (var prop in setObject['$max']) {
                         if (!setObject['$max'].hasOwnProperty(prop)) { continue; }
-                        obj[prop] = $s.isNull(obj[prop], setObject['$max'][prop]);
+                        obj[prop] = _isNull(obj[prop], setObject['$max'][prop]);
                         var value = obj[prop];
                         value < setObject['$max'][prop] && (obj[prop] = setObject['$max'][prop]);
                     }
@@ -1827,7 +1809,7 @@ ext(Array, 'update', function(condition, setClause, options) {
                 if (setObject['$min']) {
                     for (var prop in setObject['$min']) {
                         if (!setObject['$min'].hasOwnProperty(prop)) { continue; }
-                        obj[prop] = $s.isNull(obj[prop], setObject['$min'][prop]);
+                        obj[prop] = _isNull(obj[prop], setObject['$min'][prop]);
                         var value = obj[prop];
                         value > setObject['$min'][prop] && (obj[prop] = setObject['$min'][prop]);
                     }
@@ -1877,7 +1859,7 @@ ext(Array, 'update', function(condition, setClause, options) {
                 }
                 if (setObject['$pop']) {
                     for (var prop in setObject['$pop']) {
-                        if(!setObject['$pop'].hasOwnProperty(prop) || !$s.isArray(obj[prop])) { continue; }
+                        if(!setObject['$pop'].hasOwnProperty(prop) || !_isArray(obj[prop])) { continue; }
                         if (setObject['$pop'][prop] == 1) { obj[prop].pop(); }
                         else if (!~setObject['$pop'][prop]) { obj[prop].shift(); }
                     }
@@ -1886,7 +1868,7 @@ ext(Array, 'update', function(condition, setClause, options) {
                     for (var prop in setObject['$pullAll']) {
                         var arr = $s.getProperty(obj,prop),
                             values = setObject['$pullAll'][prop];
-                        if (!$s.isArray(arr)) { continue; }
+                        if (!_isArray(arr)) { continue; }
                         __pullHelper(arr,values);
                     }
                 }
@@ -1894,8 +1876,8 @@ ext(Array, 'update', function(condition, setClause, options) {
                     for (var prop in setObject['$pull']) {
                         var arr = $s.getProperty(obj,prop),
                             values = setObject['$pullAll'][prop];
-                        if (!$s.isArray(arr)) { continue; }
-                        if ($s.isArray(values)) {
+                        if (!_isArray(arr)) { continue; }
+                        if (isArray(values)) {
                             __pullHelper(arr,values);
                         } else if ($s.isObject(values)) {
                             $c.delete(values,false);
@@ -1912,7 +1894,7 @@ ext(Array, 'update', function(condition, setClause, options) {
 
 
                         if (each) {
-                            if ($s.isNull(position)) {
+                            if (_isNull(position)) {
                                 for (var i = 0, len = each.length; i < len; i++) {
                                     obj[prop].push(each[i]);
                                 }
@@ -1939,7 +1921,7 @@ ext(Array, 'update', function(condition, setClause, options) {
                             $c.sortBy(obj[prop],sorter);
                         }
 
-                        if (each && !$s.isNull(slice)) {
+                        if (each && !_isNull(slice)) {
                             obj[prop] = obj[prop].slice(slice);
                         }
                     }

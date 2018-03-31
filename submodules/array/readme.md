@@ -652,22 +652,6 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 * None
 
 *** 
-#### _itemCount_ 
-***
-
-**Info:** Object class extension to count the properties in item
-
-**Return:** (Int)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
 #### _joinLeft_ 
 ***
 
@@ -1095,4 +1079,4 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
  * [BitBucket](https://bitbucket.org/craydent/node-library)
  * [GitLab](https://gitlab.com/craydent/node-library)
 
-Craydent-Deploy is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>
+Craydent is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>

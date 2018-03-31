@@ -17,8 +17,8 @@ var publishing = process.argv[2] == "publish";
 var staging = process.argv[2] == "stage";
 var version = cpkg.version;
 var spaces = 37 - version.length;
-var gitUrlTemplate = "git+https://cinada@bitbucket.org/craydent/${submodule}.git";
-var homepageUrlTemplate = "https://bitbucket.org/craydent/${submodule}#readme";
+var gitUrlTemplate = "git+https://github.com/craydent/Node-Library.git";
+var homepageUrlTemplate = "https://bitbucket.org/craydent/node-library/src//submodules/${submodule}/";
 var defaultKeywords = [
     "craydent",
     "library",

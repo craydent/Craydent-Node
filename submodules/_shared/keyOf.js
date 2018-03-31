@@ -11,8 +11,7 @@ function keyOf (obj, value) {
     try {
         for(var prop in obj) {
             if(obj.hasOwnProperty(prop)) {
-                if(obj[prop] === value)
-                    return prop;
+                if(obj[prop] === value) { return prop; }
             }
         }
         return null;

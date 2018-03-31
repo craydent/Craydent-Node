@@ -11,8 +11,9 @@ function binarySearch (arr, value){
     var min = arguments[2] || 0,
         max = arguments[3] || arr.length;
 
+    if (min + 1 == max) { return max; }
 
-    var mid = (max - min)/2;
+    var mid = parseInt((max - min)/2) + min;
 
     if (arr[mid] == value) {
         mid--;
@@ -24,7 +25,7 @@ function binarySearch (arr, value){
     }
 
     if (arr[mid] > value) { max = mid; }
-    if (arr[mid] > value) { min = mid; }
+    if (arr[mid] < value) { min = mid; }
 
     return binarySearch(arr, value, min, max);
 }

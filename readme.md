@@ -37,11 +37,11 @@ arr.prototypedMethod(args);
 * [Array](#markdown-header-array)
 * [Class](#markdown-header-class)
 * [CLI](#markdown-header-cli)
-* [Control Flow](#markdown-header-control flow)
+* [Control Flow](#markdown-header-control-flow)
 * [Date](#markdown-header-date)
 * [FS](#markdown-header-fs)
 * [Function](#markdown-header-function)
-* [JSON Parser](#markdown-header-json parser)
+* [JSON Parser](#markdown-header-json-parser)
 * [Number](#markdown-header-number)
 * [Object](#markdown-header-object)
 * [RegExp](#markdown-header-regexp)
@@ -49,7 +49,7 @@ arr.prototypedMethod(args);
 * [Template](#markdown-header-template)
 * [TypeOf](#markdown-header-typeof)
 * [Utility](#markdown-header-utility)
-* [XML to JSON](#markdown-header-xml to json)
+* [XML to JSON](#markdown-header-xml-to-json)
 
 <a name='markdown-header-constants'></a>
 ## Constants
@@ -1379,7 +1379,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 
 * options: (Object[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false).
 
-<a name='markdown-header-control flow'></a>
+<a name='markdown-header-control-flow'></a>
 ## Control Flow
 
 *** 
@@ -1411,6 +1411,13 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 * func: (Function) Function to make yieldable
 * context: (Mixed) Context to use to execute func.
 * callbackIndex: (Integer) Index of callback argument.
+
+4)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+* returnIndex: (Integer) Index of callback argument.
 
 *** 
 #### _parallelEach_ 
@@ -1467,6 +1474,13 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 * func: (Function) Function to make yieldable
 * context: (Mixed) Context to use to execute func.
 * callbackIndex: (Integer) Index of callback argument.
+
+4)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+* returnIndex: (Integer) Index of callback argument.
 
 <a name='markdown-header-date'></a>
 ## Date
@@ -4313,25 +4327,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 * value: (Mixed) Value to check
 * defaultValue: (Mixed) Value to return if null
 
-*** 
-#### _isNull_ 
-***
-
-**Info:** Check if a value is Null
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* value: (Mixed) Value to check
-
-**Overloads:**
-
-1)
-
-* value: (Mixed) Value to check
-* defaultValue: (Mixed) Value to return if null
-
 <a name='markdown-header-utility'></a>
 ## Utility
 
@@ -4404,6 +4399,13 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 * func: (Function) Function to make yieldable
 * context: (Mixed) Context to use to execute func.
 * callbackIndex: (Integer) Index of callback argument.
+
+4)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+* returnIndex: (Integer) Index of callback argument.
 
 *** 
 #### _clearCache_ 
@@ -4538,6 +4540,25 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 
 * path: (String) Module or Path to module.
 * refresh: (Boolean) Flag to clear cache for the specific include.
+
+*** 
+#### _isNull_ 
+***
+
+**Info:** Check if a value is Null
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* value: (Mixed) Value to check
+
+**Overloads:**
+
+1)
+
+* value: (Mixed) Value to check
+* defaultValue: (Mixed) Value to return if null
 
 *** 
 #### _logit_ 
@@ -4823,7 +4844,14 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 * context: (Mixed) Context to use to execute func.
 * callbackIndex: (Integer) Index of callback argument.
 
-<a name='markdown-header-xml to json'></a>
+4)
+
+* func: (Function) Function to make yieldable
+* context: (Mixed) Context to use to execute func.
+* callbackIndex: (Integer) Index of callback argument.
+* returnIndex: (Integer) Index of callback argument.
+
+<a name='markdown-header-xml-to-json'></a>
 ## XML to JSON
 
 *** 
@@ -4854,4 +4882,4 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
  * [BitBucket](https://bitbucket.org/craydent/node-library)
  * [GitLab](https://gitlab.com/craydent/node-library)
 
-Craydent-Deploy is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>
+Craydent is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>

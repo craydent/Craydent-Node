@@ -19,7 +19,7 @@ function isSubset (obj, compare, sharesAny) {
 
             for (var prop in obj){
                 if (!obj.hasOwnProperty(prop)) { continue; }
-                if (!_isArray && !compare.hasOwnProperty(prop) || _isArray && !$c.contains(compare, obj[prop])) { return false; }
+                if (!isArray && !compare.hasOwnProperty(prop) || isArray && !$c.contains(compare, obj[prop])) { return false; }
                 if (sharesAny) { return true; }
             }
 
