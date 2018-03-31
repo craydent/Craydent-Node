@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-date",
-    "version": "0.8.5",
+    "version": "0.8.6",
     "description": "Node module to extend fs/file system functionality and simplify code for maintainability and readability",
     "main": "craydent.js",
     "scripts": {
