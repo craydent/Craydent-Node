@@ -44,7 +44,7 @@ function addObjectPrototype(name, fn, override) {
         "returnType": "(void)"
     }|*/
     try {
-        if ($c.isNull($g.__craydentNoConflict) || !$g.__craydentNoConflict) {
+        if ($s.isNull($g.__craydentNoConflict) || !$g.__craydentNoConflict) {
             var shouldOverride = false;
             if (eval("typeof(" + name + ")") == "undefined") {
                 shouldOverride = true;
@@ -771,11 +771,13 @@ _ao("map", function(callback, thisObject) {
     }|*/
     try {
         thisObject = thisObject || this;
-        for (var prop in this) {
-            if (this.hasOwnProperty(prop)) {
-                this[prop] = callback.call(thisObject, this[prop]);
+        var obj = $s.duplicate(this);
+        for (var prop in obj) {
+            if (obj.hasOwnProperty(prop)) {
+                obj[prop] = callback.call(thisObject, obj[prop]);
             }
         }
+        return obj;
     } catch (e) {
         error('Object.map', e)
     }
