@@ -25,7 +25,18 @@ function count (obj, option){
             return count;
         }
         if (_isArray(obj)) {
-            return $c.where(obj,option).length;
+            if (_isObject(option)) {
+                return $c.where(obj,option).length;
+            }
+            var isReg = _isRegExp(option);
+            if (_isString(option) || isReg) {
+                var ct = 0;
+                for (var i = 0, len = obj.length; i < len; i++) {
+                    if (~obj[i].indexOf(option) || (isReg && option.test(obj[i]))) { ct++; }
+                }
+                return ct;
+            }
+            return obj.length;
         }
         if (_isString(obj)) {
             var word = option;
