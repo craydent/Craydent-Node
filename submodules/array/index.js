@@ -43,17 +43,10 @@ function __create_index(obj, indexes) {
     // obj.__indexes = {};
     obj.__indexed_buckets = obj.__indexed_buckets || {};
     for (var i = 0, len = indexes.length; i < len; i++) {
-        var prop = indexes[i], arr = obj.slice();
+        var prop = indexes[i].trim(), arr = obj.slice();
 
         var bucket = obj.__indexed_buckets[prop] = {};
-        // bucket.__sorted_array = arr;
         var keys = bucket.__bucket__keys = [];
-        // obj.__indexes[prop] = arr;
-        // obj.__indexes.buckets = obj.__indexes.buckets || {};
-        // arr.buckets = arr.buckets || {};
-        // var bucket = arr.buckets[prop] = arr.buckets[prop] || {};
-        // var bucket = obj.__indexes.buckets[prop] =
-        // obj.__indexes.buckets[prop] || {__bucket__keys:[]};
 
         arr.sort(function(a, b) {
             if (a[prop] < b[prop]) { return -1; }
@@ -71,24 +64,8 @@ function __create_index(obj, indexes) {
             bucket[item[prop]].push(item);
 
         }
-        // for (var j = 0, jlen = obj.length; j < jlen; j++) {
-        //     var index = $s._binarySearch(arr, {
-        //         prop: prop,
-        //         condition: obj[j][prop],
-        //         find_index: true
-        //     });
-        //     if (bucket.__bucket__keys[bucket.__bucket__keys.length - 1] != obj[j][prop]) {
-        //         $c.insertAt(bucket.__bucket__keys,index,obj[j][prop]);
-        //     }
-        //     bucket[obj[j][prop]] = bucket[obj[j][prop]] || [];
-        //     $c.insertAt(bucket[obj[j][prop]],index,obj[j]);
-        //
-        //     // var index = $s.__binarySearch(arr, prop, obj[j][prop], null, null, true);
-        //     $c.insertAt(arr,index,obj[j]);
-        //
-        // }
-        // console.log(arr);
     }
+    return obj;
 }
 function __processGroup (docs, expr) {
     try {
@@ -414,7 +391,7 @@ ext(Array, 'aggregate', function (pipelines) {
         "category": "Array",
         "featured": true,
         "parameters":[
-                {"pipelines": "(Object[]) Array of stages defined in mongodb"}],
+                {"pipelines": "(Object[]) Array of stages defined in mongodb. ($project, $match, $redact, $limit, $skip, $unwind, $group, $sample, $sort, $lookup, $out)"}],
 
         "overloads":[],
 
@@ -547,13 +524,14 @@ ext(Array, "contains", function(val, func){
         "info": "Object class extension to check if value exists",
         "category": "Array|Object",
         "parameters":[
-            {"val": "(Mixed) Value to check or custom function to determine validity"}],
+            {"val": "(Mixed) Value to check"}],
 
         "overloads":[
             {"parameters":[
+                {"val": "(Function) Function to determine validity.  Function is passed the value, index, and original as arguments and must return a boolean"}]},
+            {"parameters":[
                 {"val": "(Mixed) Value to check"},
                 {"func": "(Function) Callback function used to do the comparison"}]},
-
             {"parameters":[
                 {"arr": "(Array) Array of values to return first matching value"}]}],
 
@@ -606,7 +584,7 @@ ext(Array, 'createIndex', function (indexes) {
         "returnType": "(Array)"
     }|*/
     try {
-        __create_index(this, indexes);
+        return __create_index(this, indexes);
     } catch(e) {
         error("Array.createIndex", e);
         return false;
@@ -632,7 +610,7 @@ ext(Array, 'delete', function(condition, justOne) {
             _equals = $c.equals,
             _contains = $c.contains,
             _isArray = $c.isArray,
-            _isNull = $c.isNull,
+            _isNull = $s.isNull,
             _isFunction = $c.isFunction,
             _isObject = $c.isObject,
             _isString = $c.isString,
@@ -969,7 +947,7 @@ ext(Array, 'group', function(params, removeProps) {
             _equals = $c.equals,
             _contains = $c.contains,
             _isArray = $c.isArray,
-            _isNull = $c.isNull,
+            _isNull = $s.isNull,
             _isFunction = $c.isFunction,
             _isObject = $c.isObject,
             _isString = $c.isString,
