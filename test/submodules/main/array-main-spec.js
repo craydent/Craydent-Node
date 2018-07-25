@@ -1,341 +1,11 @@
-var pre = "@craydent/";
-delete global.$c;
-delete global.__craydentNoConflict;
-delete global.navigator;
-
-try { require.cache[require.resolve('../../../common.js')] && delete require.cache[require.resolve('../../../common.js')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-array')] && delete require.cache[require.resolve(pre + 'craydent-array')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-class')] && delete require.cache[require.resolve(pre + 'craydent-class')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-cli')] && delete require.cache[require.resolve(pre + 'craydent-cli')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-control-flow')] && delete require.cache[require.resolve(pre + 'craydent-control-flow')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-date')] && delete require.cache[require.resolve(pre + 'craydent-date')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-fs')] && delete require.cache[require.resolve(pre + 'craydent-fs')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-function')] && delete require.cache[require.resolve(pre + 'craydent-function')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-http')] && delete require.cache[require.resolve(pre + 'craydent-http')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-json-parser')] && delete require.cache[require.resolve(pre + 'craydent-json-parser')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-number')] && delete require.cache[require.resolve(pre + 'craydent-number')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-object')] && delete require.cache[require.resolve(pre + 'craydent-object')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-regexp')] && delete require.cache[require.resolve(pre + 'craydent-regexp')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-string')] && delete require.cache[require.resolve(pre + 'craydent-string')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-template')] && delete require.cache[require.resolve(pre + 'craydent-template')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-typeof')] && delete require.cache[require.resolve(pre + 'craydent-typeof')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-utility')] && delete require.cache[require.resolve(pre + 'craydent-utility')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-xml-to-json')] && delete require.cache[require.resolve(pre + 'craydent-xml-to-json')]; }catch(e){}
-
-try { require.cache[require.resolve(pre + 'craydent-array/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-array/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-class/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-class/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-cli/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-cli/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-control-flow/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-control-flow/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-date/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-date/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-fs/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-fs/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-function/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-function/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-http/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-http/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-json-parser/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-json-parser/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-number/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-number/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-object/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-object/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-regexp/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-regexp/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-string/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-string/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-template/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-template/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-typeof/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-typeof/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-utility/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-utility/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-xml-to-json/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-xml-to-json/noConflict')]; }catch(e){}
-
-
-try { require.cache[require.resolve('../../../noConflict.js')] && delete require.cache[require.resolve('../../../noConflict.js')]; }catch(e){}
-try { require.cache[require.resolve('../../../global.js')] && delete require.cache[require.resolve('../../../global.js')]; }catch(e){}
-try { require.cache[require.resolve('../../../craydent.js')] && delete require.cache[require.resolve('../../../craydent.js')]; }catch(e){}
-
+var pre = require('../_prep');
 var $c = require(pre + 'craydent-array');
-var $s = require('../../../common.js');
-var $t = require(pre + 'craydent-typeof');
-Array.prototype.duplicate = function (rec){
-    return $s.duplicate(this,rec);
-};
-function syncroit (gen) {
-    try {
-        if ($t.isAsync(gen)) { return gen(); }
-        return new Promise(function(res){
-            var geno = gen();
-            try {
-                $t.isGenerator(gen) && (function cb(value) {
-                    var obj = geno.next(value);
-
-                    if (!obj.done) {
-                        if ($t.isPromise(obj.value)) {
-                            return obj.value.then(cb).catch(cb);
-                        }
-                        setTimeout(function () {
-                            cb(obj.value);
-                        }, 0);
-                    } else {
-                        res($t.isNull(obj.value, value));
-                    }
-                })();
-            } catch(e) {
-                if (process.listenerCount('uncaughtException')) {
-                    return process.emit('uncaughtException', e);
-                }
-                throw e;
-            }
-        });
-
-    } catch (e) {
-        console.log('syncroit', e);
-        throw e;
-    }
-}
-function ajax(params, returnData){
-    /*|{
-        "info": "Method to make ajax calls",
-        "category": "Global",
-        "parameters":[
-            {"params": "(Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"}],
-
-        "overloads":[
-            {"parameters":[
-                {"params": "(Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"},
-                {"returnData": "(String) Specifies which data to return when using Promise pattern"}]}],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#ajax",
-        "returnType": "(void)"
-    }|*/
-    try {
-        if ($s.isString(params)) {
-            params = { url : params };
-        }
-        var need_to_shard = false, browser_url_limit = 1500, query, url, rtn, alwaysResolve = params.alwaysResolve === false ?  false : true;
-        params.dataType = params.dataType || 'json';
-        params.hitch = params.hitch || "";
-        params.onbefore = params.onbefore || [$s.foo];
-        params.oncomplete = params.oncomplete || [$s.foo];
-        params.ondata = params.ondata || [$s.foo];
-        params.onerror = params.onerror || params.onresponse || [$s.foo];
-        params.onsuccess = params.onsuccess || params.onresponse || [$s.foo];
-        params.query = params.data || params.query || "";
-        params.timeout = params.timeout || 120000;
-        params.json_parser = params.json_parser || JSON.parse;
-
-        if (!$s.isArray(params.onbefore)) {
-            params.onbefore = [params.onbefore];
-        }
-        if (!$s.isArray(params.oncomplete)) {
-            params.oncomplete = [params.oncomplete];
-        }
-        if (!$s.isArray(params.ondata)) {
-            params.ondata = [params.ondata];
-        }
-        if (!$s.isArray(params.onerror)) {
-            params.onerror = [params.onerror];
-        }
-        if (!$s.isArray(params.onresponse)) {
-            params.onresponse = [params.onresponse];
-        }
-        if (!$s.isArray(params.onsuccess)) {
-            params.onsuccess = [params.onsuccess];
-        }
-
-        if (params.onsuccess.length > 1 || params.onsuccess[0] == $s.foo) {
-            alwaysResolve = params.alwaysResolve || false;
-        }
-        // commented line below is a valid parameter value
-        /*
-         params.query = params.query;
-         params.data = params.data;
-         params.url = params.url;
-         params.dataType = params.dataType;
-         params.hitch = params.hitch;
-         params.context = params.context;
-         params.header = params.header;
-         params.method = params.method;
-         params.contentType = params.contentType;
-         params.headers = params.headers;
-         params.onstatechange = params.onstatechange;
-         params.onbefore = params.onbefore;
-         params.oncomplete = params.oncomplete;
-         params.onfileload = params.onfileload;
-         params.onprogress = params.onprogress;
-         params.onabort = params.onabort;
-         params.ondata = params.ondata;
-         params.onerror = params.onerror;
-         params.onresponse = params.onresponse;
-         params.onsuccess = params.onsuccess;
-         params.onloadstart = params.onloadstart;
-         params.run = params.run;
-         */
-        params.thiss = this;
-        params.url = params.url || "";
-
-        var httpRequest = require('http'),
-            fileUpload = httpRequest.upload || {};
-        params.method = params.method || "GET";
-        params.headers = params.headers || {};
-
-        if (params.query && $s.isObject(params.query)) {
-            params.query = $s.toStringAlt(params.query, '=', '&', true);
-        }
-        params.query = (params.run ? "run=" + params.run :"") + (params.query || "");
-        params.contentType = params.contentType || "application/json";
-        params.onstatechange = params.onstatechange || $s.foo;
-
-        fileUpload.onload = params.onfileload || $s.foo;
-        fileUpload.onprogress = params.onprogress || $s.foo;
-        fileUpload.onabort = params.onabort || $s.foo;
-        fileUpload.onerror = params.onerror || $s.foo;
-        fileUpload.onloadstart = params.onloadstart || $s.foo;
-
-        if (params.method.toLowerCase() == "get") {
-            params.url += params.query ? "?" + params.query : "";
-            params.query = undefined;
-        }
-
-        $s.run_func_array.call((params.context||this),params.onbefore, [httpRequest, params.hitch, this]);
-
-        var prms, defaults = {
-            protocol: 'http',
-            host: 'localhost',
-            family: '',
-            port: 80,
-            localAddress: '',
-            socketPath: '',
-            method: "GET",
-            path: '/',
-            headers: '',
-            auth: '',
-            agent: '',
-            createConnection: ''
-        }/*, options = {
-         protocol: params.protocol || 'http',
-         host: params.host || params.hostname || 'localhost',
-         family: params.family,
-         port: params.port || 80,
-         localAddress: params.localAddress,
-         socketPath: params.socketPath,
-         method: params.method || "GET",
-         path: params.path || '/',
-         headers: params.headers,
-         auth: params.auth,
-         agent: params.agent,
-         createConnection: params.createConnection
-         }*/;
-        params.headers['Content-Type'] = params.headers['Content-Type'] || params.contentType;
-        prms = new Promise(function(resolve, reject) {
-            if (params.url) {
-                var parts = params.url.match(/^(https?):\/\/(.*?)(?::([0-9]*)?)?(\/.*)$/);
-                if (parts) {
-                    params.protocol = (params.protocol || parts[1]) + ":";
-                    params.host = params.host || parts[2];
-                    var port = params.port || parts[3];
-                    port && (params.port = port);
-                    params.path = params.path || parts[4];
-                }
-            }
-            try {
-                if (params.protocol && ~params.protocol.indexOf('https')) { httpRequest = require('https'); }
-                var req = httpRequest.request($s.merge(defaults, params,{clone:true,intersect:true}), function (res) {
-                    var body = {data:""}, ctx = params.context || res;
-                    res.on('data', function (chunk) {
-                        body.data += chunk;
-                        $s.run_func_array.call(ctx, params.ondata, [chunk, body, req, params.hitch, this]);
-                    });
-                    res.on('error', function () {
-                        if (params.dataType.toLowerCase() == 'json') {
-                            body.data = $s.tryEval(body.data, params.json_parser) || body.data;
-                        }
-                        var resrej = alwaysResolve ? resolve : reject;
-                        $s.run_func_array.call(ctx, params.onerror, [body.data, params.hitch, this, res.statusCode]);
-                        $s.run_func_array.call(ctx, params.oncomplete, [body.data, params.hitch, this, res.statusCode]);
-                        resrej(body.data);
-                    });
-                    res.on('end', function () {
-                        if (params.dataType.toLowerCase() == 'json') {
-                            body.data = $s.tryEval(body.data, params.json_parser) || body.data;
-                        }
-                        var methods = params.onsuccess;
-                        if (!$s.isBetween(res.statusCode,200,299,true)) {
-                            methods = params.onerror;
-                        }
-                        $s.run_func_array.call(ctx, methods, [body.data, params.hitch, this, res.statusCode]);
-                        $s.run_func_array.call(ctx, params.oncomplete, [body.data, params.hitch, this, res.statusCode]);
-
-                        var rtn = body.data;
-                        if (returnData == "response" || returnData == "res") {
-                            rtn = res;
-                        } else if (returnData == "request" || returnData == "req") {
-                            rtn = req;
-                        }
-
-                        resolve(rtn);
-                    });
-                });
-                req.on('error', function(e) {
-                    if (e.errno != "ETIMEDOUT") {
-                        $s.run_func_array.call(req, params.onerror, [null, params.hitch, this, e.code]);
-                        $s.run_func_array.call(req, params.oncomplete, [null, params.hitch, this, e.code]);
-                        var resrej = alwaysResolve ? resolve : reject;
-                        return resrej(e);
-                    }
-                    $s.logit(e);
-                });
-
-                req.setTimeout(params.timeout, function(socket){
-                    $s.run_func_array.call(params.thiss, params.onerror, ['', params.hitch, this, 504]);
-                    $s.run_func_array.call(params.thiss, params.oncomplete, ['', params.hitch, this, 504]);
-                    var e = new Error('connect ETIMEDOUT ' + params.host);
-                    e.address = params.host;
-                    e.code = "ETIMEDOUT";
-                    e.errno = "ETIMEDOUT";
-                    e.message = 'connect ETIMEDOUT ' + params.host;
-                    e.port = params.port;
-                    var resrej = alwaysResolve ? resolve : reject;
-                    resrej(e);
-                });
-                var req_body = $s.isObject(params.data) && ~params.contentType.indexOf("/json") ? JSON.stringify(params.data) : params.data;
-                req.write(req_body || '');
-                req.end();
-            } catch (e) {
-                error("ajax.Promise", e);
-            }
-        });
-
-
-        if (params.onsuccess.length == 1 && params.onsuccess[0] !== $s.foo) {
-            prms._then = prms.then || $s.foo;
-            prms.then = function (res, rej) { //noinspection CommaExpressionJS
-                alwaysResolve = params.alwaysResolve || false;
-                params.onsuccess.push(res);
-                params.onerror.push(rej);
-                return this;
-            };
-        }
-        prms.otherwise = function (callback) {
-            alwaysResolve = params.alwaysResolve || false;
-            return params.onerror.push(callback),this; };
-        prms['finally'] = function (callback) {
-            alwaysResolve = params.alwaysResolve || false;
-            return params.oncomplete.push(callback),this; };
-        return prms;
-    } catch (e) {
-        error("ajax", e);
-    }
-}
-ajax.get = function (params, returnData) {
-    params.method = "GET";
-    return ajax.apply(this, arguments);
-};
-ajax.delete = function (params, returnData) {
-    params.method = "DELETE";
-    return ajax.apply(this, arguments);
-};
-ajax.post = function (params, returnData) {
-    params.method = "POST";
-    return ajax.apply(this, arguments);
-};
-ajax.put = function (params, returnData) {
-    params.method = "PUT";
-    return ajax.apply(this, arguments);
-};
-$c.ajax = ajax;
+var $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
+
+Array.prototype.duplicate = $m.duplicate;
+$c.ajax = $m.ajax;
+var syncroit = $m.syncroit;
 
 describe ('Array', function () {
     var arrObjs = [
@@ -343,6 +13,18 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}],
+        arrObjsScramble = [
+            {id:1,p:"10",share:"shared", index: 10,std:4},
+            {id:2,p:"20",share:"shared", index : 20,std:4},
+            {id:3,p:"30",share:"shared", index: 30,std:4},
+            {id:4,p:"30",share:"shared", index: 30,std:4},
+            {id:5,p:"30",share:"shared", index: 30,std:4},
+            {id:6,p:"30",share:"shared", index: 30,std:4},
+            {id:7,p:"30",share:"shared", index: 30,std:4},
+            {id:8,p:"30",share:"shared", index: 30,std:4},
+            {id:9,p:"30",share:"shared", index: 30,std:4},
+            {id:10,p:"30",share:"shared", index: 30,std:4},
+            {id:11,std:4}],
         arrStrings = ["string 1","string 2","string 3","string 4"],
         arrMix = [1,{},"adsf",10],
         arrSort = [{id:1, s:5},{id:2, s:5},{id:3, s:6},{id:4, s:3},{id:5, s:2}],
@@ -367,7 +49,7 @@ describe ('Array', function () {
             {id:4,share:"shared", odd:false},
             {id:5,share:"shared1", odd:true}
         ];
-    it('aggregate',function(){
+    it('aggregate - $project',function(){
         // $project
         expect(arrObjs.duplicate(true).aggregate([{$project:{p:1,index:1,b:10}}])).toEqual([
             {p:"10", index: 10, b: 10},
@@ -384,10 +66,14 @@ describe ('Array', function () {
             {p:"20", index: 20},
             {p:"30", index: 30},
             {}]);
+    });
+    it('aggregate - $match',function(){
         // $match
         expect(arrObjs.duplicate(true).aggregate([{$match:{p:"10"}}])).toEqual([
             {id:1,p:"10",share:"shared",index:10,std:4}
         ]);
+    });
+    it('aggregate - $redact',function(){
         // $redact
         expect([{
             _id: 1,
@@ -395,25 +81,24 @@ describe ('Array', function () {
             tags: [ "G", "STLW" ],
             year: 2014,
             subsections: [
-                {
-                    subtitle: "Section 1: Overview",
-                    tags: [ "SI", "G" ],
-                    content:  "Section 1: This is the content of section 1."
-                },
-                {
-                    subtitle: "Section 2: Analysis",
-                    tags: [ "STLW" ],
-                    content: "Section 2: This is the content of section 2."
-                },
-                {
-                    subtitle: "Section 3: Budgeting",
-                    tags: [ "TK" ],
-                    content: {
-                        text: "Section 3: This is the content of section3.",
-                        tags: [ "HCS" ]
-                    }
+            {
+                subtitle: "Section 1: Overview",
+                tags: [ "SI", "G" ],
+                content:  "Section 1: This is the content of section 1."
+            },
+            {
+                subtitle: "Section 2: Analysis",
+                tags: [ "STLW" ],
+                content: "Section 2: This is the content of section 2."
+            },
+            {
+                subtitle: "Section 3: Budgeting",
+                tags: [ "TK" ],
+                content: {
+                    text: "Section 3: This is the content of section3.",
+                    tags: [ "HCS" ]
                 }
-            ]
+            }]
         }].aggregate([{$redact:{
             $cond: {
                 if: { $gt: [ { $size: { $setIntersection: [ "$tags", [ "STLW", "G" ] ] } }, 0 ] },
@@ -499,10 +184,16 @@ describe ('Array', function () {
                 ]
             }
         ]);
+    });
+    it('aggregate - $limit',function(){
         // $limit
         expect(arrObjs.duplicate(true).aggregate([{$limit:1}])).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
+    });
+    it('aggregate - $skip',function(){
         // $skip
         expect(arrObjs.duplicate(true).aggregate([{$skip:3}])).toEqual([{id:4,std:4}]);
+    });
+    it('aggregate - $unwind',function(){
         // $unwind
         expect([{ "_id" : 1, "item" : "ABC1", sizes: [ "S", "M", "L"] }].aggregate([{ $unwind : "$sizes" }])).toEqual([
             { "_id" : 1, "item" : "ABC1", "sizes" : "S" },
@@ -523,6 +214,8 @@ describe ('Array', function () {
             { "_id" : 1, "item" : "ABC1", "sizes" : "L",ind:2 },
             { "_id" : 2, "item" : "ABC1",ind:0 }
         ]);
+    });
+    it('aggregate - $group',function(){
         // $group & $sample
         expect(arrObjs.duplicate(true).aggregate([
             {$sample:{size: 4}},
@@ -539,12 +232,18 @@ describe ('Array', function () {
                 theset:{$addToSet:"$share"},
                 stdsamp:{$stdDevSamp:"$std"},
                 stdpop:{$stdDevPop:"$std"}
-            }}])).toEqual([{_id:null,totalPrice:140,averageQuantity:20,count:4,f:"10",l:"30",max:30,min:10,pushed:["shared","shared","shared"],theset:["shared"],stdsamp:0,stdpop:0}]);
+        }}])).toEqual([{_id:null,totalPrice:140,averageQuantity:20,count:4,f:"10",l:"30",max:30,min:10,pushed:["shared","shared","shared"],theset:["shared"],stdsamp:0,stdpop:0}]);
+    });
+    it('aggregate - $sample',function(){
         // $sample
         expect(arrObjs.duplicate(true).aggregate([{$sample: { size: 2}}]).length).toBe(2);
+    });
+    it('aggregate - $sort',function(){
         // $sort
         expect(arrSort.duplicate(true).aggregate([{$sort: { s: -1, id: 1}}])).toEqual([{id:3,s:6},{id:1,s:5},{id:2,s:5},{id:4,s:3},{id:5,s:2}]);
-        // $geoNear *****not implemented
+    });
+    // $geoNear *****not implemented
+    it('aggregate - $lookup',function(){
         // $lookup
         expect(arrLookup.duplicate(true).aggregate([{$lookup: {from:arrLookupJoiner.duplicate(true),localField:"item",foreignField:"sku",as:"idocs"}}])).toEqual([
             {
@@ -573,6 +272,8 @@ describe ('Array', function () {
                 ]
             }
         ]);
+    });
+    it('aggregate - $out',function(){
         // $out
         var arrOut = [];
         expect(arrObjs.duplicate(true).aggregate([
@@ -588,7 +289,7 @@ describe ('Array', function () {
     it('average',function(){
         expect(arrMix.average()).toBe(11/2);
     });
-    it('buildTree',function(){
+    it('buildTree - childFinder:string',function(){
         expect(arrTree.duplicate(true).buildTree(function(item){
             return !item.index;
         },'share')).toEqual([{id:4,share:"shared",odd:false,children:[
@@ -596,6 +297,8 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4,children:[]},
             {id:3,p:"30",share:"shared", index: 30,std:4,children:[]}
         ]},{id:5,share:"shared1",odd:true,children:[]}]);
+    });
+    it('buildTree - childFinder: string with options',function(){
         expect(arrTree.duplicate(true).buildTree( function(item){
             return !item.index;
         },'share',{childProperty:"cc"})).toEqual([{id:4,share:"shared",odd:false,cc:[
@@ -603,6 +306,8 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4,cc:[]},
             {id:3,p:"30",share:"shared", index: 30,std:4,cc:[]}]
         },{id:5,share:"shared1",odd:true,cc:[]}]);
+    });
+    it('buildTree - childFinder: function',function(){
         expect(arrTree.duplicate(true).buildTree( function(item){
             return !$c.isNull(item.odd);
         },function(item){ return item.id%2; },{childProperty:"cc"})).toEqual([
@@ -616,11 +321,67 @@ describe ('Array', function () {
     //});
     it('condense',function(){
         expect(['a','','b',0,'c',false,'d',null,'e',undefined].condense()).toEqual(['a','b',0,'c',false,'d','e']);
+    });
+    it('condense - check values',function(){
         expect(['a','','b',0,'c',false,'d',null,'e',undefined,'e','a','c'].condense(true)).toEqual(['a','b',0,'c',false,'d','e']);
     });
-    it('count',function(){
+    it('contains - value',function(){
+        expect(['a'].contains('b')).toEqual(false);
+        expect(['a'].contains('a')).toEqual(true);
+    });
+    it('contains - regex',function(){
+        expect(['abcd'].contains(/dc/)).toEqual(false);
+        expect(['abcd'].contains(/bc/)).toEqual(true);
+    });
+    it('contains - function',function(){
+        expect(['a','b'].contains(function(val, i, arr){ return val == "c" ; })).toEqual(false);
+        expect(['a','b'].contains(function(val, i, arr){ return val == "b" ; })).toEqual(true);
+    });
+    it('contains - value and function',function(){
+        expect([{prop:'a'}].contains('a', function(item){ return item.prop; })).toEqual(true);
+        expect([{prop:'a'}].contains('b', function(item){ return item.prop; })).toEqual(false);
+    });
+    it('contains - value and string',function(){
+        var arrInt = [1,2,3,4];
+        expect(arrInt.contains(2, '$lt')).toEqual(true);
+        expect(arrInt.contains(1, '$lt')).toEqual(false);
+        expect(arrInt.contains(1, '$lte')).toEqual(true);
+        expect(arrInt.contains(0, '$lte')).toEqual(false);
+        expect(arrInt.contains(3, '$gt')).toEqual(true);
+        expect(arrInt.contains(4, '$gt')).toEqual(false);
+        expect(arrInt.contains(4, '$gte')).toEqual(true);
+        expect(arrInt.contains(5, '$gte')).toEqual(false);
+        expect(arrInt.contains([4,0], '$mod')).toEqual(true);
+        expect(arrInt.contains([1,1], '$mod')).toEqual(false);
+        expect(arrInt.contains(Number, '$type')).toEqual(true);
+        expect(arrInt.contains(String, '$type')).toEqual(false);
+    });
+    it('contains - array',function(){
+        expect([1,2,3,4].contains([1,5])).toEqual(1);
+        expect([1,2,3,4].contains([2,3])).toEqual(2);
+        expect([1,2,3,4].contains([5,6])).toEqual(false);
+    });
+    it('count - no args',function(){
         expect(arrObjs.count()).toBe(4);
+    });
+    it('count - query',function(){
         expect(arrObjs.count({id:1})).toBe(1);
+    });
+    it('count - string',function(){
+        expect(arrStrings.count('1')).toBe(1);
+        expect(arrStrings.count('string')).toBe(4);
+        expect(arrStrings.count('strings')).toBe(0);
+    });
+    it('count - regex',function(){
+        expect(arrStrings.count(/1/)).toBe(1);
+        expect(arrStrings.count(/string/)).toBe(4);
+        expect(arrStrings.count(/strings/)).toBe(0);
+    });
+    it('createIndex - string',function(){
+        expect(arrObjs.createIndex("prop, prop2")).toEqual(arrObjs);
+    });
+    it('createIndex - array',function(){
+        expect(arrObjs.createIndex(["prop","prop2"])).toEqual(arrObjs);
     });
     it('delete',function(){
         var temp = arrObjs.duplicate(true);
@@ -630,31 +391,57 @@ describe ('Array', function () {
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}]);
 
+    });
+    it('delete - justOne:false',function(){
+        var temp = arrObjs.duplicate(true);
         expect(temp.delete({share:"shared"},false)).toEqual([
+            {id:1,p:"10",share:"shared", index: 10,std:4},
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4}]);
         expect(temp).toEqual([{id:4,std:4}]);
     });
-    it('distinct',function(){
+    it('distinct - string',function(){
+        var temp = arrObjs.duplicate(true);
+        expect(temp.distinct("share,std")).toEqual([
+            {share:"shared",std:4},{share:undefined,std:4}]);
+        expect(temp.distinct("share")).toEqual(["shared",undefined]);
+    });
+    it('distinct - string with query',function(){
+        var temp = arrObjs.duplicate(true);
+        expect(temp.distinct("share,std",{share:{$exists:1}})).toEqual([
+            {share:"shared",std:4}]);
+        expect(temp.distinct("share",{share:{$exists:1}})).toEqual(["shared"]);
+    });
+    it('distinct - array',function(){
         var temp = arrObjs.duplicate(true);
         expect(temp.distinct(["share","std"])).toEqual([
             {share:"shared",std:4},{share:undefined,std:4}]);
-        expect(temp.distinct("share,std")).toEqual([
-            {share:"shared",std:4},{share:undefined,std:4}]);
-
         expect(temp.distinct(["share"])).toEqual(["shared",undefined]);
-        expect(temp.distinct("share")).toEqual(["shared",undefined]);
 
-
+    });
+    it('distinct - string with query',function(){
+        var temp = arrObjs.duplicate(true);
         expect(temp.distinct(["share","std"],{share:{$exists:1}})).toEqual([
-            {share:"shared",std:4}]);
-        expect(temp.distinct("share,std",{share:{$exists:1}})).toEqual([
             {share:"shared",std:4}]);
 
         expect(temp.distinct(["share"],{share:{$exists:1}})).toEqual(["shared"]);
-        expect(temp.distinct("share",{share:{$exists:1}})).toEqual(["shared"]);
+    });
+    it('distinct - string with sql query',function(){
+        var temp = arrObjs.duplicate(true);
+        expect(temp.distinct("share,std","")).toEqual([
+            {share:"shared",std:4},
+            {share:undefined,std:4}
+        ]);
+        expect(temp.distinct("share","")).toEqual(["shared",undefined]);
+    });
+    it('distinct - array with sql query',function(){
+        var temp = arrObjs.duplicate(true);
+        expect(temp.distinct(["share","std"],"")).toEqual([
+            {share:"shared",std:4},
+            {share:undefined,std:4}
+        ]);
 
-
+        expect(temp.distinct(["share"],"")).toEqual(["shared",undefined]);
     });
     it('every',function(){
         var arr = ['a','','b',0,'c',false,'d',null,'e',undefined];
@@ -715,44 +502,50 @@ describe ('Array', function () {
         expect(arrObjs.indexOfAlt("20",function(item){ return item.p})).toBe(1);
         expect(arrObjs.indexOfAlt("201",function(item){ return item.p})).toBe(-1);
     });
-    it('innerJoin',function(){
+    it('innerJoin - full',function(){
         expect(arrLookup.duplicate(true).innerJoin(arrLookupJoiner.duplicate(true),"_id=_id")).toEqual([
             { "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
             { "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
             { "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
+    });
+    it('innerJoin - shorthand',function(){
         expect(arrLookup.duplicate(true).innerJoin(arrLookupJoiner.duplicate(true),"_id")).toEqual([
             { "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
             { "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
             { "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
     });
-    it('insert',function(){
+    it('insert - single',function(){
         arrMix = [1,{},"adsf",10];
         var temp = arrMix.duplicate(true);
         expect(temp.insert('abcd')).toEqual(true);
         expect(temp).toEqual([1,{},"adsf",10,'abcd']);
 
-        temp = arrMix.duplicate(true);
+    });
+    it('insert - multiple',function(){
+        var temp = arrMix.duplicate(true);
         expect(temp.insert(['abcd',99])).toEqual(true);
         expect(temp).toEqual([1,{},"adsf",10,'abcd',99]);
 
     });
-    it('insertAfter',function(){
+    it('insertAfter - single',function(){
         arrMix = [1,{},"adsf",10];
         var temp = arrMix.duplicate(true);
         expect(temp.insertAfter(1,'abcd')).toEqual(true);
         expect(temp).toEqual([1,{},'abcd',"adsf",10]);
-
-        temp = arrMix.duplicate(true);
+    });
+    it('insertAfter - multiple',function(){
+        var temp = arrMix.duplicate(true);
         expect(temp.insertAfter(1,['abcd',99])).toEqual(true);
         expect(temp).toEqual([1,{},['abcd',99],"adsf",10]);
     });
-    it('insertBefore',function(){
+    it('insertBefore - single',function(){
         arrMix = [1,{},"adsf",10];
         var temp = arrMix.duplicate(true);
         expect(temp.insertBefore(1,'abcd')).toEqual(true);
         expect(temp).toEqual([1,'abcd',{},"adsf",10]);
-
-        temp = arrMix.duplicate(true);
+    });
+    it('insertBefore - multiple',function(){
+        var temp = arrMix.duplicate(true);
         expect(temp.insertBefore(1,['abcd',99])).toEqual(true);
         expect(temp).toEqual([1,['abcd',99],{},"adsf",10]);
 
@@ -761,16 +554,11 @@ describe ('Array', function () {
         expect(arrObjs.isEmpty()).toBe(false);
         expect([].isEmpty()).toBe(true);
     });
-    it('joinLeft',function(){
+    it('joinLeft - full',function(){
         expect(arrLookup.duplicate(true).joinLeft(arrLookupJoiner.duplicate(true),"_id=_id")).toEqual([
             { "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
             { "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
             { "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
-        expect(arrLookup.duplicate(true).joinLeft(arrLookupJoiner.duplicate(true),"_id")).toEqual([
-            { "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
-            { "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
-            { "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
-
 
         expect(arrLookupJoiner.duplicate(true).joinLeft(arrLookup.duplicate(true),"_id=_id")).toEqual([
             { "_id" : 1, "sku" : "abc", description: "product 1", "instock" : 120, "item" : "abc", "price" : 12, "quantity" : 2 },
@@ -779,6 +567,14 @@ describe ('Array', function () {
             { "_id" : 4, "sku" : "jkl", description: "product 4", "instock" : 70, "item" : null, "price" : null, "quantity" : null },
             { "_id" : 5, "sku": null, description: "Incomplete", "item" : null, "price" : null, "quantity" : null },
             { "_id" : 6, "item" : null, "price" : null, "quantity" : null }]);
+    });
+    it('joinLeft - shorthand',function(){
+        expect(arrLookup.duplicate(true).joinLeft(arrLookupJoiner.duplicate(true),"_id")).toEqual([
+            { "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
+            { "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
+            { "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
+
+
         expect(arrLookupJoiner.duplicate(true).joinLeft(arrLookup.duplicate(true),"_id")).toEqual([
             { "_id" : 1, "sku" : "abc", description: "product 1", "instock" : 120, "item" : "abc", "price" : 12, "quantity" : 2 },
             { "_id" : 2, "sku" : "def", description: "product 2", "instock" : 80, "item" : "jkl", "price" : 20, "quantity" : 1 },
@@ -787,16 +583,11 @@ describe ('Array', function () {
             { "_id" : 5, "sku": null, description: "Incomplete", "item" : null, "price" : null, "quantity" : null },
             { "_id" : 6, "item" : null, "price" : null, "quantity" : null }]);
     });
-    it('joinRight',function(){
+    it('joinRight - full',function(){
         expect(arrLookupJoiner.duplicate(true).joinRight(arrLookup.duplicate(true),"_id=_id")).toEqual([
             { "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
             { "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
             { "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
-        expect(arrLookupJoiner.duplicate(true).joinRight(arrLookup.duplicate(true),"_id")).toEqual([
-            { "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
-            { "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
-            { "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
-
 
         expect(arrLookup.duplicate(true).joinRight(arrLookupJoiner.duplicate(true),"_id=_id")).toEqual([
             { "_id" : 1, "sku" : "abc", description: "product 1", "instock" : 120, "item" : "abc", "price" : 12, "quantity" : 2 },
@@ -805,6 +596,14 @@ describe ('Array', function () {
             { "_id" : 4, "sku" : "jkl", description: "product 4", "instock" : 70, "item" : null, "price" : null, "quantity" : null },
             { "_id" : 5, "sku": null, description: "Incomplete", "item" : null, "price" : null, "quantity" : null },
             { "_id" : 6, "item" : null, "price" : null, "quantity" : null }]);
+    });
+    it('joinRight - shorthand',function(){
+        expect(arrLookupJoiner.duplicate(true).joinRight(arrLookup.duplicate(true),"_id")).toEqual([
+            { "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
+            { "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
+            { "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
+
+
         expect(arrLookup.duplicate(true).joinRight(arrLookupJoiner.duplicate(true),"_id")).toEqual([
             { "_id" : 1, "sku" : "abc", description: "product 1", "instock" : 120, "item" : "abc", "price" : 12, "quantity" : 2 },
             { "_id" : 2, "sku" : "def", description: "product 2", "instock" : 80, "item" : "jkl", "price" : 20, "quantity" : 1 },
@@ -825,48 +624,58 @@ describe ('Array', function () {
             {id:3,p:10,share:"shared", index: 30,std:4},
             {id:4,p:10, std:4}]);
     });
-    it('mapReduce',function(){
-        var reduceFunction1 = function(keyCustId, valuesPrices) {
-            return valuesPrices.sum();
-        };
 
-        var mapFunction1 = function() {
-            $c.emit(this.cust_id, this.price);
-        };
-        var arr = [{
-            _id: 1,
-            cust_id: "abc123",
-            ord_date: new Date("Oct 04, 2012"),
-            status: 'A',
-            price: 25,
-            items: [ { sku: "mmm", qty: 5, price: 2.5 },
-                { sku: "nnn", qty: 5, price: 2.5 } ]
-        },{
-            _id: 2,
-            cust_id: "abc123",
-            ord_date: new Date("Oct 04, 2012"),
-            status: 'A',
-            price: 25,
-            items: [ { sku: "mmm", qty: 5, price: 2.5 },
-                { sku: "nnn", qty: 5, price: 2.5 } ]
-        },{
-            _id: 1,
-            cust_id: "abc124",
-            ord_date: new Date("Oct 04, 2012"),
-            status: 'B',
-            price: 30,
-            items: [ { sku: "ooo", qty: 5, price: 2.5 },
-                { sku: "ppp", qty: 5, price: 2.5 } ]
-        }];
-        expect(arr.mapReduce(mapFunction1,reduceFunction1)).toEqual([{_id:'abc123',value:50},{_id:'abc124',value:30}]);
-        expect(arr.mapReduce(mapFunction1,reduceFunction1,{query:{cust_id:'abc123'}})).toEqual([{_id:'abc123',value:50}]);
-
-        expect(arr.mapReduce(mapFunction1,reduceFunction1,{limit:1})).toEqual([{_id:'abc123',value:25}]);
-
+    var arr = [{
+        _id: 1,
+        cust_id: "abc123",
+        ord_date: new Date("Oct 04, 2012"),
+        status: 'A',
+        price: 25,
+        items: [ { sku: "mmm", qty: 5, price: 2.5 },
+            { sku: "nnn", qty: 5, price: 2.5 } ]
+    },{
+        _id: 2,
+        cust_id: "abc123",
+        ord_date: new Date("Oct 04, 2012"),
+        status: 'A',
+        price: 25,
+        items: [ { sku: "mmm", qty: 5, price: 2.5 },
+            { sku: "nnn", qty: 5, price: 2.5 } ]
+    },{
+        _id: 1,
+        cust_id: "abc124",
+        ord_date: new Date("Oct 04, 2012"),
+        status: 'B',
+        price: 30,
+        items: [ { sku: "ooo", qty: 5, price: 2.5 },
+            { sku: "ppp", qty: 5, price: 2.5 } ]
+    }];
+    var reduceFunction1 = function(keyCustId, valuesPrices) {
+        return valuesPrices.sum();
+    };
+    var mapFunction1 = function() {
+        $c.emit(this.cust_id, this.price);
+    };
+    it('mapReduce - simple',function(){
+        expect(arr.duplicate(true).mapReduce(mapFunction1,reduceFunction1))
+        .toEqual([{_id:'abc123',value:50},{_id:'abc124',value:30}]);
+    });
+    it('mapReduce - query',function(){
+        expect(arr.duplicate(true).mapReduce(mapFunction1,reduceFunction1,{query:{cust_id:'abc123'}}))
+        .toEqual([{_id:'abc123',value:50}]);
+    });
+    it('mapReduce - limit',function(){
+        expect(arr.duplicate(true).mapReduce(mapFunction1,reduceFunction1,{limit:1}))
+        .toEqual([{_id:'abc123',value:25}]);
+    });
+    it('mapReduce - out',function(){
         var rarr = [];
-        expect(arr.mapReduce(mapFunction1,reduceFunction1,{out:rarr})).toBe(rarr);
-
-        expect(arr.mapReduce(mapFunction1,reduceFunction1,{limit:1,finalize:function(){return {};}})).toEqual([{_id:'abc123',value:{}}]);
+        expect(arr.duplicate(true).mapReduce(mapFunction1,reduceFunction1,{out:rarr}))
+        .toBe(rarr);
+    });
+    it('mapReduce - limit/final',function(){
+        expect(arr.duplicate(true).mapReduce(mapFunction1,reduceFunction1,{limit:1,finalize:function(){return {};}}))
+        .toEqual([{_id:'abc123',value:{}}]);
     });
     it('normalize',function(){
         var temp = arrObjs.duplicate(true);
@@ -963,20 +772,26 @@ describe ('Array', function () {
         });
 
     });
-    it('remove',function(){
+    it('remove - simple',function(){
         //arrMix = [1,{},"adsf",10];
         var temp = arrMix.duplicate(true);
         expect(temp.remove("adsf")).toBe("adsf");
         expect(temp).toEqual([1,{},10]);
-        expect(temp.remove("adsf",function(){return 1;})).toEqual({});
-        expect(temp).toEqual([1,10]);
     });
-    it('removeAll',function(){
+    it('remove - callback',function(){
+        //arrMix = [1,{},"adsf",10];
+        var temp = arrMix.duplicate(true);
+        expect(temp.remove("adsf",function(){return 1/*index*/;})).toEqual({});
+        expect(temp).toEqual([1,'adsf',10]);
+    });
+    it('removeAll - simple',function(){
         var temp = arrObjs.duplicate(true);
         temp.removeAll();
         expect(temp).toEqual([]);
         expect([].removeAll()).toEqual([]);
-        temp = arrObjs.duplicate(true);
+    });
+    it('removeAll - complex',function(){
+        var temp = arrObjs.duplicate(true);
         temp.removeAll("10",function(item){ return item.p;});
         temp.removeAll("10",function(value){ return this.indexOfAlt(value,function(item){ return item.p; }); });
         expect(temp).toEqual([
@@ -1002,32 +817,48 @@ describe ('Array', function () {
             {id:4,std:4}]);
     });
     it('scramble',function(){
-        var temp = arrObjs.duplicate(true);
-        expect(temp.scramble()).not.toEqual(arrObjs);
-        expect(temp.length).toEqual(arrObjs.length);
+        var temp = arrObjsScramble.duplicate(true);
+        expect(temp.scramble()).not.toEqual(arrObjsScramble);
+        expect(temp.length).toEqual(arrObjsScramble.length);
     });
-    it('sortBy',function(){
+    it('sortBy - simple',function(){
         var temp = arrSort.duplicate(true);
         expect(temp.sortBy('s')).toEqual( [{id:5, s:2},{id:4, s:3},{id:1, s:5},{id:2, s:5},{id:3, s:6}]);
-
-        temp = arrSort.duplicate(true);
+    });
+    it('sortBy - simple negate',function(){
+        var temp = arrSort.duplicate(true);
         expect(temp.sortBy(['s','!id'])).toEqual( [{id:5, s:2},{id:4, s:3},{id:2, s:5},{id:1, s:5},{id:3, s:6}]);
-
-        temp = arrSort.duplicate(true);
+    });
+    it('sortBy - simple comma separated',function(){
+        var temp = arrSort.duplicate(true);
         expect(temp.sortBy('s,!id')).toEqual( [{id:5, s:2},{id:4, s:3},{id:2, s:5},{id:1, s:5},{id:3, s:6}]);
 
         temp = arrSort.duplicate(true);
         expect(temp.sortBy('s,!id', true)).toEqual([{id:3, s:6},{id:1, s:5},{id:2, s:5},{id:4, s:3},{id:5, s:2}]);
+    });
+    it('sortBy - primer',function(){
+        var temp = arrSort.duplicate(true);
 
-        temp = arrSort.duplicate(true);
         var primer = function(val){ if (val%2) { return val - 1;} return val;};
         expect(temp.sortBy(['s','id'],false,primer)).toEqual( [{id:4, s:3},{id:5, s:2},{id:1, s:5},{id:2, s:5},{id:3, s:6}]);
-
+    });
+    it('sortBy - lookup',function(){
         var arr = ['a','b','c','d'], lookup = {a:{s:4},b:{s:3},c:{s:2},d:{s:1}};
         expect(arr.sortBy(['s'],false,null,lookup)).toEqual( ['d','c','b','a']);
 
         var lookup2 = {a:{s:"a"},b:{s:"B"},c:{s:"c"},d:{s:"d"}};
         expect(arr.sortBy(['s'],false,null,lookup2)).toEqual( ['b','a','c','d']);
+    });
+    it('sortBy - lookup string',function(){
+        var arr = ['a','b','c','d'];
+
+        var lookup2 = {a:{s:"a"},b:{s:"B"},c:{s:"c"},d:{s:"d"}};
+        expect(arr.sortBy(['s'],false,null,lookup2)).toEqual( ['b','a','c','d']);
+    });
+    it('sortBy - lookup string ignore case',function(){
+        var arr = ['a','b','c','d'];
+
+        var lookup2 = {a:{s:"a"},b:{s:"B"},c:{s:"c"},d:{s:"d"}};
         expect(arr.sortBy(['s'],false,null,lookup2,'i')).toEqual( ['a','b','c','d']);
     });
     it('stdev',function(){
@@ -1055,7 +886,7 @@ describe ('Array', function () {
         arr.trim(true);
         expect(arr).toEqual(["string 1","string 2","string 3","string 4"]);
     });
-    it('update',function(){
+    it('update - $set/single',function(){
         var temp = arrObjs.duplicate(true);
         temp.update({share:"shared"},{$set:{index:15}});
         expect(temp).toEqual([
@@ -1063,44 +894,50 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}]);
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('update - $set/multiple',function(){
+        var temp = arrObjs.duplicate(true);
         temp.update({share:"shared"},{$set:{index:15}},{multi:true});
         expect(temp).toEqual([
             {id:1,p:"10",share:"shared", index: 15,std:4},
             {id:2,p:"20",share:"shared", index : 15,std:4},
             {id:3,p:"30",share:"shared", index: 15,std:4},
             {id:4,std:4}]);
-
-        temp = arrObjs.duplicate(true);
-        temp.update({share:"shared"},{},{multi:true});
-        expect(temp).toEqual([{}, {}, {}, {id:4,std:4}]);
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('update - replace/single',function(){
+        var temp = arrObjs.duplicate(true);
         temp.update({share:"shared"},{});
         expect(temp).toEqual([
             {},
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}]);
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('update - replace/multiple',function(){
+        var temp = arrObjs.duplicate(true);
+        temp.update({share:"shared"},{},{multi:true});
+        expect(temp).toEqual([{}, {}, {}, {id:4,std:4}]);
+    });
+    it('update - $inc',function(){
+        var temp = arrObjs.duplicate(true);
         temp.update({share:"shared"},{$inc:{index:1}},{multi:true});
         expect(temp).toEqual([
             {id:1,p:"10",share:"shared", index: 11,std:4},
             {id:2,p:"20",share:"shared", index : 21,std:4},
             {id:3,p:"30",share:"shared", index: 31,std:4},
             {id:4,std:4}]);
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('update - $unset',function(){
+        var temp = arrObjs.duplicate(true);
         temp.update({share:"shared"},{$unset:{index:1}});
         expect(temp).toEqual([
             {id:1,p:"10",share:"shared", std:4},
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}]);
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('update - $currentDate',function(){
+        var temp = arrObjs.duplicate(true);
         temp.update({share:"shared"},{$currentDate:{currentDate:1}});
         expect(temp[0].currentDate.toString()).toBe((new Date()).toString());
         delete temp[0].currentDate;
@@ -1109,23 +946,24 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}]);
-
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('update - $min/$max/$mul/$rename',function(){
+        var temp = arrObjs.duplicate(true);
         temp.update({},{$min:{index:20},$max:{index:20},$mul:{std:2},$rename:{share:'shared'}},{multi:true});
         expect(temp).toEqual([
             {id:1,p:"10",shared:"shared", index: 20,std:8},
             {id:2,p:"20",shared:"shared", index : 20,std:8},
             {id:3,p:"30",shared:"shared", index: 20,std:8},
             {id:4,index:20,std:8}]);
-
-        var arrArr = [
-            {id:1,arr:[
-                { "id" : 1, "score" : 6 },
-                { "id" : 2, "score" : 9 }
-            ]}
-        ];
-        temp = arrArr.duplicate(true);
+    });
+    var arrArr = [
+        {id:1,arr:[
+            { "id" : 1, "score" : 6 },
+            { "id" : 2, "score" : 9 }
+        ]}
+    ];
+    it('update - $push',function(){
+        var temp = arrArr.duplicate(true);
         temp.update({},{$push:{arr:{
             $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             $sort: { score: 1 }
@@ -1159,8 +997,9 @@ describe ('Array', function () {
             { "id" : 5, "score" : 6 },
             { "id" : 2, "score" : 9 }
         ]}]);
-
-        temp = arrArr.duplicate(true);
+    });
+    it('update - $pop',function(){
+        var temp = arrArr.duplicate(true);
         temp.update({},{$pop:{arr: -1}});
         expect(temp).toEqual([{id:1,arr:[
             { "id" : 2, "score" : 9 }
@@ -1171,20 +1010,23 @@ describe ('Array', function () {
         expect(temp).toEqual([{id:1,arr:[
             { "id" : 1, "score" : 6 }
         ]}]);
-
-        temp = [{ id: 1, scores: [ 0, 2, 5, 5, 1, 0 ] }];
+    });
+    it('update - $pullAll',function(){
+        var temp = [{ id: 1, scores: [ 0, 2, 5, 5, 1, 0 ] }];
         temp.update({},{$pullAll:{scores: [0,5]}});
         expect(temp).toEqual([{id:1,scores:[2,1]}]);
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('update - $upsert/$set',function(){
+        var temp = arrObjs.duplicate(true);
         temp.update({nonexistant:"shared"},{$set:{index:15}},{upsert:true});
         expect(temp).toEqual([
             {id:1,p:"10",share:"shared", index: 10,std:4},
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4},{index:15}]);
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('update - $upsert/replace',function(){
+        var temp = arrObjs.duplicate(true);
         temp.update({nonexistant:"shared"},{index:15},{upsert:true});
         expect(temp).toEqual([
             {id:1,p:"10",share:"shared", index: 10,std:4},
@@ -1192,9 +1034,8 @@ describe ('Array', function () {
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4},{index:15}]);
     });
-    it('upsert',function(){
+    it('upsert - unchanged',function(){
         var temp = arrObjs.duplicate(true);
-        // temp = arrObjs.duplicate(true);
         expect(temp.upsert({id:1,p:"10",share:"shared", index: 10,std:4},"id")).toEqual({
             insertedIndexes:[],
             updatedIndexes:[],
@@ -1207,8 +1048,9 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}]);
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('upsert - insert',function(){
+        var temp = arrObjs.duplicate(true);
         expect(temp.upsert({id:5,p:"10",share:"shared", index: 10,std:4},"id")).toEqual({
             insertedIndexes:[4],
             updatedIndexes:[],
@@ -1220,17 +1062,9 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4},{id:5,p:"10",share:"shared", index: 10,std:4}]);
-        temp = arrObjs.duplicate(true);
-        expect(temp.upsert({id:5,p:"10",share:"shared", index: 10,std:4},"id")).toEqual({
-            insertedIndexes:[4],
-            updatedIndexes:[],
-            unchangedIndexes:[],
-            inserted: [{id:5,p:"10",share:"shared", index: 10,std:4}],
-            updated:[],
-            unchanged:[]
-        });
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('upsert - insert/function',function(){
+        var temp = arrObjs.duplicate(true);
         expect(temp.upsert({id:5,p:"10",share:"shared", index: 10,std:4},"id",function(doc,record){
             return true;
         })).toEqual({
@@ -1241,7 +1075,9 @@ describe ('Array', function () {
             updated:[],
             unchanged:[]
         });
-        temp = arrObjs.duplicate(true);
+    });
+    it('upsert - unchanged/function',function(){
+        var temp = arrObjs.duplicate(true);
         expect(temp.upsert({id:1,p:"10",share:"shared", index: 10,std:4},"id",function(){return true;})).toEqual({
             insertedIndexes:[],
             updatedIndexes:[],
@@ -1254,8 +1090,9 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}]);
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('upsert - updated/function',function(){
+        var temp = arrObjs.duplicate(true);
         expect(temp.upsert({id:1,p:"10",share:"shared", index: 10,std:4},"id",function(){return false;})).toEqual({
             insertedIndexes:[],
             updatedIndexes:[0],
@@ -1268,11 +1105,9 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}]);
-
-
-
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('upsert - unchanged/array',function(){
+        var temp = arrObjs.duplicate(true);
         expect(temp.upsert([{id:1,p:"10",share:"shared", index: 10,std:4}],"id")).toEqual({
             insertedIndexes:[],
             updatedIndexes:[],
@@ -1285,8 +1120,9 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}]);
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('upsert - insert/array',function(){
+        var temp = arrObjs.duplicate(true);
         expect(temp.upsert([{id:5,p:"10",share:"shared", index: 10,std:4}],"id")).toEqual({
             insertedIndexes:[4],
             updatedIndexes:[],
@@ -1298,17 +1134,9 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4},{id:5,p:"10",share:"shared", index: 10,std:4}]);
-        temp = arrObjs.duplicate(true);
-        expect(temp.upsert([{id:5,p:"10",share:"shared", index: 10,std:4}],"id")).toEqual({
-            insertedIndexes:[4],
-            updatedIndexes:[],
-            unchangedIndexes:[],
-            inserted: [{id:5,p:"10",share:"shared", index: 10,std:4}],
-            updated:[],
-            unchanged:[]
-        });
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('upsert - insert/array/function',function(){
+        var temp = arrObjs.duplicate(true);
         expect(temp.upsert([{id:5,p:"10",share:"shared", index: 10,std:4}],"id",function(doc,record){
             return true;
         })).toEqual({
@@ -1319,7 +1147,9 @@ describe ('Array', function () {
             updated:[],
             unchanged:[]
         });
-        temp = arrObjs.duplicate(true);
+    });
+    it('upsert - unchanged/array/function',function(){
+        var temp = arrObjs.duplicate(true);
         expect(temp.upsert([{id:1,p:"10",share:"shared", index: 10,std:4}],"id",function(){return true;})).toEqual({
             insertedIndexes:[],
             updatedIndexes:[],
@@ -1332,8 +1162,9 @@ describe ('Array', function () {
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}]);
-
-        temp = arrObjs.duplicate(true);
+    });
+    it('upsert - updated/array/function',function(){
+        var temp = arrObjs.duplicate(true);
         expect(temp.upsert([{id:1,p:"10",share:"shared", index: 10,std:4}],"id",function(){return false;})).toEqual({
             insertedIndexes:[],
             updatedIndexes:[0],
@@ -1347,51 +1178,73 @@ describe ('Array', function () {
             {id:3,p:"30",share:"shared", index: 30,std:4},
             {id:4,std:4}]);
     });
-    it('where',function(){
+    it('where - simple',function(){
         var temp = arrObjs.duplicate(true);
         expect(arrObjs.where({share:"shared"})).toEqual([
             {id:1,p:"10",share:"shared", index: 10,std:4},
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4}]);
-
+    });
+    it('where - comparison',function(){
         expect(arrObjs.where({index:{$eq:10}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
         expect(arrObjs.where({index:{$gt:20}})).toEqual([{id:3,p:"30",share:"shared", index: 30,std:4}]);
         expect(arrObjs.where({index:{$lt:20}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
         expect(arrObjs.where({index:{$gte:20}})).toEqual([{id:2,p:"20",share:"shared", index : 20,std:4},{id:3,p:"30",share:"shared", index: 30,std:4}]);
         expect(arrObjs.where({index:{$lte:20}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:2,p:"20",share:"shared", index : 20,std:4}]);
         expect(arrObjs.where({index:{$ne:20}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:3,p:"30",share:"shared", index: 30,std:4}]);
+    });
+    it('where - $in & $nin',function(){
         expect(arrObjs.where({index:{$in:[10,20]}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:2,p:"20",share:"shared", index : 20,std:4}]);
         expect(arrObjs.where({index:{$nin:[10,20]}})).toEqual([{id:3,p:"30",share:"shared", index: 30,std:4},{id:4,std:4}]);
+    });
+    it('where - logical',function(){
         expect(arrObjs.where({$and:[{std:4},{index:10}]})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);
         expect(arrObjs.where({$and:[{std:5},{index:10}]})).toEqual([]);
         expect(arrObjs.where({$or:[{index:20},{index:10}]})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:2,p:"20",share:"shared", index : 20,std:4}]);
         expect(arrObjs.where({index:{ $not: { $gte: 20 }}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:4,std:4}]);
         expect(arrObjs.where({$nor:[{index:20},{index:10}]})).toEqual([{id:3,p:"30",share:"shared", index: 30,std:4},{id:4,std:4}]);
+    });
+    it('where - $exists',function(){
         expect(arrObjs.where({index:{$exists:true}})).toEqual([
             {id:1,p:"10",share:"shared", index: 10,std:4},
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4}]);
         expect(arrObjs.where({index:{$exists:false}})).toEqual([{id:4,std:4}]);
+    });
+    it('where - $type',function(){
         expect(arrObjs.where({index:{$type:Number}})).toEqual([
             {id:1,p:"10",share:"shared", index: 10,std:4},
             {id:2,p:"20",share:"shared", index : 20,std:4},
             {id:3,p:"30",share:"shared", index: 30,std:4}]);
+    });
+    it('where - $mod',function(){
         expect(arrObjs.where({index:{$mod:[3,2]}})).toEqual([
             {id:2,p:"20",share:"shared", index : 20,std:4}]);
+    });
+    it('where - $regex',function(){
         expect(arrObjs.where({index:{$regex:/[12]/}})).toEqual([
             {id:1,p:"10",share:"shared", index: 10,std:4},
             {id:2,p:"20",share:"shared", index : 20,std:4}]);
+    });
+    it('where - $where',function(){
+        var temp = arrObjs.duplicate(true);
         expect(arrObjs.where({$where:"this.index > 20"})).toEqual([
             {id:3,p:"30",share:"shared", index: 30,std:4}]);
         expect(arrObjs.where({$where:function(){ return this.index < 20;}})).toEqual([
             {id:1,p:"10",share:"shared", index: 10,std:4}]);
+    });
+    it('where - function',function(){
         expect(arrObjs.where(function(){ return this.index < 20;})).toEqual([
             {id:1,p:"10",share:"shared", index: 10,std:4}]);
+    });
+    it('where - $all',function(){
         expect([{id:1,p:"10",share:"shared", index: 10,std:4,tags:['a','b']}].where({tags:{$all:['b','a']}})).toEqual([
             {id:1,p:"10",share:"shared", index: 10,std:4,tags:['a','b']}]);
+    });
+    it('where - array',function(){
         expect([{id:1,p:"10",share:"shared", index: 10,std:4,tags:['c','b']}].where({tags:['b','a']})).toEqual([]);
-
-        temp = [
+    });
+    var whereTemp = [
             { _id: 1, results: [
                 { product: "abc", score: 10 },
                 { product: "xyz", score: 5 } ] },
@@ -1402,19 +1255,23 @@ describe ('Array', function () {
                 { product: "xyz", score: 8 } ] },
             { _id: 3 },
             { _id: 4, results: [ ] }];
-        expect(temp.where( { results: { $elemMatch: { product: "xyz", score: { $gte: 8 } } } })).toEqual([
+    it('where - $elemMatch',function(){
+        expect(whereTemp.where( { results: { $elemMatch: { product: "xyz", score: { $gte: 8 } } } })).toEqual([
             {"_id":3,"results":[{"product":"abc","score":7},{"product":"xyz","score":8}]}
         ]);
-        expect(temp.where( { results: { $size: 1 } })).toEqual([
+    });
+    it('where - $size',function(){
+        expect(whereTemp.where( { results: { $size: 1 } })).toEqual([
             { _id: 2, results: [ { product: "xyz", score: 7 } ] }
         ]);
-        expect(temp.where( { results: { $size: 0 } })).toEqual([{_id:3},{ _id: 4, results: [ ] }]);
-        expect(temp.where( { results: { $size: 2 } })).toEqual([
+        expect(whereTemp.where( { results: { $size: 0 } })).toEqual([{_id:3},{ _id: 4, results: [ ] }]);
+        expect(whereTemp.where( { results: { $size: 2 } })).toEqual([
             { _id: 1, results: [ { product: "abc", score: 10 }, { product: "xyz", score: 5 } ] },
             {"_id":3,"results":[{"product":"abc","score":7},{"product":"xyz","score":8}]}
         ]);
-
-        temp = [
+    });
+    it('where - regex',function(){
+        var temp = [
             {section: 'Result',category:"imaging"},
             {section: 'Result',category:"blahimagingblah"},
             {section: 'Result',category:"Imaging"},

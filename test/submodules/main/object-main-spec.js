@@ -1,52 +1,6 @@
-var pre = "@craydent/";
-delete global.$c;
-delete global.__craydentNoConflict;
-delete global.navigator;
-
-try { require.cache[require.resolve('../../../common.js')] && delete require.cache[require.resolve('../../../common.js')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-array')] && delete require.cache[require.resolve(pre + 'craydent-array')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-class')] && delete require.cache[require.resolve(pre + 'craydent-class')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-cli')] && delete require.cache[require.resolve(pre + 'craydent-cli')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-control-flow')] && delete require.cache[require.resolve(pre + 'craydent-control-flow')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-date')] && delete require.cache[require.resolve(pre + 'craydent-date')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-fs')] && delete require.cache[require.resolve(pre + 'craydent-fs')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-function')] && delete require.cache[require.resolve(pre + 'craydent-function')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-http')] && delete require.cache[require.resolve(pre + 'craydent-http')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-json-parser')] && delete require.cache[require.resolve(pre + 'craydent-json-parser')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-number')] && delete require.cache[require.resolve(pre + 'craydent-number')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-object')] && delete require.cache[require.resolve(pre + 'craydent-object')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-regexp')] && delete require.cache[require.resolve(pre + 'craydent-regexp')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-string')] && delete require.cache[require.resolve(pre + 'craydent-string')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-template')] && delete require.cache[require.resolve(pre + 'craydent-template')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-typeof')] && delete require.cache[require.resolve(pre + 'craydent-typeof')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-utility')] && delete require.cache[require.resolve(pre + 'craydent-utility')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-xml-to-json')] && delete require.cache[require.resolve(pre + 'craydent-xml-to-json')]; }catch(e){}
-
-try { require.cache[require.resolve(pre + 'craydent-array/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-array/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-class/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-class/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-cli/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-cli/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-control-flow/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-control-flow/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-date/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-date/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-fs/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-fs/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-function/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-function/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-http/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-http/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-json-parser/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-json-parser/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-number/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-number/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-object/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-object/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-regexp/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-regexp/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-string/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-string/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-template/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-template/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-typeof/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-typeof/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-utility/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-utility/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-xml-to-json/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-xml-to-json/noConflict')]; }catch(e){}
-
-
-try { require.cache[require.resolve('../../../noConflict.js')] && delete require.cache[require.resolve('../../../noConflict.js')]; }catch(e){}
-try { require.cache[require.resolve('../../../global.js')] && delete require.cache[require.resolve('../../../global.js')]; }catch(e){}
-try { require.cache[require.resolve('../../../craydent.js')] && delete require.cache[require.resolve('../../../craydent.js')]; }catch(e){}
-
+var pre = require('../_prep');
 var $c = require(pre + 'craydent-object');
-var $s = require('../../../common.js');
+var $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
 describe ('Object', function () {
     it('changes',function(){
@@ -64,18 +18,32 @@ describe ('Object', function () {
         });
 
     });
-    it('contains',function(){
+    it('contains - string/string',function(){
         expect("asdf".contains("a")).toBe(true);
         expect("asdf".contains("e")).toBe(false);
+    });
+    it('contains - string/regex',function(){
         expect("asdf".contains(/^as/)).toBe(true);
         expect("asdf".contains(/ad/)).toBe(false);
+    });
+    it('contains - array/string',function(){
         expect(['q','b'].contains("b")).toBe(true);
         expect(['q','b'].contains("c")).toBe(false);
+    });
+    it('contains - array/regex',function(){
         expect(['q','b'].contains(/b/)).toBe(true);
+    });
+    it('contains - array/array',function(){
         expect(['q','b'].contains(['a','c'])).toBe(false);
         expect(['q','b'].contains(['a','q'])).toBe("q");
+    });
+    it('contains - array/value/func',function(){
         expect(['q','b'].contains('a',function(){ return 'a';})).toBe(true);
+    });
+    it('contains - array/func',function(){
         expect(['q','b'].contains(function(val,prop,arr){ return val=='b';})).toBe(true);
+    });
+    it('contains - object/string',function(){
         expect({q:"asdf",b:"abbb"}.contains("abbb")).toBe(true);
         expect({q:"asdf",b:"abbb"}.contains("asdfb")).toBe(false);
     });
@@ -86,22 +54,22 @@ describe ('Object', function () {
         expect(tb).toEqual({hi:"hello"});
         expect(tb.constructor).not.toEqual(B);
     });
-    it('duplicate',function(){
+    it('duplicate - object',function(){
         var obj = {hi:"hello",bye:"ciao",o:{blah:''}};
         var tobj = obj.duplicate();
         expect(tobj).not.toBe(obj);
         expect(tobj.o).toBe(tobj.o);
         tobj = obj.duplicate(true);
         expect(tobj.o).not.toBe(obj.o);
-
-
+    });
+    it('duplicate - class',function(){
         function B(){ this.hi = "hello"; }
         var b = new B();
         var tb = b.duplicate();
         expect(tb).toEqual({hi:"hello"});
         expect(tb.constructor).toEqual(B);
-
-
+    });
+    it('duplicate - recursive',function(){
         function A(){console.log('');}
         var obj = {use:A};
         var obj2 = obj.duplicate(true);
@@ -120,22 +88,31 @@ describe ('Object', function () {
         expect(arrp).toEqual(['a','b','c']);
         expect(arrv).toEqual(['a1','b1','c1']);
     });
-    it('equals',function(){
+    it('equals - string',function(){
         expect("s".equals("s")).toBe(true);
         expect("s".equals("ss")).toBe(false);
+    });
+    it('equals - number',function(){
         expect((0).equals(0)).toBe(true);
         expect((1).equals(2)).toBe(false);
+    });
+    it('equals - object',function(){
         expect({}.equals({})).toBe(true);
         expect({}.equals({hi:''})).toBe(false);
+    });
+    it('equals - object with specified property',function(){
         expect({hi:'',bye:''}.equals({hi:''},['hi'])).toBe(true);
+    });
+    it('equals - array',function(){
         expect([].equals([])).toBe(true);
         expect([].equals([''])).toBe(false);
 
     });
-    it('every',function(){
+    it('every - array',function(){
         expect(['a','b','c'].every(function(val,prop,arr){ return val; })).toBe(true);
         expect(['a','','c'].every(function(val,prop,arr){ return val; })).toBe(false);
-
+    });
+    it('every - object',function(){
         expect({a:'a',b:'b',c:'c'}.every(function(val,prop,arr){ return val; })).toBe(true);
         expect({a:'a',b:'',c:'c'}.every(function(val,prop,arr){ return val; })).toBe(false);
 
@@ -151,24 +128,24 @@ describe ('Object', function () {
         expect(o.getProperty("path.arr.foo")).toBe(undefined);
         expect(o.getProperty("path.arr.0.foo")).toBe("bar");
     });
-    it('getValue',function(){
-        var f = function(num){return (num || 0 ) + 1; };
-        var n = 10;
-        var s = "s";
-        var o = {};
-        var a = [];
+    var f = function(num){return (num || 0 ) + 1; };
+    var n = 10;
+    var s = "s";
+    var o = {};
+    var a = [];
+    it('getValue - no default',function(){
         expect(f.getValue()).toBe(1);
         expect(n.getValue()).toBe(10);
         expect(s.getValue()).toBe("s");
         expect(o.getValue()).toEqual({});
-        expect([].getValue()).toEqual([]);
-
-
-        expect($s.foo.getValue([-1],1)).toBe(1);
+        expect(a.getValue()).toEqual([]);
+    });
+    it('getValue - with default',function(){
+        expect($m.foo.getValue([-1],1)).toBe(1);
         expect($c.getValue(null,n)).toBe(10);
         expect($c.getValue(null,s)).toBe("s");
         expect($c.getValue(null,o)).toEqual({});
-        expect($c.getValue(null,[])).toEqual([]);
+        expect($c.getValue(null,a)).toEqual([]);
     });
     it('has',function(){
         var obj = {hi:""};
@@ -190,11 +167,13 @@ describe ('Object', function () {
         expect((/k/).isArray()).toBe(false);
         expect(("").isArray()).toBe(false);
     });
-    it('isBetween',function(){
+    it('isBetween - number',function(){
         expect((10).isBetween(11,9)).toBe(false);
         expect((10).isBetween(9,11)).toBe(true);
         expect((10).isBetween(10,11)).toBe(false);
         expect((10).isBetween(10,11,true)).toBe(true);
+    });
+    it('isBetween - string',function(){
         expect(("b").isBetween("a","c")).toBe(true);
         expect(("b").isBetween("b","c")).toBe(false);
         expect(("b").isBetween("b","c",true)).toBe(true);
@@ -243,14 +222,16 @@ describe ('Object', function () {
         expect(("").isDomElement()).toBe(false);
 
     });
-    it('isEmpty',function(){
+    it('isEmpty - function',function(){
         expect((function(){}).isEmpty()).toBe(true);
-        expect(({}).isEmpty()).toBe(true);
-        expect(([]).isEmpty()).toBe(true);
-
-
         expect((function(){ var b; }).isEmpty()).toBe(false);
+    });
+    it('isEmpty - object',function(){
+        expect(({}).isEmpty()).toBe(true);
         expect(({hi:""}).isEmpty()).toBe(false);
+    });
+    it('isEmpty - array',function(){
+        expect(([]).isEmpty()).toBe(true);
         expect((['']).isEmpty()).toBe(false);
     });
     it('isFloat',function(){
@@ -394,7 +375,7 @@ describe ('Object', function () {
         expect(("").isString()).toBe(true);
 
     });
-        it('itemCount',function(){
+    it('itemCount',function(){
         var obj = {hi:""};
         expect((obj).itemCount()).toBe(1);
         expect(({}).itemCount()).toBe(0);
@@ -406,10 +387,11 @@ describe ('Object', function () {
     });
     it('map',function(){
         var obj = {hi:"hello",world:"world",index:1};
-        obj.map(function(val){ return val += 10;});
-        expect(obj).toEqual({hi:"hello10",world:"world10",index:11});
+        var obj2 = obj.map(function(val){ return val += 10;});
+        expect(obj).toEqual({hi:"hello",world:"world",index:1});
+        expect(obj2).toEqual({hi:"hello10",world:"world10",index:11});
     });
-    it('merge',function(){
+    it('merge - single',function(){
         var obj1 = {id:1,prop1:"prop1"};
         var obj2 = {id:2,prop2:"prop2"};
         var merged = obj1.merge(obj2);
@@ -423,10 +405,10 @@ describe ('Object', function () {
         obj1 = {id:1,prop1:{p1:"adsf"},arr:[]};
         obj2 = {id:2,prop1:{p2:";lkj"},arr:['1234']};
         expect(obj1.merge(obj2,{recurse:true})).toEqual({id:2,prop1:{p1:"adsf",p2:";lkj"},arr:['1234']});
-
+    });
+    it('merge - multi',function(){
         var a = {a:"a"}, b = {b:"b"}, c = {c:"c"}, d = {d:"d"};
         expect(a.merge(b,c,d)).toEqual({a:"a", b:"b", c:"c", d:"d"});
-
     });
     it('setProperty',function(){
         var o = {};
@@ -435,11 +417,14 @@ describe ('Object', function () {
         expect(o.setProperty("path.arr.0.foo","bar")).toBe(true);
         expect(o).toEqual({path:{path:"hello world",arr:[{foo:"bar"}]}});
     });
-    it('toStringAlt',function(){
-        var obj = {hi:"hello ",place:"world"};
-        expect(obj.toStringAlt()).toBe("&hi=hello &place=world");
-        expect(obj.toStringAlt("-")).toBe("&hi-hello &place-world");
-        expect(obj.toStringAlt("=","@")).toBe("@hi=hello @place=world");
-        expect(obj.toStringAlt("=","@",true)).toBe("@hi=hello%20@place=world");
+    var objToStringAlt = {hi:"hello ",place:"world"};
+    it('toStringAlt - basic',function(){
+        var objToStringAlt = {hi:"hello ",place:"world"};
+        expect(objToStringAlt.toStringAlt()).toBe("&hi=hello &place=world");
+        expect(objToStringAlt.toStringAlt("-")).toBe("&hi-hello &place-world");
+        expect(objToStringAlt.toStringAlt("=","@")).toBe("@hi=hello @place=world");
+    });
+    it('toStringAlt - encode uri',function(){
+        expect(objToStringAlt.toStringAlt("=","@",true)).toBe("@hi=hello%20@place=world");
     });
 });
