@@ -64,6 +64,7 @@ function yieldable(value,context,callbackIndex,returnIndex) {
                 }
                 return new Promise(function(res){
                     var fn = function () {
+                        var args = arguments;
                         if (args.length == 1) {
                             return res(args[0]);
                         }
