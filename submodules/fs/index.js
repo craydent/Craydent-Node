@@ -22,6 +22,7 @@ require($s.dir + 'relativePathFinder')($s);
 require($s.dir + 'requireDirectory')($s);
 
 var fsmethods = [
+    "access",
     "appendFile",
     "chmod",
     "chown",
@@ -68,8 +69,11 @@ for (var i = 0, len = fsmethods.length; i < len; i++) {
             "url": "http://www.craydent.com/library/1.9.3/docs#' + fsmethods[i] + '",\
             "returnType": "(Mixed)"\
         }|*/\
-        var args = arguments,\
+        var args = [],\
             name = arguments.callee.name;\
+        for (var i = 0, len = arguments.length; i < len; i++) {\
+            args.push(arguments[i]);\
+        }\
         return new Promise(function (res) {\
             try {\
                 args.push(function (err, data, buffer) {\
@@ -79,7 +83,7 @@ for (var i = 0, len = fsmethods.length; i < len; i++) {
                     if (buffer) {\
                         res({bytes: data, buffer: buffer});\
                     }\
-                    res(data || true);\
+                    res($s.isNull(data, true) || data);\
                 });\
                 fs[name].apply(this, args);\
             } catch (e) {\
