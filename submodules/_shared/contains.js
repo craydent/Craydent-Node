@@ -27,7 +27,7 @@ var _isFunction = $c.isFunction,
 
 
 function contains (obj, val, func) {
-    if (_isFunction(val)) {
+    if (_isFunction(val) && !func) {
         for (var prop in obj) {
             if (val(obj[prop], prop, obj)) {
                 return true;
@@ -35,7 +35,7 @@ function contains (obj, val, func) {
         }
     }
     if (_isArray(obj)) {
-        if (~obj.indexOf(val)) {
+        if (~obj.indexOf(val) && !func) {
             return true;
         }
         if (_isFunction(func) || _isRegExp(val)) {
@@ -107,7 +107,7 @@ function init (ctx) {
     _isRegExp = $s.isRegExp || $c.isRegExp;
     _isString = $s.isString || $c.isString;
     _isNumber = $s.isNumber || $c.isNumber;
-    _indexOfAlt = $s.isFunction || $c.indexOfAlt;
+    _indexOfAlt = $s.indexOfAlt || $c.indexOfAlt;
     _foo = $s.foo || $c.foo;
 
     $c._contains_lessthan = ctx._contains_lessthan = $c._contains_lessthan || ctx._contains_lessthan || _contains_lessthan;
