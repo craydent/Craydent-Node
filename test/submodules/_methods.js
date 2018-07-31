@@ -1,6 +1,6 @@
 module.exports = function (pre) {
     var $s = require('../../common.js');
-    var $t = require(pre + 'craydent-typeof');
+    var $t = require(pre + 'craydent-typeof/noConflict');
     function duplicate (rec){
         return $s.duplicate(this,rec);
     };
@@ -341,6 +341,7 @@ module.exports = function (pre) {
         syncroit: syncroit,
         foo: foo,
         cuid: cuid,
+        isNull: $t.isNull,
         matchPropAndConstructor: matchPropAndConstructor
     }
 }

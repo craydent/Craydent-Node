@@ -309,7 +309,7 @@ describe ('Array', function () {
     });
     it('buildTree - childFinder: function',function(){
         expect(arrTree.duplicate(true).buildTree( function(item){
-            return !$c.isNull(item.odd);
+            return !$m.isNull(item.odd);
         },function(item){ return item.id%2; },{childProperty:"cc"})).toEqual([
             {id:4,share:"shared",odd:false,cc:[{id:2,p:"20",share:"shared", index : 20,std:4,cc:[]}]},
             {id:5,share:"shared1",odd:true,cc:[{id:1,p:"10",share:"shared", index: 10,std:4,cc:[]}, {id:3,p:"30",share:"shared", index: 30,std:4,cc:[]}]}
@@ -445,8 +445,8 @@ describe ('Array', function () {
     });
     it('every',function(){
         var arr = ['a','','b',0,'c',false,'d',null,'e',undefined];
-        expect(arr.every(function(item,i,arr){ return !$c.isNull(item); })).toBe(false);
-        expect(arr.condense().every(function(item,i,arr){ return !$c.isNull(item); })).toBe(true);
+        expect(arr.every(function(item,i,arr){ return !$m.isNull(item); })).toBe(false);
+        expect(arr.condense().every(function(item,i,arr){ return !$m.isNull(item); })).toBe(true);
     });
     it('filter',function(){
         var arr = ['a','','b',0,'c',false,'d',null,'e',undefined];
