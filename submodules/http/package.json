@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-http",
-    "version": "0.8.6",
+    "version": "0.8.7",
     "description": "Node module http servers and routing",
     "main": "craydent.js",
     "scripts": {

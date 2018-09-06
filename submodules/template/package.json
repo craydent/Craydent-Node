@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-template",
-    "version": "0.8.6",
+    "version": "0.8.7",
     "description": "Node module for templating to simplify code for maintainability and readability",
     "main": "craydent.js",
     "scripts": {

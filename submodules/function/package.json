@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-function",
-    "version": "0.8.6",
+    "version": "0.8.7",
     "description": "Node module to extend function functionality and simplify code for maintainability and readability",
     "main": "craydent.js",
     "scripts": {
