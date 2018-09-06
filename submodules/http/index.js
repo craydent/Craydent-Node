@@ -14,6 +14,9 @@ if ($c.MODULES_LOADED[$s.info.name]) { return; }
 $s.__log_module();
 $s.scope.eval = function (str) { return eval(str); };
 
+$s.TEMPLATE_VARS = $c.TEMPLATE_VARS || $s.TEMPLATE_VARS;
+$s.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || $s.TEMPLATE_TAG_CONFIG;
+
 require($s.dir + 'fillTemplate')($s);
 require($s.dir + 'include')($s);
 require($s.dir + 'isValidDate')($s);
@@ -279,7 +282,8 @@ function Craydent(req, res) {
 
     return this;
 }
-
+$c.TEMPLATE_VARS = $c.TEMPLATE_VARS || $s.TEMPLATE_VARS;
+$c.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || $s.TEMPLATE_TAG_CONFIG;
 $c.RESPONSES = {
     100:{"status":100,"success":true,"message":"Continue"},
     101:{"status":101,"success":true,"message":"Switching Protocols"},

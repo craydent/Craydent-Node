@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# removes all node_modules and performs each submodule publishes to npm
 BASEDIR=$(dirname "$0")
 
 cd $BASEDIR/../submodules;

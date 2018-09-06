@@ -5,13 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _isArray = $c.isArray,
-    _isFunction = $c.isFunction,
-    _isGenerator = $c.isGenerator,
-    _isAsync = $c.isAsync,
-    _tryEval = $c.tryEval,
-    _syncroit = $c.syncroit;
+var _isArray, _isFunction, _isGenerator, _isAsync, _tryEval, _syncroit;
 
 function run_func_array(funcs, args) {
     var self = this;
@@ -24,7 +18,7 @@ function run_func_array(funcs, args) {
             } else if (_isGenerator(func)) {
                 _tryEval('_syncroit(function *(){rtn = rtn.concat(yield func.apply(self,args));});');
             } else if (_isAsync(func)) {
-                _tryEval('(async function (){rtn = rtn.concat(yield func.apply(self,args));})();');
+                _tryEval('(async function (){rtn = rtn.concat(await func.apply(self,args));})();');
             }
         } catch (e) {
             throw e;
@@ -34,19 +28,13 @@ function run_func_array(funcs, args) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _isArray = ctx.isArray || $c.isArray;
-    _isFunction = ctx.isFunction || $c.isFunction;
-    _isGenerator = ctx.isGenerator || $c.isGenerator;
-    _isAsync = ctx.isAsync || $c.isAsync;
-    _tryEval = ctx.tryEval || $c.tryEval;
-    _syncroit = ctx.syncroit || $c.syncroit;
+    _isArray = ctx.isArray;
+    _isFunction = ctx.isFunction;
+    _isGenerator = ctx.isGenerator;
+    _isAsync = ctx.isAsync;
+    _tryEval = ctx.tryEval;
+    _syncroit = ctx.syncroit;
 
-    ctx.run_func_array = ctx.hasOwnProperty('run_func_array') && ctx.run_func_array || run_func_array;
-    if ($c !== ctx) {
-        $c.run_func_array = $c.hasOwnProperty('run_func_array') && $c.run_func_array || ctx.run_func_array
-    }
+    ctx.run_func_array = run_func_array;
 }
-init.run_func_array = run_func_array;
 module.exports = init;

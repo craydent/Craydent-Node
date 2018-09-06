@@ -5,46 +5,43 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {}, $s = {};
+var $s = {},
+    _contains,
+    _average,
+    _format,
+    _getDayOfYear,
+    _getWeek,
+    _getValue,
+    _isSubset,
+    _parseBoolean,
+    _removeAt,
+    _stdev,
+    _toSet,
+    _equals,
+    _isArray,
+    _isNull,
+    _isFunction,
+    _isObject,
+    _isString,
+    _isRegExp,
+    _isInt,
 
-
-require('./_contains_comparisons')($c);
-require('./average')($c);
-require('./contains')($c);
-require('./date')($c);
-require('./getValue')($c);
-require('./isSubset')($c);
-require('./parseBoolean')($c);
-require('./removeAt')($c);
-require('./stdev')($c);
-require('./toSet')($c);
-
-var _contains = $c.contains,
-    _equals = $c.equals,
-    _isArray = $c.isArray,
-    _isNull = $c.isNull,
-    _isFunction = $c.isFunction,
-    _isObject = $c.isObject,
-    _isString = $c.isString,
-    _isRegExp = $c.isRegExp,
-    _isInt = $c.isInt,
-    _parseRaw = $c.parseRaw,
-    _getFuncName = $c._getFuncName,
-    _duplicate = $c.duplicate,
-    _capitalize = $c.capitalize,
-    _getProperty = $c.getProperty,
-    _setProperty = $c.setProperty,
-    _getValue = $c.getValue,
-    _foo = $c.foo,
-    _tryEval = $c.tryEval,
-    _replace_all = $c.replace_all,
-
-    _contains_lessthan = $c._contains_lessthan;
-    _contains_greaterthan = $c._contains_greaterthan;
-    _contains_lessthanequal = $c._contains_lessthanequal;
-    _contains_greaterthanequal = $c._contains_greaterthanequal;
-    _contains_mod = $c._contains_mod;
-    _contains_type = $c._contains_type;;
+    _parseRaw,
+    _getFuncName,
+    _duplicate,
+    _capitalize,
+    _getProperty,
+    _setProperty,
+    _getValue,
+    _foo,
+    _tryEval,
+    _replace_all,
+    _contains_lessthan,
+    _contains_greaterthan,
+    _contains_lessthanequal,
+    _contains_greaterthanequal,
+    _contains_mod,
+    _contains_type;
 
 function __queryNestedProperty(obj, path/*, value*/) {
     if (obj[path]) { return [obj[path]]; }
@@ -193,7 +190,7 @@ function __parseDateExpr(doc, expr, field) {
     var dt = __processExpression(doc, expr[field]);
     switch (field) {
         case '$dayOfYear':
-            return $c.getDayOfYear(dt);
+            return _getDayOfYear(dt);
         case '$dayOfMonth':
             return dt.getDate();
         case '$dayOfWeek':
@@ -203,7 +200,7 @@ function __parseDateExpr(doc, expr, field) {
         case '$month':
             return dt.getMonth() + 1;
         case '$week':
-            return $c.getWeek(dt);
+            return _getWeek(dt);
         case '$hour':
             return dt.getHours();
         case '$minute':
@@ -214,7 +211,7 @@ function __parseDateExpr(doc, expr, field) {
             return dt.getMilliseconds();
         case '$dateToString':
             dt = __processExpression(doc, expr[field].date);
-            return $c.format(dt, expr[field].format);
+            return _format(dt, expr[field].format);
     }
 }
 function __parseSetExpr(doc, expr, field) {
@@ -229,8 +226,8 @@ function __parseSetExpr(doc, expr, field) {
                     throw 'Exception: All operands of $setEquals must be arrays. One argument is of type: ' +
                     _capitalize(typeof (!_isArray(set1) ? set1 : set2));
                 }
-                $c.toSet(set1);
-                $c.toSet(set2);
+                _toSet(set1);
+                _toSet(set2);
                 if (set1.length != set2.length) { return false; }
                 for (jlen = set1.length; j < jlen; j++) {
                     if (!~set2.indexOf(set1[j])) { return false; }
@@ -243,20 +240,20 @@ function __parseSetExpr(doc, expr, field) {
             if (!_isArray(rtnSet)) {
                 throw errorMessage + _capitalize((typeof rtnSet));
             }
-            $c.toSet(rtnSet);
+            _toSet(rtnSet);
             while (exp = expr[field][i++]) {
                 set1 = _duplicate(__processExpression(doc, exp));
                 if (!_isArray(set1)) {
                     throw errorMessage + _capitalize(typeof set1);
                 }
-                $c.toSet(set1);
+                _toSet(set1);
                 if (set1.length < rtnSet.length) {
                     var settmp = set1;
                     set1 = rtnSet;
                     rtnSet = settmp;
                 }
                 for (jlen = rtnSet.length; j < jlen; j++) {
-                    if (!~set1.indexOf(rtnSet[j])) { $c.removeAt(rtnSet, j--); jlen--; }
+                    if (!~set1.indexOf(rtnSet[j])) { _removeAt(rtnSet, j--); jlen--; }
                 }
                 if (!rtnSet.length) { return rtnSet; }
             }
@@ -276,7 +273,7 @@ function __parseSetExpr(doc, expr, field) {
                 }
                 rtnSet = rtnSet.concat(arr);
             }
-            return $c.toSet(rtnSet);
+            return _toSet(rtnSet);
         case '$setDifference':
             arr1 = _duplicate(__processExpression(doc, expr[field][0]));
             arr2 = _duplicate(__processExpression(doc, expr[field][1]));
@@ -302,7 +299,7 @@ function __parseSetExpr(doc, expr, field) {
                 throw 'Exception: All operands of $setEquals must be arrays. One argument is of type: ' +
                 _capitalize(typeof (!_isArray(arr1) ? arr1 : arr2));
             }
-            return $c.isSubset(arr1, arr2);
+            return _isSubset(arr1, arr2);
         case '$anyElementTrue':
             arr1 = _duplicate(__processExpression(doc, expr[field][0]));
             falseCondition = [undefined, null, 0, false];
@@ -393,7 +390,7 @@ function __processAccumulator(doc, accumulator, previousValue_arg, meta) {
         case !!accumulator['$avg']:
             previousValue = previousValue || [];
             if (!_isNull(value)) { previousValue.push(value); }
-            if (meta.length == meta.index + 1) { previousValue = $c.average(previousValue); }
+            if (meta.length == meta.index + 1) { previousValue = _average(previousValue); }
             return previousValue;
         case !!accumulator['$first']:
             if (_isNull(previousValue)) { previousValue = value; }
@@ -426,7 +423,7 @@ function __processAccumulator(doc, accumulator, previousValue_arg, meta) {
                 }
             }
             if (meta.length == meta.index + 1) {
-                previousValue = $c.stdev(previousValue || []);
+                previousValue = _stdev(previousValue || []);
             }
             return _isNull(previousValue) ? null : previousValue;
         case !!accumulator['$stdDevPop']:
@@ -434,7 +431,7 @@ function __processAccumulator(doc, accumulator, previousValue_arg, meta) {
                 previousValue = previousValue || [];
                 previousValue.push(value); }
             if (meta.length == meta.index + 1) {
-                previousValue = $c.stdev(previousValue || []);
+                previousValue = _stdev(previousValue || []);
             }
             return _isNull(previousValue) ? null : previousValue;
     }
@@ -500,7 +497,7 @@ function _record_range(ranges, start, end, flag) {
         var range = ranges[i];
         if (end <= range[1] && flag === 1) {
             if (i) {
-                $c.removeAt(ranges, i);
+                _removeAt(ranges, i);
                 i--, len--;
             }
             ranges[i][1] = end;
@@ -508,7 +505,7 @@ function _record_range(ranges, start, end, flag) {
         }
         if (start > range[1] + 1) {
             if (flag === 2) {
-                var r = $c.removeAt(ranges, j);
+                var r = _removeAt(ranges, j);
                 j--, len--;
             }
             continue;
@@ -524,13 +521,13 @@ function _record_range(ranges, start, end, flag) {
                     break;
                 }
                 if (rg[1] >= end || rg[0] - 1 == end) {
-                    $c.removeAt(ranges, j);
+                    _removeAt(ranges, j);
                     j--, len--;
                     end = rg[1];
                     break;
                 }
                 if (rg[1] < end) {
-                    var r = $c.removeAt(ranges, j);
+                    var r = _removeAt(ranges, j);
                     j--, len--;
                 }
             }
@@ -670,7 +667,7 @@ function _copyWithProjection(projection_arg, record, preserveProperties) {
             var val = _getProperty(record, prop) || null;
             if (prop == '*') {
                 copy = _duplicate(record, true);
-            } else if ($c.parseBoolean(projection[prop])) {
+            } else if (_parseBoolean(projection[prop])) {
                 if (preserveProperties || !_isNull(val)) {
                     _setProperty(copy, prop, val);
                 }
@@ -1024,61 +1021,61 @@ function where(obj, condition, projection, limit_arg) {
 }
 
 function init(ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./average')($c);
-    require('./contains')($c);
-    require('./date')($c);
-    require('./getValue')($c);
-    require('./isSubset')($c);
-    require('./parseBoolean')($c);
-    require('./removeAt')($c);
-    require('./stdev')($c);
-    require('./toSet')($c);
+    require('./_contains_comparisons')(ctx);
+    require('./average')(ctx);
+    require('./contains')(ctx);
+    require('./date')(ctx);
+    require('./getValue')(ctx);
+    require('./isSubset')(ctx);
+    require('./parseBoolean')(ctx);
+    require('./removeAt')(ctx);
+    require('./stdev')(ctx);
+    require('./toSet')(ctx);
 
-    $s = ctx;
-    _contains = $s.contains || $c.contains;
-    _equals = $s.equals || $c.equals;
-    _isArray = $s.isArray || $c.isArray;
-    _isNull = $s.isNull || $c.isNull;
-    _isFunction = $s.isFunction || $c.isFunction;
-    _isObject = $s.isObject || $c.isObject;
-    _isString = $s.isString || $c.isString;
-    _isRegExp = $s.isRegEpx || $c.isRegExp;
-    _isInt = $s.isInt || $c.isInt;
+    _contains = ctx.contains;
+    _average = ctx.average;
+    _format = ctx.format;
+    _getDayOfYear = ctx.getDayOfYear
+    _getWeek = ctx.getWeek;
+    _getValue = ctx.getValue;
+    _isSubset = ctx.isSubset;
+    $s.parseBoolean = _parseBoolean = ctx.parseBoolean;
+    _removeAt = ctx.removeAt;
+    _stdev = ctx.stdev;
+    _toSet = ctx.toSet;
+    _equals = ctx.equals;
+    _isArray = ctx.isArray;
+    _isNull = ctx.isNull;
+    _isFunction = ctx.isFunction;
+    _isObject = ctx.isObject;
+    _isString = ctx.isString;
+    _isRegExp = ctx.isRegExp;
+    _isInt = ctx.isInt;
 
-    _parseRaw = $s.parseRaw || $c.parseRaw;
-    _getFuncName = $s._getFuncName || $c._getFuncName;
-    _duplicate = $s.duplicate || $c.duplicate;
-    _capitalize = $s.capitalize || $c.capitalize;
-    _getProperty = $s.getProperty || $c.getProperty;
-    _setProperty = $s.setProperty || $c.setProperty;
-    _getValue = $s.getValue || $c.getValue;
-    _foo = $s.foo || $c.foo;
-    _tryEval = $s.tryEval || $c.tryEval;
-    _replace_all = $s.replace_all || $c.replace_all;
+    _parseRaw = ctx.parseRaw;
+    _getFuncName = ctx._getFuncName;
+    _duplicate = ctx.duplicate;
+    _capitalize = ctx.capitalize;
+    $s.getProperty = _getProperty = ctx.getProperty;
+    _setProperty = ctx.setProperty;
+    _getValue = ctx.getValue;
+    _foo = ctx.foo;
+    _tryEval = ctx.tryEval;
+    _replace_all = ctx.replace_all;
+    _contains_lessthan = ctx._contains_lessthan;
+    _contains_greaterthan = ctx._contains_greaterthan;
+    _contains_lessthanequal = ctx._contains_lessthanequal;
+    _contains_greaterthanequal = ctx._contains_greaterthanequal;
+    _contains_mod = ctx._contains_mod;
+    _contains_type = ctx._contains_type;
 
-    $c.__queryNestedProperty = ctx.__queryNestedProperty = $c.__queryNestedProperty || ctx.__queryNestedProperty || __queryNestedProperty;
-    $c.__parseCond = ctx.__parseCond = $c.__parseCond || ctx.__parseCond || __parseCond;
-    $c.__processAccumulator = ctx.__processAccumulator = $c.__processAccumulator || ctx.__processAccumulator || __processAccumulator;
-    $c.__processExpression = ctx.__processExpression = $c.__processExpression || ctx.__processExpression || __processExpression;
-    $c._rangeSearch = ctx._rangeSearch = $c._rangeSearch || ctx._rangeSearch || _rangeSearch;
-    $c._copyWithProjection = ctx._copyWithProjection = $c._copyWithProjection || ctx._copyWithProjection || _copyWithProjection;
-    $c._subQuery = ctx._subQuery = $c._subQuery || ctx._subQuery || _subQuery;
+    ctx.__queryNestedProperty = __queryNestedProperty;
+    ctx.__parseCond = __parseCond;
+    ctx.__processAccumulator = __processAccumulator;
+    ctx.__processExpression = __processExpression;
+    ctx._copyWithProjection = _copyWithProjection;
+    ctx._subQuery = _subQuery;
 
-
-    ctx.where = ctx.hasOwnProperty('where') && ctx.where || where;
-    if ($c !== ctx) {
-        $c.where = $c.hasOwnProperty('where') && $c.where || ctx.where
-    }
+    ctx.where = where;
 }
-init.__queryNestedProperty = __queryNestedProperty;
-init.__parseCond = __parseCond;
-init.__processAccumulator = __processAccumulator;
-init.__processExpression = __processExpression;
-init._rangeSearch = _rangeSearch;
-init._copyWithProjection = _copyWithProjection;
-init._subQuery = _subQuery;
-init.where = where;
-
 module.exports = init;

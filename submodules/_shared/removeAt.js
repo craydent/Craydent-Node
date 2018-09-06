@@ -5,16 +5,13 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error;
-
-require('./_remove_from_index')($c);
+var _error, _remove_from_index;
 
 function removeAt (obj, index) {
     try {
         if(obj[index] === undefined) { return false; }
         if (obj.__indexed_buckets) {
-            $c._remove_from_index(obj.__indexed_buckets, obj[index]);
+            _remove_from_index(obj.__indexed_buckets, obj[index]);
         }
         return obj.splice(index, 1)[0];
     } catch (e) {
@@ -23,16 +20,11 @@ function removeAt (obj, index) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./_remove_from_index')($c);
+    require('./_remove_from_index')(ctx);
 
-    _error = ctx.error || $c.error;
+    _error = ctx.error;
+    _remove_from_index = ctx._remove_from_index;
 
-    ctx.removeAt = ctx.hasOwnProperty('removeAt') && ctx.removeAt || removeAt;
-    if ($c !== ctx) {
-        $c.removeAt = $c.hasOwnProperty('removeAt') && $c.removeAt || ctx.removeAt
-    }
+    ctx.removeAt = removeAt;
 }
-init.removeAt = removeAt;
 module.exports = init;

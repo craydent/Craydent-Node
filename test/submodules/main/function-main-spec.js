@@ -1,5 +1,7 @@
 var pre = require('../_prep');
-var $c = require(pre + 'craydent-function');
+var $c;
+if (process.env.name == 'single') { $c = require(pre + 'craydent-function'); }
+else { $c = require('../../../craydent.js'); }
 var $m = require('../_methods')(pre);
 var foo = $m.foo;
 describe ('Function', function () {
@@ -19,7 +21,7 @@ describe ('Function', function () {
         }
         $c.extends(cls,temp);
         var clz = new cls();
-        //console.log(cls.extends(temp).toString(), (new cls()).p1, cls.prototype);
+
         expect(clz.p).toEqual(1);
         expect(clz.p2).toEqual(2);
         expect(clz.p3).toEqual(0);

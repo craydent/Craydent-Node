@@ -5,8 +5,6 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
-
 function toCurrencyNotation(obj, sep) {
     sep = sep || ",";
     var whole = obj.toString(), fraction = "";
@@ -21,13 +19,6 @@ function toCurrencyNotation(obj, sep) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-
-    ctx.toCurrencyNotation = ctx.hasOwnProperty('toCurrencyNotation') && ctx.toCurrencyNotation || toCurrencyNotation;
-    if ($c !== ctx) {
-        $c.toCurrencyNotation = $c.hasOwnProperty('toCurrencyNotation') && $c.toCurrencyNotation || ctx.toCurrencyNotation
-    }
+    ctx.toCurrencyNotation = toCurrencyNotation;
 }
-init.toCurrencyNotation = toCurrencyNotation;
 module.exports = init;

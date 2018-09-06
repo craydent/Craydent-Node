@@ -1,5 +1,7 @@
 var pre = require('../_prep');
-var $c = require(pre + 'craydent-regexp');
+var $c;
+if (process.env.name == 'single') { $c = require(pre + 'craydent-regexp'); }
+else { $c = require('../../../craydent.js'); }
 $c.DEBUG_MODE = true;
 describe ('RegExp', function () {
     it('addFlags',function(){

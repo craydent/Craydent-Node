@@ -5,11 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _isString = $c.isString,
-    _isNumber = $c.isNumber,
-    _isBoolean = $c.isBoolean,
-    _error = $c.error;
+var _isString, _isNumber, _isBoolean, _error;
 
 function parseBoolean(value, strict) {
     /*|{
@@ -45,17 +41,11 @@ function parseBoolean(value, strict) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _isString = ctx.isString || $c.isString;
-    _isNumber = ctx.isNumber || $c.isNumber;
-    _isBoolean = ctx.isBoolean || $c.isBoolean;
-    _error = ctx.error || $c.error;
+    _isString = ctx.isString;
+    _isNumber = ctx.isNumber;
+    _isBoolean = ctx.isBoolean;
+    _error = ctx.error;
 
-    ctx.parseBoolean = ctx.hasOwnProperty('parseBoolean') && ctx.parseBoolean || parseBoolean;
-    if ($c !== ctx) {
-        $c.parseBoolean = $c.hasOwnProperty('parseBoolean') && $c.parseBoolean || ctx.parseBoolean
-    }
+    ctx.parseBoolean = parseBoolean;
 }
-init.parseBoolean = parseBoolean;
 module.exports = init;

@@ -5,7 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {}, _error = $c.error;
+var _error;
 
 function addFlags (obj, flags){
     try {
@@ -15,19 +15,12 @@ function addFlags (obj, flags){
 
         return new RegExp(obj.source, flags);
     } catch (e) {
-        $s.error && $s.error("RegExp.addFlags", e);
+        _error && _error("RegExp.addFlags", e);
     }
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _error = ctx.error || $c.error;
-
-    ctx.addFlags = ctx.hasOwnProperty('addFlags') && ctx.addFlags || addFlags;
-    if ($c !== ctx) {
-        $c.addFlags = $c.hasOwnProperty('addFlags') && $c.addFlags || ctx.addFlags
-    }
+    _error = ctx.error;
+    ctx.addFlags = addFlags;
 }
-init.addFlags = addFlags;
 module.exports = init;

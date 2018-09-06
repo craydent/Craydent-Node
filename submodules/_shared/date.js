@@ -5,8 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = $c || {},
-    timezones = {
+var timezones = {
     'Afghanistan Time':'AFT',
     'AIX specific equivalent of Central European Time':'DFT',
     'Alaska Daylight Time':'AKDT',
@@ -161,16 +160,12 @@ var $c = $c || {},
     'Yakutsk Time':'YAKT',
     'Yekaterinburg Time':'YEKT'
 },
-    _isInt = $c.isInt,
-    _error = $c.error;
+    _isInt, _error, _isValidDate, _keyOf;
 
-
-require('./isValidDate')($c);
-require('./keyOf')($c);
 
 function format (obj, format, options) {
     try {
-        if(!$c.isValidDate(obj)) { return; }
+        if(!_isValidDate(obj)) { return; }
         options = options || { offset : 0 };
         /*
          *  options properties:
@@ -194,7 +189,7 @@ function format (obj, format, options) {
             GMTDiff = options.offset || hour - (hour > uhour ? 24 : 0) - uhour,
             epoch = datetime.getTime(),
             ct = datetime.toTimeString().replace(/.*?\((.*?)\).*?/, '$1'),
-            ctkey = $c.keyOf(timezones,ct),
+            ctkey = _keyOf(timezones,ct),
             currentTimezone = "\\"+(!ctkey ? (timezones[ct] || "") : ct).split('').join("\\"),
             currentTimezoneLong = "\\"+(ctkey || ct).split('').join("\\"),
             minuteWithZero = (minute < 10 ? "0" + minute : minute),
@@ -339,7 +334,7 @@ function getWeek (obj) {
         _error && _error("Date.getWeek", e);
     }
 }
-function now (format) {
+function now (fmt) {
     /*|{
         "info": "Get the DateTime of now",
         "category": "Utility",
@@ -353,41 +348,26 @@ function now (format) {
         "returnType":"(Mixed)"
     }|*/
     try {
-        return format ? $c.format((new Date()),format) : new Date();
+        return fmt ? format((new Date()), fmt) : new Date();
     } catch (e) {
         _error && _error('now', e);
     }
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
     require('./isValidDate')(ctx);
-    require('./keyOf')($c);
+    require('./keyOf')(ctx);
 
-    _isInt = ctx.isInt || $c.isInt;
-    _error = ctx.isInt || $c.error;
+    _isValidDate = ctx.isValidDate;
+    _keyOf = ctx.keyOf;
+    _isInt = ctx.isInt;
+    _error = ctx.error;
 
-
-    ctx.format = ctx.hasOwnProperty('format') && ctx.format || format;
-    ctx.getDayOfYear = ctx.hasOwnProperty('getDayOfYear') && ctx.getDayOfYear || getDayOfYear;
-    ctx.getGMTOffset = ctx.hasOwnProperty('getGMTOffset') && ctx.getGMTOffset || getGMTOffset;
-    ctx.getWeek = ctx.hasOwnProperty('getWeek') && ctx.getWeek || getWeek;
-    ctx.now = ctx.hasOwnProperty('now') && ctx.now || now;
-    if ($c !== ctx) {
-        $c.format = $c.hasOwnProperty('format') && $c.format || ctx.format
-        $c.getDayOfYear = $c.hasOwnProperty('getDayOfYear') && $c.getDayOfYear || ctx.getDayOfYear;
-        $c.getGMTOffset = $c.hasOwnProperty('getGMTOffset') && $c.getGMTOffset || ctx.getGMTOffset;
-        $c.getWeek = $c.hasOwnProperty('getWeek') && $c.getWeek || ctx.getWeek;
-        $c.isValidDate = $c.hasOwnProperty('isValidDate') && $c.isValidDate || ctx.isValidDate;
-        $c.now = $c.hasOwnProperty('now') && $c.now || ctx.now;
-    }
+    ctx.format = format;
+    ctx.getDayOfYear = getDayOfYear;
+    ctx.getGMTOffset = getGMTOffset;
+    ctx.getWeek = getWeek;
+    ctx.now = now;
 }
-init.format = format;
-init.getDayOfYear = getDayOfYear;
-init.getGMTOffset = getGMTOffset;
-init.getWeek = getWeek;
-init.isValidDate = $c.isValidDate;
-init.now = now;
 
 module.exports = init;

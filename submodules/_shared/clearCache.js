@@ -5,8 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
-
+var _error;
 function clearCache (module) {
     /*|{
         "info": "Clear a module from the require cache.",
@@ -39,14 +38,8 @@ function clearCache (module) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _error = ctx.error || $c.error;
+    _error = ctx.error;
 
-    ctx.clearCache = ctx.hasOwnProperty('clearCache') && ctx.clearCache || clearCache;
-    if ($c !== ctx) {
-        $c.clearCache = $c.hasOwnProperty('clearCache') && $c.clearCache || ctx.clearCache
-    }
+    ctx.clearCache = clearCache;
 }
-init.clearCache = clearCache;
 module.exports = init;

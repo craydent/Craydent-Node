@@ -40,14 +40,30 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (Boolean) |LOCAL_IP (String) |PUBLIC_IP (String) |
-ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
+| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
+LOCAL_IP (String) |PUBLIC_IP (String) |
 
 
 ## Methods
 
 <a name='markdown-header-fs'></a>
 ## FS
+
+*** 
+#### _access_ 
+***
+
+**Info:** A promisified version of access.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
 
 *** 
 #### _appendFile_ 

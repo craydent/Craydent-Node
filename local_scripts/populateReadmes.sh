@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# populate all the readmes
 BASEDIR=$(dirname "$0")
 
 cd $BASEDIR;

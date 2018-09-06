@@ -5,12 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error,
-    _isArray = $c.isArray,
-    _run_func_array = $c.run_func_array;
-
-require('./run_func_array')($c);
+var _error, _isArray, _run_func_array;
 
 function emit (ev){
     /*|{
@@ -37,27 +32,23 @@ function emit (ev){
             args.callee = arguments.callee;
         }
         if (args.callee.caller['_emit']) {
-            vals = vals.concat($c.run_func_array.call(this, args.callee.caller['_emit'], args));
+            vals = vals.concat(_run_func_array.call(this, args.callee.caller['_emit'], args));
         }
         if (ev && args.callee.caller['_'+ev]) {
-            vals = vals.concat($c.run_func_array.call(this, args.callee.caller['_' + ev], args.splice(1)));
+            vals = vals.concat(_run_func_array.call(this, args.callee.caller['_' + ev], args.splice(1)));
         }
         return vals;
     } catch (e) {
-        return e != 'catch' && $c.run_func_array.call(this, arguments.callee.caller['_catch'], args.length == arguments.length ? args.splice(1) : args);
+        return e != 'catch' && _run_func_array.call(this, arguments.callee.caller['_catch'], args.length == arguments.length ? args.splice(1) : args);
     }
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./run_func_array')($c);
-    _error = ctx.error || $c.error;
+    require('./run_func_array')(ctx);
+    _error = ctx.error;
+    _isArray = ctx.isArray;
+    _run_func_array = ctx.run_func_array;
 
-    ctx.emit = ctx.hasOwnProperty('emit') && ctx.emit || emit;
-    if ($c !== ctx) {
-        $c.emit = $c.hasOwnProperty('emit') && $c.emit || ctx.emit
-    }
+    ctx.emit = emit;
 }
-init.on = emit;
 module.exports = init;

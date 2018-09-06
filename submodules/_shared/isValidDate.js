@@ -5,8 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error;
+var _error;
 
 function isValidDate (obj) {
     try {
@@ -17,16 +16,9 @@ function isValidDate (obj) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
+    _error = ctx.error;
 
-    _error = ctx.error || $c.error;
-
-    ctx.isValidDate = ctx.hasOwnProperty('isValidDate') && ctx.isValidDate || isValidDate;
-    if ($c !== ctx) {
-        $c.isValidDate = $c.hasOwnProperty('isValidDate') && $c.isValidDate || ctx.isValidDate
-    }
-}
-init.isValidDate = isValidDate;
+    ctx.isValidDate = isValidDate;
+}Date = isValidDate;
 
 module.exports = init;

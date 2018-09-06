@@ -5,16 +5,12 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _isNumber = $c.isNumber,
-    _error = $c.error;
-
-require('./average')($c);
+var _isNumber, _error;
 
 function stdev (obj){
     try {
         if (!obj.length) { return 0; }
-        var avg = $c.average(obj),
+        var avg = _average(obj),
             sum = null, sdlen = 0;
         for (var i = 0, len = obj.length; i < len; i++) {
             if (!_isNumber(obj[i])) { continue; }
@@ -30,16 +26,11 @@ function stdev (obj){
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./average')($c);
-    _isNumber = ctx.isNumber || $c.isNumber;
-    _error = ctx.error || $c.error;
+    require('./average')(ctx);
+    _isNumber = ctx.isNumber;
+    _error = ctx.error;
+    _average = ctx.average;
 
-    ctx.stdev = ctx.hasOwnProperty('stdev') && ctx.stdev || stdev;
-    if ($c !== ctx) {
-        $c.stdev = $c.hasOwnProperty('stdev') && $c.stdev || ctx.stdev
-    }
+    ctx.stdev = stdev;
 }
-init.stdev = stdev;
 module.exports = init;

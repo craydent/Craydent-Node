@@ -1,3 +1,5 @@
 var pre = require('../_prep');
-var $c = require(pre + 'craydent-cli');
+var $c;
+if (process.env.name == 'single') { $c = require(pre + 'craydent-cli'); }
+else { $c = require('../../../craydent.js'); }
 $c.DEBUG_MODE = true;

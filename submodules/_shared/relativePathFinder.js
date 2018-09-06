@@ -5,8 +5,6 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
-
 function relativePathFinder (path, depth) {
     var callingPath = "",
         delimiter = "/";
@@ -24,13 +22,6 @@ function relativePathFinder (path, depth) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-
-    ctx.relativePathFinder = ctx.hasOwnProperty('relativePathFinder') && ctx.relativePathFinder || relativePathFinder;
-    if ($c !== ctx) {
-        $c.relativePathFinder = $c.hasOwnProperty('relativePathFinder') && $c.relativePathFinder || ctx.relativePathFinder
-    }
+    ctx.relativePathFinder = relativePathFinder;
 }
-init.relativePathFinder = relativePathFinder;
 module.exports = init;

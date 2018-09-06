@@ -1,6 +1,9 @@
 module.exports = function (pre) {
+    var noAsync = process.env.noasync && process.env.noasync.toLowerCase() == 'true';
     var $s = require('../../common.js');
     var $t = require(pre + 'craydent-typeof/noConflict');
+    require('../../submodules/_shared/run_func_array.js')($s);
+
     function duplicate (rec){
         return $s.duplicate(this,rec);
     };
@@ -33,7 +36,6 @@ module.exports = function (pre) {
             });
 
         } catch (e) {
-            console.log('syncroit', e);
             throw e;
         }
     }
@@ -268,7 +270,7 @@ module.exports = function (pre) {
                 return params.oncomplete.push(callback),this; };
             return prms;
         } catch (e) {
-            error("ajax", e);
+            $s.error("ajax", e);
         }
     }
     function foo () {
@@ -336,6 +338,7 @@ module.exports = function (pre) {
         return ajax.apply(this, arguments);
     };
     return {
+        noAsync: noAsync,
         ajax: ajax,
         duplicate: duplicate,
         syncroit: syncroit,

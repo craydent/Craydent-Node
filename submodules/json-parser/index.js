@@ -13,10 +13,16 @@ if ($c.MODULES_LOADED[$s.info.name]) { return; }
 $s.__log_module();
 $s.scope.eval = function (str) { return eval(str); };
 
+$s.TEMPLATE_VARS = $c.TEMPLATE_VARS || $s.TEMPLATE_VARS;
+$s.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || $s.TEMPLATE_TAG_CONFIG;
+
 require($s.dir + 'clearCache')($s);
 require($s.dir + 'include')($s);
 require($s.dir + 'relativePathFinder')($s);
 require($s.dir + 'fillTemplate')($s);
+
+$c.TEMPLATE_VARS = $c.TEMPLATE_VARS || $s.TEMPLATE_VARS;
+$c.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || $s.TEMPLATE_TAG_CONFIG;
 
 function _parseAdvanced (obj,_original,values,base_path,depth, _parent, _current_path) {
     _current_path = _current_path || base_path || "";

@@ -8,8 +8,7 @@
 
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    error = $s.error,
-    _ao = $c.addObjectPrototype = addObjectPrototype;
+    error = $s.error;
 
 if ($c.MODULES_LOADED[$s.info.name]) { return; }
 $s.__log_module();
@@ -26,58 +25,9 @@ require($s.dir + 'keyOf')($s);
 require($s.dir + 'toStringAlt')($s);
 require($s.dir + 'where')($s);
 
-function addObjectPrototype(name, fn, override) {
-    /*|{
-        "info": "Method to extend the Object Class",
-        "category": "Object|Utility",
-        "parameters":[
-            {"name": "(String) name of the method to add"},
-            {"fn": "(Function) method implementation"}],
+var _ao = require('./dependencies/addObjectPrototype')($s.scope);
+$c.addObjectPrototype = _ao;
 
-        "overloads":[{
-            "parameters":[
-                {"name": "(String) name of the method to add"},
-                {"fn": "(Function) method implementation"},
-                {"override": "(Bool) if true, override the previously defined prototype"}]}],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#addObjectPrototype",
-        "returnType": "(void)"
-    }|*/
-    try {
-        if ($s.isNull($g.__craydentNoConflict) || !$g.__craydentNoConflict) {
-            var shouldOverride = false;
-            if (eval("typeof(" + name + ")") == "undefined") {
-                shouldOverride = true;
-            }
-            (!override && Object.prototype[name]) || Object.defineProperty(Object.prototype, name, {
-                writable: true,
-                enumerable: false,
-                configurable: true,
-                value: fn
-            });
-            override = shouldOverride;
-        }
-    } catch (e) {
-        error("addPrototype", e);
-        try {
-            Array.prototype[name] = !override && Array.prototype[name] || fn;
-            Function.prototype[name] = !override && Function.prototype[name] || fn;
-            String.prototype[name] = !override && String.prototype[name] || fn;
-            Number.prototype[name] = !override && Number.prototype[name] || fn;
-            Boolean.prototype[name] = !override && Boolean.prototype[name] || fn;
-            Error.prototype[name] = !override && Error.prototype[name] || fn;
-
-            if (typeof GeoLocation) {
-                GeoLocation.prototype[name] = !override && GeoLocation.prototype[name] || fn;
-            }
-        } catch (ex) {
-            error("addPrototype:Non-ECMAScript 5", e);
-        }
-    }
-    return $s.__defineFunction(name, fn, override);
-}
-
-//TODO: finish
 _ao("changes", function(compare){
     /*|{
         "info": "Object class extension to compare properties that have changed",

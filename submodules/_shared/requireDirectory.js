@@ -5,13 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _isString = $c.isString,
-    _error = $c.error;
-
-require('./relativePathFinder')($c);
-require('./startsWithAny')($c);
-require('./parallelEach')($c);
+var _isString, _error, _relativePathFinder, _startsWithAny, _parallelEach;
 
 function requireDirectory (path, options, __basepath, __objs, __fs){
     /*|{
@@ -31,7 +25,7 @@ function requireDirectory (path, options, __basepath, __objs, __fs){
     try {
         var delimiter = "/";
 
-        path = $c.relativePathFinder(path);
+        path = _relativePathFinder(path);
 
         options = options || {};
         __basepath = __basepath || path;
@@ -56,7 +50,7 @@ function requireDirectory (path, options, __basepath, __objs, __fs){
                 }
                 if (!rpath.endsWith('/')) {
                     var filename = rpath.substring(path.lastIndexOf('/') + 1);
-                    if (!$c.startsWithAny(filename, ['_', '.'])) {
+                    if (!_startsWithAny(filename, ['_', '.'])) {
                         __objs[rpath.replace(__basepath, '')] = require(rpath);
                     }
 
@@ -86,7 +80,7 @@ function requireDirectory (path, options, __basepath, __objs, __fs){
                                 .then(function () {
                                     if (!rpath.endsWith('/')) {
                                         var filename = rpath.substring(path.lastIndexOf('/') + 1);
-                                        if (!$c.startsWithAny(filename, ['_', '.'])) {
+                                        if (!_startsWithAny(filename, ['_', '.'])) {
                                             __objs[rpath.replace(__basepath, '')] = require(rpath);
                                         }
 
@@ -100,7 +94,7 @@ function requireDirectory (path, options, __basepath, __objs, __fs){
                 for (var i = 0, len = files.length; i < len; i++) {
                     arr.push(recFunc(path + files[i]));
                 }
-                $c.parallelEach(arr).then(function () {
+                _parallelEach(arr).then(function () {
                     res(__objs);
                 });
             });
@@ -111,19 +105,16 @@ function requireDirectory (path, options, __basepath, __objs, __fs){
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./relativePathFinder')($c);
-    require('./startsWithAny')($c);
-    require('./parallelEach')($c);
+    require('./relativePathFinder')(ctx);
+    require('./startsWithAny')(ctx);
+    require('./parallelEach')(ctx);
 
-    _isString = ctx.isString || $c.isString;
-    _error = ctx.error || $c.error;
+    _isString = ctx.isString;
+    _error = ctx.error;
+    _relativePathFinder = ctx.relativePathFinder;
+    _startsWithAny = ctx.startsWithAny;
+    _parallelEach = ctx.parallelEach;
 
-    ctx.requireDirectory = ctx.hasOwnProperty('requireDirectory') && ctx.requireDirectory || requireDirectory;
-    if ($c !== ctx) {
-        $c.requireDirectory = $c.hasOwnProperty('requireDirectory') && $c.requireDirectory || ctx.requireDirectory
-    }
+    ctx.requireDirectory = requireDirectory;
 }
-init.requireDirectory = requireDirectory;
 module.exports = init;

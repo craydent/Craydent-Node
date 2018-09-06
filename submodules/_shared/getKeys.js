@@ -5,8 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error;
+var _error;
 
 function getKeys (obj) {
     try {
@@ -26,14 +25,8 @@ function getKeys (obj) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _error = ctx.error || $c.error;
+    _error = ctx.error;
 
-    ctx.getKeys = ctx.hasOwnProperty('getKeys') && ctx.getKeys || getKeys;
-    if ($c !== ctx) {
-        $c.getKeys = $c.hasOwnProperty('getKeys') && $c.getKeys || ctx.getKeys
-    }
+    ctx.getKeys = getKeys;
 }
-init.getKeys = getKeys;
 module.exports = init;

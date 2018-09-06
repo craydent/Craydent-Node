@@ -42,8 +42,7 @@ arr.prototypedMethod(args);
 | | | |
 | ----- | ----- | ----- |
 | DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
-ERROR_TYPES (Array) |PUBLIC_IP (String) |
-LOCAL_IP (String) |VERBOSE_LOGS (Boolean) |
+LOCAL_IP (String) |PUBLIC_IP (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -247,25 +246,6 @@ LOCAL_IP (String) |VERBOSE_LOGS (Boolean) |
 
 * path: (String) Module or Path to module.
 * refresh: (Boolean) Flag to clear cache for the specific include.
-
-*** 
-#### _isNull_ 
-***
-
-**Info:** Check if a value is Null
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* value: (Mixed) Value to check
-
-**Overloads:**
-
-1)
-
-* value: (Mixed) Value to check
-* defaultValue: (Mixed) Value to return if null
 
 *** 
 #### _logit_ 

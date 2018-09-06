@@ -56,11 +56,11 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
-ERROR_TYPES (Array) |PUBLIC_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
+| DEBUG_MODE (Boolean) |PUBLIC_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
 EXPOSE_ROUTE_API (Boolean) |RESPONSES (Object) |TEMPLATE_VARS (Array) |
-HTTP_STATUS_TEMPLATE (Array) |REST_API_TEMPLATE (String) |VERBOSE_LOGS (Boolean) |
-LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
+HTTP_STATUS_TEMPLATE (Array) |REST_API_TEMPLATE (String) |VERSION (String) |
+LOCAL_IP (String) |ROUTE_API_PATH (String) |
+MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -93,7 +93,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 
 **Parameters:**
 
-* pipelines: (Object[]) Array of stages defined in mongodb
+* pipelines: (Object[]) Array of stages defined in mongodb. ($project, $match, $redact, $limit, $skip, $unwind, $group, $sample, $sort, $lookup, $out)
 
 **Overloads:**
 
@@ -164,10 +164,10 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 * useReference: (Bool) Flag to make a copy instead of using references
 
 *** 
-#### _sum_ 
+#### _stdev_ 
 ***
 
-**Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
+**Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
 
 **Return:** (Array)
 
@@ -180,10 +180,10 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 * None
 
 *** 
-#### _stdev_ 
+#### _sum_ 
 ***
 
-**Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
+**Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
 
 **Return:** (Array)
 
@@ -1177,28 +1177,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 * None
 
 *** 
-#### _universal_trim_ 
-***
-
-**Info:** Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* ref: (Boolean) Whether or not to mutate the original array.
-
-2)
-
-* character: (Char[]) Character to remove in the String
-
-*** 
 #### _update_ 
 ***
 
@@ -1535,6 +1513,22 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 
 <a name='markdown-header-fs'></a>
 ## FS
+
+*** 
+#### _access_ 
+***
+
+**Info:** A promisified version of access.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+* None
 
 *** 
 #### _appendFile_ 
@@ -4305,28 +4299,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 
 * character: (Char[]) Character to remove in the String
 
-<a name='markdown-header-typeof'></a>
-## TypeOf
-
-*** 
-#### _isNull_ 
-***
-
-**Info:** Check if a value is Null
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* value: (Mixed) Value to check
-
-**Overloads:**
-
-1)
-
-* value: (Mixed) Value to check
-* defaultValue: (Mixed) Value to return if null
-
 <a name='markdown-header-utility'></a>
 ## Utility
 
@@ -4540,25 +4512,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |VERSION (String) |
 
 * path: (String) Module or Path to module.
 * refresh: (Boolean) Flag to clear cache for the specific include.
-
-*** 
-#### _isNull_ 
-***
-
-**Info:** Check if a value is Null
-
-**Return:** (Mixed)
-
-**Parameters:**
-
-* value: (Mixed) Value to check
-
-**Overloads:**
-
-1)
-
-* value: (Mixed) Value to check
-* defaultValue: (Mixed) Value to return if null
 
 *** 
 #### _logit_ 

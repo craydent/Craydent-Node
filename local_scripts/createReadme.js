@@ -81,7 +81,6 @@ var fs = require('fs'),
 	orderedConstants = new $cls.OrderedList(),
 	orderedHttpProps = new $cls.OrderedList(),
 	isHTTP = name == "craydent-http";
-
 readme += "Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
 	"More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).\n" +
 	"More detailed documentation on methods can be found at [Craydent Methods](http://www.craydent.com/JsonObjectEditor/docs.html#/method/CraydentNode)" + ln +
@@ -176,7 +175,7 @@ for (var o = 0; o < 2; o++) {
 		if (/^[A-Z_0-9]*$/.test(prop) && !(prop in {"CLI":1,"JSONPA":1,"JSONSA":1})) {
 			if ($arr.contains(orderedConstants,prop)) { continue; }
 			orderedConstants.add(prop);
-			constants[prop] = $c.isNull(constants[prop], "");
+			constants[prop] = $typ.isNull(constants[prop], "");
 			constants[prop] += prop + ' ('+ ($utl.getProperty(c, prop+'.constructor.name') || 'String') +')';
 		// methods
 		} else if ($typ.isFunction(c[prop])) {
@@ -233,10 +232,11 @@ for (var o = 0; o < 2; o++) {
 				if (prop == "sessionid") {
 					type = 'String';
 				}
-				properties[prop] = $c.isNull(properties[prop], "");
+				properties[prop] = $typ.isNull(properties[prop], "");
 				properties[prop] += prop + ' ('+ ($utl.getProperty(c, prop+'.constructor.name') || type) +')';
 			} else {
-				console.log("<"+c[prop]+">", prop,"is not a method");
+				// console.log("<"+c[prop]+">", prop,"is not a method");
+				console.log($typ.isFunction(c[prop]));
 			}
 		}
 	}

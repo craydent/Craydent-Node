@@ -5,11 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
-
-require('./clearCache')($c);
-require('./relativePathFinder')($c);
-require('./startsWithAny')($c);
+var _clearCache, _startsWithAny, _relativePathFinder;
 
 function include(path, refresh){
     /*|{
@@ -27,14 +23,14 @@ function include(path, refresh){
         "returnType": "(Mixed)"
     }|*/
     try {
-        if (refresh) { $c.clearCache(path); }
-        if ( $c.startsWithAny(path, ['/','.'])) {
-            return require($c.relativePathFinder(path));
+        if (refresh) { _clearCache(path); }
+        if (_startsWithAny(path, ['/','.'])) {
+            return require(_relativePathFinder(path));
         }
         return require(path);
     } catch (e) {
         try {
-            return require($c.relativePathFinder(path));
+            return require(_relativePathFinder(path));
         } catch (err) {
             return false;
         }
@@ -42,16 +38,14 @@ function include(path, refresh){
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./clearCache')($c);
-    require('./relativePathFinder')($c);
-    require('./startsWithAny')($c);
+    require('./clearCache')(ctx);
+    require('./relativePathFinder')(ctx);
+    require('./startsWithAny')(ctx);
 
-    ctx.include = ctx.hasOwnProperty('include') && ctx.include || include;
-    if ($c !== ctx) {
-        $c.include = $c.hasOwnProperty('include') && $c.include || ctx.include
-    }
+    _clearCache = ctx.clearCache;
+    _startsWithAny = ctx.startsWithAny;
+    _relativePathFinder = ctx.relativePathFinder;
+
+    ctx.include = include;
 }
-init.include = include;
 module.exports = init;

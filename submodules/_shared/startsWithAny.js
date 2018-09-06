@@ -5,9 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _isArray = $c.isArray,
-    _error = $c.error;
+var _isArray, _error;
 
 function startsWithAny (obj) {
     try {
@@ -28,16 +26,9 @@ function startsWithAny (obj) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
+    _isArray = ctx.isArray;
+    _error = ctx.error;
 
-    _isArray = ctx.isArray || $c.isArray;
-    _error = ctx.error || $c.error;
-
-    ctx.startsWithAny = ctx.hasOwnProperty('startsWithAny') && ctx.startsWithAny || startsWithAny;
-    if ($c !== ctx) {
-        $c.startsWithAny = $c.hasOwnProperty('startsWithAny') && $c.startsWithAny || ctx.startsWithAny
-    }
+    ctx.startsWithAny = startsWithAny;
 }
-init.startsWithAny = startsWithAny;
 module.exports = init;

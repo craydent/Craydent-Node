@@ -5,13 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _getFuncName = $c._getFuncName,
-    _general_trim = $c._general_trim,
-    _isString = $c.isString,
-    _isArray = $c.isArray,
-    _isBoolean = $c.isBoolean,
-    _error = $c.error;
+var _getFuncName, _general_trim, _isString, _isArray, _isBoolean, _error;
 
 function universal_trim (subject, chars) {
     /*|{
@@ -53,20 +47,13 @@ function universal_trim (subject, chars) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
+    _getFuncName = ctx._getFuncName;
+    _general_trim = ctx._general_trim;
+    _isString = ctx.isString;
+    _isArray = ctx.isArray;
+    _isBoolean = ctx.isBoolean;
+    _error = ctx.error;
 
-    _getFuncName = ctx._getFuncName || $c._getFuncName;
-    _general_trim = ctx._general_trim || $c._general_trim;
-    _isString = ctx.isString || $c.isString;
-    _isArray = ctx.isArray || $c.isArray;
-    _isBoolean = ctx.isBoolean || $c.isBoolean;
-    _error = ctx.error || $c.error;
-
-    ctx.universal_trim = ctx.hasOwnProperty('universal_trim') && ctx.universal_trim || universal_trim;
-    if ($c !== ctx) {
-        $c.universal_trim = $c.hasOwnProperty('universal_trim') && $c.universal_trim || ctx.universal_trim
-    }
+    ctx.universal_trim = universal_trim;
 }
-init.universal_trim = universal_trim;
 module.exports = init;

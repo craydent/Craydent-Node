@@ -41,8 +41,7 @@ arr.prototypedMethod(args);
 | | | |
 | ----- | ----- | ----- |
 | DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
-ERROR_TYPES (Array) |PUBLIC_IP (String) |
-LOCAL_IP (String) |VERBOSE_LOGS (Boolean) |
+LOCAL_IP (String) |PUBLIC_IP (String) |
 
 
 ## Methods

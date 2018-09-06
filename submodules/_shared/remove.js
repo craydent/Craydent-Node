@@ -5,9 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error;
-require('./_remove_from_index')($c);
+var _error, _remove_from_index;
 
 function remove (obj, value, indexOf) {
     try {
@@ -15,7 +13,7 @@ function remove (obj, value, indexOf) {
         var index = indexOf.call(obj, value);
         if(!~index) { return false; }
         if (obj.__indexed_buckets) {
-            $c._remove_from_index(obj.__indexed_buckets, obj[index]);
+            _remove_from_index(obj.__indexed_buckets, obj[index]);
         }
         return obj.splice(index, 1)[0];
     } catch (e) {
@@ -24,15 +22,10 @@ function remove (obj, value, indexOf) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./_remove_from_index')($c);
-    _error = ctx.error || $c.error
+    require('./_remove_from_index')(ctx);
+    _error = ctx.error;
+    _remove_from_index = ctx._remove_from_index;
 
-    ctx.remove = ctx.hasOwnProperty('remove') && ctx.remove || remove;
-    if ($c !== ctx) {
-        $c.remove = $c.hasOwnProperty('remove') && $c.remove || ctx.remove
-    }
+    ctx.remove = remove;
 }
-init.remove = remove;
 module.exports = init;

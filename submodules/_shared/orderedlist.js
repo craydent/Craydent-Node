@@ -5,9 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error,
-    _duplicate = $c.duplicate;
+var _error, _duplicate;
 
 function _orderListHelper(value, sorter, arr) {
     try {
@@ -69,15 +67,9 @@ function OrderedList (records,sorter)  {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _error = ctx.error || $c.error;
-    _duplicate = ctx.duplicate || $c.duplicate;
+    _error = ctx.error;
+    _duplicate = ctx.duplicate;
 
-    ctx.OrderedList = ctx.hasOwnProperty('OrderedList') && ctx.OrderedList || OrderedList;
-    if ($c !== ctx) {
-        $c.OrderedList = $c.hasOwnProperty('OrderedList') && $c.OrderedList || ctx.OrderedList
-    }
+    ctx.OrderedList = OrderedList;
 }
-init.OrderedList = OrderedList;
 module.exports = init;

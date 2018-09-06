@@ -8,7 +8,7 @@
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
     ext = $s._ext,
-    error = console.log;$s.error;
+    error = $s.error;
 
 if ($c.MODULES_LOADED[$s.info.name]) { return; }
 $s.__log_module();

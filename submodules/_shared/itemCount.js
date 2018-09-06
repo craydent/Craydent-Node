@@ -5,9 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error,
-    _isObject = $c.isObject;
+var _error, _isObject;
 
 function itemCount(obj) {
     try {
@@ -25,16 +23,9 @@ function itemCount(obj) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _error = ctx.error || $c.error,
-    _isObject = ctx.isObject || $c.isObject
+    _error = ctx.error;
+    _isObject = ctx.isObject;
 
-    ctx.itemCount = ctx.hasOwnProperty('itemCount') && ctx.itemCount || itemCount;
-    if ($c !== ctx) {
-        $c.itemCount = $c.hasOwnProperty('itemCount') && $c.itemCount || ctx.itemCount
-    }
+    ctx.itemCount = itemCount;
 }
-init.itemCount = itemCount;
-
 module.exports = init;

@@ -13,7 +13,12 @@ if ($c.MODULES_LOADED[$s.info.name]) { return; }
 $s.__log_module();
 $s.scope.eval = function (str) { return eval(str); };
 
+$s.TEMPLATE_VARS = $c.TEMPLATE_VARS || $s.TEMPLATE_VARS;
+$s.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || $s.TEMPLATE_TAG_CONFIG;
+
 require($s.dir + 'fillTemplate')($s);
+$c.TEMPLATE_VARS = $c.TEMPLATE_VARS || $s.TEMPLATE_VARS;
+$c.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || $s.TEMPLATE_TAG_CONFIG;
 
 function __processAttributes(node) {
     var obj = {},

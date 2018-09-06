@@ -150,10 +150,10 @@ arr.prototypedMethod(args);
 * None
 
 *** 
-#### _isEmpty_ 
+#### _isError_ 
 ***
 
-**Info:** Object class extension to check if it is empty
+**Info:** Object class extension to check if object is an error object
 
 **Return:** (Bool)
 
@@ -166,10 +166,10 @@ arr.prototypedMethod(args);
 * None
 
 *** 
-#### _isError_ 
+#### _isEmpty_ 
 ***
 
-**Info:** Object class extension to check if object is an error object
+**Info:** Object class extension to check if it is empty
 
 **Return:** (Bool)
 

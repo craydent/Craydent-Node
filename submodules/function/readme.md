@@ -40,8 +40,8 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (Boolean) |LOCAL_IP (String) |PUBLIC_IP (String) |
-ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
+| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
+LOCAL_IP (String) |PUBLIC_IP (String) |
 
 
 ## Methods
@@ -211,6 +211,22 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 * None
 
 *** 
+#### _then_ 
+***
+
+**Info:** Function listener to register the then event
+
+**Return:** (String)
+
+**Parameters:**
+
+* func: (Function) Function to call on emit
+
+**Overloads:**
+
+* None
+
+*** 
 #### _toPromise_ 
 ***
 
@@ -221,22 +237,6 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 **Parameters:**
 
 * event: (String) Event to listen on and invoked on emit
-* func: (Function) Function to call on emit
-
-**Overloads:**
-
-* None
-
-*** 
-#### _then_ 
-***
-
-**Info:** Function listener to register the then event
-
-**Return:** (String)
-
-**Parameters:**
-
 * func: (Function) Function to call on emit
 
 **Overloads:**

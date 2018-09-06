@@ -5,11 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error,
-    _isInt = $c.isInt;
-
-require('./remove')($c);
+var _error, _isInt, _remove;
 
 function removeAll (obj, value, indexOf) {
     try {
@@ -18,7 +14,7 @@ function removeAll (obj, value, indexOf) {
             var removed = [], index = indexOf.call(obj, value);
             if (!~index) { return false; }
             while (~index && _isInt(index)) {
-                removed.push($c.remove(obj,value, indexOf));
+                removed.push(_remove(obj,value, indexOf));
                 index = indexOf.call(obj, value);
             }
             return removed;
@@ -32,17 +28,12 @@ function removeAll (obj, value, indexOf) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./remove')($c);
+    require('./remove')(ctx);
 
-    _error = ctx.error || $c.error;
-    _isInt = ctx.isInt || $c.isInt;
+    _error = ctx.error;
+    _isInt = ctx.isInt;
+    _remove = ctx.remove;
 
-    ctx.removeAll = ctx.hasOwnProperty('removeAll') && ctx.removeAll || removeAll;
-    if ($c !== ctx) {
-        $c.removeAll = $c.hasOwnProperty('removeAll') && $c.removeAll || ctx.removeAll
-    }
+    ctx.removeAll = removeAll;
 }
-init.removeAll = removeAll;
 module.exports = init;

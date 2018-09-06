@@ -5,9 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _isNull = $c.isNull,
-    _error = $c.error;
+var _isNull, _error;
 
 function cut(obj, si, ei, replacement) {
     try {
@@ -20,16 +18,9 @@ function cut(obj, si, ei, replacement) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
+    _isNull = ctx.isNull;
+    _error = ctx.error;
 
-    _isNull = ctx.isNull || $c.isNull;
-    _error = ctx.error || $c.error;
-
-    ctx.cut = ctx.hasOwnProperty('cut') && ctx.cut || cut;
-    if ($c !== ctx) {
-        $c.cut = $c.hasOwnProperty('cut') && $c.cut || ctx.cut
-    }
+    ctx.cut = cut;
 }
-init.cut = cut;
 module.exports = init;

@@ -5,9 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _isNumber = $c.isNumber,
-    _error = $c.error;
+var _isNumber, _error;
 
 function average (obj){
     try {
@@ -25,15 +23,9 @@ function average (obj){
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _isNumber = ctx.isNumber || $c.isNumber;
-    _error = ctx.error || $c.error;
+    _isNumber = ctx.isNumber;
+    _error = ctx.error;
 
-    ctx.average = ctx.hasOwnProperty('average') && ctx.average || average;
-       if ($c !== ctx) {
-           $c.average = $c.hasOwnProperty('average') && $c.average || ctx.average
-       }
+    ctx.average = average;
 }
-init.average = average;
 module.exports = init;

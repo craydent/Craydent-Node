@@ -5,15 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error,
-    _isObject = $c.isObject,
-    _isArray = $c.isArray,
-    _isString = $c.isString,
-    _isRegExp = $c.isRegExp,
-    _strip = $c.strip;
-
-require('./where')($c);
+var _error, _isObject, _isArray, _isString, _isRegExp, _strip, _where;
 
 function count (obj, option){
     try {
@@ -26,7 +18,7 @@ function count (obj, option){
         }
         if (_isArray(obj)) {
             if (_isObject(option)) {
-                return $c.where(obj,option).length;
+                return _where(obj,option).length;
             }
             var isReg = _isRegExp(option);
             if (_isString(option) || isReg) {
@@ -57,20 +49,15 @@ function count (obj, option){
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./where')($c);
-    _error = ctx.error || $c.error;
-    _isObject = ctx.isObject || $c.isObject;
-    _isArray = ctx.isArray || $c.isArray;
-    _isString = ctx.isString || $c.isString;
-    _isRegExp = ctx.isRegExp || $c.isRegExp;
-    _strip = ctx.strip || $c.strip;
+    require('./where')(ctx);
+    _error = ctx.error;
+    _isObject = ctx.isObject;
+    _isArray = ctx.isArray;
+    _isString = ctx.isString;
+    _isRegExp = ctx.isRegExp;
+    _strip = ctx.strip;
+    _where = ctx.where;
 
-    ctx.count = ctx.hasOwnProperty('count') && ctx.count || count;
-    if ($c !== ctx) {
-        $c.count = $c.hasOwnProperty('count') && $c.count || ctx.count
-    }
+    ctx.count = count;
 }
-init.count = count;
 module.exports = init;

@@ -5,8 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _isObject = $c.isObject;
+var _isObject, _error;
 
 function toStringAlt (obj, delimiter, prefix, urlEncode) {
     try {
@@ -22,19 +21,14 @@ function toStringAlt (obj, delimiter, prefix, urlEncode) {
         }
         return str;
     } catch (e) {
-        error('Object.toStringAlt', e);
+        _error && _error('Object.toStringAlt', e);
     }
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _isObject = ctx.isObject || $c.isObject;
+    _error = ctx.error;
+    _isObject = ctx.isObject;
 
-    ctx.toStringAlt = ctx.hasOwnProperty('toStringAlt') && ctx.toStringAlt || toStringAlt;
-    if ($c !== ctx) {
-        $c.toStringAlt = $c.hasOwnProperty('toStringAlt') && $c.toStringAlt || ctx.toStringAlt
-    }
+    ctx.toStringAlt = toStringAlt;
 }
-init.toStringAlt = toStringAlt;
 module.exports = init;

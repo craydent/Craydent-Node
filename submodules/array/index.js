@@ -37,7 +37,7 @@ require($s.dir + 'universal_trim')($s);
 require($s.dir + 'where')($s);
 
 function __create_index(obj, indexes) {
-    indexes = $c.condense(indexes, true);
+    indexes = $s.condense(indexes, true);
     if (!indexes || !indexes.length) { return false; }
     if (!$s.isArray(indexes)) { indexes = indexes.split(','); }
     // obj.__indexes = {};
@@ -110,9 +110,9 @@ function __processStage(docs, stage) {
         }
         switch (opts) {
             case "$project":
-                return $c.where(docs,{}, value);
+                return $s.where(docs,{}, value);
             case "$match":
-                return $c.where(docs,value);
+                return $s.where(docs,value);
             case "$redact":
                 return _redact(docs, value);
             case "$limit":
@@ -137,7 +137,7 @@ function __processStage(docs, stage) {
                 if ($s.isString(value)) {
                     $g[value] = rtnDocs;
                 } else if ($s.isArray(value)) {
-                    $c.removeAll(value);
+                    $s.removeAll(value);
                     rtnDocs = $s.merge(value,rtnDocs);
                 }
                 return rtnDocs;
@@ -154,7 +154,7 @@ function __processStage(docs, stage) {
                 while(doc = docs[i++]) {
                     var query = {};
                     query[fkey] = doc[key] || {$exists:false};
-                    doc[prop] = $c.where(arr,query);
+                    doc[prop] = $s.where(arr,query);
                 }
         }
         return docs;
@@ -201,7 +201,7 @@ function _joinHelper (objs, arr, on, exclusive) {
     for (var i = 0, len = objs.length; i < len; i++)  {
         var record = $s.duplicate(objs[i],true), query = {},results;
         query[on[1]] = record[on[0]];
-        results = $c.where(arr,query);
+        results = $s.where(arr,query);
         if (results.length > 0)  {
             records.push($s.merge(record, results[0]));
         } else if (!exclusive)  {
@@ -379,7 +379,7 @@ ext(Array, 'add', function (obj) {
     try {
         this.push(obj);
         if (this.__indexed_buckets) {
-            $c._add_to_index(this.__indexed_buckets, obj);
+            $s._add_to_index(this.__indexed_buckets, obj);
         }
     } catch (e) {
         error("Array.add", e);
@@ -607,15 +607,15 @@ ext(Array, 'delete', function(condition, justOne) {
     }|*/
     try {
         var thiz = this,
-            _equals = $c.equals,
-            _contains = $c.contains,
-            _isArray = $c.isArray,
+            _equals = $s.equals,
+            _contains = $s.contains,
+            _isArray = $s.isArray,
             _isNull = $s.isNull,
-            _isFunction = $c.isFunction,
-            _isObject = $c.isObject,
-            _isString = $c.isString,
-            _isRegExp = $c.isRegExp,
-            _isInt = $c.isInt,
+            _isFunction = $s.isFunction,
+            _isObject = $s.isObject,
+            _isString = $s.isString,
+            _isRegExp = $s.isRegExp,
+            _isInt = $s.isInt,
             _qnp = $s.__queryNestedProperty,
             _clt = $s._contains_lessthan,
             _clte = $s._contains_lessthanequal,
@@ -820,7 +820,7 @@ ext(Array, 'find', function(condition, projection) {
         "returnType": "(Array)"
     }|*/
     try {
-        return $c.where(this,condition, projection);
+        return $s.where(this,condition, projection);
     } catch (e) {
         error("Array.find", e);
     }
@@ -846,7 +846,7 @@ ext(Array, 'findOne', function(condition, projection) {
         "returnType": "(Object)"
     }|*/
     try {
-        return $c.where(this,condition, projection, 1)[0];
+        return $s.where(this,condition, projection, 1)[0];
     } catch (e) {
         error("Array.findOne", e);
     }
@@ -944,15 +944,15 @@ ext(Array, 'group', function(params, removeProps) {
 
 
         var thiz = this,
-            _equals = $c.equals,
-            _contains = $c.contains,
-            _isArray = $c.isArray,
+            _equals = $s.equals,
+            _contains = $s.contains,
+            _isArray = $s.isArray,
             _isNull = $s.isNull,
-            _isFunction = $c.isFunction,
-            _isObject = $c.isObject,
-            _isString = $c.isString,
-            _isRegExp = $c.isRegExp,
-            _isInt = $c.isInt,
+            _isFunction = $s.isFunction,
+            _isObject = $s.isObject,
+            _isString = $s.isString,
+            _isRegExp = $s.isRegExp,
+            _isInt = $s.isInt,
             _qnp = $s.__queryNestedProperty,
             _clt = $s._contains_lessthan,
             _clte = $s._contains_lessthanequal,
@@ -1096,7 +1096,7 @@ ext(Array, 'insertAfter', function(index, value) {
     try {
         this.splice(index + 1, 0, value);
         if (this.__indexed_buckets) {
-            $c._add_to_index(this.__indexed_buckets, value);
+            $s._add_to_index(this.__indexed_buckets, value);
         }
         return true;
     } catch (e) {
@@ -1139,7 +1139,7 @@ ext(Array, 'insertBefore', function(index, value) {
     try {
         this.splice(index, 0, value);
         if (this.__indexed_buckets) {
-            $c._add_to_index(this.__indexed_buckets, value);
+            $s._add_to_index(this.__indexed_buckets, value);
         }
         return true;
     } catch (e) {
@@ -1304,7 +1304,7 @@ ext(Array, 'mapReduce', function(map, reduce, options) {
     }|*/
     try {
         options = options || {};
-        var obj = {}, results = $c.where(this,options.query,null,options.limit), rtnArr = [], final = options.finalize;
+        var obj = {}, results = $s.where(this,options.query,null,options.limit), rtnArr = [], final = options.finalize;
         if (options.sort) {
             if ($s.isObject(options.sort)) {
                 var sortProps = [];
@@ -1333,7 +1333,7 @@ ext(Array, 'mapReduce', function(map, reduce, options) {
         if ($s.isString(options.out)) {
             $g[options.out] = $s.duplicate(rtnArr,true);
         } else if ($s.isArray(options.out)) {
-            $c.removeAll(options.out);
+            $s.removeAll(options.out);
             return $s.merge(options.out,rtnArr);
         }
         return rtnArr;
@@ -1478,8 +1478,8 @@ ext(Array, 'replaceAt', function(index, value) {
     try {
         var item = this.splice(index, 1, value)[0];
         if (this.__indexed_buckets) {
-            $c._remove_from_index(this.__indexed_buckets, item);
-            $c._add_to_index(this.__indexed_buckets, value);
+            $s._remove_from_index(this.__indexed_buckets, item);
+            $s._add_to_index(this.__indexed_buckets, value);
         }
         return item;
     } catch (e) {
@@ -1730,8 +1730,8 @@ ext(Array, 'update', function(condition, setClause, options) {
         }
 
         var thiz = this,
-            _equals = $c.equals,
-            _contains = $c.contains,
+            _equals = $s.equals,
+            _contains = $s.contains,
             _qnp = $s.__queryNestedProperty,
             _clt = $s._contains_lessthan,
             _clte = $s._contains_lessthanequal,
@@ -1739,13 +1739,13 @@ ext(Array, 'update', function(condition, setClause, options) {
             _cgte = $s._contains_greaterthanequal,
             _ct = $s._contains_type,
             _cm = $s._contains_mod,
-            _isArray = $c.isArray,
+            _isArray = $s.isArray,
             _isNull = $s.isNull,
-            _isFunction = $c.isFunction,
-            _isObject = $c.isObject,
-            _isString = $c.isString,
-            _isRegExp = $c.isRegExp,
-            _isInt = $c.isInt,
+            _isFunction = $s.isFunction,
+            _isObject = $s.isObject,
+            _isString = $s.isString,
+            _isRegExp = $s.isRegExp,
+            _isInt = $s.isInt,
             _refs= [], ifblock = $s._subQuery(condition,null,null,_refs), func = "(function (record,i) {"+
                 "	var values,finished;" +
                 "	if ("+ifblock+") {" +
@@ -1833,7 +1833,7 @@ ext(Array, 'update', function(condition, setClause, options) {
                             obj[prop].push(setObject['$addToSet'][prop]);
                         }
                     }
-                    $c.toSet(obj[prop]);
+                    $s.toSet(obj[prop]);
                 }
                 if (setObject['$pop']) {
                     for (var prop in setObject['$pop']) {
@@ -1858,7 +1858,7 @@ ext(Array, 'update', function(condition, setClause, options) {
                         if (isArray(values)) {
                             __pullHelper(arr,values);
                         } else if ($s.isObject(values)) {
-                            $c.delete(values,false);
+                            $s.delete(values,false);
                         }
                     }
                 }
@@ -1994,10 +1994,10 @@ ext(Array, 'upsert', function(records, prop, callback) {
             ids.splice(ref.index-(j++), 1);
             return true;
         };
-        var _equals = $c.equals,
-            _contains = $c.contains,
-            where = $c.where,
-            _isArray = $c.isArray,
+        var _equals = $s.equals,
+            _contains = $s.contains,
+            where = $s.where,
+            _isArray = $s.isArray,
             _qnp = $s.__queryNestedProperty,
             _clt = $s._contains_lessthan,
             _clte = $s._contains_lessthanequal,
@@ -2005,13 +2005,13 @@ ext(Array, 'upsert', function(records, prop, callback) {
             _cgte = $s._contains_greaterthanequal,
             _ct = $s._contains_type,
             _cm = $s._contains_mod,
-            _contains = $c.contains,
-            _isNull = $c.isNull,
-            _isFunction = $c.isFunction,
-            _isObject = $c.isObject,
-            _isString = $c.isString,
-            _isRegExp = $c.isRegExp,
-            _isInt = $c.isInt;
+            _contains = $s.contains,
+            _isNull = $s.isNull,
+            _isFunction = $s.isFunction,
+            _isObject = $s.isObject,
+            _isString = $s.isString,
+            _isRegExp = $s.isRegExp,
+            _isInt = $s.isInt;
             _refs = [],
             ifblock = $s._subQuery(condition,null,null,_refs),
             func = "(function (record,i) {"+

@@ -70,10 +70,10 @@ function yieldable(value,context,callbackIndex,returnIndex) {
                         }
                         if ($s.isBoolean(returnIndex) && returnIndex) {
                             for (var i = 0, len = args.length; i < len;) {
-                                if (args[i]) { return args[i]; }
+                                if (args[i]) { return res(args[i]); }
                             }
                         }
-                        if ($s.isNumber(returnIndex)) { return args[returnIndex]; }
+                        if ($s.isNumber(returnIndex)) { return res(args[returnIndex]); }
                         return res(args);
                     };
                     if ($s.isNull(callbackIndex)) {

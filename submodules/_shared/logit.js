@@ -5,11 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error,
-    _cout = $c.cout;
-
-$c.VERBOSE_LOGS = false;
+var _error, _cout;
 
 function logit(){
     /*|{
@@ -36,15 +32,9 @@ function logit(){
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _error = ctx.error || $c.error;
-    _cout = ctx.cout || $c.cout;
+    _error = ctx.error;
+    _cout = ctx.cout;
 
-    ctx.logit = ctx.hasOwnProperty('logit') && ctx.logit || logit;
-    if ($c !== ctx) {
-        $c.logit = $c.hasOwnProperty('logit') && $c.logit || ctx.logit
-    }
+    ctx.logit = logit;
 }
-init.logit = logit;
 module.exports = init;

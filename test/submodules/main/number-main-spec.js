@@ -1,5 +1,7 @@
 var pre = require('../_prep');
-var $c = require(pre + 'craydent-number');
+var $c;
+if (process.env.name == 'single') { $c = require(pre + 'craydent-number'); }
+else { $c = require('../../../craydent.js'); }
 $c.DEBUG_MODE = true;
 describe ('Number', function () {
     it('aboutEqualTo',function(){

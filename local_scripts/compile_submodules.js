@@ -80,6 +80,19 @@ for (var folder in dependencies) {
     fs.createReadStream(base + 'common.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'common.js'));
     fs.createReadStream(base + 'global.js').pipe(fs.createWriteStream(base + folder + '/global.js'));
     fs.createReadStream(base + 'noConflict.js').pipe(fs.createWriteStream(base + folder + '/noConflict.js'));
+
+    // dependent files
+    fs.createReadStream(base + 'addObjectPrototype.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'addObjectPrototype.js'));
+    fs.createReadStream(base + 'condense.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'condense.js'));
+    fs.createReadStream(base + 'convert_regex_safe.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'convert_regex_safe.js'));
+    fs.createReadStream(base + 'cout.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'cout.js'));
+    fs.createReadStream(base + 'defineFunction.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'defineFunction.js'));
+    fs.createReadStream(base + 'error.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'error.js'));
+    fs.createReadStream(base + 'general_trim.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'general_trim.js'));
+    fs.createReadStream(base + 'getFuncArgs.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'getFuncArgs.js'));
+    fs.createReadStream(base + 'isNull.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'isNull.js'));
+    fs.createReadStream(base + 'strip.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'strip.js'));
+
     var module_dependencies = {};
     if (folder != "typeof") {
         if (process.argv[2] == 'publish') {

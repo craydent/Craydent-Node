@@ -5,10 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error;
-
-require('./emit')($c);
+var _error;
 
 function on (obj, ev, func){
     try {
@@ -20,15 +17,8 @@ function on (obj, ev, func){
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./emit')($c);
-    _error = ctx.error || $c.error;
+    _error = ctx.error;
 
-    ctx.on = ctx.hasOwnProperty('on') && ctx.on || on;
-    if ($c !== ctx) {
-        $c.on = $c.hasOwnProperty('on') && $c.on || ctx.on
-    }
+    ctx.on = on;
 }
-init.on = on;
 module.exports = init;

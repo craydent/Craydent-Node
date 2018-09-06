@@ -5,16 +5,13 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error;
-
-require('./_add_to_index')($c);
+var _error, _add_to_index;
 
 function insertAt (obj, index, value) {
     try {
         obj.splice(index, 0, value);
         if (obj.__indexed_buckets) {
-            $c._add_to_index(obj.__indexed_buckets, value);
+            _add_to_index(obj.__indexed_buckets, value);
         }
         return true;
     } catch (e) {
@@ -24,14 +21,10 @@ function insertAt (obj, index, value) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _error = ctx.error || $c.error;
+    require('./_add_to_index')(ctx);
+    _error = ctx.error;
+    _add_to_index = ctx._add_to_index;
 
-    ctx.insertAt = ctx.hasOwnProperty('insertAt') && ctx.insertAt || insertAt;
-    if ($c !== ctx) {
-        $c.insertAt = $c.hasOwnProperty('insertAt') && $c.insertAt || ctx.insertAt
-    }
+    ctx.insertAt = insertAt;
 }
-init.insertAt = insertAt;
 module.exports = init;

@@ -68,27 +68,27 @@ createServer(function(req, res){ this.$GET(); });
 
 | | | |
 | ----- | ----- | ----- |
-| ACCEPT_ENCODING (String) |IE7 (Boolean) |PROTOCOL (String) |
-ACCEPT_LANGUAGE (String) |IE8 (Boolean) |PUBLIC_IP (String) |
-AMAYA (Boolean) |IE_VERSION (Number) |REFERER (String) |
-ANDROID (Boolean) |IPAD (Boolean) |REFERER_IP (String) |
-BLACKBERRY (Boolean) |IPHONE (Boolean) |RESPONSES (Object) |
-BROWSER (Object) |IPOD (Boolean) |REST_API_TEMPLATE (String) |
-CHROME (Boolean) |KHTML (Boolean) |ROUTE_API_PATH (String) |
-CHROME_VERSION (String) |LINUX (Boolean) |ROUTE_LOGO_URL (String) |
-CLIENT (Object) |LOCAL_IP (String) |SAFARI (Boolean) |
-CORES_SUPPORT (Boolean) |MAC (Boolean) |SAFARI_VERSION (String) |
-DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |SERVER (String) |
-DEVICE (Object) |OPERA (Boolean) |SERVER_PATH (String) |
-ENGINE (Object) |OPERA_VERSION (String) |SYMBIAN (Boolean) |
-ERROR_TYPES (Array) |ORIGIN (String) |TEMPLATE_TAG_CONFIG (Object) |
-EXPOSE_ROUTE_API (Boolean) |OS (Object) |TEMPLATE_VARS (Array) |
-FIREFOX (Boolean) |PAGE_NAME (String) |TRIDENT (Boolean) |
-FIREFOX_VERSION (String) |PAGE_NAME_RAW (String) |VERBOSE_LOGS (Boolean) |
+| ACCEPT_ENCODING (String) |IE8 (Boolean) |PUBLIC_IP (String) |
+ACCEPT_LANGUAGE (String) |IE_VERSION (Number) |REFERER (String) |
+AMAYA (Boolean) |IPAD (Boolean) |REFERER_IP (String) |
+ANDROID (Boolean) |IPHONE (Boolean) |RESPONSES (Object) |
+BLACKBERRY (Boolean) |IPOD (Boolean) |REST_API_TEMPLATE (String) |
+BROWSER (Object) |KHTML (Boolean) |ROUTE_API_PATH (String) |
+CHROME (Boolean) |LINUX (Boolean) |ROUTE_LOGO_URL (String) |
+CHROME_VERSION (String) |LOCAL_IP (String) |SAFARI (Boolean) |
+CLIENT (Object) |MAC (Boolean) |SAFARI_VERSION (String) |
+CORES_SUPPORT (Boolean) |MODULES_LOADED (Object) |SERVER (String) |
+DEBUG_MODE (Boolean) |OPERA (Boolean) |SERVER_PATH (String) |
+DEVICE (Object) |OPERA_VERSION (String) |SYMBIAN (Boolean) |
+ENGINE (Object) |ORIGIN (String) |TRIDENT (Boolean) |
+EXPOSE_ROUTE_API (Boolean) |OS (Object) |TEMPLATE_TAG_CONFIG (Object) |
+FIREFOX (Boolean) |PAGE_NAME (String) |TEMPLATE_VARS (Array) |
+FIREFOX_VERSION (String) |PAGE_NAME_RAW (String) |VERBOSE_LOGS (String) |
 GEKKO (Boolean) |PALM (Boolean) |VERSION (String) |
 HTTP_STATUS_TEMPLATE (Array) |PRAGMA (String) |WEBKIT (Boolean) |
 IE (Boolean) |PRESTO (Boolean) |WINDOWS (Boolean) |
 IE6 (Boolean) |PRINCE (Boolean) |WINDOWS_MOBILE (Boolean) |
+IE7 (Boolean) |PROTOCOL (String) |
 
 <a name='markdown-header-properties'></a>
 ## Properties

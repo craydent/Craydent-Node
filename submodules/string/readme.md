@@ -40,8 +40,8 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (Boolean) |LOCAL_IP (String) |PUBLIC_IP (String) |
-ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
+| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
+LOCAL_IP (String) |PUBLIC_IP (String) |
 
 
 ## Methods
@@ -729,6 +729,24 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 * options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format
 
 *** 
+#### _trim_ 
+***
+
+**Info:** String class extension to remove characters from the beginning and end of the string.
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* None
+
+**Overloads:**
+
+1)
+
+* character: (Char[]) Character to remove in the String
+
+*** 
 #### _toObject_ 
 ***
 
@@ -750,24 +768,6 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 
 * assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '&'.
 * delimiter: (Char) Character to use as pair delimiter
-
-*** 
-#### _trim_ 
-***
-
-**Info:** String class extension to remove characters from the beginning and end of the string.
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-1)
-
-* character: (Char[]) Character to remove in the String
 
 
 

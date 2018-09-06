@@ -5,7 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {}, _error = $c.error;
+var _error;
 
 function keyOf (obj, value) {
     try {
@@ -21,14 +21,8 @@ function keyOf (obj, value) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _error = ctx.error || $c.error
+    _error = ctx.error;
 
-    ctx.keyOf = ctx.hasOwnProperty('keyOf') && ctx.keyOf || keyOf;
-    if ($c !== ctx) {
-        $c.keyOf = $c.hasOwnProperty('keyOf') && $c.keyOf || ctx.keyOf
-    }
+    ctx.keyOf = keyOf;
 }
-init.keyOf = keyOf;
 module.exports = init;

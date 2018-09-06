@@ -1,5 +1,7 @@
 var pre = require('../_prep');
-var $c = require(pre + 'craydent-utility');
+var $c;
+if (process.env.name == 'single') { $c = require(pre + 'craydent-utility'); }
+else { $c = require('../../../craydent.js'); }
 var $s = require('../../../common.js');
 var $t = require(pre + 'craydent-typeof');
 var $m = require('../_methods')(pre);
@@ -9,6 +11,7 @@ describe ('Global methods', function () {
     beforeEach(function() {
         this.addMatchers({ toMatchPropAndConstructor: matchPropAndConstructor });
     });
+
     var usersdata = { users:
         [ { username: 'mtglass', name: 'Mark Glass', age: 10 },
             { username: 'urdum', name: 'Ursula Dumfry', age: 10 },
@@ -23,87 +26,89 @@ describe ('Global methods', function () {
             { username: 'noze_nutin', name: 'Mai Boss', age: 10 },
             { username: 'czass', name: 'Cater Zass', age: 10 },
             { username: 'awesome_game', name: 'clash of clans', age: 21 }]};
-    it('ajax',function(){
-        $c.ajax({
-            url:"http://www.craydent.com/test/users.js",
-            onsuccess:function(data,req,ctx,status_code){
-                expect(data).toEqual(usersdata);
-                expect(status_code).toBe(200);
-            }
-        });
+    if (!$m.noAsync) {
+        it('ajax',function(){
+            $c.ajax({
+                url:"http://www.craydent.com/test/users.js",
+                onsuccess:function(data,req,ctx,status_code){
+                    expect(data).toEqual(usersdata);
+                    expect(status_code).toBe(200);
+                }
+            });
 
-        var errored = false, prm1 = $c.ajax({
-            url:"http://www.craydent.com/test/userss.js",
-            onsuccess:function(data,req,ctx,status_code){
-                expect('Should not execute').toBe(true);
-            },
-            onerror:function(data,req,ctx,status_code){
+            var errored = false, prm1 = $c.ajax({
+                url:"http://www.craydent.com/test/userss.js",
+                onsuccess:function(data,req,ctx,status_code){
+                    expect('Should not execute').toBe(true);
+                },
+                onerror:function(data,req,ctx,status_code){
+                    expect(status_code).toBe(404);
+                    expect(errored).toBe(false);
+                    errored = true;
+                }
+            });
+            prm1.otherwise(function(data,req,ctx,status_code){
                 expect(status_code).toBe(404);
-                expect(errored).toBe(false);
-                errored = true;
-            }
+                expect(errored).toBe(true);
+            });
         });
-        prm1.otherwise(function(data,req,ctx,status_code){
-            expect(status_code).toBe(404);
-            expect(errored).toBe(true);
-        });
-    });
-    it('ajax - hitch',function(){
-        var stage = 1,
-            hobj = {hitch:true},
-            ctx = {thectx:true};
-        var prm2 = $c.ajax({
-            url:"http://www.craydent.com/test/users.js",
-            query:{a:"hello",b:"world"},
-            hitch:hobj,
-            context:ctx,
-            //onstatechange:function(){
-            //	expect(stage).toBe(1);
-            //	console.log(arguments,'statechange');
-            //},
-            onbefore:function(request,hitch,thiz){
-                expect(stage++).toBe(1);
-                expect(hitch).toBe(hobj);
-                expect(thiz).toBe($c);
-                expect(this).toBe(ctx);
-            },
-            oncomplete:function(data,hitch,req,status_code){
-                expect(stage++).toBe(4);
-                expect(hitch).toBe(hobj);
+        it('ajax - hitch',function(){
+            var stage = 1,
+                hobj = {hitch:true},
+                ctx = {thectx:true};
+            var prm2 = $c.ajax({
+                url:"http://www.craydent.com/test/users.js",
+                query:{a:"hello",b:"world"},
+                hitch:hobj,
+                context:ctx,
+                //onstatechange:function(){
+                //	expect(stage).toBe(1);
+                //	console.log(arguments,'statechange');
+                //},
+                onbefore:function(request,hitch,thiz){
+                    expect(stage++).toBe(1);
+                    expect(hitch).toBe(hobj);
+                    expect(thiz).toBe($c);
+                    expect(this).toBe(ctx);
+                },
+                oncomplete:function(data,hitch,req,status_code){
+                    expect(stage++).toBe(4);
+                    expect(hitch).toBe(hobj);
+                    expect(data).toEqual(usersdata);
+                    expect(this).toBe(ctx);
+                    expect(status_code).toBe(200);
+                },
+                //onresponse:function(){
+                //	console.log(arguments,'response');
+                //},
+                //onloadstart:function(){
+                //	expect(stage++).toBe(1);
+                //	console.log(arguments,'loadstart');
+                //},
+                onsuccess:function(data,hitch,req,status_code){
+                    expect(stage++).toBe(2);
+                    expect(hitch).toBe(hobj);
+                    expect(data).toEqual(usersdata);
+                    expect(this).toBe(ctx);
+                    expect(status_code).toBe(200);
+                }
+            });
+            prm2.then(function(data,req,ctx,status_code){
+                expect(stage++).toBe(3);
                 expect(data).toEqual(usersdata);
-                expect(this).toBe(ctx);
+                expect(ctx).toBe(ctx);
                 expect(status_code).toBe(200);
-            },
-            //onresponse:function(){
-            //	console.log(arguments,'response');
-            //},
-            //onloadstart:function(){
-            //	expect(stage++).toBe(1);
-            //	console.log(arguments,'loadstart');
-            //},
-            onsuccess:function(data,hitch,req,status_code){
-                expect(stage++).toBe(2);
-                expect(hitch).toBe(hobj);
-                expect(data).toEqual(usersdata);
-                expect(this).toBe(ctx);
-                expect(status_code).toBe(200);
-            }
-        });
-        prm2.then(function(data,req,ctx,status_code){
-            expect(stage++).toBe(3);
-            expect(data).toEqual(usersdata);
-            expect(ctx).toBe(ctx);
-            expect(status_code).toBe(200);
-        });
+            });
 
-        prm2.finally(function(data,hitch,req,status_code){
-            expect(stage++).toBe(5);
-            expect(hitch).toBe(hobj);
-            expect(data).toEqual(usersdata);
-            expect(this).toBe(ctx);
-            expect(status_code).toBe(200);
+            prm2.finally(function(data,hitch,req,status_code){
+                expect(stage++).toBe(5);
+                expect(hitch).toBe(hobj);
+                expect(data).toEqual(usersdata);
+                expect(this).toBe(ctx);
+                expect(status_code).toBe(200);
+            });
         });
-    });
+    }
     it('cuid',function(){
         expect($c.cuid().length).toBe(36);
     });
@@ -122,9 +127,12 @@ describe ('Global methods', function () {
         });
     });
     it('namespace',function(){
-        expect($c.namespace("Test2",function TestClass(){}).toString()).toEqual('function TestClass(){}');
-        expect($c._getFuncName((new ($c.namespace.Test2.TestClass)()).constructor)).toBe("TestClass");
-        expect(Test2).toBe('function TestClass(){}');
+        try{
+            expect($c.namespace("Test2",function TestClass(){}).toString()).toEqual('function TestClass(){}');
+            expect((new ($c.namespace.Test2.TestClass)()).constructor.name).toBe("TestClass");
+            expect($c.namespace.Test2+'').toBe('function TestClass(){}');
+            expect(typeof Test2).toBe('undefined');
+        } catch(e) {console.log(e);}
     });
     it('now',function(){
         expect($c.now().getTime()).toBeCloseTo(new Date().getTime(),-1);
@@ -142,8 +150,8 @@ describe ('Global methods', function () {
     it('rand',function(){
         var i = 0;
         while (i < 1000) {
-            expect($c.isBetween($c.rand(1, 2, true), 1, 2, true)).toBe(true);
-            expect($c.isBetween($c.rand(1, 2), 1, 2)).toBe(true);
+            expect($t.isBetween($c.rand(1, 2, true), 1, 2, true)).toBe(true);
+            expect($t.isBetween($c.rand(1, 2), 1, 2)).toBe(true);
             i++;
         }
     });
@@ -171,6 +179,16 @@ describe ('Global methods', function () {
     });
     describe("syncroit async test",function(){
         var result = [];
+        var promise = function () {
+            return $c.ajax('http://craydent.com/test/users.js');
+        };
+        if ($m.noAsync) {
+            promise = function () {
+                return new Promise(function(res){
+                    setTimeout(function(){ res(userData); },1)
+                });
+            };
+        }
         beforeEach(function (done) {
             $c.syncroit(function *() {
                 var resolve = true;
@@ -185,7 +203,7 @@ describe ('Global methods', function () {
 
                 resolve = false;
                 result.push(yield testPromise());
-                result.push(yield $c.ajax("http://www.craydent.com/test/users.js"));
+                result.push(yield promise());
                 done();
             });
         });

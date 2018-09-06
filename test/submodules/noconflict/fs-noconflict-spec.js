@@ -1,48 +1,139 @@
-var pre = "@craydent/";
-delete global.$c;
-try { require.cache[require.resolve('../../../common.js')] && delete require.cache[require.resolve('../../../common.js')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-array')] && delete require.cache[require.resolve(pre + 'craydent-array')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-class')] && delete require.cache[require.resolve(pre + 'craydent-class')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-cli')] && delete require.cache[require.resolve(pre + 'craydent-cli')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-control-flow')] && delete require.cache[require.resolve(pre + 'craydent-control-flow')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-date')] && delete require.cache[require.resolve(pre + 'craydent-date')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-fs')] && delete require.cache[require.resolve(pre + 'craydent-fs')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-function')] && delete require.cache[require.resolve(pre + 'craydent-function')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-http')] && delete require.cache[require.resolve(pre + 'craydent-http')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-json-parser')] && delete require.cache[require.resolve(pre + 'craydent-json-parser')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-number')] && delete require.cache[require.resolve(pre + 'craydent-number')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-object')] && delete require.cache[require.resolve(pre + 'craydent-object')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-regexp')] && delete require.cache[require.resolve(pre + 'craydent-regexp')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-string')] && delete require.cache[require.resolve(pre + 'craydent-string')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-template')] && delete require.cache[require.resolve(pre + 'craydent-template')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-typeof')] && delete require.cache[require.resolve(pre + 'craydent-typeof')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-utility')] && delete require.cache[require.resolve(pre + 'craydent-utility')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-xml-to-json')] && delete require.cache[require.resolve(pre + 'craydent-xml-to-json')]; }catch(e){}
-
-try { require.cache[require.resolve(pre + 'craydent-array/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-array/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-class/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-class/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-cli/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-cli/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-control-flow/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-control-flow/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-date/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-date/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-fs/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-fs/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-function/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-function/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-http/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-http/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-json-parser/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-json-parser/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-number/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-number/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-object/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-object/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-regexp/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-regexp/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-string/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-string/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-template/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-template/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-typeof/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-typeof/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-utility/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-utility/noConflict')]; }catch(e){}
-try { require.cache[require.resolve(pre + 'craydent-xml-to-json/noConflict')] && delete require.cache[require.resolve(pre + 'craydent-xml-to-json/noConflict')]; }catch(e){}
-
-
-try { require.cache[require.resolve('../../../noConflict.js')] && delete require.cache[require.resolve('../../../noConflict.js')]; }catch(e){}
-try { require.cache[require.resolve('../../../global.js')] && delete require.cache[require.resolve('../../../global.js')]; }catch(e){}
-try { require.cache[require.resolve('../../../craydent.js')] && delete require.cache[require.resolve('../../../craydent.js')]; }catch(e){}
-
-
-require.cache[require.resolve(pre + 'craydent-fs/noConflict.js')] && delete require.cache[require.resolve(pre + 'craydent-fs/noConflict.js')];
-var $c = require(pre + 'craydent-fs/noConflict.js');
+var pre = require('../_prep');
+var $c;
+if (process.env.name == 'single') { $c = require(pre + 'craydent-fs/noConflict.js'); }
+else { $c = require('../../../noConflict.js'); }
 $c.DEBUG_MODE = true;
+
+describe ('FS', function () {
+    it('access',function(){
+        expect($c.access('./test.json', fs.constants.F_OK)).toEqual(new Promise(function(){}));
+    })
+
+    it('appendFile',function(){
+        expect($c.appendFile('./test.txt', 'test')).toEqual(new Promise(function(){}));
+    })
+
+    it('chmod',function(){
+        expect($c.chmod('./test.txt', 777)).toEqual(new Promise(function(){}));
+    })
+
+    it('chown',function(){
+        expect($c.chown('./test.txt',501, 20)).toEqual(new Promise(function(){}));
+    })
+
+    it('close',function(){
+        expect($c.close(1)).toEqual(new Promise(function(){}));
+    })
+
+    // it('fchmod',function(){
+    //     expect($c.fchmod).toEqual(new Promise(function(){}));
+    // })
+
+    // it('fchown',function(){
+    //     expect($c.fchown).toEqual(new Promise(function(){}));
+    // })
+
+    it('fdatasync',function(){
+        expect($c.fdatasync(1)).toEqual(new Promise(function(){}));
+    })
+
+    it('fstat',function(){
+        expect($c.fstat(1)).toEqual(new Promise(function(){}));
+    })
+
+    it('fsync',function(){
+        expect($c.fsync(1)).toEqual(new Promise(function(){}));
+    })
+
+    it('ftruncate',function(){
+        expect($c.ftruncate(1)).toEqual(new Promise(function(){}));
+    })
+
+    // it('futimes',function(){
+    //     expect($c.futimes).toEqual(new Promise(function(){}));
+    // })
+
+    it('lchmod',function(){
+        expect($c.lchmod('./test.txt', 777)).toEqual(new Promise(function(){}));
+    })
+
+    it('lchown',function(){
+        expect($c.lchown('./test.txt','cinada', 'admin')).toEqual(new Promise(function(){}));
+    })
+
+    // it('link',function(){
+    //     expect($c.link).toEqual(new Promise(function(){}));
+    // })
+
+    it('lstat',function(){
+        expect($c.lstat('./test.xt')).toEqual(new Promise(function(){}));
+    })
+
+    it('mkdir',function(){
+        expect($c.mkdir('./temp')).toEqual(new Promise(function(){}));
+    })
+
+    it('mkdtemp',function(){
+        expect($c.mkdtemp('testing')).toEqual(new Promise(function(){}));
+    })
+
+    it('open',function(){
+        expect($c.open('./test.txt','w')).toEqual(new Promise(function(){}));
+    })
+
+    it('read',function(){
+        expect($c.read(0,[],0,0,0)).toEqual(new Promise(function(){}));
+    })
+
+    it('readdir',function(){
+        expect($c.readdir('./')).toEqual(new Promise(function(){}));
+    })
+
+    it('readFile',function(){
+        expect($c.readFile('./test.txt')).toEqual(new Promise(function(){}));
+    })
+
+    it('readlink',function(){
+        expect($c.readlink('./test.txt')).toEqual(new Promise(function(){}));
+    })
+
+    it('realpath',function(){
+        expect($c.realpath('./test.txt')).toEqual(new Promise(function(){}));
+    })
+
+    it('rename',function(){
+        expect($c.rename('./test.txt','./test.txt')).toEqual(new Promise(function(){}));
+    })
+
+    it('rmdir',function(){
+        expect($c.rmdir('./temp')).toEqual(new Promise(function(){}));
+    })
+
+    it('stat',function(){
+        expect($c.stat('./test.txt')).toEqual(new Promise(function(){}));
+    })
+
+    // it('symlink',function(){
+    //     expect($c.symlink).toEqual(new Promise(function(){}));
+    // })
+
+    it('truncate',function(){
+        expect($c.truncate('./test.txt')).toEqual(new Promise(function(){}));
+    })
+
+    it('unlink',function(){
+        expect($c.unlink('./test.txt')).toEqual(new Promise(function(){}));
+    })
+
+    // it('utimes',function(){
+    //     expect($c.utimes).toEqual(new Promise(function(){}));
+    // })
+
+    it('write',function(){
+        expect($c.write(1,[])).toEqual(new Promise(function(){}));
+    })
+
+    it('writeFile',function(){
+        expect($c.writeFile('./test.txt','')).toEqual(new Promise(function(){}));
+    })
+})

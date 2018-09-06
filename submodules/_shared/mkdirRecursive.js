@@ -5,11 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _isString = $c.isString,
-    _error = $c.error;
-
-require('./startsWithAny')($c);
+var _error, _startsWithAny;
 
 function mkdirRecursive(path, callback, _processedPath) {
     /*|{
@@ -26,7 +22,7 @@ function mkdirRecursive(path, callback, _processedPath) {
     }|*/
     try {
         var absolute = false;
-        if ($c.startsWithAny(path, '/')) {
+        if (_startsWithAny(path, '/')) {
             absolute = true;
             path = path.substring(1);
         }
@@ -49,19 +45,15 @@ function mkdirRecursive(path, callback, _processedPath) {
             }
         });
     } catch(e) {
-        _error('fs.mkdirRecursive', e);
+        _error && _error('fs.mkdirRecursive', e);
     }
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _error = ctx.error || $c.error;
+    require('./startsWithAny')(ctx);
+    _error = ctx.error;
+    _startsWithAny = ctx.startsWithAny;
 
-    ctx.mkdirRecursive = ctx.hasOwnProperty('mkdirRecursive') && ctx.mkdirRecursive || mkdirRecursive;
-    if ($c !== ctx) {
-        $c.mkdirRecursive = $c.hasOwnProperty('mkdirRecursive') && $c.mkdirRecursive || ctx.mkdirRecursive
-    }
+    ctx.mkdirRecursive = mkdirRecursive;
 }
-init.mkdirRecursive = mkdirRecursive;
 module.exports = init;

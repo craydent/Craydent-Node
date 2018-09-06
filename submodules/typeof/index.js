@@ -6,9 +6,14 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 var info = require('./package.json');
+var scope = { eval: function (str) { return eval(str); } };
+var error = require('./dependencies/error');
+var _ao = require('./dependencies/addObjectPrototype')(scope);
+var isNull = require('./dependencies/isNull');
 global.$g = global;
 var $c = $g.$c = $g.$c || { VERSION: info.version, MODULES_LOADED: {} };
 $c.ERROR_TYPES = $c.ERROR_TYPES || [];
+$c.error = error;
 
 //require('./dependencies/itemCount');
 
@@ -37,7 +42,7 @@ function _type_check (obj, cls, backward_compatible){
     }
 }
 
-function isArray (obj) {
+function isArray () {
     /*|{
         "info": "Object class extension to check if object is an array",
         "category": "Object|TypeOf",
@@ -48,9 +53,9 @@ function isArray (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isArray",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, Array);
+    return _type_check(this, Array);
 }
-function isAsync (obj) {
+function isAsync () {
     /*|{
         "info": "Object class extension to check if object is a async function",
         "category": "Object|TypeOf",
@@ -61,9 +66,9 @@ function isAsync (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isAsnyc",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, "AsyncFunction", true);
+    return _type_check(this, "AsyncFunction", true);
 }
-function isBetween (obj, lowerBound, upperBound, inclusive) {
+function isBetween (lowerBound, upperBound, inclusive) {
     /*|{
         "info": "Object class extension to check if object is between lower and upper bounds",
         "category": "Object|TypeOf",
@@ -80,14 +85,14 @@ function isBetween (obj, lowerBound, upperBound, inclusive) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isBetween",
         "returnType": "(Bool)"
     }|*/
-    if (isNull(obj)) {return false;}
+    if (isNull(this)) {return false;}
     if (inclusive) {
-        return (obj >= lowerBound && obj <= upperBound);
+        return (this >= lowerBound && this <= upperBound);
     } else {
-        return (obj > lowerBound && obj < upperBound);
+        return (this > lowerBound && this < upperBound);
     }
 }
-function isBoolean (obj) {
+function isBoolean () {
     /*|{
         "info": "Object class extension to check if object is a boolean",
         "category": "Object|TypeOf",
@@ -98,9 +103,9 @@ function isBoolean (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isBoolean",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, Boolean);
+    return _type_check(this, Boolean);
 }
-function isDate (obj) {
+function isDate () {
     /*|{
         "info": "Object class extension to check if object is a date",
         "category": "Object|TypeOf",
@@ -111,9 +116,9 @@ function isDate (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isDate",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, Date);
+    return _type_check(this, Date);
 }
-function isDomElement (obj) {
+function isDomElement () {
     /*|{
         "info": "Object class extension to check if object is a DOM element",
         "category": "Object|TypeOf",
@@ -125,13 +130,13 @@ function isDomElement (obj) {
         "returnType": "(Bool)"
     }|*/
     try {
-        if (isNull(obj)) { return false; }
-        return (obj.nodeType == 1);
+        if (isNull(this)) { return false; }
+        return (this.nodeType == 1);
     } catch (e) {
         $c.error && $c.error('Object.isDomElement', e);
     }
 }
-function isEmpty (obj) {
+function isEmpty () {
     /*|{
         "info": "Object class extension to check if it is empty",
         "category": "Object|TypeOf",
@@ -143,17 +148,17 @@ function isEmpty (obj) {
         "returnType": "(Bool)"
     }|*/
     try {
-        if (isArray(obj) || isString(obj)) { return !obj.length; }
-        if (isObject(obj)) { return !$c.itemCount(obj); }
-        if (isFunction(obj)) {
-            return /function.*?\(.*?\)\{\}/.test(obj.toString().replace(/[\n ]/g,''));
+        if ($c.isArray(this) || $c.isString(this)) { return !this.length; }
+        if ($c.isObject(this)) { return !$c.itemCount(this); }
+        if ($c.isFunction(this)) {
+            return /function.*?\(.*?\)\{\}/.test(this.toString().replace(/[\n ]/g,''));
         }
         return false;
     } catch (e) {
         $c.error && $c.error("Object.isEmpty", e);
     }
 }
-function isError (obj) {
+function isError () {
     /*|{
         "info": "Object class extension to check if object is an error object",
         "category": "Object|TypeOf",
@@ -165,13 +170,13 @@ function isError (obj) {
         "returnType": "(Bool)"
     }|*/
     try{
-        var is = _type_check(obj, Error);
-        return is || !!~$c.ERROR_TYPES.indexOf(obj) || !!~$c.ERROR_TYPES.indexOf(obj.constructor.name);
+        var is = _type_check(this, Error);
+        return is || !!~$c.ERROR_TYPES.indexOf(this) || !!~$c.ERROR_TYPES.indexOf(this.constructor.name);
     } catch (e) {
         $c.error && $c.error('Object.isError', e);
     }
 }
-function isFloat (obj) {
+function isFloat () {
     /*|{
         "info": "Object class extension to check if object is a float",
         "category": "Object|TypeOf",
@@ -183,13 +188,13 @@ function isFloat (obj) {
         "returnType": "(Bool)"
     }|*/
     try {
-        if (isNull(obj)) {return false;}
-        return (isNumber(obj) && (parseFloat(obj) == obj || parseFloat(obj) === 0));
+        if (isNull(this)) {return false;}
+        return ($c.isNumber(this) && (parseFloat(this) == this || parseFloat(this) === 0));
     } catch (e) {
         $c.error && $c.error('Object.isFloat', e);
     }
 }
-function isFunction(obj) {
+function isFunction() {
     /*|{
         "info": "Object class extension to check if object is a function",
         "category": "Object|TypeOf",
@@ -200,9 +205,9 @@ function isFunction(obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isFunction",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, Function);
+    return _type_check(this, Function);
 }
-function isGenerator (obj) {
+function isGenerator () {
     /*|{
         "info": "Object class extension to check if object is a generator function",
         "category": "Object|TypeOf",
@@ -213,9 +218,9 @@ function isGenerator (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isGenerator",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, "GeneratorFunction", true);
+    return _type_check(this, "GeneratorFunction", true);
 }
-function isGeolocation (obj) {
+function isGeolocation () {
     /*|{
         "info": "Object class extension to check if object is a geolocation",
         "category": "Object|TypeOf",
@@ -226,9 +231,9 @@ function isGeolocation (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isGeoLocation",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, "Geolocation", true);
+    return _type_check(this, "Geolocation", true);
 }
-function isInt (obj) {
+function isInt () {
     /*|{
         "info": "Object class extension to check if object is an integer",
         "category": "Object|TypeOf",
@@ -240,38 +245,13 @@ function isInt (obj) {
         "returnType": "(Bool)"
     }|*/
     try {
-        if (isNull(obj) || isArray(obj)) { return false; }
-        return (parseInt(obj) == obj || parseInt(obj) === 0);
+        if (isNull(this) || $c.isArray(this)) { return false; }
+        return (parseInt(this) == this || parseInt(this) === 0);
     } catch (e) {
         $c.error && $c.error('Object.isInt', e);
     }
 }
-function isNull(value, defaultValue) {
-    /*|{
-        "info": "Check if a value is Null",
-        "category": "Utility|TypeOf",
-        "parameters":[
-            {"value": "(Mixed) Value to check"}],
-
-        "overloads":[
-            {"parameters":[
-                {"value": "(Mixed) Value to check"},
-                {"defaultValue": "(Mixed) Value to return if null"}]}],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#isNull",
-        "returnType": "(Mixed)"
-    }|*/
-    try {
-        var isnull = value == null || value == undefined;
-        if (arguments.length === 1) {
-            return isnull;
-        }
-        return isnull ? defaultValue : value;
-    } catch (e) {
-        $c.error && $c.error('isNull', e);
-    }
-}
-function isNumber (obj) {
+function isNumber () {
     /*|{
         "info": "Object class extension to check if object is a number",
         "category": "Object|TypeOf",
@@ -282,9 +262,9 @@ function isNumber (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isNumber",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, Number);
+    return _type_check(this, Number);
 }
-function isObject (obj, check_instance) {
+function isObject (check_instance) {
     /*|{
         "info": "Object class extension to check if object is an object",
         "category": "Object|TypeOf",
@@ -296,13 +276,13 @@ function isObject (obj, check_instance) {
         "returnType": "(Bool)"
     }|*/
     try {
-        if (isNull(obj)) { return false; }
-        return (obj.constructor == Object || (!!check_instance && obj instanceof Object));
+        if (isNull(this)) { return false; }
+        return (this.constructor == Object || (!!check_instance && this instanceof Object));
     } catch (e) {
         $c.error && $c.error('Object.isObject', e);
     }
 }
-function isPromise (obj) {
+function isPromise () {
     /*|{
         "info": "Object class extension to check if object is a promise object",
         "category": "Object|TypeOf",
@@ -313,9 +293,9 @@ function isPromise (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isPromise",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, "Promise", true);
+    return _type_check(this, "Promise", true);
 }
-function isRegExp(obj) {
+function isRegExp() {
     /*|{
         "info": "Object class extension to check if object is a RegExp",
         "category": "Object|TypeOf",
@@ -326,9 +306,9 @@ function isRegExp(obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isRegExp",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, RegExp);
+    return _type_check(this, RegExp);
 }
-function isString (obj) {
+function isString () {
     /*|{
         "info": "Object class extension to check if object is a string",
         "category": "Object|TypeOf",
@@ -339,28 +319,28 @@ function isString (obj) {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isString",
         "returnType": "(Bool)"
     }|*/
-    return _type_check(obj, String);
+    return _type_check(this, String);
 }
-
-$c.isArray = isArray;
-$c.isAsync = isAsync;
-$c.isBetween = isBetween;
-$c.isBoolean = isBoolean;
-$c.isDate = isDate;
-$c.isDomElement = isDomElement;
-$c.isEmpty = isEmpty;
-$c.isError = isError;
-$c.isFloat = isFloat;
-$c.isFunction = isFunction;
-$c.isGenerator = isGenerator;
-$c.isGeolocation = isGeolocation;
-$c.isInt = isInt;
+_ao("isFloat", isFloat);
+_ao("isArray", isArray);
+_ao("isAsync", isAsync);
+_ao("isBetween", isBetween);
+_ao("isBoolean", isBoolean);
+_ao("isDate", isDate);
+_ao("isDomElement", isDomElement);
+_ao("isEmpty", isEmpty, true);
+_ao("isError", isError);
+_ao("isFloat", isFloat);
+_ao("isFunction", isFunction);
+_ao("isGenerator", isGenerator);
+_ao("isGeolocation", isGeolocation);
+_ao("isInt", isInt);
 $c.isNull = isNull;
-$c.isNumber = isNumber;
-$c.isObject = isObject;
-$c.isPromise = isPromise;
-$c.isRegExp = isRegExp;
-$c.isString = isString;
+_ao("isNumber", isNumber);
+_ao("isObject", isObject);
+_ao("isPromise", isPromise);
+_ao("isRegExp", isRegExp);
+_ao("isString", isString);
 
 require('./dependencies/itemCount')($c);
 

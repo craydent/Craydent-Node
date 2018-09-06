@@ -5,12 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error,
-    _isArray = $c.isArray,
-    _isObject = $c.isObject;
-
-require('./contains')($c);
+var _error, _isArray, _isObject, _contains;
 
 function isSubset (obj, compare, sharesAny) {
     try {
@@ -19,7 +14,7 @@ function isSubset (obj, compare, sharesAny) {
 
             for (var prop in obj){
                 if (!obj.hasOwnProperty(prop)) { continue; }
-                if (!isArray && !compare.hasOwnProperty(prop) || isArray && !$c.contains(compare, obj[prop])) { return false; }
+                if (!isArray && !compare.hasOwnProperty(prop) || isArray && !_contains(compare, obj[prop])) { return false; }
                 if (sharesAny) { return true; }
             }
 
@@ -33,18 +28,13 @@ function isSubset (obj, compare, sharesAny) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./contains')($c);
+    require('./contains')(ctx);
 
-    _error = ctx.error || $c.error;
-    _isArray = ctx.isArray || $c.isArray;
-    _isObject = ctx.isObject || $c.isObject;
+    _error = ctx.error;
+    _isArray = ctx.isArray;
+    _isObject = ctx.isObject;
+    _contains = ctx.contains;
 
-    ctx.isSubset = ctx.hasOwnProperty('isSubset') && ctx.isSubset || isSubset;
-    if ($c !== ctx) {
-        $c.isSubset = $c.hasOwnProperty('isSubset') && $c.isSubset || ctx.isSubset
-    }
+    ctx.isSubset = isSubset;
 }
-init.isSubset = isSubset;
 module.exports = init;

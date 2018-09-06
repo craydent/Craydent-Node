@@ -5,8 +5,6 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
-
 function _remove_from_index (buckets, obj){
     for (var prop in buckets) {
         var sarr = buckets[prop][obj[prop]],
@@ -23,13 +21,6 @@ function _remove_from_index (buckets, obj){
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-
-    ctx._remove_from_index = ctx.hasOwnProperty('_remove_from_index') && ctx._remove_from_index || _remove_from_index;
-   if ($c !== ctx) {
-       $c._remove_from_index = $c.hasOwnProperty('_remove_from_index') && $c._remove_from_index || ctx._remove_from_index
-   }
+    ctx._remove_from_index = _remove_from_index;
 }
-init._remove_from_index = _remove_from_index;
 module.exports = init;

@@ -1,5 +1,7 @@
 var pre = require('../_prep');
-var $c = require(pre + 'craydent-template');
+var $c;
+if (process.env.name == 'single') { $c = require(pre + 'craydent-template'); }
+else { $c = require('../../../craydent.js'); }
 var $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
 var matchPropAndConstructor = $m.matchPropAndConstructor;

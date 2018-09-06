@@ -41,8 +41,8 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (Boolean) |LOCAL_IP (String) |PUBLIC_IP (String) |
-ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
+| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
+LOCAL_IP (String) |PUBLIC_IP (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -75,7 +75,7 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 
 **Parameters:**
 
-* pipelines: (Object[]) Array of stages defined in mongodb
+* pipelines: (Object[]) Array of stages defined in mongodb. ($project, $match, $redact, $limit, $skip, $unwind, $group, $sample, $sort, $lookup, $out)
 
 **Overloads:**
 
@@ -285,16 +285,20 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 
 **Parameters:**
 
-* val: (Mixed) Value to check or custom function to determine validity
+* val: (Mixed) Value to check
 
 **Overloads:**
 
 1)
 
+* val: (Function) Function to determine validity.  Function is passed the value, index, and original as arguments and must return a boolean
+
+2)
+
 * val: (Mixed) Value to check
 * func: (Function) Callback function used to do the comparison
 
-2)
+3)
 
 * arr: (Array) Array of values to return first matching value
 
@@ -960,22 +964,6 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 * options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
 *** 
-#### _toSet_ 
-***
-
-**Info:** Array class extension to convert the array to a set
-
-**Return:** (Array)
-
-**Parameters:**
-
-* None
-
-**Overloads:**
-
-* None
-
-*** 
 #### _trim_ 
 ***
 
@@ -998,12 +986,12 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 * character: (Char[]) Character to remove in the String
 
 *** 
-#### _universal_trim_ 
+#### _toSet_ 
 ***
 
-**Info:** Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.
+**Info:** Array class extension to convert the array to a set
 
-**Return:** (Bool)
+**Return:** (Array)
 
 **Parameters:**
 
@@ -1011,13 +999,7 @@ ERROR_TYPES (Array) |MODULES_LOADED (Object) |VERSION (String) |
 
 **Overloads:**
 
-1)
-
-* ref: (Boolean) Whether or not to mutate the original array.
-
-2)
-
-* character: (Char[]) Character to remove in the String
+* None
 
 *** 
 #### _update_ 

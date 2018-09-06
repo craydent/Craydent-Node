@@ -5,7 +5,6 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {};
 
 function binarySearch (arr, value){
     var min = arguments[2] || 0,
@@ -43,19 +42,6 @@ function _add_to_index (buckets, obj){
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-//    if (global.$c.hasOwnProperty('_add_to_index')) {
-//        ctx._add_to_index = ctx.hasOwnProperty('_add_to_index') && ctx._add_to_index || _add_to_index;
-//        return;
-//    }
-//
-//    $c._add_to_index = ctx._add_to_index = ctx._add_to_index || _add_to_index;
-
-    ctx._add_to_index = ctx.hasOwnProperty('_add_to_index') && ctx._add_to_index || _add_to_index;
-    if ($c !== ctx) {
-        $c._add_to_index = $c.hasOwnProperty('_add_to_index') && $c._add_to_index || ctx._add_to_index
-    }
+    ctx._add_to_index = _add_to_index;
 }
-init._add_to_index = _add_to_index;
 module.exports = init;

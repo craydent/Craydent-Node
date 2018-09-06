@@ -1,5 +1,7 @@
 var pre = require('../_prep');
-var $c = require(pre + 'craydent-array');
+var $c;
+if (process.env.name == 'single') { $c = require(pre + 'craydent-array'); }
+else { $c = require('../../../craydent.js'); }
 var $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
 
@@ -24,7 +26,21 @@ describe ('Array', function () {
             {id:8,p:"30",share:"shared", index: 30,std:4},
             {id:9,p:"30",share:"shared", index: 30,std:4},
             {id:10,p:"30",share:"shared", index: 30,std:4},
-            {id:11,std:4}],
+            {id:11,std:4},
+            {id:12,std:4},
+            {id:13,std:4},
+            {id:14,std:4},
+            {id:15,std:4},
+            {id:16,std:4},
+            {id:17,std:4},
+            {id:18,std:4},
+            {id:19,std:4},
+            {id:20,std:4},
+            {id:21,std:4},
+            {id:22,std:4},
+            {id:23,std:4},
+            {id:24,std:4},
+            {id:25,std:4}],
         arrStrings = ["string 1","string 2","string 3","string 4"],
         arrMix = [1,{},"adsf",10],
         arrSort = [{id:1, s:5},{id:2, s:5},{id:3, s:6},{id:4, s:3},{id:5, s:2}],
@@ -701,31 +717,41 @@ describe ('Array', function () {
                 { username: 'noze_nutin', name: 'Mai Boss', age: 10 },
                 { username: 'czass', name: 'Cater Zass', age: 10 },
                 { username: 'awesome_game', name: 'clash of clans', age: 21 }]};
+        var promise = function () {
+            return $c.ajax('http://craydent.com/test/users.js');
+        };
+        if ($m.noAsync) {
+            promise = function () {
+                return new Promise(function(res){
+                    setTimeout(function(){ res(usersdata); },1)
+                });
+            };
+        }
         beforeEach(function (done) {
             syncroit(function *() {
-                results = yield [
-                    function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-                    function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-                    function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-                    function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-                    function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-                    function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-                    function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-                    function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-                    function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
-                    function*(){ return yield $c.ajax('http://craydent.com/test/users.js'); },
+                results = yield ([
+                    function*(){ return yield promise(); },
+                    function*(){ return yield promise(); },
+                    function*(){ return yield promise(); },
+                    function*(){ return yield promise(); },
+                    function*(){ return yield promise(); },
+                    async function(){ return await promise(); },
+                    async function(){ return await promise(); },
+                    async function(){ return await promise(); },
+                    async function(){ return await promise(); },
+                    async function(){ return await promise(); },
 
 
-                    $c.ajax('http://craydent.com/test/users.js'),
-                    $c.ajax('http://craydent.com/test/users.js'),
-                    $c.ajax('http://craydent.com/test/users.js'),
-                    $c.ajax('http://craydent.com/test/users.js'),
-                    $c.ajax('http://craydent.com/test/users.js'),
-                    $c.ajax('http://craydent.com/test/users.js'),
-                    $c.ajax('http://craydent.com/test/users.js'),
-                    $c.ajax('http://craydent.com/test/users.js'),
-                    $c.ajax('http://craydent.com/test/users.js'),
-                    $c.ajax('http://craydent.com/test/users.js'),
+                    promise(),
+                    promise(),
+                    promise(),
+                    promise(),
+                    promise(),
+                    promise(),
+                    promise(),
+                    promise(),
+                    promise(),
+                    promise(),
 
                     function (a) { return 1 + a; },
                     function (a) { return 2 + a; },
@@ -739,7 +765,7 @@ describe ('Array', function () {
                     function (a) { return 10 + a; },
                     "asdf"
 
-                ].parallelEach([1]);
+                ].parallelEach([1]));
                 if (!results) { console.log('wtf'); }
                 done();
             });

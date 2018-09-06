@@ -5,11 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _equals = $c.equals,
-    _error = $c.error;
-
-require('./removeAt')($c);
+var _equals, _error, _removeAt
 
 function toSet(obj) {
     try {
@@ -18,7 +14,7 @@ function toSet(obj) {
             for (var j = i + 1; j < len; j++) {
                 var citem = obj[j];
                 if (_equals(item,citem)) {
-                    $c.removeAt(obj,j--);
+                    _removeAt(obj,j--);
                     len--;
                 }
             }
@@ -30,16 +26,11 @@ function toSet(obj) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    require('./removeAt')($c);
-    _equals = ctx.equals || $c.equals;
-    _error = ctx.error || $c.error;
+    require('./removeAt')(ctx);
+    _equals = ctx.equals;
+    _error = ctx.error;
+    _removeAt = ctx.removeAt;
 
-    ctx.toSet = ctx.hasOwnProperty('toSet') && ctx.toSet || toSet;
-    if ($c !== ctx) {
-        $c.toSet = $c.hasOwnProperty('toSet') && $c.toSet || ctx.toSet
-    }
+    ctx.toSet = toSet;
 }
-init.toSet = toSet;
 module.exports = init;

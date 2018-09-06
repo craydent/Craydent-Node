@@ -90,29 +90,6 @@ function __contextualizeMethods (ctx) {
         error('__contextualizeMethods', e);
     }
 }
-function __convert_regex_safe(reg_str) {
-    try {
-        return reg_str.replace(/\\/gi,"\\\\")
-            .replace(/\$/gi, "\\$")
-            .replace(/\//gi, "\\/")
-            .replace(/\^/gi, "\\^")
-            .replace(/\./gi, "\\.")
-            .replace(/\|/gi, "\\|")
-            .replace(/\*/gi, "\\*")
-            .replace(/\+/gi, "\\+")
-            .replace(/\?/gi, "\\?")
-            .replace(/\!/gi, "\\!")
-            .replace(/\{/gi, "\\{")
-            .replace(/\}/gi, "\\}")
-            .replace(/\[/gi, "\\[")
-            .replace(/\]/gi, "\\]")
-            .replace(/\(/gi, "\\(")
-            .replace(/\)/gi, "\\)")
-            .replace('\n','\\n');
-    } catch (e) {
-        error('__convert_regex_safe', e);
-    }
-}
 function __isNewer(loadedVersion, thisVersion){
     if (loadedVersion[0] == thisVersion[0]) {
         loadedVersion.splice(0,1);
@@ -200,47 +177,6 @@ function _ext (cls, property, func, override) {
         error('_ext', e);
     }
 }
-function _general_trim (str, side, characters) {
-    try {
-        var temp = str,
-            trimChars = {
-                " ":1,
-                "\t":1,
-                "\n":1
-            };
-        if (characters) {
-            if ($t.isArray(characters)) {
-                var ch, i = 0;
-                trimChars = {};
-                while (ch = characters[i++]) {
-                    trimChars[ch] = 1;
-                }
-            } else if ($t.isString(characters)) {
-                trimChars = eval('({"'+__convert_regex_safe(characters)+'":1})');
-            }
-        }
-        if (!side || side == 'l') {
-            while (temp.charAt(0) in trimChars) {
-                temp = temp.substring(1);
-            }
-        }
-        if (!side || side == 'r') {
-            while (temp.charAt(temp.length - 1) in trimChars) {
-                temp = temp.substring(0, temp.length - 1);
-            }
-        }
-        return temp.toString();
-    } catch (e) {
-        error("_general_trim", e);
-    }
-}
-function _getFuncArgs (func) {
-    try {
-        return condense(_general_trim(strip(func.toString(), '(')).replace(/\s*/gi, '').replace(/\/\*.*?\*\//g,'').replace(/.*?\((.*?)\).*/, '$1').split(',')) || [];
-    } catch (e) {
-        error('_getFuncArgs', e);
-    }
-}
 function _getFuncName (func) {
     try {
         return _general_trim(func.toString().replace(/\/\/.*?[\r\n]/gi,'').replace(/[\t\r\n]*/gi, '').replace(/\/\*.*?\*\//gi, '').replace(/.*?function\s*?(.*?)\s*?\(.*/,'$1'));
@@ -249,28 +185,6 @@ function _getFuncName (func) {
     }
 }
 
-function __defineFunction (name, func, override) {
-    try {
-        var args = _getFuncArgs(func),
-            fstr = func.toString().replace(/this/g,'craydent_ctx'),
-
-            // extra code to account for when this == global
-            extra_code = "if(arguments.length == 0 && this == $c){return;}",
-            fnew = args.length === 0 || (args.length === 1 && !_general_trim(args[0])) ?
-                fstr.toString().replace(/(\(\s*?\)\s*?\{)/, ' (craydent_ctx){'+extra_code) :
-                "(" + fstr.toString().replace(/\((.*?)\)\s*?\{/, '(craydent_ctx,$1){'+extra_code) + ")";
-
-//        if (!override && scope.eval("typeof("+name+")") !== "undefined") {
-//            return scope.eval("$c."+name+" = "+fnew);
-//        }
-        if ($g && $g.$c && !$g.$c.hasOwnProperty(name)) {
-            return scope.eval("$g.$c."+name+" = $c."+name+" = "+fnew);
-        }
-        return scope.eval("$c."+name+" = "+fnew);
-    } catch (ex) {
-        error("__defineFunction", ex);
-    }
-}
 function duplicate (obj, recursive) {
     /*|{
         "info": "Object class extension to copy an object including constructor",
@@ -314,68 +228,6 @@ function capitalize (str, pos, everyWord) {
         return wordArray.join(' ');
     } catch (e) {
         error("String.capitalize", e);
-    }
-}
-function condense (objs, check_values) {
-    /*|{
-        "info": "Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls",
-        "category": "Array",
-        "parameters":[],
-
-        "overloads":[
-            {"parameters":[
-                {"check_values": "(Bool) Flag to remove duplicates"}]}],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#array.condense",
-        "returnType": "(Array)"
-    }|*/
-    try {
-        var skip = [], arr = [], without = false;
-        if ($t.isArray(check_values)) {
-            without = true;
-        }
-        for (var i = 0, len = objs.length; i < len; i++) {
-            var obj = objs[i];
-            if (check_values) {
-                var index = i;
-                if (without && ~check_values.indexOf(obj)) {
-                    skip.push(i);
-                    continue;
-                }
-                if (~skip.indexOf(i)) { continue; }
-                while (~(index = objs.indexOf(obj,index + 1))) {
-                    skip.push(index);
-                }
-
-            }
-            obj !== "" && !$t.isNull(obj) && !~(skip.indexOf && skip.indexOf(i) || indexOf(skip, i)) && !$t.isNull(obj) && arr.push(obj);
-        }
-        return arr;
-    } catch (e) {
-        error("condence", e);
-        return false;
-    }
-}
-function cout () {
-    /*|{
-        "info": "Log to console when DEBUG_MODE is true and when the console is available",
-        "category": "Utility",
-        "parameters":[
-            {"infinite": "any number of arguments can be passed."}],
-
-        "overloads":[],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#cout",
-        "returnType": "(void)"
-    }|*/
-    try {
-        if($c && $c.DEBUG_MODE && console && console.log){
-            for (var i = 0, len = arguments.length; i < len; i++) {
-                console.log(arguments[i]);
-            }
-        }
-    } catch (e) {
-        error('cout', e);
     }
 }
 function equals (obj, compare, props){
@@ -422,25 +274,6 @@ function equals (obj, compare, props){
         return (obj.toString() == compare.toString() && obj.constructor == compare.constructor);
     } catch (e) {
         error('Object.equals', e);
-    }
-}
-function error (fname, e) {
-    /*|{
-        "info": "User implemented place holder function to handle errors",
-        "category": "Utility",
-        "parameters":[
-            {"fname": "(String) The function name the error was thrown"},
-            {"e": "(Error) Exception object thrown"}],
-
-        "overloads":[],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#error",
-        "returnType": "(void)"
-    }|*/
-    try {
-        $c.DEBUG_MODE && cout("Error in " + fname + "\n" + (e.description || e), e, e.stack);
-    } catch (e) {
-        cout("Error in " + fname + "\n" + (e.description || e));
     }
 }
 function foo () {
@@ -531,7 +364,7 @@ function globalize () {
     } catch (e) {
         error('globalize', e);
     }
-};
+}
 function indexOf (objs, value) {
     /*|{
         "info": "Array class extension to implement indexOf",
@@ -850,24 +683,6 @@ function setProperty (obj, path, value, delimiter, options) {
         error('Object.setProperty', e)
     }
 }
-function strip (str, character) {
-    /*|{
-        "info": "String class extension to remove characters from the beginning and end of the string",
-        "category": "String",
-        "parameters":[
-            {"character": "(Char[]) Character to remove"}],
-
-        "overloads":[],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#string.strip",
-        "returnType": "(String)"
-    }|*/
-    try {
-        return _general_trim(str, undefined, character);
-    } catch (e) {
-        error("_strip", e);
-    }
-}
 function suid(length) {
     /*|{
         "info": "Creates a short Craydent/Global Unique Identifier",
@@ -978,13 +793,21 @@ var info = require('../package.json'),
     _craydent_version = info.version, $s = {}, scope = { eval: eval }, $c = $g.$c;
 $g.navigator = $g.navigator || {};
 // merge typeof module to $c
-var $t = require((~info.name.indexOf('@craydent') ? "@craydent/" : "") + 'craydent-typeof');
+var $t = require((~info.name.indexOf('@craydent') ? "@craydent/" : "") + 'craydent-typeof/noConflict');
 
+var error = require('./error');
+var __defineFunction = require('./defineFunction')(scope);
+var _general_trim = require('./general_trim');
+var __convert_regex_safe = require('./convert_regex_safe');
+var _getFuncArgs = require('./getFuncArgs');
+var strip = require('./strip');
+var condense = require('./condense');
+var cout = require('./cout');
 
 module.exports = function () {
     $c = $g.$c;
     $s = {};
-    scope = { eval: eval }
+    // scope = { eval: eval }
     if (!$g.$c || __isNewer($g.$c.VERSION.split('.'), _craydent_version.split('.')) ) {
         $g.$c = $c = $g.$c || {};
 

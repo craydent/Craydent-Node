@@ -5,11 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _error = $c.error,
-    _getFuncName = $c._getFuncName,
-    _getProperty = $c.getProperty,
-    _setProperty = $c.setProperty;
+var _error, _getFuncName, _getProperty, _setProperty, raw = {};
 
 function namespace (name, clazz, fn) {
     /*|{
@@ -30,28 +26,31 @@ function namespace (name, clazz, fn) {
     }|*/
     try {
         var className = _getFuncName(clazz);
-        $c.namespace = $c.namespace || {};
-        var dclass = _getProperty($c.namespace, name + '.' + className);
+        var prop = name + '.' + className;
+        var cpath = prop + ".class";
+        var dclass = _getProperty(namespace, cpath);
+        raw[name] = raw[name] || { string: "" };
         if (dclass){
-            $g[name] = $g[name].replace(dclass.toString(),'');
+            raw[name].string = raw[name].string.replace(dclass,'');
         }
-        _setProperty($c.namespace, name + "." + className, clazz);
-        $g[name] = ($g[name] || "") + clazz.toString();
+        raw[name].string = raw[name].string + clazz.toString()
+        _setProperty(raw, cpath, clazz);
+        _setProperty(namespace, prop, clazz);
+        namespace[name].toString = function(){
+            return raw[name].string;
+        };
         fn && fn.call(clazz);
         return clazz;
     } catch (e) {
         _error && _error('namespace', e);
     }
 }
-
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _error = ctx.error || $c.error;
-    _getFuncName = ctx._getFuncName || $c._getFuncName;
-    _setProperty = ctx.setProperty || $c.setProperty;
+    _error = ctx.error;
+    _getFuncName = ctx._getFuncName;
+    _setProperty = ctx.setProperty;
+    _getProperty = ctx.getProperty;
 
-    $c.namespace = ctx.namespace = $c.namespace || ctx.namespace || namespace;
+    ctx.namespace = namespace;
 }
-init.namespace = namespace;
 module.exports = init;

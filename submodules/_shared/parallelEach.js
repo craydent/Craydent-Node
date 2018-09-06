@@ -5,14 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var $c = global.$c || {},
-    _syncroit = $c.syncroit,
-    _isArray = $c.isArray,
-    _isFunction = $c.isFunction,
-    _isAsync = $c.isAsync,
-    _isGenerator = $c.isGenerator,
-    _isPromise = $c.isPromise,
-    _error = $c.error;
+var _syncroit, _isArray, _isFunction, _isAsync, _isGenerator, _isPromise, _error;
 
 function parallelEach(obj, gen, args) {
     try {
@@ -46,7 +39,7 @@ function parallelEach(obj, gen, args) {
                 if (_isGenerator(arr[i])) {
                     eval('_syncroit(function*(){ results[' + i + '] = yield* arr[' + i + '].apply(self,args); if (++completed == len) { res(results); } });');
                 } else if (_isAsync(arr[i])) {
-                    eval('(async function () { results[' + i + '] = await arr[' + i + ']; if (++completed == len) { res(results); } })();');
+                    eval('(async function () { results[' + i + '] = await arr[' + i + '].apply(self,args); if (++completed == len) { res(results); } })();');
                 } else if (_isPromise(arr[i])) {
                     eval('_syncroit(function*(){ results[' + i + '] = yield arr[' + i + ']; if (++completed == len) { res(results); } });');
                 } else if (_isFunction(arr[i])) {
@@ -63,20 +56,14 @@ function parallelEach(obj, gen, args) {
 }
 
 function init (ctx) {
-    if (!ctx.isEmpty) { return; }
-    $c = ctx.isEmpty($c) ? ctx : $c;
-    _syncroit = ctx.syncroit || $c.syncroit;
-    _isArray = ctx.isArray || $c.isArray;
-    _isFunction = ctx.isFunction || $c.isFunction;
-    _isAsync = ctx.isAsync || $c.isAsync;
-    _isGenerator = ctx.isGenerator || $c.isGenerator;
-    _isPromise = ctx.isPromise || $c.isPromise;
-    _error = ctx.error || $c.error;
+    _syncroit = ctx.syncroit;
+    _isArray = ctx.isArray;
+    _isFunction = ctx.isFunction;
+    _isAsync = ctx.isAsync;
+    _isGenerator = ctx.isGenerator;
+    _isPromise = ctx.isPromise;
+    _error = ctx.error;
 
-    ctx.parallelEach = ctx.hasOwnProperty('parallelEach') && ctx.parallelEach || parallelEach;
-    if ($c !== ctx) {
-        $c.parallelEach = $c.hasOwnProperty('parallelEach') && $c.parallelEach || ctx.parallelEach
-    }
+    ctx.parallelEach = parallelEach;
 }
-init.parallelEach = parallelEach;
 module.exports = init;
