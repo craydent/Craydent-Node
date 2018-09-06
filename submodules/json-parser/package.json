@@ -1,5 +1,5 @@
 {
-    "name": "@craydent/craydent-json-parser",
+    "name": "craydent-json-parser",
     "version": "0.8.7",
     "description": "Node module to parse complex json including circular references",
     "main": "craydent.js",
@@ -27,7 +27,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/json-parser/",
     "dependencies": {
-        "@craydent/craydent-typeof": "file:../typeof"
+        "craydent-typeof": "^0.8.7"
     },
     "devDependencies": {
         "chai": "^3.5.0",

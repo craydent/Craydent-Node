@@ -1,5 +1,5 @@
 {
-    "name": "@craydent/craydent-class",
+    "name": "craydent-class",
     "version": "0.8.7",
     "description": "Node module implementing addition classes for functionality and to simplify code for maintainability and readability",
     "main": "craydent.js",
@@ -29,7 +29,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/class/",
     "dependencies": {
-        "@craydent/craydent-typeof": "file:../typeof"
+        "craydent-typeof": "^0.8.7"
     },
     "devDependencies": {
         "chai": "^3.5.0",

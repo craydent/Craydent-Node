@@ -1,5 +1,5 @@
 {
-    "name": "@craydent/craydent-string",
+    "name": "craydent-string",
     "version": "0.8.7",
     "description": "Node module to extend string functionality and simplify code for maintainability and readability",
     "main": "craydent.js",
@@ -24,7 +24,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/string/",
     "dependencies": {
-        "@craydent/craydent-typeof": "file:../typeof"
+        "craydent-typeof": "^0.8.7"
     },
     "devDependencies": {
         "chai": "^3.5.0",

@@ -1,5 +1,5 @@
 {
-    "name": "@craydent/craydent-utility",
+    "name": "craydent-utility",
     "version": "0.8.7",
     "description": "Node module to for commonly needed utility functions",
     "main": "craydent.js",
@@ -31,7 +31,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/utility/",
     "dependencies": {
-        "@craydent/craydent-typeof": "file:../typeof"
+        "craydent-typeof": "^0.8.7"
     },
     "devDependencies": {
         "chai": "^3.5.0",
