@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent",
-    "version": "0.8.6",
+    "version": "0.8.7",
     "description": "node library based on craydent-1.9.3",
     "main": "craydent.js",
     "scripts": {
