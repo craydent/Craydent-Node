@@ -19,6 +19,5 @@ function init (ctx) {
     _error = ctx.error;
 
     ctx.isValidDate = isValidDate;
-}Date = isValidDate;
-
+}
 module.exports = init;
