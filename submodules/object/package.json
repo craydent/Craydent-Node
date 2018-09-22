@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-object",
-    "version": "0.8.7",
+    "version": "0.8.8",
     "description": "Node module to extend all native class functionality and simplify code for maintainability and readability",
     "main": "craydent.js",
     "scripts": {
