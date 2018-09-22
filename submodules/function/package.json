@@ -1,5 +1,5 @@
 {
-    "name": "craydent-function",
+    "name": "@craydent/craydent-function",
     "version": "0.8.7",
     "description": "Node module to extend function functionality and simplify code for maintainability and readability",
     "main": "craydent.js",
@@ -24,7 +24,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/function/",
     "dependencies": {
-        "craydent-typeof": "^0.8.7"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

@@ -1,5 +1,5 @@
 {
-    "name": "craydent-cli",
+    "name": "@craydent/craydent-cli",
     "version": "0.8.7",
     "description": "Node module to manage command line execution and arguments",
     "main": "craydent.js",
@@ -24,7 +24,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/cli/",
     "dependencies": {
-        "craydent-typeof": "^0.8.7"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

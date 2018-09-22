@@ -1,5 +1,5 @@
 {
-    "name": "craydent-object",
+    "name": "@craydent/craydent-object",
     "version": "0.8.7",
     "description": "Node module to extend all native class functionality and simplify code for maintainability and readability",
     "main": "craydent.js",
@@ -39,7 +39,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/object/",
     "dependencies": {
-        "craydent-typeof": "^0.8.7"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

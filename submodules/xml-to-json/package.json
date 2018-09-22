@@ -1,5 +1,5 @@
 {
-    "name": "craydent-xml-to-json",
+    "name": "@craydent/craydent-xml-to-json",
     "version": "0.8.7",
     "description": "Node module to parse xml into json",
     "main": "craydent.js",
@@ -25,7 +25,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/xml-to-json/",
     "dependencies": {
-        "craydent-typeof": "^0.8.7"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

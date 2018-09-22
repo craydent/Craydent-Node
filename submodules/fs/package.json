@@ -1,5 +1,5 @@
 {
-    "name": "craydent-fs",
+    "name": "@craydent/craydent-fs",
     "version": "0.8.7",
     "description": "Node module to extend fs functionality and simplify code for maintainability and readability",
     "main": "craydent.js",
@@ -26,7 +26,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/fs/",
     "dependencies": {
-        "craydent-typeof": "^0.8.7"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",

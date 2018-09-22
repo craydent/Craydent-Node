@@ -1,5 +1,5 @@
 {
-    "name": "craydent-template",
+    "name": "@craydent/craydent-template",
     "version": "0.8.7",
     "description": "Node module for templating to simplify code for maintainability and readability",
     "main": "craydent.js",
@@ -23,7 +23,7 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/template/",
     "dependencies": {
-        "craydent-typeof": "^0.8.7"
+        "@craydent/craydent-typeof": "file:../typeof"
     },
     "devDependencies": {
         "chai": "^3.5.0",
