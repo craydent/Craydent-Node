@@ -9,7 +9,7 @@ global.__craydentNoConflict = true;
 var remove_globals = true;
 var remove_navigator = !global.navigator;
 if (global.$c && global.$c.name == 'Craydent') { remove_globals = false; }
-var craydent = require('./craydent.js');
+var craydent = require('./index.js');
 delete global.__craydentNoConflict;
 if (remove_globals) {
 	delete global.$c;

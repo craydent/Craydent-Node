@@ -1,5 +1,5 @@
 .idea/
-/index*
+/index_*
 /code.asm
 /craydenttmp.js
 /hydrogen-*
@@ -15,3 +15,6 @@ node_modules/
 code.asm
 common-bk.js
 z_shared_bk
+hydrogen-*
+test.txt
+z_craydent.js

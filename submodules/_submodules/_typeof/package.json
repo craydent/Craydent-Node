@@ -2,9 +2,9 @@
     "name": "craydent-typeof",
     "version": "0.8.2",
     "description": "node library based on craydent-1.9.3",
-    "main": "craydent.js",
+    "main": "index.js",
     "scripts": {
-        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+        "test": "jasmine-node test/ --color --autotest --watch index.js"
     },
     "repository": {
     "type": "git",

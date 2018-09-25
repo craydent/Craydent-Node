@@ -2,9 +2,9 @@
     "name": "@craydent/craydent-object",
     "version": "0.8.8",
     "description": "Node module to extend all native class functionality and simplify code for maintainability and readability",
-    "main": "craydent.js",
+    "main": "index.js",
     "scripts": {
-        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+        "test": "jasmine-node test/ --color --autotest --watch index.js"
     },
     "repository": {
         "type": "git",

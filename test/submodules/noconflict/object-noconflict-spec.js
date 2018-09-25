@@ -124,6 +124,12 @@ describe ('No Conflict Object', function () {
         var c = new C1();
         expect($c.getClass(c)).toBe("C1");
     });
+    it('get',function(){
+        var o = {path:{path:"hello world",arr:[{foo:"bar"}]}};
+		expect($c.get(o,"path.path")).toBe("hello world");
+		expect($c.get(o,"path.arr.foo")).toBe(undefined);
+		expect($c.get(o,"path.arr.0.foo")).toBe("bar");
+    });
     it('getProperty',function(){
         var o = {path:{path:"hello world",arr:[{foo:"bar"}]}};
 		expect($c.getProperty(o,"path.path")).toBe("hello world");
@@ -411,6 +417,13 @@ describe ('No Conflict Object', function () {
     it('merge - multi',function(){
         var a = {a:"a"}, b = {b:"b"}, c = {c:"c"}, d = {d:"d"};
         expect($c.merge(a,b,c,d)).toEqual({a:"a", b:"b", c:"c", d:"d"});
+    });
+    it('set',function(){
+        var o = {};
+        expect($c.set(o,"path.path","hello world")).toBe(true);
+        expect(o).toEqual({path:{path:"hello world"}});
+        expect($c.set(o,"path.arr.0.foo","bar")).toBe(true);
+        expect(o).toEqual({path:{path:"hello world",arr:[{foo:"bar"}]}});
     });
     it('setProperty',function(){
         var o = {};

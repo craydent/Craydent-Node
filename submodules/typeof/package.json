@@ -2,9 +2,9 @@
     "name": "@craydent/craydent-typeof",
     "version": "0.8.8",
     "description": "Node module for type checking",
-    "main": "craydent.js",
+    "main": "index.js",
     "scripts": {
-        "test": "jasmine-node test/ --color --autotest --watch craydent.js"
+        "test": "jasmine-node test/ --color --autotest --watch index.js"
     },
     "repository": {
         "type": "git",

@@ -43,6 +43,6 @@ try { require.cache[require.resolve(pre + 'craydent-xml-to-json/noConflict')] &&
 
 try { require.cache[require.resolve('../../../noConflict.js')] && delete require.cache[require.resolve('../../../noConflict.js')]; }catch(e){}
 try { require.cache[require.resolve('../../../global.js')] && delete require.cache[require.resolve('../../../global.js')]; }catch(e){}
-try { require.cache[require.resolve('../../../craydent.js')] && delete require.cache[require.resolve('../../../craydent.js')]; }catch(e){}
+try { require.cache[require.resolve('../../../index.js')] && delete require.cache[require.resolve('../../../index.js')]; }catch(e){}
 
 module.exports = pre;

@@ -1,7 +1,7 @@
 var pre = require('../_prep');
 var $c;
 if (process.env.name == 'single') { $c = require(pre + 'craydent-typeof'); }
-else { $c = require('../../../craydent.js'); }
+else { $c = require('../../../index.js'); }
 $c.DEBUG_MODE = true;
 describe ('Object', function () {
     it('isArray',function(){

@@ -1,7 +1,7 @@
 var pre = require('../_prep');
 var $c;
 if (process.env.name == 'single') { $c = require(pre + 'craydent-date'); }
-else { $c = require('../../../craydent.js'); }
+else { $c = require('../../../index.js'); }
 $c.DEBUG_MODE = true;
 describe ('Date', function () {
     var date = new Date('1/8/2016 13:00:00');

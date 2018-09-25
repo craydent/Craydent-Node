@@ -26,7 +26,8 @@ function addObjectPrototype(name, fn, override) {
         "returnType": "(void)"
     }|*/
     try {
-        if (isNull($g.__craydentNoConflict) || !$g.__craydentNoConflict) {
+        var exceptions = { get: 1, set: 1 };
+        if (!(name in exceptions) && (isNull($g.__craydentNoConflict) || !$g.__craydentNoConflict)) {
             var shouldOverride = false;
             if (eval("typeof(" + name + ")") == "undefined") {
                 shouldOverride = true;

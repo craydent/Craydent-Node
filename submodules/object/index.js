@@ -224,6 +224,45 @@ _ao("every", function(callback, thisObject) {
         error("Object.every", e);
     }
 });
+_ao("get", function (path, delimiter, options) {
+    /*|{
+        "info": "Alias to getProperty; however, it can not be used as a protoype property.",
+        "category": "Object",
+        "featured": true,
+        "parameters":[
+            {"object": "(Object) object to get the property of"},
+            {"path": "(String) Path to nested property"}],
+
+        "overloads":[
+            {"parameters":[
+                {"object": "(Object) object to get the property of"},
+                {"path": "(String) Path to nested property"},
+                {"delimiter": "(Char) Separator used to parse path"}]},
+
+            {"parameters":[
+                {"object": "(Object) object to get the property of"},
+                {"path": "(RegExp) Regex match for the property"}]},
+
+            {"parameters":[
+                {"object": "(Object) object to get the property of"},
+                {"path": "(String) Path to nested property"},
+                {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]},
+
+            {"parameters":[
+                {"object": "(Object) object to get the property of"},
+                {"path": "(String) Path to nested property"},
+                {"delimiter": "(Char) Separator used to parse path"},
+                {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.getProperty",
+        "returnType": "(Mixed)"
+    }|*/
+    try {
+        return $s.getProperty(this, path, delimiter, options);
+    } catch (e) {
+        error('Object.get', e);
+    }
+});
 _ao("getClass", function() {
     /*|{
         "info": "Object class extension to get the constructor name",
@@ -768,6 +807,38 @@ _ao("merge", function (secondary, condition) {
         return original;
     } catch (e) {
         error('Object.merge', e);
+    }
+});
+_ao("set", function (path, value, delimiter, options) {
+    /*|{
+        "info": "Alias to setProperty; however, it can not be used as a protoype property.",
+        "category": "Object",
+        "parameters":[
+            {"object": "(Object) object to add the property to"},
+            {"path": "(String) Path to nested property"},
+            {"value": "(Mixed) Value to set"}],
+
+        "overloads":[
+            {"parameters":[
+                {"object": "(Object) object to add the property to"},
+                {"path": "(String) Path to nested property"},
+                {"value": "(Mixed) Value to set"},
+                {"delimiter": "(Char) Separator used to parse path"}]},
+
+            {"parameters":[
+                {"object": "(Object) object to add the property to"},
+                {"path": "(String) Path to nested property"},
+                {"delimiter": "(Char) Separator used to parse path"},
+                {"value": "(Mixed) Value to set"},
+                {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.setProperty",
+        "returnType": "(Bool)"
+    }|*/
+    try {
+        return $s.setProperty(this, path, value, delimiter, options);
+    } catch (e) {
+        error('Object.set', e);
     }
 });
 _ao("setProperty", function (path, value, delimiter, options) {

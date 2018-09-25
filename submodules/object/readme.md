@@ -50,6 +50,45 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 ### Object
 
 *** 
+#### _get_ 
+***
+
+**Info:** Alias to getProperty; however, it can not be used as a protoype property.
+
+**Return:** (Mixed)
+
+**Parameters:**
+
+* object: (Object) object to get the property of
+* path: (String) Path to nested property
+
+**Overloads:**
+
+1)
+
+* object: (Object) object to get the property of
+* path: (String) Path to nested property
+* delimiter: (Char) Separator used to parse path
+
+2)
+
+* object: (Object) object to get the property of
+* path: (RegExp) Regex match for the property
+
+3)
+
+* object: (Object) object to get the property of
+* path: (String) Path to nested property
+* options: (Object) Options for ignoring inheritance, validPath, etc
+
+4)
+
+* object: (Object) object to get the property of
+* path: (String) Path to nested property
+* delimiter: (Char) Separator used to parse path
+* options: (Object) Options for ignoring inheritance, validPath, etc
+
+*** 
 #### _getProperty_ 
 ***
 
@@ -713,6 +752,37 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 * secondary: (Object) Object to merge with
 * condition: (Mixed) Flags to recurse, merge only shared value, clone, intersect etc
+
+*** 
+#### _set_ 
+***
+
+**Info:** Alias to setProperty; however, it can not be used as a protoype property.
+
+**Return:** (Bool)
+
+**Parameters:**
+
+* object: (Object) object to add the property to
+* path: (String) Path to nested property
+* value: (Mixed) Value to set
+
+**Overloads:**
+
+1)
+
+* object: (Object) object to add the property to
+* path: (String) Path to nested property
+* value: (Mixed) Value to set
+* delimiter: (Char) Separator used to parse path
+
+2)
+
+* object: (Object) object to add the property to
+* path: (String) Path to nested property
+* delimiter: (Char) Separator used to parse path
+* value: (Mixed) Value to set
+* options: (Object) Options for ignoring inheritance, validPath, etc
 
 *** 
 #### _setProperty_ 

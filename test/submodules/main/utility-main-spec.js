@@ -1,7 +1,7 @@
 var pre = require('../_prep');
 var $c;
 if (process.env.name == 'single') { $c = require(pre + 'craydent-utility'); }
-else { $c = require('../../../craydent.js'); }
+else { $c = require('../../../index.js'); }
 var $s = require('../../../common.js');
 var $t = require(pre + 'craydent-typeof');
 var $m = require('../_methods')(pre);

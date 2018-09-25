@@ -5,6 +5,6 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var craydent = require('./craydent.js');
+var craydent = require('./index.js');
 craydent.globalize();
 module.exports = craydent;

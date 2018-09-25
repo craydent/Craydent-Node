@@ -890,38 +890,3 @@ module.exports = function () {
 
     return obj;
 };
-
-
-//module.exports.$c = $s = $g.$c;
-//
-//module.exports._duplicate = $c._duplicate = _duplicate;
-//module.exports.__log_module = __log_module;
-//
-//module.exports.capitalize = $c.capitalize = capitalize;
-//module.exports.condense = $c.condense = condense;
-//module.exports.cout = $c.cout = cout;
-//module.exports.defineFunction = $c.defineFunction = defineFunction;
-//module.exports.duplicate = $c.duplicate = duplicate;
-//module.exports.equals = $c.equals = equals;
-//module.exports.error = $c.error = error;
-//module.exports.ext = $c.ext = ext;
-//module.exports.foo = $c.foo = foo;
-//module.exports.getFuncArgs = $c.getFuncArgs = getFuncArgs;
-//module.exports.getFuncName = $c.getFuncName = getFuncName;
-//module.exports.getProperty = $c.getProperty = getProperty;
-//module.exports.indexOf = $c.indexOf = indexOf;
-//module.exports.indexOfAlt = $c.indexOfAlt = indexOfAlt;
-//module.exports.info = $c.info = info;
-//module.exports.merge = /*$c.merge =*/ merge;
-//module.exports.parseRaw = $c.parseRaw = parseRaw;
-//module.exports.rand = $c.rand = rand;
-//module.exports.replace_all /*= $c.replace_all*/ = replace_all;
-//module.exports.setProperty = $c.setProperty = setProperty;
-//module.exports.strip = $c.strip = strip;
-//module.exports.suid = $c.suid = suid;
-//module.exports.syncroit = $c.syncroit = syncroit;
-//module.exports.general_trim = $c.general_trim = general_trim;
-//module.exports.tryEval = $c.tryEval = tryEval;
-//module.exports.scope = $c.scope = scope;
-//
-//module.exports.dir = "./dependencies/";
