@@ -1,4 +1,5 @@
-var pre = "@craydent/";
+var pkg = require('../../package.json');
+var pre = ~pkg.name.indexOf('@craydent') ? "@craydent/" : '';
 delete global.$c;
 delete global.__craydentNoConflict;
 delete global.navigator;
