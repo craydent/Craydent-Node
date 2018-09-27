@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-cli",
-    "version": "0.8.8",
+    "version": "0.8.9",
     "description": "Node module to manage command line execution and arguments",
     "main": "index.js",
     "scripts": {

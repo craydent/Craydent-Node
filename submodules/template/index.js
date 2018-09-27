@@ -9,45 +9,46 @@ var $s = require('./dependencies/common')(),
     $c = $s.$c,
     ext = $s._ext;
 
-if ($c.MODULES_LOADED[$s.info.name]) { return; }
-$s.__log_module();
-$s.scope.eval = function (str) { return eval(str); };
+if (!$c.MODULES_LOADED[$s.info.name]) {
+    $s.__log_module();
+    $s.scope.eval = function (str) { return eval(str); };
 
-$s.TEMPLATE_VARS = $c.TEMPLATE_VARS || $s.TEMPLATE_VARS;
-$s.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || $s.TEMPLATE_TAG_CONFIG;
+    $s.TEMPLATE_VARS = $c.TEMPLATE_VARS || $s.TEMPLATE_VARS;
+    $s.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || $s.TEMPLATE_TAG_CONFIG;
 
-require($s.dir + 'fillTemplate')($s);
-$c.TEMPLATE_VARS = $c.TEMPLATE_VARS || $s.TEMPLATE_VARS;
-$c.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || $s.TEMPLATE_TAG_CONFIG;
+    require($s.dir + 'fillTemplate')($s);
+    $c.TEMPLATE_VARS = $c.TEMPLATE_VARS || $s.TEMPLATE_VARS;
+    $c.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || $s.TEMPLATE_TAG_CONFIG;
 
-ext(String, 'fillTemplate', function (arr_objs, offset, max, bound) {
-    /*|{
-        "info": "String class extension to fill template based on template syntax",
-        "category": "String|Template",
-        "featured": true,
-        "parameters":[
-            {"objs": "(Objects[]) Objects to fill the template variables"}],
+    ext(String, 'fillTemplate', function (arr_objs, offset, max, bound) {
+        /*|{
+            "info": "String class extension to fill template based on template syntax",
+            "category": "String|Template",
+            "featured": true,
+            "parameters":[
+                {"objs": "(Objects[]) Objects to fill the template variables"}],
 
-        "overloads":[
-            {"parameters":[
-                {"objs": "(Objects[]) Objects to fill the template variables"},
-                {"offset": "(Int) The start index of the Object array"},
-                {"max": "(Int) The maximum number of records to process"}]},
+            "overloads":[
+                {"parameters":[
+                    {"objs": "(Objects[]) Objects to fill the template variables"},
+                    {"offset": "(Int) The start index of the Object array"},
+                    {"max": "(Int) The maximum number of records to process"}]},
 
-            {"parameters":[
-                {"objs": "(Objects[]) Objects to fill the template variables"},
-                {"max": "(Int) The maximum number of records to process"}]}],
+                {"parameters":[
+                    {"objs": "(Objects[]) Objects to fill the template variables"},
+                    {"max": "(Int) The maximum number of records to process"}]}],
 
-        "url": "http://www.craydent.com/library/1.9.3/docs#string.fillTemplate",
-        "returnType": "(String)"
-    }|*/
-    try {
-        return $s.fillTemplate(this, arr_objs, offset, max, bound);
-    } catch (e) {
-        error('String.fillTemplate', e);
-    }
-});
+            "url": "http://www.craydent.com/library/1.9.3/docs#string.fillTemplate",
+            "returnType": "(String)"
+        }|*/
+        try {
+            return $s.fillTemplate(this, arr_objs, offset, max, bound);
+        } catch (e) {
+            error('String.fillTemplate', e);
+        }
+    });
 
-$c.TEMPLATE_VARS = $s.TEMPLATE_VARS;
-$c.TEMPLATE_TAG_CONFIG = $s.TEMPLATE_TAG_CONFIG;
-module.exports = $c;
+    $c.TEMPLATE_VARS = $s.TEMPLATE_VARS;
+    $c.TEMPLATE_TAG_CONFIG = $s.TEMPLATE_TAG_CONFIG;
+    module.exports = $c;
+}
