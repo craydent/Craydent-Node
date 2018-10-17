@@ -823,6 +823,11 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
                 }
             }
             template = _replace_all(template,'\n', "scope.ctx.fillTemplate.refs['newline']");
+            var declarations = template.match(_addFlags(ttc.DECLARE.syntax,'g')) || [];
+            for (var j = 0, jlen = declarations.length; j < jlen; j++) {
+                template = ttc.DECLARE.parser(template, declarations[j]);
+            }
+            template = __logic_parser(template, obj, bind);
             // special run sytax
             template = ~template.indexOf("${COUNT") ? template.replace(/\$\{COUNT\[(.*?)\]\}/g, '${RUN[__count;$1]}') : template;
             template = ~template.indexOf("${ENUM") ? template.replace(/\$\{ENUM\[(.*?)\]\}/g, '${RUN[__enum;$1]}') : template;
@@ -871,16 +876,11 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
             }
             template = /\$\{.*?(\|.*?)+?\}/.test(template) && !/\$\{.*?(\|\|.*?)+?\}/.test(template) ? __run_replace (/\$\{(.+?(\|?.+?)+)\}/, template, false,obj) : template;
 
-            var declarations = template.match(_addFlags(ttc.DECLARE.syntax,'g')) || [];
-            for (var j = 0, jlen = declarations.length; j < jlen; j++) {
-                template = ttc.DECLARE.parser(template, declarations[j]);
-            }
-            template = __logic_parser(template, obj, bind);
             html += _replace_all(( !preserve_nonmatching && vsyntax.test(template) ? template.replace(vsyntax,"") : template),';\\', ';');
         }
 
         if (!nested) {
-            html = html.replace(/scope.ctx.fillTemplate.refs['newline']/g,"\n").replace(/scope.ctx.fillTemplate.refs\['.*?']/g,"");
+            html = _replace_all(html, "scope.ctx.fillTemplate.refs['newline']","\n").replace(/scope.ctx.fillTemplate.refs\['.*?']/g,"");
             scope.ctx.fillTemplate.declared = scope.ctx.fillTemplate.refs = undefined;
         }
         return html;

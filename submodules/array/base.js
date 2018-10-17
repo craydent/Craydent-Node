@@ -558,7 +558,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"option": "(WhereCondition) Query used in Array.where when counting elements in an Array"}]},
+                    {"option": "(Object) Query used in Array.where when counting elements in an Array"}]},
 
                 {"parameters":[
                     {"option": "(String) Word or phrase to count in the String"}]},

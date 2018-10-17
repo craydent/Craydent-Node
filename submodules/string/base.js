@@ -86,14 +86,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to check if the string ends with the given string",
             "category": "String",
             "parameters":[
-                {"infinite": "(String) any number of arguments can be passed"}],
+                {"infinite": "any number of arguments can be passed"}],
 
             "overloads":[
                 {"parameters":[
                     {"arr": "(String[]) An array of strings to check"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.endsWith",
-            "returnType": "(Bool|String)"
+            "returnType": "(Mix)"
         }|*/
         try {
             var args = arguments;
@@ -114,14 +114,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to check if the string starts with the given string",
             "category": "String",
             "parameters":[
-                {"infinite": "(String) any number of String arguments can be passed"}],
+                {"infinite": "any number of String arguments can be passed"}],
 
             "overloads":[
                 {"parameters":[
                     {"arr": "(String[]) An array of strings to check"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.startsWith",
-            "returnType": "(Bool|String)"
+            "returnType": "(Bool)"
         }|*/
         try {
             var args = [this];
@@ -148,11 +148,19 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
                 {"parameters":[
                     {"capsOnly": "(Boolean) Flag to indicate to use capital letters only."},
-                    {"delimiter": "(String|RegExp) Character or RegExp pattern that delimits the string."}]},
+                    {"delimiter": "(String) Character that delimits the string."}]},
 
                 {"parameters":[
                     {"match": "(RegExp) Pattern to match to qualify the Acronym."},
-                    {"delimiter": "(String|RegExp) Character or RegExp pattern that delimits the string."}]}],
+                    {"delimiter": "(String) Character that delimits the string."}]},
+
+                {"parameters":[
+                    {"capsOnly": "(Boolean) Flag to indicate to use capital letters only."},
+                    {"delimiter": "(RegExp) RegExp pattern that delimits the string."}]},
+
+                {"parameters":[
+                    {"match": "(RegExp) Pattern to match to qualify the Acronym."},
+                    {"delimiter": "(RegExp) RegExp pattern that delimits the string."}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.acronymize",
             "returnType": "(String)"
@@ -181,10 +189,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to capitalize parts of the string",
             "category": "String",
             "parameters":[
-                {"pos": "(Int|Int[]) Index of the string to capitalize"},
-                {"everyWord?": "(Bool) Flag to capital every word"}],
+                {"pos": "(Int[]) Index of the string to capitalize"}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"pos": "(Int) Index of the string to capitalize"},
+                    {"everyWord": "(Bool) Flag to capital every word"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.capitalize",
             "returnType": "(String)"
@@ -200,18 +210,17 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if value exists",
             "category": "String|Object",
             "parameters":[
-                {"val": "(Object|ContainsObjectIterator) Value to check or custom function to determine validity"}],
+                {"val": "(Mixed) Value to check or custom function to determine validity"}],
 
             "overloads":[
                 {"parameters":[
-                    {"val": "(Object) Value to check"},
-                    {"func": "(ContainsIterator<T, TValue>) Callback function used to do the comparison"}]},
+                    {"val": "(Mixed) Value to check"},
+                    {"func": "(Function) Callback function used to do the comparison"}]},
 
                 {"parameters":[
                     {"arr": "(Array) Array of values to return first matching value"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.contains",
-            "typeParameter": "<T, TValue>",
             "returnType": "(Bool)"
         }|*/
         try {
@@ -253,7 +262,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"option": "(WhereCondition) Query used in Array.where when counting elements in an Array"}]},
+                    {"option": "(Mixed) Query used in Array.where when counting elements in an Array"}]},
 
                 {"parameters":[
                     {"option": "(String) Word or phrase to count in the String"}]},
@@ -276,10 +285,13 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "String",
             "parameters":[
                 {"start_index": "(Integer) Start index to cut"},
-                {"end_index": "(Integer) End index to cut"},
-                {"replacement?": "(String) String to put in place of the cut"}],
+                {"end_index": "(Integer) End index to cut"}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"start_index": "(Integer) Start index to cut"},
+                    {"end_index": "(Integer) End index to cut"},
+                    {"replacement": "(String) String to put in place of the cut"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.cut",
             "returnType": "(String)"
@@ -295,10 +307,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to shorten by ellipsis",
             "category": "String",
             "parameters":[
-                {"before": "(Int) Number of characters to use before using ellipsis"},
-                {"after?": "(Int) Number of characters to use after the ellipsis"}],
+                {"before": "(Int) Number of characters to use before using ellipsis"}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"before": "(Int) Number of characters to use before using ellipsis"},
+                    {"after": "(Int) Number of characters to use after the ellipsis"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.ellipsis",
             "returnType": "(String)"
@@ -337,10 +351,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object values are equal",
             "category": "String|Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"},
-                {"props?": "(String[]) Array of property values to compare against"}],
+                {"compare": "(Object) Object to compare against"}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"compare": "(Object) Object to compare against"},
+                    {"props": "(String[]) Array of property values to compare against"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.equals",
             "returnType": "(Bool)"
@@ -359,14 +375,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"dflt": "(any) Default value to return if context is not a function"}]},
+                    {"dflt": "(Mixed) Default value to return if context is not a function"}]},
 
                 {"parameters":[
-                    {"args": "(any[]) An array of arguments to pass to context when it is a function"},
-                    {"dflt": "(any) Default value to return if context is not a function"}]}],
+                    {"args": "(Mixed[]) An array of arguments to pass to context when it is a function"},
+                    {"dflt": "(Mixed) Default value to return if context is not a function"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.getValue",
-            "returnType": "(any)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             return $s.getValue(this, args, dflt);
@@ -379,11 +395,29 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to surround search words with the given tag(default span) and class (default chighlight)",
             "category": "String",
             "parameters":[
-                {"search": "(String|RegExp) String or Regular expression to search"},
-                {"cssClass?": "(String) Class to add for highlighting"},
-                {"tag?": "(String) Tag to use to surround the search"}],
+                {"search": "(String) String to search"}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"search": "(RegExp) Regular expression to search"}]},
+
+                {"parameters":[
+                    {"search": "(String) String to search"},
+                    {"cssClass": "(String) Class to add for highlighting"}]},
+
+                {"parameters":[
+                    {"search": "(RegExp) Regular expression to search"},
+                    {"cssClass": "(String) Class to add for highlighting"}]},
+
+                {"parameters":[
+                    {"search": "(String) String to search"},
+                    {"cssClass": "(String) Class to add for highlighting"},
+                    {"tag": "(String) Tag to use to surround the search"}]},
+
+                {"parameters":[
+                    {"search": "(RegExp) Regular expression to search"},
+                    {"cssClass": "(String) Class to add for highlighting"},
+                    {"tag": "(String) Tag to use to surround the search"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.highlight",
             "returnType": "(String)"
@@ -409,16 +443,18 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
             "category": "String|Array",
             "parameters":[
-                {"value": "(any) value to find"},
-                {"func": "(ArrayIterator) Callback function used to do the comparison"}],
+                {"value": "(Mixed) value to find"},
+                {"func": "(Function) Callback function used to do the comparison"}],
 
             "overloads":[
                 {"parameters":[
+                    {"regex": "(RegExp) Regular expression to check value against"}]},
+
+                {"parameters":[
                     {"regex": "(RegExp) Regular expression to check value against"},
-                    {"pos?": "(Int) Index offset to start"}]}],
+                    {"pos": "(Int) Index offset to start"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#array.indexOfAlt",
-            "typeParameter": "<T, TResult>",
             "returnType": "(Integer)"
         }|*/
         try {
@@ -432,8 +468,8 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to replace all substrings ignoring case",
             "category": "String",
             "parameters":[
-                {"replace": "(String|String[]) String or Array of strings to replace"},
-                {"subject": "(String|String[]) String or Array of strings to replace with"}],
+                {"replace": "(String) String to replace"},
+                {"subject": "(String) String to replace with"}],
 
             "overloads":[],
 
@@ -468,7 +504,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to check if the string is a cuid",
             "category": "String",
             "parameters":[
-                {"msFormat?": "(Bool) use microsoft format if true"}],
+                {"msFormat": "(Bool) use microsoft format if true"}],
 
             "overloads":[],
 
@@ -509,10 +545,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to find the last index based on a regular expression",
             "category": "String",
             "parameters":[
-                {"regex": "(RegExp) Regular expression to check value against"},
-                {"pos?": "(Int) Max index to go up to in the search"}],
+                {"regex": "(RegExp) Regular expression to check value against"}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"regex": "(RegExp) Regular expression to check value against"},
+                    {"pos": "(Int) Max index to go up to in the search"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.lastIndexOfAlt",
             "returnType": "(Int)"
@@ -540,7 +578,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to remove characters from the beginning of the string",
             "category": "String",
             "parameters":[
-                {"character?": "(Char[]) Character to remove"}],
+                {"character": "(Char[]) Character to remove"}],
 
             "overloads":[],
 
@@ -596,10 +634,13 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to replace all substrings (case sensitive)",
             "category": "String",
             "parameters":[
-                {"replace": "(String|String[]) String or Array of strings to replace"},
-                {"subject": "(String|String[]) String or Array of strings to replace with"}],
+                {"replace": "(String) String to replace"},
+                {"subject": "(String) String to replace with"}],
 
-            "overloads":[],
+            "overloads":[{
+                "parameters":[
+                    {"replace": "(String[]) Array of string to replace"},
+                    {"subject": "(String[]) Array of string to replace with"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.replace_all",
             "returnType": "(String)"
@@ -632,7 +673,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to remove characters from the end of the string",
             "category": "String",
             "parameters":[
-                {"character?": "(Char[]) Character to remove"}],
+                {"character": "(Char[]) Character to remove"}],
 
             "overloads":[],
 
@@ -737,7 +778,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to remove characters from the beginning and end of the string",
             "category": "String",
             "parameters":[
-                {"character?": "(Char[]) Character to remove"}],
+                {"character": "(Char[]) Character to remove"}],
 
             "overloads":[],
 
@@ -755,10 +796,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to substring by character instead of using indexes",
             "category": "String",
             "parameters":[
-                {"start?": "(Char) Character to use for the starting index (required if end is not passed)"},
-                {"end?": "(Char) Character to use for the ending index (required if start is null or undefined)"}],
+                {"start": "(Char) Character to use for the starting index"},
+                {"end": "(Char) Character to use for the ending index"}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"start": "(Char) Character to use for the starting index"}]},
+
+                {"parameters":[
+                    {"start": "(Char) Character to use for the starting index"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.substringBetween",
             "returnType": "(String)"
@@ -814,10 +860,11 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
         /*|{
             "info": "String class extension to change number to use separater character",
             "category": "String",
-            "parameters":[
-                {"separator?": "(Char) Character to use as delimiter"}],
+            "parameters":[],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"separator": "(Char) Character to use as delimiter"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#String.toCurrencyNotation",
             "returnType": "(String)"
@@ -832,13 +879,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
         /*|{
             "info": "String class extension to convert string to datetime",
             "category": "String",
-            "parameters":[
-                {"options?": "(DateTimeOptions) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format"}],
+            "parameters":[],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                {"options": "(Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.toDateTime",
-            "returnType": "(Date|String)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             /*
@@ -901,11 +949,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
         /*|{
             "info": "String class extension to convert to JSON",
             "category": "String",
-            "parameters":[
-                {"assignmentChar?": "(Char) Character to use as assignment delimiter. Defaults to '&'."},
-                {"delimiter?": "(Char) Character to use as pair delimiter"}],
+            "parameters":[],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"assignmentChar": "(Char) Character to use as assignment delimiter. Defaults to '='."}]},
+
+                {"parameters":[
+                    {"assignmentChar": "(Char) Character to use as assignment delimiter. Defaults to '&'."},
+                    {"delimiter": "(Char) Character to use as pair delimiter"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#string.toObject",
             "returnType": "(Object)"
@@ -927,10 +979,11 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
         /*|{
             "info": "String class extension to remove characters from the beginning and end of the string.",
             "category": "String",
-            "parameters":[
-                {"character?": "(Char[]) Character to remove in the String"}],
+            "parameters":[],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"character": "(Char[]) Character to remove in the String"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#String.trim",
             "returnType": "(Bool)"

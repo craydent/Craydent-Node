@@ -1200,6 +1200,37 @@ describe ('No Conflict Array', function () {
     it('where - $in & $nin',function(){
         expect($c.where(arrObjs,{index:{$in:[10,20]}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:2,p:"20",share:"shared", index : 20,std:4}]);
         expect($c.where(arrObjs,{index:{$nin:[10,20]}})).toEqual([{id:3,p:"30",share:"shared", index: 30,std:4},{id:4,std:4}]);
+
+        var whereTemp = [
+            {id:1, locations:[{
+                country:"us"
+            }]},
+            {id:2, locations:[{
+                country:"uk"
+            }]},
+            {id:3, locations:[{
+                country:"jp"
+            },{
+                country:"us"
+            }]},
+            {id:4, locations:[{
+                country:"de"
+            }]}
+        ], results = [
+            {id:1, locations:[{
+                country:"us"
+            }]},
+            {id:3, locations:[{
+                country:"jp"
+            },{
+                country:"us"
+            }]},
+            {id:4, locations:[{
+                country:"de"
+            }]}
+        ];
+
+        expect($c.where(whereTemp, {'locations.country':{$in:['us', 'de']}})).toEqual(results);
     });
     it('where - logical',function(){
         expect($c.where(arrObjs,{$and:[{std:4},{index:10}]})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);

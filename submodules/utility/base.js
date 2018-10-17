@@ -30,16 +30,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Method to make ajax calls",
             "category": "Utility",
             "parameters":[
-                {"url": "(String) End point url"},
-                {"returnData?": "(String) Specifies which data to return when using Promise pattern"}],
+                {"params": "(Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"}],
 
             "overloads":[
                 {"parameters":[
-                    {"params": "(AjaxOptions) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"},
-                    {"returnData?": "(String) Specifies which data to return when using Promise pattern"}]}],
+                    {"params": "(Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"},
+                    {"returnData": "(String) Specifies which data to return when using Promise pattern"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#ajax",
-            "returnType": "(Promise<any>)"
+            "returnType": "(void)"
         }|*/
         try {
             if ($s.isString(params)) {
@@ -283,15 +282,17 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Utility",
             "featured": true,
             "parameters":[
-                {"callback": "(ErrorCallback) Callback function to call when there is an uncaught exception"},
-                {"append?": "(Boolean) Options to defer, ignore case, etc"}],
+                {"callback": "(Function) Callback function to call when there is an uncaught exception"}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"callback": "(Function) Callback function to call when there is an uncaught exception"},
+                    {"append": "(Boolean) Options to defer, ignore case, etc"}]}],
 
             "desciption": "This method will create, add, or replace catch all listeners.  If called multiple times with the same callback, the listener is preserved and not added unless the append argument is set to true.",
 
             "url": "http://www.craydent.com/library/1.9.3/docs#$PUT",
-            "returnType": "(void)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             catchAll.listeners = catchAll.listeners || [];
@@ -313,7 +314,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Enable clustering",
             "category": "Utility",
             "parameters":[
-                {"callback": "(ClusterCallback) Method to call for Workers.  Callback is passed the cluster object as an argument."}],
+                {"callback": "Method to call for Workers.  Callback is passed the cluster object as an argument."}],
 
             "overloads":[],
 
@@ -368,7 +369,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Creates a Craydent/Global Unique Identifier",
             "category": "Utility",
             "parameters":[
-                {"msFormat?": "(Bool) use microsoft format if true"}],
+                {"msFormat": "(Bool) use microsoft format if true"}],
 
             "overloads":[],
 

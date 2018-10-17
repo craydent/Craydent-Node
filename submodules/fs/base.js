@@ -67,7 +67,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                 "overloads":[],\
     \
                 "url": "http://www.craydent.com/library/1.9.3/docs#' + fsmethods[i] + '",\
-                "returnType": "(any)"\
+                "returnType": "(Mixed)"\
             }|*/\
             var args = [],\
                 name = arguments.callee.name;\

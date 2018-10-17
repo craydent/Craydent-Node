@@ -51,18 +51,17 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if value exists",
             "category": "Number|Object",
             "parameters":[
-                {"val": "(Number|ContainsObjectIterator) Value to check or custom function to determine validity"}],
+                {"val": "(Mixed) Value to check or custom function to determine validity"}],
 
             "overloads":[
                 {"parameters":[
-                    {"val": "(Number) Value to check"},
-                    {"func": "(ContainsIterator<T, TValue>) Callback function used to do the comparison"}]},
+                    {"val": "(Mixed) Value to check"},
+                    {"func": "(Function) Callback function used to do the comparison"}]},
 
                 {"parameters":[
-                    {"arr": "(Array<TValue>) Array of values to return first matching value"}]}],
+                    {"arr": "(Array) Array of values to return first matching value"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.contains",
-            "typeParameter": "<T, TValue>",
             "returnType": "(Bool)"
         }|*/
         try {
@@ -76,10 +75,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object values are equal",
             "category": "Number|Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"},
-                {"props?": "(String[]) Array of property values to compare against"}],
+                {"compare": "(Object) Object to compare against"}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"compare": "(Object) Object to compare against"},
+                    {"props": "(String[]) Array of property values to compare against"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.equals",
             "returnType": "(Bool)"
@@ -98,14 +99,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"dflt": "(any) Default value to return if context is not a function"}]},
+                    {"dflt": "(Mixed) Default value to return if context is not a function"}]},
 
                 {"parameters":[
-                    {"args": "(any[]) An array of arguments to pass to context when it is a function"},
-                    {"dflt": "(any) Default value to return if context is not a function"}]}],
+                    {"args": "(Mixed[]) An array of arguments to pass to context when it is a function"},
+                    {"dflt": "(Mixed) Default value to return if context is not a function"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.getValue",
-            "returnType": "(any)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             return $s.getValue(this, args, dflt);
@@ -118,11 +119,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object is between lower and upper bounds",
             "category": "Number|Object",
             "parameters":[
-                {"lowerBound": "(Number) Lower bound comparison"},
-                {"upperBound": "(Number) Upper bound comparison"},
-                {"inclusive?": "(Bool) Flag to include give bounds"}],
+                {"lowerBound": "(Mixed) Lower bound comparison"},
+                {"upperBound": "(Mixed) Upper bound comparison"}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"lowerBound": "(Mixed) Lower bound comparison"},
+                    {"upperBound": "(Mixed) Upper bound comparison"},
+                    {"inclusive": "(Bool) Flag to include give bounds"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.isBetween",
             "returnType": "(Bool)"
@@ -176,10 +180,11 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
         /*|{
             "info": "Number class extension to change number to use separater character",
             "category": "Number|String",
-            "parameters":[
-                {"separator?": "(Char) Character to use as delimiter"}],
+            "parameters":[],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"separator": "(Char) Character to use as delimiter"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#String.toCurrencyNotation",
             "returnType": "(String)"

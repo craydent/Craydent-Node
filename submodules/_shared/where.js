@@ -810,7 +810,7 @@ function _subQuery(query, field, index , _whereRefs_arg) {
 
             case '$in':
             case '$nin':
-                expression += ' && ' + (prop == '$nin' ? '!' : '') + '((values = _qnp(record, \'' + field + '\')[0]),_contains(' + _parseRaw(query[prop]) + ',values))';
+                expression += ' && ' + (prop == '$nin' ? '!' : '') + '((values = _qnp(record, \'' + field + '\')),_contains(' + _parseRaw(query[prop]) + ',values))';
                 break;
             default:
                 expression += ' && ' + _subQuery(query[prop], _replace_all(prop, '\'', '\\\''), null, _whereRefs);
@@ -891,7 +891,7 @@ function _where_function(options) {
     limit = options.limit || jlen;
     for (var j = 0; j < jlen && rarr.length < limit; j++) {
         var v = obj[j];
-        if (condition.call(v, v)) {
+        if (condition.call(v, j, obj)) {
             rarr.push(v);
         }
     }

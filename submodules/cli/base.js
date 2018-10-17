@@ -30,10 +30,9 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
                 var output = '';
                 var cprocess = child.exec(command, {env: process.env, maxBuffer: 20 * 1024 * 1024}, function (err) {
-                    var fin = !err || options.alwaysResolve ? res : rej
-                    var re = callback || fin;
+                    var re = callback || (!err || options.alwaysResolve ? res : rej);
                     if (options.outputOnly) { return re(output); }
-                    if (callback) { fin(); return re.call(cprocess, err ? err.code : 0, output); }
+                    if (callback) { return re.call(cprocess, err ? err.code : 0, output); }
                     re({code: err ? err.code : 0, output: output});
                 });
 
@@ -63,10 +62,10 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"options": "(CLIOption[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false)."}]}],
+                    {"options": "(Object[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false)."}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#CLI",
-            "returnType": "(CLI)"
+            "returnType": "(Cursor)"
         }|*/
         try {
             params = params || {};

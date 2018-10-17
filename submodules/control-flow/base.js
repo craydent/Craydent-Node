@@ -21,30 +21,30 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Makes a value yieldable via a Promise.",
             "category": "Control Flow|Utility",
             "parameters":[
-                {"value": "(YieldableValue) Value to make yieldable"}],
+                {"value": "(Mixed) Value to make yieldable"}],
 
             "overloads":[
                 {"parameters":[
                     {"func": "(Function) Function to make yieldable"},
-                    {"context": "(Object) Context to use to execute func."}]},
+                    {"context": "(Mixed) Context to use to execute func."}]},
 
                 {"parameters":[
-                    {"func": "(Object) Function to make yieldable"},
+                    {"func": "(Function) Function to make yieldable"},
                     {"callbackIndex": "(Integer) Index of callback argument."}]},
 
                 {"parameters":[
                     {"func": "(Function) Function to make yieldable"},
-                    {"context": "(Object) Context to use to execute func."},
+                    {"context": "(Mixed) Context to use to execute func."},
                     {"callbackIndex": "(Integer) Index of callback argument."}]},
 
                 {"parameters":[
                     {"func": "(Function) Function to make yieldable"},
-                    {"context": "(Object) Context to use to execute func."},
+                    {"context": "(Mixed) Context to use to execute func."},
                     {"callbackIndex": "(Integer) Index of callback argument."},
                     {"returnIndex": "(Integer) Index of callback argument."}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#yieldable",
-            "returnType": "(Promise<YieldableResult>)"
+            "returnType": "(Promise)"
         }|*/
         try {
             if (arguments.length == 1 && $s.isObject(value)) {
@@ -100,13 +100,16 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"func": "(Yieldables) function to apply to each item"}]},
+                    {"gen": "(Generator) Generator function to apply to each item"}]},
 
                 {"parameters":[
-                    {"args": "(Array<Yieldables>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, async functions, or functions)"}]}],
+                    {"func": "(Function) Function to apply to each item"}]},
+
+                {"parameters":[
+                    {"args": "(Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#array.parallelEach",
-            "returnType": "(Promise<any>)"
+            "returnType": "(Promise)"
         }|*/
         try {
             return $s.parallelEach(this, gen, args);

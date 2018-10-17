@@ -1222,6 +1222,36 @@ describe ('Array', function () {
     it('where - $in & $nin',function(){
         expect(arrObjs.where({index:{$in:[10,20]}})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4},{id:2,p:"20",share:"shared", index : 20,std:4}]);
         expect(arrObjs.where({index:{$nin:[10,20]}})).toEqual([{id:3,p:"30",share:"shared", index: 30,std:4},{id:4,std:4}]);
+        var whereTemp = [
+            {id:1, locations:[{
+                country:"us"
+            }]},
+            {id:2, locations:[{
+                country:"uk"
+            }]},
+            {id:3, locations:[{
+                country:"jp"
+            },{
+                country:"us"
+            }]},
+            {id:4, locations:[{
+                country:"de"
+            }]}
+        ], results = [
+            {id:1, locations:[{
+                country:"us"
+            }]},
+            {id:3, locations:[{
+                country:"jp"
+            },{
+                country:"us"
+            }]},
+            {id:4, locations:[{
+                country:"de"
+            }]}
+        ];
+
+        expect(whereTemp.where({'locations.country':{$in:['us', 'de']}})).toEqual(results);
     });
     it('where - logical',function(){
         expect(arrObjs.where({$and:[{std:4},{index:10}]})).toEqual([{id:1,p:"10",share:"shared", index: 10,std:4}]);

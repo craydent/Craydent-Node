@@ -209,7 +209,8 @@ for (var o = 0; o < 2; o++) {
 					obj[categs[k]][prop] += "**Overloads:**" + ln;
 
 					for (var i = 0, len = overloads.length; i < len; i++) {
-						(obj[categs[k]][prop] += (i+1) + ")" + ln);
+						// obj[categs[k]][prop] += (i+1) + ")" + ln;
+						obj[categs[k]][prop] += ">Parameters\n";
 						obj[categs[k]][prop] += outParams(overloads[i].parameters);
 					}
 					if (!overloads.length) { obj[categs[k]][prop] += outParams([]); }
@@ -247,11 +248,11 @@ function outParams (params) {
 	for (var j = 0, jlen = params.length; j < jlen; j++) {
 		for (var variable in params[j]) {
 			if (!params[j].hasOwnProperty(variable)) { continue; }
-			out += "* " + variable + ": " + params[j][variable] + '\n';
+			out += ">* " + variable + ": " + params[j][variable] + '\n';
 		}
 	}
 	out && (out += '\n');
-	return out || ("* " + "None" + ln);
+	return out || (">None" + ln);
 }
 
 if (!orderedConstants.length) { exclude.push('Constants'); }

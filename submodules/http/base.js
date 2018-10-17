@@ -529,21 +529,24 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "HTTP",
             "featured": true,
             "parameters":[
-                {"key": "(String) Key for cookie value"},
-                {"option?": "(CookieOptions) Specify delete"}],
+                {"key": "(String) Key for cookie value"}],
 
             "overloads":[
                 {"parameters":[
-                    {"keyValue": "(Object) Specify the key value pair: key=>property, value=>object[key]"},
-                    {"option?": "(CookieOptions) Specify path, domain, and/or expiration of cookie"}]},
+                    {"key": "(String) Key for cookie"},
+                    {"option": "(Object) Specify delete"}]},
+
+                {"parameters":[
+                    {"keyValue": "(Object) Specify the key value pair"},
+                    {"option": "(Object) Specify path, domain, and/or expiration of cookie"}]},
 
                 {"parameters":[
                     {"key": "(String) Key for cookie value"},
-                    {"value": "(any) Value to store"},
-                    {"option"?: "(CookieOptions) Specify path and/or expiration of cookie"}]}],
+                    {"value": "(String) Value to store"},
+                    {"option": "(Object) Specify path and/or expiration of cookie"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#$COOKIE",
-            "returnType": "(String|Bool)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             options = options || {};
@@ -610,11 +613,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
+                    {"key": "(String) key for query value"}]},
+
+                {"parameters":[
                     {"key": "(String) key for query value"},
-                    {"options?": "(VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc"}]}],
+                    {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#$DELETE",
-            "returnType": "(Bool|Object)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             return _verb_payload_helper.call(this, variable, options);
@@ -631,11 +637,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
+                    {"key": "(String) key for query value"}]},
+
+                {"parameters":[
                     {"key": "(String) key for query value"},
-                    {"options?": "(VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc"}]}],
+                    {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#$DEL",
-            "returnType": "(Bool|Object)"
+            "returnType": "(Mixed)"
         }|*/
         return $DELETE.apply(this,arguments);
     }
@@ -648,11 +657,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
+                    {"key": "(String) key for query value"}]},
+
+                {"parameters":[
                     {"key": "(String) key for query value"},
-                    {"options?": "(GetOptions|VerbOptionsTypes|String) Options to defer, ignore case, etc"}]}],
+                    {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#$GET",
-            "returnType": "(Bool|Object)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             options = options || {};
@@ -726,11 +738,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
+                    {"key": "(String) key for query value"}]},
+
+                {"parameters":[
                     {"key": "(String) key for query value"},
-                    {"options?": "(VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc"}]}],
+                    {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#$HEADER",
-            "returnType": "(Bool|Object)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             this.request.headers = this.request.headers || {};
@@ -758,11 +773,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
+                    {"key": "(String) key for query value"}]},
+
+                {"parameters":[
                     {"key": "(String) key for query value"},
-                    {"options?": "(VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc"}]}],
+                    {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#$PAYLOAD",
-            "returnType": "(Bool|Object)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             return _verb_payload_helper.call(this, variable, options);
@@ -779,11 +797,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
+                    {"key": "(String) key for query value"}]},
+
+                {"parameters":[
                     {"key": "(String) key for query value"},
-                    {"options?": "(VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc"}]}],
+                    {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#$POST",
-            "returnType": "(Bool|Object)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             return _verb_payload_helper.call(this, variable, options);
@@ -800,11 +821,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
+                    {"key": "(String) key for query value"}]},
+
+                {"parameters":[
                     {"key": "(String) key for query value"},
-                    {"options?": "(VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc"}]}],
+                    {"options": "(Object) Options to defer, ignore case, etc"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#$PUT",
-            "returnType": "(Bool|Object)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             return _verb_payload_helper.call(this, variable, options);
@@ -1346,15 +1370,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Create http server, ability to run middleware, and define routes.",
             "category": "HTTP",
             "parameters":[
-                {"callback": "(HTTPCallback) Function to callback when a request is received"},
-                {"createServer?": "(HTTPOptions) Options for creating the server (ex: {createServer:require('http').createServer})"}],
+                {"callback": "(Function) Function to callback when a request is received"}],
 
             "overloads":[{
                 "parameters":[
-                    {"options": "(HTTPOptions) Function to callback when a request is received"}]}],
+                    {"callback": "(Function) Function to callback when a request is received"},
+                    {"createServer": "(Object) Options for creating the server (ex: {createServer:require('http').createServer})"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#createServer",
-            "returnType": "(HTTP)"
+            "returnType": "(Server)"
         }|*/
         if (!callback || $s.isObject(callback)) {
             options = callback;
@@ -1652,7 +1676,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Echo to buffer and use in response",
             "category": "HTTP",
             "parameters":[
-                {"output": "(String) Data to send in response"}],
+                {"output": "Data to send in response"}],
 
             "overloads":[],
 
@@ -1665,13 +1689,13 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
         /*|{
             "info": "Call the next function(s) in queue",
             "category": "HTTP",
-            "parameters":[],
+            "parameters":[
+                {"event": "Event to trigger."}],
 
             "overloads":[
                 {"parameters":[
-                    {"status?": "(Integer) HTTP status code."},
-                    {"output?": "(String) output to send as response."},
-                    {"encoding?": "(String) encoding for the response."}]}],
+                    {"event": "Event to trigger."},
+                    {"infinite": "any number of arguments can be passed and will be applied to listening functions."}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#emit",
             "returnType":"(void)"
@@ -1744,7 +1768,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#getSessionID",
-            "returnType": "(String)"
+            "returnType": "(void)"
         }|*/
         try {
             return this.sessionid;
@@ -1754,29 +1778,24 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
     }
     function getSession(sid, callback) {
         /*|{
-            "info": "Asynchronous retrieval of the session object when used in conjunction with createServer",
+            "info": "Retrieve the session object when used in conjunction with createServer",
             "category": "HTTP",
             "parameters":[
-                {"sid": "(String) Session id of the session object to retrieve syncronously."},
-                {"callback?": "(SessionCallback) callback function to invoke once the session object is retrieved."}],
+                {"sid": "(String) Session id of the session object to retrieve syncronously."}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"sid": "(String) Session id of the session object to retrieve."},
+                    {"callback": "(Function) callback function to invoke once the session object is retrieved."}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#getSession",
-            "returnType": "(Promise<SessionObject>)"
+            "returnType": "(void)"
         }|*/
         try {
-            // if (arguments.length == 1) {
-            //     return this.getSessionSync(sid);
-            // }
-            return new Promsie(function(res,rej){
-                callback = callback || $s.foo;
-                var cb = function(sessionObject){
-                    callback(sessionObject);
-                    res(sessionObject);
-                };
-                this._getSession(sid,cb);
-            });
+            if (arguments.length == 0) {
+                return this.getSessionSync(sid);
+            }
+            return this._getSession(sid,callback);
         } catch (e) {
             error('getSession', e);
         }
@@ -1791,7 +1810,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#getSessionSync",
-            "returnType": "(SessionObject)"
+            "returnType": "(void)"
         }|*/
         try {
             return this._getSession(sid);
@@ -1804,10 +1823,19 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Set Http Headers to send",
             "category": "HTTP",
             "parameters":[
-                {"header": "(Header) Http header."},
-                {"code?": "(Integer) Http response code."}],
+                {"header": "(String) Http header."}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"headers": "(Object) Http headers."}]},
+
+                {"parameters":[
+                    {"header": "(String) Http header."},
+                    {"code": "(Integer) Http response code."}]},
+
+                {"parameters":[
+                    {"headers": "(Object) Http headers."},
+                    {"code": "(Integer) Http response code."}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#header",
             "returnType": "(void)"
@@ -1845,7 +1873,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                     {"data": "(Object) Object to send in response."}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#send",
-            "returnType": "(void)"
+            "returnType": "(Object)"
         }|*/
         if (!data && typeof status == "object") {
             data = status;
@@ -1859,7 +1887,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Dump of variables to response.",
             "category": "HTTP",
             "parameters":[
-                {"infinite": "(any) any number of arguments can be passed."}],
+                {"infinite": "any number of arguments can be passed."}],
 
             "overloads":[],
 

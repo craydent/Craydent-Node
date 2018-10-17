@@ -71,12 +71,14 @@ for (var folder in dependencies) {
         try { fs.unlinkSync(base + folder + "/" + depdir + files[i]); } catch (e) { console.log(e); }
     }
 
+    try { fs.unlinkSync(base + folder + "/base.js"); } catch (e) { /*console.log(e);*/ }
     try { fs.unlinkSync(base + folder + "/global.js"); } catch (e) { /*console.log(e);*/ }
     try { fs.unlinkSync(base + folder + "/noConflict.js"); } catch (e) { /*console.log(e);*/ }
     try { fs.unlinkSync(base + folder + "/package.json"); } catch (e) { /*console.log(e);*/ }
     try { !staging && fs.unlinkSync(base + folder + "/package-lock.json"); } catch (e) { /*console.log(e);*/ }
     try { !publishing && fs.unlinkSync(base + folder + "/readme.md"); } catch (e) { /*console.log(e);*/ }
 
+    fs.createReadStream(base + folder + '/index.js').pipe(fs.createWriteStream(base + folder + '/base.js'));
     fs.createReadStream(base + 'common.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'common.js'));
     fs.createReadStream(base + 'global.js').pipe(fs.createWriteStream(base + folder + '/global.js'));
     fs.createReadStream(base + 'noConflict.js').pipe(fs.createWriteStream(base + folder + '/noConflict.js'));

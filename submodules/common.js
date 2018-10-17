@@ -189,11 +189,10 @@ function duplicate (obj, recursive) {
     /*|{
         "info": "Object class extension to copy an object including constructor",
         "category": "Object",
-        "parameters":[],
+        "parameters":[
+            {"recursive?": "(Boolean) Flag to copy all child objects recursively"}],
 
-        "overloads":[
-            {"parameters":[
-                {"recursive": "(Boolean) Flag to copy all child objects recursively"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#object.duplicate",
         "returnType": "(Object)"
@@ -206,12 +205,10 @@ function capitalize (str, pos, everyWord) {
         "info": "String class extension to capitalize parts of the string",
         "category": "String",
         "parameters":[
-            {"pos": "(Int[]) Index of the string to capitalize"}],
+            {"pos": "(Int|Int[]) Index of the string to capitalize"},
+            {"everyWord": "(Bool) Flag to capital every word"}],
 
-        "overloads":[
-            {"parameters":[
-                {"pos": "(Int) Index of the string to capitalize"},
-                {"everyWord": "(Bool) Flag to capital every word"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#string.capitalize",
         "returnType": "(String)"
@@ -235,12 +232,10 @@ function equals (obj, compare, props){
         "info": "Object class extension to check if object values are equal",
         "category": "Object",
         "parameters":[
-            {"compare": "(Object) Object to compare against"}],
+            {"compare": "(Object) Object to compare against"},
+            {"props?": "(String[]) Array of property values to compare against"}],
 
-        "overloads":[
-            {"parameters":[
-                {"compare": "(Object) Object to compare against"},
-                {"props": "(String[]) Array of property values to compare against"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#object.equals",
         "returnType": "(Bool)"
@@ -306,15 +301,15 @@ function getProperty (obj, path, delimiter, options) {
 
             {"parameters":[
                 {"path": "(String) Path to nested property"},
-                {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]},
+                {"options": "(GetPropertyOptions) Options for ignoring inheritance, validPath, etc"}]},
 
             {"parameters":[
                 {"path": "(String) Path to nested property"},
                 {"delimiter": "(Char) Separator used to parse path"},
-                {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+                {"options": "(GetPropertyOptions) Options for ignoring inheritance, validPath, etc"}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#object.getProperty",
-        "returnType": "(Mixed)"
+        "returnType": "(any)"
     }|*/
     try {
         if ($t.isRegExp(path)) {
@@ -357,7 +352,7 @@ function globalize () {
         "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#array.globalize",
-        "returnType": "(Array)"
+        "returnType": "(void)"
     }|*/
     try {
         __contextualizeMethods($g);
@@ -370,7 +365,7 @@ function indexOf (objs, value) {
         "info": "Array class extension to implement indexOf",
         "category": "Array",
         "parameters":[
-            {"value": "(Mixed) value to find"}],
+            {"value": "(any) value to find"}],
 
         "overloads":[],
 
@@ -394,19 +389,17 @@ function indexOfAlt (obj, value, option) {
         "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
         "category": "Array",
         "parameters":[
-            {"value": "(Mixed) value to find"},
-            {"func": "(Function) Callback function used to do the comparison"}],
+            {"value": "(Object) value to find"},
+            {"func": "(ArrayIterator<T, TResult>) Callback function used to do the comparison"}],
 
         "overloads":[
             {"parameters":[
-                {"regex": "(RegExp) Regular expression to check value against"}]},
-
-            {"parameters":[
                 {"regex": "(RegExp) Regular expression to check value against"},
-                {"pos": "(Int) Index offset to start"}]}],
+                {"pos?": "(Int) Index offset to start"}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#array.indexOfAlt",
-        "returnType": "(Integer)"
+        "typeParameter": "<T, TResult>",
+        "returnType": "(Int) returns the index of the item that matches or -1. "
     }|*/
     try {
         if ($t.isArray(obj)) {
@@ -415,7 +408,7 @@ function indexOfAlt (obj, value, option) {
                 i = 0;
             while (i < len) {
                 if ($t.isRegExp(value) && value.test(obj[i])) { return i; }
-                if ($t.isFunction(func) && (value instanceof Object ? func(obj[i], value) : func(obj[i]) === value)) { return i; }
+                if ($t.isFunction(func) && (value instanceof Object ? func(obj[i], value, obj) : func(obj[i]) === value)) { return i; }
                 ++i;
             }
             return -1;
@@ -438,14 +431,13 @@ function merge (obj, secondary, condition) {
         "info": "Object class extension to merge objects",
         "category": "Object",
         "parameters":[
-            {"secondary": "(Object) Object to merge with"}],
+            {"secondary": "(Object) Object to merge with"},
+            {"condition?": "(MergeEnums|MergeOptions|MergeIterator) Flags to recurse, merge only shared value, clone, intersect etc"}],
 
-        "overloads":[
-            {"parameters":[
-                {"secondary": "(Object) Object to merge with"},
-                {"condition": "(Mixed) Flags to recurse, merge only shared value, clone, intersect etc"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#object.merge",
+        "typeParameter": "<T>",
         "returnType": "(Object)"
     }|*/
     try {
@@ -495,13 +487,11 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
         "info": "Creates an evaluable string",
         "category": "Utility",
         "parameters":[
-            {"value": "value to parse"}],
+            {"value": "value to parse"},
+            {"skipQuotes?": "(Bool) Flag to skip quotes for strings"},
+            {"saveCircular?": "(Bool) Flag to save circular references"}],
 
-        "overloads":[
-            {"parameters":[
-                {"value": "(Mixed) Value to parse"},
-                {"skipQuotes": "(Bool) Flag to skip quotes for strings"},
-                {"saveCircular": "(Bool) Flag to save circular references"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#parseRaw",
         "returnType": "(String)"
@@ -571,13 +561,10 @@ function rand(num1, num2, inclusive) {
         "category": "Utility",
         "parameters":[
             {"num1": "(Number) Lower bound"},
-            {"num2": "(Number) Upper bound"}],
+            {"num2": "(Number) Upper bound"},
+            {"inclusive?": "(Bool) Flag to include the given numbers"}],
 
-        "overloads":[
-            {"parameters":[
-                {"num1": "(Number) Lower bound"},
-                {"num2": "(Number) Upper bound"},
-                {"inclusive": "(Bool) Flag to include the given numbers"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#rand",
         "returnType": "(Number)"
@@ -601,13 +588,10 @@ function replace_all(str, replace, subject, flag) {
         "info": "String class extension to replace all substrings (case sensitive)",
         "category": "String",
         "parameters":[
-            {"replace": "(String) String to replace"},
-            {"subject": "(String) String to replace with"}],
+            {"replace": "(String|String[]) String or Array of strings to replace"},
+            {"subject": "(String|String[]) String or Array of strings to replace with"}],
 
-        "overloads":[{
-            "parameters":[
-                {"replace": "(String[]) Array of string to replace"},
-                {"subject": "(String[]) Array of string to replace with"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#string.replace_all",
         "returnType": "(String)"
@@ -632,31 +616,21 @@ function replace_all(str, replace, subject, flag) {
         error("replace_all", e);
     }
 }
-function setProperty (obj, path, value, delimiter, options) {
+function setProperty (obj, path, value, delimiter) {
     /*|{
         "info": "Object class extension to set nested properties creating necessary property paths",
         "category": "Object",
         "parameters":[
             {"path": "(String) Path to nested property"},
-            {"value": "(Mixed) Value to set"}],
+            {"value": "(Mixed) Value to set"},
+            {"delimiter?": "(Char) Separator used to parse path"}],
 
-        "overloads":[
-            {"parameters":[
-                {"path": "(String) Path to nested property"},
-                {"value": "(Mixed) Value to set"},
-                {"delimiter": "(Char) Separator used to parse path"}]},
-
-            {"parameters":[
-                {"path": "(String) Path to nested property"},
-                {"delimiter": "(Char) Separator used to parse path"},
-                {"value": "(Mixed) Value to set"},
-                {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#object.setProperty",
         "returnType": "(Bool)"
     }|*/
     try {
-        options = options || {};
         delimiter = delimiter || ".";
         path = strip(path, delimiter);
         var props = path.split(delimiter);
@@ -687,11 +661,10 @@ function suid(length) {
     /*|{
         "info": "Creates a short Craydent/Global Unique Identifier",
         "category": "Utility",
-        "parameters":[],
+        "parameters":[
+            {"length?": "(Integer) Custom length of the short unique identifier. Default is 10."}],
 
-        "overloads":[
-            {"parameters":[
-                {"length": "(Integer) Custom length of the short unique identifier"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#suid",
         "returnType": "(String)"
@@ -710,17 +683,15 @@ function suid(length) {
 }
 function syncroit (gen) {
     /*|{
-        "info": "Generator based control flow to allow for more \"syncronous\" programing structure",
+        "info": "Generator/Async based control flow to allow for more \"syncronous\" programing structure",
         "category": "Utility",
         "parameters":[
-            {"gen": "(GeneratorFunction) Generator function to execute"}],
+            {"func": "(GeneratorFunction|AsyncFunction) function to execute"}],
 
-        "overloads":[{
-            "parameters":[
-                {"async": "(AsyncFunction) Async function to execute"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#syncroit",
-        "returnType": "(Promise)"
+        "returnType": "(Promise<any>)"
     }|*/
     try {
         if ($t.isAsync(gen)) { return gen(); }
@@ -759,15 +730,13 @@ function tryEval (expression, evaluator) {
         "info": "Evaluates an expression without throwing an error",
         "category": "Utility",
         "parameters":[
-            {"expression": "(Mixed) Expression to evaluate"}],
+            {"expression": "(any) Expression to evaluate"},
+            {"evaluator?": "(EvaluatorMethod) Method to use to evaluate the expression"}],
 
-        "overloads":[
-            {"parameters":[
-                {"expression": "(Mixed) Expression to evaluate"},
-                {"evaluator": "(Function) Method to use to evaluate the expression"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#tryEval",
-        "returnType": "(Mixed)"
+        "returnType": "(any)"
     }|*/
     try {
         var value;

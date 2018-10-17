@@ -162,10 +162,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Converts XML to JSON",
             "category": "XML to JSON",
             "parameters":[
-                {"xml": "(String|XMLDOM) XML string or XML DOM"},
-                {"ignoreAttributes?": "(Bool) Flag to ignore attributes"}],
+                {"xml": "(Mixed) XML string or XML DOM"}],
 
-            "overloads":[],
+            "overloads":[
+                {"parameters":[
+                    {"xml": "(Mixed) XML string or XML DOM"},
+                    {"ignoreAttributes": "(Bool) Flag to ignore attributes"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#xmlToJson",
             "returnType": "(Object)"

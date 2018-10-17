@@ -25,7 +25,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Call the next function(s) in queue",
             "category": "Function",
             "parameters":[
-                {"infinite": "(any) any number of arguments can be passed."}],
+                {"infinite": "any number of arguments can be passed."}],
 
             "overloads":[],
 
@@ -149,14 +149,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"dflt": "(any) Default value to return if context is not a function"}]},
+                    {"dflt": "(Mixed) Default value to return if context is not a function"}]},
 
                 {"parameters":[
-                    {"args": "(any[]) An array of arguments to pass to context when it is a function"},
-                    {"dflt": "(any) Default value to return if context is not a function"}]}],
+                    {"args": "(Mixed[]) An array of arguments to pass to context when it is a function"},
+                    {"dflt": "(Mixed) Default value to return if context is not a function"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.getValue",
-            "returnType": "(any)"
+            "returnType": "(Mixed)"
         }|*/
         try {
             return $s.getValue(this, args, dflt);
@@ -178,8 +178,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "returnType": "(String)"
         }|*/
         try {
-            $s.on(this, ev, func);
-            return this;
+            return $s.on(this, ev, func);
         } catch (e) {
             error('Function.on', e);
         }
@@ -216,11 +215,10 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#function.then",
-            "returnType": "(this)"
+            "returnType": "(String)"
         }|*/
         try {
             $s.on(this,'then',func);
-            return this;
         } catch (e) {
             error("Function.then", e);
         }
@@ -235,11 +233,10 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#function.catch",
-            "returnType": "(this)"
+            "returnType": "(String)"
         }|*/
         try {
             $s.on(this,'catch',func);
-            return this;
         } catch (e) {
             error("Function.catch", e);
         }
