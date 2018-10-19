@@ -15,7 +15,7 @@ function universal_trim (subject, chars) {
 
         "overloads":[
             {"parameters":[
-                {"ref":"(Boolean) Whether or not to mutate the original array."}]},
+                {"ref":"(Bool) Whether or not to mutate the original array."}]},
 
             {"parameters":[
                 {"character": "(Char[]) Character to remove in the String"}]}],

@@ -12,7 +12,8 @@ function include(path, refresh){
         "info": "Require without erroring when module does not exist.",
         "category": "Utility",
         "parameters":[
-            {"path": "(String) Module or Path to module."}],
+            {"path": "(String) Module or Path to module."},
+            {"refresh?": "(Bool) Flag to clear cache for the specific include."}],
 
         "overloads":[
             {"parameters":[
@@ -20,7 +21,7 @@ function include(path, refresh){
                 {"refresh": "(Boolean) Flag to clear cache for the specific include."}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#include",
-        "returnType": "(Mixed)"
+        "returnType": "(Object|Bool)"
     }|*/
     try {
         if (refresh) { _clearCache(path); }

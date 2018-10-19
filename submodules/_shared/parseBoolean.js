@@ -12,15 +12,13 @@ function parseBoolean(value, strict) {
         "info": "Try to parse value to a Boolean (0, 1, '0', and '1' are valid unless strict is set to true).",
         "category": "Utility",
         "parameters":[
-            {"value": "(Mixed) value to parse as boolean."}],
+            {"value": "(Mixed) value to parse as boolean."},
+            {"strict?": "(Boolean) Disable parsing of 0, 1, '0', and '1'."}],
 
-        "overloads":[
-            {"parameters":[
-                {"value": "(Mixed) value to parse as boolean."},
-                {"strict": "(Boolean) Disable parsing of 0, 1, '0', and '1'."}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#parseBoolean",
-        "returnType": "(Mixed)"
+        "returnType": "(Bool|undefined)"
     }|*/
     try {
         if (_isString(value)) {

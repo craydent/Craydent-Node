@@ -11,13 +11,12 @@ function clearCache (module) {
         "info": "Clear a module from the require cache.",
         "category": "Utility",
         "parameters":[
-            {"module": "(String) Single module to remove."}],
+            {"module?": "(String) Single module to remove."}],
 
-        "overloads":[
-            {"parameters":[]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#clearCache",
-        "returnType": "(Boolean)"
+        "returnType": "(Bool)"
     }|*/
     try {
         if (module) {

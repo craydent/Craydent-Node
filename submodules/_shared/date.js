@@ -338,14 +338,13 @@ function now (fmt) {
     /*|{
         "info": "Get the DateTime of now",
         "category": "Utility",
-        "parameters":[],
+        "parameters":[
+            {"format?": "(String) Format syntax to return formatted string of now"}],
 
-        "overloads":[
-            {"parameters":[
-            {"format": "(String) Format syntax to return formatted string of now"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#now",
-        "returnType":"(Mixed)"
+        "returnType":"(Date|String)"
     }|*/
     try {
         return fmt ? format((new Date()), fmt) : new Date();

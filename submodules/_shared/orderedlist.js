@@ -38,11 +38,8 @@ function OrderedList (records,sorter)  {
 
         "overloads":[
             {"parameters":[
-                {"records": "(Array) Array used to create the initial items in the ordered list"}]},
-
-            {"parameters":[
                 {"records": "(Array) Array used to create the initial items in the ordered list"},
-                {"sorter": "(Function) Function for sorting logic"}]}],
+                {"sorter?": "(Function) Function for sorting logic"}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#OrderedList",
         "returnType": "(OrderedList)"

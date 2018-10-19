@@ -12,15 +12,13 @@ function requireDirectory (path, options, __basepath, __objs, __fs){
         "info": "Recursively require the entire directory and returns an object containing the required modules.",
         "category": "Utility",
         "parameters":[
-            {"path": "(String) Path to directory."}],
+            {"path": "(String) Path to directory."},
+            {"options?": "(Char) 'r' Flag to use to indicate recursively require, (Char) 's' Flag to indicate use syncronous instead of Promise Pattern"}],
 
-        "overloads":[
-            {"parameters":[
-                {"path": "(String) Path to directory."},
-                {"options": "(Char) 'r' Flag to use to indicate recursively require, (Char) 's' Flag to indicate use syncronous instead of Promise Pattern"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#requireDirectory",
-        "returnType": "(Promise/Object)"
+        "returnType": "(Promise<any>|Object)"
     }|*/
     try {
         var delimiter = "/";

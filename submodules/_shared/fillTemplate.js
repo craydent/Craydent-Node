@@ -702,18 +702,14 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
         "featured": true,
         "parameters":[
             {"htmlTemplate": "(String) Template to be used"},
-            {"objs": "(Objects[]) Objects to fill the template variables"}],
+            {"objs": "(Objects[]) Objects to fill the template variables"},
+            {"options": "(FillTemplateOptions) Options to use: max,offset,newlineToHtml"}],
 
         "overloads":[
             {"parameters":[
                 {"htmlTemplate": "(String) Template to be used"},
                 {"objs": "(Objects[]) Objects to fill the template variables"},
                 {"max": "(Int) The maximum number of records to process"}]},
-
-            {"parameters":[
-                {"htmlTemplate": "(String) Template to be used"},
-                {"objs": "(Objects[]) Objects to fill the template variables"},
-                {"options": "(Object) Options to use: max,offset,newlineToHtml"}]},
 
             {"parameters":[
                 {"htmlTemplate": "(String) Template to be used"},

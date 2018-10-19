@@ -12,15 +12,16 @@ function emit (ev){
         "info": "Call the next function(s) in queue",
         "category": "Function",
         "parameters":[
-            {"event": "Event to trigger."}],
+            {"event": "(String) Event to trigger."}],
 
         "overloads":[
             {"parameters":[
                 {"event": "Event to trigger."},
-                {"infinite": "any number of arguments can be passed and will be applied to listening functions."}]}],
+                {"infinite": "(any) any number of arguments can be passed and will be applied to listening functions."}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#emit",
-        "returnType":"(void)"
+        "typeParameter": "<T,TResult>",
+        "returnType":"(Array<TResult>)"
     }|*/
     var args = arguments, vals = [];
     try {

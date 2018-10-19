@@ -13,13 +13,10 @@ function namespace (name, clazz, fn) {
         "category": "Utility",
         "parameters":[
             {"name":"(String) Name of the namespace to add to."},
-            {"clazz":"(Class) Class to add to the given namespace"}],
+            {"clazz":"(Class) Class to add to the given namespace"},
+            {"fn":"(Function) Method to call after the class has been added to the namespace"}],
 
-        "overloads":[
-            {"parameters":[
-                {"name":"(String) Name of the namespace to add to."},
-                {"clazz":"(Class) Class to add to the given namespace"},
-                {"fn":"(Function) Method to call after the class has been added to the namespace"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#namespace",
         "returnType":"(void)"
