@@ -1980,7 +1980,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Overloads:**
 
 >Parameters
->* event: Event to trigger.
+>* event: (String) Event to trigger.
 >* infinite: (any) any number of arguments can be passed and will be applied to listening functions.
 
 *** 

@@ -16,7 +16,7 @@ function emit (ev){
 
         "overloads":[
             {"parameters":[
-                {"event": "Event to trigger."},
+                {"event": "(String) Event to trigger."},
                 {"infinite": "(any) any number of arguments can be passed and will be applied to listening functions."}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#emit",

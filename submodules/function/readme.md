@@ -80,7 +80,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Overloads:**
 
 >Parameters
->* event: Event to trigger.
+>* event: (String) Event to trigger.
 >* infinite: (any) any number of arguments can be passed and will be applied to listening functions.
 
 *** 
