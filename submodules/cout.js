@@ -11,7 +11,7 @@ function cout () {
         "info": "Log to console when DEBUG_MODE is true and when the console is available",
         "category": "Utility",
         "parameters":[
-            {"infinite": "any number of arguments can be passed."}],
+            {"infinite": "(any) any number of arguments can be passed."}],
 
         "overloads":[],
 

@@ -487,7 +487,7 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
         "info": "Creates an evaluable string",
         "category": "Utility",
         "parameters":[
-            {"value": "value to parse"},
+            {"value": "(any) value to parse"},
             {"skipQuotes?": "(Bool) Flag to skip quotes for strings"},
             {"saveCircular?": "(Bool) Flag to save circular references"}],
 
