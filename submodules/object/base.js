@@ -79,17 +79,18 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if value exists",
             "category": "Object",
             "parameters":[
-                {"val": "(Mixed) Value to check or custom function to determine validity"}],
+                {"val": "(Object|ContainsObjectIterator) Value to check or custom function to determine validity"}],
 
             "overloads":[
                 {"parameters":[
-                    {"val": "(Mixed) Value to check"},
-                    {"func": "(Function) Callback function used to do the comparison"}]},
+                    {"val": "(Object) Value to check"},
+                    {"func": "(ContainsIterator<T, TValue>) Callback function used to do the comparison"}]},
 
                 {"parameters":[
-                    {"arr": "(Array) Array of values to return first matching value"}]}],
+                    {"arr": "(Array<TValue>) Array of values to return first matching value"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.contains",
+            "typeParameter": "<T, TValue>",
             "returnType": "(Bool)"
         }|*/
         try {
@@ -124,7 +125,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"option": "(Mixed) Query used in Array.where when counting elements in an Array"}]},
+                    {"option": "(WhereCondition) Query used in Array.where when counting elements in an Array"}]},
 
                 {"parameters":[
                     {"option": "(String) Word or phrase to count in the String"}]},
@@ -145,11 +146,10 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
         /*|{
             "info": "Object class extension to copy an object including constructor",
             "category": "Object",
-            "parameters":[],
+            "parameters":[
+                {"recursive?": "(Boolean) Flag to copy all child objects recursively"}],
 
-            "overloads":[
-                {"parameters":[
-                    {"recursive": "(Boolean) Flag to copy all child objects recursively"}]}],
+            "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.duplicate",
             "returnType": "(Object)"
@@ -165,11 +165,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to loop through all properties where hasOwnValue is true.",
             "category": "Object",
             "parameters":[
-                {"callback": "(Function) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed"}],
+                {"callback": "(EachIterator) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed"}],
 
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.eachProperty",
+            "typeParameter": "<T>",
             "returnType": "(Object)"
         }|*/
         try {
@@ -183,12 +184,11 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object values are equal",
             "category": "Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"}],
+                {"compare": "(Object) Object to compare against"},
+                {"props?": "(String[]) Array of property values to compare against"}],
 
             "overloads":[
-                {"parameters":[
-                    {"compare": "(Object) Object to compare against"},
-                    {"props": "(String[]) Array of property values to compare against"}]}],
+                {"parameters":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.equals",
             "returnType": "(Bool)"
@@ -204,14 +204,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check property values against a function",
             "category": "Object",
             "parameters":[
-                {"callback": "(Function) Callback to apply to each value"}],
+                {"callback": "(ObjectIterator) Callback to apply to each value"}],
 
             "overloads":[
                 {"parameters":[
-                    {"callback": "(Function) Callback to apply to each value"},
-                    {"thisObject": "(Mixed) Context for the callback function"}]}],
+                    {"callback": "(ObjectIterator) Callback to apply to each value"},
+                    {"thisObject": "(any) Context for the callback function"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.every",
+            "typeParameter": "<T, TValue, TResult>",
             "returnType": "(Bool)"
         }|*/
         try {
@@ -231,14 +232,10 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "featured": true,
             "parameters":[
                 {"object": "(Object) object to get the property of"},
-                {"path": "(String) Path to nested property"}],
+                {"path": "(String) Path to nested property"},
+                {"delimiter?": "(Char) Separator used to parse path"}],
 
             "overloads":[
-                {"parameters":[
-                    {"object": "(Object) object to get the property of"},
-                    {"path": "(String) Path to nested property"},
-                    {"delimiter": "(Char) Separator used to parse path"}]},
-
                 {"parameters":[
                     {"object": "(Object) object to get the property of"},
                     {"path": "(RegExp) Regex match for the property"}]},
@@ -246,16 +243,16 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                 {"parameters":[
                     {"object": "(Object) object to get the property of"},
                     {"path": "(String) Path to nested property"},
-                    {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]},
+                    {"options": "(GetPropertyOptions) Options for ignoring inheritance, validPath, etc"}]},
 
                 {"parameters":[
                     {"object": "(Object) object to get the property of"},
                     {"path": "(String) Path to nested property"},
                     {"delimiter": "(Char) Separator used to parse path"},
-                    {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+                    {"options": "(GetPropertyOptions) Options for ignoring inheritance, validPath, etc"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.getProperty",
-            "returnType": "(Mixed)"
+            "returnType": "(any)"
         }|*/
         try {
             return $s.getProperty(this, path, delimiter, options);
@@ -298,15 +295,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
                 {"parameters":[
                     {"path": "(String) Path to nested property"},
-                    {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]},
+                    {"options": "(GetPropertyOptions) Options for ignoring inheritance, validPath, etc"}]},
 
                 {"parameters":[
                     {"path": "(String) Path to nested property"},
                     {"delimiter": "(Char) Separator used to parse path"},
-                    {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+                    {"options": "(GetPropertyOptions) Options for ignoring inheritance, validPath, etc"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.getProperty",
-            "returnType": "(Mixed)"
+            "returnType": "(any)"
         }|*/
         try {
             return $s.getProperty(this, path, delimiter, options);
@@ -322,14 +319,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"dflt": "(Mixed) Default value to return if context is not a function"}]},
+                    {"dflt": "(any) Default value to return if context is not a function"}]},
 
                 {"parameters":[
-                    {"args": "(Mixed[]) An array of arguments to pass to context when it is a function"},
-                    {"dflt": "(Mixed) Default value to return if context is not a function"}]}],
+                    {"args": "(any[]) An array of arguments to pass to context when it is a function"},
+                    {"dflt": "(any) Default value to return if context is not a function"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.getValue",
-            "returnType": "(Mixed)"
+            "returnType": "(any)"
         }|*/
         try {
             return $s.getValue(this, args, dflt);
@@ -403,13 +400,10 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Object",
             "parameters":[
                 {"lowerBound": "(Mixed) Lower bound comparison"},
-                {"upperBound": "(Mixed) Upper bound comparison"}],
+                {"upperBound": "(Mixed) Upper bound comparison"},
+                {"inclusive?": "(Bool) Flag to include give bounds"}],
 
-            "overloads":[
-                {"parameters":[
-                    {"lowerBound": "(Mixed) Lower bound comparison"},
-                    {"upperBound": "(Mixed) Upper bound comparison"},
-                    {"inclusive": "(Bool) Flag to include give bounds"}]}],
+            "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.isBetween",
             "returnType": "(Bool)"
@@ -680,7 +674,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if item is a subset",
             "category": "Object",
             "parameters":[
-                {"compare": "(Mixed) Superset to compare against"}],
+                {"compare": "(any) Superset to compare against"}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.isSubset",
             "returnType": "(Bool)"
@@ -713,7 +707,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to get the key of the give value",
             "category": "Object",
             "parameters":[
-                {"value": "(Mixed) Value to compare against"}],
+                {"value": "(any) Value to compare against"}],
 
             "overloads":[],
 
@@ -735,7 +729,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.getKeys",
-            "returnType": "(Array)"
+            "returnType": "(Array<string>)"
         }|*/
         try {
             return $s.getKeys(this);
@@ -748,14 +742,13 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to apply method to every value",
             "category": "Object",
             "parameters":[
-                {"callback": "(Function) Callback to apply to each value"}],
+                {"callback": "(ObjectIterator) Callback to apply to each value"},
+                {"thisObject?": "(Mixed) Context for the callback function"}],
 
-            "overloads":[
-                {"parameters":[
-                    {"callback": "(Function) Callback to apply to each value"},
-                    {"thisObject": "(Mixed) Context for the callback function"}]}],
+            "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.map",
+            "typeParameter": "<T, TValue, TResult>",
             "returnType": "(void)"
         }|*/
         try {
@@ -763,7 +756,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             var obj = $s.duplicate(this);
             for (var prop in obj) {
                 if (obj.hasOwnProperty(prop)) {
-                    obj[prop] = callback.call(thisObject, obj[prop]);
+                    obj[prop] = callback.call(thisObject, obj[prop], prop, obj);
                 }
             }
             return obj;
@@ -776,12 +769,10 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to merge objects",
             "category": "Object",
             "parameters":[
-                {"secondary": "(Object) Object to merge with"}],
+                {"secondary": "(Object) Object to merge with"},
+                {"condition?": "(MergeEnums|MergeOptions|MergeIterator) Flags to recurse, merge only shared value, clone, intersect etc"}],
 
-            "overloads":[
-                {"parameters":[
-                    {"secondary": "(Object) Object to merge with"},
-                    {"condition": "(Mixed) Flags to recurse, merge only shared value, clone, intersect etc"}]}],
+            "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.merge",
             "returnType": "(Object)"
@@ -809,63 +800,43 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             error('Object.merge', e);
         }
     });
-    _ao("set", function (path, value, delimiter, options) {
+    _ao("set", function (path, value, delimiter) {
         /*|{
             "info": "Alias to setProperty; however, it can not be used as a protoype property.",
             "category": "Object",
             "parameters":[
                 {"object": "(Object) object to add the property to"},
                 {"path": "(String) Path to nested property"},
-                {"value": "(Mixed) Value to set"}],
+                {"value": "(any) Value to set"},
+                {"delimiter?": "(Char) Separator used to parse path"}],
 
-            "overloads":[
-                {"parameters":[
-                    {"object": "(Object) object to add the property to"},
-                    {"path": "(String) Path to nested property"},
-                    {"value": "(Mixed) Value to set"},
-                    {"delimiter": "(Char) Separator used to parse path"}]},
-
-                {"parameters":[
-                    {"object": "(Object) object to add the property to"},
-                    {"path": "(String) Path to nested property"},
-                    {"delimiter": "(Char) Separator used to parse path"},
-                    {"value": "(Mixed) Value to set"},
-                    {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+            "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.setProperty",
             "returnType": "(Bool)"
         }|*/
         try {
-            return $s.setProperty(this, path, value, delimiter, options);
+            return $s.setProperty(this, path, value, delimiter);
         } catch (e) {
             error('Object.set', e);
         }
     });
-    _ao("setProperty", function (path, value, delimiter, options) {
+    _ao("setProperty", function (path, value, delimiter) {
         /*|{
             "info": "Object class extension to set nested properties creating necessary property paths",
             "category": "Object",
             "parameters":[
                 {"path": "(String) Path to nested property"},
-                {"value": "(Mixed) Value to set"}],
+                {"value": "(Mixed) Value to set"},
+                {"delimiter?": "(Char) Separator used to parse path"}],
 
-            "overloads":[
-                {"parameters":[
-                    {"path": "(String) Path to nested property"},
-                    {"value": "(Mixed) Value to set"},
-                    {"delimiter": "(Char) Separator used to parse path"}]},
-
-                {"parameters":[
-                    {"path": "(String) Path to nested property"},
-                    {"delimiter": "(Char) Separator used to parse path"},
-                    {"value": "(Mixed) Value to set"},
-                    {"options": "(Object) Options for ignoring inheritance, validPath, etc"}]}],
+            "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.setProperty",
             "returnType": "(Bool)"
         }|*/
         try {
-            return $s.setProperty(this, path, value, delimiter, options);
+            return $s.setProperty(this, path, value, delimiter);
         } catch (e) {
             error('Object.setProperty', e);
         }
@@ -874,20 +845,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
         /*|{
             "info": "Object class extension for an alternate way to stringify object to formatted string",
             "category": "Object",
-            "parameters":[],
+            "parameters":[
+                {"delimiter?": "(Char) Character to separate the property from the value"},
+                {"prefix?": "(Char) Character to prefix the property name"},
+                {"urlEncode?": "(Bool) Flag to url encode the property and value"}],
 
-            "overloads":[
-                {"parameters":[
-                    {"delimiter": "(Char) Character to separate the property from the value"}]},
-
-                {"parameters":[
-                    {"delimiter": "(Char) Character to separate the property from the value"},
-                    {"prefix": "(Char) Character to prefix the property name"}]},
-
-                {"parameters":[
-                    {"delimiter": "(Char) Character to separate the property from the value"},
-                    {"prefix": "(Char) Character to prefix the property name"},
-                    {"urlEncode": "(Bool) Flag to url encode the property and value"}]}],
+            "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#",
             "returnType": "(String)"

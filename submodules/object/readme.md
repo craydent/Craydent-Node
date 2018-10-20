@@ -55,38 +55,30 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Alias to getProperty; however, it can not be used as a protoype property.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* object: (Object) object to get the property of
-* path: (String) Path to nested property
+>* object: (Object) object to get the property of
+>* path: (String) Path to nested property
+>* delimiter?: (Char) Separator used to parse path
 
 **Overloads:**
 
-1)
+>Parameters
+>* object: (Object) object to get the property of
+>* path: (RegExp) Regex match for the property
 
-* object: (Object) object to get the property of
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
+>Parameters
+>* object: (Object) object to get the property of
+>* path: (String) Path to nested property
+>* options: (GetPropertyOptions) Options for ignoring inheritance, validPath, etc
 
-2)
-
-* object: (Object) object to get the property of
-* path: (RegExp) Regex match for the property
-
-3)
-
-* object: (Object) object to get the property of
-* path: (String) Path to nested property
-* options: (Object) Options for ignoring inheritance, validPath, etc
-
-4)
-
-* object: (Object) object to get the property of
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
-* options: (Object) Options for ignoring inheritance, validPath, etc
+>Parameters
+>* object: (Object) object to get the property of
+>* path: (String) Path to nested property
+>* delimiter: (Char) Separator used to parse path
+>* options: (GetPropertyOptions) Options for ignoring inheritance, validPath, etc
 
 *** 
 #### _getProperty_ 
@@ -94,33 +86,29 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to retrieve nested properties without error when property path does not exist
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* path: (String) Path to nested property
+>* path: (String) Path to nested property
 
 **Overloads:**
 
-1)
+>Parameters
+>* path: (String) Path to nested property
+>* delimiter: (Char) Separator used to parse path
 
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
+>Parameters
+>* path: (RegExp) Regex match for the property
 
-2)
+>Parameters
+>* path: (String) Path to nested property
+>* options: (GetPropertyOptions) Options for ignoring inheritance, validPath, etc
 
-* path: (RegExp) Regex match for the property
-
-3)
-
-* path: (String) Path to nested property
-* options: (Object) Options for ignoring inheritance, validPath, etc
-
-4)
-
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
-* options: (Object) Options for ignoring inheritance, validPath, etc
+>Parameters
+>* path: (String) Path to nested property
+>* delimiter: (Char) Separator used to parse path
+>* options: (GetPropertyOptions) Options for ignoring inheritance, validPath, etc
 
 
 
@@ -139,16 +127,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* name: (String) name of the method to add
-* fn: (Function) method implementation
+>* name: (String) name of the method to add
+>* fn: (Function) method implementation
 
 **Overloads:**
 
-1)
-
-* name: (String) name of the method to add
-* fn: (Function) method implementation
-* override: (Bool) if true, override the previously defined prototype
+>Parameters
+>* name: (String) name of the method to add
+>* fn: (Function) method implementation
+>* override: (Bool) if true, override the previously defined prototype
 
 *** 
 #### _changes_ 
@@ -160,11 +147,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* compare: (Object) Object to compare against
+>* compare: (Object) Object to compare against
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _contains_ 
@@ -176,18 +163,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* val: (Mixed) Value to check or custom function to determine validity
+>* val: (Object|ContainsObjectIterator) Value to check or custom function to determine validity
 
 **Overloads:**
 
-1)
+>Parameters
+>* val: (Object) Value to check
+>* func: (ContainsIterator<T, TValue>) Callback function used to do the comparison
 
-* val: (Mixed) Value to check
-* func: (Function) Callback function used to do the comparison
-
-2)
-
-* arr: (Array) Array of values to return first matching value
+>Parameters
+>* arr: (Array<TValue>) Array of values to return first matching value
 
 *** 
 #### _copyObject_ 
@@ -199,11 +184,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _count_ 
@@ -215,21 +200,18 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* option: (WhereCondition) Query used in Array.where when counting elements in an Array
 
-* option: (Mixed) Query used in Array.where when counting elements in an Array
+>Parameters
+>* option: (String) Word or phrase to count in the String
 
-2)
-
-* option: (String) Word or phrase to count in the String
-
-3)
-
-* option: (RegExp) Word or phrase pattern to count in the String
+>Parameters
+>* option: (RegExp) Word or phrase pattern to count in the String
 
 *** 
 #### _duplicate_ 
@@ -241,13 +223,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>* recursive?: (Boolean) Flag to copy all child objects recursively
 
 **Overloads:**
 
-1)
-
-* recursive: (Boolean) Flag to copy all child objects recursively
+>None
 
 *** 
 #### _eachProperty_ 
@@ -259,30 +239,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* callback: (Function) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
+>* callback: (EachIterator) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
 
 **Overloads:**
 
-* None
-
-*** 
-#### _equals_ 
-***
-
-**Info:** Object class extension to check if object values are equal
-
-**Return:** (Bool)
-
-**Parameters:**
-
-* compare: (Object) Object to compare against
-
-**Overloads:**
-
-1)
-
-* compare: (Object) Object to compare against
-* props: (String[]) Array of property values to compare against
+>None
 
 *** 
 #### _every_ 
@@ -294,14 +255,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* callback: (Function) Callback to apply to each value
+>* callback: (ObjectIterator) Callback to apply to each value
 
 **Overloads:**
 
-1)
-
-* callback: (Function) Callback to apply to each value
-* craydent_ctxObject: (Mixed) Context for the callback function
+>Parameters
+>* callback: (ObjectIterator) Callback to apply to each value
+>* craydent_ctxObject: (any) Context for the callback function
 
 *** 
 #### _getClass_ 
@@ -313,11 +273,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _getKeys_ 
@@ -325,15 +285,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to get the keys of the object
 
-**Return:** (Array)
+**Return:** (Array<string>)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _getValue_ 
@@ -341,22 +301,20 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to retrieve value of an object property
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* dflt: (any) Default value to return if context is not a function
 
-* dflt: (Mixed) Default value to return if context is not a function
-
-2)
-
-* args: (Mixed[]) An array of arguments to pass to context when it is a function
-* dflt: (Mixed) Default value to return if context is not a function
+>Parameters
+>* args: (any[]) An array of arguments to pass to context when it is a function
+>* dflt: (any) Default value to return if context is not a function
 
 *** 
 #### _has_ 
@@ -368,11 +326,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* property: (String) Property name to check
+>* property: (String) Property name to check
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isArray_ 
@@ -384,11 +342,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isAsync_ 
@@ -400,11 +358,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isBetween_ 
@@ -416,16 +374,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* lowerBound: (Mixed) Lower bound comparison
-* upperBound: (Mixed) Upper bound comparison
+>* lowerBound: (Mixed) Lower bound comparison
+>* upperBound: (Mixed) Upper bound comparison
+>* inclusive?: (Bool) Flag to include give bounds
 
 **Overloads:**
 
-1)
-
-* lowerBound: (Mixed) Lower bound comparison
-* upperBound: (Mixed) Upper bound comparison
-* inclusive: (Bool) Flag to include give bounds
+>None
 
 *** 
 #### _isBoolean_ 
@@ -437,11 +392,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isDate_ 
@@ -453,11 +408,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isDomElement_ 
@@ -469,11 +424,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isEmpty_ 
@@ -485,11 +440,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isError_ 
@@ -501,11 +456,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isFloat_ 
@@ -517,11 +472,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isFunction_ 
@@ -533,11 +488,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isGenerator_ 
@@ -549,11 +504,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isGeolocation_ 
@@ -565,11 +520,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isInt_ 
@@ -581,11 +536,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isNumber_ 
@@ -597,11 +552,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isObject_ 
@@ -613,11 +568,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isPromise_ 
@@ -629,11 +584,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isRegExp_ 
@@ -645,11 +600,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isString_ 
@@ -661,11 +616,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isSubset_ 
@@ -677,11 +632,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* compare: (Mixed) Superset to compare against
+>* compare: (any) Superset to compare against
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _itemCount_ 
@@ -693,11 +648,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _keyOf_ 
@@ -709,11 +664,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* value: (Mixed) Value to compare against
+>* value: (any) Value to compare against
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _map_ 
@@ -725,14 +680,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* callback: (Function) Callback to apply to each value
+>* callback: (ObjectIterator) Callback to apply to each value
+>* craydent_ctxObject?: (Mixed) Context for the callback function
 
 **Overloads:**
 
-1)
-
-* callback: (Function) Callback to apply to each value
-* craydent_ctxObject: (Mixed) Context for the callback function
+>None
 
 *** 
 #### _merge_ 
@@ -744,14 +697,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* secondary: (Object) Object to merge with
+>* secondary: (Object) Object to merge with
+>* condition?: (MergeEnums|MergeOptions|MergeIterator) Flags to recurse, merge only shared value, clone, intersect etc
 
 **Overloads:**
 
-1)
-
-* secondary: (Object) Object to merge with
-* condition: (Mixed) Flags to recurse, merge only shared value, clone, intersect etc
+>None
 
 *** 
 #### _set_ 
@@ -763,26 +714,14 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* object: (Object) object to add the property to
-* path: (String) Path to nested property
-* value: (Mixed) Value to set
+>* object: (Object) object to add the property to
+>* path: (String) Path to nested property
+>* value: (any) Value to set
+>* delimiter?: (Char) Separator used to parse path
 
 **Overloads:**
 
-1)
-
-* object: (Object) object to add the property to
-* path: (String) Path to nested property
-* value: (Mixed) Value to set
-* delimiter: (Char) Separator used to parse path
-
-2)
-
-* object: (Object) object to add the property to
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
-* value: (Mixed) Value to set
-* options: (Object) Options for ignoring inheritance, validPath, etc
+>None
 
 *** 
 #### _setProperty_ 
@@ -794,23 +733,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* path: (String) Path to nested property
-* value: (Mixed) Value to set
+>* path: (String) Path to nested property
+>* value: (Mixed) Value to set
+>* delimiter?: (Char) Separator used to parse path
 
 **Overloads:**
 
-1)
-
-* path: (String) Path to nested property
-* value: (Mixed) Value to set
-* delimiter: (Char) Separator used to parse path
-
-2)
-
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
-* value: (Mixed) Value to set
-* options: (Object) Options for ignoring inheritance, validPath, etc
+>None
 
 *** 
 #### _toStringAlt_ 
@@ -822,24 +751,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>* delimiter?: (Char) Character to separate the property from the value
+>* prefix?: (Char) Character to prefix the property name
+>* urlEncode?: (Bool) Flag to url encode the property and value
 
 **Overloads:**
 
-1)
-
-* delimiter: (Char) Character to separate the property from the value
-
-2)
-
-* delimiter: (Char) Character to separate the property from the value
-* prefix: (Char) Character to prefix the property name
-
-3)
-
-* delimiter: (Char) Character to separate the property from the value
-* prefix: (Char) Character to prefix the property name
-* urlEncode: (Bool) Flag to url encode the property and value
+>None
 
 
 

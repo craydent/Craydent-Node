@@ -59,12 +59,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* compare: (Number) Number to compare
-* giveOrTake: (Number) Plus/minus value
+>* compare: (Number) Number to compare
+>* giveOrTake: (Number) Plus/minus value
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _contains_ 
@@ -76,18 +76,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* val: (Mixed) Value to check or custom function to determine validity
+>* val: (Number|ContainsObjectIterator) Value to check or custom function to determine validity
 
 **Overloads:**
 
-1)
+>Parameters
+>* val: (Number) Value to check
+>* func: (ContainsIterator<T, TValue>) Callback function used to do the comparison
 
-* val: (Mixed) Value to check
-* func: (Function) Callback function used to do the comparison
-
-2)
-
-* arr: (Array) Array of values to return first matching value
+>Parameters
+>* arr: (Array<TValue>) Array of values to return first matching value
 
 *** 
 #### _equals_ 
@@ -99,14 +97,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* compare: (Object) Object to compare against
+>* compare: (Object) Object to compare against
+>* props?: (String[]) Array of property values to compare against
 
 **Overloads:**
 
-1)
-
-* compare: (Object) Object to compare against
-* props: (String[]) Array of property values to compare against
+>None
 
 *** 
 #### _getValue_ 
@@ -114,22 +110,20 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to retrieve value of an object property
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* dflt: (any) Default value to return if context is not a function
 
-* dflt: (Mixed) Default value to return if context is not a function
-
-2)
-
-* args: (Mixed[]) An array of arguments to pass to context when it is a function
-* dflt: (Mixed) Default value to return if context is not a function
+>Parameters
+>* args: (any[]) An array of arguments to pass to context when it is a function
+>* dflt: (any) Default value to return if context is not a function
 
 *** 
 #### _isBetween_ 
@@ -141,16 +135,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* lowerBound: (Mixed) Lower bound comparison
-* upperBound: (Mixed) Upper bound comparison
+>* lowerBound: (Number) Lower bound comparison
+>* upperBound: (Number) Upper bound comparison
+>* inclusive?: (Bool) Flag to include give bounds
 
 **Overloads:**
 
-1)
-
-* lowerBound: (Mixed) Lower bound comparison
-* upperBound: (Mixed) Upper bound comparison
-* inclusive: (Bool) Flag to include give bounds
+>None
 
 *** 
 #### _isEven_ 
@@ -162,11 +153,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isOdd_ 
@@ -178,11 +169,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _toCurrencyNotation_ 
@@ -194,13 +185,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>* separator?: (Char) Character to use as delimiter
 
 **Overloads:**
 
-1)
-
-* separator: (Char) Character to use as delimiter
+>None
 
 
 

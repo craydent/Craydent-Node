@@ -55,15 +55,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to perform push and update indexes if used
 
-**Return:** (Array)
+**Return:** (Bool) Value to indicate success or failure
 
 **Parameters:**
 
-* value: (Mixed) value to find
+>* value: (Object) value to add
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _aggregate_ 
@@ -71,31 +71,31 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to perform mongo style aggregation
 
-**Return:** (Array)
+**Return:** (Array<TResult>) returns an array of aggregates
 
 **Parameters:**
 
-* pipelines: (Object[]) Array of stages defined in mongodb. ($project, $match, $redact, $limit, $skip, $unwind, $group, $sample, $sort, $lookup, $out)
+>* pipelines: (Array<MongoPipelines>) Array of stages defined in mongodb. ($project, $match, $redact, $limit, $skip, $unwind, $group, $sample, $sort, $lookup, $out)
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _average_ 
 ***
 
-**Info:** Array class extension to perform average of all the values (any value which is not a number is 0).
+**Info:** Array class extension to perform average of all the values (any value which is not 0).
 
-**Return:** (Array)
+**Return:** (number | NaN)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _find_ 
@@ -103,23 +103,21 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)
 
-**Return:** (Array)
+**Return:** (Array<T>)
 
 **Parameters:**
 
-* condition: (Mixed) Query following find/where clause syntax
+>* condition: (WhereCondition | string) Query following find/where clause syntax
 
 **Overloads:**
 
-1)
+>Parameters
+>* condition: (WhereCondition | string) Query following find/where clause syntax
+>* projection: (Object | string) Indicate which properties to return
 
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-
-2)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
+>Parameters
+>* condition: (WhereCondition | string) Query following find/where clause syntax
+>* useReference: (Bool) Flag to make a copy instead of using references
 
 *** 
 #### _findOne_ 
@@ -127,23 +125,21 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to use mongo or sql queries returning the first item match
 
-**Return:** (Object)
+**Return:** (T)
 
 **Parameters:**
 
-* condition: (Mixed) Query following find/where clause syntax
+>* condition: (WhereCondition | string) Query following find/where clause syntax
 
 **Overloads:**
 
-1)
+>Parameters
+>* condition: (WhereCondition | string) Query following find/where clause syntax
+>* projection: (WhereCondition | string) Indicate which properties to return
 
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-
-2)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
+>Parameters
+>* condition: (WhereCondition | string) Query following find/where clause syntax
+>* useReference: (Bool) Flag to make a copy instead of using references
 
 *** 
 #### _stdev_ 
@@ -151,15 +147,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
 
-**Return:** (Array)
+**Return:** (number | NaN) returns the standard deviation of the array of numbers
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _sum_ 
@@ -167,15 +163,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
 
-**Return:** (Array)
+**Return:** (number | NaN) returns the sum of the array of numbers
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _where_ 
@@ -183,40 +179,57 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to use mongo or sql queries
 
-**Return:** (Array)
+**Return:** (Array<T>) returns a filtered subset of the array.
 
 **Parameters:**
 
-* condition: (Mixed) Query following find/where clause syntax
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
 
 **Overloads:**
 
-1)
+>Parameters
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
+>* limit: (number) Limit the number of the results returned.
 
-* condition: (Mixed) Query following find/where clause syntax
-* limit: (Int) Limit the number of the results returned.
+>Parameters
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
+>* projection: (Object) Indicate which properties to return
 
-2)
+>Parameters
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
+>* useReference: (Bool) Flag to make a copy instead of using references
 
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
+>Parameters
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
+>* projection: (Object) Indicate which properties to return
+>* limit: (Int) Limit the number of the results returned.
 
-3)
+>Parameters
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
+>* useReference: (Bool) Flag to make a copy instead of using references
+>* limit: (Int) Limit the number of the results returned.
 
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
+>Parameters
+>* condition: (WhereIterator<T>) The funciton invoked per iteration.
+>* limit: (number) Limit the number of the results returned.
 
-4)
+>Parameters
+>* condition: (WhereIterator<T>) The funciton invoked per iteration.
+>* projection: (Object) Indicate which properties to return
 
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-* limit: (Int) Limit the number of the results returned.
+>Parameters
+>* condition: (WhereIterator<T>) The funciton invoked per iteration.
+>* useReference: (Bool) Flag to make a copy instead of using references
 
-5)
+>Parameters
+>* condition: (WhereIterator<T>) The funciton invoked per iteration.
+>* projection: (Object) Indicate which properties to return
+>* limit: (Int) Limit the number of the results returned.
 
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
-* limit: (Int) Limit the number of the results returned.
+>Parameters
+>* condition: (WhereIterator<T>) The funciton invoked per iteration.
+>* useReference: (Bool) Flag to make a copy instead of using references
+>* limit: (Int) Limit the number of the results returned.
 
 
 
@@ -231,31 +244,20 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to create a parent/child hierarchy
 
-**Return:** (Array)
+**Return:** (Array<TResult>) returns a hierarchical array.
 
 **Parameters:**
 
-* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
-* childFinder: (String) Property name of the object to use as a grouping.
+>* parentFinder: (TreeParentFinder<T>) Function to determine the parent.  Should return a boolean value and is passed the current item as an argument.
+>* childFinder: (String) Property name of the object to use as a grouping.
+>* options?: (TreeOptions) Options to customize properties,  Valid property is:<br />childProperty
 
 **Overloads:**
 
-1)
-
-* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
-* childFinder: (Function) Function to determine the grouping.
-
-2)
-
-* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
-* childFinder: (String) Property name of the object to use as a grouping.
-* options: (Object) Options to customize properties,  Valid property is:<br />childProperty
-
-3)
-
-* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
-* childFinder: (String) Property name of the object to use as a grouping.
-* options: (Object) Options to customize properties,  Valid property is:<br />childProperty
+>Parameters
+>* parentFinder: (TreeParentFinder<T>) Function to determine the parent.  Should return a boolean value and is passed the current item as an argument.
+>* childFinder: (TreeChildFinder<T>) Function to determine the grouping.
+>* options?: (TreeOptions) Options to customize properties,  Valid property is:<br />childProperty
 
 *** 
 #### _condense_ 
@@ -263,17 +265,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls
 
-**Return:** (Array)
+**Return:** (Array<T>) returns a condensed version of the array.
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* check_values: (Bool) Flag to remove duplicates
+>Parameters
+>* check_values: (Bool) Set craydent_ctx flag to remove duplicates
 
 *** 
 #### _contains_ 
@@ -281,26 +282,23 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to check if value exists
 
-**Return:** (Bool)
+**Return:** (Bool) returns if there was a match.
 
 **Parameters:**
 
-* val: (Mixed) Value to check
+>* val: (ContainsValue) Value to check
 
 **Overloads:**
 
-1)
+>Parameters
+>* val: (ContainsIterator<T>) Function to determine validity.  Function is passed the value, index/prop, and original as arguments and must return a boolean
 
-* val: (Function) Function to determine validity.  Function is passed the value, index, and original as arguments and must return a boolean
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ContainsIterator<T>) Callback function used to do the comparison
 
-2)
-
-* val: (Mixed) Value to check
-* func: (Function) Callback function used to do the comparison
-
-3)
-
-* arr: (Array) Array of values to return first matching value
+>Parameters
+>* arr: (Array<ContainsValue>) Array of values to return first matching value
 
 *** 
 #### _count_ 
@@ -308,25 +306,22 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to count the properties in the object/elements in arrays/characters in strings.
 
-**Return:** (Int)
+**Return:** (Int | NaN) returns the count
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* option: (WhereCondition) Query used in Array.where when counting elements in an Array
 
-* option: (Mixed) Query used in Array.where when counting elements in an Array
+>Parameters
+>* option: (String) Word or phrase to count in the String
 
-2)
-
-* option: (String) Word or phrase to count in the String
-
-3)
-
-* option: (RegExp) Word or phrase pattern to count in the String
+>Parameters
+>* option: (RegExp) Word or phrase pattern to count in the String
 
 *** 
 #### _createIndex_ 
@@ -334,17 +329,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to create indexes for faster searches during where
 
-**Return:** (Array)
+**Return:** (Array<T> | Bool) returns the Array<T> if successfull otherwise false.
 
 **Parameters:**
 
-* properties: (String) Property or comma delimited property list to index.
+>* properties: (string) Property or comma delimited property list to index.
 
 **Overloads:**
 
-1)
-
-* indexes: (String[]) Array of properties to index
+>Parameters
+>* indexes: (Array<string>) Array of properties to index
 
 *** 
 #### _delete_ 
@@ -352,18 +346,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to delete records
 
-**Return:** (Array)
+**Return:** (Array<T>) returns a list of the deleted objects.
 
 **Parameters:**
 
-* condition: (Mixed) Query following find/where clause syntax
+>* condition: (WhereCondition) Query following find/where clause syntax
+>* justOne?: (Bool) Flag for deleting just one records [Default is: true]
 
 **Overloads:**
 
-1)
-
-* condition: (Mixed) Query following find/where clause syntax
-* justOne: (Boolean) Flag for deleting just one records [Default is: true]
+>None
 
 *** 
 #### _distinct_ 
@@ -371,37 +363,26 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to get all unique records by fields specified
 
-**Return:** (Array)
+**Return:** (Array<T>) returns an array with distinct values
 
 **Parameters:**
 
-* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+>* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+>* condition?: (String) Query following SQL where clause syntax
 
 **Overloads:**
 
-1)
+>Parameters
+>* fields: (Array<T>) Fields to use as the projection and unique comparison
+>* condition?: (String) Query following SQL where clause syntax
 
-* fields: (Array) Fields to use as the projection and unique comparison
+>Parameters
+>* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+>* condition?: (Object) Query following MongoDB find clause syntax
 
-2)
-
-* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
-* condition: (String) Query following SQL where clause syntax
-
-3)
-
-* fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
-* condition: (String) Query following SQL where clause syntax
-
-4)
-
-* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
-* condition: (Object) Query following MongoDB find clause syntax
-
-5)
-
-* fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
-* condition: (Object) Query following MongoDB find clause syntax
+>Parameters
+>* fields: (Array<T>) Fields to use as the projection and unique comparison (comma delimited)
+>* condition?: (Object) Query following MongoDB find clause syntax
 
 *** 
 #### _equals_ 
@@ -409,18 +390,17 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to check if object values are equal
 
-**Return:** (Bool)
+**Return:** (Bool | undefined) returns if the the two arrays have equivalent values
 
 **Parameters:**
 
-* compare: (Object) Object to compare against
+>* compare: (Object) Object to compare against
 
 **Overloads:**
 
-1)
-
-* compare: (Object) Object to compare against
-* props: (String[]) Array of property values to compare against
+>Parameters
+>* compare: (Object) Object to compare against
+>* props: (Array<string>) Array of property values to compare against
 
 *** 
 #### _every_ 
@@ -428,18 +408,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to implement .every method
 
-**Return:** (Bool)
+**Return:** (Bool | undefined)
 
 **Parameters:**
 
-* callback: (Function) Callback to test for each element
+>* callback: (ArrayIterator<T, TResult>) Callback to test for each element. Callback will get the current item, index, context as arguments.
+>* craydent_ctxObject?: (Object) Context for the callback function
 
 **Overloads:**
 
-1)
-
-* callback: (Function) Callback to test for each element
-* craydent_ctxObject: (Object) Context for the callback function
+>None
 
 *** 
 #### _filter_ 
@@ -447,18 +425,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to implement filter
 
-**Return:** (Array)
+**Return:** (Array<TResult>)
 
 **Parameters:**
 
-* func: (Function) Callback function used to determine if value should be returned
+>* func: (ArrayIterator<T, TResult>) Callback function used to determine if value should be returned. Callback will get the current item, index, context as arguments.
+>* craydent_ctxs?: (Object) Specify the context on callback function
 
 **Overloads:**
 
-1)
-
-* func: (Function) Callback function used to determine if value should be returned
-* craydent_ctxs: (Mixed) Specify the context on callback function
+>None
 
 *** 
 #### _getValue_ 
@@ -466,22 +442,20 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to retrieve value of an object property
 
-**Return:** (Mixed)
+**Return:** (Object) the value of any type.  if the type is a method, it will execute the methed and use its return value.
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* default: (Object) Default value to return if context is not a function
 
-* dflt: (Mixed) Default value to return if context is not a function
-
-2)
-
-* args: (Mixed[]) An array of arguments to pass to context when it is a function
-* dflt: (Mixed) Default value to return if context is not a function
+>Parameters
+>* arguments: (Object[]) An array of arguments to pass to context when it is a function
+>* default: (Object) Default value to return if context is not a function
 
 *** 
 #### _group_ 
@@ -489,15 +463,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to group records by fields
 
-**Return:** (Array)
+**Return:** (Array<TResult>)
 
 **Parameters:**
 
-* params: (Object) specs with common properties:<br />(Object) key<br />(Mixed) cond<br />(Function) reduce<br />(Object) initial
+>* params: (GroupOptions<T, TResult>) specs with common properties:<br />(Object) key<br />(Object | string) condition<br />(Function) reduce<br />(Object) initial<br />(Array<string> | Function) keyf<br />(Function) finalize
+>* removeProps?: (Bool) Flag to preserve property if the value is null or undefined.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _indexOf_ 
@@ -505,15 +480,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to implement indexOf
 
-**Return:** (Int)
+**Return:** (Int) returns the index of the item that matches or -1.
 
 **Parameters:**
 
-* value: (Mixed) value to find
+>* value: (Object) value to find
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _indexOfAlt_ 
@@ -521,23 +496,18 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression
 
-**Return:** (Integer)
+**Return:** (Int) returns the index of the item that matches or -1. 
 
 **Parameters:**
 
-* value: (Mixed) value to find
-* func: (Function) Callback function used to do the comparison
+>* value: (Object) value to find
+>* func: (ArrayIterator<T, TResult>) Callback function used to do the comparison
 
 **Overloads:**
 
-1)
-
-* regex: (RegExp) Regular expression to check value against
-
-2)
-
-* regex: (RegExp) Regular expression to check value against
-* pos: (Int) Index offset to start
+>Parameters
+>* regex: (RegExp) Regular expression to check value against
+>* pos?: (Int) Index offset to start
 
 *** 
 #### _innerJoin_ 
@@ -545,16 +515,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to do an inner join on arrays
 
-**Return:** (Array)
+**Return:** (Array<TResult>) resulting array of the join.
 
 **Parameters:**
 
-* arr: (Array) Array to be joined with
-* on: (String) Condition to join on
+>* arr: (Array<T>) Array to be joined with
+>* on: (String) Condition to join on
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _insert_ 
@@ -562,15 +532,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to add to the array
 
-**Return:** (Bool)
+**Return:** (Bool) returns true for success and false for failure.
 
 **Parameters:**
 
-* value: (Mixed) value to add
+>* value: (Object) value to add
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _insertAfter_ 
@@ -578,16 +548,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to add to the array after a specific index
 
-**Return:** (Bool)
+**Return:** (Bool) returns true for success and false for failure.
 
 **Parameters:**
 
-* index: (Int) Index to add after
-* value: (Mixed) Value to add
+>* index: (Int) Index to add after
+>* value: (Object) Value to add
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _insertAt_ 
@@ -595,16 +565,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to add to the array at a specific index and push the all indexes down
 
-**Return:** (Bool)
+**Return:** (Bool) returns true for success and false for failure.
 
 **Parameters:**
 
-* index: (Int) Index to add after
-* value: (Mixed) Value to add
+>* index: (Int) Index to add after
+>* value: (Object) Value to add
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _insertBefore_ 
@@ -612,16 +582,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to add to the array before a specific index
 
-**Return:** (Bool)
+**Return:** (Bool) returns true for success and false for failure.
 
 **Parameters:**
 
-* index: (Int) Index to add before
-* value: (Mixed) Value to add
+>* index: (Int) Index to add before
+>* value: (Object) Value to add
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isEmpty_ 
@@ -629,15 +599,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to check if it is empty
 
-**Return:** (Array)
+**Return:** (Bool) returns true if the array is empty, otherwise false.
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isSubset_ 
@@ -645,15 +615,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to check if item is a subset
 
-**Return:** (Bool)
+**Return:** (Bool) returns true if the array is a subset, otherwise false.
 
 **Parameters:**
 
-* compare: (Mixed) Superset to compare against
+>* compare: (Array<T> | Object) Superset to compare against
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _joinLeft_ 
@@ -661,16 +631,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to do an outer left join on arrays
 
-**Return:** (Array)
+**Return:** (Array<TResult>) resulting array of the join.
 
 **Parameters:**
 
-* arr: (Array) Secondary array to be joined with
-* on: (String) Condition to join on
+>* arr: (Array<T>) Secondary array to be joined with
+>* on: (String) Condition to join on
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _joinRight_ 
@@ -678,16 +648,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to do an outer right join on arrays
 
-**Return:** (Array)
+**Return:** (Array<TResult>) resulting array of the join.
 
 **Parameters:**
 
-* arr: (Array) Secondary array to be joined with
-* on: (String) Condition to join on
+>* arr: (Array<T>) Secondary array to be joined with
+>* on: (String) Condition to join on
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _last_ 
@@ -695,15 +665,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to retrieve the last item in the array.
 
-**Return:** (Array)
+**Return:** (T) returns the last item in the array.
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _limit_ 
@@ -711,18 +681,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to return a limited amount of items
 
-**Return:** (Array)
+**Return:** (Array<T>) returns the first n items in the array.
 
 **Parameters:**
 
-* max: (Int) Maximum number of items to return
+>* max: (Int) Maximum number of items to return
+>* skip?: (Int) Number of items to skip
 
 **Overloads:**
 
-1)
-
-* max: (Int) Maximum number of items to return
-* skip: (Int) Number of items to skip
+>None
 
 *** 
 #### _map_ 
@@ -730,18 +698,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to implement map
 
-**Return:** (Array)
+**Return:** (Array<TResult>) returns the resulting array.
 
 **Parameters:**
 
-* callback: (Function) Callback function used to apply changes
+>* callback: (ArrayIterator<T, TResult>) Callback function used to apply changes
+>* craydent_ctxObject?: (Object) Specify the context on callback function
 
 **Overloads:**
 
-1)
-
-* callback: (Function) Callback function used to apply changes
-* craydent_ctxObject: (Mixed) Specify the context on callback function
+>None
 
 *** 
 #### _mapReduce_ 
@@ -749,20 +715,17 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to run map-reduce aggregation over records
 
-**Return:** (Array)
+**Return:** (Array<TResult>) returns the map reduced array.
 
 **Parameters:**
 
-* map: (Function) Function to apply to each item
-* reduce: (Function) Function used to condense the items
+>* map: (ArrayIterator<T, TResult>) Function to apply to each item
+>* reduce: (MongoReducer<T>) Function used to condense the items
+>* options?: (MongoMapReduceOptions<T, TResult>) Options specified in the Mongo Doc
 
 **Overloads:**
 
-1)
-
-* map: (Function) Function to apply to each item
-* reduce: (Function) Function used to condense the items
-* options: (Object) Options specified in the Mongo Doc
+>None
 
 *** 
 #### _normalize_ 
@@ -770,15 +733,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to normalize all properties in the object array
 
-**Return:** (Array)
+**Return:** (Array<TResult>) returns a normalized version of the objects.
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _parallelEach_ 
@@ -786,25 +749,22 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
 
-**Return:** (Promise)
+**Return:** (Promise<Array<T>>) returns a promise of the resulting items in the array.
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* gen: (GeneratorFunction) Generator function to apply to each item
 
-* gen: (Generator) Generator function to apply to each item
+>Parameters
+>* func: (ArrayIterator<T, TResult>) Function to apply to each item
 
-2)
-
-* func: (Function) Function to apply to each item
-
-3)
-
-* args: (Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
+>Parameters
+>* args: (Array<T>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
 
 *** 
 #### _remove_ 
@@ -812,18 +772,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to remove an item by value
 
-**Return:** (Mixed)
+**Return:** (T | undefined) returns the removed item.
 
 **Parameters:**
 
-* value: (Mixed) Value to remove
+>* value: (Object) Value to remove
+>* indexOf?: (IndexOf<T>) Callback function to use to find the item based on the value
 
 **Overloads:**
 
-1)
-
-* value: (Mixed) Value to remove
-* indexOf: (Function) Callback function to use to find the item based on the value
+>None
 
 *** 
 #### _removeAll_ 
@@ -831,18 +789,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to remove all items by value
 
-**Return:** (Array)
+**Return:** (Array<T>) returns an array of all the removed items.
 
 **Parameters:**
 
-* value: (Mixed) Value to remove
+>* value: (Object) Value to remove
+>* indexOf: (IndexOf<T>) Callback function to use to find the item based on the value
 
 **Overloads:**
 
-1)
-
-* value: (Mixed) Value to remove
-* indexOf: (Function) Callback function to use to find the item based on the value
+>None
 
 *** 
 #### _removeAt_ 
@@ -850,15 +806,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to remove item at a specific index
 
-**Return:** (Mixed)
+**Return:** (T | undefined) returns the removed item.
 
 **Parameters:**
 
-* index: (Int) Index of the item to remove
+>* index: (Int) Index of the item to remove
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _replaceAt_ 
@@ -866,16 +822,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to replace item at a specific index
 
-**Return:** (Array)
+**Return:** (T | undefined) returns the item removed.
 
 **Parameters:**
 
-* index: (Int) Index of the item to remove
-* value: (Mixed) Value to replace with
+>* index: (Int) Index of the item to remove
+>* value: (Object) Value to replace with
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _scramble_ 
@@ -883,15 +839,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to scramble the order.
 
-**Return:** (Array)
+**Return:** (Array<T>)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _sortBy_ 
@@ -899,69 +855,60 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to sort the array
 
-**Return:** (Array)
+**Return:** (Array<T>)
 
 **Parameters:**
 
-* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+>* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
 
 **Overloads:**
 
-1)
+>Parameters
+>* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
 
-* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
+>Parameters
+>* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
 
-2)
+>Parameters
+>* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
 
-* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
+>Parameters
+>* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
 
-3)
+>Parameters
+>* props: (Array<String>) Properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
 
-* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
+>Parameters
+>* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* lookup: (Object) Look up object to use as values instead of the array values.
 
-4)
+>Parameters
+>* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* lookup: (Object) Look up object to use as values instead of the array values.
 
-* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
+>Parameters
+>* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* lookup: (Object) Look up object to use as values instead of the array values.
+>* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
-5)
-
-* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
-
-6)
-
-* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
-* lookup: (Object) Look up object to use as values instead of the array values.
-
-7)
-
-* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
-* lookup: (Object) Look up object to use as values instead of the array values.
-
-8)
-
-* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
-* lookup: (Object) Look up object to use as values instead of the array values.
-* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
-
-9)
-
-* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
-* lookup: (Object) Look up object to use as values instead of the array values.
-* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
+>Parameters
+>* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* lookup: (Object) Look up object to use as values instead of the array values.
+>* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
 *** 
 #### _trim_ 
@@ -969,21 +916,19 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to remove all white space/chars from the beginning and end of all string values in the array.
 
-**Return:** (Bool)
+**Return:** (Array<TResult>) returns the trimmed version of the array.
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* ref: (Bool) Whether or not to mutate the original array.
 
-* ref: (Boolean) Whether or not to mutate the original array.
-
-2)
-
-* character: (Char[]) Character to remove in the String
+>Parameters
+>* character: (Char[]) Character to remove in the String
 
 *** 
 #### _toSet_ 
@@ -991,15 +936,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to convert the array to a set
 
-**Return:** (Array)
+**Return:** (Set<T>) returns a Set from the array Values
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _update_ 
@@ -1007,20 +952,19 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to update records in the array
 
-**Return:** (Array)
+**Return:** (Array<T>)
 
 **Parameters:**
 
-* condition: (Mixed) Query following find/where clause syntax
-* setClause: (Mixed) Set clause used to update the records
+>* condition: (WhereCondition) Query following find/where clause syntax
+>* setClause: (Object) Set clause used to update the records
 
 **Overloads:**
 
-1)
-
-* condition: (Mixed) Query following find/where clause syntax
-* setClause: (Mixed) Set clause used to update the records
-* options: (Object) Options to specify if mulit update and/or upsert
+>Parameters
+>* condition: (WhereCondition) Query following find/where clause syntax
+>* setClause: (Object) Set clause used to update the records
+>* options: (UpdateOptions) Options to specify if mulit update and/or upsert
 
 *** 
 #### _upsert_ 
@@ -1028,29 +972,26 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to upsert records to array
 
-**Return:** (Object)
+**Return:** (UpsertResult<T>) returns the information for resulting operation.
 
 **Parameters:**
 
-* records: (Array) Records to use to insert/update array
+>* records: (Array<T>) Records to use to insert/update array
 
 **Overloads:**
 
-1)
+>Parameters
+>* records: (Array<T>) Records to use to insert/update array
+>* callback: (UpsertIterator<T>) Method to use to determine if the records are equal
 
-* records: (Array) Records to use to insert/update array
-* callback: (Function) Method to use to determine if the records are equal
+>Parameters
+>* records: (Array<T>) Records to use to insert/update array
+>* prop: (string) Property to use as the primary key
 
-2)
-
-* records: (Array) Records to use to insert/update array
-* prop: (String) Property to use as the primary key
-
-3)
-
-* records: (Array) Records to use to insert/update array
-* prop: (String) Property to use as the primary key
-* callback: (Function) Method to use to determine if the records are equal
+>Parameters
+>* records: (Array<T>) Records to use to insert/update array
+>* prop: (string) Property to use as the primary key
+>* callback: (UpsertIterator<T>) Method to use to determine if the records are equal
 
 
 

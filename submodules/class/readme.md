@@ -55,15 +55,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Class used to measure the run time of code
 
-**Return:** (void)
+**Return:** (IBenchmarker)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _Cursor_ 
@@ -71,17 +71,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Cursor class to facilitate iteration
 
-**Return:** (Cursor)
+**Return:** (ICursor)
 
 **Parameters:**
 
-* records: (Array) Array used to create the iterator to iterate each item
+>* records: (Array<T>) Array used to create the iterator to iterate each item
 
 **Overloads:**
 
-1)
-
-* records: (Object) Object used to create the iterator to iterate each property
+>Parameters
+>* records: (Object) Object used to create the iterator to iterate each property
 
 *** 
 #### _OrderedList_ 
@@ -93,18 +92,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* records: (Array) Array used to create the initial items in the ordered list
-
-2)
-
-* records: (Array) Array used to create the initial items in the ordered list
-* sorter: (Function) Function for sorting logic
+>Parameters
+>* records: (Array) Array used to create the initial items in the ordered list
+>* sorter?: (Function) Function for sorting logic
 
 *** 
 #### _Queue_ 
@@ -112,15 +106,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Collection class that follows FIFO
 
-**Return:** (Queue)
+**Return:** (IQueue)
 
 **Parameters:**
 
-* records: (Array) Array used to create the iterator to iterate each item
+>* records: (Array<T>) Array used to create the iterator to iterate each item
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _Set_ 
@@ -128,15 +122,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Collection class that filters out duplicate values
 
-**Return:** (Set)
+**Return:** (ISet)
 
 **Parameters:**
 
-* records: (Array) Array used to create the iterator to iterate each item
+>* records: (Array<T>) Array used to create the iterator to iterate each item
 
 **Overloads:**
 
-* None
+>None
 
 
 

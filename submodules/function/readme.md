@@ -55,15 +55,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Function listener to register the catch event
 
-**Return:** (String)
+**Return:** (craydent_ctx)
 
 **Parameters:**
 
-* func: (Function) Function to call on emit
+>* func: (Function) Function to call on emit
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _emit_ 
@@ -71,18 +71,17 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Call the next function(s) in queue
 
-**Return:** (void)
+**Return:** (Array<TResult>)
 
 **Parameters:**
 
-* event: Event to trigger.
+>* event: (String) Event to trigger.
 
 **Overloads:**
 
-1)
-
-* event: Event to trigger.
-* infinite: any number of arguments can be passed and will be applied to listening functions.
+>Parameters
+>* event: Event to trigger.
+>* infinite: (any) any number of arguments can be passed and will be applied to listening functions.
 
 *** 
 #### _equals_ 
@@ -94,14 +93,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* compare: (Object) Object to compare against
+>* compare: (Object) Object to compare against
 
 **Overloads:**
 
-1)
-
-* compare: (Object) Object to compare against
-* props: (String[]) Array of property values to compare against
+>Parameters
+>* compare: (Object) Object to compare against
+>* props: (String[]) Array of property values to compare against
 
 *** 
 #### _extends_ 
@@ -113,14 +111,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* extendee: (Object) Class to extend
+>* extendee: (Object) Class to extend
 
 **Overloads:**
 
-1)
-
-* extendee: (Object) Class to extend
-* inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
+>Parameters
+>* extendee: (Object) Class to extend
+>* inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
 
 *** 
 #### _getName_ 
@@ -132,11 +129,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _getParameters_ 
@@ -148,11 +145,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _getValue_ 
@@ -160,22 +157,20 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to retrieve value of an object property
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* dflt: (any) Default value to return if context is not a function
 
-* dflt: (Mixed) Default value to return if context is not a function
-
-2)
-
-* args: (Mixed[]) An array of arguments to pass to context when it is a function
-* dflt: (Mixed) Default value to return if context is not a function
+>Parameters
+>* args: (any[]) An array of arguments to pass to context when it is a function
+>* dflt: (any) Default value to return if context is not a function
 
 *** 
 #### _next_ 
@@ -187,11 +182,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed.
+>* infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _on_ 
@@ -203,12 +198,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* event: (String) Event to listen on and invoked on emit
-* func: (Function) Function to call on emit
+>* event: (String) Event to listen on and invoked on emit
+>* func: (Function) Function to call on emit
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _then_ 
@@ -216,15 +211,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Function listener to register the then event
 
-**Return:** (String)
+**Return:** (craydent_ctx)
 
 **Parameters:**
 
-* func: (Function) Function to call on emit
+>* func: (Function) Function to call on emit
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _toPromise_ 
@@ -236,12 +231,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* event: (String) Event to listen on and invoked on emit
-* func: (Function) Function to call on emit
+>* event: (String) Event to listen on and invoked on emit
+>* func: (Function) Function to call on emit
 
 **Overloads:**
 
-* None
+>None
 
 
 

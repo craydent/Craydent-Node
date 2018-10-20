@@ -20,29 +20,48 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
     $c.TEMPLATE_VARS = $c.TEMPLATE_VARS || $s.TEMPLATE_VARS;
     $c.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || $s.TEMPLATE_TAG_CONFIG;
 
-    ext(String, 'fillTemplate', function (arr_objs, offset, max, bound) {
+    ext(String, 'fillTemplate', function (arr_objs, offset, max, newlineToHtml, preserve_nonmatching) {
         /*|{
-            "info": "String class extension to fill template based on template syntax",
-            "category": "String|Template",
+            "info": "Function for templetizing",
+            "category": "Template",
             "featured": true,
             "parameters":[
-                {"objs": "(Objects[]) Objects to fill the template variables"}],
+                {"htmlTemplate": "(String) Template to be used"},
+                {"objs": "(Objects[]) Objects to fill the template variables"},
+                {"options": "(FillTemplateOptions) Options to use: max,offset,newlineToHtml,preserve_nonmatching"}],
 
             "overloads":[
                 {"parameters":[
+                    {"htmlTemplate": "(String) Template to be used"},
+                    {"objs": "(Objects[]) Objects to fill the template variables"},
+                    {"max": "(Int) The maximum number of records to process"}]},
+
+                {"parameters":[
+                    {"htmlTemplate": "(String) Template to be used"},
                     {"objs": "(Objects[]) Objects to fill the template variables"},
                     {"offset": "(Int) The start index of the Object array"},
                     {"max": "(Int) The maximum number of records to process"}]},
 
                 {"parameters":[
+                    {"htmlTemplate": "(String) Template to be used"},
                     {"objs": "(Objects[]) Objects to fill the template variables"},
-                    {"max": "(Int) The maximum number of records to process"}]}],
+                    {"offset": "(Int) The start index of the Object array"},
+                    {"max": "(Int) The maximum number of records to process"},
+                    {"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."}]},
 
-            "url": "http://www.craydent.com/library/1.9.3/docs#string.fillTemplate",
+                {"parameters":[
+                    {"htmlTemplate": "(String) Template to be used"},
+                    {"objs": "(Objects[]) Objects to fill the template variables"},
+                    {"offset": "(Int) The start index of the Object array"},
+                    {"max": "(Int) The maximum number of records to process"},
+                    {"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."},
+                    {"preserve_nonmatching":"(Boolean) Flag to used to leave template variables that were not replaced."}]}],
+
+            "url": "http://www.craydent.com/library/1.9.3/docs#fillTemplate",
             "returnType": "(String)"
         }|*/
         try {
-            return $s.fillTemplate(this, arr_objs, offset, max, bound);
+            return $s.fillTemplate(this, arr_objs, offset, max, newlineToHtml, preserve_nonmatching);
         } catch (e) {
             error('String.fillTemplate', e);
         }

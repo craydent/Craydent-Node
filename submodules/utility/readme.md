@@ -55,18 +55,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Creates an catch all for exceptions in the current node service.
 
-**Return:** (Mixed)
+**Return:** (void)
 
 **Parameters:**
 
-* callback: (Function) Callback function to call when there is an uncaught exception
+>* callback: (ErrorCallback) Callback function to call when there is an uncaught exception
+>* append?: (Boolean) Options to defer, ignore case, etc
 
 **Overloads:**
 
-1)
-
-* callback: (Function) Callback function to call when there is an uncaught exception
-* append: (Boolean) Options to defer, ignore case, etc
+>None
 
 *** 
 #### _zipit_ 
@@ -78,14 +76,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* files: (Object[]) Objects containing properties name for file name and content for file content
+>* files: (Object[]) Objects containing properties name for file name and content for file content
 
 **Overloads:**
 
-1)
-
-* files: (String) Name of the file
-* content: (String) contents of the file
+>Parameters
+>* files: (String) Name of the file
+>* content: (String) contents of the file
 
 
 
@@ -100,18 +97,18 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Method to make ajax calls
 
-**Return:** (void)
+**Return:** (Promise<any>)
 
 **Parameters:**
 
-* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+>* url: (String) End point url
+>* returnData?: (AjaxReturnType) Specifies which data to return when using Promise pattern
 
 **Overloads:**
 
-1)
-
-* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
-* returnData: (String) Specifies which data to return when using Promise pattern
+>Parameters
+>* params: (AjaxOptions) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+>* returnData?: (AjaxReturnType) Specifies which data to return when using Promise pattern
 
 *** 
 #### _clearCache_ 
@@ -119,17 +116,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Clear a module from the require cache.
 
-**Return:** (Boolean)
+**Return:** (Bool)
 
 **Parameters:**
 
-* module: (String) Single module to remove.
+>* module?: (String) Single module to remove.
 
 **Overloads:**
 
-1)
-
-* None
+>None
 
 *** 
 #### _clusterit_ 
@@ -141,11 +136,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* callback: Method to call for Workers.  Callback is passed the cluster object as an argument.
+>* callback: (ClusterCallback) Method to call for Workers.  Callback is passed the cluster object as an argument.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _cout_ 
@@ -157,11 +152,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed.
+>* infinite: any number of arguments can be passed.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _cuid_ 
@@ -173,11 +168,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* msFormat: (Bool) use microsoft format if true
+>* msFormat?: (Bool) use microsoft format if true
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _error_ 
@@ -189,12 +184,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* fname: (String) The function name the error was thrown
-* e: (Error) Exception object thrown
+>* fname: (String) The function name the error was thrown
+>* e: (Error) Exception object thrown
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _exclude_ 
@@ -206,11 +201,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* list: (String[]) Array of strings in containing the property to exclude from prototyping.
+>* list: (String[]) Array of strings in containing the property to exclude from prototyping.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _foo_ 
@@ -222,11 +217,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _include_ 
@@ -234,18 +229,18 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Require without erroring when module does not exist.
 
-**Return:** (Mixed)
+**Return:** (Object|Bool)
 
 **Parameters:**
 
-* path: (String) Module or Path to module.
+>* path: (String) Module or Path to module.
+>* refresh?: (Bool) Flag to clear cache for the specific include.
 
 **Overloads:**
 
-1)
-
-* path: (String) Module or Path to module.
-* refresh: (Boolean) Flag to clear cache for the specific include.
+>Parameters
+>* path: (String) Module or Path to module.
+>* refresh: (Boolean) Flag to clear cache for the specific include.
 
 *** 
 #### _logit_ 
@@ -257,11 +252,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed.
+>* infinite: (Object) any number of arguments can be passed.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _md5_ 
@@ -273,11 +268,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* str: (String) String to encode.
+>* str: (String) String to encode.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _mkdirRecursive_ 
@@ -289,12 +284,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* path: (String) Path to create.
-* callback: (Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors).
+>* path: (String) Path to create.
+>* callback: (Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors).
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _namespace_ 
@@ -306,16 +301,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* name: (String) Name of the namespace to add to.
-* clazz: (Class) Class to add to the given namespace
+>* name: (String) Name of the namespace to add to.
+>* clazz: (Class) Class to add to the given namespace
+>* fn: (Function) Method to call after the class has been added to the namespace
 
 **Overloads:**
 
-1)
-
-* name: (String) Name of the namespace to add to.
-* clazz: (Class) Class to add to the given namespace
-* fn: (Function) Method to call after the class has been added to the namespace
+>None
 
 *** 
 #### _noop_ 
@@ -327,11 +319,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _now_ 
@@ -339,17 +331,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Get the DateTime of now
 
-**Return:** (Mixed)
+**Return:** (Date|String)
 
 **Parameters:**
 
-* None
+>* format?: (String) Format syntax to return formatted string of now
 
 **Overloads:**
 
-1)
-
-* format: (String) Format syntax to return formatted string of now
+>None
 
 *** 
 #### _parseBoolean_ 
@@ -357,18 +347,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Try to parse value to a Boolean (0, 1, '0', and '1' are valid unless strict is set to true).
 
-**Return:** (Mixed)
+**Return:** (Bool|undefined)
 
 **Parameters:**
 
-* value: (Mixed) value to parse as boolean.
+>* value: (Mixed) value to parse as boolean.
+>* strict?: (Boolean) Disable parsing of 0, 1, '0', and '1'.
 
 **Overloads:**
 
-1)
-
-* value: (Mixed) value to parse as boolean.
-* strict: (Boolean) Disable parsing of 0, 1, '0', and '1'.
+>None
 
 *** 
 #### _parseRaw_ 
@@ -380,15 +368,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* value: value to parse
+>* value: value to parse
+>* skipQuotes?: (Bool) Flag to skip quotes for strings
+>* saveCircular?: (Bool) Flag to save circular references
 
 **Overloads:**
 
-1)
-
-* value: (Mixed) Value to parse
-* skipQuotes: (Bool) Flag to skip quotes for strings
-* saveCircular: (Bool) Flag to save circular references
+>None
 
 *** 
 #### _rand_ 
@@ -400,16 +386,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* num1: (Number) Lower bound
-* num2: (Number) Upper bound
+>* num1: (Number) Lower bound
+>* num2: (Number) Upper bound
+>* inclusive?: (Bool) Flag to include the given numbers
 
 **Overloads:**
 
-1)
-
-* num1: (Number) Lower bound
-* num2: (Number) Upper bound
-* inclusive: (Bool) Flag to include the given numbers
+>None
 
 *** 
 #### _requireDirectory_ 
@@ -417,18 +400,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Recursively require the entire directory and returns an object containing the required modules.
 
-**Return:** (Promise/Object)
+**Return:** (Promise<any>|Object)
 
 **Parameters:**
 
-* path: (String) Path to directory.
+>* path: (String) Path to directory.
+>* options?: (Char) 'r' Flag to use to indicate recursively require, (Char) 's' Flag to indicate use syncronous instead of Promise Pattern
 
 **Overloads:**
 
-1)
-
-* path: (String) Path to directory.
-* options: (Char) 'r' Flag to use to indicate recursively require, (Char) 's' Flag to indicate use syncronous instead of Promise Pattern
+>None
 
 *** 
 #### _suid_ 
@@ -440,31 +421,27 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>* length?: (Integer) Custom length of the short unique identifier. Default is 10.
 
 **Overloads:**
 
-1)
-
-* length: (Integer) Custom length of the short unique identifier
+>None
 
 *** 
 #### _syncroit_ 
 ***
 
-**Info:** Generator based control flow to allow for more "syncronous" programing structure
+**Info:** Generator/Async based control flow to allow for more "syncronous" programing structure
 
-**Return:** (Promise)
+**Return:** (Promise<any>)
 
 **Parameters:**
 
-* gen: (GeneratorFunction) Generator function to execute
+>* func: (GeneratorFunction|AsyncFunction) function to execute
 
 **Overloads:**
 
-1)
-
-* async: (AsyncFunction) Async function to execute
+>None
 
 *** 
 #### _tryEval_ 
@@ -472,18 +449,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Evaluates an expression without throwing an error
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* expression: (Mixed) Expression to evaluate
+>* expression: (any) Expression to evaluate
+>* evaluator?: (EvaluatorMethod) Method to use to evaluate the expression
 
 **Overloads:**
 
-1)
-
-* expression: (Mixed) Expression to evaluate
-* evaluator: (Function) Method to use to evaluate the expression
+>None
 
 *** 
 #### _wait_ 
@@ -495,11 +470,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* condition: (Mixed) Condition equivalent to js true to resume execution
+>* condition: (Mixed) Condition equivalent to js true to resume execution
 
 **Overloads:**
 
-* None
+>None
 
 
 

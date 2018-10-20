@@ -110,29 +110,23 @@ navigator (Object) |session (Object) |
 
 **Info:** Get/set Cookies
 
-**Return:** (Mixed)
+**Return:** (String|Bool)
 
 **Parameters:**
 
-* key: (String) Key for cookie value
+>* key: (String) Key for cookie value
+>* option?: (CookieOptions) Specify delete
 
 **Overloads:**
 
-1)
+>Parameters
+>* keyValue: (Object) Specify the key value pair: key=>property, value=>object[key]
+>* option?: (CookieOptions) Specify path, domain, and/or expiration of cookie
 
-* key: (String) Key for cookie
-* option: (Object) Specify delete
-
-2)
-
-* keyValue: (Object) Specify the key value pair
-* option: (Object) Specify path, domain, and/or expiration of cookie
-
-3)
-
-* key: (String) Key for cookie value
-* value: (String) Value to store
-* option: (Object) Specify path and/or expiration of cookie
+>Parameters
+>* key: (String) Key for cookie value
+>* value: (any) Value to store
+>* option?: (CookieOptions) Specify path and/or expiration of cookie
 
 *** 
 #### _$DEL_ 
@@ -140,22 +134,17 @@ navigator (Object) |session (Object) |
 
 **Info:** Retrieve all or specific variables in the Body
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 *** 
 #### _$DELETE_ 
@@ -163,22 +152,17 @@ navigator (Object) |session (Object) |
 
 **Info:** Retrieve all or specific variables in the Body
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 *** 
 #### _$GET_ 
@@ -186,22 +170,17 @@ navigator (Object) |session (Object) |
 
 **Info:** Retrieve all or specific variables in the url
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (GetOptions|VerbOptionsTypes|String) Options to defer, ignore case, etc
 
 *** 
 #### _$HEADER_ 
@@ -209,22 +188,17 @@ navigator (Object) |session (Object) |
 
 **Info:** Retrieve all or specific variables in the headers
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 *** 
 #### _$PAYLOAD_ 
@@ -232,22 +206,17 @@ navigator (Object) |session (Object) |
 
 **Info:** Retrieve all or specific variables in the Body
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 *** 
 #### _$POST_ 
@@ -255,22 +224,17 @@ navigator (Object) |session (Object) |
 
 **Info:** Retrieve all or specific variables in the Body
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 *** 
 #### _$PUT_ 
@@ -278,22 +242,17 @@ navigator (Object) |session (Object) |
 
 **Info:** Retrieve all or specific variables in the Body
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 
 
@@ -312,11 +271,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _FirefoxVersion_ 
@@ -328,11 +287,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _IEVersion_ 
@@ -344,11 +303,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _OperaVersion_ 
@@ -360,11 +319,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _SafariVersion_ 
@@ -376,11 +335,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _createServer_ 
@@ -388,18 +347,17 @@ navigator (Object) |session (Object) |
 
 **Info:** Create http server, ability to run middleware, and define routes.
 
-**Return:** (Server)
+**Return:** (HTTP)
 
 **Parameters:**
 
-* callback: (Function) Function to callback when a request is received
+>* callback: (HTTPCallback) Function to callback when a request is received
+>* createServer?: (HTTPOptions) Options for creating the server (ex: {createServer:require('http').createServer})
 
 **Overloads:**
 
-1)
-
-* callback: (Function) Function to callback when a request is received
-* createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
+>Parameters
+>* options: (HTTPOptions) Function to callback when a request is received
 
 *** 
 #### _echo_ 
@@ -411,11 +369,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* output: Data to send in response
+>* output: (String) Data to send in response
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _end_ 
@@ -427,33 +385,31 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* event: Event to trigger.
+>None
 
 **Overloads:**
 
-1)
-
-* event: Event to trigger.
-* infinite: any number of arguments can be passed and will be applied to listening functions.
+>Parameters
+>* status?: (Integer) HTTP status code.
+>* output?: (String) output to send as response.
+>* encoding?: (String) encoding for the response.
 
 *** 
 #### _getSession_ 
 ***
 
-**Info:** Retrieve the session object when used in conjunction with createServer
+**Info:** Asynchronous retrieval of the session object when used in conjunction with createServer
 
-**Return:** (void)
+**Return:** (Promise<SessionObject>)
 
 **Parameters:**
 
-* sid: (String) Session id of the session object to retrieve syncronously.
+>* sid: (String) Session id of the session object to retrieve syncronously.
+>* callback?: (SessionCallback) callback function to invoke once the session object is retrieved.
 
 **Overloads:**
 
-1)
-
-* sid: (String) Session id of the session object to retrieve.
-* callback: (Function) callback function to invoke once the session object is retrieved.
+>None
 
 *** 
 #### _getSessionID_ 
@@ -461,15 +417,15 @@ navigator (Object) |session (Object) |
 
 **Info:** Retrieve the session id when used in conjunction with createServer
 
-**Return:** (void)
+**Return:** (String)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _getSessionSync_ 
@@ -477,15 +433,15 @@ navigator (Object) |session (Object) |
 
 **Info:** Syncronously retrieve the session object when used in conjunction with createServer
 
-**Return:** (void)
+**Return:** (SessionObject)
 
 **Parameters:**
 
-* sid: (String) Session id of the session object to retrieve syncronously.
+>* sid: (String) Session id of the session object to retrieve syncronously.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _header_ 
@@ -497,23 +453,12 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* header: (String) Http header.
+>* header: (Header) Http header.
+>* code?: (Integer) Http response code.
 
 **Overloads:**
 
-1)
-
-* headers: (Object) Http headers.
-
-2)
-
-* header: (String) Http header.
-* code: (Integer) Http response code.
-
-3)
-
-* headers: (Object) Http headers.
-* code: (Integer) Http response code.
+>None
 
 *** 
 #### _isAmaya_ 
@@ -525,11 +470,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isAndroid_ 
@@ -541,11 +486,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isBlackBerry_ 
@@ -557,11 +502,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isChrome_ 
@@ -573,11 +518,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isFirefox_ 
@@ -589,11 +534,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isGecko_ 
@@ -605,11 +550,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isIE_ 
@@ -621,11 +566,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isIE6_ 
@@ -637,11 +582,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isIPad_ 
@@ -653,11 +598,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isIPhone_ 
@@ -669,11 +614,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isIPod_ 
@@ -685,11 +630,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isKHTML_ 
@@ -701,11 +646,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isLinux_ 
@@ -717,11 +662,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isMac_ 
@@ -733,11 +678,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isMobile_ 
@@ -749,11 +694,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isOpera_ 
@@ -765,11 +710,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isPalmOS_ 
@@ -781,11 +726,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isPresto_ 
@@ -797,11 +742,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isPrince_ 
@@ -813,11 +758,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isSafari_ 
@@ -829,11 +774,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isSymbian_ 
@@ -845,11 +790,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isTrident_ 
@@ -861,11 +806,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isWebkit_ 
@@ -877,11 +822,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isWindows_ 
@@ -893,11 +838,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isWindowsMobile_ 
@@ -909,11 +854,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _send_ 
@@ -921,18 +866,17 @@ navigator (Object) |session (Object) |
 
 **Info:** Recursively require the entire directory and returns an object containing the required modules.
 
-**Return:** (Object)
+**Return:** (void)
 
 **Parameters:**
 
-* data: (Object) Object to send in response.
+>* data: (Object) Object to send in response.
 
 **Overloads:**
 
-1)
-
-* status: (Integer) Status code for response.
-* data: (Object) Object to send in response.
+>Parameters
+>* status: (Integer) Status code for response.
+>* data: (Object) Object to send in response.
 
 *** 
 #### _var_dump_ 
@@ -944,11 +888,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed.
+>* infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _writeSession_ 
@@ -960,11 +904,11 @@ navigator (Object) |session (Object) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 
 

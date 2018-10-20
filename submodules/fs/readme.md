@@ -55,15 +55,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of access.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _appendFile_ 
@@ -71,15 +71,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of appendFile.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _chmod_ 
@@ -87,15 +87,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of chmod.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _chown_ 
@@ -103,15 +103,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of chown.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _close_ 
@@ -119,15 +119,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of close.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _fchmod_ 
@@ -135,15 +135,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of fchmod.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _fchown_ 
@@ -151,15 +151,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of fchown.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _fdatasync_ 
@@ -167,15 +167,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of fdatasync.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _fstat_ 
@@ -183,15 +183,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of fstat.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _fsync_ 
@@ -199,15 +199,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of fsync.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _ftruncate_ 
@@ -215,15 +215,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of ftruncate.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _futimes_ 
@@ -231,15 +231,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of futimes.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _lchmod_ 
@@ -247,15 +247,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of lchmod.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _lchown_ 
@@ -263,15 +263,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of lchown.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _link_ 
@@ -279,15 +279,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of link.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _lstat_ 
@@ -295,15 +295,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of lstat.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _mkdir_ 
@@ -311,15 +311,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of mkdir.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _mkdtemp_ 
@@ -327,15 +327,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of mkdtemp.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _open_ 
@@ -343,15 +343,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of open.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _read_ 
@@ -359,15 +359,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of read.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _readFile_ 
@@ -375,15 +375,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of readFile.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _readdir_ 
@@ -391,15 +391,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of readdir.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _readlink_ 
@@ -407,15 +407,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of readlink.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _realpath_ 
@@ -423,15 +423,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of realpath.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _rename_ 
@@ -439,15 +439,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of rename.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _rmdir_ 
@@ -455,15 +455,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of rmdir.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _stat_ 
@@ -471,15 +471,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of stat.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _symlink_ 
@@ -487,15 +487,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of symlink.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _truncate_ 
@@ -503,15 +503,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of truncate.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _unlink_ 
@@ -519,15 +519,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of unlink.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _utimes_ 
@@ -535,15 +535,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of utimes.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _write_ 
@@ -551,15 +551,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of write.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _writeFile_ 
@@ -567,15 +567,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** A promisified version of writeFile.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 
 

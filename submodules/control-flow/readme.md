@@ -55,36 +55,32 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise)
+**Return:** (Promise<YieldableResult>)
 
 **Parameters:**
 
-* value: (Mixed) Value to make yieldable
+>* value: (YieldableValue) Value to make yieldable
 
 **Overloads:**
 
-1)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
 
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
+>Parameters
+>* func: (Object) Function to make yieldable
+>* callbackIndex: (Integer) Index of callback argument.
 
-2)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
 
-* func: (Function) Function to make yieldable
-* callbackIndex: (Integer) Index of callback argument.
-
-3)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-
-4)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-* returnIndex: (Integer) Index of callback argument.
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
+>* returnIndex: (Integer) Index of callback argument.
 
 *** 
 #### _parallelEach_ 
@@ -92,25 +88,19 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
 
-**Return:** (Promise)
+**Return:** (Promise<any>)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* func: (Yieldables) function to apply to each item
 
-* gen: (Generator) Generator function to apply to each item
-
-2)
-
-* func: (Function) Function to apply to each item
-
-3)
-
-* args: (Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
+>Parameters
+>* args: (Array<Yieldables>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, async functions, or functions)
 
 *** 
 #### _yieldable_ 
@@ -118,36 +108,32 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise)
+**Return:** (Promise<YieldableResult>)
 
 **Parameters:**
 
-* value: (Mixed) Value to make yieldable
+>* value: (YieldableValue) Value to make yieldable
 
 **Overloads:**
 
-1)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
 
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
+>Parameters
+>* func: (Object) Function to make yieldable
+>* callbackIndex: (Integer) Index of callback argument.
 
-2)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
 
-* func: (Function) Function to make yieldable
-* callbackIndex: (Integer) Index of callback argument.
-
-3)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-
-4)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-* returnIndex: (Integer) Index of callback argument.
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
+>* returnIndex: (Integer) Index of callback argument.
 
 
 

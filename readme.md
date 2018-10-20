@@ -73,15 +73,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to perform push and update indexes if used
 
-**Return:** (Array)
+**Return:** (Bool) Value to indicate success or failure
 
 **Parameters:**
 
-* value: (Mixed) value to find
+>* value: (Object) value to add
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _aggregate_ 
@@ -89,31 +89,31 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to perform mongo style aggregation
 
-**Return:** (Array)
+**Return:** (Array<TResult>) returns an array of aggregates
 
 **Parameters:**
 
-* pipelines: (Object[]) Array of stages defined in mongodb. ($project, $match, $redact, $limit, $skip, $unwind, $group, $sample, $sort, $lookup, $out)
+>* pipelines: (Array<MongoPipelines>) Array of stages defined in mongodb. ($project, $match, $redact, $limit, $skip, $unwind, $group, $sample, $sort, $lookup, $out)
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _average_ 
 ***
 
-**Info:** Array class extension to perform average of all the values (any value which is not a number is 0).
+**Info:** Array class extension to perform average of all the values (any value which is not 0).
 
-**Return:** (Array)
+**Return:** (number | NaN)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _find_ 
@@ -121,23 +121,21 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to use mongo or sql queries (Alias of Where minus the limit argument)
 
-**Return:** (Array)
+**Return:** (Array<T>)
 
 **Parameters:**
 
-* condition: (Mixed) Query following find/where clause syntax
+>* condition: (WhereCondition | string) Query following find/where clause syntax
 
 **Overloads:**
 
-1)
+>Parameters
+>* condition: (WhereCondition | string) Query following find/where clause syntax
+>* projection: (Object | string) Indicate which properties to return
 
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-
-2)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
+>Parameters
+>* condition: (WhereCondition | string) Query following find/where clause syntax
+>* useReference: (Bool) Flag to make a copy instead of using references
 
 *** 
 #### _findOne_ 
@@ -145,23 +143,21 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to use mongo or sql queries returning the first item match
 
-**Return:** (Object)
+**Return:** (T)
 
 **Parameters:**
 
-* condition: (Mixed) Query following find/where clause syntax
+>* condition: (WhereCondition | string) Query following find/where clause syntax
 
 **Overloads:**
 
-1)
+>Parameters
+>* condition: (WhereCondition | string) Query following find/where clause syntax
+>* projection: (WhereCondition | string) Indicate which properties to return
 
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-
-2)
-
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
+>Parameters
+>* condition: (WhereCondition | string) Query following find/where clause syntax
+>* useReference: (Bool) Flag to make a copy instead of using references
 
 *** 
 #### _stdev_ 
@@ -169,15 +165,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to perform standard deviation (any value which is not a number is 0).
 
-**Return:** (Array)
+**Return:** (number | NaN) returns the standard deviation of the array of numbers
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _sum_ 
@@ -185,15 +181,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to perform summation of all the values (any value which is not a number is 0).
 
-**Return:** (Array)
+**Return:** (number | NaN) returns the sum of the array of numbers
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _where_ 
@@ -201,40 +197,57 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to use mongo or sql queries
 
-**Return:** (Array)
+**Return:** (Array<T>) returns a filtered subset of the array.
 
 **Parameters:**
 
-* condition: (Mixed) Query following find/where clause syntax
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
 
 **Overloads:**
 
-1)
+>Parameters
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
+>* limit: (number) Limit the number of the results returned.
 
-* condition: (Mixed) Query following find/where clause syntax
-* limit: (Int) Limit the number of the results returned.
+>Parameters
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
+>* projection: (Object) Indicate which properties to return
 
-2)
+>Parameters
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
+>* useReference: (Bool) Flag to make a copy instead of using references
 
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
+>Parameters
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
+>* projection: (Object) Indicate which properties to return
+>* limit: (Int) Limit the number of the results returned.
 
-3)
+>Parameters
+>* condition: (WhereCondition) Query following mongo find/where clause syntax
+>* useReference: (Bool) Flag to make a copy instead of using references
+>* limit: (Int) Limit the number of the results returned.
 
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
+>Parameters
+>* condition: (WhereIterator<T>) The funciton invoked per iteration.
+>* limit: (number) Limit the number of the results returned.
 
-4)
+>Parameters
+>* condition: (WhereIterator<T>) The funciton invoked per iteration.
+>* projection: (Object) Indicate which properties to return
 
-* condition: (Mixed) Query following find/where clause syntax
-* projection: (Mixed) Indicate which properties to return
-* limit: (Int) Limit the number of the results returned.
+>Parameters
+>* condition: (WhereIterator<T>) The funciton invoked per iteration.
+>* useReference: (Bool) Flag to make a copy instead of using references
 
-5)
+>Parameters
+>* condition: (WhereIterator<T>) The funciton invoked per iteration.
+>* projection: (Object) Indicate which properties to return
+>* limit: (Int) Limit the number of the results returned.
 
-* condition: (Mixed) Query following find/where clause syntax
-* useReference: (Bool) Flag to make a copy instead of using references
-* limit: (Int) Limit the number of the results returned.
+>Parameters
+>* condition: (WhereIterator<T>) The funciton invoked per iteration.
+>* useReference: (Bool) Flag to make a copy instead of using references
+>* limit: (Int) Limit the number of the results returned.
 
 ### Date
 
@@ -248,14 +261,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* format: (String) Format syntax to use to to format date
+>* format: (String) Format syntax to use to to format date
 
 **Overloads:**
 
-1)
-
-* format: (String) Format syntax to use to to format date
-* options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset
+>Parameters
+>* format: (String) Format syntax to use to to format date
+>* options: (DateFormatOptions) specs with optional properties:<br />(Bool) gmt<br />(Int) offset
 
 ### HTTP
 
@@ -265,29 +277,23 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Get/set Cookies
 
-**Return:** (Mixed)
+**Return:** (String|Bool)
 
 **Parameters:**
 
-* key: (String) Key for cookie value
+>* key: (String) Key for cookie value
+>* option?: (CookieOptions) Specify delete
 
 **Overloads:**
 
-1)
+>Parameters
+>* keyValue: (Object) Specify the key value pair: key=>property, value=>object[key]
+>* option?: (CookieOptions) Specify path, domain, and/or expiration of cookie
 
-* key: (String) Key for cookie
-* option: (Object) Specify delete
-
-2)
-
-* keyValue: (Object) Specify the key value pair
-* option: (Object) Specify path, domain, and/or expiration of cookie
-
-3)
-
-* key: (String) Key for cookie value
-* value: (String) Value to store
-* option: (Object) Specify path and/or expiration of cookie
+>Parameters
+>* key: (String) Key for cookie value
+>* value: (any) Value to store
+>* option?: (CookieOptions) Specify path and/or expiration of cookie
 
 *** 
 #### _$DEL_ 
@@ -295,22 +301,17 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Retrieve all or specific variables in the Body
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 *** 
 #### _$DELETE_ 
@@ -318,22 +319,17 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Retrieve all or specific variables in the Body
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 *** 
 #### _$GET_ 
@@ -341,22 +337,17 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Retrieve all or specific variables in the url
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (GetOptions|VerbOptionsTypes|String) Options to defer, ignore case, etc
 
 *** 
 #### _$HEADER_ 
@@ -364,22 +355,17 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Retrieve all or specific variables in the headers
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 *** 
 #### _$PAYLOAD_ 
@@ -387,22 +373,17 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Retrieve all or specific variables in the Body
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 *** 
 #### _$POST_ 
@@ -410,22 +391,17 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Retrieve all or specific variables in the Body
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 *** 
 #### _$PUT_ 
@@ -433,22 +409,17 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Retrieve all or specific variables in the Body
 
-**Return:** (Mixed)
+**Return:** (Bool|Object)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* key: (String) key for query value
-
-2)
-
-* key: (String) key for query value
-* options: (Object) Options to defer, ignore case, etc
+>Parameters
+>* key: (String) key for query value
+>* options?: (VerbOptionsTypes|VerbOptions) Options to defer, ignore case, etc
 
 ### Object
 
@@ -458,38 +429,30 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Alias to getProperty; however, it can not be used as a protoype property.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* object: (Object) object to get the property of
-* path: (String) Path to nested property
+>* object: (Object) object to get the property of
+>* path: (String) Path to nested property
+>* delimiter?: (Char) Separator used to parse path
 
 **Overloads:**
 
-1)
+>Parameters
+>* object: (Object) object to get the property of
+>* path: (RegExp) Regex match for the property
 
-* object: (Object) object to get the property of
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
+>Parameters
+>* object: (Object) object to get the property of
+>* path: (String) Path to nested property
+>* options: (GetPropertyOptions) Options for ignoring inheritance, validPath, etc
 
-2)
-
-* object: (Object) object to get the property of
-* path: (RegExp) Regex match for the property
-
-3)
-
-* object: (Object) object to get the property of
-* path: (String) Path to nested property
-* options: (Object) Options for ignoring inheritance, validPath, etc
-
-4)
-
-* object: (Object) object to get the property of
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
-* options: (Object) Options for ignoring inheritance, validPath, etc
+>Parameters
+>* object: (Object) object to get the property of
+>* path: (String) Path to nested property
+>* delimiter: (Char) Separator used to parse path
+>* options: (GetPropertyOptions) Options for ignoring inheritance, validPath, etc
 
 *** 
 #### _getProperty_ 
@@ -497,60 +460,29 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Object class extension to retrieve nested properties without error when property path does not exist
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* path: (String) Path to nested property
+>* path: (String) Path to nested property
 
 **Overloads:**
 
-1)
+>Parameters
+>* path: (String) Path to nested property
+>* delimiter: (Char) Separator used to parse path
 
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
+>Parameters
+>* path: (RegExp) Regex match for the property
 
-2)
+>Parameters
+>* path: (String) Path to nested property
+>* options: (GetPropertyOptions) Options for ignoring inheritance, validPath, etc
 
-* path: (RegExp) Regex match for the property
-
-3)
-
-* path: (String) Path to nested property
-* options: (Object) Options for ignoring inheritance, validPath, etc
-
-4)
-
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
-* options: (Object) Options for ignoring inheritance, validPath, etc
-
-### String
-
-*** 
-#### _fillTemplate_ 
-***
-
-**Info:** String class extension to fill template based on template syntax
-
-**Return:** (String)
-
-**Parameters:**
-
-* objs: (Objects[]) Objects to fill the template variables
-
-**Overloads:**
-
-1)
-
-* objs: (Objects[]) Objects to fill the template variables
-* offset: (Int) The start index of the Object array
-* max: (Int) The maximum number of records to process
-
-2)
-
-* objs: (Objects[]) Objects to fill the template variables
-* max: (Int) The maximum number of records to process
+>Parameters
+>* path: (String) Path to nested property
+>* delimiter: (Char) Separator used to parse path
+>* options: (GetPropertyOptions) Options for ignoring inheritance, validPath, etc
 
 ### Template
 
@@ -558,26 +490,43 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 #### _fillTemplate_ 
 ***
 
-**Info:** String class extension to fill template based on template syntax
+**Info:** Function for templetizing
 
 **Return:** (String)
 
 **Parameters:**
 
-* objs: (Objects[]) Objects to fill the template variables
+>* htmlTemplate: (String) Template to be used
+>* objs: (Objects[]) Objects to fill the template variables
+>* options: (FillTemplateOptions) Options to use: max,offset,newlineToHtml,preserve_nonmatching
 
 **Overloads:**
 
-1)
+>Parameters
+>* htmlTemplate: (String) Template to be used
+>* objs: (Objects[]) Objects to fill the template variables
+>* max: (Int) The maximum number of records to process
 
-* objs: (Objects[]) Objects to fill the template variables
-* offset: (Int) The start index of the Object array
-* max: (Int) The maximum number of records to process
+>Parameters
+>* htmlTemplate: (String) Template to be used
+>* objs: (Objects[]) Objects to fill the template variables
+>* offset: (Int) The start index of the Object array
+>* max: (Int) The maximum number of records to process
 
-2)
+>Parameters
+>* htmlTemplate: (String) Template to be used
+>* objs: (Objects[]) Objects to fill the template variables
+>* offset: (Int) The start index of the Object array
+>* max: (Int) The maximum number of records to process
+>* newlineToHtml: (Boolean) Flag to replace all new line chars () to the HTML <br /> tag.  Default is true.
 
-* objs: (Objects[]) Objects to fill the template variables
-* max: (Int) The maximum number of records to process
+>Parameters
+>* htmlTemplate: (String) Template to be used
+>* objs: (Objects[]) Objects to fill the template variables
+>* offset: (Int) The start index of the Object array
+>* max: (Int) The maximum number of records to process
+>* newlineToHtml: (Boolean) Flag to replace all new line chars () to the HTML <br /> tag.  Default is true.
+>* preserve_nonmatching: (Boolean) Flag to used to leave template variables that were not replaced.
 
 ### Utility
 
@@ -587,18 +536,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Creates an catch all for exceptions in the current node service.
 
-**Return:** (Mixed)
+**Return:** (void)
 
 **Parameters:**
 
-* callback: (Function) Callback function to call when there is an uncaught exception
+>* callback: (ErrorCallback) Callback function to call when there is an uncaught exception
+>* append?: (Boolean) Options to defer, ignore case, etc
 
 **Overloads:**
 
-1)
-
-* callback: (Function) Callback function to call when there is an uncaught exception
-* append: (Boolean) Options to defer, ignore case, etc
+>None
 
 *** 
 #### _zipit_ 
@@ -610,14 +557,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* files: (Object[]) Objects containing properties name for file name and content for file content
+>* files: (Object[]) Objects containing properties name for file name and content for file content
 
 **Overloads:**
 
-1)
-
-* files: (String) Name of the file
-* content: (String) contents of the file
+>Parameters
+>* files: (String) Name of the file
+>* content: (String) contents of the file
 
 
 
@@ -632,31 +578,20 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to create a parent/child hierarchy
 
-**Return:** (Array)
+**Return:** (Array<TResult>) returns a hierarchical array.
 
 **Parameters:**
 
-* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
-* childFinder: (String) Property name of the object to use as a grouping.
+>* parentFinder: (TreeParentFinder<T>) Function to determine the parent.  Should return a boolean value and is passed the current item as an argument.
+>* childFinder: (String) Property name of the object to use as a grouping.
+>* options?: (TreeOptions) Options to customize properties,  Valid property is:<br />childProperty
 
 **Overloads:**
 
-1)
-
-* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
-* childFinder: (Function) Function to determine the grouping.
-
-2)
-
-* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
-* childFinder: (String) Property name of the object to use as a grouping.
-* options: (Object) Options to customize properties,  Valid property is:<br />childProperty
-
-3)
-
-* parentFinder: (Function) Function to determine the parent.   Should return a boolean value and is passed the current item as an argument.
-* childFinder: (String) Property name of the object to use as a grouping.
-* options: (Object) Options to customize properties,  Valid property is:<br />childProperty
+>Parameters
+>* parentFinder: (TreeParentFinder<T>) Function to determine the parent.  Should return a boolean value and is passed the current item as an argument.
+>* childFinder: (TreeChildFinder<T>) Function to determine the grouping.
+>* options?: (TreeOptions) Options to customize properties,  Valid property is:<br />childProperty
 
 *** 
 #### _condense_ 
@@ -668,13 +603,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* check_values: (Bool) Flag to remove duplicates
+>Parameters
+>* check_values: (Bool) Flag to remove duplicates
 
 *** 
 #### _createIndex_ 
@@ -682,17 +616,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to create indexes for faster searches during where
 
-**Return:** (Array)
+**Return:** (Array<T> | Bool) returns the Array<T> if successfull otherwise false.
 
 **Parameters:**
 
-* properties: (String) Property or comma delimited property list to index.
+>* properties: (string) Property or comma delimited property list to index.
 
 **Overloads:**
 
-1)
-
-* indexes: (String[]) Array of properties to index
+>Parameters
+>* indexes: (Array<string>) Array of properties to index
 
 *** 
 #### _delete_ 
@@ -700,18 +633,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to delete records
 
-**Return:** (Array)
+**Return:** (Array<T>) returns a list of the deleted objects.
 
 **Parameters:**
 
-* condition: (Mixed) Query following find/where clause syntax
+>* condition: (WhereCondition) Query following find/where clause syntax
+>* justOne?: (Bool) Flag for deleting just one records [Default is: true]
 
 **Overloads:**
 
-1)
-
-* condition: (Mixed) Query following find/where clause syntax
-* justOne: (Boolean) Flag for deleting just one records [Default is: true]
+>None
 
 *** 
 #### _distinct_ 
@@ -719,37 +650,26 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to get all unique records by fields specified
 
-**Return:** (Array)
+**Return:** (Array<T>) returns an array with distinct values
 
 **Parameters:**
 
-* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+>* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+>* condition?: (String) Query following SQL where clause syntax
 
 **Overloads:**
 
-1)
+>Parameters
+>* fields: (Array<T>) Fields to use as the projection and unique comparison
+>* condition?: (String) Query following SQL where clause syntax
 
-* fields: (Array) Fields to use as the projection and unique comparison
+>Parameters
+>* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+>* condition?: (Object) Query following MongoDB find clause syntax
 
-2)
-
-* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
-* condition: (String) Query following SQL where clause syntax
-
-3)
-
-* fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
-* condition: (String) Query following SQL where clause syntax
-
-4)
-
-* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
-* condition: (Object) Query following MongoDB find clause syntax
-
-5)
-
-* fields: (Array) Fields to use as the projection and unique comparison (comma delimited)
-* condition: (Object) Query following MongoDB find clause syntax
+>Parameters
+>* fields: (Array<T>) Fields to use as the projection and unique comparison (comma delimited)
+>* condition?: (Object) Query following MongoDB find clause syntax
 
 *** 
 #### _filter_ 
@@ -757,18 +677,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to implement filter
 
-**Return:** (Array)
+**Return:** (Array<TResult>)
 
 **Parameters:**
 
-* func: (Function) Callback function used to determine if value should be returned
+>* func: (ArrayIterator<T, TResult>) Callback function used to determine if value should be returned. Callback will get the current item, index, context as arguments.
+>* craydent_ctxs?: (Object) Specify the context on callback function
 
 **Overloads:**
 
-1)
-
-* func: (Function) Callback function used to determine if value should be returned
-* craydent_ctxs: (Mixed) Specify the context on callback function
+>None
 
 *** 
 #### _group_ 
@@ -776,15 +694,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to group records by fields
 
-**Return:** (Array)
+**Return:** (Array<TResult>)
 
 **Parameters:**
 
-* params: (Object) specs with common properties:<br />(Object) key<br />(Mixed) cond<br />(Function) reduce<br />(Object) initial
+>* params: (GroupOptions<T, TResult>) specs with common properties:<br />(Object) key<br />(Object | string) condition<br />(Function) reduce<br />(Object) initial<br />(Array<string> | Function) keyf<br />(Function) finalize
+>* removeProps?: (Bool) Flag to preserve property if the value is null or undefined.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _indexOf_ 
@@ -796,11 +715,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* value: (Mixed) value to find
+>* value: (any) value to find
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _indexOfAlt_ 
@@ -808,23 +727,18 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression
 
-**Return:** (Integer)
+**Return:** (Int) returns the index of the item that matches or -1. 
 
 **Parameters:**
 
-* value: (Mixed) value to find
-* func: (Function) Callback function used to do the comparison
+>* value: (Object) value to find
+>* func: (ArrayIterator<T, TResult>) Callback function used to do the comparison
 
 **Overloads:**
 
-1)
-
-* regex: (RegExp) Regular expression to check value against
-
-2)
-
-* regex: (RegExp) Regular expression to check value against
-* pos: (Int) Index offset to start
+>Parameters
+>* regex: (RegExp) Regular expression to check value against
+>* pos?: (Int) Index offset to start
 
 *** 
 #### _innerJoin_ 
@@ -832,16 +746,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to do an inner join on arrays
 
-**Return:** (Array)
+**Return:** (Array<TResult>) resulting array of the join.
 
 **Parameters:**
 
-* arr: (Array) Array to be joined with
-* on: (String) Condition to join on
+>* arr: (Array<T>) Array to be joined with
+>* on: (String) Condition to join on
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _insert_ 
@@ -849,15 +763,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to add to the array
 
-**Return:** (Bool)
+**Return:** (Bool) returns true for success and false for failure.
 
 **Parameters:**
 
-* value: (Mixed) value to add
+>* value: (Object) value to add
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _insertAfter_ 
@@ -865,16 +779,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to add to the array after a specific index
 
-**Return:** (Bool)
+**Return:** (Bool) returns true for success and false for failure.
 
 **Parameters:**
 
-* index: (Int) Index to add after
-* value: (Mixed) Value to add
+>* index: (Int) Index to add after
+>* value: (Object) Value to add
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _insertAt_ 
@@ -882,16 +796,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to add to the array at a specific index and push the all indexes down
 
-**Return:** (Bool)
+**Return:** (Bool) returns true for success and false for failure.
 
 **Parameters:**
 
-* index: (Int) Index to add after
-* value: (Mixed) Value to add
+>* index: (Int) Index to add after
+>* value: (Object) Value to add
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _insertBefore_ 
@@ -899,16 +813,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to add to the array before a specific index
 
-**Return:** (Bool)
+**Return:** (Bool) returns true for success and false for failure.
 
 **Parameters:**
 
-* index: (Int) Index to add before
-* value: (Mixed) Value to add
+>* index: (Int) Index to add before
+>* value: (Object) Value to add
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _joinLeft_ 
@@ -916,16 +830,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to do an outer left join on arrays
 
-**Return:** (Array)
+**Return:** (Array<TResult>) resulting array of the join.
 
 **Parameters:**
 
-* arr: (Array) Secondary array to be joined with
-* on: (String) Condition to join on
+>* arr: (Array<T>) Secondary array to be joined with
+>* on: (String) Condition to join on
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _joinRight_ 
@@ -933,16 +847,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to do an outer right join on arrays
 
-**Return:** (Array)
+**Return:** (Array<TResult>) resulting array of the join.
 
 **Parameters:**
 
-* arr: (Array) Secondary array to be joined with
-* on: (String) Condition to join on
+>* arr: (Array<T>) Secondary array to be joined with
+>* on: (String) Condition to join on
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _last_ 
@@ -950,15 +864,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to retrieve the last item in the array.
 
-**Return:** (Array)
+**Return:** (T) returns the last item in the array.
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _limit_ 
@@ -966,18 +880,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to return a limited amount of items
 
-**Return:** (Array)
+**Return:** (Array<T>) returns the first n items in the array.
 
 **Parameters:**
 
-* max: (Int) Maximum number of items to return
+>* max: (Int) Maximum number of items to return
+>* skip?: (Int) Number of items to skip
 
 **Overloads:**
 
-1)
-
-* max: (Int) Maximum number of items to return
-* skip: (Int) Number of items to skip
+>None
 
 *** 
 #### _mapReduce_ 
@@ -985,20 +897,17 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to run map-reduce aggregation over records
 
-**Return:** (Array)
+**Return:** (Array<TResult>) returns the map reduced array.
 
 **Parameters:**
 
-* map: (Function) Function to apply to each item
-* reduce: (Function) Function used to condense the items
+>* map: (ArrayIterator<T, TResult>) Function to apply to each item
+>* reduce: (MongoReducer<T>) Function used to condense the items
+>* options?: (MongoMapReduceOptions<T, TResult>) Options specified in the Mongo Doc
 
 **Overloads:**
 
-1)
-
-* map: (Function) Function to apply to each item
-* reduce: (Function) Function used to condense the items
-* options: (Object) Options specified in the Mongo Doc
+>None
 
 *** 
 #### _normalize_ 
@@ -1006,15 +915,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to normalize all properties in the object array
 
-**Return:** (Array)
+**Return:** (Array<TResult>) returns a normalized version of the objects.
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _parallelEach_ 
@@ -1022,25 +931,19 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
 
-**Return:** (Promise)
+**Return:** (Promise<any>)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* func: (Yieldables) function to apply to each item
 
-* gen: (Generator) Generator function to apply to each item
-
-2)
-
-* func: (Function) Function to apply to each item
-
-3)
-
-* args: (Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
+>Parameters
+>* args: (Array<Yieldables>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, async functions, or functions)
 
 *** 
 #### _remove_ 
@@ -1048,18 +951,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to remove an item by value
 
-**Return:** (Mixed)
+**Return:** (T | undefined) returns the removed item.
 
 **Parameters:**
 
-* value: (Mixed) Value to remove
+>* value: (Object) Value to remove
+>* indexOf?: (IndexOf<T>) Callback function to use to find the item based on the value
 
 **Overloads:**
 
-1)
-
-* value: (Mixed) Value to remove
-* indexOf: (Function) Callback function to use to find the item based on the value
+>None
 
 *** 
 #### _removeAll_ 
@@ -1067,18 +968,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to remove all items by value
 
-**Return:** (Array)
+**Return:** (Array<T>) returns an array of all the removed items.
 
 **Parameters:**
 
-* value: (Mixed) Value to remove
+>* value: (Object) Value to remove
+>* indexOf: (IndexOf<T>) Callback function to use to find the item based on the value
 
 **Overloads:**
 
-1)
-
-* value: (Mixed) Value to remove
-* indexOf: (Function) Callback function to use to find the item based on the value
+>None
 
 *** 
 #### _removeAt_ 
@@ -1086,15 +985,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to remove item at a specific index
 
-**Return:** (Mixed)
+**Return:** (T | undefined) returns the removed item.
 
 **Parameters:**
 
-* index: (Int) Index of the item to remove
+>* index: (Int) Index of the item to remove
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _replaceAt_ 
@@ -1102,16 +1001,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to replace item at a specific index
 
-**Return:** (Array)
+**Return:** (T | undefined) returns the item removed.
 
 **Parameters:**
 
-* index: (Int) Index of the item to remove
-* value: (Mixed) Value to replace with
+>* index: (Int) Index of the item to remove
+>* value: (Object) Value to replace with
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _scramble_ 
@@ -1119,15 +1018,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to scramble the order.
 
-**Return:** (Array)
+**Return:** (Array<T>)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _sortBy_ 
@@ -1135,69 +1034,60 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to sort the array
 
-**Return:** (Array)
+**Return:** (Array<T>)
 
 **Parameters:**
 
-* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+>* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
 
 **Overloads:**
 
-1)
+>Parameters
+>* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
 
-* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
+>Parameters
+>* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
 
-2)
+>Parameters
+>* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
 
-* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
+>Parameters
+>* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
 
-3)
+>Parameters
+>* props: (Array<String>) Properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
 
-* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
+>Parameters
+>* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* lookup: (Object) Look up object to use as values instead of the array values.
 
-4)
+>Parameters
+>* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* lookup: (Object) Look up object to use as values instead of the array values.
 
-* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
+>Parameters
+>* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* lookup: (Object) Look up object to use as values instead of the array values.
+>* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
-5)
-
-* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
-
-6)
-
-* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
-* lookup: (Object) Look up object to use as values instead of the array values.
-
-7)
-
-* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
-* lookup: (Object) Look up object to use as values instead of the array values.
-
-8)
-
-* props: (String) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
-* lookup: (Object) Look up object to use as values instead of the array values.
-* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
-
-9)
-
-* props: (Array) Properties to sort by. If the first character is '!', the sort order is reversed
-* rev: (Boolean) Flag to reverse the sort
-* primer: (Function) Function to apply to values in the array.
-* lookup: (Object) Look up object to use as values instead of the array values.
-* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
+>Parameters
+>* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
+>* rev: (Bool) Flag to reverse the sort
+>* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* lookup: (Object) Look up object to use as values instead of the array values.
+>* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
 *** 
 #### _toSet_ 
@@ -1205,15 +1095,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to convert the array to a set
 
-**Return:** (Array)
+**Return:** (Set<T>) returns a Set from the array Values
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _update_ 
@@ -1221,20 +1111,19 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to update records in the array
 
-**Return:** (Array)
+**Return:** (Array<T>)
 
 **Parameters:**
 
-* condition: (Mixed) Query following find/where clause syntax
-* setClause: (Mixed) Set clause used to update the records
+>* condition: (WhereCondition) Query following find/where clause syntax
+>* setClause: (Object) Set clause used to update the records
 
 **Overloads:**
 
-1)
-
-* condition: (Mixed) Query following find/where clause syntax
-* setClause: (Mixed) Set clause used to update the records
-* options: (Object) Options to specify if mulit update and/or upsert
+>Parameters
+>* condition: (WhereCondition) Query following find/where clause syntax
+>* setClause: (Object) Set clause used to update the records
+>* options: (UpdateOptions) Options to specify if mulit update and/or upsert
 
 *** 
 #### _upsert_ 
@@ -1242,29 +1131,26 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to upsert records to array
 
-**Return:** (Object)
+**Return:** (UpsertResult<T>) returns the information for resulting operation.
 
 **Parameters:**
 
-* records: (Array) Records to use to insert/update array
+>* records: (Array<T>) Records to use to insert/update array
 
 **Overloads:**
 
-1)
+>Parameters
+>* records: (Array<T>) Records to use to insert/update array
+>* callback: (UpsertIterator<T>) Method to use to determine if the records are equal
 
-* records: (Array) Records to use to insert/update array
-* callback: (Function) Method to use to determine if the records are equal
+>Parameters
+>* records: (Array<T>) Records to use to insert/update array
+>* prop: (string) Property to use as the primary key
 
-2)
-
-* records: (Array) Records to use to insert/update array
-* prop: (String) Property to use as the primary key
-
-3)
-
-* records: (Array) Records to use to insert/update array
-* prop: (String) Property to use as the primary key
-* callback: (Function) Method to use to determine if the records are equal
+>Parameters
+>* records: (Array<T>) Records to use to insert/update array
+>* prop: (string) Property to use as the primary key
+>* callback: (UpsertIterator<T>) Method to use to determine if the records are equal
 
 <a name='markdown-header-class'></a>
 ## Class
@@ -1275,15 +1161,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Class used to measure the run time of code
 
-**Return:** (void)
+**Return:** (IBenchmarker)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _Cursor_ 
@@ -1291,17 +1177,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Cursor class to facilitate iteration
 
-**Return:** (Cursor)
+**Return:** (ICursor)
 
 **Parameters:**
 
-* records: (Array) Array used to create the iterator to iterate each item
+>* records: (Array<T>) Array used to create the iterator to iterate each item
 
 **Overloads:**
 
-1)
-
-* records: (Object) Object used to create the iterator to iterate each property
+>Parameters
+>* records: (Object) Object used to create the iterator to iterate each property
 
 *** 
 #### _OrderedList_ 
@@ -1313,18 +1198,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* records: (Array) Array used to create the initial items in the ordered list
-
-2)
-
-* records: (Array) Array used to create the initial items in the ordered list
-* sorter: (Function) Function for sorting logic
+>Parameters
+>* records: (Array) Array used to create the initial items in the ordered list
+>* sorter?: (Function) Function for sorting logic
 
 *** 
 #### _Queue_ 
@@ -1332,15 +1212,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Collection class that follows FIFO
 
-**Return:** (Queue)
+**Return:** (IQueue)
 
 **Parameters:**
 
-* records: (Array) Array used to create the iterator to iterate each item
+>* records: (Array<T>) Array used to create the iterator to iterate each item
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _Set_ 
@@ -1348,15 +1228,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Collection class that filters out duplicate values
 
-**Return:** (Set)
+**Return:** (ISet)
 
 **Parameters:**
 
-* records: (Array) Array used to create the iterator to iterate each item
+>* records: (Array<T>) Array used to create the iterator to iterate each item
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _context_ 
@@ -1368,12 +1248,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* request: (HTTPRequest) HTTP request object provided by createServer
-* response: (HTTPResponse) HTTP response object provided by createServer
+>* request: (HTTPRequest) HTTP request object provided by createServer
+>* response: (HTTPResponse) HTTP response object provided by createServer
 
 **Overloads:**
 
-* None
+>None
 
 <a name='markdown-header-cli'></a>
 ## CLI
@@ -1384,17 +1264,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** CLI parser for arguments and simplem method to execute shell commands
 
-**Return:** (Cursor)
+**Return:** (CLI)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
-
-* options: (Object[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false).
+>Parameters
+>* options: (CLIOption[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false).
 
 <a name='markdown-header-control-flow'></a>
 ## Control Flow
@@ -1405,36 +1284,32 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise)
+**Return:** (Promise<YieldableResult>)
 
 **Parameters:**
 
-* value: (Mixed) Value to make yieldable
+>* value: (YieldableValue) Value to make yieldable
 
 **Overloads:**
 
-1)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
 
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
+>Parameters
+>* func: (Object) Function to make yieldable
+>* callbackIndex: (Integer) Index of callback argument.
 
-2)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
 
-* func: (Function) Function to make yieldable
-* callbackIndex: (Integer) Index of callback argument.
-
-3)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-
-4)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-* returnIndex: (Integer) Index of callback argument.
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
+>* returnIndex: (Integer) Index of callback argument.
 
 *** 
 #### _parallelEach_ 
@@ -1442,25 +1317,19 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
 
-**Return:** (Promise)
+**Return:** (Promise<any>)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* func: (Yieldables) function to apply to each item
 
-* gen: (Generator) Generator function to apply to each item
-
-2)
-
-* func: (Function) Function to apply to each item
-
-3)
-
-* args: (Array) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
+>Parameters
+>* args: (Array<Yieldables>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, async functions, or functions)
 
 *** 
 #### _yieldable_ 
@@ -1468,36 +1337,32 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise)
+**Return:** (Promise<YieldableResult>)
 
 **Parameters:**
 
-* value: (Mixed) Value to make yieldable
+>* value: (YieldableValue) Value to make yieldable
 
 **Overloads:**
 
-1)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
 
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
+>Parameters
+>* func: (Object) Function to make yieldable
+>* callbackIndex: (Integer) Index of callback argument.
 
-2)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
 
-* func: (Function) Function to make yieldable
-* callbackIndex: (Integer) Index of callback argument.
-
-3)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-
-4)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-* returnIndex: (Integer) Index of callback argument.
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
+>* returnIndex: (Integer) Index of callback argument.
 
 <a name='markdown-header-date'></a>
 ## Date
@@ -1512,11 +1377,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _getWeek_ 
@@ -1528,11 +1393,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isValidDate_ 
@@ -1544,11 +1409,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 <a name='markdown-header-fs'></a>
 ## FS
@@ -1559,15 +1424,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of access.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _appendFile_ 
@@ -1575,15 +1440,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of appendFile.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _chmod_ 
@@ -1591,15 +1456,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of chmod.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _chown_ 
@@ -1607,15 +1472,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of chown.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _close_ 
@@ -1623,15 +1488,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of close.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _fchmod_ 
@@ -1639,15 +1504,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of fchmod.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _fchown_ 
@@ -1655,15 +1520,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of fchown.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _fdatasync_ 
@@ -1671,15 +1536,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of fdatasync.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _fstat_ 
@@ -1687,15 +1552,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of fstat.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _fsync_ 
@@ -1703,15 +1568,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of fsync.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _ftruncate_ 
@@ -1719,15 +1584,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of ftruncate.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _futimes_ 
@@ -1735,15 +1600,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of futimes.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _lchmod_ 
@@ -1751,15 +1616,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of lchmod.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _lchown_ 
@@ -1767,15 +1632,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of lchown.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _link_ 
@@ -1783,15 +1648,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of link.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _lstat_ 
@@ -1799,15 +1664,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of lstat.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _mkdir_ 
@@ -1815,15 +1680,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of mkdir.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _mkdtemp_ 
@@ -1831,15 +1696,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of mkdtemp.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _open_ 
@@ -1847,15 +1712,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of open.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _read_ 
@@ -1863,15 +1728,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of read.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _readFile_ 
@@ -1879,15 +1744,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of readFile.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _readdir_ 
@@ -1895,15 +1760,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of readdir.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _readlink_ 
@@ -1911,15 +1776,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of readlink.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _realpath_ 
@@ -1927,15 +1792,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of realpath.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _rename_ 
@@ -1943,15 +1808,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of rename.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _rmdir_ 
@@ -1959,15 +1824,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of rmdir.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _stat_ 
@@ -1975,15 +1840,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of stat.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _symlink_ 
@@ -1991,15 +1856,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of symlink.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _truncate_ 
@@ -2007,15 +1872,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of truncate.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _unlink_ 
@@ -2023,15 +1888,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of unlink.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _utimes_ 
@@ -2039,15 +1904,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of utimes.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _write_ 
@@ -2055,15 +1920,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of write.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _writeFile_ 
@@ -2071,15 +1936,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** A promisified version of writeFile.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 <a name='markdown-header-function'></a>
 ## Function
@@ -2090,15 +1955,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Function listener to register the catch event
 
-**Return:** (String)
+**Return:** (craydent_ctx)
 
 **Parameters:**
 
-* func: (Function) Function to call on emit
+>* func: (Function) Function to call on emit
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _emit_ 
@@ -2106,18 +1971,17 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Call the next function(s) in queue
 
-**Return:** (void)
+**Return:** (Array<TResult>)
 
 **Parameters:**
 
-* event: Event to trigger.
+>* event: (String) Event to trigger.
 
 **Overloads:**
 
-1)
-
-* event: Event to trigger.
-* infinite: any number of arguments can be passed and will be applied to listening functions.
+>Parameters
+>* event: Event to trigger.
+>* infinite: (any) any number of arguments can be passed and will be applied to listening functions.
 
 *** 
 #### _extends_ 
@@ -2129,14 +1993,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* extendee: (Object) Class to extend
+>* extendee: (Object) Class to extend
 
 **Overloads:**
 
-1)
-
-* extendee: (Object) Class to extend
-* inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
+>Parameters
+>* extendee: (Object) Class to extend
+>* inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
 
 *** 
 #### _getName_ 
@@ -2148,11 +2011,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _getParameters_ 
@@ -2164,11 +2027,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _next_ 
@@ -2180,11 +2043,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed.
+>* infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _on_ 
@@ -2196,12 +2059,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* event: (String) Event to listen on and invoked on emit
-* func: (Function) Function to call on emit
+>* event: (String) Event to listen on and invoked on emit
+>* func: (Function) Function to call on emit
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _then_ 
@@ -2209,15 +2072,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Function listener to register the then event
 
-**Return:** (String)
+**Return:** (craydent_ctx)
 
 **Parameters:**
 
-* func: (Function) Function to call on emit
+>* func: (Function) Function to call on emit
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _toPromise_ 
@@ -2229,12 +2092,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* event: (String) Event to listen on and invoked on emit
-* func: (Function) Function to call on emit
+>* event: (String) Event to listen on and invoked on emit
+>* func: (Function) Function to call on emit
 
 **Overloads:**
 
-* None
+>None
 
 <a name='markdown-header-http'></a>
 ## HTTP
@@ -2249,11 +2112,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _FirefoxVersion_ 
@@ -2265,11 +2128,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _IEVersion_ 
@@ -2281,11 +2144,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _OperaVersion_ 
@@ -2297,11 +2160,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _SafariVersion_ 
@@ -2313,11 +2176,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _createServer_ 
@@ -2325,18 +2188,17 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Create http server, ability to run middleware, and define routes.
 
-**Return:** (Server)
+**Return:** (HTTP)
 
 **Parameters:**
 
-* callback: (Function) Function to callback when a request is received
+>* callback: (HTTPCallback) Function to callback when a request is received
+>* createServer?: (HTTPOptions) Options for creating the server (ex: {createServer:require('http').createServer})
 
 **Overloads:**
 
-1)
-
-* callback: (Function) Function to callback when a request is received
-* createServer: (Object) Options for creating the server (ex: {createServer:require('http').createServer})
+>Parameters
+>* options: (HTTPOptions) Function to callback when a request is received
 
 *** 
 #### _echo_ 
@@ -2348,11 +2210,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* output: Data to send in response
+>* output: (String) Data to send in response
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _end_ 
@@ -2364,33 +2226,31 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* event: Event to trigger.
+>None
 
 **Overloads:**
 
-1)
-
-* event: Event to trigger.
-* infinite: any number of arguments can be passed and will be applied to listening functions.
+>Parameters
+>* status?: (Integer) HTTP status code.
+>* output?: (String) output to send as response.
+>* encoding?: (String) encoding for the response.
 
 *** 
 #### _getSession_ 
 ***
 
-**Info:** Retrieve the session object when used in conjunction with createServer
+**Info:** Asynchronous retrieval of the session object when used in conjunction with createServer
 
-**Return:** (void)
+**Return:** (Promise<SessionObject>)
 
 **Parameters:**
 
-* sid: (String) Session id of the session object to retrieve syncronously.
+>* sid: (String) Session id of the session object to retrieve syncronously.
+>* callback?: (SessionCallback) callback function to invoke once the session object is retrieved.
 
 **Overloads:**
 
-1)
-
-* sid: (String) Session id of the session object to retrieve.
-* callback: (Function) callback function to invoke once the session object is retrieved.
+>None
 
 *** 
 #### _getSessionID_ 
@@ -2398,15 +2258,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Retrieve the session id when used in conjunction with createServer
 
-**Return:** (void)
+**Return:** (String)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _getSessionSync_ 
@@ -2414,15 +2274,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Syncronously retrieve the session object when used in conjunction with createServer
 
-**Return:** (void)
+**Return:** (SessionObject)
 
 **Parameters:**
 
-* sid: (String) Session id of the session object to retrieve syncronously.
+>* sid: (String) Session id of the session object to retrieve syncronously.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _header_ 
@@ -2434,23 +2294,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* header: (String) Http header.
+>* header: (Header) Http header.
+>* code?: (Integer) Http response code.
 
 **Overloads:**
 
-1)
-
-* headers: (Object) Http headers.
-
-2)
-
-* header: (String) Http header.
-* code: (Integer) Http response code.
-
-3)
-
-* headers: (Object) Http headers.
-* code: (Integer) Http response code.
+>None
 
 *** 
 #### _isAmaya_ 
@@ -2462,11 +2311,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isAndroid_ 
@@ -2478,11 +2327,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isBlackBerry_ 
@@ -2494,11 +2343,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isChrome_ 
@@ -2510,11 +2359,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isFirefox_ 
@@ -2526,11 +2375,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isGecko_ 
@@ -2542,11 +2391,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isIE_ 
@@ -2558,11 +2407,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isIE6_ 
@@ -2574,11 +2423,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isIPad_ 
@@ -2590,11 +2439,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isIPhone_ 
@@ -2606,11 +2455,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isIPod_ 
@@ -2622,11 +2471,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isKHTML_ 
@@ -2638,11 +2487,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isLinux_ 
@@ -2654,11 +2503,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isMac_ 
@@ -2670,11 +2519,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isMobile_ 
@@ -2686,11 +2535,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isOpera_ 
@@ -2702,11 +2551,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isPalmOS_ 
@@ -2718,11 +2567,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isPresto_ 
@@ -2734,11 +2583,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isPrince_ 
@@ -2750,11 +2599,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isSafari_ 
@@ -2766,11 +2615,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isSymbian_ 
@@ -2782,11 +2631,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isTrident_ 
@@ -2798,11 +2647,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isWebkit_ 
@@ -2814,11 +2663,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isWindows_ 
@@ -2830,11 +2679,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isWindowsMobile_ 
@@ -2846,11 +2695,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _send_ 
@@ -2858,18 +2707,17 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Recursively require the entire directory and returns an object containing the required modules.
 
-**Return:** (Object)
+**Return:** (void)
 
 **Parameters:**
 
-* data: (Object) Object to send in response.
+>* data: (Object) Object to send in response.
 
 **Overloads:**
 
-1)
-
-* status: (Integer) Status code for response.
-* data: (Object) Object to send in response.
+>Parameters
+>* status: (Integer) Status code for response.
+>* data: (Object) Object to send in response.
 
 *** 
 #### _var_dump_ 
@@ -2881,11 +2729,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed.
+>* infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _writeSession_ 
@@ -2897,11 +2745,50 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
+
+<a name='markdown-header-json-parser'></a>
+## JSON Parser
+
+*** 
+#### _parseAdvanced_ 
+***
+
+**Info:** JSON Parser that can handle types and refs
+
+**Return:** (Object)
+
+**Parameters:**
+
+>* text: (String) A valid JSON string.
+>* reviver?: (Reviver) A function that transforms the results. This function is called for each member of the object. If a member contains nested objects, the nested objects are transformed before the parent object is.
+>* values?: (Object) Key/value pairs to be used to replace template variables defined in the json.
+
+**Overloads:**
+
+>None
+
+*** 
+#### _stringifyAdvanced_ 
+***
+
+**Info:** JSON Parser that can handle types and refs
+
+**Return:** (String)
+
+**Parameters:**
+
+>* json: (Object) A JavaScript value, usually an object or array, to be converted.
+>* replacer?: (Replacer) A function that transforms the results. This function is called for each member of the object. If a member contains nested objects, the nested objects are transformed before the parent object is.
+>* space?: (String|Integer) Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+
+**Overloads:**
+
+>None
 
 <a name='markdown-header-number'></a>
 ## Number
@@ -2916,12 +2803,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* compare: (Number) Number to compare
-* giveOrTake: (Number) Plus/minus value
+>* compare: (Number) Number to compare
+>* giveOrTake: (Number) Plus/minus value
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isEven_ 
@@ -2933,11 +2820,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isOdd_ 
@@ -2949,11 +2836,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 <a name='markdown-header-object'></a>
 ## Object
@@ -2968,16 +2855,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* name: (String) name of the method to add
-* fn: (Function) method implementation
+>* name: (String) name of the method to add
+>* fn: (Function) method implementation
 
 **Overloads:**
 
-1)
-
-* name: (String) name of the method to add
-* fn: (Function) method implementation
-* override: (Bool) if true, override the previously defined prototype
+>Parameters
+>* name: (String) name of the method to add
+>* fn: (Function) method implementation
+>* override: (Bool) if true, override the previously defined prototype
 
 *** 
 #### _changes_ 
@@ -2989,11 +2875,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* compare: (Object) Object to compare against
+>* compare: (Object) Object to compare against
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _contains_ 
@@ -3005,18 +2891,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* val: (Mixed) Value to check or custom function to determine validity
+>* val: (Object|ContainsObjectIterator) Value to check or custom function to determine validity
 
 **Overloads:**
 
-1)
+>Parameters
+>* val: (Object) Value to check
+>* func: (ContainsIterator<T, TValue>) Callback function used to do the comparison
 
-* val: (Mixed) Value to check
-* func: (Function) Callback function used to do the comparison
-
-2)
-
-* arr: (Array) Array of values to return first matching value
+>Parameters
+>* arr: (Array) Array of values to return first matching value
 
 *** 
 #### _copyObject_ 
@@ -3028,11 +2912,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _count_ 
@@ -3044,21 +2928,18 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* option: (WhereCondition) Query used in Array.where when counting elements in an Array
 
-* option: (Mixed) Query used in Array.where when counting elements in an Array
+>Parameters
+>* option: (String) Word or phrase to count in the String
 
-2)
-
-* option: (String) Word or phrase to count in the String
-
-3)
-
-* option: (RegExp) Word or phrase pattern to count in the String
+>Parameters
+>* option: (RegExp) Word or phrase pattern to count in the String
 
 *** 
 #### _duplicate_ 
@@ -3070,13 +2951,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>* recursive?: (Boolean) Flag to copy all child objects recursively
 
 **Overloads:**
 
-1)
-
-* recursive: (Boolean) Flag to copy all child objects recursively
+>None
 
 *** 
 #### _eachProperty_ 
@@ -3088,11 +2967,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* callback: (Function) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
+>* callback: (EachIterator) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _equals_ 
@@ -3104,14 +2983,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* compare: (Object) Object to compare against
+>* compare: (Object) Object to compare against
+>* props?: (String[]) Array of property values to compare against
 
 **Overloads:**
 
-1)
-
-* compare: (Object) Object to compare against
-* props: (String[]) Array of property values to compare against
+>None
 
 *** 
 #### _every_ 
@@ -3123,14 +3000,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* callback: (Function) Callback to apply to each value
+>* callback: (ObjectIterator) Callback to apply to each value
 
 **Overloads:**
 
-1)
-
-* callback: (Function) Callback to apply to each value
-* craydent_ctxObject: (Mixed) Context for the callback function
+>Parameters
+>* callback: (ObjectIterator) Callback to apply to each value
+>* craydent_ctxObject: (any) Context for the callback function
 
 *** 
 #### _getClass_ 
@@ -3142,11 +3018,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _getKeys_ 
@@ -3154,15 +3030,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Object class extension to get the keys of the object
 
-**Return:** (Array)
+**Return:** (Array<string>)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _getValue_ 
@@ -3170,22 +3046,20 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Object class extension to retrieve value of an object property
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* dflt: (any) Default value to return if context is not a function
 
-* dflt: (Mixed) Default value to return if context is not a function
-
-2)
-
-* args: (Mixed[]) An array of arguments to pass to context when it is a function
-* dflt: (Mixed) Default value to return if context is not a function
+>Parameters
+>* args: (any[]) An array of arguments to pass to context when it is a function
+>* dflt: (any) Default value to return if context is not a function
 
 *** 
 #### _has_ 
@@ -3197,11 +3071,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* property: (String) Property name to check
+>* property: (String) Property name to check
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isArray_ 
@@ -3213,11 +3087,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isAsync_ 
@@ -3229,11 +3103,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isBetween_ 
@@ -3245,16 +3119,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* lowerBound: (Mixed) Lower bound comparison
-* upperBound: (Mixed) Upper bound comparison
+>* lowerBound: (Mixed) Lower bound comparison
+>* upperBound: (Mixed) Upper bound comparison
+>* inclusive?: (Bool) Flag to include give bounds
 
 **Overloads:**
 
-1)
-
-* lowerBound: (Mixed) Lower bound comparison
-* upperBound: (Mixed) Upper bound comparison
-* inclusive: (Bool) Flag to include give bounds
+>None
 
 *** 
 #### _isBoolean_ 
@@ -3266,11 +3137,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isDate_ 
@@ -3282,11 +3153,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isDomElement_ 
@@ -3298,11 +3169,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isEmpty_ 
@@ -3314,11 +3185,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isError_ 
@@ -3330,11 +3201,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isFloat_ 
@@ -3346,11 +3217,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isFunction_ 
@@ -3362,11 +3233,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isGenerator_ 
@@ -3378,11 +3249,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isGeolocation_ 
@@ -3394,11 +3265,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isInt_ 
@@ -3410,11 +3281,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isNumber_ 
@@ -3426,11 +3297,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isObject_ 
@@ -3442,11 +3313,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isPromise_ 
@@ -3458,11 +3329,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isRegExp_ 
@@ -3474,11 +3345,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isString_ 
@@ -3490,11 +3361,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isSubset_ 
@@ -3506,11 +3377,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* compare: (Mixed) Superset to compare against
+>* compare: (any) Superset to compare against
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _itemCount_ 
@@ -3522,11 +3393,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _keyOf_ 
@@ -3538,11 +3409,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* value: (Mixed) Value to compare against
+>* value: (any) Value to compare against
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _map_ 
@@ -3554,14 +3425,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* callback: (Function) Callback to apply to each value
+>* callback: (ObjectIterator) Callback to apply to each value
+>* craydent_ctxObject?: (Mixed) Context for the callback function
 
 **Overloads:**
 
-1)
-
-* callback: (Function) Callback to apply to each value
-* craydent_ctxObject: (Mixed) Context for the callback function
+>None
 
 *** 
 #### _merge_ 
@@ -3573,14 +3442,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* secondary: (Object) Object to merge with
+>* secondary: (Object) Object to merge with
+>* condition?: (MergeEnums|MergeOptions|MergeIterator) Flags to recurse, merge only shared value, clone, intersect etc
 
 **Overloads:**
 
-1)
-
-* secondary: (Object) Object to merge with
-* condition: (Mixed) Flags to recurse, merge only shared value, clone, intersect etc
+>None
 
 *** 
 #### _set_ 
@@ -3592,26 +3459,14 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* object: (Object) object to add the property to
-* path: (String) Path to nested property
-* value: (Mixed) Value to set
+>* object: (Object) object to add the property to
+>* path: (String) Path to nested property
+>* value: (any) Value to set
+>* delimiter?: (Char) Separator used to parse path
 
 **Overloads:**
 
-1)
-
-* object: (Object) object to add the property to
-* path: (String) Path to nested property
-* value: (Mixed) Value to set
-* delimiter: (Char) Separator used to parse path
-
-2)
-
-* object: (Object) object to add the property to
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
-* value: (Mixed) Value to set
-* options: (Object) Options for ignoring inheritance, validPath, etc
+>None
 
 *** 
 #### _setProperty_ 
@@ -3623,23 +3478,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* path: (String) Path to nested property
-* value: (Mixed) Value to set
+>* path: (String) Path to nested property
+>* value: (Mixed) Value to set
+>* delimiter?: (Char) Separator used to parse path
 
 **Overloads:**
 
-1)
-
-* path: (String) Path to nested property
-* value: (Mixed) Value to set
-* delimiter: (Char) Separator used to parse path
-
-2)
-
-* path: (String) Path to nested property
-* delimiter: (Char) Separator used to parse path
-* value: (Mixed) Value to set
-* options: (Object) Options for ignoring inheritance, validPath, etc
+>None
 
 *** 
 #### _toStringAlt_ 
@@ -3651,24 +3496,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>* delimiter?: (Char) Character to separate the property from the value
+>* prefix?: (Char) Character to prefix the property name
+>* urlEncode?: (Bool) Flag to url encode the property and value
 
 **Overloads:**
 
-1)
-
-* delimiter: (Char) Character to separate the property from the value
-
-2)
-
-* delimiter: (Char) Character to separate the property from the value
-* prefix: (Char) Character to prefix the property name
-
-3)
-
-* delimiter: (Char) Character to separate the property from the value
-* prefix: (Char) Character to prefix the property name
-* urlEncode: (Bool) Flag to url encode the property and value
+>None
 
 <a name='markdown-header-regexp'></a>
 ## RegExp
@@ -3683,11 +3517,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* flags: (String) Flags to add
+>* flags: (String) Flags to add
 
 **Overloads:**
 
-* None
+>None
 
 <a name='markdown-header-string'></a>
 ## String
@@ -3702,33 +3536,20 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* capsOnly: (Boolean) Flag to indicate to use capital letters only.
+>* capsOnly: (Boolean) Flag to indicate to use capital letters only.
 
 **Overloads:**
 
-1)
+>Parameters
+>* match: (RegExp) Pattern to match to qualify the Acronym.
 
-* match: (RegExp) Pattern to match to qualify the Acronym.
+>Parameters
+>* capsOnly: (Boolean) Flag to indicate to use capital letters only.
+>* delimiter: (String|RegExp) Character or RegExp pattern that delimits the string.
 
-2)
-
-* capsOnly: (Boolean) Flag to indicate to use capital letters only.
-* delimiter: (String) Character that delimits the string.
-
-3)
-
-* match: (RegExp) Pattern to match to qualify the Acronym.
-* delimiter: (String) Character that delimits the string.
-
-4)
-
-* capsOnly: (Boolean) Flag to indicate to use capital letters only.
-* delimiter: (RegExp) RegExp pattern that delimits the string.
-
-5)
-
-* match: (RegExp) Pattern to match to qualify the Acronym.
-* delimiter: (RegExp) RegExp pattern that delimits the string.
+>Parameters
+>* match: (RegExp) Pattern to match to qualify the Acronym.
+>* delimiter: (String|RegExp) Character or RegExp pattern that delimits the string.
 
 *** 
 #### _capitalize_ 
@@ -3740,14 +3561,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* pos: (Int[]) Index of the string to capitalize
+>* pos: (Int|Int[]) Index of the string to capitalize
+>* everyWord: (Bool) Flag to capital every word
 
 **Overloads:**
 
-1)
-
-* pos: (Int) Index of the string to capitalize
-* everyWord: (Bool) Flag to capital every word
+>None
 
 *** 
 #### _contains_ 
@@ -3759,18 +3578,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* val: (Mixed) Value to check or custom function to determine validity
+>* val: (Object|ContainsObjectIterator) Value to check or custom function to determine validity
 
 **Overloads:**
 
-1)
+>Parameters
+>* val: (Object) Value to check
+>* func: (ContainsIterator<T, TValue>) Callback function used to do the comparison
 
-* val: (Mixed) Value to check
-* func: (Function) Callback function used to do the comparison
-
-2)
-
-* arr: (Array) Array of values to return first matching value
+>Parameters
+>* arr: (Array) Array of values to return first matching value
 
 *** 
 #### _convertUTCDate_ 
@@ -3782,11 +3599,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* delimiter: (String) Character that delimits the date string
+>* delimiter: (String) Character that delimits the date string
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _count_ 
@@ -3798,21 +3615,18 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* option: (WhereCondition) Query used in Array.where when counting elements in an Array
 
-* option: (Mixed) Query used in Array.where when counting elements in an Array
+>Parameters
+>* option: (String) Word or phrase to count in the String
 
-2)
-
-* option: (String) Word or phrase to count in the String
-
-3)
-
-* option: (RegExp) Word or phrase pattern to count in the String
+>Parameters
+>* option: (RegExp) Word or phrase pattern to count in the String
 
 *** 
 #### _cut_ 
@@ -3824,16 +3638,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* start_index: (Integer) Start index to cut
-* end_index: (Integer) End index to cut
+>* start_index: (Integer) Start index to cut
+>* end_index: (Integer) End index to cut
+>* replacement?: (String) String to put in place of the cut
 
 **Overloads:**
 
-1)
-
-* start_index: (Integer) Start index to cut
-* end_index: (Integer) End index to cut
-* replacement: (String) String to put in place of the cut
+>None
 
 *** 
 #### _ellipsis_ 
@@ -3845,14 +3656,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* before: (Int) Number of characters to use before using ellipsis
+>* before: (Int) Number of characters to use before using ellipsis
+>* after?: (Int) Number of characters to use after the ellipsis
 
 **Overloads:**
 
-1)
-
-* before: (Int) Number of characters to use before using ellipsis
-* after: (Int) Number of characters to use after the ellipsis
+>None
 
 *** 
 #### _endItWith_ 
@@ -3864,11 +3673,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* ending: (String) String to end with
+>* ending: (String) String to end with
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _endsWith_ 
@@ -3876,17 +3685,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** String class extension to check if the string ends with the given string
 
-**Return:** (Mix)
+**Return:** (Bool|String)
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed
+>* infinite: (String) any number of arguments can be passed
 
 **Overloads:**
 
-1)
-
-* arr: (String[]) An array of strings to check
+>Parameters
+>* arr: (String[]) An array of strings to check
 
 *** 
 #### _endsWithAny_ 
@@ -3894,17 +3702,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** String class extension to check if the string ends with the given string
 
-**Return:** (Mix)
+**Return:** (Bool|String)
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed
+>* infinite: (String) any number of arguments can be passed
 
 **Overloads:**
 
-1)
-
-* arr: (String[]) An array of strings to check
+>Parameters
+>* arr: (String[]) An array of strings to check
 
 *** 
 #### _getValue_ 
@@ -3912,22 +3719,20 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Object class extension to retrieve value of an object property
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* dflt: (any) Default value to return if context is not a function
 
-* dflt: (Mixed) Default value to return if context is not a function
-
-2)
-
-* args: (Mixed[]) An array of arguments to pass to context when it is a function
-* dflt: (Mixed) Default value to return if context is not a function
+>Parameters
+>* args: (any[]) An array of arguments to pass to context when it is a function
+>* dflt: (any) Default value to return if context is not a function
 
 *** 
 #### _highlight_ 
@@ -3939,35 +3744,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* search: (String) String to search
+>* search: (String|RegExp) String or Regular expression to search
+>* cssClass?: (String) Class to add for highlighting
+>* tag?: (String) Tag to use to surround the search
 
 **Overloads:**
 
-1)
-
-* search: (RegExp) Regular expression to search
-
-2)
-
-* search: (String) String to search
-* cssClass: (String) Class to add for highlighting
-
-3)
-
-* search: (RegExp) Regular expression to search
-* cssClass: (String) Class to add for highlighting
-
-4)
-
-* search: (String) String to search
-* cssClass: (String) Class to add for highlighting
-* tag: (String) Tag to use to surround the search
-
-5)
-
-* search: (RegExp) Regular expression to search
-* cssClass: (String) Class to add for highlighting
-* tag: (String) Tag to use to surround the search
+>None
 
 *** 
 #### _ireplace_all_ 
@@ -3979,12 +3762,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* replace: (String) String to replace
-* subject: (String) String to replace with
+>* replace: (String|String[]) String or Array of strings to replace
+>* subject: (String|String[]) String or Array of strings to replace with
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isBlank_ 
@@ -3996,11 +3779,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isCuid_ 
@@ -4012,11 +3795,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* msFormat: (Bool) use microsoft format if true
+>* msFormat?: (Bool) use microsoft format if true
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isValidEmail_ 
@@ -4028,11 +3811,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _lastIndexOfAlt_ 
@@ -4044,14 +3827,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* regex: (RegExp) Regular expression to check value against
+>* regex: (RegExp) Regular expression to check value against
+>* pos?: (Int) Max index to go up to in the search
 
 **Overloads:**
 
-1)
-
-* regex: (RegExp) Regular expression to check value against
-* pos: (Int) Max index to go up to in the search
+>None
 
 *** 
 #### _ltrim_ 
@@ -4063,11 +3844,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* character: (Char[]) Character to remove
+>* character?: (Char[]) Character to remove
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _pluralize_ 
@@ -4079,11 +3860,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _replace_all_ 
@@ -4095,15 +3876,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* replace: (String) String to replace
-* subject: (String) String to replace with
+>* replace: (String|String[]) String or Array of strings to replace
+>* subject: (String|String[]) String or Array of strings to replace with
 
 **Overloads:**
 
-1)
-
-* replace: (String[]) Array of string to replace
-* subject: (String[]) Array of string to replace with
+>None
 
 *** 
 #### _reverse_ 
@@ -4115,11 +3893,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _rtrim_ 
@@ -4131,11 +3909,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* character: (Char[]) Character to remove
+>* character?: (Char[]) Character to remove
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _sanitize_ 
@@ -4147,11 +3925,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _singularize_ 
@@ -4163,11 +3941,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _startItWith_ 
@@ -4179,11 +3957,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* starting: (String) String to start with
+>* starting: (String) String to start with
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _startsWith_ 
@@ -4191,17 +3969,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** String class extension to check if the string starts with the given string
 
-**Return:** (Bool)
+**Return:** (Bool|String)
 
 **Parameters:**
 
-* infinite: any number of String arguments can be passed
+>* infinite: (String) any number of String arguments can be passed
 
 **Overloads:**
 
-1)
-
-* arr: (String[]) An array of strings to check
+>Parameters
+>* arr: (String[]) An array of strings to check
 
 *** 
 #### _startsWithAny_ 
@@ -4209,17 +3986,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** String class extension to check if the string starts with the given string
 
-**Return:** (Bool)
+**Return:** (Bool|String)
 
 **Parameters:**
 
-* infinite: any number of String arguments can be passed
+>* infinite: (String) any number of String arguments can be passed
 
 **Overloads:**
 
-1)
-
-* arr: (String[]) An array of strings to check
+>Parameters
+>* arr: (String[]) An array of strings to check
 
 *** 
 #### _strip_ 
@@ -4231,11 +4007,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* character: (Char[]) Character to remove
+>* character: (Char[]) Character to remove
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _substringBetween_ 
@@ -4247,18 +4023,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* start: (Char) Character to use for the starting index
-* end: (Char) Character to use for the ending index
+>* start?: (Char) Character to use for the starting index (required if end is not passed)
+>* end?: (Char) Character to use for the ending index (required if start is null or undefined)
 
 **Overloads:**
 
-1)
-
-* start: (Char) Character to use for the starting index
-
-2)
-
-* start: (Char) Character to use for the starting index
+>None
 
 *** 
 #### _substringEndAt_ 
@@ -4270,11 +4040,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* end: (Char) Character to use for the ending index
+>* end: (Char) Character to use for the ending index
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _substringStartFrom_ 
@@ -4286,11 +4056,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* start: (Char) Character to use for the starting index
+>* start: (Char) Character to use for the starting index
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _toCurrencyNotation_ 
@@ -4302,13 +4072,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>* separator?: (Char) Character to use as delimiter
 
 **Overloads:**
 
-1)
-
-* separator: (Char) Character to use as delimiter
+>None
 
 *** 
 #### _toDateTime_ 
@@ -4316,17 +4084,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** String class extension to convert string to datetime
 
-**Return:** (Mixed)
+**Return:** (Date|String)
 
 **Parameters:**
 
-* None
+>* options?: (DateTimeOptions) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format
 
 **Overloads:**
 
-1)
-
-* options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format
+>None
 
 *** 
 #### _toObject_ 
@@ -4338,18 +4104,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>* assignmentChar?: (Char) Character to use as assignment delimiter. Defaults to '&'.
+>* delimiter?: (Char) Character to use as pair delimiter
 
 **Overloads:**
 
-1)
-
-* assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '='.
-
-2)
-
-* assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '&'.
-* delimiter: (Char) Character to use as pair delimiter
+>None
 
 *** 
 #### _trim_ 
@@ -4361,13 +4121,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>* character?: (Char[]) Character to remove in the String
 
 **Overloads:**
 
-1)
-
-* character: (Char[]) Character to remove in the String
+>None
 
 <a name='markdown-header-utility'></a>
 ## Utility
@@ -4382,16 +4140,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* name: (String) name of the method to add
-* fn: (Function) method implementation
+>* name: (String) name of the method to add
+>* fn: (Function) method implementation
 
 **Overloads:**
 
-1)
-
-* name: (String) name of the method to add
-* fn: (Function) method implementation
-* override: (Bool) if true, override the previously defined prototype
+>Parameters
+>* name: (String) name of the method to add
+>* fn: (Function) method implementation
+>* override: (Bool) if true, override the previously defined prototype
 
 *** 
 #### _ajax_ 
@@ -4399,18 +4156,18 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Method to make ajax calls
 
-**Return:** (void)
+**Return:** (Promise<any>)
 
 **Parameters:**
 
-* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+>* url: (String) End point url
+>* returnData?: (AjaxReturnType) Specifies which data to return when using Promise pattern
 
 **Overloads:**
 
-1)
-
-* params: (Object) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
-* returnData: (String) Specifies which data to return when using Promise pattern
+>Parameters
+>* params: (AjaxOptions) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
+>* returnData?: (AjaxReturnType) Specifies which data to return when using Promise pattern
 
 *** 
 #### _awaitable_ 
@@ -4418,36 +4175,32 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise)
+**Return:** (Promise<YieldableResult>)
 
 **Parameters:**
 
-* value: (Mixed) Value to make yieldable
+>* value: (YieldableValue) Value to make yieldable
 
 **Overloads:**
 
-1)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
 
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
+>Parameters
+>* func: (Object) Function to make yieldable
+>* callbackIndex: (Integer) Index of callback argument.
 
-2)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
 
-* func: (Function) Function to make yieldable
-* callbackIndex: (Integer) Index of callback argument.
-
-3)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-
-4)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-* returnIndex: (Integer) Index of callback argument.
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
+>* returnIndex: (Integer) Index of callback argument.
 
 *** 
 #### _clearCache_ 
@@ -4455,17 +4208,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Clear a module from the require cache.
 
-**Return:** (Boolean)
+**Return:** (Bool)
 
 **Parameters:**
 
-* module: (String) Single module to remove.
+>* module?: (String) Single module to remove.
 
 **Overloads:**
 
-1)
-
-* None
+>None
 
 *** 
 #### _clusterit_ 
@@ -4477,11 +4228,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* callback: Method to call for Workers.  Callback is passed the cluster object as an argument.
+>* callback: (ClusterCallback) Method to call for Workers.  Callback is passed the cluster object as an argument.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _cout_ 
@@ -4493,11 +4244,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed.
+>* infinite: any number of arguments can be passed.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _cuid_ 
@@ -4509,11 +4260,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* msFormat: (Bool) use microsoft format if true
+>* msFormat?: (Bool) use microsoft format if true
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _error_ 
@@ -4525,12 +4276,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* fname: (String) The function name the error was thrown
-* e: (Error) Exception object thrown
+>* fname: (String) The function name the error was thrown
+>* e: (Error) Exception object thrown
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _exclude_ 
@@ -4542,11 +4293,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* list: (String[]) Array of strings in containing the property to exclude from prototyping.
+>* list: (String[]) Array of strings in containing the property to exclude from prototyping.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _foo_ 
@@ -4558,11 +4309,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _include_ 
@@ -4570,18 +4321,18 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Require without erroring when module does not exist.
 
-**Return:** (Mixed)
+**Return:** (Object|Bool)
 
 **Parameters:**
 
-* path: (String) Module or Path to module.
+>* path: (String) Module or Path to module.
+>* refresh?: (Bool) Flag to clear cache for the specific include.
 
 **Overloads:**
 
-1)
-
-* path: (String) Module or Path to module.
-* refresh: (Boolean) Flag to clear cache for the specific include.
+>Parameters
+>* path: (String) Module or Path to module.
+>* refresh: (Boolean) Flag to clear cache for the specific include.
 
 *** 
 #### _logit_ 
@@ -4593,11 +4344,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed.
+>* infinite: (Object) any number of arguments can be passed.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _md5_ 
@@ -4609,11 +4360,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* str: (String) String to encode.
+>* str: (String) String to encode.
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _mkdirRecursive_ 
@@ -4625,12 +4376,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* path: (String) Path to create.
-* callback: (Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors).
+>* path: (String) Path to create.
+>* callback: (Function) Method to call when directories are created (Gets passed error object as an argument and is null if there were no errors).
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _namespace_ 
@@ -4642,16 +4393,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* name: (String) Name of the namespace to add to.
-* clazz: (Class) Class to add to the given namespace
+>* name: (String) Name of the namespace to add to.
+>* clazz: (Class) Class to add to the given namespace
+>* fn: (Function) Method to call after the class has been added to the namespace
 
 **Overloads:**
 
-1)
-
-* name: (String) Name of the namespace to add to.
-* clazz: (Class) Class to add to the given namespace
-* fn: (Function) Method to call after the class has been added to the namespace
+>None
 
 *** 
 #### _noop_ 
@@ -4663,11 +4411,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _now_ 
@@ -4675,17 +4423,15 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Get the DateTime of now
 
-**Return:** (Mixed)
+**Return:** (Date|String)
 
 **Parameters:**
 
-* None
+>* format?: (String) Format syntax to return formatted string of now
 
 **Overloads:**
 
-1)
-
-* format: (String) Format syntax to return formatted string of now
+>None
 
 *** 
 #### _parseBoolean_ 
@@ -4693,18 +4439,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Try to parse value to a Boolean (0, 1, '0', and '1' are valid unless strict is set to true).
 
-**Return:** (Mixed)
+**Return:** (Bool|undefined)
 
 **Parameters:**
 
-* value: (Mixed) value to parse as boolean.
+>* value: (Mixed) value to parse as boolean.
+>* strict?: (Boolean) Disable parsing of 0, 1, '0', and '1'.
 
 **Overloads:**
 
-1)
-
-* value: (Mixed) value to parse as boolean.
-* strict: (Boolean) Disable parsing of 0, 1, '0', and '1'.
+>None
 
 *** 
 #### _parseRaw_ 
@@ -4716,15 +4460,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* value: value to parse
+>* value: value to parse
+>* skipQuotes?: (Bool) Flag to skip quotes for strings
+>* saveCircular?: (Bool) Flag to save circular references
 
 **Overloads:**
 
-1)
-
-* value: (Mixed) Value to parse
-* skipQuotes: (Bool) Flag to skip quotes for strings
-* saveCircular: (Bool) Flag to save circular references
+>None
 
 *** 
 #### _rand_ 
@@ -4736,16 +4478,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* num1: (Number) Lower bound
-* num2: (Number) Upper bound
+>* num1: (Number) Lower bound
+>* num2: (Number) Upper bound
+>* inclusive?: (Bool) Flag to include the given numbers
 
 **Overloads:**
 
-1)
-
-* num1: (Number) Lower bound
-* num2: (Number) Upper bound
-* inclusive: (Bool) Flag to include the given numbers
+>None
 
 *** 
 #### _requireDirectory_ 
@@ -4753,18 +4492,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Recursively require the entire directory and returns an object containing the required modules.
 
-**Return:** (Promise/Object)
+**Return:** (Promise<any>|Object)
 
 **Parameters:**
 
-* path: (String) Path to directory.
+>* path: (String) Path to directory.
+>* options?: (Char) 'r' Flag to use to indicate recursively require, (Char) 's' Flag to indicate use syncronous instead of Promise Pattern
 
 **Overloads:**
 
-1)
-
-* path: (String) Path to directory.
-* options: (Char) 'r' Flag to use to indicate recursively require, (Char) 's' Flag to indicate use syncronous instead of Promise Pattern
+>None
 
 *** 
 #### _suid_ 
@@ -4776,31 +4513,27 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* None
+>* length?: (Integer) Custom length of the short unique identifier. Default is 10.
 
 **Overloads:**
 
-1)
-
-* length: (Integer) Custom length of the short unique identifier
+>None
 
 *** 
 #### _syncroit_ 
 ***
 
-**Info:** Generator based control flow to allow for more "syncronous" programing structure
+**Info:** Generator/Async based control flow to allow for more "syncronous" programing structure
 
-**Return:** (Promise)
+**Return:** (Promise<any>)
 
 **Parameters:**
 
-* gen: (GeneratorFunction) Generator function to execute
+>* func: (GeneratorFunction|AsyncFunction) function to execute
 
 **Overloads:**
 
-1)
-
-* async: (AsyncFunction) Async function to execute
+>None
 
 *** 
 #### _tryEval_ 
@@ -4808,18 +4541,16 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Evaluates an expression without throwing an error
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* expression: (Mixed) Expression to evaluate
+>* expression: (any) Expression to evaluate
+>* evaluator?: (EvaluatorMethod) Method to use to evaluate the expression
 
 **Overloads:**
 
-1)
-
-* expression: (Mixed) Expression to evaluate
-* evaluator: (Function) Method to use to evaluate the expression
+>None
 
 *** 
 #### _wait_ 
@@ -4831,11 +4562,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* condition: (Mixed) Condition equivalent to js true to resume execution
+>* condition: (Mixed) Condition equivalent to js true to resume execution
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _yieldable_ 
@@ -4843,36 +4574,32 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise)
+**Return:** (Promise<YieldableResult>)
 
 **Parameters:**
 
-* value: (Mixed) Value to make yieldable
+>* value: (YieldableValue) Value to make yieldable
 
 **Overloads:**
 
-1)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
 
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
+>Parameters
+>* func: (Object) Function to make yieldable
+>* callbackIndex: (Integer) Index of callback argument.
 
-2)
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
 
-* func: (Function) Function to make yieldable
-* callbackIndex: (Integer) Index of callback argument.
-
-3)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-
-4)
-
-* func: (Function) Function to make yieldable
-* context: (Mixed) Context to use to execute func.
-* callbackIndex: (Integer) Index of callback argument.
-* returnIndex: (Integer) Index of callback argument.
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (Object) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
+>* returnIndex: (Integer) Index of callback argument.
 
 <a name='markdown-header-xml-to-json'></a>
 ## XML to JSON
@@ -4887,14 +4614,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
-* xml: (Mixed) XML string or XML DOM
+>* xml: (String|XMLDOM) XML string or XML DOM
+>* ignoreAttributes?: (Bool) Flag to ignore attributes
 
 **Overloads:**
 
-1)
-
-* xml: (Mixed) XML string or XML DOM
-* ignoreAttributes: (Bool) Flag to ignore attributes
+>None
 
 
 

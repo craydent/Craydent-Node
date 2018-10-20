@@ -40,12 +40,10 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object values are equal",
             "category": "RegExp|Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"}],
+                {"compare": "(Object) Object to compare against"},
+                {"props?": "(String[]) Array of property values to compare against"}],
 
-            "overloads":[
-                {"parameters":[
-                    {"compare": "(Object) Object to compare against"},
-                    {"props": "(String[]) Array of property values to compare against"}]}],
+            "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.equals",
             "returnType": "(Bool)"
@@ -64,14 +62,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"dflt": "(Mixed) Default value to return if context is not a function"}]},
+                    {"dflt": "(any) Default value to return if context is not a function"}]},
 
                 {"parameters":[
-                    {"args": "(Mixed[]) An array of arguments to pass to context when it is a function"},
-                    {"dflt": "(Mixed) Default value to return if context is not a function"}]}],
+                    {"args": "(any[]) An array of arguments to pass to context when it is a function"},
+                    {"dflt": "(any) Default value to return if context is not a function"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.getValue",
-            "returnType": "(Mixed)"
+            "returnType": "(any)"
         }|*/
         try {
             return $s.getValue(this, args, dflt);

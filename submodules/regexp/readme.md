@@ -59,11 +59,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* flags: (String) Flags to add
+>* flags: (String) Flags to add
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _equals_ 
@@ -75,14 +75,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* compare: (Object) Object to compare against
+>* compare: (Object) Object to compare against
+>* props?: (String[]) Array of property values to compare against
 
 **Overloads:**
 
-1)
-
-* compare: (Object) Object to compare against
-* props: (String[]) Array of property values to compare against
+>None
 
 *** 
 #### _getValue_ 
@@ -90,22 +88,20 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to retrieve value of an object property
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* dflt: (any) Default value to return if context is not a function
 
-* dflt: (Mixed) Default value to return if context is not a function
-
-2)
-
-* args: (Mixed[]) An array of arguments to pass to context when it is a function
-* dflt: (Mixed) Default value to return if context is not a function
+>Parameters
+>* args: (any[]) An array of arguments to pass to context when it is a function
+>* dflt: (any) Default value to return if context is not a function
 
 
 

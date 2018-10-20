@@ -60,14 +60,12 @@ MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
 
 **Parameters:**
 
-* xml: (Mixed) XML string or XML DOM
+>* xml: (String|XMLDOM) XML string or XML DOM
+>* ignoreAttributes?: (Bool) Flag to ignore attributes
 
 **Overloads:**
 
-1)
-
-* xml: (Mixed) XML string or XML DOM
-* ignoreAttributes: (Bool) Flag to ignore attributes
+>None
 
 
 

@@ -131,7 +131,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "parameters":[
                 {"text": "(String) A valid JSON string."},
                 {"reviver?": "(Reviver) A function that transforms the results. This function is called for each member of the object. If a member contains nested objects, the nested objects are transformed before the parent object is."},
-                {"values?": "(Object) Key/value pairs to be used to replace template variables defined in the json."}]
+                {"values?": "(Object) Key/value pairs to be used to replace template variables defined in the json."}],
 
             "overloads":[],
 
@@ -164,7 +164,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "parameters":[
                 {"json": "(Object) A JavaScript value, usually an object or array, to be converted."},
                 {"replacer?": "(Replacer) A function that transforms the results. This function is called for each member of the object. If a member contains nested objects, the nested objects are transformed before the parent object is."},
-                {"space?": "(String|Integer) Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read."}]
+                {"space?": "(String|Integer) Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read."}],
 
             "overloads":[],
 

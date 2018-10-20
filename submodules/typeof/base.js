@@ -73,14 +73,11 @@ function isBetween (lowerBound, upperBound, inclusive) {
         "info": "Object class extension to check if object is between lower and upper bounds",
         "category": "Object|TypeOf",
         "parameters":[
-            {"lowerBound": "(Mixed) Lower bound comparison"},
-            {"upperBound": "(Mixed) Upper bound comparison"}],
+            {"lowerBound": "(any) Lower bound comparison"},
+            {"upperBound": "(any) Upper bound comparison"},
+            {"inclusive?": "(Bool) Flag to include give bounds"}],
 
-        "overloads":[
-            {"parameters":[
-                {"lowerBound": "(Mixed) Lower bound comparison"},
-                {"upperBound": "(Mixed) Upper bound comparison"},
-                {"inclusive": "(Bool) Flag to include give bounds"}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isBetween",
         "returnType": "(Bool)"

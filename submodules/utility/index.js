@@ -31,12 +31,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Utility",
             "parameters":[
                 {"url": "(String) End point url"},
-                {"returnData?": "(String) Specifies which data to return when using Promise pattern"}],
+                {"returnData?": "(AjaxReturnType) Specifies which data to return when using Promise pattern"}],
 
             "overloads":[
                 {"parameters":[
                     {"params": "(AjaxOptions) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"},
-                    {"returnData?": "(String) Specifies which data to return when using Promise pattern"}]}],
+                    {"returnData?": "(AjaxReturnType) Specifies which data to return when using Promise pattern"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#ajax",
             "returnType": "(Promise<any>)"

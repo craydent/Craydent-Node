@@ -54,26 +54,43 @@ MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
 #### _fillTemplate_ 
 ***
 
-**Info:** String class extension to fill template based on template syntax
+**Info:** Function for templetizing
 
 **Return:** (String)
 
 **Parameters:**
 
-* objs: (Objects[]) Objects to fill the template variables
+>* htmlTemplate: (String) Template to be used
+>* objs: (Objects[]) Objects to fill the template variables
+>* options: (FillTemplateOptions) Options to use: max,offset,newlineToHtml,preserve_nonmatching
 
 **Overloads:**
 
-1)
+>Parameters
+>* htmlTemplate: (String) Template to be used
+>* objs: (Objects[]) Objects to fill the template variables
+>* max: (Int) The maximum number of records to process
 
-* objs: (Objects[]) Objects to fill the template variables
-* offset: (Int) The start index of the Object array
-* max: (Int) The maximum number of records to process
+>Parameters
+>* htmlTemplate: (String) Template to be used
+>* objs: (Objects[]) Objects to fill the template variables
+>* offset: (Int) The start index of the Object array
+>* max: (Int) The maximum number of records to process
 
-2)
+>Parameters
+>* htmlTemplate: (String) Template to be used
+>* objs: (Objects[]) Objects to fill the template variables
+>* offset: (Int) The start index of the Object array
+>* max: (Int) The maximum number of records to process
+>* newlineToHtml: (Boolean) Flag to replace all new line chars () to the HTML <br /> tag.  Default is true.
 
-* objs: (Objects[]) Objects to fill the template variables
-* max: (Int) The maximum number of records to process
+>Parameters
+>* htmlTemplate: (String) Template to be used
+>* objs: (Objects[]) Objects to fill the template variables
+>* offset: (Int) The start index of the Object array
+>* max: (Int) The maximum number of records to process
+>* newlineToHtml: (Boolean) Flag to replace all new line chars () to the HTML <br /> tag.  Default is true.
+>* preserve_nonmatching: (Boolean) Flag to used to leave template variables that were not replaced.
 
 
 

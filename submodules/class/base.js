@@ -29,7 +29,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#Benchmarker",
-            "returnType": "(void)"
+            "returnType": "(IBenchmarker)"
         }|*/
         try {
             this.executionTime = 0;
@@ -55,14 +55,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Cursor class to facilitate iteration",
             "category": "Class",
             "parameters":[
-                {"records": "(Array) Array used to create the iterator to iterate each item"}],
+                {"records": "(Array<T>) Array used to create the iterator to iterate each item"}],
 
             "overloads":[
                 {"parameters":[
                     {"records": "(Object) Object used to create the iterator to iterate each property"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#Cursor",
-            "returnType": "(Cursor)"
+            "typeParameter": "<T>",
+            "returnType": "(ICursor)"
         }|*/
         try {
             var props = [],
@@ -106,12 +107,13 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Collection class that follows FIFO",
             "category": "Class",
             "parameters":[
-                {"records": "(Array) Array used to create the iterator to iterate each item"}],
+                {"records": "(Array<T>) Array used to create the iterator to iterate each item"}],
 
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#Queue",
-            "returnType": "(Queue)"
+            "typeParameter": "<T>",
+            "returnType": "(IQueue)"
         }|*/
         try {
             var arr = $s.duplicate(records || [],true), nextIndex = 0;
@@ -130,12 +132,13 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Collection class that filters out duplicate values",
             "category": "Class",
             "parameters":[
-                {"records": "(Array) Array used to create the iterator to iterate each item"}],
+                {"records": "(Array<T>) Array used to create the iterator to iterate each item"}],
 
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#Set",
-            "returnType": "(Set)"
+            "typeParameter": "<T, TResult>",
+            "returnType": "(ISet)"
         }|*/
         try {
             var arr = $s.duplicate(records || []), nextIndex = 0;

@@ -442,7 +442,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Array",
             "parameters":[
                 {"parentFinder": "(TreeParentFinder<T>) Function to determine the parent.  Should return a boolean value and is passed the current item as an argument."},
-                {"childFinder": "(String) Property name of the object to use as a grouping."}
+                {"childFinder": "(String) Property name of the object to use as a grouping."},
                 {"options?":"(TreeOptions) Options to customize properties,  Valid property is:<br />childProperty"}],
 
             "overloads":[
@@ -558,7 +558,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"option": "(Object) Query used in Array.where when counting elements in an Array"}]},
+                    {"option": "(WhereCondition) Query used in Array.where when counting elements in an Array"}]},
 
                 {"parameters":[
                     {"option": "(String) Word or phrase to count in the String"}]},

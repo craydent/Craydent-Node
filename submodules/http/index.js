@@ -540,7 +540,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                 {"parameters":[
                     {"key": "(String) Key for cookie value"},
                     {"value": "(any) Value to store"},
-                    {"option"?: "(CookieOptions) Specify path and/or expiration of cookie"}]}],
+                    {"option?": "(CookieOptions) Specify path and/or expiration of cookie"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#$COOKIE",
             "returnType": "(String|Bool)"

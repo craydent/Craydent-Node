@@ -58,11 +58,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isAsync_ 
@@ -74,11 +74,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isBetween_ 
@@ -90,16 +90,13 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* lowerBound: (Mixed) Lower bound comparison
-* upperBound: (Mixed) Upper bound comparison
+>* lowerBound: (any) Lower bound comparison
+>* upperBound: (any) Upper bound comparison
+>* inclusive?: (Bool) Flag to include give bounds
 
 **Overloads:**
 
-1)
-
-* lowerBound: (Mixed) Lower bound comparison
-* upperBound: (Mixed) Upper bound comparison
-* inclusive: (Bool) Flag to include give bounds
+>None
 
 *** 
 #### _isBoolean_ 
@@ -111,11 +108,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isDate_ 
@@ -127,11 +124,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isDomElement_ 
@@ -143,11 +140,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isError_ 
@@ -159,11 +156,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isEmpty_ 
@@ -175,11 +172,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isFloat_ 
@@ -191,11 +188,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isFunction_ 
@@ -207,11 +204,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isGenerator_ 
@@ -223,11 +220,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isGeolocation_ 
@@ -239,11 +236,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isInt_ 
@@ -255,11 +252,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isNull_ 
@@ -271,14 +268,13 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* value: (Mixed) Value to check
+>* value: (Mixed) Value to check
 
 **Overloads:**
 
-1)
-
-* value: (Mixed) Value to check
-* defaultValue: (Mixed) Value to return if null
+>Parameters
+>* value: (Mixed) Value to check
+>* defaultValue: (Mixed) Value to return if null
 
 *** 
 #### _isNumber_ 
@@ -290,11 +286,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isObject_ 
@@ -306,11 +302,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isPromise_ 
@@ -322,11 +318,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isRegExp_ 
@@ -338,11 +334,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isString_ 
@@ -354,11 +350,11 @@ arr.prototypedMethod(args);
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 
 

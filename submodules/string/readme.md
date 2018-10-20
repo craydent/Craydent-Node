@@ -59,33 +59,20 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* capsOnly: (Boolean) Flag to indicate to use capital letters only.
+>* capsOnly: (Boolean) Flag to indicate to use capital letters only.
 
 **Overloads:**
 
-1)
+>Parameters
+>* match: (RegExp) Pattern to match to qualify the Acronym.
 
-* match: (RegExp) Pattern to match to qualify the Acronym.
+>Parameters
+>* capsOnly: (Boolean) Flag to indicate to use capital letters only.
+>* delimiter: (String|RegExp) Character or RegExp pattern that delimits the string.
 
-2)
-
-* capsOnly: (Boolean) Flag to indicate to use capital letters only.
-* delimiter: (String) Character that delimits the string.
-
-3)
-
-* match: (RegExp) Pattern to match to qualify the Acronym.
-* delimiter: (String) Character that delimits the string.
-
-4)
-
-* capsOnly: (Boolean) Flag to indicate to use capital letters only.
-* delimiter: (RegExp) RegExp pattern that delimits the string.
-
-5)
-
-* match: (RegExp) Pattern to match to qualify the Acronym.
-* delimiter: (RegExp) RegExp pattern that delimits the string.
+>Parameters
+>* match: (RegExp) Pattern to match to qualify the Acronym.
+>* delimiter: (String|RegExp) Character or RegExp pattern that delimits the string.
 
 *** 
 #### _capitalize_ 
@@ -97,14 +84,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* pos: (Int[]) Index of the string to capitalize
+>* pos: (Int|Int[]) Index of the string to capitalize
+>* everyWord?: (Bool) Flag to capital every word
 
 **Overloads:**
 
-1)
-
-* pos: (Int) Index of the string to capitalize
-* everyWord: (Bool) Flag to capital every word
+>None
 
 *** 
 #### _contains_ 
@@ -116,18 +101,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* val: (Mixed) Value to check or custom function to determine validity
+>* val: (Object|ContainsObjectIterator) Value to check or custom function to determine validity
 
 **Overloads:**
 
-1)
+>Parameters
+>* val: (Object) Value to check
+>* func: (ContainsIterator<T, TValue>) Callback function used to do the comparison
 
-* val: (Mixed) Value to check
-* func: (Function) Callback function used to do the comparison
-
-2)
-
-* arr: (Array) Array of values to return first matching value
+>Parameters
+>* arr: (Array) Array of values to return first matching value
 
 *** 
 #### _convertUTCDate_ 
@@ -139,11 +122,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* delimiter: (String) Character that delimits the date string
+>* delimiter: (String) Character that delimits the date string
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _count_ 
@@ -155,21 +138,18 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* option: (WhereCondition) Query used in Array.where when counting elements in an Array
 
-* option: (Mixed) Query used in Array.where when counting elements in an Array
+>Parameters
+>* option: (String) Word or phrase to count in the String
 
-2)
-
-* option: (String) Word or phrase to count in the String
-
-3)
-
-* option: (RegExp) Word or phrase pattern to count in the String
+>Parameters
+>* option: (RegExp) Word or phrase pattern to count in the String
 
 *** 
 #### _cut_ 
@@ -181,16 +161,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* start_index: (Integer) Start index to cut
-* end_index: (Integer) End index to cut
+>* start_index: (Integer) Start index to cut
+>* end_index: (Integer) End index to cut
+>* replacement?: (String) String to put in place of the cut
 
 **Overloads:**
 
-1)
-
-* start_index: (Integer) Start index to cut
-* end_index: (Integer) End index to cut
-* replacement: (String) String to put in place of the cut
+>None
 
 *** 
 #### _ellipsis_ 
@@ -202,14 +179,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* before: (Int) Number of characters to use before using ellipsis
+>* before: (Int) Number of characters to use before using ellipsis
+>* after?: (Int) Number of characters to use after the ellipsis
 
 **Overloads:**
 
-1)
-
-* before: (Int) Number of characters to use before using ellipsis
-* after: (Int) Number of characters to use after the ellipsis
+>None
 
 *** 
 #### _endItWith_ 
@@ -221,11 +196,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* ending: (String) String to end with
+>* ending: (String) String to end with
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _endsWith_ 
@@ -233,17 +208,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** String class extension to check if the string ends with the given string
 
-**Return:** (Mix)
+**Return:** (Bool|String)
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed
+>* infinite: (String) any number of arguments can be passed
 
 **Overloads:**
 
-1)
-
-* arr: (String[]) An array of strings to check
+>Parameters
+>* arr: (String[]) An array of strings to check
 
 *** 
 #### _endsWithAny_ 
@@ -251,17 +225,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** String class extension to check if the string ends with the given string
 
-**Return:** (Mix)
+**Return:** (Bool|String)
 
 **Parameters:**
 
-* infinite: any number of arguments can be passed
+>* infinite: (String) any number of arguments can be passed
 
 **Overloads:**
 
-1)
-
-* arr: (String[]) An array of strings to check
+>Parameters
+>* arr: (String[]) An array of strings to check
 
 *** 
 #### _equals_ 
@@ -273,14 +246,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* compare: (Object) Object to compare against
+>* compare: (Object) Object to compare against
+>* props?: (String[]) Array of property values to compare against
 
 **Overloads:**
 
-1)
-
-* compare: (Object) Object to compare against
-* props: (String[]) Array of property values to compare against
+>None
 
 *** 
 #### _getValue_ 
@@ -288,22 +259,20 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to retrieve value of an object property
 
-**Return:** (Mixed)
+**Return:** (any)
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-1)
+>Parameters
+>* dflt: (any) Default value to return if context is not a function
 
-* dflt: (Mixed) Default value to return if context is not a function
-
-2)
-
-* args: (Mixed[]) An array of arguments to pass to context when it is a function
-* dflt: (Mixed) Default value to return if context is not a function
+>Parameters
+>* args: (any[]) An array of arguments to pass to context when it is a function
+>* dflt: (any) Default value to return if context is not a function
 
 *** 
 #### _highlight_ 
@@ -315,35 +284,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* search: (String) String to search
+>* search: (String|RegExp) String or Regular expression to search
+>* cssClass?: (String) Class to add for highlighting
+>* tag?: (String) Tag to use to surround the search
 
 **Overloads:**
 
-1)
-
-* search: (RegExp) Regular expression to search
-
-2)
-
-* search: (String) String to search
-* cssClass: (String) Class to add for highlighting
-
-3)
-
-* search: (RegExp) Regular expression to search
-* cssClass: (String) Class to add for highlighting
-
-4)
-
-* search: (String) String to search
-* cssClass: (String) Class to add for highlighting
-* tag: (String) Tag to use to surround the search
-
-5)
-
-* search: (RegExp) Regular expression to search
-* cssClass: (String) Class to add for highlighting
-* tag: (String) Tag to use to surround the search
+>None
 
 *** 
 #### _indexOfAlt_ 
@@ -355,19 +302,14 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* value: (Mixed) value to find
-* func: (Function) Callback function used to do the comparison
+>* value: (any) value to find
+>* func: (ArrayIterator) Callback function used to do the comparison
 
 **Overloads:**
 
-1)
-
-* regex: (RegExp) Regular expression to check value against
-
-2)
-
-* regex: (RegExp) Regular expression to check value against
-* pos: (Int) Index offset to start
+>Parameters
+>* regex: (RegExp) Regular expression to check value against
+>* pos?: (Int) Index offset to start
 
 *** 
 #### _ireplace_all_ 
@@ -379,12 +321,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* replace: (String) String to replace
-* subject: (String) String to replace with
+>* replace: (String|String[]) String or Array of strings to replace
+>* subject: (String|String[]) String or Array of strings to replace with
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isBlank_ 
@@ -396,11 +338,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isCuid_ 
@@ -412,11 +354,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* msFormat: (Bool) use microsoft format if true
+>* msFormat?: (Bool) use microsoft format if true
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _isValidEmail_ 
@@ -428,11 +370,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _lastIndexOfAlt_ 
@@ -444,14 +386,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* regex: (RegExp) Regular expression to check value against
+>* regex: (RegExp) Regular expression to check value against
+>* pos?: (Int) Max index to go up to in the search
 
 **Overloads:**
 
-1)
-
-* regex: (RegExp) Regular expression to check value against
-* pos: (Int) Max index to go up to in the search
+>None
 
 *** 
 #### _ltrim_ 
@@ -463,11 +403,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* character: (Char[]) Character to remove
+>* character?: (Char[]) Character to remove
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _pluralize_ 
@@ -479,11 +419,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _replace_all_ 
@@ -495,15 +435,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* replace: (String) String to replace
-* subject: (String) String to replace with
+>* replace: (String|String[]) String or Array of strings to replace
+>* subject: (String|String[]) String or Array of strings to replace with
 
 **Overloads:**
 
-1)
-
-* replace: (String[]) Array of string to replace
-* subject: (String[]) Array of string to replace with
+>None
 
 *** 
 #### _reverse_ 
@@ -515,11 +452,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _rtrim_ 
@@ -531,11 +468,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* character: (Char[]) Character to remove
+>* character?: (Char[]) Character to remove
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _sanitize_ 
@@ -547,11 +484,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _singularize_ 
@@ -563,11 +500,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>None
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _startItWith_ 
@@ -579,11 +516,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* starting: (String) String to start with
+>* starting: (String) String to start with
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _startsWith_ 
@@ -591,17 +528,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** String class extension to check if the string starts with the given string
 
-**Return:** (Bool)
+**Return:** (Bool|String)
 
 **Parameters:**
 
-* infinite: any number of String arguments can be passed
+>* infinite: (String) any number of String arguments can be passed
 
 **Overloads:**
 
-1)
-
-* arr: (String[]) An array of strings to check
+>Parameters
+>* arr: (String[]) An array of strings to check
 
 *** 
 #### _startsWithAny_ 
@@ -609,17 +545,16 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** String class extension to check if the string starts with the given string
 
-**Return:** (Bool)
+**Return:** (Bool|String)
 
 **Parameters:**
 
-* infinite: any number of String arguments can be passed
+>* infinite: (String) any number of String arguments can be passed
 
 **Overloads:**
 
-1)
-
-* arr: (String[]) An array of strings to check
+>Parameters
+>* arr: (String[]) An array of strings to check
 
 *** 
 #### _strip_ 
@@ -631,11 +566,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* character: (Char[]) Character to remove
+>* character?: (Char[]) Character to remove
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _substringBetween_ 
@@ -647,18 +582,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* start: (Char) Character to use for the starting index
-* end: (Char) Character to use for the ending index
+>* start?: (Char) Character to use for the starting index (required if end is not passed)
+>* end?: (Char) Character to use for the ending index (required if start is null or undefined)
 
 **Overloads:**
 
-1)
-
-* start: (Char) Character to use for the starting index
-
-2)
-
-* start: (Char) Character to use for the starting index
+>None
 
 *** 
 #### _substringEndAt_ 
@@ -670,11 +599,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* end: (Char) Character to use for the ending index
+>* end: (Char) Character to use for the ending index
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _substringStartFrom_ 
@@ -686,11 +615,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* start: (Char) Character to use for the starting index
+>* start: (Char) Character to use for the starting index
 
 **Overloads:**
 
-* None
+>None
 
 *** 
 #### _toCurrencyNotation_ 
@@ -702,13 +631,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>* separator?: (Char) Character to use as delimiter
 
 **Overloads:**
 
-1)
-
-* separator: (Char) Character to use as delimiter
+>None
 
 *** 
 #### _toDateTime_ 
@@ -716,17 +643,15 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** String class extension to convert string to datetime
 
-**Return:** (Mixed)
+**Return:** (Date|String)
 
 **Parameters:**
 
-* None
+>* options?: (DateTimeOptions) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format
 
 **Overloads:**
 
-1)
-
-* options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset<br />(String) format
+>None
 
 *** 
 #### _trim_ 
@@ -738,13 +663,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>* character?: (Char[]) Character to remove in the String
 
 **Overloads:**
 
-1)
-
-* character: (Char[]) Character to remove in the String
+>None
 
 *** 
 #### _toObject_ 
@@ -756,18 +679,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
-* None
+>* assignmentChar?: (Char) Character to use as assignment delimiter. Defaults to '&'.
+>* delimiter?: (Char) Character to use as pair delimiter
 
 **Overloads:**
 
-1)
-
-* assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '='.
-
-2)
-
-* assignmentChar: (Char) Character to use as assignment delimiter. Defaults to '&'.
-* delimiter: (Char) Character to use as pair delimiter
+>None
 
 
 

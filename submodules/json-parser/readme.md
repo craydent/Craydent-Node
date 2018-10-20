@@ -47,6 +47,45 @@ MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
 
 ## Methods
 
+<a name='markdown-header-json-parser'></a>
+## JSON Parser
+
+*** 
+#### _parseAdvanced_ 
+***
+
+**Info:** JSON Parser that can handle types and refs
+
+**Return:** (Object)
+
+**Parameters:**
+
+>* text: (String) A valid JSON string.
+>* reviver?: (Reviver) A function that transforms the results. This function is called for each member of the object. If a member contains nested objects, the nested objects are transformed before the parent object is.
+>* values?: (Object) Key/value pairs to be used to replace template variables defined in the json.
+
+**Overloads:**
+
+>None
+
+*** 
+#### _stringifyAdvanced_ 
+***
+
+**Info:** JSON Parser that can handle types and refs
+
+**Return:** (String)
+
+**Parameters:**
+
+>* json: (Object) A JavaScript value, usually an object or array, to be converted.
+>* replacer?: (Replacer) A function that transforms the results. This function is called for each member of the object. If a member contains nested objects, the nested objects are transformed before the parent object is.
+>* space?: (String|Integer) Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+
+**Overloads:**
+
+>None
+
 
 
 
