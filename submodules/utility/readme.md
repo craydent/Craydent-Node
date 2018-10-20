@@ -152,7 +152,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* infinite: any number of arguments can be passed.
+>* infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
@@ -368,7 +368,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* value: value to parse
+>* value: (any) value to parse
 >* skipQuotes?: (Bool) Flag to skip quotes for strings
 >* saveCircular?: (Bool) Flag to save circular references
 

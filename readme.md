@@ -4244,7 +4244,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* infinite: any number of arguments can be passed.
+>* infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
@@ -4460,7 +4460,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* value: value to parse
+>* value: (any) value to parse
 >* skipQuotes?: (Bool) Flag to skip quotes for strings
 >* saveCircular?: (Bool) Flag to save circular references
 
