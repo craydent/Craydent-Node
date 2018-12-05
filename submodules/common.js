@@ -691,7 +691,12 @@ var info = require('../package.json'),
     _craydent_version = info.version, $s = {}, scope = { eval: eval }, $c = $g.$c;
 $g.navigator = $g.navigator || {};
 // merge typeof module to $c
-var $t = require((~info.name.indexOf('@craydent') ? "@craydent/" : "") + 'craydent-typeof/noConflict');
+var $t = {};
+if (~info.name.indexOf('@craydent')) {
+    $t = require("@craydent/craydent-typeof/noConflict");
+} else {
+    $t = require("craydent-typeof/noConflict");
+}
 
 var error = require('./error');
 var __defineFunction = require('./defineFunction')(scope);

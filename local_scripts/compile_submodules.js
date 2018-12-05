@@ -12,7 +12,8 @@
 var root = require.resolve('../package.json').replace('/package.json','');
 var cpkg = require(root + '/package.json');
 var pkgPrefix = ~cpkg.name.indexOf('@craydent') ? "@craydent/" : "";
-var $fs = require(cpkg.name + '-fs');
+// var $fs = require(cpkg.name + '-fs');
+var $fs = require(root+'/submodules/fs');
 var exec = require('child_process').exec;
 var publishing = process.argv[2] == "publish";
 var staging = process.argv[2] == "stage";
