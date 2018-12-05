@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -281,7 +281,7 @@ function cout () {
         "info": "Log to console when DEBUG_MODE is true and when the console is available",
         "category": "Global",
         "parameters":[
-            {"infinite": "any number of arguments can be passed."}],
+            {"...infinite": "(any) any number of arguments can be passed."}],
 
         "overloads":[],
 
@@ -303,11 +303,11 @@ function equals (obj, compare, props){
         "info": "Object class extension to check if object values are equal",
         "category": "Object",
         "parameters":[
-            {"compare": "(Object) Object to compare against"}],
+            {"compare": "(any) Object to compare against"}],
 
         "overloads":[
             {"parameters":[
-                {"compare": "(Object) Object to compare against"},
+                {"compare": "(any) Object to compare against"},
                 {"props": "(String[]) Array of property values to compare against"}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#object.equals",
@@ -465,8 +465,8 @@ function indexOfAlt (obj, value, option) {
         "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
         "category": "Array",
         "parameters":[
-            {"value": "(Mixed) value to find"},
-            {"func": "(Function) Callback function used to do the comparison"}],
+            {"value": "(any) value to find"},
+            {"func": "(ArrayIterator<T, TResult>) Callback function used to do the comparison"}],
 
         "overloads":[
             {"parameters":[
@@ -556,7 +556,7 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
 
         "overloads":[
             {"parameters":[
-                {"value": "(Mixed) Value to parse"},
+                {"value": "(any) Value to parse"},
                 {"skipQuotes": "(Bool) Flag to skip quotes for strings"},
                 {"saveCircular": "(Bool) Flag to save circular references"}]}],
 
@@ -824,15 +824,15 @@ function tryEval (expression, evaluator) {
         "info": "Evaluates an expression without throwing an error",
         "category": "Global",
         "parameters":[
-            {"expression": "(Mixed) Expression to evaluate"}],
+            {"expression": "(any) Expression to evaluate"}],
 
         "overloads":[
             {"parameters":[
-                {"expression": "(Mixed) Expression to evaluate"},
+                {"expression": "(any) Expression to evaluate"},
                 {"evaluator": "(Function) Method to use to evaluate the expression"}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#tryEval",
-        "returnType": "(Mixed)"
+        "returnType": "(any)"
     }|*/
     try {
         var value;

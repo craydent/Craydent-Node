@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.9
+# Craydent 0.9.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -65,20 +65,20 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 
 >Parameters
->* func: (Object) Function to make yieldable
+>* func: (Function) Function to make yieldable
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 >* returnIndex: (Integer) Index of callback argument.
 
@@ -118,20 +118,20 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 
 >Parameters
->* func: (Object) Function to make yieldable
+>* func: (Function) Function to make yieldable
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 >* returnIndex: (Integer) Index of callback argument.
 

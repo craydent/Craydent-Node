@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -18,7 +18,7 @@ function requireDirectory (path, options, __basepath, __objs, __fs){
         "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#requireDirectory",
-        "returnType": "(Promise<any>|Object)"
+        "returnType": "(Promise<any>|any)"
     }|*/
     try {
         var delimiter = "/";

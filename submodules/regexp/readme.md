@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.9
+# Craydent 0.9.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -75,7 +75,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* compare: (Object) Object to compare against
+>* compare: (any) Object to compare against
 >* props?: (String[]) Array of property values to compare against
 
 **Overloads:**

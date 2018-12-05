@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent",
-    "version": "0.8.9",
+    "version": "0.9.0",
     "description": "node library based on craydent-1.9.3",
     "main": "index.js",
     "scripts": {
@@ -15,7 +15,8 @@
         "publishPublic": "./local_scripts/publish.sh",
         "publishPrivate": "./local_scripts/publishPrivate.sh",
         "buildDev": "./local_scripts/buildDev.sh",
-        "build": "./local_scripts/build.sh"
+        "build": "./local_scripts/build.sh",
+        "generateTypes": "./local_scripts/generate_types.js"
     },
     "repository": {
         "type": "git",

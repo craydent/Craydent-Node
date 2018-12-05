@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -25,7 +25,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Call the next function(s) in queue",
             "category": "Function",
             "parameters":[
-                {"infinite": "(any) any number of arguments can be passed."}],
+                {"...infinite": "(any) any number of arguments can be passed."}],
 
             "overloads":[],
 
@@ -53,11 +53,11 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object values are equal",
             "category": "Function|Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"}],
+                {"compare": "(any) Object to compare against"}],
 
             "overloads":[
                 {"parameters":[
-                    {"compare": "(Object) Object to compare against"},
+                    {"compare": "(any) Object to compare against"},
                     {"props": "(String[]) Array of property values to compare against"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.equals",
@@ -74,11 +74,11 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Function class extension to extend another class",
             "category": "Function",
             "parameters":[
-                {"extendee":"(Object) Class to extend"}],
+                {"extendee":"(Class) Class to extend"}],
 
             "overloads":[
                 {"parameters":[
-                    {"extendee":"(Object) Class to extend"},
+                    {"extendee":"(Class) Class to extend"},
                     {"inheritAsOwn":"(Boolean) Flag to inherit and for values hasOwnProperty to be true."}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#function.extends",
@@ -116,7 +116,8 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#function.getParameters",
-            "returnType": "(Array)"
+            "typeParameter": "<T>",
+            "returnType": "(Array<T>)"
         }|*/
         try {
             return $s._getFuncArgs(this);

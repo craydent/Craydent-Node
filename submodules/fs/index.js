@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -21,41 +21,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
     require($s.dir + 'relativePathFinder')($s);
     require($s.dir + 'requireDirectory')($s);
 
-    var fsmethods = [
-        "access",
-        "appendFile",
-        "chmod",
-        "chown",
-        "close",
-        "fchmod",
-        "fchown",
-        "fdatasync",
-        "fstat",
-        "fsync",
-        "ftruncate",
-        "futimes",
-        "lchmod",
-        "lchown",
-        "link",
-        "lstat",
-        "mkdir",
-        "mkdtemp",
-        "open",
-        "read",
-        "readdir",
-        "readFile",
-        "readlink",
-        "realpath",
-        "rename",
-        "rmdir",
-        "stat",
-        "symlink",
-        "truncate",
-        "unlink",
-        "utimes",
-        "write",
-        "writeFile"
-    ];
+    var fsmethods = $s.fsmethods;
     for (var i = 0, len = fsmethods.length; i < len; i++) {
         $c[fsmethods[i]] = eval(
         '(function ' + fsmethods[i] + '() {\

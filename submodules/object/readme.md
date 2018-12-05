@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.9
+# Craydent 0.9.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -147,32 +147,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* compare: (Object) Object to compare against
+>* compare: (any) Object to compare against
 
 **Overloads:**
 
 >None
-
-*** 
-#### _contains_ 
-***
-
-**Info:** Object class extension to check if value exists
-
-**Return:** (Bool)
-
-**Parameters:**
-
->* val: (Object|ContainsObjectIterator) Value to check or custom function to determine validity
-
-**Overloads:**
-
->Parameters
->* val: (Object) Value to check
->* func: (ContainsIterator<T, TValue>) Callback function used to do the comparison
-
->Parameters
->* arr: (Array<TValue>) Array of values to return first matching value
 
 *** 
 #### _copyObject_ 
@@ -239,7 +218,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* callback: (EachIterator) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
+>* callback: (EachIterator<T>) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
 
 **Overloads:**
 
@@ -255,12 +234,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* callback: (ObjectIterator) Callback to apply to each value
+>* callback: (ObjectIterator<T, TValue, TResult>) Callback to apply to each value
 
 **Overloads:**
 
 >Parameters
->* callback: (ObjectIterator) Callback to apply to each value
+>* callback: (ObjectIterator<T, TValue, TResult>) Callback to apply to each value
 >* craydent_ctxObject: (any) Context for the callback function
 
 *** 
@@ -374,8 +353,8 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* lowerBound: (Mixed) Lower bound comparison
->* upperBound: (Mixed) Upper bound comparison
+>* lowerBound: (any) Lower bound comparison
+>* upperBound: (any) Upper bound comparison
 >* inclusive?: (Bool) Flag to include give bounds
 
 **Overloads:**
@@ -680,8 +659,8 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* callback: (ObjectIterator) Callback to apply to each value
->* craydent_ctxObject?: (Mixed) Context for the callback function
+>* callback: (ObjectIterator<T, TValue, TResult>) Callback to apply to each value
+>* craydent_ctxObject?: (any) Context for the callback function
 
 **Overloads:**
 
@@ -698,7 +677,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* secondary: (Object) Object to merge with
->* condition?: (MergeEnums|MergeOptions|MergeIterator) Flags to recurse, merge only shared value, clone, intersect etc
+>* condition?: (MergeEnums|MergeOptions|MergeIterator<T>) Flags to recurse, merge only shared value, clone, intersect etc
 
 **Overloads:**
 
@@ -734,7 +713,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* path: (String) Path to nested property
->* value: (Mixed) Value to set
+>* value: (any) Value to set
 >* delimiter?: (Char) Separator used to parse path
 
 **Overloads:**

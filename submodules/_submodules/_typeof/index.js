@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -71,13 +71,13 @@ function isBetween (obj, lowerBound, upperBound, inclusive) {
         "info": "Object class extension to check if object is between lower and upper bounds",
         "category": "Object",
         "parameters":[
-            {"lowerBound": "(Mixed) Lower bound comparison"},
-            {"upperBound": "(Mixed) Upper bound comparison"}],
+            {"lowerBound": "(any) Lower bound comparison"},
+            {"upperBound": "(any) Upper bound comparison"}],
 
         "overloads":[
             {"parameters":[
-                {"lowerBound": "(Mixed) Lower bound comparison"},
-                {"upperBound": "(Mixed) Upper bound comparison"},
+                {"lowerBound": "(any) Lower bound comparison"},
+                {"upperBound": "(any) Upper bound comparison"},
                 {"inclusive": "(Bool) Flag to include give bounds"}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#object.isBetween",
@@ -277,15 +277,15 @@ function isNull(value, defaultValue) {
         "info": "Check if a value is Null",
         "category": "Global",
         "parameters":[
-            {"value": "(Mixed) Value to check"}],
+            {"value": "(any) Value to check"}],
 
         "overloads":[
             {"parameters":[
-                {"value": "(Mixed) Value to check"},
-                {"defaultValue": "(Mixed) Value to return if null"}]}],
+                {"value": "(any) Value to check"},
+                {"defaultValue": "(any) Value to return if null"}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#isNull",
-        "returnType": "(Mixed)"
+        "returnType": "(Bool|any)"
     }|*/
     try {
         var isnull = value == null || value == undefined;
@@ -296,6 +296,19 @@ function isNull(value, defaultValue) {
     } catch (e) {
         typeof $c != 'undefined' && $c.error && $c.error('isNull', e);
     }
+}
+function isNullOrEmpty(obj) {
+    /*|{
+        "info": "Object class extension to check if object is a null or empty (object with no props, empty string, etc)",
+        "category": "Object|TypeOf",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.isNumber",
+        "returnType": "(Bool)"
+    }|*/
+    return isNull(obj) || isEmpty(obj);
 }
 function isNumber (obj) {
     /*|{
@@ -419,6 +432,7 @@ $c.isGenerator = isGenerator;
 $c.isGeolocation = isGeolocation;
 $c.isInt = isInt;
 $c.isNull = isNull;
+$c.isNullOrEmpty = isNullOrEmpty;
 $c.isNumber = isNumber;
 $c.isObject = isObject;
 $c.isPromise = isPromise;

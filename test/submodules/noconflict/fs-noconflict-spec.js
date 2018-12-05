@@ -1,4 +1,5 @@
-var pre = require('../_prep');
+var pre = require('../_prep')();
+var fs = require('fs');
 var $c;
 if (process.env.name == 'single') { $c = require(pre + 'craydent-fs/noConflict.js'); }
 else { $c = require('../../../noConflict.js'); }

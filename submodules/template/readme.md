@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.9
+# Craydent 0.9.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -61,32 +61,32 @@ MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
 **Parameters:**
 
 >* htmlTemplate: (String) Template to be used
->* objs: (Objects[]) Objects to fill the template variables
+>* objs: (Object[]) Objects to fill the template variables
 >* options: (FillTemplateOptions) Options to use: max,offset,newlineToHtml,preserve_nonmatching
 
 **Overloads:**
 
 >Parameters
 >* htmlTemplate: (String) Template to be used
->* objs: (Objects[]) Objects to fill the template variables
+>* objs: (Object[]) Objects to fill the template variables
 >* max: (Int) The maximum number of records to process
 
 >Parameters
 >* htmlTemplate: (String) Template to be used
->* objs: (Objects[]) Objects to fill the template variables
+>* objs: (Object[]) Objects to fill the template variables
 >* offset: (Int) The start index of the Object array
 >* max: (Int) The maximum number of records to process
 
 >Parameters
 >* htmlTemplate: (String) Template to be used
->* objs: (Objects[]) Objects to fill the template variables
+>* objs: (Object[]) Objects to fill the template variables
 >* offset: (Int) The start index of the Object array
 >* max: (Int) The maximum number of records to process
 >* newlineToHtml: (Boolean) Flag to replace all new line chars () to the HTML <br /> tag.  Default is true.
 
 >Parameters
 >* htmlTemplate: (String) Template to be used
->* objs: (Objects[]) Objects to fill the template variables
+>* objs: (Object[]) Objects to fill the template variables
 >* offset: (Int) The start index of the Object array
 >* max: (Int) The maximum number of records to process
 >* newlineToHtml: (Boolean) Flag to replace all new line chars () to the HTML <br /> tag.  Default is true.

@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -702,31 +702,31 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
         "featured": true,
         "parameters":[
             {"htmlTemplate": "(String) Template to be used"},
-            {"objs": "(Objects[]) Objects to fill the template variables"},
+            {"objs": "(Object[]) Objects to fill the template variables"},
             {"options": "(FillTemplateOptions) Options to use: max,offset,newlineToHtml"}],
 
         "overloads":[
             {"parameters":[
                 {"htmlTemplate": "(String) Template to be used"},
-                {"objs": "(Objects[]) Objects to fill the template variables"},
+                {"objs": "(Object[]) Objects to fill the template variables"},
                 {"max": "(Int) The maximum number of records to process"}]},
 
             {"parameters":[
                 {"htmlTemplate": "(String) Template to be used"},
-                {"objs": "(Objects[]) Objects to fill the template variables"},
+                {"objs": "(Object[]) Objects to fill the template variables"},
                 {"offset": "(Int) The start index of the Object array"},
                 {"max": "(Int) The maximum number of records to process"}]},
 
             {"parameters":[
                 {"htmlTemplate": "(String) Template to be used"},
-                {"objs": "(Objects[]) Objects to fill the template variables"},
+                {"objs": "(Object[]) Objects to fill the template variables"},
                 {"offset": "(Int) The start index of the Object array"},
                 {"max": "(Int) The maximum number of records to process"},
                 {"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."}]},
 
             {"parameters":[
                 {"htmlTemplate": "(String) Template to be used"},
-                {"objs": "(Objects[]) Objects to fill the template variables"},
+                {"objs": "(Object[]) Objects to fill the template variables"},
                 {"offset": "(Int) The start index of the Object array"},
                 {"max": "(Int) The maximum number of records to process"},
                 {"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."},
@@ -818,7 +818,15 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
                     }
                 }
             }
-            template = _replace_all(template,'\n', "scope.ctx.fillTemplate.refs['newline']");
+            template = _replace_all(
+                template,
+                ['\n','\r'],
+                [
+                    "scope.ctx.fillTemplate.refs['newline']",
+                    "scope.ctx.fillTemplate.refs['returnline']"
+                ]
+            );
+            // template = _replace_all(template,'\r', "scope.ctx.fillTemplate.refs['returnline']");
             var declarations = template.match(_addFlags(ttc.DECLARE.syntax,'g')) || [];
             for (var j = 0, jlen = declarations.length; j < jlen; j++) {
                 template = ttc.DECLARE.parser(template, declarations[j]);
@@ -876,7 +884,10 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
         }
 
         if (!nested) {
-            html = _replace_all(html, "scope.ctx.fillTemplate.refs['newline']","\n").replace(/scope.ctx.fillTemplate.refs\['.*?']/g,"");
+            html = _replace_all(html, [
+                "scope.ctx.fillTemplate.refs['newline']",
+                "scope.ctx.fillTemplate.refs['returnline']"
+            ],["\n","\r"]).replace(/scope.ctx.fillTemplate.refs\['.*?']/g,"");
             scope.ctx.fillTemplate.declared = scope.ctx.fillTemplate.refs = undefined;
         }
         return html;

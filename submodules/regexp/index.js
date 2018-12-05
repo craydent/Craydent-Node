@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -7,7 +7,8 @@
 /*/---------------------------------------------------------/*/
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    ext = $s._ext;
+    ext = $s._ext,
+    error = $s.error;
 
 if (!$c.MODULES_LOADED[$s.info.name]) {
     $s.__log_module();
@@ -40,7 +41,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object values are equal",
             "category": "RegExp|Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"},
+                {"compare": "(any) Object to compare against"},
                 {"props?": "(String[]) Array of property values to compare against"}],
 
             "overloads":[],

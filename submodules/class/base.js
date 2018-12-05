@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -27,6 +27,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "parameters":[],
 
             "overloads":[],
+
+            "instanceProperties":[
+                {"name":"executionTime", "type":"number"},
+                {"name":"start", "type":"void"},
+                {"name":"stop", "type":"() => number"}
+            ],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#Benchmarker",
             "returnType": "(IBenchmarker)"
@@ -61,9 +67,18 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                 {"parameters":[
                     {"records": "(Object) Object used to create the iterator to iterate each property"}]}],
 
+            "instanceProperties":[
+                {"name":"current", "type":"T"},
+                {"name":"hasNext", "type":"() => boolean"},
+                {"name":"next", "type":"() => {value:T, done:boolean}"},
+                {"name":"reset", "type":"() => void"},
+                {"name":"setNextIndex", "type":"(value: number) => void"},
+                {"name":"size", "type":"() => number"}
+            ],
+
             "url": "http://www.craydent.com/library/1.9.3/docs#Cursor",
             "typeParameter": "<T>",
-            "returnType": "(ICursor)"
+            "returnType": "(ICursor<T>)"
         }|*/
         try {
             var props = [],
@@ -111,9 +126,17 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[],
 
+            "instanceProperties":[
+                {"name":"dequeue", "type":"() => T"},
+                {"name":"enqueue", "type":"(value:T) => void"},
+                {"name":"hasNext", "type":"() => boolean"},
+                {"name":"next", "type":"() => {value:T, done:boolean}"},
+                {"name":"size", "type":"() => number"}
+            ],
+
             "url": "http://www.craydent.com/library/1.9.3/docs#Queue",
             "typeParameter": "<T>",
-            "returnType": "(IQueue)"
+            "returnType": "(IQueue<T>)"
         }|*/
         try {
             var arr = $s.duplicate(records || [],true), nextIndex = 0;
@@ -136,9 +159,18 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[],
 
+            "instanceProperties":[
+                {"name":"add", "type":"(value:T) => boolean"},
+                {"name":"clean", "type":"() => void"},
+                {"name":"clear", "type":"(value?:T, indexOf?:ArrayIterator<T, TResult>) => void"},
+                {"name":"hasNext", "type":"() => boolean"},
+                {"name":"next", "type":"() => {value:T, done:boolean}"},
+                {"name":"size", "type":"() => number"}
+            ],
+
             "url": "http://www.craydent.com/library/1.9.3/docs#Set",
             "typeParameter": "<T, TResult>",
-            "returnType": "(ISet)"
+            "returnType": "(ISet<T, TResult>)"
         }|*/
         try {
             var arr = $s.duplicate(records || []), nextIndex = 0;

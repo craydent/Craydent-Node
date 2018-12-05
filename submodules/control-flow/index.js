@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -26,20 +26,20 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "overloads":[
                 {"parameters":[
                     {"func": "(Function) Function to make yieldable"},
-                    {"context": "(Object) Context to use to execute func."}]},
+                    {"context": "(any) Context to use to execute func."}]},
 
                 {"parameters":[
-                    {"func": "(Object) Function to make yieldable"},
+                    {"func": "(Function) Function to make yieldable"},
                     {"callbackIndex": "(Integer) Index of callback argument."}]},
 
                 {"parameters":[
                     {"func": "(Function) Function to make yieldable"},
-                    {"context": "(Object) Context to use to execute func."},
+                    {"context": "(any) Context to use to execute func."},
                     {"callbackIndex": "(Integer) Index of callback argument."}]},
 
                 {"parameters":[
                     {"func": "(Function) Function to make yieldable"},
-                    {"context": "(Object) Context to use to execute func."},
+                    {"context": "(any) Context to use to execute func."},
                     {"callbackIndex": "(Integer) Index of callback argument."},
                     {"returnIndex": "(Integer) Index of callback argument."}]}],
 

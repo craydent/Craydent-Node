@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-vx.x.x                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -10,6 +10,9 @@
 var root = require.resolve('../package.json').replace('/package.json','');
 var mod = root;
 var name = "craydent";
+var RED = '\x1b[31m%s\x1b[0m';
+var GREEN = '\x1b[32m%s\x1b[0m';
+var YELLOW = '\x1b[33m%s\x1b[0m';
 var exclude = [];
 var categories = [
     'Constants',
@@ -133,7 +136,7 @@ try {
 			ln;
 	}
 }
-catch (e) { console.log(e); }
+catch (e) { console.log(RED, e); }
 /*
 readme += "Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
 	"More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).\n" +
@@ -237,7 +240,7 @@ for (var o = 0; o < 2; o++) {
 				properties[prop] += prop + ' ('+ ($utl.getProperty(c, prop+'.constructor.name') || type) +')';
 			} else {
 				// console.log("<"+c[prop]+">", prop,"is not a method");
-				console.log($typ.isFunction(c[prop]));
+				console.log(RED, $typ.isFunction(c[prop]));
 			}
 		}
 	}
@@ -344,9 +347,9 @@ readme += '\n\n\n## Download\n\n' +
 
 fs.writeFile(mod + "/readme.md", readme, function(err) {
 	if(err) {
-		return console.log(err),process.exit(1);;
+		return console.log(RED, err),process.exit(1);;
 	}
 
-	console.log("saved: " + mod.replace(root,'') + "/readme.md");
+	console.log(GREEN, `saved: ${mod.replace(root,'')}/readme.md`);
 	process.exit(0);
 });

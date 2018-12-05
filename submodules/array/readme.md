@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.9
+# Craydent 0.9.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -277,30 +277,6 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 >* check_values: (Bool) Set craydent_ctx flag to remove duplicates
 
 *** 
-#### _contains_ 
-***
-
-**Info:** Object class extension to check if value exists
-
-**Return:** (Bool) returns if there was a match.
-
-**Parameters:**
-
->* val: (ContainsValue) Value to check
-
-**Overloads:**
-
->Parameters
->* val: (ContainsIterator<T>) Function to determine validity.  Function is passed the value, index/prop, and original as arguments and must return a boolean
-
->Parameters
->* val: (ContainsValue) Value to check
->* func: (ContainsIterator<T>) Callback function used to do the comparison
-
->Parameters
->* arr: (Array<ContainsValue>) Array of values to return first matching value
-
-*** 
 #### _count_ 
 ***
 
@@ -368,21 +344,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
->* condition?: (String) Query following SQL where clause syntax
+>* condition?: (String|WhereCondition) Query following SQL where clause syntax
 
 **Overloads:**
 
 >Parameters
->* fields: (Array<T>) Fields to use as the projection and unique comparison
->* condition?: (String) Query following SQL where clause syntax
-
->Parameters
->* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
->* condition?: (Object) Query following MongoDB find clause syntax
-
->Parameters
->* fields: (Array<T>) Fields to use as the projection and unique comparison (comma delimited)
->* condition?: (Object) Query following MongoDB find clause syntax
+>* fields: (Array<String>) Fields to use as the projection and unique comparison
+>* condition?: (String|WhereCondition) Query following SQL where clause syntax
 
 *** 
 #### _equals_ 
@@ -394,12 +362,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* compare: (Object) Object to compare against
+>* compare: (any) Object to compare against
 
 **Overloads:**
 
 >Parameters
->* compare: (Object) Object to compare against
+>* compare: (any) Object to compare against
 >* props: (Array<string>) Array of property values to compare against
 
 *** 
@@ -413,7 +381,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* callback: (ArrayIterator<T, TResult>) Callback to test for each element. Callback will get the current item, index, context as arguments.
->* craydent_ctxObject?: (Object) Context for the callback function
+>* craydent_ctxObject?: (any) Context for the callback function
 
 **Overloads:**
 
@@ -430,7 +398,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* func: (ArrayIterator<T, TResult>) Callback function used to determine if value should be returned. Callback will get the current item, index, context as arguments.
->* craydent_ctxs?: (Object) Specify the context on callback function
+>* craydent_ctxs?: (any) Specify the context on callback function
 
 **Overloads:**
 
@@ -442,7 +410,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to retrieve value of an object property
 
-**Return:** (Object) the value of any type.  if the type is a method, it will execute the methed and use its return value.
+**Return:** (any) the value of any type.  if the type is a method, it will execute the methed and use its return value.
 
 **Parameters:**
 
@@ -451,11 +419,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Overloads:**
 
 >Parameters
->* default: (Object) Default value to return if context is not a function
+>* default: (any) Default value to return if context is not a function
 
 >Parameters
->* arguments: (Object[]) An array of arguments to pass to context when it is a function
->* default: (Object) Default value to return if context is not a function
+>* arguments: (any[]) An array of arguments to pass to context when it is a function
+>* default: (any) Default value to return if context is not a function
 
 *** 
 #### _group_ 
@@ -484,7 +452,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* value: (Object) value to find
+>* value: (any) value to find
 
 **Overloads:**
 
@@ -500,7 +468,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* value: (Object) value to find
+>* value: (any) value to find
 >* func: (ArrayIterator<T, TResult>) Callback function used to do the comparison
 
 **Overloads:**
@@ -536,7 +504,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* value: (Object) value to add
+>* value: (any) value to add
 
 **Overloads:**
 
@@ -553,7 +521,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* index: (Int) Index to add after
->* value: (Object) Value to add
+>* value: (any) Value to add
 
 **Overloads:**
 
@@ -570,7 +538,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* index: (Int) Index to add after
->* value: (Object) Value to add
+>* value: (any) Value to add
 
 **Overloads:**
 
@@ -587,7 +555,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* index: (Int) Index to add before
->* value: (Object) Value to add
+>* value: (any) Value to add
 
 **Overloads:**
 
@@ -619,7 +587,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* compare: (Array<T> | Object) Superset to compare against
+>* compare: (Array<T>|Object) Superset to compare against
 
 **Overloads:**
 
@@ -703,7 +671,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* callback: (ArrayIterator<T, TResult>) Callback function used to apply changes
->* craydent_ctxObject?: (Object) Specify the context on callback function
+>* craydent_ctxObject?: (any) Specify the context on callback function
 
 **Overloads:**
 
@@ -776,7 +744,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* value: (Object) Value to remove
+>* value: (any) Value to remove
 >* indexOf?: (IndexOf<T>) Callback function to use to find the item based on the value
 
 **Overloads:**
@@ -793,8 +761,8 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* value: (Object) Value to remove
->* indexOf: (IndexOf<T>) Callback function to use to find the item based on the value
+>* value?: (any) Value to remove
+>* indexOf?: (IndexOf<T>) Callback function to use to find the item based on the value
 
 **Overloads:**
 
@@ -827,7 +795,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* index: (Int) Index of the item to remove
->* value: (Object) Value to replace with
+>* value: (any) Value to replace with
 
 **Overloads:**
 
@@ -877,38 +845,54 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 >Parameters
 >* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 
 >Parameters
 >* props: (Array<String>) Properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 
 >Parameters
 >* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 >* lookup: (Object) Look up object to use as values instead of the array values.
 
 >Parameters
 >* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 >* lookup: (Object) Look up object to use as values instead of the array values.
 
 >Parameters
 >* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 >* lookup: (Object) Look up object to use as values instead of the array values.
 >* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
 >Parameters
 >* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 >* lookup: (Object) Look up object to use as values instead of the array values.
 >* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
+
+*** 
+#### _toSet_ 
+***
+
+**Info:** Array class extension to convert the array to a set
+
+**Return:** (Set<T>) returns a Set from the array Values
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
 
 *** 
 #### _trim_ 
@@ -931,22 +915,6 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 >* character: (Char[]) Character to remove in the String
 
 *** 
-#### _toSet_ 
-***
-
-**Info:** Array class extension to convert the array to a set
-
-**Return:** (Set<T>) returns a Set from the array Values
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->None
-
-*** 
 #### _update_ 
 ***
 
@@ -957,13 +925,13 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* condition: (WhereCondition) Query following find/where clause syntax
->* setClause: (Object) Set clause used to update the records
+>* setClause: (MongoSet) Set clause used to update the records
 
 **Overloads:**
 
 >Parameters
 >* condition: (WhereCondition) Query following find/where clause syntax
->* setClause: (Object) Set clause used to update the records
+>* setClause: (MongoSet) Set clause used to update the records
 >* options: (UpdateOptions) Options to specify if mulit update and/or upsert
 
 *** 
@@ -976,22 +944,18 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* records: (Array<T>) Records to use to insert/update array
+>* records: (Array<T>|T) Record(s) to use to insert/update array
 
 **Overloads:**
 
 >Parameters
->* records: (Array<T>) Records to use to insert/update array
+>* records: (Array<T>|T) Records to use to insert/update array
 >* callback: (UpsertIterator<T>) Method to use to determine if the records are equal
 
 >Parameters
->* records: (Array<T>) Records to use to insert/update array
+>* records: (Array<T>|T) Records to use to insert/update array
 >* prop: (string) Property to use as the primary key
-
->Parameters
->* records: (Array<T>) Records to use to insert/update array
->* prop: (string) Property to use as the primary key
->* callback: (UpsertIterator<T>) Method to use to determine if the records are equal
+>* callback?: (UpsertIterator<T>) Method to use to determine if the records are equal
 
 
 

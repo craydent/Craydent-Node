@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -9,6 +9,7 @@ var _isArray, _error;
 
 function startsWithAny (obj) {
     try {
+        obj = obj || "";
         var i = 1;
         var args = arguments;
         if (arguments.length < 3 && _isArray(arguments[1])) {

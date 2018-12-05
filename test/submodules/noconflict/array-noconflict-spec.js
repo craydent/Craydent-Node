@@ -1,4 +1,4 @@
-var pre = require('../_prep');
+var pre = require('../_prep')();
 var $c;
 if (process.env.name == 'single') { $c = require(pre + 'craydent-array/noConflict.js'); }
 else { $c = require('../../../noConflict.js'); }
@@ -26,7 +26,22 @@ describe ('No Conflict Array', function () {
             {id:8,p:"30",share:"shared", index: 30,std:4},
             {id:9,p:"30",share:"shared", index: 30,std:4},
             {id:10,p:"30",share:"shared", index: 30,std:4},
-            {id:11,std:4}],
+            {id:11,std:4},
+            {id:11,std:4},
+            {id:12,std:4},
+            {id:13,std:4},
+            {id:14,std:4},
+            {id:15,std:4},
+            {id:16,std:4},
+            {id:17,std:4},
+            {id:18,std:4},
+            {id:19,std:4},
+            {id:20,std:4},
+            {id:21,std:4},
+            {id:22,std:4},
+            {id:23,std:4},
+            {id:24,std:4},
+            {id:25,std:4}],
         arrStrings = ["string 1","string 2","string 3","string 4"],
         arrMix = [1,{},"adsf",10],
         arrSort = [{id:1, s:5},{id:2, s:5},{id:3, s:6},{id:4, s:3},{id:5, s:2}],
@@ -38,10 +53,10 @@ describe ('No Conflict Array', function () {
             { "_id" : 5, "sku": null, description: "Incomplete" },
             { "_id" : 6 }],
         arrGroup = [
-            { "_id" : 1, item: { "sku" : "111" }, name : "p1", status: "ordered", "instock" : 10 },
-            { "_id" : 2, item: { "sku" : "222" }, name : "p2", status: "ordered", "instock" : 80 },
-            { "_id" : 3, item: { "sku" : "111" }, name : "p1", status: "ordered", "instock" : 60 },
-            { "_id" : 4, item: { "sku" : "333" }, name : "p3", status: "ordered", "instock" : 70 },
+            { "_id" : 1, item: { "sku" : "111" }, name : "p1", status: "ordered", "instock" : 10, sizes: ["S", "M"], dept: "A" },
+            { "_id" : 2, item: { "sku" : "222" }, name : "p2", status: "ordered", "instock" : 80, sizes: ["M", "L"], dept: "A" },
+            { "_id" : 3, item: { "sku" : "111" }, name : "p1", status: "ordered", "instock" : 60, sizes: "S", dept: "B" },
+            { "_id" : 4, item: { "sku" : "333" }, name : "p3", status: "ordered", "instock" : 70, sizes: ["S"], dept: "A" },
             { "_id" : 5, item: { "sku" : "111" }, name : "p1", status: "incomplete" },
             { "_id" : 6 }],
         arrTree = [
@@ -408,14 +423,23 @@ describe ('No Conflict Array', function () {
         var temp = $c.duplicate(arrObjs,true);
         expect($c.distinct(temp,["share","std"])).toEqual([
             {share:"shared",std:4},{share:undefined,std:4}]);
-        expect($c.distinct(temp,["share"])).toEqual(["shared",undefined]);
+        expect($c.distinct(temp,["share"])).toEqual(["shared"]);
 
+        temp = arrGroup.duplicate(true);
+        expect($c.distinct(temp, "sizes,dept")).toEqual([
+            {sizes:"S", dept: "A"},
+            {sizes:"M", dept: "A"},
+            {sizes:"L", dept: "A"},
+            {sizes:"S", dept: "B"}
+        ]);
+        expect($c.distinct(temp, "sizes")).toEqual(["S","M","L"]);
+        expect($c.distinct(temp, "item.sku")).toEqual(["111","222","333"]);
     });
     it('distinct - string',function(){
         var temp = $c.duplicate(arrObjs,true);
         expect($c.distinct(temp,"share,std")).toEqual([
             {share:"shared",std:4},{share:undefined,std:4}]);
-        expect($c.distinct(temp,"share")).toEqual(["shared",undefined]);
+        expect($c.distinct(temp,"share")).toEqual(["shared"]);
     });
     it('distinct - string with query',function(){
         var temp = $c.duplicate(arrObjs,true);
@@ -423,7 +447,7 @@ describe ('No Conflict Array', function () {
             {share:"shared",std:4}]);
         expect($c.distinct(temp,"share",{share:{$exists:1}})).toEqual(["shared"]);
     });
-    it('distinct - string with query',function(){
+    it('distinct - array with query',function(){
         var temp = $c.duplicate(arrObjs,true);
         expect($c.distinct(temp,["share","std"],{share:{$exists:1}})).toEqual([
             {share:"shared",std:4}]);
@@ -436,7 +460,7 @@ describe ('No Conflict Array', function () {
             {share:"shared",std:4},
             {share:undefined,std:4}
         ]);
-        expect($c.distinct(temp,"share","")).toEqual(["shared",undefined]);
+        expect($c.distinct(temp,"share","")).toEqual(["shared"]);
     });
     it('distinct - array with sql query',function(){
         var temp = $c.duplicate(arrObjs,true);
@@ -445,7 +469,7 @@ describe ('No Conflict Array', function () {
             {share:undefined,std:4}
         ]);
 
-        expect($c.distinct(temp,["share"],"")).toEqual(["shared",undefined]);
+        expect($c.distinct(temp,["share"],"")).toEqual(["shared"]);
     });
     it('every',function(){
         var arr = ['a','','b',0,'c',false,'d',null,'e',undefined];
@@ -454,10 +478,10 @@ describe ('No Conflict Array', function () {
     });
     it('filter',function(){
         var arr = ['a','','b',0,'c',false,'d',null,'e',undefined];
-        expect(arr.filter(function(item,i,arr){ return item; })).toEqual(['a','b','c','d','e']);
+        expect($c.filter(arr, function(item,i,arr){ return item; })).toEqual(['a','b','c','d','e']);
     });
     it('group',function(){
-        var temp = arrGroup.duplicate();
+        var temp = $c.duplicate(arrGroup);
         expect($c.group(temp, {key:{'item.sku': 1, name: 1 },reduce:function(curr, result){ }, initial: {},})).toEqual([
             {item:{sku:'111'}, name: 'p1' },
             {item:{sku:'222'}, name: 'p2' },
@@ -602,7 +626,7 @@ describe ('No Conflict Array', function () {
             { "_id" : 6, "item" : null, "price" : null, "quantity" : null }]);
     });
     it('joinRight - shorthand',function(){
-        expect($c.joinRight($c.duplicate(arrLookupJoiner,true),$c.duplicate(arrLookuptrue),"_id")).toEqual([
+        expect($c.joinRight($c.duplicate(arrLookupJoiner,true),$c.duplicate(arrLookup),"_id")).toEqual([
             { "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "sku" : "abc", description: "product 1", "instock" : 120 },
             { "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "sku" : "def", description: "product 2", "instock" : 80 },
             { "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 }]);
@@ -848,10 +872,10 @@ describe ('No Conflict Array', function () {
     });
     it('sortBy - lookup',function(){
         var arr = ['a','b','c','d'], lookup = {a:{s:4},b:{s:3},c:{s:2},d:{s:1}};
-        expect($c.sortBy(temp,['s'],false,null,lookup)).toEqual( ['d','c','b','a']);
+        expect($c.sortBy(arr,['s'],false,null,lookup)).toEqual( ['d','c','b','a']);
 
         var lookup2 = {a:{s:"a"},b:{s:"B"},c:{s:"c"},d:{s:"d"}};
-        expect($c.sortBy(temp,['s'],false,null,lookup2)).toEqual( ['b','a','c','d']);
+        expect($c.sortBy(arr,['s'],false,null,lookup2)).toEqual( ['b','a','c','d']);
     });
     it('sortBy - lookup string',function(){
         var arr = ['a','b','c','d'];
@@ -868,8 +892,8 @@ describe ('No Conflict Array', function () {
     it('stdev',function(){
         var arr = [1,2,3,4,5,6,7,8,9,0];
         var arr2 = [1,undefined,2,'',3,{},4,[],5,null,function(){},6,7,8,9,0];
-        expect($c.stdev(arr,'asdf')).toBe(2.8722813232690143);
-        expect($c.stdev(arr2,'asdf2')).toBe(2.8722813232690143);
+        expect($c.stdev(arr)).toBe(2.8722813232690143);
+        expect($c.stdev(arr2)).toBe(2.8722813232690143);
     });
     it('sum',function(){
         expect($c.sum(arrMix)).toBe(11);
@@ -967,7 +991,7 @@ describe ('No Conflict Array', function () {
         ]}
     ];
     it('update - $push',function(){
-        var temp = $c.duplicate(arrObjs,true);
+        var temp = $c.duplicate(arrArr,true);
         $c.update(temp,{},{$push:{arr:{
             $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             $sort: { score: 1 }

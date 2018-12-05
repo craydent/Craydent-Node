@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-vX.X.X                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -12,6 +12,7 @@
 var root = require.resolve('../package.json').replace('/package.json','');
 var cpkg = require(root + '/package.json');
 var pkgPrefix = ~cpkg.name.indexOf('@craydent') ? "@craydent/" : "";
+var $fs = require(cpkg.name + '-fs');
 var exec = require('child_process').exec;
 var publishing = process.argv[2] == "publish";
 var staging = process.argv[2] == "stage";
@@ -27,90 +28,210 @@ var defaultKeywords = [
     "sugar",
     "utilities"
 ];
-var pre_text = "/*/---------------------------------------------------------/*/\n\
-/*/ Craydent LLC node-v" + version;
+var pre_text = "/*/---------------------------------------------------------/*/\n";
+var versionLine = `/*/ Craydent LLC node-v${version}`;
+var versionLineRegExp = /\/\*\/ Craydent LLC node-v.*/;
 for (var i = 0; i < spaces; i++) {
-    pre_text += " ";
+    versionLine += " ";
 }
-pre_text += "/*/\n\
+versionLine += "/*/";
+pre_text += `${versionLine}
 /*/ Copyright 2011 (http://craydent.com/about)              /*/\n\
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/\n\
 /*/ (http://craydent.com/license)                           /*/\n\
 /*/---------------------------------------------------------/*/\n\
 /*/---------------------------------------------------------/*/\n\
-module.exports = function (ctx) {\n",
+module.exports = function (ctx) {\n`,
     post_text = "};";
 
-var config = require(root + '/submodules/dependencies');
+var RED = '\x1b[31m%s\x1b[0m';
+var GREEN = '\x1b[32m%s\x1b[0m';
+var YELLOW = '\x1b[33m%s\x1b[0m';
+var config = require(`${root}/submodules/dependencies`);
 var details = config.details;
 var dependencies = config.primary,
     sub_dependencies = config.secondary,
-    fs = require('fs');
+    scripts = `${root}/local_scripts/`;
 
-// var package = fs.readFileSync(root + '/submodules/package.json', "utf8");
-var package = require(root + '/submodules/package.json', "utf8");
+var package = require(`${root}/submodules/package.json`, "utf8");
 
-var base = root + "/submodules/",
-    source_base = base + "_shared/",
-    depdir = "dependencies/",
-    scripts = root + "/local_scripts/",
-    folders = [];
+var base = `${root}/submodules/`,
+    source_base = `${base}_shared/`,
+    depdir = "dependencies/";
 
-var completed = 0, run = 0;
+async function start() {
+    console.log(GREEN, '>>>>>>>>>>>>>>> BUILDING MODULES <<<<<<<<<<<<<<<');
+    !staging && await $fs.unlink(`${root}/package-lock.json`);
+    let asyncModules = []
+    for (let folder in dependencies) {
+        asyncModules.push(compileSubmodule(folder));
+        // if (!dependencies.hasOwnProperty(folder)) { continue; }
+        // folders.push(folder);
 
-try { !staging && fs.unlinkSync(root + "/package-lock.json"); } catch (e) { /*console.log(e);*/ }
+        // var files = await $fs.readdir(base + folder + "/" + depdir);
+        // var asyncTasks = [];
+        // for (var i = 0, len = files.length; i < len; i++) {
+        //     asyncTasks.push($fs.unlink(base + folder + "/" + depdir + files[i]));
+        // }
 
-// var readmeCommand = [];
-for (var folder in dependencies) {
-    if (!dependencies.hasOwnProperty(folder)) { continue; }
-    folders.push(folder);
+        // asyncTasks.push($fs.unlink(base + folder + "/base.js"));
+        // asyncTasks.push($fs.unlink(base + folder + "/global.js"));
+        // asyncTasks.push($fs.unlink(base + folder + "/noConflict.js"));
+        // asyncTasks.push($fs.unlink(base + folder + "/package.json"));
+        // !staging && asyncTasks.push($fs.unlink(base + folder + "/package-lock.json"));
+        // !publishing && asyncTasks.push($fs.unlink(base + folder + "/readme.md"));
 
-    var files = fs.readdirSync(base + folder + "/" + depdir);
+        // await Promise.all(asyncTasks);
+        // var asyncRW = [];
+        // asyncRW.push($fs.readFile(base + folder + '/index.js', 'utf8').then((raw)=>{
+        //     let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
+        //     $fs.writeFile(base + folder + '/base.js', content);
+        //     $fs.writeFile(base + folder + '/index.js', content);
+        // }));
+        // asyncRW.push($fs.readFile(base + 'common.js', 'utf8').then((raw)=>{
+        //     let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
+        //     $fs.writeFile(base + folder + '/' + depdir + 'common.js', content);
+        // }));
+        // asyncRW.push($fs.readFile(base + 'global.js', 'utf8').then((raw)=>{
+        //     let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
+        //     $fs.writeFile(base + folder + '/global.js', content);
+        // }));
+        // asyncRW.push($fs.readFile(base + 'noConflict.js', 'utf8').then((raw)=>{
+        //     let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
+        //     $fs.writeFile(base + folder + '/noConflict.js', content);
+        // }));
 
-    for (var i = 0, len = files.length; i < len; i++) {
-        try { fs.unlinkSync(base + folder + "/" + depdir + files[i]); } catch (e) { console.log(e); }
+        // // dependent files
+        // let depfiles = [
+        //     'addObjectPrototype.js',
+        //     'condense.js',
+        //     'convert_regex_safe.js',
+        //     'cout.js',
+        //     'defineFunction.js',
+        //     'error.js',
+        //     'general_trim.js',
+        //     'getFuncArgs.js',
+        //     'isNull.js',
+        //     'strip.js'
+        // ];
+        // for (let i = 0, len = depfiles.length; i < len; i++) {
+        //     let depfile = depfiles[i];
+        //     asyncRW.push($fs.readFile(base + depfile, 'utf8').then((raw)=>{
+        //         let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
+        //         $fs.writeFile(base + folder + '/' + depdir + depfile, content);
+        //     }));
+        // }
+
+        // var module_dependencies = {};
+        // if (folder != "typeof") {
+        //     if (process.argv[2] == 'publish') {
+        //         module_dependencies[pkgPrefix + "craydent-typeof"] = "^" + version;
+        //         // module_dependencies = " \"" + pkgPrefix + "craydent-typeof\": \"^" + version + "\" ";
+        //     } else {
+        //         module_dependencies[pkgPrefix + "craydent-typeof"] = "file:../typeof";
+        //         // module_dependencies = " \"" + pkgPrefix + "craydent-typeof\": \"file:../typeof\" ";
+        //     }
+        // }
+
+        // package.name = pkgPrefix + "craydent-" + folder;
+        // package.version = version;
+        // package.description = details[folder].description;
+        // package.keywords = details[folder].keywords.concat(defaultKeywords,[folder]).sort();
+        // package.dependencies = module_dependencies;
+        // package.repository.url = gitUrlTemplate.replace("${submodule}", folder);
+        // package.homepage = homepageUrlTemplate.replace("${submodule}", folder);
+
+        // await $fs.writeFile(base + folder + '/package.json', JSON.stringify(package, null, 4)).then(()=>{
+        //     console.log("saved: " + base.replace(root,'') + folder + '/package.json')
+        // });
+
+        // let already_added = [];
+
+        // for (let i = 0, len = dependencies[folder].length; i < len; i++) {
+        //     if (~already_added.indexOf(dependencies[folder][i])) { continue; }
+        //     asyncRW.push($fs.readFile(source_base + dependencies[folder][i] + '.js', 'utf8').then((raw)=>{
+        //         let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
+        //         $fs.writeFile(base + folder + '/' + depdir + dependencies[folder][i] + '.js', content);
+        //     }));
+        //     already_added.push(dependencies[folder][i]);
+        //     asyncRW = asyncRW.concat(recurse_sub(already_added, folder, dependencies[folder][i]));
+        // }
+        // await Promise.all(asyncRW);
+        // asyncNPM.push(npminstall(folder));
+    }
+    await Promise.all(asyncModules);
+    console.log(GREEN, '>>>>>>>>>>>>>>> BUILD COMPLETE <<<<<<<<<<<<<<<');
+}
+async function compileSubmodule (folder) {
+    var path = base + folder;
+    var files = await $fs.readdir(`${path}/${depdir}`);
+    var asyncTasks = [];
+    for (let i = 0, len = files.length; i < len; i++) {
+        asyncTasks.push($fs.unlink(`${path}/${depdir}${files[i]}`));
     }
 
-    try { fs.unlinkSync(base + folder + "/base.js"); } catch (e) { /*console.log(e);*/ }
-    try { fs.unlinkSync(base + folder + "/global.js"); } catch (e) { /*console.log(e);*/ }
-    try { fs.unlinkSync(base + folder + "/noConflict.js"); } catch (e) { /*console.log(e);*/ }
-    try { fs.unlinkSync(base + folder + "/package.json"); } catch (e) { /*console.log(e);*/ }
-    try { !staging && fs.unlinkSync(base + folder + "/package-lock.json"); } catch (e) { /*console.log(e);*/ }
-    try { !publishing && fs.unlinkSync(base + folder + "/readme.md"); } catch (e) { /*console.log(e);*/ }
+    asyncTasks.push($fs.unlink(`${path}/base.js`));
+    asyncTasks.push($fs.unlink(`${path}/global.js`));
+    asyncTasks.push($fs.unlink(`${path}/noConflict.js`));
+    asyncTasks.push($fs.unlink(`${path}/package.json`));
+    !staging && asyncTasks.push($fs.unlink(`${path}/package-lock.json`));
+    !publishing && asyncTasks.push($fs.unlink(`${path}/readme.md`));
 
-    fs.createReadStream(base + folder + '/index.js').pipe(fs.createWriteStream(base + folder + '/base.js'));
-    fs.createReadStream(base + 'common.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'common.js'));
-    fs.createReadStream(base + 'global.js').pipe(fs.createWriteStream(base + folder + '/global.js'));
-    fs.createReadStream(base + 'noConflict.js').pipe(fs.createWriteStream(base + folder + '/noConflict.js'));
+    await Promise.all(asyncTasks);
+    var asyncRW = [];
+    asyncRW.push($fs.readFile(`${path}/index.js`, 'utf8').then((raw)=>{
+        let content = raw.replace(versionLineRegExp, versionLine);
+        return Promise.all([
+            $fs.writeFile(`${path}/base.js`, content),
+            $fs.writeFile(`${path}/index.js`, content)
+        ]);
+    }));
+    asyncRW.push($fs.readFile(`${base}common.js`, 'utf8').then((raw)=>{
+        let content = raw.replace(versionLineRegExp, versionLine);
+        return $fs.writeFile(`${path}/${depdir}common.js`, content);
+    }));
+    asyncRW.push($fs.readFile(`${base}global.js`, 'utf8').then((raw)=>{
+        let content = raw.replace(versionLineRegExp, versionLine);
+        return $fs.writeFile(`${path}/global.js`, content);
+    }));
+    asyncRW.push($fs.readFile(`${base}noConflict.js`, 'utf8').then((raw)=>{
+        let content = raw.replace(versionLineRegExp, versionLine);
+        return $fs.writeFile(`${path}/noConflict.js`, content);
+    }));
 
     // dependent files
-    fs.createReadStream(base + 'addObjectPrototype.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'addObjectPrototype.js'));
-    fs.createReadStream(base + 'condense.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'condense.js'));
-    fs.createReadStream(base + 'convert_regex_safe.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'convert_regex_safe.js'));
-    fs.createReadStream(base + 'cout.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'cout.js'));
-    fs.createReadStream(base + 'defineFunction.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'defineFunction.js'));
-    fs.createReadStream(base + 'error.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'error.js'));
-    fs.createReadStream(base + 'general_trim.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'general_trim.js'));
-    fs.createReadStream(base + 'getFuncArgs.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'getFuncArgs.js'));
-    fs.createReadStream(base + 'isNull.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'isNull.js'));
-    fs.createReadStream(base + 'strip.js').pipe(fs.createWriteStream(base + folder + '/' + depdir + 'strip.js'));
+    let depfiles = [
+        'addObjectPrototype.js',
+        'condense.js',
+        'convert_regex_safe.js',
+        'cout.js',
+        'defineFunction.js',
+        'error.js',
+        'general_trim.js',
+        'getFuncArgs.js',
+        'isNull.js',
+        'strip.js'
+    ];
+    for (let i = 0, len = depfiles.length; i < len; i++) {
+        let depfile = depfiles[i];
+        asyncRW.push($fs.readFile(base + depfile, 'utf8').then((raw)=>{
+            let content = raw.replace(versionLineRegExp, versionLine);
+            return $fs.writeFile(`${path}/${depdir}${depfile}`, content);
+        }));
+    }
 
     var module_dependencies = {};
     if (folder != "typeof") {
         if (process.argv[2] == 'publish') {
-            module_dependencies[pkgPrefix + "craydent-typeof"] = "^" + version;
+            module_dependencies[`${pkgPrefix}craydent-typeof`] = `^${version}`;
             // module_dependencies = " \"" + pkgPrefix + "craydent-typeof\": \"^" + version + "\" ";
         } else {
-            module_dependencies[pkgPrefix + "craydent-typeof"] = "file:../typeof";
+            module_dependencies[`${pkgPrefix}craydent-typeof`] = "file:../typeof";
             // module_dependencies = " \"" + pkgPrefix + "craydent-typeof\": \"file:../typeof\" ";
         }
     }
-    var keywords = "";
-    // if (details[folder].keywords.length) {
-    //     keywords = JSON.stringify(details[folder].keywords, null, 4).replace('[','').replace(']',',');
-    // }
 
-    package.name = pkgPrefix + "craydent-" + folder;
+    package.name =  `${pkgPrefix}craydent-${folder}`;
     package.version = version;
     package.description = details[folder].description;
     package.keywords = details[folder].keywords.concat(defaultKeywords,[folder]).sort();
@@ -118,55 +239,56 @@ for (var folder in dependencies) {
     package.repository.url = gitUrlTemplate.replace("${submodule}", folder);
     package.homepage = homepageUrlTemplate.replace("${submodule}", folder);
 
+    await $fs.writeFile(`${path}/package.json`, JSON.stringify(package, null, 4)).then(()=>{
+        console.log(GREEN, `saved: ${base.replace(root,'')}${folder}/package.json`)
+    });
 
-    // writeFile(base + folder + '/package.json',
-    //     package.replace(/\$\{submodule\}/g, folder)
-    //         .replace(/\$\{version\}/g, version)
-    //         .replace(/\$\{dependencies\}/g, module_dependencies)
-    //         .replace(/"\$\{keywords\}",/g, keywords)
-    //         .replace(/\$\{description\}/g, details[folder].description));
-    writeFile(base + folder + '/package.json', JSON.stringify(package, null, 4));
+    let already_added = [];
 
-    var already_added = [];
-    for (var i = 0, len = dependencies[folder].length; i < len; i++) {
+    for (let i = 0, len = dependencies[folder].length; i < len; i++) {
         if (~already_added.indexOf(dependencies[folder][i])) { continue; }
-        fs.createReadStream(source_base + dependencies[folder][i] + '.js')
-            .pipe(fs.createWriteStream(base + folder + '/' + depdir + dependencies[folder][i] + '.js'));
+        asyncRW.push($fs.readFile(`${source_base}${dependencies[folder][i]}.js`, 'utf8').then((raw)=>{
+            let content = raw.replace(versionLineRegExp, versionLine);
+            return $fs.writeFile(`${path}/${depdir}${dependencies[folder][i]}.js`, content);
+        }));
         already_added.push(dependencies[folder][i]);
-        recurse_sub(already_added, folder, dependencies[folder][i]);
+        asyncRW = asyncRW.concat(recurse_sub(already_added, folder, dependencies[folder][i]));
     }
-    // readmeCommand.push(scripts + '_createReadme.js ' + base + folder + ';');
+    await Promise.all(asyncRW);
+    await npminstall(folder);
 }
-function npminstall () {
+function npminstall (folder) {
     if (!publishing && !staging) {
-        console.log('starting npm install');
-        folders.push('..')
-        for (var i = 0, len = folders.length; i < len; i++) {
-            var cmd = scripts + 'npminstall.sh ' + folders[i];
+        console.log(GREEN, 'starting npm install for ' + folder);
+        var cmd = scripts + 'npminstall.sh ' + folder;
 
+        return new Promise((res)=>{
             exec(cmd, function(error, stdout, stderr) {
-                error && console.log(error);
-                console.log(stdout);
-                stderr && console.log(
+                error && console.log(RED, error);
+                console.log(GREEN, stdout);
+                stderr && console.log(RED,
                     stderr.replace(/npm WARN deprecated minimatch@.*?: Please update to minimatch 3\.0\.2 or higher to avoid a RegExp DoS issue\n/g, '')
                     .replace(/npm notice created a lockfile as package-lock.json. You should commit this file.\n/g,''));
-            });
-        }
+                res();
+            })
+        });
     }
 }
 
 function recurse_sub (already_added, folder, module) {
-    if (!sub_dependencies[module]) { return; }
+    if (!sub_dependencies[module]) { return []; }
+    let subs = [];
 
-    for (var i = 0, len = sub_dependencies[module].length; i < len; i++) {
+    for (let i = 0, len = sub_dependencies[module].length; i < len; i++) {
         if (~already_added.indexOf(sub_dependencies[module][i])) { continue; }
-        fs.createReadStream(source_base + sub_dependencies[module][i] + '.js')
-            .pipe(fs.createWriteStream(base + folder + '/' + depdir + sub_dependencies[module][i] + '.js'));
+        subs.push($fs.readFile(source_base + sub_dependencies[module][i] + '.js', 'utf8').then((raw)=>{
+            let content = raw.replace(versionLineRegExp, versionLine);
+            $fs.writeFile(base + folder + '/' + depdir + sub_dependencies[module][i] + '.js', content);
+        }));
         already_added.push(sub_dependencies[i]);
-        recurse_sub(already_added, folder, sub_dependencies[module][i]);
+        subs = subs.concat(recurse_sub(already_added, folder, sub_dependencies[module][i]));
     }
+    return subs;
 }
-function writeFile (path, content) {
-    run++;
-    fs.writeFile(path,content, function () { completed++; console.log("saved: " + path.replace(root,'')); if (completed == run) { npminstall(); }});
-}
+
+start();

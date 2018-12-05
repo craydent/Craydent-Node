@@ -1,4 +1,4 @@
-var pre = require('../_prep');
+var pre = require('../_prep')();
 var $c;
 if (process.env.name == 'single') { $c = require(pre + 'craydent-array'); }
 else { $c = require('../../../index.js'); }
@@ -52,10 +52,10 @@ describe ('Array', function () {
             { "_id" : 5, "sku": null, description: "Incomplete" },
             { "_id" : 6 }],
         arrGroup = [
-            { "_id" : 1, item: { "sku" : "111" }, name : "p1", status: "ordered", "instock" : 10 },
-            { "_id" : 2, item: { "sku" : "222" }, name : "p2", status: "ordered", "instock" : 80 },
-            { "_id" : 3, item: { "sku" : "111" }, name : "p1", status: "ordered", "instock" : 60 },
-            { "_id" : 4, item: { "sku" : "333" }, name : "p3", status: "ordered", "instock" : 70 },
+            { "_id" : 1, item: { "sku" : "111" }, name : "p1", status: "ordered", "instock" : 10, sizes: ["S", "M"], dept: "A" },
+            { "_id" : 2, item: { "sku" : "222" }, name : "p2", status: "ordered", "instock" : 80, sizes: ["M", "L"], dept: "A" },
+            { "_id" : 3, item: { "sku" : "111" }, name : "p1", status: "ordered", "instock" : 60, sizes: "S", dept: "B" },
+            { "_id" : 4, item: { "sku" : "333" }, name : "p3", status: "ordered", "instock" : 70, sizes: ["S"], dept: "A" },
             { "_id" : 5, item: { "sku" : "111" }, name : "p1", status: "incomplete" },
             { "_id" : 6 }],
         arrTree = [
@@ -420,7 +420,18 @@ describe ('Array', function () {
         var temp = arrObjs.duplicate(true);
         expect(temp.distinct("share,std")).toEqual([
             {share:"shared",std:4},{share:undefined,std:4}]);
-        expect(temp.distinct("share")).toEqual(["shared",undefined]);
+        expect(temp.distinct("share")).toEqual(["shared"]);
+        temp = arrGroup.duplicate(true);
+
+
+        expect(temp.distinct("sizes,dept")).toEqual([
+            {sizes:"S", dept: "A"},
+            {sizes:"M", dept: "A"},
+            {sizes:"L", dept: "A"},
+            {sizes:"S", dept: "B"}
+        ]);
+        expect(temp.distinct("sizes")).toEqual(["S","M","L"]);
+        expect(temp.distinct("item.sku")).toEqual(["111","222","333"]);
     });
     it('distinct - string with query',function(){
         var temp = arrObjs.duplicate(true);
@@ -432,7 +443,7 @@ describe ('Array', function () {
         var temp = arrObjs.duplicate(true);
         expect(temp.distinct(["share","std"])).toEqual([
             {share:"shared",std:4},{share:undefined,std:4}]);
-        expect(temp.distinct(["share"])).toEqual(["shared",undefined]);
+        expect(temp.distinct(["share"])).toEqual(["shared"]);
 
     });
     it('distinct - string with query',function(){
@@ -448,7 +459,7 @@ describe ('Array', function () {
             {share:"shared",std:4},
             {share:undefined,std:4}
         ]);
-        expect(temp.distinct("share","")).toEqual(["shared",undefined]);
+        expect(temp.distinct("share","")).toEqual(["shared"]);
     });
     it('distinct - array with sql query',function(){
         var temp = arrObjs.duplicate(true);
@@ -457,7 +468,7 @@ describe ('Array', function () {
             {share:undefined,std:4}
         ]);
 
-        expect(temp.distinct(["share"],"")).toEqual(["shared",undefined]);
+        expect(temp.distinct(["share"],"")).toEqual(["shared"]);
     });
     it('every',function(){
         var arr = ['a','','b',0,'c',false,'d',null,'e',undefined];

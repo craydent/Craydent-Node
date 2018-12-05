@@ -1,4 +1,4 @@
-var pre = require('../_prep');
+var pre = require('../_prep')();
 var $c;
 if (process.env.name == 'single') { $c = require(pre + 'craydent-object/noConflict.js'); }
 else { $c = require('../../../noConflict.js'); }
@@ -61,7 +61,7 @@ describe ('No Conflict Object', function () {
         var tobj = $c.duplicate(obj);
         expect(tobj).not.toBe(obj);
         expect(tobj.o).toBe(tobj.o);
-        tobj = $c.duplicate(obj);
+        tobj = $c.duplicate(obj, true);
         expect(tobj.o).not.toBe(obj.o);
     });
     it('duplicate - class',function(){

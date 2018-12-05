@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-array",
-    "version": "0.8.9",
+    "version": "0.9.0",
     "description": "Node module to extend array functionality and simplify code for maintainability and readability",
     "main": "index.js",
     "scripts": {

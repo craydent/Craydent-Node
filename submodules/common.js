@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -8,82 +8,10 @@
 function __contextualizeMethods (ctx) {
     try {
         ctx = ctx || {};
-        $c.Benchmarker && (ctx.Benchmarker = $c.Benchmarker);
-        $c.CLI && (ctx.CLI = $c.CLI);
-        $c.Cursor && (ctx.Cursor = $c.Cursor);
-        $c.JSONPA && (ctx.JSONPA = JSON.parseAdvanced);
-        $c.JSONSA && (ctx.JSONSA = JSON.stringifyAdvanced);
-        $c.JSZip && (ctx.JSZip = $c.JSZip);
-        $c.OrderedList && (ctx.OrderedList = $c.OrderedList);
-        $c.Queue && (ctx.Queue = $c.Queue);
-        $c.Set && (ctx.Set = $c.Set);
-        $c.addObjectPrototype && (ctx.addObjectPrototype = $c.addObjectPrototype);
-        $c.ajax && (ctx.ajax = $c.ajax);
-        $c.awaitable && (ctx.awaitable = $c.yieldable);
-        $c.catchAll && (ctx.catchAll = $c.catchAll);
-        $c.clearCache && (ctx.clearCache = $c.clearCache);
-        $c.clusterit && (ctx.clusterit = $c.clusterit);
-        $c.cout && (ctx.cout = $c.cout);
-        $c.createServer && (ctx.createServer = $c.createServer);
-        $c.cuid && (ctx.cuid = $c.cuid);
-        $c.emit && (ctx.emit = $c.emit);
-        $c.error && (ctx.error = $c.error);
-        $c.exclude && (ctx.exclude = $c.exclude);
-        $c.fillTemplate && (ctx.fillTemplate = $c.fillTemplate);
-        $c.foo && (ctx.foo = $c.foo);
-        $c.include && (ctx.include = $c.include);
-        $c.isNull && (ctx.isNull = $c.isNull);
-        $c.logit && (ctx.logit = $c.logit);
-        $c.md5 && (ctx.md5 = $c.md5);
-        $c.mkdirRecursive && (ctx.mkdirRecursive = $c.mkdirRecursive);
-        $c.namespace && (ctx.namespace = $c.namespace);
-        $c.next && (ctx.next = $c.next);
-        $c.noop && (ctx.noop = $c.foo);
-        $c.now && (ctx.now = $c.now);
-        $c.parseBoolean && (ctx.parseBoolean = $c.parseBoolean);
-        $c.parseRaw && (ctx.parseRaw = $c.parseRaw);
-        $c.rand && (ctx.rand = $c.rand);
-        $c.requireDirectory && (ctx.requireDirectory = $c.requireDirectory);
-        $c.suid && (ctx.suid = $c.suid);
-        $c.syncroit && (ctx.syncroit = $c.syncroit);
-        $c.tryEval && (ctx.tryEval = $c.tryEval);
-        $c.wait && (ctx.wait = $c.wait);
-        $c.xmlToJson && (ctx.xmlToJson = $c.xmlToJson);
-        $c.yieldable && (ctx.yieldable = $c.yieldable);
-        $c.zipit && (ctx.zipit = $c.zipit);
 
-        $c.appendFile && (ctx.appendFile = $c.appendFile);
-        $c.chmod && (ctx.chmod = $c.chmod);
-        $c.chown && (ctx.chown = $c.chown);
-        $c.close && (ctx.close = $c.close);
-        $c.fchmod && (ctx.fchmod = $c.fchmod);
-        $c.fchown && (ctx.fchown = $c.fchown);
-        $c.fdatasync && (ctx.fdatasync = $c.fdatasync);
-        $c.fstat && (ctx.fstat = $c.fstat);
-        $c.fsync && (ctx.fsync = $c.fsync);
-        $c.ftruncate && (ctx.ftruncate = $c.ftruncate);
-        $c.futimes && (ctx.futimes = $c.futimes);
-        $c.lchmod && (ctx.lchmod = $c.lchmod);
-        $c.lchown && (ctx.lchown = $c.lchown);
-        $c.link && (ctx.link = $c.link);
-        $c.lstat && (ctx.lstat = $c.lstat);
-        $c.mkdir && (ctx.mkdir = $c.mkdir);
-        $c.mkdtemp && (ctx.mkdtemp = $c.mkdtemp);
-        $c.open && (ctx.open = $c.open);
-        $c.read && (ctx.read = $c.read);
-        $c.readdir && (ctx.readdir = $c.readdir);
-        $c.readFile && (ctx.readFile = $c.readFile);
-        $c.readlink && (ctx.readlink = $c.readlink);
-        $c.realpath && (ctx.realpath = $c.realpath);
-        $c.rename && (ctx.rename = $c.rename);
-        $c.rmdir && (ctx.rmdir = $c.rmdir);
-        $c.stat && (ctx.stat = $c.stat);
-        $c.symlink && (ctx.symlink = $c.symlink);
-        $c.truncate && (ctx.truncate = $c.truncate);
-        $c.unlink && (ctx.unlink = $c.unlink);
-        $c.utimes && (ctx.utimes = $c.utimes);
-        $c.write && (ctx.write = $c.write);
-        $c.writeFile && (ctx.writeFile = $c.writeFile);
+        for (var i = 0, len = globalizables.length; i < len; i++) {
+            $c[globalizables[i]] && (ctx[globalizables[i]] = $c[globalizables[i]]);
+        }
 
         return ctx;
     } catch (e) {
@@ -195,7 +123,7 @@ function duplicate (obj, recursive) {
         "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#object.duplicate",
-        "returnType": "(Object)"
+        "returnType": "(any)"
     }|*/
     if ($t.isNull(obj)) { return obj; }
     return _duplicate(new obj.constructor(), obj, recursive);
@@ -232,7 +160,7 @@ function equals (obj, compare, props){
         "info": "Object class extension to check if object values are equal",
         "category": "Object",
         "parameters":[
-            {"compare": "(Object) Object to compare against"},
+            {"compare": "(any) Object to compare against"},
             {"props?": "(String[]) Array of property values to compare against"}],
 
         "overloads":[],
@@ -370,6 +298,7 @@ function indexOf (objs, value) {
         "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#array.indexOf",
+        "typeParameter": "<T>",
         "returnType": "(Int)"
     }|*/
     try {
@@ -389,7 +318,7 @@ function indexOfAlt (obj, value, option) {
         "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
         "category": "Array",
         "parameters":[
-            {"value": "(Object) value to find"},
+            {"value": "(any) value to find"},
             {"func": "(ArrayIterator<T, TResult>) Callback function used to do the comparison"}],
 
         "overloads":[
@@ -432,7 +361,7 @@ function merge (obj, secondary, condition) {
         "category": "Object",
         "parameters":[
             {"secondary": "(Object) Object to merge with"},
-            {"condition?": "(MergeEnums|MergeOptions|MergeIterator) Flags to recurse, merge only shared value, clone, intersect etc"}],
+            {"condition?": "(MergeEnums|MergeOptions|MergeIterator<T>) Flags to recurse, merge only shared value, clone, intersect etc"}],
 
         "overloads":[],
 
@@ -622,7 +551,7 @@ function setProperty (obj, path, value, delimiter) {
         "category": "Object",
         "parameters":[
             {"path": "(String) Path to nested property"},
-            {"value": "(Mixed) Value to set"},
+            {"value": "(any) Value to set"},
             {"delimiter?": "(Char) Separator used to parse path"}],
 
         "overloads":[],
@@ -772,6 +701,89 @@ var _getFuncArgs = require('./getFuncArgs');
 var strip = require('./strip');
 var condense = require('./condense');
 var cout = require('./cout');
+var fsmethods = [
+    "access",
+    "appendFile",
+    "chmod",
+    "chown",
+    "close",
+    "fchmod",
+    "fchown",
+    "fdatasync",
+    "fstat",
+    "fsync",
+    "ftruncate",
+    "futimes",
+    "lchmod",
+    "lchown",
+    "link",
+    "lstat",
+    "mkdir",
+    "mkdtemp",
+    "open",
+    "read",
+    "readdir",
+    "readFile",
+    "readlink",
+    "realpath",
+    "rename",
+    "rmdir",
+    "stat",
+    "symlink",
+    "truncate",
+    "unlink",
+    "utimes",
+    "write",
+    "writeFile"
+],
+globalizables = [
+    'Benchmarker',
+    'CLI',
+    'Cursor',
+    'parseAdvanced',
+    'stringifyAdvanced',
+    // $c.JSONPA && (ctx.JSONPA = JSON.parseAdvanced);
+    // $c.JSONSA && (ctx.JSONSA = JSON.stringifyAdvanced);
+    'JSZip',
+    'OrderedList',
+    'Queue',
+    'Set',
+    'addObjectPrototype',
+    'ajax',
+    'yieldable',
+    'catchAll',
+    'clearCache',
+    'clusterit',
+    'cout',
+    'createServer',
+    'cuid',
+    'emit',
+    'error',
+    'exclude',
+    'fillTemplate',
+    'foo',
+    'include',
+    'isNull',
+    'isNullOrEmpty',
+    'logit',
+    'md5',
+    'mkdirRecursive',
+    'namespace',
+    'next',
+    'foo',
+    'now',
+    'parseBoolean',
+    'parseRaw',
+    'rand',
+    'requireDirectory',
+    'suid',
+    'syncroit',
+    'tryEval',
+    'wait',
+    'xmlToJson',
+    'yieldable',
+    'zipit'
+].concat(fsmethods);
 
 module.exports = function () {
     $c = $g.$c;
@@ -856,6 +868,8 @@ module.exports = function () {
     obj.scope = $c.scope = scope;
 
     obj.dir = "./dependencies/";
+    obj.fsmethods = fsmethods;
+    obj.globalizables = globalizables;
 
     return obj;
 };

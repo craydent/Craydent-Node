@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-xml-to-json",
-    "version": "0.8.9",
+    "version": "0.9.0",
     "description": "Node module to parse xml into json",
     "main": "index.js",
     "scripts": {

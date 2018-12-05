@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -21,7 +21,7 @@ function include(path, refresh){
                 {"refresh": "(Boolean) Flag to clear cache for the specific include."}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#include",
-        "returnType": "(Object|Bool)"
+        "returnType": "(any|false)"
     }|*/
     try {
         if (refresh) { _clearCache(path); }

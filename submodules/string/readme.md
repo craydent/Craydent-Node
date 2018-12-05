@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.9
+# Craydent 0.9.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -90,27 +90,6 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Overloads:**
 
 >None
-
-*** 
-#### _contains_ 
-***
-
-**Info:** Object class extension to check if value exists
-
-**Return:** (Bool)
-
-**Parameters:**
-
->* val: (Object|ContainsObjectIterator) Value to check or custom function to determine validity
-
-**Overloads:**
-
->Parameters
->* val: (Object) Value to check
->* func: (ContainsIterator<T, TValue>) Callback function used to do the comparison
-
->Parameters
->* arr: (Array) Array of values to return first matching value
 
 *** 
 #### _convertUTCDate_ 
@@ -212,7 +191,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* infinite: (String) any number of arguments can be passed
+>* ...infinite: (String) any number of arguments can be passed
 
 **Overloads:**
 
@@ -229,7 +208,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* infinite: (String) any number of arguments can be passed
+>* ...infinite: (String) any number of arguments can be passed
 
 **Overloads:**
 
@@ -246,7 +225,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* compare: (Object) Object to compare against
+>* compare: (any) Object to compare against
 >* props?: (String[]) Array of property values to compare against
 
 **Overloads:**
@@ -303,7 +282,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* value: (any) value to find
->* func: (ArrayIterator) Callback function used to do the comparison
+>* func: (ArrayIterator<T, TResult>) Callback function used to do the comparison
 
 **Overloads:**
 
@@ -532,7 +511,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* infinite: (String) any number of String arguments can be passed
+>* ...infinite: (String) any number of String arguments can be passed
 
 **Overloads:**
 
@@ -549,7 +528,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* infinite: (String) any number of String arguments can be passed
+>* ...infinite: (String) any number of String arguments can be passed
 
 **Overloads:**
 
@@ -654,22 +633,6 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 >None
 
 *** 
-#### _trim_ 
-***
-
-**Info:** String class extension to remove characters from the beginning and end of the string.
-
-**Return:** (Bool)
-
-**Parameters:**
-
->* character?: (Char[]) Character to remove in the String
-
-**Overloads:**
-
->None
-
-*** 
 #### _toObject_ 
 ***
 
@@ -681,6 +644,22 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 >* assignmentChar?: (Char) Character to use as assignment delimiter. Defaults to '&'.
 >* delimiter?: (Char) Character to use as pair delimiter
+
+**Overloads:**
+
+>None
+
+*** 
+#### _trim_ 
+***
+
+**Info:** String class extension to remove characters from the beginning and end of the string.
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* character?: (Char[]) Character to remove in the String
 
 **Overloads:**
 

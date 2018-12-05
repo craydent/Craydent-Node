@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.9
+# Craydent 0.9.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -76,12 +76,11 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* event: (String) Event to trigger.
+>* ...infinite: (any) any number of arguments can be passed and will be applied to listening functions.
 
 **Overloads:**
 
->Parameters
->* event: (String) Event to trigger.
->* infinite: (any) any number of arguments can be passed and will be applied to listening functions.
+>None
 
 *** 
 #### _equals_ 
@@ -93,12 +92,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* compare: (Object) Object to compare against
+>* compare: (any) Object to compare against
 
 **Overloads:**
 
 >Parameters
->* compare: (Object) Object to compare against
+>* compare: (any) Object to compare against
 >* props: (String[]) Array of property values to compare against
 
 *** 
@@ -111,12 +110,12 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* extendee: (Object) Class to extend
+>* extendee: (Class) Class to extend
 
 **Overloads:**
 
 >Parameters
->* extendee: (Object) Class to extend
+>* extendee: (Class) Class to extend
 >* inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
 
 *** 
@@ -141,7 +140,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Function class extension to get parameters in definition
 
-**Return:** (Array)
+**Return:** (Array<T>)
 
 **Parameters:**
 
@@ -182,7 +181,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* infinite: (any) any number of arguments can be passed.
+>* ...infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 

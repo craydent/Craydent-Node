@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.9
+# Craydent 0.9.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -71,7 +71,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Cursor class to facilitate iteration
 
-**Return:** (ICursor)
+**Return:** (ICursor<T>)
 
 **Parameters:**
 
@@ -88,7 +88,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Collection class that filters out duplicate values and maintains an ordered list
 
-**Return:** (OrderedList)
+**Return:** (IOrderedList<T>)
 
 **Parameters:**
 
@@ -97,8 +97,8 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Overloads:**
 
 >Parameters
->* records: (Array) Array used to create the initial items in the ordered list
->* sorter?: (Function) Function for sorting logic
+>* records: (Array<T>) Array used to create the initial items in the ordered list
+>* sorter?: (SortIterator<T>) Function for sorting logic
 
 *** 
 #### _Queue_ 
@@ -106,7 +106,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Collection class that follows FIFO
 
-**Return:** (IQueue)
+**Return:** (IQueue<T>)
 
 **Parameters:**
 
@@ -122,7 +122,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Collection class that filters out duplicate values
 
-**Return:** (ISet)
+**Return:** (ISet<T, TResult>)
 
 **Parameters:**
 

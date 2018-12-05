@@ -2,11 +2,12 @@ module.exports = function (pre) {
     var noAsync = process.env.noasync && process.env.noasync.toLowerCase() == 'true';
     var $s = require('../../common.js');
     var $t = require(pre + 'craydent-typeof/noConflict');
+    var error = $s.error;
     require('../../submodules/_shared/run_func_array.js')($s);
 
     function duplicate (rec){
         return $s.duplicate(this,rec);
-    };
+    }
     function syncroit (gen) {
         try {
             if ($t.isAsync(gen)) { return gen(); }
@@ -39,6 +40,24 @@ module.exports = function (pre) {
             throw e;
         }
     }
+    function toStringAlt (obj, delimiter, prefix, urlEncode) {
+        try {
+            delimiter = delimiter || '=';
+            prefix = prefix || '&';
+            var str = '';
+            for (var prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    var value = $s.isObject(obj[prop]) ? JSON.stringify(obj[prop]) : obj[prop];
+                    urlEncode &&
+                    (str += prefix + encodeURIComponent(prop) + delimiter + encodeURIComponent(value)) || (str += prefix + prop + delimiter + value);
+                }
+            }
+            return str;
+        } catch (e) {
+            error && error('Object.toStringAlt', e);
+        }
+    }
+    $s.toStringAlt = toStringAlt;
     function ajax(params, returnData){
         /*|{
             "info": "Method to make ajax calls",

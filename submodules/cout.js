@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -11,7 +11,7 @@ function cout () {
         "info": "Log to console when DEBUG_MODE is true and when the console is available",
         "category": "Utility",
         "parameters":[
-            {"infinite": "(any) any number of arguments can be passed."}],
+            {"...infinite": "(any) any number of arguments can be passed."}],
 
         "overloads":[],
 

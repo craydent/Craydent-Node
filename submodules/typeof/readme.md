@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.9
+# Craydent 0.9.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -264,17 +264,33 @@ arr.prototypedMethod(args);
 
 **Info:** Check if a value is Null
 
-**Return:** (Mixed)
+**Return:** (Bool|any)
 
 **Parameters:**
 
->* value: (Mixed) Value to check
+>* value: (any) Value to check
 
 **Overloads:**
 
 >Parameters
->* value: (Mixed) Value to check
->* defaultValue: (Mixed) Value to return if null
+>* value: (any) Value to check
+>* defaultValue: (any) Value to return if null
+
+*** 
+#### _isNullOrEmpty_ 
+***
+
+**Info:** Object class extension to check if object is a null or empty (object with no props, empty string, etc)
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
 
 *** 
 #### _isNumber_ 

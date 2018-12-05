@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -12,15 +12,14 @@ function emit (ev){
         "info": "Call the next function(s) in queue",
         "category": "Function",
         "parameters":[
-            {"event": "(String) Event to trigger."}],
+            {"event": "(String) Event to trigger."},
+            {"...infinite": "(any) any number of arguments can be passed and will be applied to listening functions."}
+        ],
 
-        "overloads":[
-            {"parameters":[
-                {"event": "(String) Event to trigger."},
-                {"infinite": "(any) any number of arguments can be passed and will be applied to listening functions."}]}],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#emit",
-        "typeParameter": "<T,TResult>",
+        "typeParameter": "<TResult>",
         "returnType":"(Array<TResult>)"
     }|*/
     var args = arguments, vals = [];

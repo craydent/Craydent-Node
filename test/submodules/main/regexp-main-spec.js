@@ -1,4 +1,4 @@
-var pre = require('../_prep');
+var pre = require('../_prep')();
 var $c;
 if (process.env.name == 'single') { $c = require(pre + 'craydent-regexp'); }
 else { $c = require('../../../index.js'); }

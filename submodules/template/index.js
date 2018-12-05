@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -7,7 +7,8 @@
 /*/---------------------------------------------------------/*/
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    ext = $s._ext;
+    ext = $s._ext,
+    error = $s.error;
 
 if (!$c.MODULES_LOADED[$s.info.name]) {
     $s.__log_module();
@@ -27,31 +28,31 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "featured": true,
             "parameters":[
                 {"htmlTemplate": "(String) Template to be used"},
-                {"objs": "(Objects[]) Objects to fill the template variables"},
+                {"objs": "(Object[]) Objects to fill the template variables"},
                 {"options": "(FillTemplateOptions) Options to use: max,offset,newlineToHtml,preserve_nonmatching"}],
 
             "overloads":[
                 {"parameters":[
                     {"htmlTemplate": "(String) Template to be used"},
-                    {"objs": "(Objects[]) Objects to fill the template variables"},
+                    {"objs": "(Object[]) Objects to fill the template variables"},
                     {"max": "(Int) The maximum number of records to process"}]},
 
                 {"parameters":[
                     {"htmlTemplate": "(String) Template to be used"},
-                    {"objs": "(Objects[]) Objects to fill the template variables"},
+                    {"objs": "(Object[]) Objects to fill the template variables"},
                     {"offset": "(Int) The start index of the Object array"},
                     {"max": "(Int) The maximum number of records to process"}]},
 
                 {"parameters":[
                     {"htmlTemplate": "(String) Template to be used"},
-                    {"objs": "(Objects[]) Objects to fill the template variables"},
+                    {"objs": "(Object[]) Objects to fill the template variables"},
                     {"offset": "(Int) The start index of the Object array"},
                     {"max": "(Int) The maximum number of records to process"},
                     {"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."}]},
 
                 {"parameters":[
                     {"htmlTemplate": "(String) Template to be used"},
-                    {"objs": "(Objects[]) Objects to fill the template variables"},
+                    {"objs": "(Object[]) Objects to fill the template variables"},
                     {"offset": "(Int) The start index of the Object array"},
                     {"max": "(Int) The maximum number of records to process"},
                     {"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."},

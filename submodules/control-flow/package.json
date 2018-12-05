@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-control-flow",
-    "version": "0.8.9",
+    "version": "0.9.0",
     "description": "Node module for control flow and async functionality to simplify code for maintainability and readability",
     "main": "index.js",
     "scripts": {

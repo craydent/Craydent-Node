@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -86,7 +86,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to check if the string ends with the given string",
             "category": "String",
             "parameters":[
-                {"infinite": "(String) any number of arguments can be passed"}],
+                {"...infinite": "(String) any number of arguments can be passed"}],
 
             "overloads":[
                 {"parameters":[
@@ -96,13 +96,14 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "returnType": "(Bool|String)"
         }|*/
         try {
+            var str = this || "";
             var args = arguments;
             if (arguments.length < 3 && ($s.isArray(arguments[0]) || $s.isArray(arguments[1]))) {
                 args = arguments[1] || arguments[0];
             }
             for (var i = typeof craydent_ctx != "undefined" ? 1 : 0, len = args.length; i < len; i++) {
                 var arg = args[i];
-                if (arg == this.slice(-arg.length)) { return arg; }
+                if (arg == str.slice(-arg.length)) { return arg; }
             }
             return false;
         } catch (e) {
@@ -114,7 +115,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to check if the string starts with the given string",
             "category": "String",
             "parameters":[
-                {"infinite": "(String) any number of String arguments can be passed"}],
+                {"...infinite": "(String) any number of String arguments can be passed"}],
 
             "overloads":[
                 {"parameters":[
@@ -200,15 +201,17 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if value exists",
             "category": "String|Object",
             "parameters":[
-                {"val": "(Object|ContainsObjectIterator) Value to check or custom function to determine validity"}],
+                {"val": "(ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity"}],
 
             "overloads":[
                 {"parameters":[
-                    {"val": "(Object) Value to check"},
-                    {"func": "(ContainsIterator<T, TValue>) Callback function used to do the comparison"}]},
-
+                    {"val": "(ContainsValue) Value to check"},
+                    {"func": "(ContainsIterator<T>) Callback function used to do the comparison"}]},
                 {"parameters":[
-                    {"arr": "(Array) Array of values to return first matching value"}]}],
+                    {"val": "(ContainsValue) Value to check"},
+                    {"func": "(ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type") }]},
+                {"parameters":[
+                    {"arr": "(Array<T>) Array of values to return first matching value"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.contains",
             "typeParameter": "<T, TValue>",
@@ -337,7 +340,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object values are equal",
             "category": "String|Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"},
+                {"compare": "(any) Object to compare against"},
                 {"props?": "(String[]) Array of property values to compare against"}],
 
             "overloads":[],
@@ -410,7 +413,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "String|Array",
             "parameters":[
                 {"value": "(any) value to find"},
-                {"func": "(ArrayIterator) Callback function used to do the comparison"}],
+                {"func": "(ArrayIterator<T, TResult>) Callback function used to do the comparison"}],
 
             "overloads":[
                 {"parameters":[

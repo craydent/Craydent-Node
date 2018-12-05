@@ -1,6 +1,6 @@
 {
     "name": "@craydent/craydent-class",
-    "version": "0.8.9",
+    "version": "0.9.0",
     "description": "Node module implementing addition classes for functionality and to simplify code for maintainability and readability",
     "main": "index.js",
     "scripts": {

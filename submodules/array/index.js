@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -180,7 +180,10 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
     function _groupFieldHelper (obj, fields) {
         var prop = "", j = 0, field;
         while (field = fields[j++]) {
-            prop += field + ":" + $s.getProperty(obj,field) + ",";
+            var option ={validPath:0};
+            var value = $s.getProperty(obj,field,option);
+            if (!option.validPath){ continue; }
+            prop += field + ":" + value + ",";
         }
         return prop;
     }
@@ -528,14 +531,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if value exists",
             "category": "Array|Object",
             "parameters":[
-                {"val": "(ContainsValue) Value to check"}],
+                {"val": "(ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity"}],
 
             "overloads":[
                 {"parameters":[
-                    {"val": "(ContainsIterator<T>) Function to determine validity.  Function is passed the value, index/prop, and original as arguments and must return a boolean"}]},
-                {"parameters":[
                     {"val": "(ContainsValue) Value to check"},
                     {"func": "(ContainsIterator<T>) Callback function used to do the comparison"}]},
+                {"parameters":[
+                    {"val": "(ContainsValue) Value to check"},
+                    {"func": "(ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type") }]},
                 {"parameters":[
                     {"arr": "(Array<ContainsValue>) Array of values to return first matching value"}]}],
 
@@ -688,20 +692,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Array",
             "parameters":[
                 {"fields": "(String) Fields to use as the projection and unique comparison (comma delimited)"},
-                {"condition?": "(String) Query following SQL where clause syntax"}],
+                {"condition?": "(String|WhereCondition) Query following SQL where clause syntax"}],
 
             "overloads":[
                 {"parameters":[
-                    {"fields": "(Array<T>) Fields to use as the projection and unique comparison"},
-                    {"condition?": "(String) Query following SQL where clause syntax"}]},
-
-                {"parameters":[
-                    {"fields": "(String) Fields to use as the projection and unique comparison (comma delimited)"},
-                    {"condition?": "(Object) Query following MongoDB find clause syntax"}]},
-
-                {"parameters":[
-                    {"fields": "(Array<T>) Fields to use as the projection and unique comparison (comma delimited)"},
-                    {"condition?": "(Object) Query following MongoDB find clause syntax"}]}],
+                    {"fields": "(Array<String>) Fields to use as the projection and unique comparison"},
+                    {"condition?": "(String|WhereCondition) Query following SQL where clause syntax"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#array.distinct",
             "typeParameter": "<T>",
@@ -711,14 +707,17 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             if ($s.isString(fields)) { fields = fields.split(","); }
 
             var records = $c.group(this, {field:fields,cond:condition}, true);
+            var arr = [];
             if (fields.length == 1) {
-                var arr = [];
                 for (var i = 0, len = records.length; i < len; i++ ) {
-                    arr.push(records[i][fields[0]]);
+                    var value = $s.getProperty(records[i], fields[0]);
+                    !$s.isNullOrEmpty(value) && arr.push(value);
                 }
                 return arr;
             }
-            return records;
+            var i = 0, r;
+            while (r=records[i++]) { !$s.isNullOrEmpty(r) && arr.push(r); }
+            return arr;
         } catch (e) {
             error("Array.distinct", e);
             return [];
@@ -729,11 +728,11 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object values are equal",
             "category": "Array|Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"}],
+                {"compare": "(any) Object to compare against"}],
 
             "overloads":[
                 {"parameters":[
-                    {"compare": "(Object) Object to compare against"},
+                    {"compare": "(any) Object to compare against"},
                     {"props": "(Array<string>) Array of property values to compare against"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.equals",
@@ -752,7 +751,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Array",
             "parameters":[
                 {"callback": "(ArrayIterator<T, TResult>) Callback to test for each element. Callback will get the current item, index, context as arguments."},
-                {"thisObject?": "(Object) Context for the callback function"}],
+                {"thisObject?": "(any) Context for the callback function"}],
 
             "overloads":[],
 
@@ -764,7 +763,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             var thisObject = thisObject || this;
             for (var i = 0, len = this.length; i < len; i++) {
                 var thiz = this[i];
-                if (thiz && !callback.call(thisObject, thiz, i, this)) { return false; }
+                if ( !callback.call(thisObject, thiz, i, this)) { return false; }
             }
             return true;
         } catch (e) {
@@ -777,7 +776,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Array",
             "parameters":[
                 {"func": "(ArrayIterator<T, TResult>) Callback function used to determine if value should be returned. Callback will get the current item, index, context as arguments."},
-                {"thiss?": "(Object) Specify the context on callback function"}],
+                {"thiss?": "(any) Specify the context on callback function"}],
 
             "overloads":[],
 
@@ -866,15 +865,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             "overloads":[
                 {"parameters":[
-                    {"default": "(Object) Default value to return if context is not a function"}]},
+                    {"default": "(any) Default value to return if context is not a function"}]},
 
                 {"parameters":[
-                    {"arguments": "(Object[]) An array of arguments to pass to context when it is a function"},
-                    {"default": "(Object) Default value to return if context is not a function"}]}],
+                    {"arguments": "(any[]) An array of arguments to pass to context when it is a function"},
+                    {"default": "(any) Default value to return if context is not a function"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.getValue",
             "typeParameter": "<T>",
-            "returnType": "(Object) the value of any type.  if the type is a method, it will execute the methed and use its return value."
+            "returnType": "(any) the value of any type.  if the type is a method, it will execute the methed and use its return value."
         }|*/
         try {
             return $s.getValue(this, args, dflt);
@@ -933,22 +932,53 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             var props = $s.getKeys(initial),
                 fields = $s.getKeys(key),
                 arr = [], result = {}, id = $s.suid(),
-                cb = function (ob, i) {
+                cb = function (obj, i) {
                     // _groupFieldHelper creates a grouping string based on the field value pairs
                     if (!fields && keyf) {
                         fields = $s.isFunction(keyf) ? keyf(doc) : keyf;
                     }
-                    var prop = _groupFieldHelper(ob, fields), addit = false;
-                    if (!result[prop]) {
-                        addit = true;
-                        var tmp = $s.duplicate(initial);
-                        result[prop] = tmp;
+                    var objs = [];
+                    for (var f = 0, flen = fields.length; f < flen; f++) {
+                        var field = fields[f];
+                        if ($s.isArray($s.getProperty(obj, field))) {
+                            objs = objs.concat(_unwind([obj], field));
+                        }
                     }
-                    var curr = $s.duplicate(ob), item;
-                    reduce(curr, result[prop]);
-                    item = $s._copyWithProjection(fields, ob, !removeProps);
-                    item[id] = prop;
-                    addit && arr.push(item);
+                    objs = objs.length? objs:[obj];
+                    for (var o = 0, olen = objs.length; o < olen; o++) {
+                        var ob = objs[o];
+                        var prop = _groupFieldHelper(ob, fields), addit = false;
+                        if (!result[prop]) {
+                            addit = true;
+                            var tmp = $s.duplicate(initial);
+                            result[prop] = tmp;
+                        }
+                        var curr = $s.duplicate(ob), item;
+                        reduce(curr, result[prop]);
+                        item = $s._copyWithProjection(fields, ob, !removeProps);
+                        item[id] = prop;
+                        addit && arr.push(item);
+                    }
+                    // var props = _groupFieldHelper(ob, fields);
+                    // for (var j = 0, jlen = props.length; j < jlen; j++) {
+                    //     var prop = props[j].key;
+                    //     var field = props[j].field;
+                    //     var value = props[j].value;
+                    //     addit = false;
+                    //     if (!result[prop]) {
+                    //         addit = true;
+                    //         var tmp = $s.duplicate(initial);
+                    //         result[prop] = tmp;
+                    //     }
+                    //     var curr = $s.duplicate(ob), item;
+                    //     reduce(curr, result[prop]);
+                    //     item = $s._copyWithProjection(fields, ob, !removeProps);
+                    //     if ($s.isArray($s.getProperty(item, field))) {
+                    //         $s.setProperty(item, field, value);
+                    //     }
+                    //     item[id] = prop;
+                    //     addit && arr.push(item);
+                    // }
                     return true;
                 };
 
@@ -991,7 +1021,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
 
             var keyObj = $s.duplicate(initial);
             for (var prop in key) {
-                if (!key.hasOwnProperty(prop)) { continue; }
+                if (!key.hasOwnProperty(prop) || !key[prop]) { continue; }
                 $s.setProperty(keyObj,prop,key[prop]);
             }
             for (var i = 0, len = arr.length; i < len; i++) {
@@ -1009,7 +1039,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Array class extension to implement indexOf",
             "category": "Array",
             "parameters":[
-                {"value": "(Object) value to find"}],
+                {"value": "(any) value to find"}],
 
             "overloads":[],
 
@@ -1029,7 +1059,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
             "category": "Array",
             "parameters":[
-                {"value": "(Object) value to find"},
+                {"value": "(any) value to find"},
                 {"func": "(ArrayIterator<T, TResult>) Callback function used to do the comparison"}],
 
             "overloads":[
@@ -1074,7 +1104,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Array class extension to add to the array",
             "category": "Array",
             "parameters":[
-                {"value": "(Object) value to add"}],
+                {"value": "(any) value to add"}],
 
             "overloads": [],
 
@@ -1102,7 +1132,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Array",
             "parameters":[
                 {"index": "(Int) Index to add after"},
-                {"value": "(Object) Value to add"}],
+                {"value": "(any) Value to add"}],
 
             "overloads":[],
 
@@ -1127,7 +1157,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Array",
             "parameters":[
                 {"index": "(Int) Index to add after"},
-                {"value": "(Object) Value to add"}],
+                {"value": "(any) Value to add"}],
 
             "overloads":[],
 
@@ -1148,7 +1178,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Array",
             "parameters":[
                 {"index": "(Int) Index to add before"},
-                {"value": "(Object) Value to add"}],
+                {"value": "(any) Value to add"}],
 
             "overloads":[],
 
@@ -1191,7 +1221,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if item is a subset",
             "category": "Array|Object",
             "parameters":[
-                {"compare": "(Array<T> | Object) Superset to compare against"}],
+                {"compare": "(Array<T>|Object) Superset to compare against"}],
 
             "overloads": [],
 
@@ -1293,7 +1323,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Array",
             "parameters":[
                 {"callback": "(ArrayIterator<T, TResult>) Callback function used to apply changes"},
-                {"thisObject?": "(Object) Specify the context on callback function"}],
+                {"thisObject?": "(any) Specify the context on callback function"}],
 
             "overloads":[],
 
@@ -1412,7 +1442,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
     ext(Array, 'parallelEach', function (gen, args) {
         /*|{
             "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
-            "category": "Array",
+            "category": "Array|Control Flow",
             "parameters":[],
 
             "overloads":[
@@ -1441,7 +1471,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Array class extension to remove an item by value",
             "category": "Array",
             "parameters":[
-                {"value": "(Object) Value to remove"},
+                {"value": "(any) Value to remove"},
                 {"indexOf?": "(IndexOf<T>) Callback function to use to find the item based on the value"}],
 
             "overloads":[],
@@ -1461,8 +1491,8 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Array class extension to remove all items by value",
             "category": "Array",
             "parameters":[
-                {"value": "(Object) Value to remove"},
-                {"indexOf": "(IndexOf<T>) Callback function to use to find the item based on the value"}],
+                {"value?": "(any) Value to remove"},
+                {"indexOf?": "(IndexOf<T>) Callback function to use to find the item based on the value"}],
 
             "overloads":[],
 
@@ -1502,7 +1532,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Array",
             "parameters":[
                 {"index": "(Int) Index of the item to remove"},
-                {"value": "(Object) Value to replace with"}],
+                {"value": "(any) Value to replace with"}],
 
             "overloads":[],
 
@@ -1562,36 +1592,36 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                 {"parameters":[
                     {"props": "(string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
                     {"rev": "(Bool) Flag to reverse the sort"},
-                    {"primer": "(SortPrimer<T>) Function to apply to values in the array."}]},
+                    {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."}]},
 
                 {"parameters":[
                     {"props": "(Array<String>) Properties to sort by. If the first character is '!', the sort order is reversed"},
                     {"rev": "(Bool) Flag to reverse the sort"},
-                    {"primer": "(SortPrimer<T>) Function to apply to values in the array."}]},
+                    {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."}]},
 
                 {"parameters":[
                     {"props": "(string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
                     {"rev": "(Bool) Flag to reverse the sort"},
-                    {"primer": "(SortPrimer<T>) Function to apply to values in the array."},
+                    {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."},
                     {"lookup": "(Object) Look up object to use as values instead of the array values."}]},
 
                 {"parameters":[
                     {"props": "(Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed"},
                     {"rev": "(Bool) Flag to reverse the sort"},
-                    {"primer": "(SortPrimer<T>) Function to apply to values in the array."},
+                    {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."},
                     {"lookup": "(Object) Look up object to use as values instead of the array values."}]},
 
                 {"parameters":[
                     {"props": "(string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
                     {"rev": "(Bool) Flag to reverse the sort"},
-                    {"primer": "(SortPrimer<T>) Function to apply to values in the array."},
+                    {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."},
                     {"lookup": "(Object) Look up object to use as values instead of the array values."},
                     {"options": "(Object) Options to pass. Valid options are:<br />i<br />ignoreCase"}]},
 
                 {"parameters":[
                     {"props": "(Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed"},
                     {"rev": "(Bool) Flag to reverse the sort"},
-                    {"primer": "(SortPrimer<T>) Function to apply to values in the array."},
+                    {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."},
                     {"lookup": "(Object) Look up object to use as values instead of the array values."},
                     {"options": "(Object) Options to pass. Valid options are:<br />i<br />ignoreCase"}]}],
 
@@ -1739,12 +1769,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Array",
             "parameters":[
                 {"condition": "(WhereCondition) Query following find/where clause syntax"},
-                {"setClause": "(Object) Set clause used to update the records"}],
+                {"setClause": "(MongoSet) Set clause used to update the records"}],
 
             "overloads":[
                 {"parameters":[
                     {"condition": "(WhereCondition) Query following find/where clause syntax"},
-                    {"setClause": "(Object) Set clause used to update the records"},
+                    {"setClause": "(MongoSet) Set clause used to update the records"},
                     {"options": "(UpdateOptions) Options to specify if mulit update and/or upsert"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#array.update",
@@ -1983,21 +2013,17 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Array class extension to upsert records to array",
             "category": "Array",
             "parameters":[
-                {"records": "(Array<T>) Records to use to insert/update array"}],
+                {"records": "(Array<T>|T) Record(s) to use to insert/update array"}],
 
             "overloads":[
                 {"parameters":[
-                    {"records": "(Array<T>) Records to use to insert/update array"},
+                    {"records": "(Array<T>|T) Records to use to insert/update array"},
                     {"callback": "(UpsertIterator<T>) Method to use to determine if the records are equal"}]},
 
                 {"parameters":[
-                    {"records": "(Array<T>) Records to use to insert/update array"},
-                    {"prop": "(string) Property to use as the primary key"}]},
-
-                {"parameters":[
-                    {"records": "(Array<T>) Records to use to insert/update array"},
+                    {"records": "(Array<T>|T) Records to use to insert/update array"},
                     {"prop": "(string) Property to use as the primary key"},
-                    {"callback": "(UpsertIterator<T>) Method to use to determine if the records are equal"}]}],
+                    {"callback?": "(UpsertIterator<T>) Method to use to determine if the records are equal"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#array.upsert",
             "typeParameter": "<T>",

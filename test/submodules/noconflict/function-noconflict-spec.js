@@ -1,8 +1,10 @@
-var pre = require('../_prep');
+var pre = require('../_prep')();
 var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-http/function.js'); }
+if (process.env.name == 'single') { $c = require(pre + 'craydent-function/noConflict'); }
 else { $c = require('../../../noConflict.js'); }
 $c.DEBUG_MODE = true;
+var $m = require('../_methods')(pre);
+var foo = $m.foo;
 describe ('No Conflict Function', function () {
 	function temp (par1,par2) {
 		this.p = 1;

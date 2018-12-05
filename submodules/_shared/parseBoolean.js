@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -12,7 +12,7 @@ function parseBoolean(value, strict) {
         "info": "Try to parse value to a Boolean (0, 1, '0', and '1' are valid unless strict is set to true).",
         "category": "Utility",
         "parameters":[
-            {"value": "(Mixed) value to parse as boolean."},
+            {"value": "(any) value to parse as boolean."},
             {"strict?": "(Boolean) Disable parsing of 0, 1, '0', and '1'."}],
 
         "overloads":[],

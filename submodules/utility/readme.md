@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.9
+# Craydent 0.9.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -76,7 +76,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* files: (Object[]) Objects containing properties name for file name and content for file content
+>* files: (FileObject[]) Objects containing properties name for file name and content for file content
 
 **Overloads:**
 
@@ -152,7 +152,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* infinite: (any) any number of arguments can be passed.
+>* ...infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
@@ -229,7 +229,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Require without erroring when module does not exist.
 
-**Return:** (Object|Bool)
+**Return:** (any|false)
 
 **Parameters:**
 
@@ -252,7 +252,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* infinite: (Object) any number of arguments can be passed.
+>* ...infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
@@ -351,7 +351,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* value: (Mixed) value to parse as boolean.
+>* value: (any) value to parse as boolean.
 >* strict?: (Boolean) Disable parsing of 0, 1, '0', and '1'.
 
 **Overloads:**
@@ -400,7 +400,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Recursively require the entire directory and returns an object containing the required modules.
 
-**Return:** (Promise<any>|Object)
+**Return:** (Promise<any>|any)
 
 **Parameters:**
 
@@ -470,7 +470,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* condition: (Mixed) Condition equivalent to js true to resume execution
+>* condition: (Code) Condition equivalent to js true to resume execution
 
 **Overloads:**
 

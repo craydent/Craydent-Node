@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -7,7 +7,8 @@
 /*/---------------------------------------------------------/*/
 var $s = require('./dependencies/common')(),
     $c = $s.$c,
-    ext = $s._ext;
+    ext = $s._ext,
+    error = $s.error;
 
 if (!$c.MODULES_LOADED[$s.info.name]) {
     $s.__log_module();
@@ -51,13 +52,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if value exists",
             "category": "Number|Object",
             "parameters":[
-                {"val": "(Number|ContainsObjectIterator) Value to check or custom function to determine validity"}],
+                {"val": "(ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity"}],
 
             "overloads":[
                 {"parameters":[
-                    {"val": "(Number) Value to check"},
-                    {"func": "(ContainsIterator<T, TValue>) Callback function used to do the comparison"}]},
-
+                    {"val": "(ContainsValue) Value to check"},
+                    {"func": "(ContainsIterator<T>) Callback function used to do the comparison"}]},
+                {"parameters":[
+                    {"val": "(ContainsValue) Value to check"},
+                    {"func": "(ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type") }]},
                 {"parameters":[
                     {"arr": "(Array<TValue>) Array of values to return first matching value"}]}],
 
@@ -76,7 +79,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object values are equal",
             "category": "Number|Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"},
+                {"compare": "(any) Object to compare against"},
                 {"props?": "(String[]) Array of property values to compare against"}],
 
             "overloads":[],

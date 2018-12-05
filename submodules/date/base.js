@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -22,11 +22,11 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object values are equal",
             "category": "Date|Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"}],
+                {"compare": "(any) Object to compare against"}],
 
             "overloads":[
                 {"parameters":[
-                    {"compare": "(Object) Object to compare against"},
+                    {"compare": "(any) Object to compare against"},
                     {"props": "(String[]) Array of property values to compare against"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.equals",

@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.8.9
+# Craydent 0.9.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -497,32 +497,32 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Parameters:**
 
 >* htmlTemplate: (String) Template to be used
->* objs: (Objects[]) Objects to fill the template variables
+>* objs: (Object[]) Objects to fill the template variables
 >* options: (FillTemplateOptions) Options to use: max,offset,newlineToHtml,preserve_nonmatching
 
 **Overloads:**
 
 >Parameters
 >* htmlTemplate: (String) Template to be used
->* objs: (Objects[]) Objects to fill the template variables
+>* objs: (Object[]) Objects to fill the template variables
 >* max: (Int) The maximum number of records to process
 
 >Parameters
 >* htmlTemplate: (String) Template to be used
->* objs: (Objects[]) Objects to fill the template variables
+>* objs: (Object[]) Objects to fill the template variables
 >* offset: (Int) The start index of the Object array
 >* max: (Int) The maximum number of records to process
 
 >Parameters
 >* htmlTemplate: (String) Template to be used
->* objs: (Objects[]) Objects to fill the template variables
+>* objs: (Object[]) Objects to fill the template variables
 >* offset: (Int) The start index of the Object array
 >* max: (Int) The maximum number of records to process
 >* newlineToHtml: (Boolean) Flag to replace all new line chars () to the HTML <br /> tag.  Default is true.
 
 >Parameters
 >* htmlTemplate: (String) Template to be used
->* objs: (Objects[]) Objects to fill the template variables
+>* objs: (Object[]) Objects to fill the template variables
 >* offset: (Int) The start index of the Object array
 >* max: (Int) The maximum number of records to process
 >* newlineToHtml: (Boolean) Flag to replace all new line chars () to the HTML <br /> tag.  Default is true.
@@ -557,7 +557,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* files: (Object[]) Objects containing properties name for file name and content for file content
+>* files: (FileObject[]) Objects containing properties name for file name and content for file content
 
 **Overloads:**
 
@@ -599,7 +599,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls
 
-**Return:** (Array)
+**Return:** (Array<T>)
 
 **Parameters:**
 
@@ -655,21 +655,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Parameters:**
 
 >* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
->* condition?: (String) Query following SQL where clause syntax
+>* condition?: (String|WhereCondition) Query following SQL where clause syntax
 
 **Overloads:**
 
 >Parameters
->* fields: (Array<T>) Fields to use as the projection and unique comparison
->* condition?: (String) Query following SQL where clause syntax
-
->Parameters
->* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
->* condition?: (Object) Query following MongoDB find clause syntax
-
->Parameters
->* fields: (Array<T>) Fields to use as the projection and unique comparison (comma delimited)
->* condition?: (Object) Query following MongoDB find clause syntax
+>* fields: (Array<String>) Fields to use as the projection and unique comparison
+>* condition?: (String|WhereCondition) Query following SQL where clause syntax
 
 *** 
 #### _filter_ 
@@ -682,7 +674,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Parameters:**
 
 >* func: (ArrayIterator<T, TResult>) Callback function used to determine if value should be returned. Callback will get the current item, index, context as arguments.
->* craydent_ctxs?: (Object) Specify the context on callback function
+>* craydent_ctxs?: (any) Specify the context on callback function
 
 **Overloads:**
 
@@ -731,7 +723,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* value: (Object) value to find
+>* value: (any) value to find
 >* func: (ArrayIterator<T, TResult>) Callback function used to do the comparison
 
 **Overloads:**
@@ -767,7 +759,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* value: (Object) value to add
+>* value: (any) value to add
 
 **Overloads:**
 
@@ -784,7 +776,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Parameters:**
 
 >* index: (Int) Index to add after
->* value: (Object) Value to add
+>* value: (any) Value to add
 
 **Overloads:**
 
@@ -801,7 +793,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Parameters:**
 
 >* index: (Int) Index to add after
->* value: (Object) Value to add
+>* value: (any) Value to add
 
 **Overloads:**
 
@@ -818,7 +810,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Parameters:**
 
 >* index: (Int) Index to add before
->* value: (Object) Value to add
+>* value: (any) Value to add
 
 **Overloads:**
 
@@ -955,7 +947,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* value: (Object) Value to remove
+>* value: (any) Value to remove
 >* indexOf?: (IndexOf<T>) Callback function to use to find the item based on the value
 
 **Overloads:**
@@ -972,8 +964,8 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* value: (Object) Value to remove
->* indexOf: (IndexOf<T>) Callback function to use to find the item based on the value
+>* value?: (any) Value to remove
+>* indexOf?: (IndexOf<T>) Callback function to use to find the item based on the value
 
 **Overloads:**
 
@@ -1006,7 +998,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Parameters:**
 
 >* index: (Int) Index of the item to remove
->* value: (Object) Value to replace with
+>* value: (any) Value to replace with
 
 **Overloads:**
 
@@ -1056,36 +1048,36 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 >Parameters
 >* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 
 >Parameters
 >* props: (Array<String>) Properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 
 >Parameters
 >* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 >* lookup: (Object) Look up object to use as values instead of the array values.
 
 >Parameters
 >* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 >* lookup: (Object) Look up object to use as values instead of the array values.
 
 >Parameters
 >* props: (string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 >* lookup: (Object) Look up object to use as values instead of the array values.
 >* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
 >Parameters
 >* props: (Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed
 >* rev: (Bool) Flag to reverse the sort
->* primer: (SortPrimer<T>) Function to apply to values in the array.
+>* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 >* lookup: (Object) Look up object to use as values instead of the array values.
 >* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
@@ -1116,13 +1108,13 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Parameters:**
 
 >* condition: (WhereCondition) Query following find/where clause syntax
->* setClause: (Object) Set clause used to update the records
+>* setClause: (MongoSet) Set clause used to update the records
 
 **Overloads:**
 
 >Parameters
 >* condition: (WhereCondition) Query following find/where clause syntax
->* setClause: (Object) Set clause used to update the records
+>* setClause: (MongoSet) Set clause used to update the records
 >* options: (UpdateOptions) Options to specify if mulit update and/or upsert
 
 *** 
@@ -1135,22 +1127,18 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* records: (Array<T>) Records to use to insert/update array
+>* records: (Array<T>|T) Record(s) to use to insert/update array
 
 **Overloads:**
 
 >Parameters
->* records: (Array<T>) Records to use to insert/update array
+>* records: (Array<T>|T) Records to use to insert/update array
 >* callback: (UpsertIterator<T>) Method to use to determine if the records are equal
 
 >Parameters
->* records: (Array<T>) Records to use to insert/update array
+>* records: (Array<T>|T) Records to use to insert/update array
 >* prop: (string) Property to use as the primary key
-
->Parameters
->* records: (Array<T>) Records to use to insert/update array
->* prop: (string) Property to use as the primary key
->* callback: (UpsertIterator<T>) Method to use to determine if the records are equal
+>* callback?: (UpsertIterator<T>) Method to use to determine if the records are equal
 
 <a name='markdown-header-class'></a>
 ## Class
@@ -1177,7 +1165,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Cursor class to facilitate iteration
 
-**Return:** (ICursor)
+**Return:** (ICursor<T>)
 
 **Parameters:**
 
@@ -1194,7 +1182,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Collection class that filters out duplicate values and maintains an ordered list
 
-**Return:** (OrderedList)
+**Return:** (IOrderedList<T>)
 
 **Parameters:**
 
@@ -1203,8 +1191,8 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Overloads:**
 
 >Parameters
->* records: (Array) Array used to create the initial items in the ordered list
->* sorter?: (Function) Function for sorting logic
+>* records: (Array<T>) Array used to create the initial items in the ordered list
+>* sorter?: (SortIterator<T>) Function for sorting logic
 
 *** 
 #### _Queue_ 
@@ -1212,7 +1200,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Collection class that follows FIFO
 
-**Return:** (IQueue)
+**Return:** (IQueue<T>)
 
 **Parameters:**
 
@@ -1228,7 +1216,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Collection class that filters out duplicate values
 
-**Return:** (ISet)
+**Return:** (ISet<T, TResult>)
 
 **Parameters:**
 
@@ -1294,20 +1282,20 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 
 >Parameters
->* func: (Object) Function to make yieldable
+>* func: (Function) Function to make yieldable
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 >* returnIndex: (Integer) Index of callback argument.
 
@@ -1347,20 +1335,20 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 
 >Parameters
->* func: (Object) Function to make yieldable
+>* func: (Function) Function to make yieldable
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 >* returnIndex: (Integer) Index of callback argument.
 
@@ -1976,12 +1964,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Parameters:**
 
 >* event: (String) Event to trigger.
+>* ...infinite: (any) any number of arguments can be passed and will be applied to listening functions.
 
 **Overloads:**
 
->Parameters
->* event: (String) Event to trigger.
->* infinite: (any) any number of arguments can be passed and will be applied to listening functions.
+>None
 
 *** 
 #### _extends_ 
@@ -1993,12 +1980,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* extendee: (Object) Class to extend
+>* extendee: (Class) Class to extend
 
 **Overloads:**
 
 >Parameters
->* extendee: (Object) Class to extend
+>* extendee: (Class) Class to extend
 >* inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
 
 *** 
@@ -2023,7 +2010,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Function class extension to get parameters in definition
 
-**Return:** (Array)
+**Return:** (Array<T>)
 
 **Parameters:**
 
@@ -2043,7 +2030,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* infinite: (any) any number of arguments can be passed.
+>* ...infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
@@ -2241,7 +2228,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Asynchronous retrieval of the session object when used in conjunction with createServer
 
-**Return:** (Promise<SessionObject>)
+**Return:** (Promise<Session>)
 
 **Parameters:**
 
@@ -2274,7 +2261,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Syncronously retrieve the session object when used in conjunction with createServer
 
-**Return:** (SessionObject)
+**Return:** (Session)
 
 **Parameters:**
 
@@ -2729,7 +2716,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* infinite: (any) any number of arguments can be passed.
+>* ...infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
@@ -2875,32 +2862,11 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* compare: (Object) Object to compare against
+>* compare: (any) Object to compare against
 
 **Overloads:**
 
 >None
-
-*** 
-#### _contains_ 
-***
-
-**Info:** Object class extension to check if value exists
-
-**Return:** (Bool)
-
-**Parameters:**
-
->* val: (Object|ContainsObjectIterator) Value to check or custom function to determine validity
-
-**Overloads:**
-
->Parameters
->* val: (Object) Value to check
->* func: (ContainsIterator<T, TValue>) Callback function used to do the comparison
-
->Parameters
->* arr: (Array) Array of values to return first matching value
 
 *** 
 #### _copyObject_ 
@@ -2947,7 +2913,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Object class extension to copy an object including constructor
 
-**Return:** (Object)
+**Return:** (any)
 
 **Parameters:**
 
@@ -2967,7 +2933,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* callback: (EachIterator) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
+>* callback: (EachIterator<T>) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed
 
 **Overloads:**
 
@@ -2983,7 +2949,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* compare: (Object) Object to compare against
+>* compare: (any) Object to compare against
 >* props?: (String[]) Array of property values to compare against
 
 **Overloads:**
@@ -3000,12 +2966,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* callback: (ObjectIterator) Callback to apply to each value
+>* callback: (ObjectIterator<T, TValue, TResult>) Callback to apply to each value
 
 **Overloads:**
 
 >Parameters
->* callback: (ObjectIterator) Callback to apply to each value
+>* callback: (ObjectIterator<T, TValue, TResult>) Callback to apply to each value
 >* craydent_ctxObject: (any) Context for the callback function
 
 *** 
@@ -3119,8 +3085,8 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* lowerBound: (Mixed) Lower bound comparison
->* upperBound: (Mixed) Upper bound comparison
+>* lowerBound: (any) Lower bound comparison
+>* upperBound: (any) Upper bound comparison
 >* inclusive?: (Bool) Flag to include give bounds
 
 **Overloads:**
@@ -3425,8 +3391,8 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* callback: (ObjectIterator) Callback to apply to each value
->* craydent_ctxObject?: (Mixed) Context for the callback function
+>* callback: (ObjectIterator<T, TValue, TResult>) Callback to apply to each value
+>* craydent_ctxObject?: (any) Context for the callback function
 
 **Overloads:**
 
@@ -3443,7 +3409,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Parameters:**
 
 >* secondary: (Object) Object to merge with
->* condition?: (MergeEnums|MergeOptions|MergeIterator) Flags to recurse, merge only shared value, clone, intersect etc
+>* condition?: (MergeEnums|MergeOptions|MergeIterator<T>) Flags to recurse, merge only shared value, clone, intersect etc
 
 **Overloads:**
 
@@ -3479,7 +3445,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Parameters:**
 
 >* path: (String) Path to nested property
->* value: (Mixed) Value to set
+>* value: (any) Value to set
 >* delimiter?: (Char) Separator used to parse path
 
 **Overloads:**
@@ -3567,27 +3533,6 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 **Overloads:**
 
 >None
-
-*** 
-#### _contains_ 
-***
-
-**Info:** Object class extension to check if value exists
-
-**Return:** (Bool)
-
-**Parameters:**
-
->* val: (Object|ContainsObjectIterator) Value to check or custom function to determine validity
-
-**Overloads:**
-
->Parameters
->* val: (Object) Value to check
->* func: (ContainsIterator<T, TValue>) Callback function used to do the comparison
-
->Parameters
->* arr: (Array) Array of values to return first matching value
 
 *** 
 #### _convertUTCDate_ 
@@ -3689,7 +3634,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* infinite: (String) any number of arguments can be passed
+>* ...infinite: (String) any number of arguments can be passed
 
 **Overloads:**
 
@@ -3706,7 +3651,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* infinite: (String) any number of arguments can be passed
+>* ...infinite: (String) any number of arguments can be passed
 
 **Overloads:**
 
@@ -3973,7 +3918,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* infinite: (String) any number of String arguments can be passed
+>* ...infinite: (String) any number of String arguments can be passed
 
 **Overloads:**
 
@@ -3990,7 +3935,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* infinite: (String) any number of String arguments can be passed
+>* ...infinite: (String) any number of String arguments can be passed
 
 **Overloads:**
 
@@ -4185,20 +4130,20 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 
 >Parameters
->* func: (Object) Function to make yieldable
+>* func: (Function) Function to make yieldable
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 >* returnIndex: (Integer) Index of callback argument.
 
@@ -4244,7 +4189,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* infinite: (any) any number of arguments can be passed.
+>* ...infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
@@ -4321,7 +4266,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Require without erroring when module does not exist.
 
-**Return:** (Object|Bool)
+**Return:** (any|false)
 
 **Parameters:**
 
@@ -4344,7 +4289,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* infinite: (Object) any number of arguments can be passed.
+>* ...infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 
@@ -4443,7 +4388,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* value: (Mixed) value to parse as boolean.
+>* value: (any) value to parse as boolean.
 >* strict?: (Boolean) Disable parsing of 0, 1, '0', and '1'.
 
 **Overloads:**
@@ -4492,7 +4437,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Recursively require the entire directory and returns an object containing the required modules.
 
-**Return:** (Promise<any>|Object)
+**Return:** (Promise<any>|any)
 
 **Parameters:**
 
@@ -4562,7 +4507,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* condition: (Mixed) Condition equivalent to js true to resume execution
+>* condition: (Code) Condition equivalent to js true to resume execution
 
 **Overloads:**
 
@@ -4584,20 +4529,20 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 
 >Parameters
->* func: (Object) Function to make yieldable
+>* func: (Function) Function to make yieldable
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
 >* func: (Function) Function to make yieldable
->* context: (Object) Context to use to execute func.
+>* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 >* returnIndex: (Integer) Index of callback argument.
 

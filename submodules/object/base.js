@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -33,7 +33,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to compare properties that have changed",
             "category": "Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"}],
+                {"compare": "(any) Object to compare against"}],
 
             "overloads":[],
 
@@ -79,13 +79,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if value exists",
             "category": "Object",
             "parameters":[
-                {"val": "(Object|ContainsObjectIterator) Value to check or custom function to determine validity"}],
+                {"val": "(ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity"}],
 
             "overloads":[
                 {"parameters":[
-                    {"val": "(Object) Value to check"},
-                    {"func": "(ContainsIterator<T, TValue>) Callback function used to do the comparison"}]},
-
+                    {"val": "(ContainsValue) Value to check"},
+                    {"func": "(ContainsIterator<T>) Callback function used to do the comparison"}]},
+                {"parameters":[
+                    {"val": "(ContainsValue) Value to check"},
+                    {"func": "(ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type") }]},
                 {"parameters":[
                     {"arr": "(Array<TValue>) Array of values to return first matching value"}]}],
 
@@ -165,7 +167,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to loop through all properties where hasOwnValue is true.",
             "category": "Object",
             "parameters":[
-                {"callback": "(EachIterator) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed"}],
+                {"callback": "(EachIterator<T>) Function to call for each property.  Callback will have two arguments (the value of the object and the property name) passed"}],
 
             "overloads":[],
 
@@ -184,7 +186,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object values are equal",
             "category": "Object",
             "parameters":[
-                {"compare": "(Object) Object to compare against"},
+                {"compare": "(any) Object to compare against"},
                 {"props?": "(String[]) Array of property values to compare against"}],
 
             "overloads":[
@@ -204,11 +206,11 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check property values against a function",
             "category": "Object",
             "parameters":[
-                {"callback": "(ObjectIterator) Callback to apply to each value"}],
+                {"callback": "(ObjectIterator<T, TValue, TResult>) Callback to apply to each value"}],
 
             "overloads":[
                 {"parameters":[
-                    {"callback": "(ObjectIterator) Callback to apply to each value"},
+                    {"callback": "(ObjectIterator<T, TValue, TResult>) Callback to apply to each value"},
                     {"thisObject": "(any) Context for the callback function"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.every",
@@ -399,8 +401,8 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check if object is between lower and upper bounds",
             "category": "Object",
             "parameters":[
-                {"lowerBound": "(Mixed) Lower bound comparison"},
-                {"upperBound": "(Mixed) Upper bound comparison"},
+                {"lowerBound": "(any) Lower bound comparison"},
+                {"upperBound": "(any) Upper bound comparison"},
                 {"inclusive?": "(Bool) Flag to include give bounds"}],
 
             "overloads":[],
@@ -676,6 +678,8 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "parameters":[
                 {"compare": "(any) Superset to compare against"}],
 
+            "overloads":[],
+
             "url": "http://www.craydent.com/library/1.9.3/docs#object.isSubset",
             "returnType": "(Bool)"
         }|*/
@@ -742,8 +746,8 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to apply method to every value",
             "category": "Object",
             "parameters":[
-                {"callback": "(ObjectIterator) Callback to apply to each value"},
-                {"thisObject?": "(Mixed) Context for the callback function"}],
+                {"callback": "(ObjectIterator<T, TValue, TResult>) Callback to apply to each value"},
+                {"thisObject?": "(any) Context for the callback function"}],
 
             "overloads":[],
 
@@ -770,18 +774,19 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Object",
             "parameters":[
                 {"secondary": "(Object) Object to merge with"},
-                {"condition?": "(MergeEnums|MergeOptions|MergeIterator) Flags to recurse, merge only shared value, clone, intersect etc"}],
+                {"condition?": "(MergeEnums|MergeOptions|MergeIterator<T>) Flags to recurse, merge only shared value, clone, intersect etc"}],
 
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.merge",
+            "typeParameter": "<T>",
             "returnType": "(Object)"
         }|*/
         try {
             var len = arguments.length - 1,
                 original = this,
                 arg = arguments[len],
-                cond = condition;
+                cond = arguments[len];
             if ($s.isObject(arg)) {
                 for (var prop in arg) {
                     if (!(prop in {recurse:1,onlyShared:1,intersect:1,clone:1,compare:1})) {
@@ -827,7 +832,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Object",
             "parameters":[
                 {"path": "(String) Path to nested property"},
-                {"value": "(Mixed) Value to set"},
+                {"value": "(any) Value to set"},
                 {"delimiter?": "(Char) Separator used to parse path"}],
 
             "overloads":[],

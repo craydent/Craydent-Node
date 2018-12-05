@@ -3,6 +3,8 @@
 BASEDIR=$(dirname "$0")
 
 cd $BASEDIR;
+
+echo ">>>>>>>>>>>>>>> CREATING README <<<<<<<<<<<<<<<";
 ./createReadme.js /submodules/array;
 ./createReadme.js /submodules/class;
 ./createReadme.js /submodules/cli;
@@ -21,3 +23,4 @@ cd $BASEDIR;
 ./createReadme.js /submodules/utility;
 ./createReadme.js /submodules/xml-to-json;
 ./createReadme.js
+echo ">>>>>>>>>>>>>>> README COMPLETED <<<<<<<<<<<<<<<";

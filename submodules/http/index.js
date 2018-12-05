@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -1763,7 +1763,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#getSession",
-            "returnType": "(Promise<SessionObject>)"
+            "returnType": "(Promise<Session>)"
         }|*/
         try {
             // if (arguments.length == 1) {
@@ -1791,7 +1791,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#getSessionSync",
-            "returnType": "(SessionObject)"
+            "returnType": "(Session)"
         }|*/
         try {
             return this._getSession(sid);
@@ -1859,7 +1859,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Dump of variables to response.",
             "category": "HTTP",
             "parameters":[
-                {"infinite": "(any) any number of arguments can be passed."}],
+                {"...infinite": "(any) any number of arguments can be passed."}],
 
             "overloads":[],
 

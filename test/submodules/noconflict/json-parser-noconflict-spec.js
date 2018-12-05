@@ -1,8 +1,10 @@
-var pre = require('../_prep');
+var pre = require('../_prep')();
 var $c;
 if (process.env.name == 'single') { $c = require(pre + 'craydent-json-parser/noConflict.js'); }
 else { $c = require('../../../noConflict.js'); }
+var $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
+var matchPropAndConstructor = $m.matchPropAndConstructor;
 describe ('No Conflict Global methods', function () {
 	beforeEach(function() {
         this.addMatchers({toMatchPropAndConstructor: matchPropAndConstructor});

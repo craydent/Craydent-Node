@@ -10,39 +10,80 @@ noasync="false";
 if [ "$1" = "true" ]; then
     noasync="true";
 fi
-jasmine-node test/submodules/main/array-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/class-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/cli-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/control-flow-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/date-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/fs-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/function-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/http-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/json-parser-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/number-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/object-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/regexp-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/string-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/template-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/typeof-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/utility-main-spec.js --color --config noasync $noasync --config name single
-jasmine-node test/submodules/main/xml-to-json-main-spec.js --color --config noasync $noasync --config name single
+jasmine-node ./test/submodules/ --color --config noasync $noasync --config name single
+jasmine-node ./test/submodules/ --color --config noasync $noasync
+# jasmine-node test/submodules/main/array-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/class-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/cli-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/control-flow-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/date-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/fs-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/function-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/http-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/json-parser-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/number-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/object-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/regexp-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/string-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/template-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/typeof-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/utility-main-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/main/xml-to-json-main-spec.js --color --config noasync $noasync --config name single
 
 
-jasmine-node test/submodules/main/array-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/class-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/cli-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/control-flow-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/date-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/fs-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/function-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/http-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/json-parser-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/number-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/object-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/regexp-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/string-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/template-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/typeof-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/utility-main-spec.js --color --config noasync $noasync
-jasmine-node test/submodules/main/xml-to-json-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/array-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/class-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/cli-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/control-flow-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/date-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/fs-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/function-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/http-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/json-parser-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/number-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/object-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/regexp-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/string-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/template-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/typeof-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/utility-main-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/main/xml-to-json-main-spec.js --color --config noasync $noasync
+
+
+# no conflict
+# jasmine-node test/submodules/noconflict/array-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/class-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/cli-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/control-flow-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/date-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/fs-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/function-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/http-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/json-parser-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/number-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/object-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/regexp-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/string-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/template-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/typeof-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/utility-noconflict-spec.js --color --config noasync $noasync --config name single
+# jasmine-node test/submodules/noconflict/xml-to-json-noconflict-spec.js --color --config noasync $noasync --config name single
+
+
+# jasmine-node test/submodules/noconflict/array-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/class-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/cli-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/control-flow-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/date-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/fs-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/function-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/http-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/json-parser-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/number-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/object-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/regexp-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/string-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/template-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/typeof-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/utility-noconflict-spec.js --color --config noasync $noasync
+# jasmine-node test/submodules/noconflict/xml-to-json-noconflict-spec.js --color --config noasync $noasync

@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -457,7 +457,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Stops execution until the condition is satisfied",
             "category": "Utility",
             "parameters":[
-                {"condition": "(Mixed) Condition equivalent to js true to resume execution"}],
+                {"condition": "(Code) Condition equivalent to js true to resume execution"}],
 
             "overloads":[],
 
@@ -530,7 +530,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "category": "Utility",
             "featured": true,
             "parameters":[
-                {"files": "(Object[]) Objects containing properties name for file name and content for file content"}],
+                {"files": "(FileObject[]) Objects containing properties name for file name and content for file content"}],
 
             "overloads":[
                 {"parameters":[

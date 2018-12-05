@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -38,11 +38,19 @@ function OrderedList (records,sorter)  {
 
         "overloads":[
             {"parameters":[
-                {"records": "(Array) Array used to create the initial items in the ordered list"},
-                {"sorter?": "(Function) Function for sorting logic"}]}],
+                {"records": "(Array<T>) Array used to create the initial items in the ordered list"},
+                {"sorter?": "(SortIterator<T>) Function for sorting logic"}]}],
+
+        "instanceProperties":[
+            {"name":"add", "type":"(value:T) => boolean"},
+            {"name":"hasNext", "type":"() => boolean"},
+            {"name":"next", "type":"() => {value:T, done:boolean}"},
+            {"name":"size", "type":"() => number"}
+        ],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#OrderedList",
-        "returnType": "(OrderedList)"
+        "typeParameter": "<T>",
+        "returnType": "(IOrderedList<T>)"
     }|*/
     try {
         sorter = sorter || function(a,b){ if (a < b) { return -1; } if (a > b) { return 1; } return 0; };

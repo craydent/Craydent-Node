@@ -1,5 +1,5 @@
 /*/---------------------------------------------------------/*/
-/*/ Craydent LLC node-v0.8.2                                /*/
+/*/ Craydent LLC node-v0.9.0                                /*/
 /*/ Copyright 2011 (http://craydent.com/about)              /*/
 /*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
 /*/ (http://craydent.com/license)                           /*/
@@ -18,7 +18,8 @@ function condense (objs, check_values) {
                 {"check_values": "(Bool) Flag to remove duplicates"}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#array.condense",
-        "returnType": "(Array)"
+        "typeParameter": "<T>",
+        "returnType": "(Array<T>)"
     }|*/
     try {
         var skip = [], arr = [], without = false;

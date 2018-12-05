@@ -1,4 +1,4 @@
-var pre = require('../_prep');
+var pre = require('../_prep')();
 var $c;
 if (process.env.name == 'single') { $c = require(pre + 'craydent-function'); }
 else { $c = require('../../../index.js'); }
@@ -10,16 +10,16 @@ describe ('Function', function () {
 		this.p2 = 2;
 	}
 	it('getParameters',function(){
-		expect($c.getParameters(temp)).toEqual(['par1','par2']);
+		expect(temp.getParameters()).toEqual(['par1','par2']);
 	});
 	it('getName',function(){
-		expect($c.getName(temp)).toEqual('temp');
+		expect(temp.getName()).toEqual('temp');
 	});
 	it('extends',function(){
         function cls(){
             this.p3 = 0;
         }
-        $c.extends(cls,temp);
+		cls.extends(temp);
         var clz = new cls();
 
         expect(clz.p).toEqual(1);
@@ -30,20 +30,20 @@ describe ('Function', function () {
 	});
 	it('on',function(){
 		function testEmit() { return $c.emit('listener'); }
-		$c.on(testEmit,'listener',function(){ return 'hello world'; });
-		$c.on(testEmit,'listener',function(){ return 'hello world again'; });
+		testEmit.on('listener',function(){ return 'hello world'; });
+		testEmit.on('listener',function(){ return 'hello world again'; });
 
 		expect(testEmit()).toEqual(['hello world','hello world again']);
 	});
 	it('then',function(){
 		function testNext() { return $c.next(); }
-		$c.then(testNext,function(){ return 'hello world'; });
+		testNext.then(function(){ return 'hello world'; });
 		expect(testNext()).toEqual(['hello world']);
 	});
 	it('catch',function(){
 		function testNext() { return $c.next(); }
-		$c.then(testNext,function(){ throw 'adsf'; });
-		$c.catch(testNext,function(){ return 'hello world'; });
+		testNext.then(function(){ throw 'adsf'; });
+		testNext.catch(function(){ return 'hello world'; });
 		expect(testNext()).toEqual(['hello world']);
 
 	});
