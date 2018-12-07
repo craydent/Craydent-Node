@@ -1,6 +1,6 @@
 module.exports = function (pre) {
     var noAsync = process.env.noasync && process.env.noasync.toLowerCase() == 'true';
-    var $s = require('../../common.js');
+    var $s = require('../../submodules/common.js')();
     var $t = require(pre + 'craydent-typeof/noConflict');
     var error = $s.error;
     require('../../submodules/_shared/run_func_array.js')($s);

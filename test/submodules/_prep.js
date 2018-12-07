@@ -5,7 +5,7 @@ module.exports = function () {
     delete global.__craydentNoConflict;
     delete global.navigator;
 
-    try { require.cache[require.resolve('../../common.js')] && delete require.cache[require.resolve('../../common.js')]; }catch(e){}
+    try { require.cache[require.resolve('../../submodules/common.js')] && delete require.cache[require.resolve('../../submodules/common.js')]; }catch(e){}
     try { require.cache[require.resolve(pre + 'craydent-array')] && delete require.cache[require.resolve(pre + 'craydent-array')]; }catch(e){}
     try { require.cache[require.resolve(pre + 'craydent-class')] && delete require.cache[require.resolve(pre + 'craydent-class')]; }catch(e){}
     try { require.cache[require.resolve(pre + 'craydent-cli')] && delete require.cache[require.resolve(pre + 'craydent-cli')]; }catch(e){}
