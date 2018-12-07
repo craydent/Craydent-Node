@@ -22,10 +22,5 @@
     ],
     "author": "Clark Inada",
     "license": "MIT",
-    "homepage": "https://github.com/craydent/Node-Library/tree/master/submodules/${submodule}",
-    "dependencies": {},
-    "devDependencies": {
-        "chai": "^3.5.0",
-        "jasmine-node": "^1.14.5"
-    }
+    "homepage": "https://github.com/craydent/Node-Library/tree/master/submodules/${submodule}"
 }

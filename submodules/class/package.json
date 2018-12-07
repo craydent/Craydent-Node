@@ -30,9 +30,5 @@
     "homepage": "https://bitbucket.org/craydent/node-library/src//submodules/class/",
     "dependencies": {
         "@craydent/craydent-typeof": "file:../typeof"
-    },
-    "devDependencies": {
-        "chai": "^3.5.0",
-        "jasmine-node": "^1.14.5"
     }
 }
