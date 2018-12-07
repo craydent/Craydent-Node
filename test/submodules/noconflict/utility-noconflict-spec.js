@@ -2,7 +2,6 @@ var pre = require('../_prep')();
 var $c;
 if (process.env.name == 'single') { $c = require(pre + 'craydent-utility/noConflict.js'); }
 else { $c = require('../../../noConflict.js'); }
-var $s = require('../../../common.js');
 var $t = require(pre + 'craydent-typeof');
 var $m = require('../_methods')(pre);
 var matchPropAndConstructor = $m.matchPropAndConstructor;
