@@ -38,7 +38,11 @@ describe ('Global methods', function () {
 			${else}\
 				False\
 			${end if}\
-		${end foreach}',{TASK:{subtasks:[{sub_complete:true}]}}).trim()).toBe('True');
+        ${end foreach}',{TASK:{subtasks:[{sub_complete:true}]}}).trim()).toBe('True');
+
+        let fs = require('fs');
+        let template = fs.readFileSync(`${process.cwd()}/test/submodules/template.ct`, 'utf8');
+        expect($c.fillTemplate(template, {TASK:{subtasks:[{sub_complete:true}]}}).trim()).toBe('True');
     });
     it('fillTemplate - methods',function(){
         expect($c.fillTemplate("<div>${COUNT[${arr}]}<div>",obj)).toBe("<div>2<div><div>2<div>");
@@ -66,6 +70,8 @@ describe ('Global methods', function () {
         expect($c.fillTemplate("divhere${if (${this.User})}div${end if}ending",{User:[]})).toBe("divheredivending");
         expect($c.fillTemplate("divhere${if (${this.User.length})}div${end if}ending",{User:[]})).toBe("divhereending");
         expect($c.fillTemplate("divhere${if ('${this.User}')}div${end if}ending",{User:"adsf"})).toBe("divheredivending");
+        expect($c.fillTemplate("div ${if (!${test.tags.Level} || ${test.tags.Level.length == 0} && ${test.type})}${test.type}${end if} ending",
+            {test:{type:"testtype",tags:{Level:["adsf"]}}})).toBe("div testtype ending");
     });
     it('fillTemplate - for',function(){
         expect($c.fillTemplate("<div>${name}<div>${for ${i=0,len=${arr}.length};${i<len};${i++}}${${arr}[i].hi}8888${name}9999${end for}</div></div>",obj))

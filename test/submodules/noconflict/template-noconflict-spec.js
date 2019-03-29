@@ -1,10 +1,10 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-template/noConflict'); }
-else { $c = require('../../../noConflict.js'); }
-var $m = require('../_methods')(pre);
+const pre = require('../_prep')();
+let path = '../../../noConflict.js';
+if (process.env.name == 'single') { path = `${pre}craydent-date/noConflict.js`; }
+const $c = require(path);
+const $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
-var matchPropAndConstructor = $m.matchPropAndConstructor;
+const matchPropAndConstructor = $m.matchPropAndConstructor;
 describe ('No Conflict Global methods', function () {
 	beforeEach(function() {
         this.addMatchers({ toMatchPropAndConstructor: matchPropAndConstructor });
@@ -39,6 +39,11 @@ describe ('No Conflict Global methods', function () {
 				False\
 			${end if}\
 		${end foreach}',{TASK:{subtasks:[{sub_complete:true}]}}).trim()).toBe('True');
+
+        let fs = require('fs');
+        let template = fs.readFileSync(`${process.cwd()}/test/submodules/template.ct`, 'utf8');
+        $c.TEMPLATE_TAG_CONFIG.IGNORE_CHARS=['\n','\r']
+        expect($c.fillTemplate(template, {TASK:{subtasks:[{sub_complete:true},{sub_complete:false}]}}).trim()).toBe('TrueFalse');
     });
     it('fillTemplate - methods',function(){
         expect($c.fillTemplate("<div>${COUNT[${arr}]}<div>",obj)).toBe("<div>2<div><div>2<div>");

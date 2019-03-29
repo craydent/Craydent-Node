@@ -24,14 +24,17 @@ var scope,
     _contain,
     _strip,
     _template_config = {
-        IGNORE_CHARS: ['\n'],
+        // IGNORE_CHARS: ['\n','\r'],
+        IGNORE_CHARS: [],
         /* loop config */
         FOR: {
             "begin": /(?:\$\{for (.*?);(.*?);(.*?\}?)\})|(?:\{\{for (.*?);(.*?);(.*?\}?)\}\})/i,
             "end": /(\$\{end for\})|(\{\{end for\}\})/i,
-            "helper": function (code, body) {
+            "helper": function (code, body, options) {
                 var ttc = scope.ctx.TEMPLATE_TAG_CONFIG,
-                    mresult = code.match(ttc.FOR.begin),
+                    mresult = code.match(options.removeNewLineFromLogicalSyntax ?
+                        new RegExp(ttc.FOR.begin.source + '', ttc.FOR.begin.flags) :
+                        ttc.FOR.begin),
                     condition, exec, dvars, vars = "", ovars = {}, code_result = "";
 
                 for (var j = 1, jlen = mresult.length; j < jlen; j++) {
@@ -695,7 +698,7 @@ function __run_replace (reg, template, use_run, obj) {
 }
 
 
-function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_nonmatching) {
+function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_nonmatching, removeNewLineFromLogicalSyntax) {
     /*|{
         "info": "Function for templetizing",
         "category": "Template",
@@ -703,7 +706,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
         "parameters":[
             {"htmlTemplate": "(String) Template to be used"},
             {"objs": "(Object[]) Objects to fill the template variables"},
-            {"options": "(FillTemplateOptions) Options to use: max,offset,newlineToHtml"}],
+            {"options": "(FillTemplateOptions) Options to use: max,offset,newlineToHtml,preserveNonMatching,removeNewLineFromLogicalSyntax"}],
 
         "overloads":[
             {"parameters":[
@@ -730,12 +733,22 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
                 {"offset": "(Int) The start index of the Object array"},
                 {"max": "(Int) The maximum number of records to process"},
                 {"newlineToHtml":"(Boolean) Flag to replace all new line chars (\\n) to the HTML <br /> tag.  Default is true."},
-                {"preserve_nonmatching":"(Boolean) Flag to used to leave template variables that were not replaced."}]}],
+                {"preserveNonMatching":"(Boolean) Flag to used to leave template variables that were not replaced."},
+                {"removeNewLineFromLogicalSyntax":"(Boolean) Flag to used to remove new lines from logical syntax."}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#fillTemplate",
         "returnType": "(String)"
     }|*/
     try {
+        scope.ctx.TEMPLATE_TAG_CONFIG.IGNORE_CHARS = (scope.ctx.TEMPLATE_TAG_CONFIG.IGNORE_CHARS || []).map(function(char){
+            if (char == "\n") {
+                return "scope.ctx.fillTemplate.refs['newline']";
+            }
+            if (char == "\r") {
+                return "scope.ctx.fillTemplate.refs['returnline']";
+            }
+            return char;
+        });
         var nested = true;
         if (!scope.ctx.fillTemplate.declared && !scope.ctx.fillTemplate.refs) {
             nested = false;
@@ -746,7 +759,8 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
         if (_isObject(offset)) {
             max = offset.max || 0;
             newlineToHtml = _isNull(offset.newlineToHtml, true);
-            preserve_nonmatching = offset.preserve_nonmatching;
+            preserve_nonmatching = offset.preserveNonMatching;
+            removeNewLineFromLogicalSyntax = offset.removeNewLineFromLogicalSyntax;
             offset = offset.offset;
         } else if (!_isNull(offset) && _isNull(max)) {
             max = offset;
