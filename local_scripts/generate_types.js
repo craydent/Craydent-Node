@@ -18,19 +18,18 @@ $cls = $u.include('@craydent/craydent-class/noConflict',true);
 var dependencies = require(`${root}/submodules/dependencies`);
 var globalizables = require(`${root}/submodules/common`)().globalizables;
 var typePath = `${root}/@types/DefinitelyTyped/types/craydent`;
+var templatePath = `${root}/local_scripts/templates`;
 var commonPath = `${typePath}/common`;
-var tsConfig = require(`${typePath}/tsconfig.json`);
+var tsConfig = require(`${templatePath}/tsconfig.json`);
 var RED = '\x1b[31m%s\x1b[0m';
 var GREEN = '\x1b[32m%s\x1b[0m';
 var YELLOW = '\x1b[33m%s\x1b[0m';
 var mainPath = "base";
 var tsConfigFiles = [
-    // "main.d.ts",
-    // "noConflict.d.ts",
     "base/index.d.ts",
-    "global.d.ts",
-    "noConflict.d.ts",
-    "craydent-tests.ts"
+    "global/index.d.ts",
+    "noConflict/index.d.ts"/*,
+    "craydent-tests.ts"*/
 ];
 
 var modules = dependencies.primary;
@@ -148,7 +147,7 @@ function parseParameter (param, defaults) {
             //     .replace('Boolean', 'boolean')
             //     .replace('Bool', 'boolean')
             //     .replace('Char', 'String');
-            var paramType = $c.replace_all(param[prop].replace(/\((.*?)\).*$/i,'$1'),
+            var paramType = $s.replace_all(param[prop].replace(/\((.*?)\).*$/i,'$1'),
                 ['Integer[]', 'Int[]', 'Integer', 'Int', 'Boolean', 'Bool', 'Char'],
                 ['number[]', 'number[]', 'number', 'number', 'boolean', 'boolean', 'String']);
 
@@ -178,18 +177,23 @@ global.generateMethodDefinition = (obj, parameters) => {
 async function prep () {
     var promises = [];
 
-    promises.push($f.readFile(`${commonPath}/common.template.d.ts`, 'utf8'));
+    promises.push($f.readFile(`${templatePath}/common.template.ct`, 'utf8'));
+    // promises.push($f.readFile(`${commonPath}/common.template.d.ts`, 'utf8'));
     promises.push($i.CLI.exec(`rm -rf ${typePath}/${mainPath};`));
+    promises.push($i.CLI.exec(`rm -rf ${typePath}/global;`));
+    promises.push($i.CLI.exec(`rm -rf ${typePath}/noConflict;`));
     promises.push($i.CLI.exec(`rm -f ${typePath}/index.d.ts;`));
     promises.push($i.CLI.exec(`rm -f ${commonPath}/common.p.d.ts`));
-    promises.push($i.CLI.exec(`rm -f ${commonPath}/common.p.d.ts`));
+    // promises.push($i.CLI.exec(`rm -f ${commonPath}/common.p.d.ts`));
     promises.push($i.CLI.exec(`rm -rf ${commonPath}/noConflict`));
     promises.push($i.CLI.exec(`rm -rf ${commonPath}/base`));
-    promises.push($i.CLI.exec(`rm -rf ${commonPath}/globals`));
+    promises.push($i.CLI.exec(`rm -rf ${commonPath}/global`));
     promises.push($i.CLI.exec(`mkdir -p  ${commonPath}/noConflict`));
     promises.push($i.CLI.exec(`mkdir -p  ${commonPath}/base`));
-    promises.push($i.CLI.exec(`mkdir -p  ${commonPath}/globals`));
+    promises.push($i.CLI.exec(`mkdir -p  ${commonPath}/global`));
     promises.push($i.CLI.exec(`mkdir -p  ${typePath}/${mainPath}`));
+    promises.push($i.CLI.exec(`mkdir -p  ${typePath}/global`));
+    promises.push($i.CLI.exec(`mkdir -p  ${typePath}/noConflict`));
 
     for (var prop in modules) {
         let path = `${typePath}/${prop}`;
@@ -201,13 +205,13 @@ async function prep () {
             `rm -f ${typePath}-${prop}/readme.md`,
             `mkdir -p ${path}/noConflict`,
             `mkdir -p ${path}/base`,
-            `mkdir -p ${path}/globals`,
+            `mkdir -p ${path}/global`,
             `mkdir -p ${typePath}-${prop}/common/noConflict`,
             `mkdir -p ${typePath}-${prop}/common/base`,
-            `mkdir -p ${typePath}-${prop}/common/globals`,
+            `mkdir -p ${typePath}-${prop}/common/global`,
             `mkdir -p ${typePath}-${prop}/noConflict`,
             `mkdir -p ${typePath}-${prop}/base`,
-            `mkdir -p ${typePath}-${prop}/globals`
+            `mkdir -p ${typePath}-${prop}/global`
         ];
         promises.push($i.CLI.exec(commads.join(';')));
     }
@@ -232,14 +236,14 @@ function populateCommon (populationCommon, prop, promises, subpath) {
     refs.sort();
     submoduleText.sort();
     let body = `${refs.join('\n')}\n\n${submoduleText.join('\n')}`;
-    promises.push($f.writeFile(`${typePath}/common/${subpath}/${prop}.d.ts`, body));
+    // promises.push($f.writeFile(`${typePath}/common/${subpath}/${prop}.d.ts`, body));
     promises.push($f.writeFile(`${typePath}-${prop}/common/${subpath}/${prop}.d.ts`, body.replace(new RegExp(`${prop}/`,'g'), '')));
 }
 let contexts = {
 };
 contexts[`${mainPath}/index`] = {path:"base", dir:"..", ext:".p"};
-contexts[`noConflict`] = {path:"noConflict", dir:".", ext:""};
-contexts[`global`] = {path:"globals", dir:".", ext:".p"};
+contexts[`noConflict`] = {path:"noConflict", dir:"..", ext:""};
+contexts[`global`] = {path:"global", dir:"..", ext:".p"};
 function renderSubmodule (mod, method, prop, dir, context) {
     let subpath = dir;
     let ext = contexts[context].ext;
@@ -295,15 +299,15 @@ function renderSubmodule (mod, method, prop, dir, context) {
             if (mainFile == `global` && ~globalizables.indexOf(doc.name)) {
                 body += `\n${$t.fillTemplate(gtemplate, doc)}`
             }
-            promises.push($f.writeFile(`${typePath}/${prop}/${subpath}/${method}${ext}.d.ts`, body)
-            .then((success)=>{
-                if (success) {
-                    // console.log(GREEN, `${typePath}/${prop}/${subpath}/${method}${ext}.d.ts`);
-                } else {
-                    console.error(success);
-                }
-                // console.log(success ? `${typePath}/${prop}/${subpath}/${method}${ext}.d.ts done:${success}` : success);
-            }));
+            // promises.push($f.writeFile(`${typePath}/${prop}/${subpath}/${method}${ext}.d.ts`, body)
+            // .then((success)=>{
+            //     if (success) {
+            //         // console.log(GREEN, `${typePath}/${prop}/${subpath}/${method}${ext}.d.ts`);
+            //     } else {
+            //         console.error(success);
+            //     }
+            //     // console.log(success ? `${typePath}/${prop}/${subpath}/${method}${ext}.d.ts done:${success}` : success);
+            // }));
             promises.push($f.writeFile(`${typePath}-${prop}/${subpath}/${method}${ext}.d.ts`, body.replace(/\.\.\/\.\.\//g,'../'))
             .then((success)=>{
                 if (success) {
@@ -325,15 +329,15 @@ function renderSubmodule (mod, method, prop, dir, context) {
 
     }
     submoduleText += '\n}';
-    promises.push($f.writeFile(`${typePath}/${prop}/${subpath}/${method}.d.ts`, submoduleText)
-        .then((success)=>{
-            if (success) {
-                // console.log(GREEN, `${typePath}/${prop}/${subpath}/${method}.d.ts`);
-            } else {
-                console.error(success);
-            }
-            // console.log(success ? `${typePath}/${prop}/${subpath}/${method}.d.ts done:${success}` : success);
-        }))
+    // promises.push($f.writeFile(`${typePath}/${prop}/${subpath}/${method}.d.ts`, submoduleText)
+    //     .then((success)=>{
+    //         if (success) {
+    //             // console.log(GREEN, `${typePath}/${prop}/${subpath}/${method}.d.ts`);
+    //         } else {
+    //             console.error(success);
+    //         }
+    //         // console.log(success ? `${typePath}/${prop}/${subpath}/${method}.d.ts done:${success}` : success);
+    //     }))
     promises.push($f.writeFile(`${typePath}-${prop}/${subpath}/${method}.d.ts`, submoduleText.replace(/\.\.\/\.\.\//g,'../'))
         .then((success)=>{
             if (success) {
@@ -345,13 +349,15 @@ function renderSubmodule (mod, method, prop, dir, context) {
         }))
     return promises;
 }
-async function updateTSConfig (prop) {
+async function updateTSConfig (prop, types) {
     prop = prop || '';
+    types = types || [];
     if (prop) {
         prop = `-${prop}`;
     }
     prop += '/';
-    tsConfig.files = tsConfigFiles;
+    tsConfig.files = tsConfigFiles.concat([`craydent${prop.slice(0,-1)}-tests.ts`]);
+    tsConfig.compilerOptions.types = types.concat(['node']);
     var success = await $f.writeFile(`${typePath}${prop}tsconfig.json`, JSON.stringify(tsConfig, null, '    '));
     if (success) {
         // console.log(GREEN, `${typePath}${prop}tsconfig.json`);
@@ -395,7 +401,7 @@ async function createMainFiles (refs, file, prop) {
         }
     }
     var content = $t.fillTemplate(mainTemplate, {refs: refs, global: file == "global", constants});
-    var success = await $f.writeFile(`${typePath}${prop}${file}.d.ts`, content);
+    var success = await $f.writeFile(`${typePath}${prop}${file.replace('/index','')}/index.d.ts`, content);
     if (success) {
         // console.log(GREEN, `${typePath}${prop}${file}.d.ts`);
     } else {
@@ -429,22 +435,25 @@ function createCommonFile (content, dir, context, prop){
 async function run(context, commonContent) {
     var dir = contexts[context].path;
     var currentDir = contexts[context].dir;
-    var refs = [
-        `${currentDir}/common/${dir}/common.d.ts`
-    ];
-
+    var commonRef = `${currentDir}/common/${dir}/common.d.ts`;
+    var types = [];
+    var filecount = 0;
     var promises = createCommonFile(commonContent, dir, context);
     for (let prop in modules) {
-        fs.createReadStream(`${typePath}/tslint.json`).pipe(fs.createWriteStream(`${typePath}-${prop}/tslint.json`));
-        fs.createReadStream(`${typePath}/tsconfig.json`).pipe(fs.createWriteStream(`${typePath}-${prop}/tsconfig.json`));
-        fs.createReadStream(`${typePath}/readme.md`).pipe(fs.createWriteStream(`${typePath}-${prop}/readme.md`));
-        fs.createReadStream(`${typePath}/craydent-tests.ts`).pipe(fs.createWriteStream(`${typePath}-${prop}/craydent-tests.ts`));
+        fs.createReadStream(`${templatePath}/tslint.json`).pipe(fs.createWriteStream(`${typePath}-${prop}/tslint.json`));
+        fs.createReadStream(`${templatePath}/readme.md`).pipe(fs.createWriteStream(`${typePath}-${prop}/readme.md`));
+        //fs.createReadStream(`${templatePath}/craydent-${prop}-tests.ts`).pipe(fs.createWriteStream(`${typePath}-${prop}/craydent-${prop}-tests.ts`));
+        promises.push($f.readFile(`${templatePath}/craydent-${prop}-tests.ts`, 'utf8').then((content)=>{
+            return $f.writeFile(`${typePath}-${prop}/craydent-${prop}-tests.ts`, $t.fillTemplate(content.replace('@craydent/',''), {prop:`-${prop}`}));
+        }));
+        filecount += 2;
 
-        var promises = createCommonFile(commonContent, dir, context, `-${prop}`);
-        var subRefs = [refs[0],`${currentDir}/common/${dir}/${prop}.d.ts`];
+        promises = promises.concat(createCommonFile(commonContent, dir, context, `-${prop}`));
+        var subRefs = [commonRef,`${currentDir}/common/${dir}/${prop}.d.ts`];
         createMainFiles(subRefs, context, `-${prop}`);
-        refs.push(`${currentDir}/common/${dir}/${prop}.d.ts`);
-        // let mod = $u.include(`@craydent/craydent-${prop}/noConflict`,true);
+        filecount++;
+
+        types.push(`craydent-${prop}`);
         let mod = require(`@craydent/craydent-${prop}/noConflict`);
         let populationCommon = [];
         for (let method in mod) {
@@ -459,12 +468,12 @@ async function run(context, commonContent) {
         promises.push(updateTSConfig(prop));
     }
     let results = await Promise.all(promises);
-    console.log(GREEN, `added ${promises.length} files for ${context}`);
+    console.log(GREEN, `added ${promises.length + filecount} files for ${context}`);
     if ($a.condense(results, true).length > 1) { return; }
 
     await Promise.all([
-        createMainFiles(refs, context),
-        updateTSConfig()
+        createMainFiles([], context),
+        updateTSConfig(null, types)
     ]);
 
 

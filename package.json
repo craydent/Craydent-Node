@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "./local_scripts/test.sh",
+        "testTypes": "./local_scripts/testtypes.js",
         "testMain": "jasmine-node test/ --color --autotest --watch index.js --match -main-",
         "testNoConflict": "jasmine-node test/ --color --autotest --watch index.js --match -noconflict-",
         "gitResolve": "./local_scripts/gitResolve.sh",
@@ -80,6 +81,7 @@
         "@craydent/craydent-xml-to-json": "file:./submodules/xml-to-json"
     },
     "devDependencies": {
+        "@types/node": "^11.9.4",
         "jasmine-node": "^1.16.2"
     }
 }

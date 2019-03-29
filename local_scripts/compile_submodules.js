@@ -66,99 +66,6 @@ async function start() {
     let asyncModules = []
     for (let folder in dependencies) {
         asyncModules.push(compileSubmodule(folder));
-        // if (!dependencies.hasOwnProperty(folder)) { continue; }
-        // folders.push(folder);
-
-        // var files = await $fs.readdir(base + folder + "/" + depdir);
-        // var asyncTasks = [];
-        // for (var i = 0, len = files.length; i < len; i++) {
-        //     asyncTasks.push($fs.unlink(base + folder + "/" + depdir + files[i]));
-        // }
-
-        // asyncTasks.push($fs.unlink(base + folder + "/base.js"));
-        // asyncTasks.push($fs.unlink(base + folder + "/global.js"));
-        // asyncTasks.push($fs.unlink(base + folder + "/noConflict.js"));
-        // asyncTasks.push($fs.unlink(base + folder + "/package.json"));
-        // !staging && asyncTasks.push($fs.unlink(base + folder + "/package-lock.json"));
-        // !publishing && asyncTasks.push($fs.unlink(base + folder + "/readme.md"));
-
-        // await Promise.all(asyncTasks);
-        // var asyncRW = [];
-        // asyncRW.push($fs.readFile(base + folder + '/index.js', 'utf8').then((raw)=>{
-        //     let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
-        //     $fs.writeFile(base + folder + '/base.js', content);
-        //     $fs.writeFile(base + folder + '/index.js', content);
-        // }));
-        // asyncRW.push($fs.readFile(base + 'common.js', 'utf8').then((raw)=>{
-        //     let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
-        //     $fs.writeFile(base + folder + '/' + depdir + 'common.js', content);
-        // }));
-        // asyncRW.push($fs.readFile(base + 'global.js', 'utf8').then((raw)=>{
-        //     let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
-        //     $fs.writeFile(base + folder + '/global.js', content);
-        // }));
-        // asyncRW.push($fs.readFile(base + 'noConflict.js', 'utf8').then((raw)=>{
-        //     let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
-        //     $fs.writeFile(base + folder + '/noConflict.js', content);
-        // }));
-
-        // // dependent files
-        // let depfiles = [
-        //     'addObjectPrototype.js',
-        //     'condense.js',
-        //     'convert_regex_safe.js',
-        //     'cout.js',
-        //     'defineFunction.js',
-        //     'error.js',
-        //     'general_trim.js',
-        //     'getFuncArgs.js',
-        //     'isNull.js',
-        //     'strip.js'
-        // ];
-        // for (let i = 0, len = depfiles.length; i < len; i++) {
-        //     let depfile = depfiles[i];
-        //     asyncRW.push($fs.readFile(base + depfile, 'utf8').then((raw)=>{
-        //         let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
-        //         $fs.writeFile(base + folder + '/' + depdir + depfile, content);
-        //     }));
-        // }
-
-        // var module_dependencies = {};
-        // if (folder != "typeof") {
-        //     if (process.argv[2] == 'publish') {
-        //         module_dependencies[pkgPrefix + "craydent-typeof"] = "^" + version;
-        //         // module_dependencies = " \"" + pkgPrefix + "craydent-typeof\": \"^" + version + "\" ";
-        //     } else {
-        //         module_dependencies[pkgPrefix + "craydent-typeof"] = "file:../typeof";
-        //         // module_dependencies = " \"" + pkgPrefix + "craydent-typeof\": \"file:../typeof\" ";
-        //     }
-        // }
-
-        // package.name = pkgPrefix + "craydent-" + folder;
-        // package.version = version;
-        // package.description = details[folder].description;
-        // package.keywords = details[folder].keywords.concat(defaultKeywords,[folder]).sort();
-        // package.dependencies = module_dependencies;
-        // package.repository.url = gitUrlTemplate.replace("${submodule}", folder);
-        // package.homepage = homepageUrlTemplate.replace("${submodule}", folder);
-
-        // await $fs.writeFile(base + folder + '/package.json', JSON.stringify(package, null, 4)).then(()=>{
-        //     console.log("saved: " + base.replace(root,'') + folder + '/package.json')
-        // });
-
-        // let already_added = [];
-
-        // for (let i = 0, len = dependencies[folder].length; i < len; i++) {
-        //     if (~already_added.indexOf(dependencies[folder][i])) { continue; }
-        //     asyncRW.push($fs.readFile(source_base + dependencies[folder][i] + '.js', 'utf8').then((raw)=>{
-        //         let content = raw.replace(/\/\*\/ Craydent LLC node-v.*/,`/*/ Craydent LLC node-v${cpkg.version}                                /*/`);
-        //         $fs.writeFile(base + folder + '/' + depdir + dependencies[folder][i] + '.js', content);
-        //     }));
-        //     already_added.push(dependencies[folder][i]);
-        //     asyncRW = asyncRW.concat(recurse_sub(already_added, folder, dependencies[folder][i]));
-        // }
-        // await Promise.all(asyncRW);
-        // asyncNPM.push(npminstall(folder));
     }
     await Promise.all(asyncModules);
     console.log(GREEN, '>>>>>>>>>>>>>>> BUILD COMPLETE <<<<<<<<<<<<<<<');
@@ -188,7 +95,10 @@ async function compileSubmodule (folder) {
         ]);
     }));
     asyncRW.push($fs.readFile(`${base}common.js`, 'utf8').then((raw)=>{
-        let content = raw.replace(versionLineRegExp, versionLine);
+        let typeRequire = "var $t = require((~info.name.indexOf('@craydent') ? '@craydent/' : '') + 'craydent-typeof/noConflict');";
+        let content = raw
+            .replace(versionLineRegExp, versionLine)
+            .replace(typeRequire, `var $t = require('${pkgPrefix}craydent-typeof/noConflict');`);
         return $fs.writeFile(`${path}/${depdir}common.js`, content);
     }));
     asyncRW.push($fs.readFile(`${base}global.js`, 'utf8').then((raw)=>{

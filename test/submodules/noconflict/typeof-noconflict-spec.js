@@ -1,9 +1,7 @@
-var pre = require('../_prep')();
-var $c = require(pre + 'craydent-typeof/noConflict.js');
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-typeof/noConflict'); }
-else { $c = require('../../../noConflict.js'); }
-var $m = require('../_methods')(pre);
+const pre = require('../_prep')();
+let path = '../../../noConflict.js';
+if (process.env.name == 'single') { path = `${pre}craydent-date/noConflict.js`; }
+const $c = require(path);
 $c.DEBUG_MODE = true;
 describe ('No Conflict Object', function () {
 	it('isArray',function(){

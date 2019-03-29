@@ -10,7 +10,7 @@ var _error, _isArray, _run_func_array;
 function emit (ev){
     /*|{
         "info": "Call the next function(s) in queue",
-        "category": "Function",
+        "category": "Function|Array",
         "parameters":[
             {"event": "(String) Event to trigger."},
             {"...infinite": "(any) any number of arguments can be passed and will be applied to listening functions."}

@@ -1,0 +1,354 @@
+// array
+type WhereIterator<T> = (value: T, index: number, collection: Array<T>) => boolean;
+type UpsertIterator<T> = (value: T, ref: UpsertItemRef<T>, collection: Array<T>) => boolean;
+type ContainsIterator<T> = (value: T, property: number | string, collection: Array<T>) => boolean;
+type ArrayIterator<T, TResult> = (value: T, index: number, collection: Array<T>) => TResult;
+type IndexOf<T> = (value: T) => number;
+type TreeParentFinder<T> = (value: T) => boolean;
+type TreeChildFinder<T> = (value: T) => boolean;
+type ArrayGroupReducer<T> = (value:T, result: any) => void;
+type MongoReducer<T> = (key: string, values: Array<any>) => any;
+type GroupKeyf<T> = (value: T) => Array<string>;
+type SortPrimer<T> = (value: T, property: string) => string;
+type SortIterator<T> = (a: T, b: T) => -1|0|1;
+type MongoFinalize<T, TResult> = (value: T) => TResult;
+// type Set<T> = Array<T>;
+type AllTypes = Array<any> | RegExp | string | String | number | Number | boolean | Boolean | Object | undefined | null;
+type MethodEnum = "middleware"|"delete"|"get"|"post"|"put"|"all";
+type ComparisonOperator = "$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type";
+type Char = string;
+type MongoPipelines = {
+    $project?: any;
+    $match?: any;
+    $redact?: any;
+    $limit?: any;
+    $skip?: any;
+    $unwind?: any;
+    $group?: any;
+    $sample?: any;
+    $sort?: any;
+    $lookup?: any;
+    $out?: any;
+};
+type UpsertItemRef<T> = {
+    record: T;
+    index: number;
+};
+type UpsertResult<T> = {
+    insertedIndexes: Array<number>;
+    updatedIndexes: Array<number>;
+    unchangedIndexes: Array<number>;
+    inserted: Array<T>;
+    updated: Array<T>;
+    unchanged: Array<T>;
+};
+type WhereCondition = any;
+type MongoSet = any;
+type FileObject = {
+    name:string;
+    pretext:string;
+    posttext:string;
+    content:string|Object;
+};
+type TreeOptions = {
+    childProperty: string;
+};
+type ContainsValue = Array<AllTypes> | AllTypes;
+type GroupOptions<T, TResult> = {
+    key: any;
+    cond?: string | any;
+    reduce?: ArrayGroupReducer<T>;
+    initial?: any;
+    keyf?: Array<string> | GroupKeyf<T>;
+    finalize?: MongoFinalize<T, TResult>;
+};
+type SortOptions = {
+    i?: boolean;
+    ignoreCase?: boolean;
+};
+type UpdateOptions = {
+    multi?: boolean;
+    upsert?: boolean;
+};
+type MongoMapReduceOptions<T, TResult> = {
+    sort?: string | any;
+    query?: WhereCondition;
+    limit?: number;
+    finalize?: MongoFinalize<T, TResult>;
+    out?: string | Array<T>;
+};
+type NaN = undefined;
+type Float = number;
+
+// classes
+interface  IBenchmarker {
+    executionTime: number;
+
+    start:() => void;
+    stop: () => number;
+}
+interface ICursor<T> {
+    current: T;
+
+    hasNext: () => boolean;
+    next:() => {value:T, done:boolean};
+    reset:() => void;
+    setNextIndex:(value: number) => void;
+    size:() => number;
+}
+interface IQueue<T> {
+    dequeue: () => T;
+    enqueue: (value:T) => void;
+    hasNext: () => boolean;
+    next:() => {value:T, done:boolean};
+    size:() => number;
+}
+
+interface ISet<T, TResult> {
+    add: (value:T) => boolean;
+    clean: () => void;
+    clear: (value:T, indexOf?:ArrayIterator<T, TResult>) => void;
+    hasNext: () => boolean;
+    next:() => {value:T, done:boolean};
+    size:() => number;
+}
+
+interface IOrderedList<T> {
+    add: (value:T) => boolean;
+    hasNext: () => boolean;
+    next:() => {value:T, done:boolean};
+    size:() => number;
+}
+
+// CLI
+type CLITypes = "array"|"bool"|"boolean"|"object"|"number"|"string";
+
+type CLIOption = {
+    option?: string;
+    type?: CLITypes;
+    description?:string;
+    default?:string;
+    command?:string;
+    required?:boolean;
+};
+type CLIExecOption = {
+    silent?: boolean;
+    alwaysResolve?: boolean;
+    outputOnly?: boolean;
+};
+type CLIParams = {
+    name: string;
+    info: string;
+    synopsis: string;
+    copyright: string;
+    optionsDescription: string;
+    description: string;
+    commands: {command: Array<CLIOption>};
+    options: Array<CLIOption>;
+    notes: string;
+};
+type CLIActionCallback = (command: string) => void;
+type CLIExecCallback = (process:ChildProcess, code:number, output:string) => void;
+interface CLI {
+    constructor (params?:CLIParams): void;
+    readonly Interpreter: string;
+    readonly ScriptPath: string;
+    readonly ScriptName: string;
+    readonly Name: string;
+    readonly Info: string;
+    readonly Synopsis: string;
+    readonly Copyright: string;
+    readonly OptionsDescription: string;
+    readonly Description: string;
+    readonly UsingLabels: boolean;
+    readonly CommandName:string;
+    readonly Commands: Array<CLIOption>;
+    readonly Options: CLIOption;
+    readonly Arguments: Array<string>;
+    readonly Notes: string;
+    readonly isMan: boolean;
+    readonly isHelp: boolean;
+    renderMan(): string;
+    renderHelp(): string;
+    add(option: CLIOption): CLI;
+    command(command:string, options:Array<CLIOption>): CLI;
+    action(nameOrCallback:string|CLIActionCallback, callback?:CLIActionCallback): CLI;
+    validate(): void;
+    isValid(): boolean;
+    exec(process:ChildProcess, code:number, output:string):Promise<string|{code:number,output:string}|void>;
+}
+
+// control flow
+type AsyncFunction = () => Promise<any>;
+type YieldableResult = Array<any>|any;
+type Yieldables = Promise<any>
+|GeneratorFunction
+|AsyncFunction
+|Function;
+type YieldableValue =
+    Yieldables
+    | {
+        context:any,
+        callbackIndex: number,
+        returnIndex: number,
+        method: Yieldables
+    };
+
+// date
+type DateFormatOptions = {
+    offset?: number;
+    gmt?: boolean;
+}
+
+// function
+type Class = any;
+
+// http
+type CookieOptions = {
+    path: string;
+    domain: string;
+    delete: string;
+    expiration: number;
+};
+type VerbOptionsTypes = "i"|"ignoreCase";
+
+type VerbOptions = {
+    ignoreCase: boolean;
+};
+type GetOptions = {
+    url: string;
+    ignoreCase: boolean;
+};
+
+type HTTPCallback = (request:IncomingMessage, response:ServerResponse, value:any, next:Function|GeneratorFunction|AsyncFunction) => void;
+type HTTPOptions = {
+    createServer: Server;
+    logo_url: string;
+    favicon: string;
+};
+type Method = GeneratorFunction
+|AsyncFunction
+|Function;
+
+type HTTPStatusTemplate = {
+    httpStatusCode: string
+}
+type HTTPRoute = {
+    path:string;
+    callback:Method|Array<Method>;
+    method:MethodEnum;
+}
+interface HTTP extends Server{
+    routes:Array<HTTPRoute>;
+    loadBalance(ips: Array<string>|string): void;
+    use(pathOrCallback:string|Method|Array<Method>, callback?:Method|Array<Method>): void;
+    delete(path:string, callback:Method): void;
+    get(path:string, callback:Method): void;
+    post(path:string, callback:Method): void;
+    put(path:string, callback:Method): void;
+    all(path:string, callback:Method): void;
+}
+type Session = any;
+type SessionCallback = (session: Session) => void;
+type Header = String|any;
+
+// json parser
+type Reviver = (key:any, value:any) => any;
+type Replacer = (key: string, value: any) => any;
+
+// number
+type ContainsObjectIterator<T, TValue> = (value: TValue, property: string, object: T) => boolean;
+
+// object
+type EachIterator<T> = (value: T, property: string) => void;
+type ObjectIterator<T, TValue> = (value: TValue, property: string, object: T) => T;
+type GetPropertyOptions = {
+    noInheritance?: boolean;
+    validPath?: boolean;
+};
+type MergeEnums ="recurse"|"onlyShared"|"intersect"|"clone";
+
+type MergeOptions = {
+    recurse: boolean;
+    onlyShared: boolean;
+    intersect: boolean;
+    clone: boolean;
+};
+type MergeIterator<T> = (original:T, comparison:any) => boolean;
+
+// string
+type DateTimeOptions = {
+    offset?: number;
+    gmt?: boolean;
+    format?: string;
+}
+
+// template
+type TemplateVar = {
+    variable:string,
+    value:string
+}
+type FillTemplateOptions = {
+    offset?: number;
+    max?: number;
+    newlineToHtml?: boolean;
+    preserve_nonmatching?: boolean;
+    removeNewLineFromLogicalSyntax?: boolean;
+}
+
+// utilities
+type Code = any;
+type KeyValuePair = any;
+type AjaxReturnType = "response"|"res"|"request"|"req";
+
+type AjaxOptions = {
+    alwaysResolve?: boolean;
+    dataType?: string;
+    hitch?: any;
+    query?: KeyValuePair|string;
+    data?: any|string;
+    timeout?: number;
+    context?: any;
+    header?: KeyValuePair;
+    method?: string;
+    contentType?: string;
+    run?:string;
+    protocol?: string;
+    host?:string;
+    hostname?:string;
+    family?: string;
+    port?: number;
+    localAddress?:string;
+    socketPath?:string;
+    path?:string;
+    auth?:string;
+    agent?:string;
+    createConnection?:string;
+
+    // onstatechange:()=>void;
+    // onfileload:()=>void;
+    // onprogress:()=>void;
+    // onabort:()=>void;
+    // onresponse:()=>void;
+    // onloadstart:()=>void;
+    onbefore?:(request:IncomingMessage, hitch:any, context:any)=>void;
+    oncomplete?:(data:any, hitch:any, context:any, statusCode:number)=>void;
+    ondata?:(chunk:string, body:string, request:IncomingMessage, hitch:any, context:any)=>void;
+    onerror?:(data:any, hitch:any, context:any, statusCode:number)=>void;
+    onsuccess?:(data:any, hitch:any, context:any, statusCode:number)=>void;
+    json_parser?:(text:string, reviver:Reviver, spaces:string)=>void;
+};
+type ErrorCallback = (error: Error) => void;
+type ClusterCallback = (worker: Worker) => void;
+interface ajax {
+    get(params?:AjaxOptions|String, returnData?:String):Promise<any>;
+    delete(params?:AjaxOptions|String, returnData?:String):Promise<any>;
+    post(params?:AjaxOptions|String, returnData?:String):Promise<any>;
+    put(params?:AjaxOptions|String, returnData?:String):Promise<any>;
+}
+
+// xml to json
+type XMLDOM = any;
+
+// common
+type EvaluatorMethod = (expression:any) => any;

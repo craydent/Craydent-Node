@@ -60,7 +60,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                     {"func": "(ContainsIterator<T>) Callback function used to do the comparison"}]},
                 {"parameters":[
                     {"val": "(ContainsValue) Value to check"},
-                    {"func": "(ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type") }]},
+                    {"func": "(ComparisonOperator) String indicating logical operator (\"$lt\"|\"$lte\"|\"$gt\"|\"$gte\"|\"$mod\"|\"$type\")" }]},
                 {"parameters":[
                     {"arr": "(Array<TValue>) Array of values to return first matching value"}]}],
 

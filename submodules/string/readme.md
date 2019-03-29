@@ -40,8 +40,8 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
-LOCAL_IP (String) |PUBLIC_IP (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |PUBLIC_IP (String) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
 
 
 ## Methods
@@ -90,6 +90,31 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Overloads:**
 
 >None
+
+*** 
+#### _contains_ 
+***
+
+**Info:** Object class extension to check if value exists
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* val: (ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity
+
+**Overloads:**
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ContainsIterator<T>) Callback function used to do the comparison
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type")
+
+>Parameters
+>* arr: (Array<T>) Array of values to return first matching value
 
 *** 
 #### _convertUTCDate_ 
@@ -191,7 +216,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* ...infinite: (String) any number of arguments can be passed
+>* ...infinite: (String[]) any number of arguments can be passed
 
 **Overloads:**
 
@@ -208,7 +233,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* ...infinite: (String) any number of arguments can be passed
+>* ...infinite: (String[]) any number of arguments can be passed
 
 **Overloads:**
 
@@ -511,7 +536,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* ...infinite: (String) any number of String arguments can be passed
+>* ...infinite: (String[]) any number of String arguments can be passed
 
 **Overloads:**
 
@@ -528,7 +553,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Parameters:**
 
->* ...infinite: (String) any number of String arguments can be passed
+>* ...infinite: (String[]) any number of String arguments can be passed
 
 **Overloads:**
 
@@ -633,6 +658,22 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 >None
 
 *** 
+#### _trim_ 
+***
+
+**Info:** String class extension to remove characters from the beginning and end of the string.
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* character?: (Char[]) Character to remove in the String
+
+**Overloads:**
+
+>None
+
+*** 
 #### _toObject_ 
 ***
 
@@ -644,22 +685,6 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 >* assignmentChar?: (Char) Character to use as assignment delimiter. Defaults to '&'.
 >* delimiter?: (Char) Character to use as pair delimiter
-
-**Overloads:**
-
->None
-
-*** 
-#### _trim_ 
-***
-
-**Info:** String class extension to remove characters from the beginning and end of the string.
-
-**Return:** (Bool)
-
-**Parameters:**
-
->* character?: (Char[]) Character to remove in the String
 
 **Overloads:**
 

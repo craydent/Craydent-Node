@@ -1,0 +1,48 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "lib": [
+            "es6"
+        ],
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "baseUrl": "../",
+        "typeRoots": [
+            "../"
+        ],
+        "types": [
+            "array",
+            "class",
+            "cli",
+            "control-flow",
+            "date",
+            "fs",
+            "function",
+            "http",
+            "json-parser",
+            "number",
+            "object",
+            "regexp",
+            "string",
+            "template",
+            "typeof",
+            "utility",
+            "xml-to-json",
+            "node"
+        ],
+        "noEmit": true,
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true
+    },
+    "exclude": [
+        "*.tsx"
+    ],
+    "files": [
+        "base/index.d.ts",
+        "global.d.ts",
+        "noConflict.d.ts",
+        "craydent-tests.ts"
+    ]
+}

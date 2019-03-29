@@ -41,8 +41,8 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
-LOCAL_IP (String) |PUBLIC_IP (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |PUBLIC_IP (String) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -277,6 +277,31 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 >* check_values: (Bool) Set craydent_ctx flag to remove duplicates
 
 *** 
+#### _contains_ 
+***
+
+**Info:** Object class extension to check if value exists
+
+**Return:** (Bool) returns if there was a match.
+
+**Parameters:**
+
+>* val: (ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity
+
+**Overloads:**
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ContainsIterator<T>) Callback function used to do the comparison
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type")
+
+>Parameters
+>* arr: (Array<ContainsValue>) Array of values to return first matching value
+
+*** 
 #### _count_ 
 ***
 
@@ -351,6 +376,23 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 >Parameters
 >* fields: (Array<String>) Fields to use as the projection and unique comparison
 >* condition?: (String|WhereCondition) Query following SQL where clause syntax
+
+*** 
+#### _emit_ 
+***
+
+**Info:** Call the next function(s) in queue
+
+**Return:** (Array<TResult>)
+
+**Parameters:**
+
+>* event: (String) Event to trigger.
+>* ...infinite: (any) any number of arguments can be passed and will be applied to listening functions.
+
+**Overloads:**
+
+>None
 
 *** 
 #### _equals_ 
@@ -879,22 +921,6 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 >* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
 
 *** 
-#### _toSet_ 
-***
-
-**Info:** Array class extension to convert the array to a set
-
-**Return:** (Set<T>) returns a Set from the array Values
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->None
-
-*** 
 #### _trim_ 
 ***
 
@@ -913,6 +939,22 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 >Parameters
 >* character: (Char[]) Character to remove in the String
+
+*** 
+#### _toSet_ 
+***
+
+**Info:** Array class extension to convert the array to a set
+
+**Return:** (Set<T>) returns a Set from the array Values
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
 
 *** 
 #### _update_ 

@@ -56,11 +56,11 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (Boolean) |PUBLIC_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
+| CONSOLE_COLORS (Object) |MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
+DEBUG_MODE (Boolean) |PUBLIC_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
 EXPOSE_ROUTE_API (Boolean) |RESPONSES (Object) |TEMPLATE_VARS (Array) |
 HTTP_STATUS_TEMPLATE (Array) |REST_API_TEMPLATE (String) |VERSION (String) |
 LOCAL_IP (String) |ROUTE_API_PATH (String) |
-MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -664,6 +664,23 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 >* condition?: (String|WhereCondition) Query following SQL where clause syntax
 
 *** 
+#### _emit_ 
+***
+
+**Info:** Call the next function(s) in queue
+
+**Return:** (Array<TResult>)
+
+**Parameters:**
+
+>* event: (String) Event to trigger.
+>* ...infinite: (any) any number of arguments can be passed and will be applied to listening functions.
+
+**Overloads:**
+
+>None
+
+*** 
 #### _filter_ 
 ***
 
@@ -923,7 +940,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
 
-**Return:** (Promise<any>)
+**Return:** (Promise<any[]>)
 
 **Parameters:**
 
@@ -1272,7 +1289,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise<YieldableResult>)
+**Return:** (Promise<any>)
 
 **Parameters:**
 
@@ -1305,7 +1322,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
 
-**Return:** (Promise<any>)
+**Return:** (Promise<any[]>)
 
 **Parameters:**
 
@@ -1320,12 +1337,28 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 >* args: (Array<Yieldables>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, async functions, or functions)
 
 *** 
+#### _syncroit_ 
+***
+
+**Info:** Generator/Async based control flow to allow for more "syncronous" programing structure
+
+**Return:** (Promise<any>)
+
+**Parameters:**
+
+>* func: (GeneratorFunction|AsyncFunction) function to execute
+
+**Overloads:**
+
+>None
+
+*** 
 #### _yieldable_ 
 ***
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise<YieldableResult>)
+**Return:** (Promise<any>)
 
 **Parameters:**
 
@@ -2869,6 +2902,31 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 >None
 
 *** 
+#### _contains_ 
+***
+
+**Info:** Object class extension to check if value exists
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* val: (ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity
+
+**Overloads:**
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ContainsIterator<T>) Callback function used to do the comparison
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type")
+
+>Parameters
+>* arr: (Array<T>) Array of values to return first matching value
+
+*** 
 #### _copyObject_ 
 ***
 
@@ -2966,12 +3024,12 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* callback: (ObjectIterator<T, TValue, TResult>) Callback to apply to each value
+>* callback: (ObjectIterator<T, TValue>) Callback to apply to each value
 
 **Overloads:**
 
 >Parameters
->* callback: (ObjectIterator<T, TValue, TResult>) Callback to apply to each value
+>* callback: (ObjectIterator<T, TValue>) Callback to apply to each value
 >* craydent_ctxObject: (any) Context for the callback function
 
 *** 
@@ -3391,7 +3449,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* callback: (ObjectIterator<T, TValue, TResult>) Callback to apply to each value
+>* callback: (ObjectIterator<T, TValue>) Callback to apply to each value
 >* craydent_ctxObject?: (any) Context for the callback function
 
 **Overloads:**
@@ -3535,6 +3593,31 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 >None
 
 *** 
+#### _contains_ 
+***
+
+**Info:** Object class extension to check if value exists
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* val: (ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity
+
+**Overloads:**
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ContainsIterator<T>) Callback function used to do the comparison
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type")
+
+>Parameters
+>* arr: (Array<T>) Array of values to return first matching value
+
+*** 
 #### _convertUTCDate_ 
 ***
 
@@ -3634,7 +3717,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* ...infinite: (String) any number of arguments can be passed
+>* ...infinite: (String[]) any number of arguments can be passed
 
 **Overloads:**
 
@@ -3651,7 +3734,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* ...infinite: (String) any number of arguments can be passed
+>* ...infinite: (String[]) any number of arguments can be passed
 
 **Overloads:**
 
@@ -3918,7 +4001,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* ...infinite: (String) any number of String arguments can be passed
+>* ...infinite: (String[]) any number of String arguments can be passed
 
 **Overloads:**
 
@@ -3935,7 +4018,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Parameters:**
 
->* ...infinite: (String) any number of String arguments can be passed
+>* ...infinite: (String[]) any number of String arguments can be passed
 
 **Overloads:**
 
@@ -4120,7 +4203,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise<YieldableResult>)
+**Return:** (Promise<any>)
 
 **Parameters:**
 
@@ -4519,7 +4602,7 @@ MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise<YieldableResult>)
+**Return:** (Promise<any>)
 
 **Parameters:**
 

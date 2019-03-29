@@ -1,8 +1,9 @@
-var pre = require('../_prep')();
 var fs = require('fs');
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-fs/noConflict.js'); }
-else { $c = require('../../../noConflict.js'); }
+const pre = require('../_prep')();
+let path = '../../../noConflict.js';
+if (process.env.name == 'single') { path = `${pre}craydent-date/noConflict.js`; }
+const $c = require(path);
+
 $c.DEBUG_MODE = true;
 
 describe ('FS', function () {
@@ -34,107 +35,107 @@ describe ('FS', function () {
     //     expect($c.fchown).toEqual(new Promise(function(){}));
     // })
 
-    it('fdatasync',function(){
-        expect($c.fdatasync(1)).toEqual(new Promise(function(){}));
+    it('fdatasync', function () {
+        expect($c.fdatasync(1)).toEqual(new Promise(function () { }));
     })
 
-    it('fstat',function(){
-        expect($c.fstat(1)).toEqual(new Promise(function(){}));
+    it('fstat', function () {
+        expect($c.fstat(1)).toEqual(new Promise(function () { }));
     })
 
-    it('fsync',function(){
-        expect($c.fsync(1)).toEqual(new Promise(function(){}));
+    it('fsync', function () {
+        expect($c.fsync(1)).toEqual(new Promise(function () { }));
     })
 
-    it('ftruncate',function(){
-        expect($c.ftruncate(1)).toEqual(new Promise(function(){}));
+    it('ftruncate', function () {
+        expect($c.ftruncate(1)).toEqual(new Promise(function () { }));
     })
 
     // it('futimes',function(){
     //     expect($c.futimes).toEqual(new Promise(function(){}));
     // })
 
-    it('lchmod',function(){
-        expect($c.lchmod('./test.txt', 777)).toEqual(new Promise(function(){}));
+    it('lchmod', function () {
+        expect($c.lchmod('./test.txt', 777)).toEqual(new Promise(function () { }));
     })
 
-    it('lchown',function(){
-        expect($c.lchown('./test.txt','cinada', 'admin')).toEqual(new Promise(function(){}));
+    it('lchown', function () {
+        expect($c.lchown('./test.txt', 'cinada', 'admin')).toEqual(new Promise(function () { }));
     })
 
     // it('link',function(){
     //     expect($c.link).toEqual(new Promise(function(){}));
     // })
 
-    it('lstat',function(){
-        expect($c.lstat('./test.xt')).toEqual(new Promise(function(){}));
+    it('lstat', function () {
+        expect($c.lstat('./test.xt')).toEqual(new Promise(function () { }));
     })
 
-    it('mkdir',function(){
-        expect($c.mkdir('./temp')).toEqual(new Promise(function(){}));
+    it('mkdir', function () {
+        expect($c.mkdir('./temp')).toEqual(new Promise(function () { }));
     })
 
-    it('mkdtemp',function(){
-        expect($c.mkdtemp('testing')).toEqual(new Promise(function(){}));
+    it('mkdtemp', function () {
+        expect($c.mkdtemp('testing')).toEqual(new Promise(function () { }));
     })
 
-    it('open',function(){
-        expect($c.open('./test.txt','w')).toEqual(new Promise(function(){}));
+    it('open', function () {
+        expect($c.open('./test.txt', 'w')).toEqual(new Promise(function () { }));
     })
 
-    it('read',function(){
-        expect($c.read(0,[],0,0,0)).toEqual(new Promise(function(){}));
+    it('read', function () {
+        expect($c.read(0, [], 0, 0, 0)).toEqual(new Promise(function () { }));
     })
 
-    it('readdir',function(){
-        expect($c.readdir('./')).toEqual(new Promise(function(){}));
+    it('readdir', function () {
+        expect($c.readdir('./')).toEqual(new Promise(function () { }));
     })
 
-    it('readFile',function(){
-        expect($c.readFile('./test.txt')).toEqual(new Promise(function(){}));
+    it('readFile', function () {
+        expect($c.readFile('./test.txt')).toEqual(new Promise(function () { }));
     })
 
-    it('readlink',function(){
-        expect($c.readlink('./test.txt')).toEqual(new Promise(function(){}));
+    it('readlink', function () {
+        expect($c.readlink('./test.txt')).toEqual(new Promise(function () { }));
     })
 
-    it('realpath',function(){
-        expect($c.realpath('./test.txt')).toEqual(new Promise(function(){}));
+    it('realpath', function () {
+        expect($c.realpath('./test.txt')).toEqual(new Promise(function () { }));
     })
 
-    it('rename',function(){
-        expect($c.rename('./test.txt','./test.txt')).toEqual(new Promise(function(){}));
+    it('rename', function () {
+        expect($c.rename('./test.txt', './test.txt')).toEqual(new Promise(function () { }));
     })
 
-    it('rmdir',function(){
-        expect($c.rmdir('./temp')).toEqual(new Promise(function(){}));
+    it('rmdir', function () {
+        expect($c.rmdir('./temp')).toEqual(new Promise(function () { }));
     })
 
-    it('stat',function(){
-        expect($c.stat('./test.txt')).toEqual(new Promise(function(){}));
+    it('stat', function () {
+        expect($c.stat('./test.txt')).toEqual(new Promise(function () { }));
     })
 
     // it('symlink',function(){
     //     expect($c.symlink).toEqual(new Promise(function(){}));
     // })
 
-    it('truncate',function(){
-        expect($c.truncate('./test.txt')).toEqual(new Promise(function(){}));
+    it('truncate', function () {
+        expect($c.truncate('./test.txt')).toEqual(new Promise(function () { }));
     })
 
-    it('unlink',function(){
-        expect($c.unlink('./test.txt')).toEqual(new Promise(function(){}));
+    it('unlink', function () {
+        expect($c.unlink('./test.txt')).toEqual(new Promise(function () { }));
     })
 
     // it('utimes',function(){
     //     expect($c.utimes).toEqual(new Promise(function(){}));
     // })
 
-    it('write',function(){
-        expect($c.write(1,[])).toEqual(new Promise(function(){}));
+    it('write', function () {
+        expect($c.write(1, [])).toEqual(new Promise(function () { }));
     })
 
-    it('writeFile',function(){
-        expect($c.writeFile('./test.txt','')).toEqual(new Promise(function(){}));
+    it('writeFile', function () {
+        expect($c.writeFile('./test.txt', '')).toEqual(new Promise(function () { }));
     })
 })

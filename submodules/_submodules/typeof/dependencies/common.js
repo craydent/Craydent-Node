@@ -777,7 +777,7 @@ function suid(length) {
 function syncroit (gen) {
     /*|{
         "info": "Generator based control flow to allow for more \"syncronous\" programing structure",
-        "category": "Global",
+        "category": "Control-Flow|Global",
         "parameters":[
             {"gen": "(GeneratorFunction) Generator function to execute"}],
 

@@ -1673,7 +1673,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                     {"output?": "(String) output to send as response."},
                     {"encoding?": "(String) encoding for the response."}]}],
 
-            "url": "http://www.craydent.com/library/1.9.3/docs#emit",
+            "url": "http://www.craydent.com/library/1.9.3/docs#end",
             "returnType":"(void)"
         }|*/
         if (this.response_sent) { return; }

@@ -539,12 +539,12 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                     {"func": "(ContainsIterator<T>) Callback function used to do the comparison"}]},
                 {"parameters":[
                     {"val": "(ContainsValue) Value to check"},
-                    {"func": "(ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type") }]},
+                    {"func": "(ComparisonOperator) String indicating logical operator (\"$lt\"|\"$lte\"|\"$gt\"|\"$gte\"|\"$mod\"|\"$type\")" }]},
                 {"parameters":[
                     {"arr": "(Array<ContainsValue>) Array of values to return first matching value"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.contains",
-            "typeParameter": "<T>",
+            "typeParameter": "<T, TValue>",
             "returnType": "(Bool) returns if there was a match."
         }|*/
         try {

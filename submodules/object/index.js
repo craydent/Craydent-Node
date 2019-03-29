@@ -87,7 +87,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                     {"func": "(ContainsIterator<T>) Callback function used to do the comparison"}]},
                 {"parameters":[
                     {"val": "(ContainsValue) Value to check"},
-                    {"func": "(ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type") }]},
+                    {"func": "(ComparisonOperator) String indicating logical operator (\"$lt\"|\"$lte\"|\"$gt\"|\"$gte\"|\"$mod\"|\"$type\")" }]},
                 {"parameters":[
                     {"arr": "(Array<TValue>) Array of values to return first matching value"}]}],
 
@@ -206,15 +206,15 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to check property values against a function",
             "category": "Object",
             "parameters":[
-                {"callback": "(ObjectIterator<T, TValue, TResult>) Callback to apply to each value"}],
+                {"callback": "(ObjectIterator<T, TValue>) Callback to apply to each value"}],
 
             "overloads":[
                 {"parameters":[
-                    {"callback": "(ObjectIterator<T, TValue, TResult>) Callback to apply to each value"},
+                    {"callback": "(ObjectIterator<T, TValue>) Callback to apply to each value"},
                     {"thisObject": "(any) Context for the callback function"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.every",
-            "typeParameter": "<T, TValue, TResult>",
+            "typeParameter": "<T, TValue>",
             "returnType": "(Bool)"
         }|*/
         try {
@@ -746,13 +746,13 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "Object class extension to apply method to every value",
             "category": "Object",
             "parameters":[
-                {"callback": "(ObjectIterator<T, TValue, TResult>) Callback to apply to each value"},
+                {"callback": "(ObjectIterator<T, TValue>) Callback to apply to each value"},
                 {"thisObject?": "(any) Context for the callback function"}],
 
             "overloads":[],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#object.map",
-            "typeParameter": "<T, TValue, TResult>",
+            "typeParameter": "<T, TValue>",
             "returnType": "(void)"
         }|*/
         try {

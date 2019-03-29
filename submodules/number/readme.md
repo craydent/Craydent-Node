@@ -40,8 +40,8 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
-LOCAL_IP (String) |PUBLIC_IP (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |PUBLIC_IP (String) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
 
 
 ## Methods
@@ -65,6 +65,31 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 **Overloads:**
 
 >None
+
+*** 
+#### _contains_ 
+***
+
+**Info:** Object class extension to check if value exists
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* val: (ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity
+
+**Overloads:**
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ContainsIterator<T>) Callback function used to do the comparison
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type")
+
+>Parameters
+>* arr: (Array<TValue>) Array of values to return first matching value
 
 *** 
 #### _equals_ 

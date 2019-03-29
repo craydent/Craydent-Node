@@ -1,10 +1,11 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-utility/noConflict.js'); }
-else { $c = require('../../../noConflict.js'); }
-var $t = require(pre + 'craydent-typeof');
-var $m = require('../_methods')(pre);
-var matchPropAndConstructor = $m.matchPropAndConstructor;
+const pre = require('../_prep')();
+let path = '../../../noConflict.js';
+if (process.env.name == 'single') { path = `${pre}craydent-date/noConflict.js`; }
+const $c = require(path);
+const $t = require(pre + 'craydent-typeof');
+const $m = require('../_methods')(pre);
+const matchPropAndConstructor = $m.matchPropAndConstructor;
+var isBetween = $t.isBetween;
 $c.DEBUG_MODE = true;
 describe ('No Conflict Global methods', function () {
 	beforeEach(function() {
@@ -139,13 +140,13 @@ describe ('No Conflict Global methods', function () {
 
         expect($c.parseRaw("str",true)).toBe("str");
         expect($c.parseRaw(function (){},true)).toBe("function (){}");
-        expect($c.parseRaw(function*(){},true)).toBe("function* (){}");
+        expect($c.parseRaw(function*(){},true)).toBe("function*(){}");
     });
     it('rand',function(){
         var i = 0;
         while (i < 1000) {
-            expect($t.isBetween($c.rand(1, 2, true), 1, 2, true)).toBe(true);
-            expect($t.isBetween($c.rand(1, 2), 1, 2)).toBe(true);
+            expect(isBetween($c.rand(1, 2, true), 1, 2, true)).toBe(true);
+            expect(isBetween($c.rand(1, 2), 1, 2)).toBe(true);
             i++;
         }
     });

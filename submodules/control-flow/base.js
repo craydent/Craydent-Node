@@ -44,7 +44,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                     {"returnIndex": "(Integer) Index of callback argument."}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#yieldable",
-            "returnType": "(Promise<YieldableResult>)"
+            "returnType": "(Promise<any>)"
         }|*/
         try {
             if (arguments.length == 1 && $s.isObject(value)) {
@@ -106,7 +106,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                     {"args": "(Array<Yieldables>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, async functions, or functions)"}]}],
 
             "url": "http://www.craydent.com/library/1.9.3/docs#array.parallelEach",
-            "returnType": "(Promise<any>)"
+            "returnType": "(Promise<any[]>)"
         }|*/
         try {
             return $s.parallelEach(this, gen, args);

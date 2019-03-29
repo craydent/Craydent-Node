@@ -613,7 +613,7 @@ function suid(length) {
 function syncroit (gen) {
     /*|{
         "info": "Generator/Async based control flow to allow for more \"syncronous\" programing structure",
-        "category": "Utility",
+        "category": "Control Flow|Utility",
         "parameters":[
             {"func": "(GeneratorFunction|AsyncFunction) function to execute"}],
 
@@ -691,12 +691,7 @@ var info = require('../package.json'),
     _craydent_version = info.version, $s = {}, scope = { eval: eval }, $c = $g.$c;
 $g.navigator = $g.navigator || {};
 // merge typeof module to $c
-var $t = {};
-if (~info.name.indexOf('@craydent')) {
-    $t = require("@craydent/craydent-typeof/noConflict");
-} else {
-    $t = require("craydent-typeof/noConflict");
-}
+var $t = require((~info.name.indexOf('@craydent') ? '@craydent/' : '') + 'craydent-typeof/noConflict');
 
 var error = require('./error');
 var __defineFunction = require('./defineFunction')(scope);
@@ -804,6 +799,11 @@ module.exports = function () {
 
     $c.DEBUG_MODE = $c.DEBUG_MODE || false;
     $c.MODULES_LOADED = $c.MODULES_LOADED || {};
+    $c.CONSOLE_COLORS = $c.CONSOLE_COLORS || {
+        RED: '\x1b[31m%s\x1b[0m',
+        GREEN: '\x1b[32m%s\x1b[0m',
+        YELLOW: '\x1b[33m%s\x1b[0m'
+    };
     $c.globalize = globalize;
     var obj = {};
     // merge typeof module to $c

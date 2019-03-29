@@ -40,8 +40,8 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
-LOCAL_IP (String) |PUBLIC_IP (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |PUBLIC_IP (String) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
 
 
 ## Methods

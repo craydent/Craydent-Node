@@ -40,8 +40,8 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
-LOCAL_IP (String) |PUBLIC_IP (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |PUBLIC_IP (String) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |VERSION (String) |
 
 
 ## Methods
@@ -55,7 +55,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise<YieldableResult>)
+**Return:** (Promise<any>)
 
 **Parameters:**
 
@@ -88,7 +88,7 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 
 **Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
 
-**Return:** (Promise<any>)
+**Return:** (Promise<any[]>)
 
 **Parameters:**
 
@@ -103,12 +103,28 @@ LOCAL_IP (String) |PUBLIC_IP (String) |
 >* args: (Array<Yieldables>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, async functions, or functions)
 
 *** 
+#### _syncroit_ 
+***
+
+**Info:** Generator/Async based control flow to allow for more "syncronous" programing structure
+
+**Return:** (Promise<any>)
+
+**Parameters:**
+
+>* func: (GeneratorFunction|AsyncFunction) function to execute
+
+**Overloads:**
+
+>None
+
+*** 
 #### _yieldable_ 
 ***
 
 **Info:** Makes a value yieldable via a Promise.
 
-**Return:** (Promise<YieldableResult>)
+**Return:** (Promise<any>)
 
 **Parameters:**
 

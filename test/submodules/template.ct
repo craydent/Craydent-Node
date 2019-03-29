@@ -1,0 +1,7 @@
+${foreach ${item} in ${this.TASK.subtasks}}
+${if (${item.sub_complete})}
+True
+${else}
+False
+${end if}
+${end foreach}

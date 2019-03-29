@@ -1,192 +1,192 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-http/noConflict.js'); }
-else { $c = require('../../../noConflict.js'); }
+const pre = require('../_prep')();
+let path = '../../../noConflict.js';
+if (process.env.name == 'single') { path = `${pre}craydent-date/noConflict.js`; }
+const $c = require(path);
 $c.DEBUG_MODE = true;
-describe ('No Conflict Global http methods', function () {
+describe('No Conflict Global http methods', function () {
 	// TODO $COOKIE
-	it('$COOKIE',function(){
+	it('$COOKIE', function () {
 
 	});
 	// TODO $DELETE
-	it('$DELETE',function(){
+	it('$DELETE', function () {
 
 	});
 	// TODO $GET
-	it('$GET',function(){
+	it('$GET', function () {
 
 	});
 	// TODO $HEADER
-	it('$HEADER',function(){
+	it('$HEADER', function () {
 
 	});
 	// TODO $PAYLOAD
-	it('$PAYLOAD',function(){
+	it('$PAYLOAD', function () {
 
 	});
 	// TODO $POST
-	it('$POST',function(){
+	it('$POST', function () {
 
 	});
 	// TODO $PUT
-	it('$PUT',function(){
+	it('$PUT', function () {
 
 	});
 	// TODO echo
-	it('echo',function(){
+	it('echo', function () {
 
 	});
 	// TODO end
-	it('end',function(){
+	it('end', function () {
 
 	});
 	// TODO send
-	it('send',function(){
+	it('send', function () {
 
 	});
 	// TODO getSessionID
-	it('getSessionID',function(){
+	it('getSessionID', function () {
 
 	});
 	// TODO getSession
-	it('getSession',function(){
+	it('getSession', function () {
 
 	});
 	// TODO getSessionSync
-	it('getSessionSync',function(){
+	it('getSessionSync', function () {
 
 	});
 	// TODO header
-	it('header',function(){
+	it('header', function () {
 
 	});
 	// TODO var_dump
-	it('var_dump',function(){
+	it('var_dump', function () {
 
 	});
 	// TODO writeSession
-	it('writeSession',function(){
+	it('writeSession', function () {
 
 	});
 
 	// TODO ChromVersion
-	it('ChromVersion',function(){
+	it('ChromVersion', function () {
 
 	});
 	// TODO FireFoxVersion
-	it('FireFoxVersion',function(){
+	it('FireFoxVersion', function () {
 
 	});
 	// TODO IEVersion
-	it('IEVersion',function(){
+	it('IEVersion', function () {
 
 	});
 	// TODO OperaVersion
-	it('OperaVersion',function(){
+	it('OperaVersion', function () {
 
 	});
 	// TODO SafariVersion
-	it('SafariVersion',function(){
+	it('SafariVersion', function () {
 
 	});
 	// TODO isAmaya
-	it('isAmaya',function(){
+	it('isAmaya', function () {
 
 	});
 	// TODO isAndroid
-	it('isAndroid',function(){
+	it('isAndroid', function () {
 
 	});
 	// TODO isBlackBerry
-	it('isBlackBerry',function(){
+	it('isBlackBerry', function () {
 
 	});
 	// TODO isChrome
-	it('isChrome',function(){
+	it('isChrome', function () {
 
 	});
 	// TODO isFirefox
-	it('isFirefox',function(){
+	it('isFirefox', function () {
 
 	});
 	// TODO isGecko
-	it('isGecko',function(){
+	it('isGecko', function () {
 
 	});
 	// TODO isIE6
-	it('isIE6',function(){
+	it('isIE6', function () {
 
 	});
 	// TODO isIE
-	it('isIE',function(){
+	it('isIE', function () {
 
 	});
 	// TODO isIPad
-	it('isIPad',function(){
+	it('isIPad', function () {
 
 	});
 	// TODO isIPhone
-	it('isIPhone',function(){
+	it('isIPhone', function () {
 
 	});
 	// TODO isIPod
-	it('isIPod',function(){
+	it('isIPod', function () {
 
 	});
 	// TODO isKHTML
-	it('isKHTML',function(){
+	it('isKHTML', function () {
 
 	});
 	// TODO isLinux
-	it('isLinux',function(){
+	it('isLinux', function () {
 
 	});
 	// TODO isMac
-	it('isMac',function(){
+	it('isMac', function () {
 
 	});
 	// TODO isMobile
-	it('isMobile',function(){
+	it('isMobile', function () {
 
 	});
 	// TODO isOpera
-	it('isOpera',function(){
+	it('isOpera', function () {
 
 	});
 	// TODO isPalmOS
-	it('isPalmOS',function(){
+	it('isPalmOS', function () {
 
 	});
 	// TODO isPresto
-	it('isPresto',function(){
+	it('isPresto', function () {
 
 	});
 	// TODO isPrince
-	it('isPrince',function(){
+	it('isPrince', function () {
 
 	});
 	// TODO isSafari
-	it('isSafari',function(){
+	it('isSafari', function () {
 
 	});
 	// TODO isSymbian
-	it('isSymbian',function(){
+	it('isSymbian', function () {
 
 	});
 	// TODO isTrident
-	it('isTrident',function(){
+	it('isTrident', function () {
 
 	});
 	// TODO isWebkit
-	it('isWebkit',function(){
+	it('isWebkit', function () {
 
 	});
 	// TODO isWindows
-	it('isWindows',function(){
+	it('isWindows', function () {
 
 	});
 	// TODO isWindowsMobile
-	it('isWindowsMobile',function(){
+	it('isWindowsMobile', function () {
 
 	});
 

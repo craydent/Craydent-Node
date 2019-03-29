@@ -86,7 +86,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to check if the string ends with the given string",
             "category": "String",
             "parameters":[
-                {"...infinite": "(String) any number of arguments can be passed"}],
+                {"...infinite": "(String[]) any number of arguments can be passed"}],
 
             "overloads":[
                 {"parameters":[
@@ -115,7 +115,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
             "info": "String class extension to check if the string starts with the given string",
             "category": "String",
             "parameters":[
-                {"...infinite": "(String) any number of String arguments can be passed"}],
+                {"...infinite": "(String[]) any number of String arguments can be passed"}],
 
             "overloads":[
                 {"parameters":[
@@ -209,7 +209,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                     {"func": "(ContainsIterator<T>) Callback function used to do the comparison"}]},
                 {"parameters":[
                     {"val": "(ContainsValue) Value to check"},
-                    {"func": "(ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type") }]},
+                    {"func": "(ComparisonOperator) String indicating logical operator (\"$lt\"|\"$lte\"|\"$gt\"|\"$gte\"|\"$mod\"|\"$type\")" }]},
                 {"parameters":[
                     {"arr": "(Array<T>) Array of values to return first matching value"}]}],
 
