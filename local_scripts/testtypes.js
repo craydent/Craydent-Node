@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var root = require.resolve('../package.json').replace('/package.json','');
 const $c = require(`${root}/submodules/cli/noConflict`);
-const dep = require(`${root}/submodules/dependencies.js`);
+const dep = require(`${root}/submodules/dependencies`);
 
 async function test () {
     let promises = [];

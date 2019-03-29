@@ -1,7 +1,7 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-utility'); }
-else { $c = require('../../../index.js'); }
+const pre = require('../_prep')();
+let path = '../../../index.js';
+if (process.env.name == 'single') { path = `${pre}craydent-utility`; }
+const $c = require(path);
 var $t = require(pre + 'craydent-typeof');
 var $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
@@ -112,8 +112,8 @@ describe ('Global methods', function () {
         expect($c.cuid().length).toBe(36);
     });
     it('include',function(){
-        expect($c.include('../../modules/module1').toString()).toBe('function (){return "module 1"}');
-        expect($c.include('../../modules/module2').toString()).toBe('function (){return "module 2"}');
+        expect($c.include('../../modules/module1').toString()).toBe('function () { return "module 1" }');
+        expect($c.include('../../modules/module2').toString()).toBe('function () { return "module 2" }');
         expect($c.include('../../modules/module3').toString()).toBe("false");
     });
     it('md5',function(){
@@ -143,8 +143,8 @@ describe ('Global methods', function () {
         expect($c.parseRaw([])).toBe("[]");
 
         expect($c.parseRaw("str",true)).toBe("str");
-        expect($c.parseRaw(function(){},true)).toBe("function (){}");
-        expect($c.parseRaw(function*(){},true)).toBe("function* (){}");
+        expect($c.parseRaw(function () { },true)).toBe("function () { }");
+        expect($c.parseRaw(function* () { },true)).toBe("function* () { }");
     });
     it('rand',function(){
         var i = 0;

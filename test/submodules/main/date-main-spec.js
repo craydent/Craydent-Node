@@ -1,7 +1,8 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-date'); }
-else { $c = require('../../../index.js'); }
+
+const pre = require('../_prep')();
+let path = '../../../index.js';
+if (process.env.name == 'single') { path = `${pre}craydent-date`; }
+const $c = require(path);
 $c.DEBUG_MODE = true;
 describe ('Date', function () {
     var date = new Date('1/8/2016 13:00:00');
@@ -61,7 +62,7 @@ describe ('Date', function () {
     });
     it('format - timezone',function(){
         // Timezone
-        expect(date.format('e')).toBe('Pacific Standard Time (North America)');
+        expect((new Date()).format('e')).toBe(/\((.*)\)/.exec(new Date().toString())[1]);
         expect(date.format('I')).toBe('1');
         expect(date.format('O')).toBe('-0800');
         expect(date.format('P')).toBe('-08:00');

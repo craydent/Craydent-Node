@@ -1,6 +1,6 @@
 const pre = require('../_prep')();
 let path = '../../../noConflict.js';
-if (process.env.name == 'single') { path = `${pre}craydent-date/noConflict.js`; }
+if (process.env.name == 'single') { path = `${pre}craydent-utility/noConflict`; }
 const $c = require(path);
 const $t = require(pre + 'craydent-typeof');
 const $m = require('../_methods')(pre);
@@ -110,8 +110,8 @@ describe ('No Conflict Global methods', function () {
         expect($c.cuid().length).toBe(36);
     });
     it('include',function(){
-        expect($c.include('../../modules/module1').toString()).toBe('function (){return "module 1"}');
-        expect($c.include('../../modules/module2').toString()).toBe('function (){return "module 2"}');
+        expect($c.include('../../modules/module1').toString()).toBe('function () { return "module 1" }');
+        expect($c.include('../../modules/module2').toString()).toBe('function () { return "module 2" }');
         expect($c.include('../../modules/module3').toString()).toBe("false");
     });
     it('md5',function(){

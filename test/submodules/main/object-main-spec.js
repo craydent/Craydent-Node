@@ -1,7 +1,7 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-object'); }
-else { $c = require('../../../index.js'); }
+const pre = require('../_prep')();
+let path = '../../../index.js';
+if (process.env.name == 'single') { path = `${pre}craydent-object`; }
+const $c = require(path);
 var $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
 describe ('Object', function () {

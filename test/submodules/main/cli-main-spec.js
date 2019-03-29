@@ -1,5 +1,5 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-cli'); }
-else { $c = require('../../../index.js'); }
+const pre = require('../_prep')();
+let path = '../../../index.js';
+if (process.env.name == 'single') { path = `${pre}craydent-cli`; }
+const $c = require(path);
 $c.DEBUG_MODE = true;

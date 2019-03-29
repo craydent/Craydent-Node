@@ -1,7 +1,8 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-array'); }
-else { $c = require('../../../index.js'); }
+
+const pre = require('../_prep')();
+let path = '../../../index.js';
+if (process.env.name == 'single') { path = `${pre}craydent-array`; }
+const $c = require(path);
 var $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
 

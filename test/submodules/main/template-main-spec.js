@@ -1,7 +1,7 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-template'); }
-else { $c = require('../../../index.js'); }
+const pre = require('../_prep')();
+let path = '../../../index.js';
+if (process.env.name == 'single') { path = `${pre}craydent-template`; }
+const $c = require(path);
 var $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
 var matchPropAndConstructor = $m.matchPropAndConstructor;
@@ -70,7 +70,7 @@ describe ('Global methods', function () {
         expect($c.fillTemplate("divhere${if (${this.User})}div${end if}ending",{User:[]})).toBe("divheredivending");
         expect($c.fillTemplate("divhere${if (${this.User.length})}div${end if}ending",{User:[]})).toBe("divhereending");
         expect($c.fillTemplate("divhere${if ('${this.User}')}div${end if}ending",{User:"adsf"})).toBe("divheredivending");
-        expect($c.fillTemplate("div ${if (!${test.tags.Level} || ${test.tags.Level.length == 0} && ${test.type})}${test.type}${end if} ending",
+        expect($c.fillTemplate("div ${if (!${test.tags.Level} || ${test.tags.Level.length} != 0 && '${test.type}')}${test.type}${end if} ending",
             {test:{type:"testtype",tags:{Level:["adsf"]}}})).toBe("div testtype ending");
     });
     it('fillTemplate - for',function(){

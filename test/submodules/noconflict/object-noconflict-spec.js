@@ -1,6 +1,6 @@
 const pre = require('../_prep')();
 let path = '../../../noConflict.js';
-if (process.env.name == 'single') { path = `${pre}craydent-date/noConflict.js`; }
+if (process.env.name == 'single') { path = `${pre}craydent-object/noConflict`; }
 const $c = require(path);
 const $m = require('../_methods')(pre);
 var foo = $m.foo;

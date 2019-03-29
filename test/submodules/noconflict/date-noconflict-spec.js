@@ -1,7 +1,7 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-date/noConflict.js'); }
-else { $c = require('../../../noConflict.js'); }
+const pre = require('../_prep')();
+let path = '../../../noConflict.js';
+if (process.env.name == 'single') { path = `${pre}craydent-date/noConflict`; }
+const $c = require(path);
 $c.DEBUG_MODE = true;
 describe ('No Conflict Date', function () {
 	var date = new Date('1/8/2016 13:00:00');
@@ -61,7 +61,7 @@ describe ('No Conflict Date', function () {
     });
     it('format - timezone',function(){
         // Timezone
-        expect($c.format(date,'e')).toBe('Pacific Standard Time (North America)');
+        expect($c.format(new Date(),'e')).toBe(/\((.*)\)/.exec(new Date().toString())[1]);
         expect($c.format(date,'I')).toBe('1');
         expect($c.format(date,'O')).toBe('-0800');
         expect($c.format(date,'P')).toBe('-08:00');

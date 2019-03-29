@@ -1,7 +1,7 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-http'); }
-else { $c = require('../../../index.js'); }
+const pre = require('../_prep')();
+let path = '../../../index.js';
+if (process.env.name == 'single') { path = `${pre}craydent-http`; }
+const $c = require(path);
 $c.DEBUG_MODE = true;
 // TODO: Global http methods
 describe ('Global http methods', function () {

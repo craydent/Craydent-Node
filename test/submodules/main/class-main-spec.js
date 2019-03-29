@@ -1,7 +1,7 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-class'); }
-else { $c = require('../../../index.js'); }
+const pre = require('../_prep')();
+let path = '../../../index.js';
+if (process.env.name == 'single') { path = `${pre}craydent-class`; }
+const $c = require(path);
 $c.DEBUG_MODE = true;
 describe ('Global classes', function () {
     var arr = [1,2,4,5,6],

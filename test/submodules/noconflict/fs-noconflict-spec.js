@@ -1,7 +1,7 @@
 var fs = require('fs');
 const pre = require('../_prep')();
 let path = '../../../noConflict.js';
-if (process.env.name == 'single') { path = `${pre}craydent-date/noConflict.js`; }
+if (process.env.name == 'single') { path = `${pre}craydent-fs/noConflict`; }
 const $c = require(path);
 
 $c.DEBUG_MODE = true;

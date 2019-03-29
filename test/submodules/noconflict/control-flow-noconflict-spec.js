@@ -1,7 +1,7 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-control-flow/noConflict.js'); }
-else { $c = require('../../../noConflict.js'); }
+const pre = require('../_prep')();
+let path = '../../../noConflict.js';
+if (process.env.name == 'single') { path = `${pre}craydent-control-flow/noConflict`; }
+const $c = require(path);
 var $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
 $c.ajax = $m.ajax;

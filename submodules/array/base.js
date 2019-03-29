@@ -1641,7 +1641,7 @@ if (!$c.MODULES_LOADED[$s.info.name]) {
                 var prop = props[p],
                     reverseProp = false;
 
-                if(!prop){return -1;}
+                if(!prop){return 0;}
                 if(prop[0] == "!"){
                     prop = prop.replace('!','');
                     reverseProp = true;

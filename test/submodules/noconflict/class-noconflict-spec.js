@@ -1,7 +1,8 @@
-var pre = require('../_prep')();
-var $c;
-if (process.env.name == 'single') { $c = require(pre + 'craydent-class/noConflict.js'); }
-else { $c = require('../../../noConflict.js'); }
+
+const pre = require('../_prep')();
+let path = '../../../noConflict.js';
+if (process.env.name == 'single') { path = `${pre}craydent-class/noConflict`; }
+const $c = require(path);
 $c.DEBUG_MODE = true;
 describe ('No Conflict Global classes', function () {
     var arr = [1,2,4,5,6],

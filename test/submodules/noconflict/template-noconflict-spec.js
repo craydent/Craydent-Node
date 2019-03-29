@@ -1,6 +1,6 @@
 const pre = require('../_prep')();
 let path = '../../../noConflict.js';
-if (process.env.name == 'single') { path = `${pre}craydent-date/noConflict.js`; }
+if (process.env.name == 'single') { path = `${pre}craydent-template/noConflict`; }
 const $c = require(path);
 const $m = require('../_methods')(pre);
 $c.DEBUG_MODE = true;
@@ -71,6 +71,8 @@ describe ('No Conflict Global methods', function () {
         expect($c.fillTemplate("divhere${if (${this.User})}div${end if}ending",{User:[]})).toBe("divheredivending");
         expect($c.fillTemplate("divhere${if (${this.User.length})}div${end if}ending",{User:[]})).toBe("divhereending");
         expect($c.fillTemplate("divhere${if ('${this.User}')}div${end if}ending",{User:"adsf"})).toBe("divheredivending");
+        expect($c.fillTemplate("div ${if (!${test.tags.Level} || ${test.tags.Level.length} != 0 && '${test.type}')}${test.type}${end if} ending",
+            {test:{type:"testtype",tags:{Level:["adsf"]}}})).toBe("div testtype ending");
     });
     it('fillTemplate - for',function(){
         expect($c.fillTemplate("<div>${name}<div>${for ${i=0,len=${arr}.length};${i<len};${i++}}${${arr}[i].hi}8888${name}9999${end for}</div></div>",obj))
