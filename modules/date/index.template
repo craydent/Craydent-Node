@@ -1,0 +1,99 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IEquals from '../methods/equals';
+import * as IFormat from '../methods/format';
+import * as IGetDayOfYear from '../methods/getDayOfYear';
+import * as IGetGMTOffset from '../methods/getGMTOffset';
+import * as IGetValue from '../methods/getValue';
+import * as IGetWeek from '../methods/getWeek';
+import * as IIsValidDate from '../methods/isValidDate';
+import * as INow from '../methods/now';
+import * as IExt from '../protected/_ext';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        equals: typeof IEquals.default;
+        format: typeof IFormat.default;
+        getDayOfYear: typeof IGetDayOfYear.default;
+        getGMTOffset: typeof IGetGMTOffset.default;
+        getValue: typeof IGetValue.default;
+        getWeek: typeof IGetWeek.default;
+        isValidDate: typeof IIsValidDate.default;
+        now: typeof INow.default;
+    }
+    //#region proto
+    interface Date {
+        equals: typeof IPrototypes._equals;
+        format: typeof IPrototypes._format;
+        getDayOfYear: typeof IPrototypes._getDayOfYear;
+        getGMTOffset: typeof IPrototypes._getGMTOffset;
+        getValue: typeof IPrototypes._getValue;
+        getWeek: typeof IPrototypes._getWeek;
+        isValidDate: typeof IPrototypes._isValidDate;
+    }
+    //#endregion proto
+    //#region global
+    module NodeJS {
+        interface Global {
+            equals: typeof IEquals.default;
+            format: typeof IFormat.default;
+            getDayOfYear: typeof IGetDayOfYear.default;
+            getGMTOffset: typeof IGetGMTOffset.default;
+            getValue: typeof IGetValue.default;
+            getWeek: typeof IGetWeek.default;
+            isValidDate: typeof IIsValidDate.default;
+            now: typeof INow.default;
+        }
+    }
+    interface Window {
+        equals: typeof IEquals.default;
+        format: typeof IFormat.default;
+        getDayOfYear: typeof IGetDayOfYear.default;
+        getGMTOffset: typeof IGetGMTOffset.default;
+        getValue: typeof IGetValue.default;
+        getWeek: typeof IGetWeek.default;
+        isValidDate: typeof IIsValidDate.default;
+        now: typeof INow.default;
+    }
+    const equals: typeof IEquals.default;
+    const format: typeof IFormat.default;
+    const getDayOfYear: typeof IGetDayOfYear.default;
+    const getGMTOffset: typeof IGetGMTOffset.default;
+    const getValue: typeof IGetValue.default;
+    const getWeek: typeof IGetWeek.default;
+    const isValidDate: typeof IIsValidDate.default;
+    const now: typeof INow.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const ext: typeof IExt.default = require('../protected/_ext');
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    ext(Date, "equals", prototypes._equals, true);
+    ext(Date, 'format', prototypes._format, true);
+    ext(Date, 'getDayOfYear', prototypes._getDayOfYear, true);
+    ext(Date, "getValue", prototypes._getValue);
+    ext(Date, 'getWeek', prototypes._getWeek);
+    ext(Date, 'isValidDate', prototypes._isValidDate);
+
+    $c.now = $c.now || prototypes.now;
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;

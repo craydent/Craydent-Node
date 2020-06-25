@@ -1,0 +1,71 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IAwaitable from '../methods/awaitable';
+import * as IExt from '../protected/_ext';
+import * as IYieldable from '../methods/yieldable';
+import * as ISyncroit from '../methods/syncroit';
+import * as IParallelEach from '../methods/parallelEach';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        parallelEach: typeof IParallelEach.default;
+        awaitable: typeof IAwaitable.default;
+        syncroit: typeof ISyncroit.default;
+        yieldable: typeof IYieldable.default;
+    }
+    //#region proto
+    interface Array<T> {
+        parallelEach: typeof IPrototypes._parallelEach;
+    }
+    //#endregion proto
+    //#region global
+    module NodeJS {
+        interface Global {
+            parallelEach: typeof IParallelEach.default;
+            awaitable: typeof IAwaitable.default;
+            syncroit: typeof ISyncroit.default;
+            yieldable: typeof IYieldable.default;
+        }
+    }
+    interface Window {
+        parallelEach: typeof IParallelEach.default;
+        awaitable: typeof IAwaitable.default;
+        syncroit: typeof ISyncroit.default;
+        yieldable: typeof IYieldable.default;
+    }
+    const parallelEach: typeof IParallelEach.default;
+    const awaitable: typeof IAwaitable.default;
+    const syncroit: typeof ISyncroit.default;
+    const yieldable: typeof IYieldable.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const ext: typeof IExt.default = require('../protected/_ext');
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+
+    ext(Array, 'parallelEach', prototypes._parallelEach, true);
+
+    $c.awaitable = $c.awaitable || prototypes.awaitable;
+    $c.syncroit = $c.syncroit || prototypes.syncroit;
+    $c.yieldable = $c.yieldable || prototypes.yieldable;
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;
