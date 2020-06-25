@@ -1,0 +1,358 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as IAdd from '../methods/add';
+import * as IAggregate from '../methods/aggregate';
+import * as IAverage from '../methods/average';
+import * as IBuildTree from '../methods/buildTree';
+import * as ICondense from '../methods/condense';
+import * as IContains from '../methods/contains';
+import * as ICount from '../methods/count';
+import * as ICreateIndex from '../methods/createIndex';
+import * as IDeleteIt from '../methods/delete';
+import * as IDistinct from '../methods/distinct';
+import * as IEmit from '../methods/emit';
+import * as IEquals from '../methods/equals';
+import * as IEvery from '../methods/every';
+import * as IExt from '../protected/_ext';
+import * as IFilter from '../methods/filter';
+import * as IFind from '../methods/find';
+import * as IFindOne from '../methods/findOne';
+import * as IGetValue from '../methods/getValue';
+import * as IGroup from '../methods/group';
+import * as IIndexOfAlt from '../methods/indexOfAlt';
+import * as IInnerJoin from '../methods/innerJoin';
+import * as IInsert from '../methods/insert';
+import * as IInsertAfter from '../methods/insertAfter';
+import * as IInsertAt from '../methods/insertAt';
+import * as IInsertBefore from '../methods/insertBefore';
+import * as IIsSubset from '../methods/isSubset';
+import * as IJoinLeft from '../methods/joinLeft';
+import * as IJoinRight from '../methods/joinRight';
+import * as ILast from '../methods/last';
+import * as ILimit from '../methods/limit';
+import * as ILogModule from '../private/__logModule';
+import * as IMap from '../methods/map';
+import * as IMapReduce from '../methods/mapReduce';
+import * as INormalize from '../methods/normalize';
+import * as IParallelEach from '../methods/parallelEach';
+import * as IRemove from '../methods/remove';
+import * as IRemoveAll from '../methods/removeAll';
+import * as IRemoveAt from '../methods/removeAt';
+import * as IReplaceAt from '../methods/replaceAt';
+import * as IScramble from '../methods/scramble';
+import * as ISortBy from '../methods/sortBy';
+import * as IStdev from '../methods/stdev';
+import * as ISum from '../methods/sum';
+import * as IToSet from '../methods/toSet';
+import * as IUpdate from '../methods/update';
+import * as IUpsert from '../methods/upsert';
+import * as IWhere from '../methods/where';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        add: typeof IAdd.default;
+        aggregate: typeof IAggregate.default;
+        average: typeof IAverage.default;
+        condense: typeof ICondense.default;
+        contains: typeof IContains.default;
+        count: typeof ICount.default;
+        createIndex: typeof ICreateIndex.default;
+        buildTree: typeof IBuildTree.default;
+        delete: typeof IDeleteIt.default;
+        distinct: typeof IDistinct.default;
+        emit: typeof IEmit.default;
+        equals: typeof IEquals.default;
+        filter: typeof IFilter.default;
+        find: typeof IFind.default;
+        findOne: typeof IFindOne.default;
+        every: typeof IEvery.default;
+        getValue: typeof IGetValue.default;
+        group: typeof IGroup.default;
+        indexOfAlt: typeof IIndexOfAlt.default;
+        innerJoin: typeof IInnerJoin.default;
+        insert: typeof IInsert.default;
+        insertAfter: typeof IInsertAfter.default;
+        insertAt: typeof IInsertAt.default;
+        insertBefore: typeof IInsertBefore.default;
+        isSubset: typeof IIsSubset.default;
+        joinLeft: typeof IJoinLeft.default;
+        joinRight: typeof IJoinRight.default;
+        last: typeof ILast.default;
+        limit: typeof ILimit.default;
+        map: typeof IMap.default;
+        mapReduce: typeof IMapReduce.default;
+        normalize: typeof INormalize.default;
+        parallelEach: typeof IParallelEach.default;
+        remove: typeof IRemove.default;
+        removeAll: typeof IRemoveAll.default;
+        removeAt: typeof IRemoveAt.default;
+        replaceAt: typeof IReplaceAt.default;
+        scramble: typeof IScramble.default;
+        sortBy: typeof ISortBy.default;
+        stdev: typeof IStdev.default;
+        sum: typeof ISum.default;
+        toSet: typeof IToSet.default;
+        update: typeof IUpdate.default;
+        upsert: typeof IUpsert.default;
+        where: typeof IWhere.default;
+    }
+    //#region proto
+    interface Array<T> {
+        add: typeof IPrototypes._add;
+        aggregate: typeof IPrototypes._aggregate;
+        average: typeof IPrototypes._average;
+        condense: typeof IPrototypes._condense;
+        contains: typeof IPrototypes._contains;
+        count: typeof IPrototypes._count;
+        createIndex: typeof IPrototypes._createIndex;
+        buildTree: typeof IPrototypes._buildTree;
+        delete: typeof IPrototypes._delete;
+        distinct: typeof IPrototypes._distinct;
+        equals: typeof IPrototypes._equals;
+        findOne: typeof IPrototypes._findOne;
+        getValue: typeof IPrototypes._getValue;
+        group: typeof IPrototypes._group;
+        indexOfAlt: typeof IPrototypes._indexOfAlt;
+        innerJoin: typeof IPrototypes._innerJoin;
+        insert: typeof IPrototypes._insert;
+        insertAfter: typeof IPrototypes._insertAfter;
+        insertAt: typeof IPrototypes._insertAt;
+        insertBefore: typeof IPrototypes._insertBefore;
+        isSubset: typeof IPrototypes._isSubset;
+        joinLeft: typeof IPrototypes._joinLeft;
+        joinRight: typeof IPrototypes._joinRight;
+        last: typeof IPrototypes._last;
+        limit: typeof IPrototypes._limit;
+        mapReduce: typeof IPrototypes._mapReduce;
+        normalize: typeof IPrototypes._normalize;
+        parallelEach: typeof IPrototypes._parallelEach;
+        remove: typeof IPrototypes._remove;
+        removeAll: typeof IPrototypes._removeAll;
+        removeAt: typeof IPrototypes._removeAt;
+        replaceAt: typeof IPrototypes._replaceAt;
+        scramble: typeof IPrototypes._scramble;
+        sortBy: typeof IPrototypes._sortBy;
+        stdev: typeof IPrototypes._stdev;
+        sum: typeof IPrototypes._sum;
+        toSet: typeof IPrototypes._toSet;
+        update: typeof IPrototypes._update;
+        upsert: typeof IPrototypes._upsert;
+        where: typeof IPrototypes._where;
+    }
+    //#endregion proto
+    //#region global
+    module NodeJS {
+        interface Global {
+            add: typeof IAdd.default;
+            aggregate: typeof IAggregate.default;
+            average: typeof IAverage.default;
+            condense: typeof ICondense.default;
+            contains: typeof IContains.default;
+            count: typeof ICount.default;
+            createIndex: typeof ICreateIndex.default;
+            buildTree: typeof IBuildTree.default;
+            delete: typeof IDeleteIt.default;
+            distinct: typeof IDistinct.default;
+            emit: typeof IEmit.default;
+            equals: typeof IEquals.default;
+            filter: typeof IFilter.default;
+            find: typeof IFind.default;
+            findOne: typeof IFindOne.default;
+            every: typeof IEvery.default;
+            getValue: typeof IGetValue.default;
+            group: typeof IGroup.default;
+            indexOfAlt: typeof IIndexOfAlt.default;
+            innerJoin: typeof IInnerJoin.default;
+            insert: typeof IInsert.default;
+            insertAfter: typeof IInsertAfter.default;
+            insertAt: typeof IInsertAt.default;
+            insertBefore: typeof IInsertBefore.default;
+            isSubset: typeof IIsSubset.default;
+            joinLeft: typeof IJoinLeft.default;
+            joinRight: typeof IJoinRight.default;
+            last: typeof ILast.default;
+            limit: typeof ILimit.default;
+            map: typeof IMap.default;
+            mapReduce: typeof IMapReduce.default;
+            normalize: typeof INormalize.default;
+            parallelEach: typeof IParallelEach.default;
+            remove: typeof IRemove.default;
+            removeAll: typeof IRemoveAll.default;
+            removeAt: typeof IRemoveAt.default;
+            replaceAt: typeof IReplaceAt.default;
+            scramble: typeof IScramble.default;
+            sortBy: typeof ISortBy.default;
+            stdev: typeof IStdev.default;
+            sum: typeof ISum.default;
+            toSet: typeof IToSet.default;
+            update: typeof IUpdate.default;
+            upsert: typeof IUpsert.default;
+            where: typeof IWhere.default;
+        }
+    }
+    interface Window {
+        add: typeof IAdd.default;
+        aggregate: typeof IAggregate.default;
+        average: typeof IAverage.default;
+        condense: typeof ICondense.default;
+        contains: typeof IContains.default;
+        count: typeof ICount.default;
+        createIndex: typeof ICreateIndex.default;
+        buildTree: typeof IBuildTree.default;
+        delete: typeof IDeleteIt.default;
+        distinct: typeof IDistinct.default;
+        emit: typeof IEmit.default;
+        equals: typeof IEquals.default;
+        filter: typeof IFilter.default;
+        find: typeof IFind.default;
+        findOne: typeof IFindOne.default;
+        every: typeof IEvery.default;
+        getValue: typeof IGetValue.default;
+        group: typeof IGroup.default;
+        indexOfAlt: typeof IIndexOfAlt.default;
+        innerJoin: typeof IInnerJoin.default;
+        insert: typeof IInsert.default;
+        insertAfter: typeof IInsertAfter.default;
+        insertAt: typeof IInsertAt.default;
+        insertBefore: typeof IInsertBefore.default;
+        isSubset: typeof IIsSubset.default;
+        joinLeft: typeof IJoinLeft.default;
+        joinRight: typeof IJoinRight.default;
+        last: typeof ILast.default;
+        limit: typeof ILimit.default;
+        map: typeof IMap.default;
+        mapReduce: typeof IMapReduce.default;
+        normalize: typeof INormalize.default;
+        parallelEach: typeof IParallelEach.default;
+        remove: typeof IRemove.default;
+        removeAll: typeof IRemoveAll.default;
+        removeAt: typeof IRemoveAt.default;
+        replaceAt: typeof IReplaceAt.default;
+        scramble: typeof IScramble.default;
+        sortBy: typeof ISortBy.default;
+        stdev: typeof IStdev.default;
+        sum: typeof ISum.default;
+        toSet: typeof IToSet.default;
+        update: typeof IUpdate.default;
+        upsert: typeof IUpsert.default;
+        where: typeof IWhere.default;
+    }
+    const add: typeof IAdd.default;
+    const aggregate: typeof IAggregate.default;
+    const average: typeof IAverage.default;
+    const condense: typeof ICondense.default;
+    const contains: typeof IContains.default;
+    const count: typeof ICount.default;
+    const createIndex: typeof ICreateIndex.default;
+    const buildTree: typeof IBuildTree.default;
+    const deleteIT: typeof IDeleteIt.default;
+    const distinct: typeof IDistinct.default;
+    const emit: typeof IEmit.default;
+    const equals: typeof IEquals.default;
+    const filter: typeof IFilter.default;
+    const find: typeof IFind.default;
+    const findOne: typeof IFindOne.default;
+    const every: typeof IEvery.default;
+    const getValue: typeof IGetValue.default;
+    const group: typeof IGroup.default;
+    const indexOfAlt: typeof IIndexOfAlt.default;
+    const innerJoin: typeof IInnerJoin.default;
+    const insert: typeof IInsert.default;
+    const insertAfter: typeof IInsertAfter.default;
+    const insertAt: typeof IInsertAt.default;
+    const insertBefore: typeof IInsertBefore.default;
+    const isSubset: typeof IIsSubset.default;
+    const joinLeft: typeof IJoinLeft.default;
+    const joinRight: typeof IJoinRight.default;
+    const last: typeof ILast.default;
+    const limit: typeof ILimit.default;
+    const map: typeof IMap.default;
+    const mapReduce: typeof IMapReduce.default;
+    const normalize: typeof INormalize.default;
+    const parallelEach: typeof IParallelEach.default;
+    const remove: typeof IRemove.default;
+    const removeAll: typeof IRemoveAll.default;
+    const removeAt: typeof IRemoveAt.default;
+    const replaceAt: typeof IReplaceAt.default;
+    const scramble: typeof IScramble.default;
+    const sortBy: typeof ISortBy.default;
+    const stdev: typeof IStdev.default;
+    const sum: typeof ISum.default;
+    const toSet: typeof IToSet.default;
+    const update: typeof IUpdate.default;
+    const upsert: typeof IUpsert.default;
+    const where: typeof IWhere.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const emit: typeof IEmit.default = require('../methods/emit');
+    const ext: typeof IExt.default = require('../protected/_ext');
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    ext(Array, 'add', prototypes._add, true);
+    ext(Array, 'aggregate', prototypes._aggregate, true);
+    ext(Array, 'average', prototypes._average, true);
+    ext(Array, 'buildTree', prototypes._buildTree);
+    ext(Array, 'condense', prototypes._condense, true);
+    ext(Array, "contains", prototypes._contains, true);
+    ext(Array, "count", prototypes._count, true);
+    ext(Array, 'createIndex', prototypes._createIndex);
+    ext(Array, 'delete', prototypes._delete, true);
+    ext(Array, 'distinct', prototypes._distinct);
+    ext(Array, "equals", prototypes._equals, true);
+    ext(Array, 'every', prototypes._every, true);
+    ext(Array, 'filter', prototypes._filter, true);
+    ext(Array, 'find', prototypes._find);
+    ext(Array, 'findOne', prototypes._findOne);
+    ext(Array, "getValue", prototypes._getValue, true);
+    ext(Array, 'group', prototypes._group);
+    ext(Array, 'indexOfAlt', prototypes._indexOfAlt, true);
+    ext(Array, "innerJoin", prototypes._innerJoin);
+    ext(Array, 'insert', prototypes._insert, true);
+    ext(Array, 'insertAfter', prototypes._insertAfter, true);
+    ext(Array, 'insertAt', prototypes._insertAt, true);
+    ext(Array, 'insertBefore', prototypes._insertBefore, true);
+    ext(Array, "isEmpty", prototypes._isEmpty);
+    ext(Array, "isSubset", prototypes._isSubset);
+    ext(Array, "joinLeft", prototypes._joinLeft);
+    ext(Array, "joinRight", prototypes._joinRight);
+    ext(Array, "last", prototypes._last, true);
+    ext(Array, 'limit', prototypes._limit, true);
+    ext(Array, 'map', prototypes._map, true);
+    ext(Array, 'mapReduce', prototypes._mapReduce);
+    ext(Array, 'normalize', prototypes._normalize, true);
+    ext(Array, 'parallelEach', prototypes._parallelEach, true);
+    ext(Array, 'remove', prototypes._remove, true);
+    ext(Array, 'removeAll', prototypes._removeAll, true);
+    ext(Array, 'removeAt', prototypes._removeAt, true);
+    ext(Array, 'replaceAt', prototypes._replaceAt, true);
+    ext(Array, 'scramble', prototypes._scramble, true);
+    ext(Array, 'sortBy', prototypes._sortBy, true);
+    ext(Array, 'stdev', prototypes._stdev, true);
+    ext(Array, 'sum', prototypes._sum, true);
+    ext(Array, 'toSet', prototypes._toSet, true);
+    ext(Array, 'trim', prototypes._trim, true);
+    ext(Array, 'update', prototypes._update, true);
+    ext(Array, 'upsert', prototypes._upsert, true);
+    ext(Array, 'where', prototypes._where, true);
+
+    $c.emit = $c.emit || emit;
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;
