@@ -1,0 +1,59 @@
+import error from './error';
+import isArray from './isArray';
+import isObject from './isObject';
+import isRegExp from './isRegExp';
+import isString from './isString';
+import strip from './strip';
+import where from './where';
+import { WhereCondition, AnyObject, AnyObjects } from '../models/Arrays';
+
+const _isObject = isObject,
+    _isArray = isArray,
+    _isString = isString,
+    _isRegExp = isRegExp;
+
+export default function count(obj: AnyObject): number;
+export default function count(objs: AnyObjects, option?: WhereCondition): number;
+export default function count(arr: string[], option?: string | RegExp): number;
+export default function count(str: string, option?: string | RegExp): number;
+export default function count(obj, option?): number {
+    try {
+        if (_isObject(obj)) {
+            let count = 0;
+            for (let prop in obj as AnyObject) {
+                if (obj.hasOwnProperty(prop)) { count++; }
+            }
+            return count;
+        }
+        if (_isArray(obj)) {
+            if (_isObject(option)) {
+                return where(obj as AnyObjects, option).length;
+            }
+            let isReg = _isRegExp(option);
+            if (_isString(option) || isReg) {
+                let ct = 0;
+                for (let i = 0, len = obj.length; i < len; i++) {
+                    if (~obj[i].indexOf(option) || (isReg && option.test(obj[i]))) { ct++; }
+                }
+                return ct;
+            }
+            return obj.length;
+        }
+        if (_isString(obj)) {
+            let word = option;
+            if (!_isRegExp(word)) {
+                word = new RegExp(word, "g");
+            } else if (!option.global) {
+                let reg_str = word.toString(),
+                    index = reg_str.lastIndexOf('/'),
+                    options = reg_str.substring(index + 1);
+                word = new RegExp(strip(reg_str, '/'), `g${options}`);
+            }
+            return (obj.match(word) || []).length;
+        }
+        return NaN;
+    } catch (e) {
+        error && error('Object.count', e);
+        return NaN;
+    }
+}
