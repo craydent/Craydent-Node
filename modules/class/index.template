@@ -1,0 +1,69 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IBenchmarker from '../methods/benchmarker';
+import * as ICursor from '../methods/cursor';
+import * as IOrderedList from '../methods/orderedList';
+import * as IQueue from '../methods/queue';
+import * as ISet from '../methods/set';
+import * as IPrototypes from './__prototypes';
+
+//#endregion
+declare global {
+    interface Craydent {
+        Benchmarker: typeof IBenchmarker.default;
+        Cursor: typeof ICursor.default;
+        OrderedList: typeof IOrderedList.default;
+        Queue: typeof IQueue.default;
+        Set: typeof ISet.default;
+
+    }
+    //#region global
+    module NodeJS {
+        interface Global {
+            Benchmarker: typeof IBenchmarker.default;
+            Cursor: typeof ICursor.default;
+            OrderedList: typeof IOrderedList.default;
+            Queue: typeof IQueue.default;
+        }
+    }
+    interface Window {
+        Benchmarker: typeof IBenchmarker.default;
+        Cursor: typeof ICursor.default;
+        IOrderedList: typeof IOrderedList.default;
+        Queue: typeof IQueue.default;
+        Set: typeof ISet.default;
+
+    }
+    const Benchmarker: typeof IBenchmarker.default;
+    const Cursor: typeof ICursor.default;
+    const OrderedList: typeof IOrderedList.default;
+    const Queue: typeof IQueue.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    $c.Benchmarker = $c.Benchmarker || prototypes.Benchmarker;
+    $c.Cursor = $c.Cursor || prototypes.Cursor;
+    $c.OrderedList = $c.OrderedList || prototypes.OrderedList;
+    $c.Queue = $c.Queue || prototypes.Queue;
+    $c.Set = $c.Set || prototypes.Set;
+
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;
