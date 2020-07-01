@@ -72,7 +72,7 @@ export function _on<T>(this: T, ev: string, func: Function): T {
     }|*/
     return on<T>(this, ev, func);
 }
-export function _toPromise<T, TReturn, TNext>(this: Generator<T, TReturn, TNext>): Promise<any> {
+export function _toPromise(this: Generator): Promise<any> {
     return toPromise(this);
 }
 export function _then(this: Function, callback: Function): Function {

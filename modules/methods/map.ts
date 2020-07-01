@@ -13,7 +13,7 @@ export default function map<T>(objs: T[] | T, callback: ArrayIterator<T> | Objec
             let other = new Array(objs.length);
             //@ts-ignore
             for (let i = 0, n = objs.length; i < n; i++) {
-                if (i in objs as any) {
+                if (i in (objs as any)) {
                     other[i] = callback.call(context, objs[i], i, objs);
                 }
             }

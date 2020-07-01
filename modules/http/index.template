@@ -233,6 +233,8 @@ declare global {
         getSession: typeof IGetSession.default;
         getSessionSync: typeof IGetSessionSync.default;
         header: typeof IHeader.default;
+        raw: string;
+        rawData: any;
         send: typeof ISend.default;
         varDump: typeof IVarDump.default;
         writeSession: typeof IWriteSession.default;

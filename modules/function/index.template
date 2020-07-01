@@ -46,7 +46,7 @@ declare global {
         then: typeof IPrototypes._then;
         catch: typeof IPrototypes._catch;
     }
-    interface Generator<T, TReturn, TNext> {
+    interface Generator {
         toPromise: typeof IPrototypes._toPromise;
     }
     //#endregion proto

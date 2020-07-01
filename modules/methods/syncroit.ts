@@ -5,7 +5,7 @@ import isPromise from './isPromise';
 import isNull from './isNull';
 import { AsyncFunction } from '../models/AsyncFunction';
 
-export default function syncroit<T, TReturn, TNext>(gen: GeneratorFunction | Generator<T, TReturn, TNext> | AsyncFunction | Function): Promise<any> {
+export default function syncroit(gen: GeneratorFunction | Generator | AsyncFunction | Function): Promise<any> {
     /*|{
         "info": "Generator/Async based control flow to allow for more \"syncronous\" programing structure",
         "category": "Control Flow|Utility",

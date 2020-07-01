@@ -1,7 +1,7 @@
 import error from './error';
 import syncroit from './syncroit';
 
-export default function toPromise<T, TReturn, TNext>(gen: Generator<T, TReturn, TNext>): Promise<any> {
+export default function toPromise(gen: Generator): Promise<any> {
     /*|{
         "info": "Function listener to register events",
         "category": "Function",

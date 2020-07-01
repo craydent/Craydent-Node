@@ -1,7 +1,7 @@
 import { VerbOptions } from "../models/VerbOptions";
 
 
-export default function _verbPayloadHelper(context: Craydent | Window, variable?: string, options?: VerbOptions) {
+export default function _verbPayloadHelper(context: Craydent, variable?: string, options?: VerbOptions) {
     context.raw = context.raw || "";
     if (!variable) { return context.rawData || context.raw; }
     context.rawData = context.rawData || {};
