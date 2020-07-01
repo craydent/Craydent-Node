@@ -125,7 +125,7 @@ declare global {
     const appendFile: typeof IAppendFile.default;
     const chmod: typeof IChmod.default;
     const chown: typeof IChown.default;
-    const close: typeof IClose.default;
+    // const close: typeof IClose.default;
     const fchmod: typeof IFchmod.default;
     const fchown: typeof IFchown.default;
     const fdatasync: typeof IFdatasync.default;
@@ -139,7 +139,7 @@ declare global {
     const lstat: typeof ILstat.default;
     const mkdir: typeof IMkdir.default;
     const mkdtemp: typeof IMkdtemp.default;
-    const open: typeof IOpen.default;
+    // const open: typeof IOpen.default;
     const read: typeof IRead.default;
     const readdir: typeof IReaddir.default;
     const readFile: typeof IReadFile.default;
