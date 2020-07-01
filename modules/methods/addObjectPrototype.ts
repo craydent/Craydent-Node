@@ -36,7 +36,7 @@ export default function addObjectPrototype(name: string, fn: Function, override?
                 enumerable: false,
                 configurable: true,
                 value: fn
-            });
+            } as PropertyDescriptor & ThisType<any>);
             override = shouldOverride;
         }
     } catch (e) {

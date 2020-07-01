@@ -2,6 +2,7 @@ import error from './error';
 import insertAt from './insertAt';
 import isAsync from './isAsync';
 import isBoolean from './isBoolean';
+import isFunction from './isFunction';
 import isGenerator from './isGenerator';
 import isNull from './isNull';
 import isNumber from './isNumber';
@@ -16,12 +17,13 @@ export interface YieldableOption {
     returnIndex: number;
     method: GeneratorFunction | AsyncFunction | Promise<any> | Function;
 }
-export default function yieldable(value: GeneratorFunction | AsyncFunction | Promise<any> | Function | YieldableOption): Promise<any>;
+export default function yieldable(value: GeneratorFunction | AsyncFunction | Promise<any> | YieldableOption): Promise<any>;
+export default function yieldable(value: Function): () => Promise<any>;
 export default function yieldable(func: Function, context: any): Promise<any>;
 export default function yieldable(func: Function, callbackIndex: number): Promise<any>;
 export default function yieldable(func: Function, context: any, callbackIndex: number): Promise<any>;
 export default function yieldable(func: Function, context: any, callbackIndex: number, returnIndex?: number): Promise<any>;
-export default function yieldable(value, context?, callbackIndex?, returnIndex?): Promise<any> {
+export default function yieldable(value, context?, callbackIndex?, returnIndex?) {
     /*|{
         "info": "Makes a value yieldable via a Promise.",
         "category": "Control Flow|Utility",

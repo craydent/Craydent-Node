@@ -1,0 +1,357 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import * as IHttp from 'http';
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IServerManager from '../methods/ServerManager';
+import * as I$COOKIE from '../methods/$COOKIE';
+import * as I$COMMIT from '../methods/$COMMIT';
+import * as I$DELETE from '../methods/$DELETE';
+import * as I$DEL from '../methods/$DEL';
+import * as I$GET from '../methods/$GET';
+import * as I$HEADER from '../methods/$HEADER';
+import * as I$PAYLOAD from '../methods/$PAYLOAD';
+import * as I$POST from '../methods/$POST';
+import * as I$PUT from '../methods/$PUT';
+import * as I$ROLLBACK from '../methods/$ROLLBACK';
+import * as I$SET from '../methods/$SET';
+import * as IChromeVersion from '../methods/ChromeVersion';
+import * as IFirefoxVersion from '../methods/FirefoxVersion';
+import * as IIEVersion from '../methods/IEVersion';
+import * as IOperaVersion from '../methods/OperaVersion';
+import * as ISafariVersion from '../methods/SafariVersion';
+import * as IIsAmaya from '../methods/isAmaya';
+import * as IIsAndroid from '../methods/isAndroid';
+import * as IIsBlackBerry from '../methods/isBlackBerry';
+import * as IIsChrome from '../methods/isChrome';
+import * as IIsFirefox from '../methods/isFirefox';
+import * as IIsGecko from '../methods/isGecko';
+import * as IIsIE6 from '../methods/isIE6';
+import * as IIsIE from '../methods/isIE';
+import * as IIsIPad from '../methods/isIPad';
+import * as IIsIPhone from '../methods/isIPhone';
+import * as IIsIPod from '../methods/isIPod';
+import * as IIsKHTML from '../methods/isKHTML';
+import * as IIsLinux from '../methods/isLinux';
+import * as IIsMac from '../methods/isMac';
+import * as IIsMobile from '../methods/isMobile';
+import * as IIsOpera from '../methods/isOpera';
+import * as IIsPalmOS from '../methods/isPalmOS';
+import * as IIsPresto from '../methods/isPresto';
+import * as IIsPrince from '../methods/isPrince';
+import * as IIsSafari from '../methods/isSafari';
+import * as IIsSymbian from '../methods/isSymbian';
+import * as IIsTrident from '../methods/isTrident';
+import * as IIsWebkit from '../methods/isWebkit';
+import * as IIsWindows from '../methods/isWindows';
+import * as IIsWindowsMobile from '../methods/isWindowsMobile';
+import * as ICreateServer from '../methods/createServer';
+import * as IEcho from '../methods/echo';
+import * as IEnd from '../methods/end';
+import * as IGetSessionID from '../methods/getSessionID';
+import * as IGetSession from '../methods/getSession';
+import * as IGetSessionSync from '../methods/getSessionSync';
+import * as IHeader from '../methods/header';
+import * as ISend from '../methods/send';
+import * as IVarDump from '../methods/varDump';
+import * as IWriteSession from '../methods/writeSession';
+import * as IPrototypes from './__prototypes';
+import { AnyObject } from '../models/Arrays';
+//#endregion
+
+declare global {
+    interface Craydent {
+        onhashchange: Function;
+        BALANCE_SERVER_LIST: string[];
+        RESPONSES: typeof IPrototypes.RESPONSES;
+        HTTP_STATUS_TEMPLATE: typeof IPrototypes.HTTP_STATUS_TEMPLATE;
+        PROTOCOL: string;
+        SERVER: string;
+        SERVER_PATH: string;
+        REFERER: string;
+        ORIGIN: string;
+        PRAGMA: string;
+        ACCEPT_ENCODING: string;
+        ACCEPT_LANGUAGE: string;
+        REFERER_IP: string;
+        BROWSER: {
+            CURRENT: string;
+            CURRENT_VERSION: number;
+            IE: boolean;
+            IE_VERSION: number;
+            IE6: boolean;
+            IE7: boolean;
+            IE8: boolean;
+            CHROME: boolean;
+            CHROME_VERSION: number;
+            FIREFOX: boolean;
+            FIREFOX_VERSION: number;
+            OPERA: boolean;
+            OPERA_VERSION: number;
+            SAFARI: boolean;
+            SAFARI_VERSION: number;
+        };
+        CLIENT: {
+            BROWSER: string;
+            CORES_SUPPORT: boolean;
+            DEVICE: string;
+            ENGINE: string;
+            OS: string;
+        };
+        ENGINE: {
+            CURRENT: string;
+            AMAYA: boolean;
+            GEKKO: boolean;
+            KHTML: boolean;
+            PRESTO: boolean;
+            PRINCE: boolean;
+            TRIDENT: boolean;
+            WEBKIT: boolean;
+        };
+        OS: {
+            CURRENT: string;
+            ANDROID: boolean;
+            BLACKBERRY: boolean;
+            LINUX: boolean;
+            IOS: boolean;
+            MAC: boolean;
+            PALM: boolean;
+            SYMBIAN: boolean;
+            WINDOWS: boolean;
+            WINDOWS_MOBILE: boolean;
+        };
+        DEVICE: {
+            CURRENT: string,
+            ANDROID: boolean;
+            BLACKBERRY: boolean;
+            IPAD: boolean;
+            IPHONE: boolean;
+            IPOD: boolean;
+            LINUX: boolean;
+            MAC: boolean;
+            PALM: boolean;
+            SYMBIAN: boolean;
+            WINDOWS: boolean;
+            WINDOWS_MOBILE: boolean;
+        };
+        ANDROID: boolean;
+        AMAYA: boolean;
+        BLACKBERRY: boolean;
+        CHROME: boolean;
+        CHROME_VERSION: number;
+        CORES_SUPPORT: boolean;
+        DEBUG_MODE: boolean;
+        FIREFOX: boolean;
+        FIREFOX_VERSION: number;
+        GEKKO: boolean;
+        IE: boolean;
+        IE_VERSION: number;
+        IE6: boolean;
+        IE7: boolean;
+        IE8: boolean;
+        IPAD: boolean;
+        IPHONE: boolean;
+        IPOD: boolean;
+        KHTML: boolean;
+        LINUX: boolean;
+        MAC: boolean;
+        OPERA: boolean;
+        OPERA_VERSION: number;
+        PAGE_NAME: string;
+        PAGE_NAME_RAW: string;
+        PALM: boolean;
+        PRESTO: boolean;
+        PRINCE: boolean;
+        SAFARI: boolean;
+        SAFARI_VERSION: number;
+        SYMBIAN: boolean;
+        TRIDENT: boolean;
+        VERBOSE_LOGS: boolean;
+        VERSION: string
+        WEBKIT: boolean;
+        WINDOWS: boolean;
+        WINDOWS_MOBILE: boolean;
+
+        sessionid: string;
+        session: AnyObject;
+        request: IHttp.IncomingMessage;
+        response: IHttp.ServerResponse;
+        $l: Location;
+        location: Location;
+        navigator: Navigator;
+
+        $COOKIE: typeof I$COOKIE.default;
+        $DELETE: typeof I$DELETE.default;
+        $DEL: typeof I$DEL.default;
+        $GET: typeof I$GET.default;
+        $HEADER: typeof I$HEADER.default;
+        $PAYLOAD: typeof I$PAYLOAD.default;
+        $POST: typeof I$POST.default;
+        $PUT: typeof I$PUT.default;
+        ChromeVersion: typeof IChromeVersion.default;
+        FirefoxVersion: typeof IFirefoxVersion.default;
+        IEVersion: typeof IIEVersion.default;
+        OperaVersion: typeof IOperaVersion.default;
+        SafariVersion: typeof ISafariVersion.default;
+        isAmaya: typeof IIsAmaya.default;
+        isAndroid: typeof IIsAndroid.default;
+        isBlackBerry: typeof IIsBlackBerry.default;
+        isChrome: typeof IIsChrome.default;
+        isFirefox: typeof IIsFirefox.default;
+        isGecko: typeof IIsGecko.default;
+        isIE6: typeof IIsIE6.default;
+        isIE: typeof IIsIE.default;
+        isIPad: typeof IIsIPad.default;
+        isIPhone: typeof IIsIPhone.default;
+        isIPod: typeof IIsIPod.default;
+        isKHTML: typeof IIsKHTML.default;
+        isLinux: typeof IIsLinux.default;
+        isMac: typeof IIsMac.default;
+        isMobile: typeof IIsMobile.default;
+        isOpera: typeof IIsOpera.default;
+        isPalmOS: typeof IIsPalmOS.default;
+        isPresto: typeof IIsPresto.default;
+        isPrince: typeof IIsPrince.default;
+        isSafari: typeof IIsSafari.default;
+        isSymbian: typeof IIsSymbian.default;
+        isTrident: typeof IIsTrident.default;
+        isWebkit: typeof IIsWebkit.default;
+        isWindows: typeof IIsWindows.default;
+        isWindowsMobile: typeof IIsWindowsMobile.default;
+        createServer: typeof ICreateServer.default;
+        echo: typeof IEcho.default;
+        end: typeof IEnd.default;
+        getSessionID: typeof IGetSessionID.default;
+        getSession: typeof IGetSession.default;
+        getSessionSync: typeof IGetSessionSync.default;
+        header: typeof IHeader.default;
+        send: typeof ISend.default;
+        varDump: typeof IVarDump.default;
+        writeSession: typeof IWriteSession.default;
+
+        ServerManager: typeof IServerManager.default;
+        GarbageCollector: any[];
+    }
+    //#region global
+    module NodeJS {
+        interface Global {
+            ServerManager: typeof IServerManager.default;
+        }
+    }
+    interface Window {
+        $COMMIT: typeof I$COMMIT.default;
+        $COOKIE: typeof I$COOKIE.default;
+        $DELETE: typeof I$DELETE.default;
+        $DEL: typeof I$DEL.default;
+        $GET: typeof I$GET.default;
+        $ROLLBACK: typeof I$ROLLBACK.default;
+        $SET: typeof I$SET.default;
+
+        ChromeVersion: typeof IChromeVersion.default;
+        FirefoxVersion: typeof IFirefoxVersion.default;
+        IEVersion: typeof IIEVersion.default;
+        OperaVersion: typeof IOperaVersion.default;
+        SafariVersion: typeof ISafariVersion.default;
+        isAmaya: typeof IIsAmaya.default;
+        isAndroid: typeof IIsAndroid.default;
+        isBlackBerry: typeof IIsBlackBerry.default;
+        isChrome: typeof IIsChrome.default;
+        isFirefox: typeof IIsFirefox.default;
+        isGecko: typeof IIsGecko.default;
+        isIE6: typeof IIsIE6.default;
+        isIE: typeof IIsIE.default;
+        isIPad: typeof IIsIPad.default;
+        isIPhone: typeof IIsIPhone.default;
+        isIPod: typeof IIsIPod.default;
+        isKHTML: typeof IIsKHTML.default;
+        isLinux: typeof IIsLinux.default;
+        isMac: typeof IIsMac.default;
+        isMobile: typeof IIsMobile.default;
+        isOpera: typeof IIsOpera.default;
+        isPalmOS: typeof IIsPalmOS.default;
+        isPresto: typeof IIsPresto.default;
+        isPrince: typeof IIsPrince.default;
+        isSafari: typeof IIsSafari.default;
+        isSymbian: typeof IIsSymbian.default;
+        isTrident: typeof IIsTrident.default;
+        isWebkit: typeof IIsWebkit.default;
+        isWindows: typeof IIsWindows.default;
+        isWindowsMobile: typeof IIsWindowsMobile.default;
+    }
+    const ServerManager: typeof IServerManager.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+
+    $c.RESPONSES = $c.RESPONSES || prototypes.RESPONSES
+    $c.HTTP_STATUS_TEMPLATE = $c.HTTP_STATUS_TEMPLATE || prototypes.HTTP_STATUS_TEMPLATE;
+    $c.ServerManager = $c.ServerManager || prototypes.ServerManager;
+    $c.$COOKIE = $c.$COOKIE || prototypes.$COOKIE;
+    $c.$DELETE = $c.$DELETE || prototypes.$DELETE;
+    $c.$DEL = $c.$DEL || prototypes.$DEL;
+    $c.$GET = $c.$GET || prototypes.$GET;
+    $c.$HEADER = $c.$HEADER || prototypes.$HEADER;
+    $c.$PAYLOAD = $c.$PAYLOAD || prototypes.$PAYLOAD;
+    $c.$POST = $c.$POST || prototypes.$POST;
+    $c.$PUT = $c.$PUT || prototypes.$PUT;
+
+    $c.ChromeVersion = $c.ChromeVersion || prototypes.ChromeVersion;
+    $c.FirefoxVersion = $c.FirefoxVersion || prototypes.FirefoxVersion;
+    $c.IEVersion = $c.IEVersion || prototypes.IEVersion;
+    $c.OperaVersion = $c.OperaVersion || prototypes.OperaVersion;
+    $c.SafariVersion = $c.SafariVersion || prototypes.SafariVersion;
+    $c.isAmaya = $c.isAmaya || prototypes.isAmaya;
+    $c.isAndroid = $c.isAndroid || prototypes.isAndroid;
+    $c.isBlackBerry = $c.isBlackBerry || prototypes.isBlackBerry;
+    $c.isChrome = $c.isChrome || prototypes.isChrome;
+    $c.isFirefox = $c.isFirefox || prototypes.isFirefox;
+    $c.isGecko = $c.isGecko || prototypes.isGecko;
+    $c.isIE6 = $c.isIE6 || prototypes.isIE6;
+    $c.isIE = $c.isIE || prototypes.isIE;
+    $c.isIPad = $c.isIPad || prototypes.isIPad;
+    $c.isIPhone = $c.isIPhone || prototypes.isIPhone;
+    $c.isIPod = $c.isIPod || prototypes.isIPod;
+    $c.isKHTML = $c.isKHTML || prototypes.isKHTML;
+    $c.isLinux = $c.isLinux || prototypes.isLinux;
+    $c.isMac = $c.isMac || prototypes.isMac;
+    $c.isMobile = $c.isMobile || prototypes.isMobile;
+    $c.isOpera = $c.isOpera || prototypes.isOpera;
+    $c.isPalmOS = $c.isPalmOS || prototypes.isPalmOS;
+    $c.isPresto = $c.isPresto || prototypes.isPresto;
+    $c.isPrince = $c.isPrince || prototypes.isPrince;
+    $c.isSafari = $c.isSafari || prototypes.isSafari;
+    $c.isSymbian = $c.isSymbian || prototypes.isSymbian;
+    $c.isTrident = $c.isTrident || prototypes.isTrident;
+    $c.isWebkit = $c.isWebkit || prototypes.isWebkit;
+    $c.isWindows = $c.isWindows || prototypes.isWindows;
+    $c.isWindowsMobile = $c.isWindowsMobile || prototypes.isWindowsMobile;
+
+    $c.createServer = $c.createServer || prototypes.createServer;
+    $c.echo = $c.echo || prototypes.echo;
+    $c.end = $c.end || prototypes.end;
+    $c.getSessionID = $c.getSessionID || prototypes.getSessionID;
+    $c.getSession = $c.getSession || prototypes.getSession;
+    $c.getSessionSync = $c.getSessionSync || prototypes.getSessionSync;
+    $c.header = $c.header || prototypes.header;
+    $c.send = $c.send || prototypes.send;
+    $c.varDump = $c.varDump || prototypes.varDump;
+    $c.writeSession = $c.writeSession || prototypes.writeSession;
+
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;

@@ -12,7 +12,7 @@ import strip from './strip';
 import syncroit from './syncroit';
 import tryEval from './tryEval';
 import * as IChildProcess from 'child_process';
-import { AsyncFunction } from 'modules/models/AsyncFunction';
+import { AsyncFunction } from '../models/AsyncFunction';
 import { AnyObject } from "../models/Generics";
 import { Options, CLIOptions, ExecOptions, ExecCallback } from "../models/CLI";
 

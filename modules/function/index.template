@@ -1,0 +1,123 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IEquals from '../methods/equals';
+import * as INext from '../methods/next';
+import * as INamespace from '../methods/namespace';
+import * as IEmit from '../methods/emit';
+import * as IExtend from '../methods/extend';
+import * as IGetParameters from '../methods/getParameters';
+import * as IGetName from '../methods/getName';
+import * as IGetValue from '../methods/getValue';
+import * as IToPromise from '../methods/toPromise';
+import * as IThen from '../methods/then';
+import * as ICatch from '../methods/catch';
+import * as IOn from '../methods/on';
+import * as IExt from '../protected/_ext';
+import tryEval from '../methods/tryEval';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        equals: typeof IEquals.default;
+        next: typeof INext.default;
+        emit: typeof IEmit.default;
+        extend: typeof IExtend.default;
+        namespace: typeof INamespace.default;
+    }
+    //#region proto
+    interface Function {
+        equals: typeof IPrototypes._equals;
+        extend: typeof IPrototypes._extend;
+        getParameters: typeof IPrototypes._getParameters;
+        getName: typeof IPrototypes._getName;
+        getValue: typeof IPrototypes._getValue;
+        on: typeof IPrototypes._on;
+        then: typeof IPrototypes._then;
+        catch: typeof IPrototypes._catch;
+    }
+    interface Generator<T, TReturn, TNext> {
+        toPromise: typeof IPrototypes._toPromise;
+    }
+    //#endregion proto
+    //#region global
+    module NodeJS {
+        interface Global {
+            equals: typeof IEquals.default;
+            next: typeof INext.default;
+            emit: typeof IEmit.default;
+            namespace: typeof INamespace.default;
+            extend: typeof IExtend.default;
+            toPromise: typeof IToPromise.default;
+            getParameters: typeof IGetParameters.default;
+            getName: typeof IGetName.default;
+            getValue: typeof IGetValue.default;
+            on: typeof IOn.default;
+            then: typeof IThen.default;
+            catchit: typeof ICatch.default;
+        }
+    }
+    interface Window {
+        equals: typeof IEquals.default;
+        next: typeof INext.default;
+        emit: typeof IEmit.default;
+        namespace: typeof INamespace.default;
+        extend: typeof IExtend.default;
+        toPromise: typeof IToPromise.default;
+        getParameters: typeof IGetParameters.default;
+        getName: typeof IGetName.default;
+        getValue: typeof IGetValue.default;
+        on: typeof IOn.default;
+        then: typeof IThen.default;
+        catchit: typeof ICatch.default;
+    }
+    const equals: typeof IEquals.default;
+    const next: typeof INext.default;
+    const emit: typeof IEmit.default;
+    const namespace: typeof INamespace.default;
+    const extend: typeof IExtend.default;
+    const toPromise: typeof IToPromise.default;
+    const getParameters: typeof IGetParameters.default;
+    const getName: typeof IGetName.default;
+    const getValue: typeof IGetValue.default;
+    const on: typeof IOn.default;
+    const then: typeof IThen.default;
+    const catchit: typeof ICatch.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const ext: typeof IExt.default = require('../protected/_ext');
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    ext(Function, "equals", prototypes._equals, true);
+    ext(Function, 'extend', prototypes._extend, true);
+    ext(Function, 'getParameters', prototypes._getParameters, true);
+    ext(Function, 'getName', prototypes._getName, true);
+    ext(Function, "getValue", prototypes._getValue, true);
+    ext(Function, 'on', prototypes._on, true);
+    const _genConstruct = tryEval('(function *(){}).constructor');
+    _genConstruct && ext(_genConstruct, 'toPromise', prototypes._toPromise, true);
+    ext(Function, 'then', prototypes._then, true);
+    ext(Function, 'catch', prototypes._catch, true);
+
+    $c.emit = prototypes.emit;
+    $c.namespace = prototypes.namespace;
+    $c.next = $c.next || prototypes.next;
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;

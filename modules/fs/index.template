@@ -1,0 +1,236 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IAccess from '../methods/access';
+import * as IAppendFile from '../methods/appendFile';
+import * as IChmod from '../methods/chmod';
+import * as IChown from '../methods/chown';
+import * as IClose from '../methods/close';
+import * as IFchmod from '../methods/fchmod';
+import * as IFchown from '../methods/fchown';
+import * as IFdatasync from '../methods/fdatasync';
+import * as IFstat from '../methods/fstat';
+import * as IFsync from '../methods/fsync';
+import * as IFtruncate from '../methods/ftruncate';
+import * as IFutimes from '../methods/futimes';
+import * as ILchmod from '../methods/lchmod';
+import * as ILchown from '../methods/lchown';
+import * as ILink from '../methods/link';
+import * as ILstat from '../methods/lstat';
+import * as IMkdir from '../methods/mkdir';
+import * as IMkdtemp from '../methods/mkdtemp';
+import * as IOpen from '../methods/open';
+import * as IRead from '../methods/read';
+import * as IReaddir from '../methods/readdir';
+import * as IReadFile from '../methods/readFile';
+import * as IReadlink from '../methods/readlink';
+import * as IRealpath from '../methods/realpath';
+import * as IRename from '../methods/rename';
+import * as IRmdir from '../methods/rmdir';
+import * as IStat from '../methods/stat';
+import * as ISymlink from '../methods/symlink';
+import * as ITruncate from '../methods/truncate';
+import * as IUnlink from '../methods/unlink';
+import * as IUtimes from '../methods/utimes';
+import * as IWrite from '../methods/write';
+import * as IWriteFile from '../methods/writeFile';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        access: typeof IAccess.default;
+        appendFile: typeof IAppendFile.default;
+        chmod: typeof IChmod.default;
+        chown: typeof IChown.default;
+        close: typeof IClose.default;
+        fchmod: typeof IFchmod.default;
+        fchown: typeof IFchown.default;
+        fdatasync: typeof IFdatasync.default;
+        fstat: typeof IFstat.default;
+        fsync: typeof IFsync.default;
+        ftruncate: typeof IFtruncate.default;
+        futimes: typeof IFutimes.default;
+        lchmod: typeof ILchmod.default;
+        lchown: typeof ILchown.default;
+        link: typeof ILink.default;
+        lstat: typeof ILstat.default;
+        mkdir: typeof IMkdir.default;
+        mkdtemp: typeof IMkdtemp.default;
+        open: typeof IOpen.default;
+        read: typeof IRead.default;
+        readdir: typeof IReaddir.default;
+        readFile: typeof IReadFile.default;
+        readlink: typeof IReadlink.default;
+        realpath: typeof IRealpath.default;
+        rename: typeof IRename.default;
+        rmdir: typeof IRmdir.default;
+        stat: typeof IStat.default;
+        symlink: typeof ISymlink.default;
+        truncate: typeof ITruncate.default;
+        unlink: typeof IUnlink.default;
+        utimes: typeof IUtimes.default;
+        write: typeof IWrite.default;
+        writeFile: typeof IWriteFile.default;
+    }
+    //#region global
+    module NodeJS {
+        interface Global {
+            access: typeof IAccess.default;
+            appendFile: typeof IAppendFile.default;
+            chmod: typeof IChmod.default;
+            chown: typeof IChown.default;
+            close: typeof IClose.default;
+            fchmod: typeof IFchmod.default;
+            fchown: typeof IFchown.default;
+            fdatasync: typeof IFdatasync.default;
+            fstat: typeof IFstat.default;
+            fsync: typeof IFsync.default;
+            ftruncate: typeof IFtruncate.default;
+            futimes: typeof IFutimes.default;
+            lchmod: typeof ILchmod.default;
+            lchown: typeof ILchown.default;
+            link: typeof ILink.default;
+            lstat: typeof ILstat.default;
+            mkdir: typeof IMkdir.default;
+            mkdtemp: typeof IMkdtemp.default;
+            open: typeof IOpen.default;
+            read: typeof IRead.default;
+            readdir: typeof IReaddir.default;
+            readFile: typeof IReadFile.default;
+            readlink: typeof IReadlink.default;
+            realpath: typeof IRealpath.default;
+            rename: typeof IRename.default;
+            rmdir: typeof IRmdir.default;
+            stat: typeof IStat.default;
+            symlink: typeof ISymlink.default;
+            truncate: typeof ITruncate.default;
+            unlink: typeof IUnlink.default;
+            utimes: typeof IUtimes.default;
+            write: typeof IWrite.default;
+            writeFile: typeof IWriteFile.default;
+        }
+    }
+    interface Window {
+        access: typeof IAccess.default;
+        appendFile: typeof IAppendFile.default;
+        chmod: typeof IChmod.default;
+        chown: typeof IChown.default;
+        close: typeof IClose.default;
+        fchmod: typeof IFchmod.default;
+        fchown: typeof IFchown.default;
+        fdatasync: typeof IFdatasync.default;
+        fstat: typeof IFstat.default;
+        fsync: typeof IFsync.default;
+        ftruncate: typeof IFtruncate.default;
+        futimes: typeof IFutimes.default;
+        lchmod: typeof ILchmod.default;
+        lchown: typeof ILchown.default;
+        link: typeof ILink.default;
+        lstat: typeof ILstat.default;
+        mkdir: typeof IMkdir.default;
+        mkdtemp: typeof IMkdtemp.default;
+        open: typeof IOpen.default;
+        read: typeof IRead.default;
+        readdir: typeof IReaddir.default;
+        readFile: typeof IReadFile.default;
+        readlink: typeof IReadlink.default;
+        realpath: typeof IRealpath.default;
+        rename: typeof IRename.default;
+        rmdir: typeof IRmdir.default;
+        stat: typeof IStat.default;
+        symlink: typeof ISymlink.default;
+        truncate: typeof ITruncate.default;
+        unlink: typeof IUnlink.default;
+        utimes: typeof IUtimes.default;
+        write: typeof IWrite.default;
+        writeFile: typeof IWriteFile.default;
+    }
+    const access: typeof IAccess.default;
+    const appendFile: typeof IAppendFile.default;
+    const chmod: typeof IChmod.default;
+    const chown: typeof IChown.default;
+    const close: typeof IClose.default;
+    const fchmod: typeof IFchmod.default;
+    const fchown: typeof IFchown.default;
+    const fdatasync: typeof IFdatasync.default;
+    const fstat: typeof IFstat.default;
+    const fsync: typeof IFsync.default;
+    const ftruncate: typeof IFtruncate.default;
+    const futimes: typeof IFutimes.default;
+    const lchmod: typeof ILchmod.default;
+    const lchown: typeof ILchown.default;
+    const link: typeof ILink.default;
+    const lstat: typeof ILstat.default;
+    const mkdir: typeof IMkdir.default;
+    const mkdtemp: typeof IMkdtemp.default;
+    const open: typeof IOpen.default;
+    const read: typeof IRead.default;
+    const readdir: typeof IReaddir.default;
+    const readFile: typeof IReadFile.default;
+    const readlink: typeof IReadlink.default;
+    const realpath: typeof IRealpath.default;
+    const rename: typeof IRename.default;
+    const rmdir: typeof IRmdir.default;
+    const stat: typeof IStat.default;
+    const symlink: typeof ISymlink.default;
+    const truncate: typeof ITruncate.default;
+    const unlink: typeof IUnlink.default;
+    const utimes: typeof IUtimes.default;
+    const write: typeof IWrite.default;
+    const writeFile: typeof IWriteFile.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    $c.access = $c.access || prototypes.access;
+    $c.appendFile = $c.appendFile || prototypes.appendFile;
+    $c.chmod = $c.chmod || prototypes.chmod;
+    $c.chown = $c.chown || prototypes.chown;
+    $c.close = $c.close || prototypes.close;
+    $c.fchmod = $c.fchmod || prototypes.fchmod;
+    $c.fchown = $c.fchown || prototypes.fchown;
+    $c.fdatasync = $c.fdatasync || prototypes.fdatasync;
+    $c.fstat = $c.fstat || prototypes.fstat;
+    $c.fsync = $c.fsync || prototypes.fsync;
+    $c.ftruncate = $c.ftruncate || prototypes.ftruncate;
+    $c.futimes = $c.futimes || prototypes.futimes;
+    $c.lchmod = $c.lchmod || prototypes.lchmod;
+    $c.lchown = $c.lchown || prototypes.lchown;
+    $c.link = $c.link || prototypes.link
+    $c.lstat = $c.lstat || prototypes.lstat;
+    $c.mkdir = $c.mkdir || prototypes.mkdir;
+    $c.mkdtemp = $c.mkdtemp || prototypes.mkdtemp;
+    $c.open = $c.open || prototypes.open;
+    $c.read = $c.read || prototypes.read;
+    $c.readdir = $c.readdir || prototypes.readdir;
+    $c.readFile = $c.readFile || prototypes.readFile;
+    $c.readlink = $c.readlink || prototypes.readlink;
+    $c.realpath = $c.realpath || prototypes.realpath;
+    $c.rename = $c.rename || prototypes.rename;
+    $c.rmdir = $c.rmdir || prototypes.rmdir;
+    $c.stat = $c.stat || prototypes.stat;
+    $c.symlink = $c.symlink || prototypes.symlink;
+    $c.truncate = $c.truncate || prototypes.truncate;
+    $c.unlink = $c.unlink || prototypes.unlink;
+    $c.utimes = $c.utimes || prototypes.utimes;
+    $c.write = $c.write || prototypes.write;
+    $c.writeFile = $c.writeFile || prototypes.writeFile;
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;

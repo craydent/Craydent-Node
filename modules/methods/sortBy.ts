@@ -1,10 +1,5 @@
 import error from './error';
 import isNull from './isNull';
-import isArray from './isArray';
-import isFunction from './isFunction';
-import isNumber from './isNumber';
-import isObject from './isObject';
-import isRegExp from './isRegExp';
 import isString from './isString';
 
 export interface SortOptions {

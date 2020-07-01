@@ -1,0 +1,19 @@
+import error from './error';
+
+export default function isWebkit(this: Craydent | Window) {
+    /*|{
+        "info": "Check if engine is Webkit",
+        "category": "HTTP",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#isWebkit",
+        "returnType": "(Bool)"
+    }|*/
+    try {
+        return (/webkit/i.test(this.navigator.userAgent));
+    } catch (e) {
+        error && error('isWebkit', e);
+    }
+}

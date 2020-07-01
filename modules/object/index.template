@@ -1,0 +1,328 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IAddObjectPrototype from '../methods/addObjectPrototype';
+import * as IChanges from '../methods/changes';
+import * as IContains from '../methods/contains';
+import * as ICopyObject from '../methods/copyObject';
+import * as ICount from '../methods/count';
+import * as IDuplicate from '../methods/duplicate';
+import * as IEachProperty from '../methods/eachProperty';
+import * as IEquals from '../methods/equals';
+import * as IEvery from '../methods/every';
+import * as IGetClass from '../methods/getClass';
+import * as IGetProperty from '../methods/getProperty';
+import * as IGetValue from '../methods/getValue';
+import * as IHas from '../methods/has';
+import * as IIsArray from '../methods/isArray';
+import * as IIsAsync from '../methods/isAsync';
+import * as IIsBetween from '../methods/isBetween';
+import * as IIsBoolean from '../methods/isBoolean';
+import * as IIsDate from '../methods/isDate';
+import * as IIsDomElement from '../methods/isDomElement';
+import * as IIsEmpty from '../methods/isEmpty';
+import * as IIsError from '../methods/isError';
+import * as IIsFloat from '../methods/isFloat';
+import * as IIsFunction from '../methods/isFunction';
+import * as IIsGenerator from '../methods/isGenerator';
+import * as IIsGeolocation from '../methods/isGeolocation';
+import * as IIsInt from '../methods/isInt';
+import * as IIsNumber from '../methods/isNumber';
+import * as IIsPromise from '../methods/isPromise';
+import * as IIsObject from '../methods/isObject';
+import * as IIsRegExp from '../methods/isRegExp';
+import * as IIsString from '../methods/isString';
+import * as IIsSubset from '../methods/isSubset';
+import * as IItemCount from '../methods/itemCount';
+import * as IKeyOf from '../methods/keyOf';
+import * as IGetKeys from '../methods/getKeys';
+import * as IMap from '../methods/map';
+import * as IMerge from '../methods/merge';
+import * as ISetProperty from '../methods/setProperty';
+import * as IToStringAlt from '../methods/toStringAlt';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        addObjectPrototype: typeof IAddObjectPrototype.default;
+        changes: typeof IChanges.default;
+        contains: typeof IContains.default;
+        copyObject: typeof ICopyObject.default;
+        count: typeof ICount.default;
+        duplicate: typeof IDuplicate.default;
+        eachProperty: typeof IEachProperty.default;
+        equals: typeof IEquals.default;
+        every: typeof IEvery.default;
+        get: typeof IGetProperty.default;
+        getClass: typeof IGetClass.default;
+        getKeys: typeof IGetKeys.default;
+        getProperty: typeof IGetProperty.default;
+        getValue: typeof IGetValue.default;
+        has: typeof IHas.default;
+        isArray: typeof IIsArray.default;
+        isAsync: typeof IIsAsync.default;
+        isBetween: typeof IIsBetween.default;
+        isBoolean: typeof IIsBoolean.default;
+        isDate: typeof IIsDate.default;
+        isDomElement: typeof IIsDomElement.default;
+        isEmpty: typeof IIsEmpty.default;
+        isError: typeof IIsError.default;
+        isFloat: typeof IIsFloat.default;
+        isFunction: typeof IIsFunction.default;
+        isGenerator: typeof IIsGenerator.default;
+        isGeolocation: typeof IIsGeolocation.default;
+        isInt: typeof IIsInt.default;
+        isNumber: typeof IIsNumber.default;
+        isPromise: typeof IIsPromise.default;
+        isObject: typeof IIsObject.default;
+        isRegExp: typeof IIsRegExp.default;
+        isString: typeof IIsString.default;
+        isSubset: typeof IIsSubset.default;
+        itemCount: typeof IItemCount.default;
+        keyOf: typeof IKeyOf.default;
+        map: typeof IMap.default;
+        merge: typeof IMerge.default;
+        set: typeof ISetProperty.set;
+        setProperty: typeof ISetProperty.default;
+        toStringAlt: typeof IToStringAlt.default;
+    }
+    //#region proto
+    interface Object {
+        changes: typeof IPrototypes._changes;
+        contains: typeof IPrototypes._contains;
+        copyObject: typeof IPrototypes._copyObject;
+        count: typeof IPrototypes._count;
+        duplicate: typeof IPrototypes._duplicate;
+        eachProperty: typeof IPrototypes._eachProperty;
+        equals: typeof IPrototypes._equals;
+        every: typeof IPrototypes._every;
+        get: typeof IPrototypes._get;
+        getClass: typeof IPrototypes._getClass;
+        getKeys: typeof IPrototypes._getKeys;
+        getProperty: typeof IPrototypes._getProperty;
+        getValue: typeof IPrototypes._getValue;
+        has: typeof IPrototypes._has;
+        isArray: typeof IPrototypes._isArray;
+        isAsync: typeof IPrototypes._isAsync;
+        isBetween: typeof IPrototypes._isBetween;
+        isBoolean: typeof IPrototypes._isBoolean;
+        isDate: typeof IPrototypes._isDate;
+        isDomElement: typeof IPrototypes._isDomElement;
+        isEmpty: typeof IPrototypes._isEmpty;
+        isError: typeof IPrototypes._isError;
+        isFloat: typeof IPrototypes._isFloat;
+        isFunction: typeof IPrototypes._isFunction;
+        isGenerator: typeof IPrototypes._isGenerator;
+        isGeolocation: typeof IPrototypes._isGeolocation;
+        isInt: typeof IPrototypes._isInt;
+        isNumber: typeof IPrototypes._isNumber;
+        isPromise: typeof IPrototypes._isPromise;
+        isObject: typeof IPrototypes._isObject;
+        isRegExp: typeof IPrototypes._isRegExp;
+        isString: typeof IPrototypes._isSubset;
+        isSubset: typeof IPrototypes._isSubset;
+        itemCount: typeof IPrototypes._itemCount;
+        keyOf: typeof IPrototypes._keyOf;
+        map: typeof IPrototypes._merge;
+        merge: typeof IPrototypes._merge;
+        set: typeof IPrototypes._set;
+        setProperty: typeof IPrototypes._setProperty;
+        toStringAlt: typeof IPrototypes._toStringAlt;
+    }
+    //#endregion proto
+    //#region global
+    module NodeJS {
+        interface Global {
+            addObjectPrototype: typeof IAddObjectPrototype.default;
+            changes: typeof IChanges.default;
+            contains: typeof IContains.default;
+            copyObject: typeof ICopyObject.default;
+            count: typeof ICount.default;
+            duplicate: typeof IDuplicate.default;
+            eachProperty: typeof IEachProperty.default;
+            equals: typeof IEquals.default;
+            every: typeof IEvery.default;
+            get: typeof IGetProperty.default;
+            getClass: typeof IGetClass.default;
+            getKeys: typeof IGetKeys.default;
+            getProperty: typeof IGetProperty.default;
+            getValue: typeof IGetValue.default;
+            has: typeof IHas.default;
+            isArray: typeof IIsArray.default;
+            isAsync: typeof IIsAsync.default;
+            isBetween: typeof IIsBetween.default;
+            isBoolean: typeof IIsBoolean.default;
+            isDate: typeof IIsDate.default;
+            isDomElement: typeof IIsDomElement.default;
+            isEmpty: typeof IIsEmpty.default;
+            isError: typeof IIsError.default;
+            isFloat: typeof IIsFloat.default;
+            isFunction: typeof IIsFunction.default;
+            isGenerator: typeof IIsGenerator.default;
+            isGeolocation: typeof IIsGeolocation.default;
+            isInt: typeof IIsInt.default;
+            isNumber: typeof IIsNumber.default;
+            isPromise: typeof IIsPromise.default;
+            isObject: typeof IIsObject.default;
+            isRegExp: typeof IIsRegExp.default;
+            isString: typeof IIsString.default;
+            isSubset: typeof IIsSubset.default;
+            itemCount: typeof IItemCount.default;
+            keyOf: typeof IKeyOf.default;
+            map: typeof IMap.default;
+            merge: typeof IMerge.default;
+            set: typeof ISetProperty.set;
+            setProperty: typeof ISetProperty.default;
+            toStringAlt: typeof IToStringAlt.default;
+        }
+    }
+    interface Window {
+        addObjectPrototype: typeof IAddObjectPrototype.default;
+        changes: typeof IChanges.default;
+        contains: typeof IContains.default;
+        copyObject: typeof ICopyObject.default;
+        count: typeof ICount.default;
+        duplicate: typeof IDuplicate.default;
+        eachProperty: typeof IEachProperty.default;
+        equals: typeof IEquals.default;
+        every: typeof IEvery.default;
+        get: typeof IGetProperty.default;
+        getClass: typeof IGetClass.default;
+        getKeys: typeof IGetKeys.default;
+        getProperty: typeof IGetProperty.default;
+        getValue: typeof IGetValue.default;
+        has: typeof IHas.default;
+        isArray: typeof IIsArray.default;
+        isAsync: typeof IIsAsync.default;
+        isBetween: typeof IIsBetween.default;
+        isBoolean: typeof IIsBoolean.default;
+        isDate: typeof IIsDate.default;
+        isDomElement: typeof IIsDomElement.default;
+        isEmpty: typeof IIsEmpty.default;
+        isError: typeof IIsError.default;
+        isFloat: typeof IIsFloat.default;
+        isFunction: typeof IIsFunction.default;
+        isGenerator: typeof IIsGenerator.default;
+        isGeolocation: typeof IIsGeolocation.default;
+        isInt: typeof IIsInt.default;
+        isNumber: typeof IIsNumber.default;
+        isPromise: typeof IIsPromise.default;
+        isObject: typeof IIsObject.default;
+        isRegExp: typeof IIsRegExp.default;
+        isString: typeof IIsString.default;
+        isSubset: typeof IIsSubset.default;
+        itemCount: typeof IItemCount.default;
+        keyOf: typeof IKeyOf.default;
+        map: typeof IMap.default;
+        merge: typeof IMerge.default;
+        set: typeof ISetProperty.set;
+        setProperty: typeof ISetProperty.default;
+        toStringAlt: typeof IToStringAlt.default;
+    }
+    const addObjectPrototype: typeof IAddObjectPrototype.default;
+    const changes: typeof IChanges.default;
+    const contains: typeof IContains.default;
+    const copyObject: typeof ICopyObject.default;
+    const count: typeof ICount.default;
+    const duplicate: typeof IDuplicate.default;
+    const eachProperty: typeof IEachProperty.default;
+    const equals: typeof IEquals.default;
+    const every: typeof IEvery.default;
+    const get: typeof IGetProperty.default;
+    const getClass: typeof IGetClass.default;
+    const getKeys: typeof IGetKeys.default;
+    const getProperty: typeof IGetProperty.default;
+    const getValue: typeof IGetValue.default;
+    const has: typeof IHas.default;
+    const isArray: typeof IIsArray.default;
+    const isAsync: typeof IIsAsync.default;
+    const isBetween: typeof IIsBetween.default;
+    const isBoolean: typeof IIsBoolean.default;
+    const isDate: typeof IIsDate.default;
+    const isDomElement: typeof IIsDomElement.default;
+    const isEmpty: typeof IIsEmpty.default;
+    const isError: typeof IIsError.default;
+    const isFloat: typeof IIsFloat.default;
+    const isFunction: typeof IIsFunction.default;
+    const isGenerator: typeof IIsGenerator.default;
+    const isGeolocation: typeof IIsGeolocation.default;
+    const isInt: typeof IIsInt.default;
+    const isNumber: typeof IIsNumber.default;
+    const isPromise: typeof IIsPromise.default;
+    const isObject: typeof IIsObject.default;
+    const isRegExp: typeof IIsRegExp.default;
+    const isString: typeof IIsString.default;
+    const isSubset: typeof IIsSubset.default;
+    const itemCount: typeof IItemCount.default;
+    const keyOf: typeof IKeyOf.default;
+    const map: typeof IMap.default;
+    const merge: typeof IMerge.default;
+    const set: typeof ISetProperty.default;
+    const setProperty: typeof ISetProperty.default;
+    const toStringAlt: typeof IToStringAlt.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const _ao: typeof IAddObjectPrototype.default = require('.../methods/addObjectPrototype');
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    _ao("changes", prototypes._changes);
+    _ao("contains", prototypes._contains);
+    _ao("copyObject", prototypes._copyObject);
+    _ao("count", prototypes._count);
+    _ao("duplicate", prototypes._duplicate);
+    _ao("eachProperty", prototypes._eachProperty);
+    _ao("equals", prototypes._equals);
+    _ao("every", prototypes._every);
+    _ao("get", prototypes._get);
+    _ao("getClass", prototypes._getClass);
+    _ao("getProperty", prototypes._getProperty);
+    _ao("getValue", prototypes._getValue);
+    _ao("has", prototypes._has);
+    _ao("isArray", prototypes._isArray);
+    _ao("isAsync", prototypes._isAsync);
+    _ao("isBetween", prototypes._isBetween);
+    _ao("isBoolean", prototypes._isBoolean);
+    _ao("isDate", prototypes._isDate);
+    _ao("isDomElement", prototypes._isDomElement);
+    _ao('isEmpty', prototypes._isEmpty, true);
+    _ao('isError', prototypes._isError);
+    _ao("isFloat", prototypes._isFloat);
+    _ao("isFunction", prototypes._isFunction);
+    _ao("isGenerator", prototypes._isGenerator);
+    _ao("isGeolocation", prototypes._isGeolocation);
+    _ao("isInt", prototypes._isInt);
+    _ao("isNumber", prototypes._isNumber);
+    _ao("isPromise", prototypes._isPromise);
+    _ao("isObject", prototypes._isObject);
+    _ao("isRegExp", prototypes._isRegExp);
+    _ao("isString", prototypes._isString);
+    _ao("isSubset", prototypes._isSubset);
+    _ao("itemCount", prototypes._itemCount);
+    _ao("keyOf", prototypes._keyOf);
+    _ao("getKeys", prototypes._getKeys);
+    _ao("map", prototypes._map);
+    _ao("merge", prototypes._merge);
+    _ao("set", prototypes._set);
+    _ao("setProperty", prototypes._setProperty);
+    _ao("toStringAlt", prototypes._toStringAlt, true);
+
+    $c.addObjectPrototype = _ao;
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;

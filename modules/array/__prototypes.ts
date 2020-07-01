@@ -149,7 +149,7 @@ export function _aggregate<T>(this: Documents<T>, pipelines: MongoPipelines[]): 
     }|*/
     return aggregate(this, pipelines);
 }
-export function _average(this: number[], ): number {
+export function _average(this: number[],): number {
     /*|{
         "info": "Array class extension to perform average of all the values (any value which is not a number is skipped).",
         "category": "Array",
@@ -669,6 +669,7 @@ export function _normalize(this: AnyObjects) {
 }
 export function _parallelEach(this: any[], args: any[]): Promise<any[]>;
 export function _parallelEach(this: any[], gen: Yieldables, args?: any[]): Promise<any>;
+export function _parallelEach(this: Yieldables[]): Promise<any>;
 export function _parallelEach(gen?, args?): Promise<any[]> {
     /*|{
         "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",

@@ -1,0 +1,107 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IAboutEqualTo from '../methods/aboutEqualTo';
+import * as IContains from '../methods/contains';
+import * as IEquals from '../methods/equals';
+import * as IGetValue from '../methods/getValue';
+import * as IIsBetween from '../methods/isBetween';
+import * as IIsEven from '../methods/isEven';
+import * as IIsOdd from '../methods/isOdd';
+import * as IRand from '../methods/rand';
+import * as IToCurrencyNotation from '../methods/toCurrencyNotation';
+import * as IExt from '../protected/_ext';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        aboutEqualTo: typeof IAboutEqualTo.default;
+        contains: typeof IContains.default;
+        equals: typeof IEquals.default;
+        getValue: typeof IGetValue.default;
+        isBetween: typeof IIsBetween.default;
+        isEven: typeof IIsEven.default;
+        isOdd: typeof IIsOdd.default;
+        toCurrencyNotation: typeof IToCurrencyNotation.default;
+        rand: typeof IRand.default;
+    }
+    //#region proto
+    interface Number {
+        aboutEqualTo: typeof IPrototypes._aboutEqualTo;
+        contains: typeof IPrototypes._contains;
+        equals: typeof IPrototypes._equals;
+        getValue: typeof IPrototypes._getValue;
+        isBetween: typeof IPrototypes._isBetween;
+        isEven: typeof IPrototypes._isEven;
+        isOdd: typeof IPrototypes._isOdd;
+        toCurrencyNotation: typeof IPrototypes._toCurrencyNotation;
+    }
+    //#endregion proto
+    //#region global
+    module NodeJS {
+        interface Global {
+            aboutEqualTo: typeof IAboutEqualTo.default;
+            contains: typeof IContains.default;
+            equals: typeof IEquals.default;
+            getValue: typeof IGetValue.default;
+            isBetween: typeof IIsBetween.default;
+            isEven: typeof IIsEven.default;
+            isOdd: typeof IIsOdd.default;
+            toCurrencyNotation: typeof IToCurrencyNotation.default;
+            rand: typeof IRand.default;
+        }
+    }
+    interface Window {
+        aboutEqualTo: typeof IAboutEqualTo.default;
+        contains: typeof IContains.default;
+        equals: typeof IEquals.default;
+        getValue: typeof IGetValue.default;
+        isBetween: typeof IIsBetween.default;
+        isEven: typeof IIsEven.default;
+        isOdd: typeof IIsOdd.default;
+        toCurrencyNotation: typeof IToCurrencyNotation.default;
+        rand: typeof IRand.default;
+    }
+    const aboutEqualTo: typeof IAboutEqualTo.default;
+    const contains: typeof IContains.default;
+    const equals: typeof IEquals.default;
+    const getValue: typeof IGetValue.default;
+    const isBetween: typeof IIsBetween.default;
+    const isEven: typeof IIsEven.default;
+    const isOdd: typeof IIsOdd.default;
+    const toCurrencyNotation: typeof IToCurrencyNotation.default;
+    const rand: typeof IRand.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const ext: typeof IExt.default = require('../protected/_ext');
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    ext(Number, 'aboutEqualTo', prototypes._aboutEqualTo, true);
+    ext(Number, "contains", prototypes._contains, true);
+    ext(Number, "equals", prototypes._equals, true);
+    ext(Number, "getValue", prototypes._getValue, true);
+    ext(Number, 'isBetween', prototypes._isBetween);
+    ext(Number, 'isEven', prototypes._isEven, true);
+    ext(Number, 'isOdd', prototypes._isOdd, true);
+    ext(Number, 'toCurrencyNotation', prototypes._toCurrencyNotation, true);
+
+    $c.rand = prototypes.rand;
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;

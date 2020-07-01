@@ -10,7 +10,7 @@ import _generalTrim from './_generalTrim';
 import strip from '../methods/strip';
 import condense from '../methods/condense'
 
-export default function _getFuncArgs(func: Function): any[] {
+export default function _getFuncArgs(func: Function): string[] {
     try {
         return condense(_generalTrim(strip(func.toString(), '(')).replace(/\s*/gi, '').replace(/\/\*.*?\*\//g, '').replace(/.*?\((.*?)\).*/, '$1').split(',')) || [];
     } catch (e) {

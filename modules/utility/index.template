@@ -1,0 +1,191 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IAjax from '../methods/ajax';
+import * as INoop from '../methods/noop';
+import * as ICatchAll from '../methods/catchAll';
+import * as IClusterit from '../methods/clusterit';
+import * as ICuid from '../methods/cuid';
+import * as IExclude from '../methods/exclude';
+import * as IMd5 from '../methods/md5';
+import * as IWait from '../methods/wait';
+import * as IJSZip from '../methods/JSZip';
+import * as IZipit from '../methods/zipit';
+import * as IClearCache from '../methods/clearCache';
+import * as ICout from '../methods/cout';
+import * as IFoo from '../methods/foo';
+import * as ILogit from '../methods/logit';
+import * as IInclude from '../methods/include';
+import * as IMkdirRecursive from '../methods/mkdirRecursive';
+import * as INamespace from '../methods/namespace';
+import * as INow from '../methods/now';
+import * as IParseBoolean from '../methods/parseBoolean';
+import * as IParseRaw from '../methods/parseRaw';
+import * as IRand from '../methods/rand';
+import * as IRequireDirectory from '../methods/requireDirectory';
+import * as ISuid from '../methods/suid';
+import * as ISyncroit from '../methods/syncroit';
+import * as ITryEval from '../methods/tryEval';
+import * as IPrototypes from './__prototypes';
+
+//#endregion
+declare global {
+    interface Craydent {
+        ajax: typeof IAjax.default;
+        noop: typeof INoop.default;
+        catchAll: typeof ICatchAll.default;
+        clusterit: typeof IClusterit.default;
+        cuid: typeof ICuid.default
+        exclude: typeof IExclude.default;
+        md5: typeof IMd5.default;
+        wait: typeof IWait.default;
+        JSZip: typeof IJSZip.default;
+        zipit: typeof IZipit.default;
+        clearCache: typeof IClearCache.default;
+        cout: typeof ICout.default;
+        foo: typeof IFoo.default;
+        logit: typeof ILogit.default;
+        include: typeof IInclude.default;
+        mkdirRecursive: typeof IMkdirRecursive.default;
+        namespace: typeof INamespace.default;
+        now: typeof INow.default;
+        parseBoolean: typeof IParseBoolean.default;
+        parseRaw: typeof IParseRaw.default;
+        rand: typeof IRand.default;
+        requireDirectory: typeof IRequireDirectory.default;
+        suid: typeof ISuid.default;
+        syncroit: typeof ISyncroit.default;
+        tryEval: typeof ITryEval.default;
+    }
+    //#region global
+    module NodeJS {
+        interface Global {
+            ajax: typeof IAjax.default;
+            noop: typeof INoop.default;
+            catchAll: typeof ICatchAll.default;
+            clusterit: typeof IClusterit.default;
+            cuid: typeof ICuid.default
+            exclude: typeof IExclude.default;
+            md5: typeof IMd5.default;
+            wait: typeof IWait.default;
+            JSZip: typeof IJSZip.default;
+            zipit: typeof IZipit.default;
+            clearCache: typeof IClearCache.default;
+            cout: typeof ICout.default;
+            foo: typeof IFoo.default;
+            logit: typeof ILogit.default;
+            include: typeof IInclude.default;
+            mkdirRecursive: typeof IMkdirRecursive.default;
+            namespace: typeof INamespace.default;
+            now: typeof INow.default;
+            parseBoolean: typeof IParseBoolean.default;
+            parseRaw: typeof IParseRaw.default;
+            rand: typeof IRand.default;
+            requireDirectory: typeof IRequireDirectory.default;
+            suid: typeof ISuid.default;
+            syncroit: typeof ISyncroit.default;
+            tryEval: typeof ITryEval.default;
+        }
+    }
+    interface Window {
+        ajax: typeof IAjax.default;
+        noop: typeof INoop.default;
+        catchAll: typeof ICatchAll.default;
+        clusterit: typeof IClusterit.default;
+        cuid: typeof ICuid.default
+        exclude: typeof IExclude.default;
+        md5: typeof IMd5.default;
+        wait: typeof IWait.default;
+        JSZip: typeof IJSZip.default;
+        zipit: typeof IZipit.default;
+        clearCache: typeof IClearCache.default;
+        cout: typeof ICout.default;
+        foo: typeof IFoo.default;
+        logit: typeof ILogit.default;
+        include: typeof IInclude.default;
+        mkdirRecursive: typeof IMkdirRecursive.default;
+        namespace: typeof INamespace.default;
+        now: typeof INow.default;
+        parseBoolean: typeof IParseBoolean.default;
+        parseRaw: typeof IParseRaw.default;
+        rand: typeof IRand.default;
+        requireDirectory: typeof IRequireDirectory.default;
+        suid: typeof ISuid.default;
+        syncroit: typeof ISyncroit.default;
+        tryEval: typeof ITryEval.default;
+
+    }
+    const ajax: typeof IAjax.default;
+    const noop: typeof INoop.default;
+    const catchAll: typeof ICatchAll.default;
+    const clusterit: typeof IClusterit.default;
+    const cuid: typeof ICuid.default
+    const exclude: typeof IExclude.default;
+    const md5: typeof IMd5.default;
+    const wait: typeof IWait.default;
+    const JSZip: typeof IJSZip.default;
+    const zipit: typeof IZipit.default;
+    const clearCache: typeof IClearCache.default;
+    const cout: typeof ICout.default;
+    const foo: typeof IFoo.default;
+    const logit: typeof ILogit.default;
+    const include: typeof IInclude.default;
+    const mkdirRecursive: typeof IMkdirRecursive.default;
+    const namespace: typeof INamespace.default;
+    const now: typeof INow.default;
+    const parseBoolean: typeof IParseBoolean.default;
+    const parseRaw: typeof IParseRaw.default;
+    const rand: typeof IRand.default;
+    const requireDirectory: typeof IRequireDirectory.default;
+    const suid: typeof ISuid.default;
+    const syncroit: typeof ISyncroit.default;
+    const tryEval: typeof ITryEval.default;
+    const $d: Document;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    $c.ajax = $c.ajax || prototypes.ajax;
+    $c.noop = $c.noop || prototypes.noop;
+    $c.JSZip = $c.JSZip || prototypes.JSZip;
+    $c.catchAll = $c.catchAll || prototypes.catchAll;
+    $c.clearCache = $c.clearCache || prototypes.clearCache;
+    $c.clusterit = $c.clusterit || prototypes.clusterit;
+    $c.cout = $c.cout || prototypes.cout;
+    $c.cuid = $c.cuid || prototypes.cuid;
+    $c.exclude = $c.exclude || prototypes.exclude;
+    $c.foo = $c.foo || prototypes.foo;
+    $c.logit = $c.logit || prototypes.logit;
+    $c.include = $c.include || prototypes.include;
+    $c.md5 = $c.md5 || prototypes.md5;
+    $c.mkdirRecursive = $c.mkdirRecursive || prototypes.mkdirRecursive;
+    $c.namespace = $c.namespace || prototypes.namespace;
+    $c.now = $c.now || prototypes.now;
+    $c.parseBoolean = $c.parseBoolean || prototypes.parseBoolean;
+    $c.parseRaw = $c.parseRaw || prototypes.parseRaw;
+    $c.rand = $c.rand || prototypes.rand;
+    $c.requireDirectory = $c.requireDirectory || prototypes.requireDirectory;
+    $c.suid = $c.suid || prototypes.suid;
+    $c.syncroit = $c.syncroit || prototypes.syncroit;
+    $c.tryEval = $c.tryEval || prototypes.tryEval;
+    $c.wait = $c.wait || prototypes.wait;
+    $c.zipit = $c.zipit || prototypes.zipit;
+
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;

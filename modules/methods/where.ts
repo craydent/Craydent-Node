@@ -1111,7 +1111,7 @@ function __parseSetExpr<T>(doc: T, expr: MongoExpression, field: string): boolea
                 }
                 rtnSet = rtnSet.concat(arr);
             }
-            return toSet(rtnSet);
+            return toSet<T>(rtnSet);
         case '$setDifference':
             arr1 = duplicate(__processExpression(doc, expr[field][0]));
             arr2 = duplicate(__processExpression(doc, expr[field][1]));

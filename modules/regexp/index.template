@@ -1,0 +1,67 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IAddFlags from '../methods/addFlags';
+import * as IEquals from '../methods/equals';
+import * as IGetValue from '../methods/getValue';
+import * as IExt from '../protected/_ext';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        addFlags: typeof IAddFlags.default;
+        equals: typeof IEquals.default;
+        getValue: typeof IGetValue.default;
+    }
+    //#region proto
+    interface RegExp {
+        addFlags: typeof IPrototypes._addFlags;
+        equals: typeof IPrototypes._equals;
+        getValue: typeof IPrototypes._getValue;
+    }
+    //#endregion proto
+    //#region global
+    module NodeJS {
+        interface Global {
+            addFlags: typeof IAddFlags.default;
+            equals: typeof IEquals.default;
+            getValue: typeof IGetValue.default;
+        }
+    }
+    interface Window {
+        addFlags: typeof IAddFlags.default;
+        equals: typeof IEquals.default;
+        getValue: typeof IGetValue.default;
+    }
+    const addFlags: typeof IAddFlags.default;
+    const equals: typeof IEquals.default;
+    const getValue: typeof IGetValue.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const ext: typeof IExt.default = require('../protected/_ext');
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+
+    ext(RegExp, 'addFlags', prototypes._addFlags, true);
+    ext(RegExp, "equals", prototypes._equals, true);
+    ext(RegExp, "getValue", prototypes._getValue, true);
+
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;

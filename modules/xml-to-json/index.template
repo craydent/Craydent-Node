@@ -1,0 +1,60 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IXmlToJson from '../methods/xmlToJson';
+import * as IExt from '../protected/_ext';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        xmlToJson: typeof IXmlToJson.default;
+    }
+    //#region proto
+    interface String {
+        xmlToJson: typeof IPrototypes._xmlToJson;
+    }
+    interface XMLDocument {
+        xmlToJson: typeof IPrototypes._xmlToJson;
+    }
+    interface RegExp {
+        xmlToJson: typeof IPrototypes._xmlToJson;
+    }
+    //#endregion proto
+    //#region global
+    module NodeJS {
+        interface Global {
+            xmlToJson: typeof IXmlToJson.default;
+        }
+    }
+    interface Window {
+        xmlToJson: typeof IXmlToJson.default;
+    }
+    const xmlToJson: typeof IXmlToJson.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const ext: typeof IExt.default = require('../protected/_ext');
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+
+    ext(String, 'xmlToJson', prototypes._xmlToJson, true);
+    typeof XMLDocument != 'undefined' && ext(XMLDocument, "xmlToJson", prototypes._xmlToJson, true);
+
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;

@@ -2,7 +2,6 @@ import error from './error';
 import { WhereCondition } from '../models/Arrays';
 import group from './group';
 import getProperty from './getProperty';
-
 import isNullOrEmpty from './isNullOrEmpty';
 import isString from './isString';
 

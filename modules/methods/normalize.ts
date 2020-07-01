@@ -25,7 +25,7 @@ export default function normalize<T, TResult>(arr: T[]): TResult[] {
         }
         return arrObj;
     } catch (e) {
-        error("Array.normalize", e);
+        error && error("Array.normalize", e);
         return [];
     }
 }

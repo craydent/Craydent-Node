@@ -1,0 +1,56 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IParseAdvanced from '../methods/parseAdvanced';
+import * as IStringifyAdvanced from '../methods/stringifyAdvanced';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        parseAdvanced: typeof IParseAdvanced.default;
+        stringifyAdvanced: typeof IStringifyAdvanced.default;
+    }
+    //#region proto
+    interface JSON {
+        parseAdvanced: typeof IParseAdvanced.default;
+        stringifyAdvanced: typeof IStringifyAdvanced.default;
+    }
+    //#endregion proto
+    //#region global
+    module NodeJS {
+        interface Global {
+            parseAdvanced: typeof IParseAdvanced.default;
+            stringifyAdvanced: typeof IStringifyAdvanced.default;
+        }
+    }
+    interface Window {
+        parseAdvanced: typeof IParseAdvanced.default;
+        stringifyAdvanced: typeof IStringifyAdvanced.default;
+    }
+    const parseAdvanced: typeof IParseAdvanced.default;
+    const stringifyAdvanced: typeof IStringifyAdvanced.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    $c.parseAdvanced = prototypes.parseAdvanced;
+    $c.stringifyAdvanced = prototypes.stringifyAdvanced;
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;

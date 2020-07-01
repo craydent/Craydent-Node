@@ -7,8 +7,9 @@
 /*/---------------------------------------------------------/*/
 import isArray from './isArray';
 import error from './error';
+
 export default function startsWithAny(subject: string, startsWith: string[]): string | false;
-export default function startsWithAny(subject: string, ...args): boolean;
+export default function startsWithAny(subject: string, ...args): string | false;
 export default function startsWithAny(subject, ...args) {
     try {
         subject = subject || "";

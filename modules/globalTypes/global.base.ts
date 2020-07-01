@@ -1,7 +1,7 @@
 interface HelperOptions {
     removeNewLineFromLogicalSyntax: RegExp;
     max: number;
-    offset:number;
+    offset: number;
     newlineToHtml: boolean;
     preserveNonMatching: boolean;
 }
@@ -79,9 +79,15 @@ interface Craydent {
     // TEMPLATE_VARS: Array<TemplateVar>
     TEMPLATE_VARS: Array<any>;
     TEMPLATE_TAG_CONFIG: TemplateTagConfig;
-    RESPONSES: Object;
+    RESPONSES: {
+        [key: number]: {
+            status: number;
+            success: boolean;
+            message: string;
+        }
+    };
     // HTTP_STATUS_TEMPLATE: Array<HTTPStatusTemplate>
-    HTTP_STATUS_TEMPLATE: Array<any>;
+    HTTP_STATUS_TEMPLATE: { [key: number]: string };
     REST_API_TEMPLATE: string;
     ROUTE_API_PATH: string;
     ROUTE_LOGO_URL: string;

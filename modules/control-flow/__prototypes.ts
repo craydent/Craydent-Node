@@ -12,6 +12,7 @@ const syncroit: typeof ISyncroit.default = require('../methods/syncroit');
 //#endregion
 export function _parallelEach(args: any[]): Promise<any>;
 export function _parallelEach(gen: Yieldables, args?: any[]): Promise<any>;
+export function _parallelEach(this: Yieldables[]): Promise<any>;
 export function _parallelEach(gen?, args?): Promise<any> {
     /*|{
         "info": "Array class extension to perform push and update indexes if used",

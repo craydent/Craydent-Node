@@ -1,4 +1,3 @@
-import _typeCheck from '../protected/_typeCheck'
 import isNull from './isNull';
 
 export default function isBetween(obj: any, lowerBound: any, upperBound: any, inclusive?: boolean): boolean {

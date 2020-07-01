@@ -1,0 +1,186 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+import { $c, scope, info } from '../private/__common';
+import * as IAddObjectPrototype from '../methods/addObjectPrototype';
+import * as ILogModule from '../private/__logModule';
+import * as IIsArray from '../methods/isArray';
+import * as IIsAsync from '../methods/isAsync';
+import * as IIsBetween from '../methods/isBetween';
+import * as IIsBoolean from '../methods/isBoolean';
+import * as IIsDate from '../methods/isDate';
+import * as IIsDomElement from '../methods/isDomElement';
+import * as IIsEmpty from '../methods/isEmpty';
+import * as IIsError from '../methods/isError';
+import * as IIsFloat from '../methods/isFloat';
+import * as IIsFunction from '../methods/isFunction';
+import * as IIsGenerator from '../methods/isGenerator';
+import * as IIsGeolocation from '../methods/isGeolocation';
+import * as IIsInt from '../methods/isInt';
+import * as IIsNull from '../methods/isNull';
+import * as IIsNullOrEmpty from '../methods/isNullOrEmpty';
+import * as IIsNumber from '../methods/isNumber';
+import * as IIsObject from '../methods/isObject';
+import * as IIsPromise from '../methods/isPromise';
+import * as IIsRegExp from '../methods/isRegExp';
+import * as IIsString from '../methods/isString';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        isArray: typeof IIsArray.default;
+        isAsync: typeof IIsAsync.default;
+        isBetween: typeof IIsBetween.default;
+        isBoolean: typeof IIsBoolean.default;
+        isDate: typeof IIsDate.default;
+        isDomElement: typeof IIsDomElement.default;
+        isEmpty: typeof IIsEmpty.default;
+        isError: typeof IIsError.default;
+        isFloat: typeof IIsFloat.default;
+        isFunction: typeof IIsFunction.default;
+        isGenerator: typeof IIsGenerator.default;
+        isGeolocation: typeof IIsGeolocation.default;
+        isInt: typeof IIsInt.default;
+        isNull: typeof IIsNull.default;
+        isNullOrEmpty: typeof IIsNullOrEmpty.default;
+        isNumber: typeof IIsNumber.default;
+        isObject: typeof IIsObject.default;
+        isPromise: typeof IIsPromise.default;
+        isRegExp: typeof IIsRegExp.default;
+        isString: typeof IIsString.default;
+    }
+    //#region proto
+    interface Object {
+        isArray: typeof IPrototypes._isArray;
+        isAsync: typeof IPrototypes._isAsync;
+        isBetween: typeof IPrototypes._isBetween;
+        isBoolean: typeof IPrototypes._isBoolean;
+        isDate: typeof IPrototypes._isDate;
+        isDomElement: typeof IPrototypes._isDomElement;
+        isEmpty: typeof IPrototypes._isEmpty;
+        isError: typeof IPrototypes._isError;
+        isFloat: typeof IPrototypes._isFloat;
+        isFunction: typeof IPrototypes._isFunction;
+        isGenerator: typeof IPrototypes._isGenerator;
+        isGeolocation: typeof IPrototypes._isGeolocation;
+        isInt: typeof IPrototypes._isInt;
+        isNull: typeof IPrototypes._isNullOrEmpty;
+        isNullOrEmpty: typeof IPrototypes._isNullOrEmpty;
+        isNumber: typeof IPrototypes._isNumber;
+        isObject: typeof IPrototypes._isObject;
+        isPromise: typeof IPrototypes._isPromise;
+        isRegExp: typeof IPrototypes._isRegExp;
+        isString: typeof IPrototypes._isString;
+    }
+    //#endregion proto
+    //#region global
+    module NodeJS {
+        interface Global {
+            isArray: typeof IIsArray.default;
+            isAsync: typeof IIsAsync.default;
+            isBetween: typeof IIsBetween.default;
+            isBoolean: typeof IIsBoolean.default;
+            isDate: typeof IIsDate.default;
+            isDomElement: typeof IIsDomElement.default;
+            isEmpty: typeof IIsEmpty.default;
+            isError: typeof IIsError.default;
+            isFloat: typeof IIsFloat.default;
+            isFunction: typeof IIsFunction.default;
+            isGenerator: typeof IIsGenerator.default;
+            isGeolocation: typeof IIsGeolocation.default;
+            isInt: typeof IIsInt.default;
+            isNull: typeof IIsNull.default;
+            isNullOrEmpty: typeof IIsNullOrEmpty.default;
+            isNumber: typeof IIsNumber.default;
+            isObject: typeof IIsObject.default;
+            isPromise: typeof IIsPromise.default;
+            isRegExp: typeof IIsRegExp.default;
+            isString: typeof IIsString.default;
+        }
+    }
+    interface Window {
+        isArray: typeof IIsArray.default;
+        isAsync: typeof IIsAsync.default;
+        isBetween: typeof IIsBetween.default;
+        isBoolean: typeof IIsBoolean.default;
+        isDate: typeof IIsDate.default;
+        isDomElement: typeof IIsDomElement.default;
+        isEmpty: typeof IIsEmpty.default;
+        isError: typeof IIsError.default;
+        isFloat: typeof IIsFloat.default;
+        isFunction: typeof IIsFunction.default;
+        isGenerator: typeof IIsGenerator.default;
+        isGeolocation: typeof IIsGeolocation.default;
+        isInt: typeof IIsInt.default;
+        isNull: typeof IIsNull.default;
+        isNullOrEmpty: typeof IIsNullOrEmpty.default;
+        isNumber: typeof IIsNumber.default;
+        isObject: typeof IIsObject.default;
+        isPromise: typeof IIsPromise.default;
+        isRegExp: typeof IIsRegExp.default;
+        isString: typeof IIsString.default;
+    }
+
+    const isArray: typeof IIsArray.default;
+    const isAsync: typeof IIsAsync.default;
+    const isBetween: typeof IIsBetween.default;
+    const isBoolean: typeof IIsBoolean.default;
+    const isDate: typeof IIsDate.default;
+    const isDomElement: typeof IIsDomElement.default;
+    const isEmpty: typeof IIsEmpty.default;
+    const isError: typeof IIsError.default;
+    const isFloat: typeof IIsFloat.default;
+    const isFunction: typeof IIsFunction.default;
+    const isGenerator: typeof IIsGenerator.default;
+    const isGeolocation: typeof IIsGeolocation.default;
+    const isInt: typeof IIsInt.default;
+    const isNull: typeof IIsNull.default;
+    const isNullOrEmpty: typeof IIsNullOrEmpty.default;
+    const isNumber: typeof IIsNumber.default;
+    const isObject: typeof IIsObject.default;
+    const isPromise: typeof IIsPromise.default;
+    const isRegExp: typeof IIsRegExp.default;
+    const isString: typeof IIsString.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    $c.ERROR_TYPES = $c.ERROR_TYPES || [];
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const _ao: typeof IAddObjectPrototype.default = require('../methods/addObjectPrototype').default;
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    _ao("isArray", prototypes._isArray);
+    _ao("isAsync", prototypes._isAsync);
+    _ao("isBetween", prototypes._isBetween);
+    _ao("isBoolean", prototypes._isBoolean);
+    _ao("isDate", prototypes._isDate);
+    _ao("isDomElement", prototypes._isDomElement);
+    _ao("isEmpty", prototypes._isEmpty, true);
+    _ao("isError", prototypes._isError);
+    _ao("isFloat", prototypes._isFloat);
+    _ao("isFunction", prototypes._isFunction);
+    _ao("isGenerator", prototypes._isGenerator);
+    _ao("isGeolocation", prototypes._isGeolocation);
+    _ao("isInt", prototypes._isInt);
+    $c.isNull = prototypes._isNull;
+    _ao("isNullOrEmpty", prototypes._isNullOrEmpty);
+    _ao("isNumber", prototypes._isNumber);
+    _ao("isObject", prototypes._isObject);
+    _ao("isPromise", prototypes._isPromise);
+    _ao("isRegExp", prototypes._isRegExp);
+    _ao("isString", prototypes._isRegExp);
+    //#region global
+    $c.globalize();
+    //#endregion global
+
+}
+export default $c;

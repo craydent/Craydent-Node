@@ -6,9 +6,10 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 import error from './error';
-import { AnyObject } from 'modules/models/Arrays';
+import { AnyObject } from '../models/Arrays';
+import { EachIterator } from '../models/EachIterator';
 
-export default function eachProperty<T>(obj: AnyObject, callback: (this: T, value: any, prop: string) => boolean) {
+export default function eachProperty<T>(obj: AnyObject, callback: EachIterator<T>): void {
     try {
         for (let prop in obj) {
             if (!obj.hasOwnProperty(prop)) { continue; }

@@ -1,8 +1,8 @@
 import duplicate from "./duplicate";
 import isArray from "./isArray";
 import isObject from "./isObject";
-import { AnyObject } from "modules/models/Arrays";
-import { IteratorItem } from "modules/models/IteratorItem";
+import { AnyObject } from "../models/Arrays";
+import { IteratorItem } from "../models/IteratorItem";
 
 class Cursor<T> extends Array<T> {
     /*|{

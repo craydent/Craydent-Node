@@ -1,0 +1,313 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, scope, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IAcronymize from '../methods/acronymize';
+import * as IContains from '../methods/contains';
+import * as ICapitalize from '../methods/capitalize';
+import * as IConvertUTCDate from '../methods/convertUTCDate';
+import * as ICount from '../methods/count';
+import * as ICut from '../methods/cut';
+import * as IEllipsis from '../methods/ellipsis';
+import * as IEndItWith from '../methods/endItWith';
+import * as IEndsWith from '../methods/endsWith';
+import * as IEndsWithAny from '../methods/endsWithAny';
+import * as IEquals from '../methods/equals';
+import * as IGetValue from '../methods/getValue';
+import * as IHighlight from '../methods/highlight';
+import * as IIndexOfAlt from '../methods/indexOfAlt';
+import * as IIreplaceAll from '../methods/ireplaceAll';
+import * as IIsBlank from '../methods/isBlank';
+import * as IIsCuid from '../methods/isCuid';
+import * as IIsValidEmail from '../methods/isValidEmail';
+import * as ILastIndexOfAlt from '../methods/lastIndexOfAlt';
+import * as ILtrim from '../methods/ltrim';
+import * as IPluralize from '../methods/pluralize';
+import * as IReplaceAll from '../methods/replaceAll';
+import * as IReverse from '../methods/reverse';
+import * as IRtrim from '../methods/rtrim';
+import * as ISanitize from '../methods/sanitize';
+import * as ISingularize from '../methods/singularize';
+import * as IStartItWith from '../methods/startItWith';
+import * as IStartsWith from '../methods/startsWith';
+import * as IStartsWithAny from '../methods/startsWithAny';
+import * as IStrip from '../methods/strip';
+import * as ISubstringBetween from '../methods/substringBetween';
+import * as ISubstringStartFrom from '../methods/substringStartFrom';
+import * as ISubstringEndAt from '../methods/substringEndAt';
+import * as IToCurrencyNotation from '../methods/toCurrencyNotation';
+import * as IToDateTime from '../methods/toDateTime';
+import * as IToObject from '../methods/toObject';
+import * as IUniversalTrim from '../methods/universalTrim';
+import * as IExt from '../protected/_ext';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        acronymize: typeof IAcronymize.default;
+        contains: typeof IContains.default;
+        capitalize: typeof ICapitalize.default;
+        convertUTCDate: typeof IConvertUTCDate.default;
+        count: typeof ICount.default;
+        cut: typeof ICut.default;
+        ellipsis: typeof IEllipsis.default;
+        endItWith: typeof IEndItWith.default;
+        endsWith: typeof IEndsWith.default;
+        endsWithAny: typeof IEndsWithAny.default;
+        equals: typeof IEquals.default;
+        getValue: typeof IGetValue.default;
+        highlight: typeof IHighlight.default;
+        indexOfAlt: typeof IIndexOfAlt.default;
+        ireplace_all: typeof IIreplaceAll.default;
+        ireplaceAll: typeof IIreplaceAll.default;
+        isBlank: typeof IIsBlank.default;
+        isCuid: typeof IIsCuid.default;
+        isValidEmail: typeof IIsValidEmail.default;
+        lastIndexOfAlt: typeof ILastIndexOfAlt.default;
+        ltrim: typeof ILtrim.default;
+        pluralize: typeof IPluralize.default;
+        replace_all: typeof IReplaceAll.default;
+        replaceAll: typeof IReplaceAll.default;
+        reverse: typeof IReverse.default;
+        rtrim: typeof IRtrim.default;
+        sanitize: typeof ISanitize.default;
+        singularize: typeof ISingularize.default;
+        startItWith: typeof IStartItWith.default;
+        startsWith: typeof IStartsWith.default;
+        startsWithAny: typeof IStartsWithAny.default;
+        strip: typeof IStrip.default;
+        substringBetween: typeof ISubstringBetween.default;
+        substringStartFrom: typeof ISubstringStartFrom.default;
+        substringEndAt: typeof ISubstringEndAt.default;
+        toCurrencyNotation: typeof IToCurrencyNotation.default;
+        toDateTime: typeof IToDateTime.default;
+        toObject: typeof IToObject.default;
+        universalTrim: typeof IUniversalTrim.default;
+    }
+    //#region proto
+    interface String {
+        acronymize: typeof IPrototypes._acronymize;
+        contains: typeof IPrototypes._contains;
+        capitalize: typeof IPrototypes._capitalize;
+        convertUTCDate: typeof IPrototypes._convertUTCDate;
+        count: typeof IPrototypes._count;
+        cut: typeof IPrototypes._cut;
+        ellipsis: typeof IPrototypes._ellipsis;
+        endItWith: typeof IPrototypes._endItWith;
+        endsWithAny: typeof IPrototypes._endsWithAny;
+        equals: typeof IPrototypes._equals;
+        getValue: typeof IPrototypes._getValue;
+        highlight: typeof IPrototypes._highlight;
+        indexOfAlt: typeof IPrototypes._indexOfAlt;
+        ireplace_all: typeof IPrototypes._ireplaceAll;
+        ireplaceAll: typeof IPrototypes._ireplaceAll;
+        isBlank: typeof IPrototypes._isBlank;
+        isCuid: typeof IPrototypes._isCuid;
+        isValidEmail: typeof IPrototypes._isValidEmail;
+        lastIndexOfAlt: typeof IPrototypes._lastIndexOfAlt;
+        ltrim: typeof IPrototypes._ltrim;
+        pluralize: typeof IPrototypes._pluralize;
+        replace_all: typeof IPrototypes._replaceAll;
+        replaceAll: typeof IPrototypes._replaceAll;
+        reverse: typeof IPrototypes._reverse;
+        rtrim: typeof IPrototypes._rtrim;
+        sanitize: typeof IPrototypes._sanitize;
+        singularize: typeof IPrototypes._singularize;
+        startItWith: typeof IPrototypes._startItWith;
+        startsWithAny: typeof IPrototypes._startsWithAny;
+        strip: typeof IPrototypes._strip;
+        substringBetween: typeof IPrototypes._substringBetween;
+        substringStartFrom: typeof IPrototypes._substringStartFrom;
+        substringEndAt: typeof IPrototypes._substringEndAt;
+        toCurrencyNotation: typeof IPrototypes._toCurrencyNotation;
+        toDateTime: typeof IPrototypes._toDateTime;
+        toObject: typeof IPrototypes._toObject;
+    }
+    //#endregion proto
+    //#region global
+    module NodeJS {
+        interface Global {
+            acronymize: typeof IAcronymize.default;
+            contains: typeof IContains.default;
+            capitalize: typeof ICapitalize.default;
+            convertUTCDate: typeof IConvertUTCDate.default;
+            count: typeof ICount.default;
+            cut: typeof ICut.default;
+            ellipsis: typeof IEllipsis.default;
+            endItWith: typeof IEndItWith.default;
+            endsWith: typeof IEndsWith.default;
+            endsWithAny: typeof IEndsWithAny.default;
+            equals: typeof IEquals.default;
+            getValue: typeof IGetValue.default;
+            highlight: typeof IHighlight.default;
+            indexOfAlt: typeof IIndexOfAlt.default;
+            ireplaceAll: typeof IIreplaceAll.default;
+            ireplace_all: typeof IIreplaceAll.default;
+            isBlank: typeof IIsBlank.default;
+            isCuid: typeof IIsCuid.default;
+            isValidEmail: typeof IIsValidEmail.default;
+            lastIndexOfAlt: typeof ILastIndexOfAlt.default;
+            ltrim: typeof ILtrim.default;
+            pluralize: typeof IPluralize.default;
+            replaceAll: typeof IReplaceAll.default;
+            replace_all: typeof IReplaceAll.default;
+            reverse: typeof IReverse.default;
+            rtrim: typeof IRtrim.default;
+            sanitize: typeof ISanitize.default;
+            singularize: typeof ISingularize.default;
+            startItWith: typeof IStartItWith.default;
+            startsWith: typeof IStartsWith.default;
+            startsWithAny: typeof IStartsWithAny.default;
+            strip: typeof IStrip.default;
+            substringBetween: typeof ISubstringBetween.default;
+            substringStartFrom: typeof ISubstringStartFrom.default;
+            substringEndAt: typeof ISubstringEndAt.default;
+            toCurrencyNotation: typeof IToCurrencyNotation.default;
+            toDateTime: typeof IToDateTime.default;
+            toObject: typeof IToObject.default;
+            universalTrim: typeof IUniversalTrim.default;
+        }
+    }
+    interface Window {
+        acronymize: typeof IAcronymize.default;
+        contains: typeof IContains.default;
+        capitalize: typeof ICapitalize.default;
+        convertUTCDate: typeof IConvertUTCDate.default;
+        count: typeof ICount.default;
+        cut: typeof ICut.default;
+        ellipsis: typeof IEllipsis.default;
+        endItWith: typeof IEndItWith.default;
+        endsWith: typeof IEndsWith.default;
+        endsWithAny: typeof IEndsWithAny.default;
+        equals: typeof IEquals.default;
+        getValue: typeof IGetValue.default;
+        highlight: typeof IHighlight.default;
+        indexOfAlt: typeof IIndexOfAlt.default;
+        ireplaceAll: typeof IIreplaceAll.default;
+        ireplace_all: typeof IIreplaceAll.default;
+        isBlank: typeof IIsBlank.default;
+        isCuid: typeof IIsCuid.default;
+        isValidEmail: typeof IIsValidEmail.default;
+        lastIndexOfAlt: typeof ILastIndexOfAlt.default;
+        ltrim: typeof ILtrim.default;
+        pluralize: typeof IPluralize.default;
+        replaceAll: typeof IReplaceAll.default;
+        replace_all: typeof IReplaceAll.default;
+        reverse: typeof IReverse.default;
+        rtrim: typeof IRtrim.default;
+        sanitize: typeof ISanitize.default;
+        singularize: typeof ISingularize.default;
+        startItWith: typeof IStartItWith.default;
+        startsWith: typeof IStartsWith.default;
+        startsWithAny: typeof IStartsWithAny.default;
+        strip: typeof IStrip.default;
+        substringBetween: typeof ISubstringBetween.default;
+        substringStartFrom: typeof ISubstringStartFrom.default;
+        substringEndAt: typeof ISubstringEndAt.default;
+        toCurrencyNotation: typeof IToCurrencyNotation.default;
+        toDateTime: typeof IToDateTime.default;
+        toObject: typeof IToObject.default;
+        universalTrim: typeof IUniversalTrim.default;
+    }
+    const acronymize: typeof IAcronymize.default;
+    const contains: typeof IContains.default;
+    const capitalize: typeof ICapitalize.default;
+    const convertUTCDate: typeof IConvertUTCDate.default;
+    const count: typeof ICount.default;
+    const cut: typeof ICut.default;
+    const ellipsis: typeof IEllipsis.default;
+    const endItWith: typeof IEndItWith.default;
+    const endsWith: typeof IEndsWith.default;
+    const endsWithAny: typeof IEndsWithAny.default;
+    const equals: typeof IEquals.default;
+    const getValue: typeof IGetValue.default;
+    const highlight: typeof IHighlight.default;
+    const indexOfAlt: typeof IIndexOfAlt.default;
+    const ireplaceAll: typeof IIreplaceAll.default;
+    const ireplace_all: typeof IIreplaceAll.default;
+    const isBlank: typeof IIsBlank.default;
+    const isCuid: typeof IIsCuid.default;
+    const isValidEmail: typeof IIsValidEmail.default;
+    const lastIndexOfAlt: typeof ILastIndexOfAlt.default;
+    const ltrim: typeof ILtrim.default;
+    const pluralize: typeof IPluralize.default;
+    const replaceAll: typeof IReplaceAll.default;
+    const replace_all: typeof IReplaceAll.default;
+    const reverse: typeof IReverse.default;
+    const rtrim: typeof IRtrim.default;
+    const sanitize: typeof ISanitize.default;
+    const singularize: typeof ISingularize.default;
+    const startItWith: typeof IStartItWith.default;
+    const startsWith: typeof IStartsWith.default;
+    const startsWithAny: typeof IStartsWithAny.default;
+    const strip: typeof IStrip.default;
+    const substringBetween: typeof ISubstringBetween.default;
+    const substringStartFrom: typeof ISubstringStartFrom.default;
+    const substringEndAt: typeof ISubstringEndAt.default;
+    const toCurrencyNotation: typeof IToCurrencyNotation.default;
+    const toDateTime: typeof IToDateTime.default;
+    const toObject: typeof IToObject.default;
+    const universalTrim: typeof IUniversalTrim.default;
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    scope.eval = str => eval(str);
+    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    __logModule(info.name);
+    const ext: typeof IExt.default = require('../protected/_ext');
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    ext(String, 'acronymize', prototypes._acronymize, true);
+    ext(String, 'capitalize', prototypes._capitalize, true);
+    ext(String, "contains", prototypes._contains, true);
+    ext(String, 'convertUTCDate', prototypes._convertUTCDate, true);
+    ext(String, "count", prototypes._count, true);
+    ext(String, 'cut', prototypes._cut, true);
+    ext(String, 'ellipsis', prototypes._ellipsis);
+    ext(String, 'endItWith', prototypes._endsWithAny);
+    ext(String, 'endsWith', prototypes._endsWith);
+    ext(String, 'endsWithAny', prototypes._endsWithAny);
+    ext(String, "equals", prototypes._equals, true);
+    ext(String, "getValue", prototypes._getValue, true);
+    ext(String, 'highlight', prototypes._highlight, true);
+    ext(String, 'indexOfAlt', prototypes._indexOfAlt, true);
+    ext(String, 'ireplace_all', prototypes._ireplaceAll, true);
+    ext(String, 'ireplaceAll', prototypes._ireplaceAll, true);
+    ext(String, 'isBlank', prototypes._isBlank, true);
+    ext(String, 'isCuid', prototypes._isCuid, true);
+    ext(String, 'isValidEmail', prototypes._isValidEmail, true);
+    ext(String, 'lastIndexOfAlt', prototypes._lastIndexOfAlt, true);
+    ext(String, 'ltrim', prototypes._ltrim, true);
+    ext(String, 'pluralize', prototypes._pluralize);
+    ext(String, 'replace_all', prototypes._replaceAll, true);
+    ext(String, 'replaceAll', prototypes._replaceAll, true);
+    ext(String, 'reverse', prototypes._reverse, true);
+    ext(String, 'rtrim', prototypes._rtrim, true);
+    ext(String, 'sanitize', prototypes._sanitize, true);
+    ext(String, 'singularize', prototypes._singularize);
+    ext(String, 'startItWith', prototypes._startItWith);
+    ext(String, 'startsWith', prototypes._startsWith);
+    ext(String, 'startsWithAny', prototypes._startsWithAny);
+    ext(String, 'strip', prototypes._strip, true);
+    ext(String, 'substringBetween', prototypes._substringBetween, true);
+    ext(String, 'substringStartFrom', prototypes._substringStartFrom, true);
+    ext(String, 'substringEndAt', prototypes._substringEndAt, true);
+    ext(String, 'toCurrencyNotation', prototypes._toCurrencyNotation, true);
+    ext(String, 'toDateTime', prototypes._toDateTime, true);
+    ext(String, 'toObject', prototypes._toObject, true);
+    ext(String, 'trim', prototypes._trim, true);
+
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c;
