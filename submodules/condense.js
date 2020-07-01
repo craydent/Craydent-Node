@@ -44,7 +44,7 @@ function condense (objs, check_values) {
         }
         return arr;
     } catch (e) {
-        error("condence", e);
+        error && error("condence", e);
         return false;
     }
 }

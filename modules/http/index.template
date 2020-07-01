@@ -244,6 +244,7 @@ declare global {
     module NodeJS {
         interface Global {
             ServerManager: typeof IServerManager.default;
+            __GLOBALSESSION: AnyObject
         }
     }
     interface Window {
@@ -287,6 +288,7 @@ declare global {
         isWindowsMobile: typeof IIsWindowsMobile.default;
     }
     const ServerManager: typeof IServerManager.default;
+    const __GLOBALSESSION: AnyObject
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

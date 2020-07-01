@@ -28,7 +28,7 @@ function defineFunction (name, func, override) {
         }
         return scope.eval("$c."+name+" = "+fnew);
     } catch (ex) {
-        error("__defineFunction", ex);
+        error && error("__defineFunction", ex);
     }
 }
 module.exports = function (scp) {

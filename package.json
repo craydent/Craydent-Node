@@ -17,7 +17,8 @@
         "publishPrivate": "./local_scripts/publishPrivate.sh",
         "buildDev": "./local_scripts/buildDev.sh",
         "build": "./local_scripts/build.sh",
-        "generateTypes": "./local_scripts/generate_types.js"
+        "generateTypes": "./local_scripts/generate_types.js",
+        "transpile": "./local_scripts/build.js && tsc"
     },
     "repository": {
         "type": "git",

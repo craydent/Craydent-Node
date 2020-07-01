@@ -559,13 +559,16 @@ function Request() {
     let ajaxHttpCaller;
     try {
         //request object for mozilla
+        //@ts-ignore
         ajaxHttpCaller = new XMLHttpRequest();
     } catch (ex) {
         //request object for IE
         try {
+            //@ts-ignore
             ajaxHttpCaller = new ActiveXObject("Msxml2.XMLHTTP");
         } catch (ex) {
             try {
+                //@ts-ignore
                 ajaxHttpCaller = new ActiveXObject("Microsoft.XMLHTTP");
             } catch (ex) //noinspection JSConstructorReturnsPrimitive
             {

@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "outDir": "./compiled",
+        "baseUrl": "./",
+        "declaration": true,
+        "target": "es5",
+        "sourceMap": false,
+        "module": "commonjs",
+        "lib": [
+            "es2017",
+            "dom"
+        ]
+    },
+    "include": [
+        "**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "compiled",
+        "local_scripts",
+        "submodules",
+        "test",
+        "@types",
+        "modules",
+        "modules.bk",
+        "modules.bk2"
+    ]
+}

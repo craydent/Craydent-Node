@@ -22,7 +22,7 @@ function strip (str, character) {
     try {
         return _general_trim(str, undefined, character);
     } catch (e) {
-        error("_strip", e);
+        error && error("_strip", e);
     }
 }
 module.exports = strip;

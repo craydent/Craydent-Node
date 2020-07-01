@@ -26,7 +26,7 @@ function __convert_regex_safe(reg_str) {
             .replace(/\)/gi, "\\)")
             .replace('\n','\\n');
     } catch (e) {
-        error('__convert_regex_safe', e);
+        error && error('__convert_regex_safe', e);
     }
 }
 module.exports = __convert_regex_safe;

@@ -13,7 +13,7 @@ function _getFuncArgs (func) {
     try {
         return condense(_general_trim(strip(func.toString(), '(')).replace(/\s*/gi, '').replace(/\/\*.*?\*\//g,'').replace(/.*?\((.*?)\).*/, '$1').split(',')) || [];
     } catch (e) {
-        error('_getFuncArgs', e);
+        error && error('_getFuncArgs', e);
     }
 }
 module.exports = _getFuncArgs;

@@ -7,7 +7,6 @@ import strip from "./strip";
 import suid from "./suid";
 import __processAttributes from "../private/__processAttributes";
 import merge from "../methods/merge";
-import { CLIENT_RENEG_WINDOW } from "tls";
 
 export function __processChildren(nodename: string, children: string[], xml: string, refs: any, ignoreAttributes?: boolean): AnyObject {
     let child, i = 0, obj = {};

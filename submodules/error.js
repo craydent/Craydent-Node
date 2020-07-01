@@ -5,8 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var cout = require('./cout');
-function error (fname, e) {
+function error(fname, e) {
     /*|{
         "info": "User implemented place holder function to handle errors",
         "category": "Utility",
@@ -20,9 +19,9 @@ function error (fname, e) {
         "returnType": "(void)"
     }|*/
     try {
-        typeof $c != 'undefined' && $c.DEBUG_MODE && cout("Error in " + fname + "\n" + (e.description || e), e, e.stack);
+        typeof $c != 'undefined' && $c.DEBUG_MODE && console.log("Error in " + fname + "\n" + (e.description || e), e, e.stack);
     } catch (e) {
-        cout("Error in " + fname + "\n" + (e.description || e));
+        console.log("Error in " + fname + "\n" + (e.description || e));
     }
 }
 module.exports = error;

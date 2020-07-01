@@ -38,7 +38,7 @@ function _general_trim (str, side, characters) {
         }
         return temp.toString();
     } catch (e) {
-        error("_general_trim", e);
+        error && error("_general_trim", e);
     }
 }
 module.exports = _general_trim

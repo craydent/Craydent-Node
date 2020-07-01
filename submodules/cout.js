@@ -25,7 +25,7 @@ function cout () {
             }
         }
     } catch (e) {
-        error('cout', e);
+        error && error('cout', e);
     }
 }
 module.exports = cout;
