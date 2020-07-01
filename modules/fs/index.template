@@ -120,41 +120,7 @@ declare global {
             writeFile: typeof IWriteFile.default;
         }
     }
-    interface Window {
-        access: typeof IAccess.default;
-        appendFile: typeof IAppendFile.default;
-        chmod: typeof IChmod.default;
-        chown: typeof IChown.default;
-        close: typeof IClose.default;
-        fchmod: typeof IFchmod.default;
-        fchown: typeof IFchown.default;
-        fdatasync: typeof IFdatasync.default;
-        fstat: typeof IFstat.default;
-        fsync: typeof IFsync.default;
-        ftruncate: typeof IFtruncate.default;
-        futimes: typeof IFutimes.default;
-        lchmod: typeof ILchmod.default;
-        lchown: typeof ILchown.default;
-        link: typeof ILink.default;
-        lstat: typeof ILstat.default;
-        mkdir: typeof IMkdir.default;
-        mkdtemp: typeof IMkdtemp.default;
-        open: typeof IOpen.default;
-        read: typeof IRead.default;
-        readdir: typeof IReaddir.default;
-        readFile: typeof IReadFile.default;
-        readlink: typeof IReadlink.default;
-        realpath: typeof IRealpath.default;
-        rename: typeof IRename.default;
-        rmdir: typeof IRmdir.default;
-        stat: typeof IStat.default;
-        symlink: typeof ISymlink.default;
-        truncate: typeof ITruncate.default;
-        unlink: typeof IUnlink.default;
-        utimes: typeof IUtimes.default;
-        write: typeof IWrite.default;
-        writeFile: typeof IWriteFile.default;
-    }
+
     const access: typeof IAccess.default;
     const appendFile: typeof IAppendFile.default;
     const chmod: typeof IChmod.default;

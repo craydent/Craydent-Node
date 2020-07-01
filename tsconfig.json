@@ -3,7 +3,7 @@
         "outDir": "./compiled",
         "baseUrl": "./",
         "declaration": true,
-        "target": "es5",
+        "target": "es6",
         "sourceMap": false,
         "module": "commonjs",
         "lib": [
