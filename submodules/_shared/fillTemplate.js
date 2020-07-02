@@ -24,8 +24,8 @@ var scope,
     _contain,
     _strip,
     _template_config = {
-        // IGNORE_CHARS: ['\n','\r'],
-        IGNORE_CHARS: [],
+        IGNORE_CHARS: ['\n','\r'],
+        // IGNORE_CHARS: [],
         /* loop config */
         FOR: {
             "begin": /(?:\$\{for (.*?);(.*?);(.*?\}?)\})|(?:\{\{for (.*?);(.*?);(.*?\}?)\}\})/i,
@@ -60,7 +60,7 @@ var scope,
 
                 return code_result;
             },
-            "parser": function (code, oobj, bind) {
+            "parser": function (code, oobj, bind, options) {
                 var ttc = scope.ctx.TEMPLATE_TAG_CONFIG,
                     FOR = ttc.FOR,
                     blocks = __processBlocks(FOR.begin, FOR.end, code),
@@ -73,7 +73,7 @@ var scope,
 
                     code_result = code_result || obj.code;
                     if (!~code_result.indexOf(obj.id)) { continue; }
-                    code_result = _replace_all(code_result,id, FOR.helper(block, obj.body));
+                    code_result = _replace_all(code_result,id, FOR.helper(block, obj.body, options));
                 }
                 var ____execMatches = code_result.match(scope.ctx.TEMPLATE_TAG_CONFIG.VARIABLE), ____execMatchIndex = 0;
 
@@ -581,7 +581,7 @@ function __enum(obj, delimiter, prePost){
         _error && _error('fillTemplate.enum', e);
     }
 }
-function __logic_parser (code, obj, bind) {
+function __logic_parser (code, obj, bind, options) {
     if (!code) { return ""; }
     var ttc = scope.ctx.TEMPLATE_TAG_CONFIG, indexes = [], logic = {};
     code = _replace_all(code,ttc.IGNORE_CHARS,['']);
@@ -595,7 +595,7 @@ function __logic_parser (code, obj, bind) {
 
     if (!logic[index]) { return code; }
 
-    return code.substring(0,index) + logic[index].parser(code.substring(index),obj, bind);
+    return code.substring(0,index) + logic[index].parser(code.substring(index), obj, bind, options);
 }
 function __or (){
     try {
@@ -809,7 +809,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
             for (var j = 0, jlen = props.length; j < jlen; j++) {
                 expression = props[j];
                 var property = _isFunction(vnsyntax) ? vnsyntax(expression) : vnsyntax.exec && vnsyntax.exec(expression);
-                if (!obj.hasOwnProperty(property) && !_getProperty(obj,property)) { continue; }
+                if (!obj.hasOwnProperty(property) && _isNull(_getProperty(obj,property))) { continue; }
                 if (~template.indexOf(expression) && !_isNull(objval = _getProperty(obj,property,null,{noInheritance:true}))) {
                     if (typeof objval == "object") {
                         objval = "scope.ctx.fillTemplate.refs['" + __add_fillTemplate_ref(objval) + "']";
@@ -845,7 +845,7 @@ function fillTemplate (htmlTemplate, objs, offset, max, newlineToHtml, preserve_
             for (var j = 0, jlen = declarations.length; j < jlen; j++) {
                 template = ttc.DECLARE.parser(template, declarations[j]);
             }
-            template = __logic_parser(template, obj, bind);
+            template = __logic_parser(template, obj, bind, { removeNewLineFromLogicalSyntax: removeNewLineFromLogicalSyntax });
             // special run sytax
             template = ~template.indexOf("${COUNT") ? template.replace(/\$\{COUNT\[(.*?)\]\}/g, '${RUN[__count;$1]}') : template;
             template = ~template.indexOf("${ENUM") ? template.replace(/\$\{ENUM\[(.*?)\]\}/g, '${RUN[__enum;$1]}') : template;
