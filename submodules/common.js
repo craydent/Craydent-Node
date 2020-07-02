@@ -5,7 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-function __contextualizeMethods (ctx) {
+function __contextualizeMethods(ctx) {
     try {
         ctx = ctx || {};
 
@@ -15,13 +15,13 @@ function __contextualizeMethods (ctx) {
 
         return ctx;
     } catch (e) {
-        error('__contextualizeMethods', e);
+        error && error('__contextualizeMethods', e);
     }
 }
-function __isNewer(loadedVersion, thisVersion){
+function __isNewer(loadedVersion, thisVersion) {
     if (loadedVersion[0] == thisVersion[0]) {
-        loadedVersion.splice(0,1);
-        thisVersion.splice(0,1);
+        loadedVersion.splice(0, 1);
+        thisVersion.splice(0, 1);
         if (!thisVersion.length || !loadedVersion.length) {
             return false;
         }
@@ -29,7 +29,7 @@ function __isNewer(loadedVersion, thisVersion){
     }
     return parseInt(loadedVersion[0]) < parseInt(thisVersion[0]);
 }
-function __log_module () {
+function __log_module() {
     $c.MODULES_LOADED[info.name] = $c.VERSION;
 }
 function _duplicate(obj, original, recursive/*, ref, current_path, exec*/) {
@@ -44,32 +44,34 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/) {
         var argIndex = 3;
 
         // remove all properties if it is the root level
-        var ref = arguments[argIndex] || {objects:[{obj:original,path:"obj"}]},
-            current_path = arguments[argIndex+1] || "obj";
-        (arguments[argIndex+2] || (arguments[argIndex+2] = {})) && (arguments[argIndex+2].command = arguments[argIndex+2].command || "");
+        var ref = arguments[argIndex] || { objects: [{ obj: original, path: "obj" }] },
+            current_path = arguments[argIndex + 1] || "obj";
+        (arguments[argIndex + 2] || (arguments[argIndex + 2] = {})) && (arguments[argIndex + 2].command = arguments[argIndex + 2].command || "");
         if (!(ref.objects.length == 1)) {
-            for (var prop in obj){
+            for (var prop in obj) {
                 if (obj.hasOwnProperty(prop)) { delete obj[prop]; }
             }
         }
         var loop_func = function (prop, original) { // 0 => property, 1 => original object, 2 => reference path object, 3 => current path, 4 => command object
             if (original.hasOwnProperty(prop) && original[prop] && recursive) {
-                var index = indexOfAlt(ref.objects,original[prop], function(obj,value){
-                        return obj.obj===value;
-                    }),
-                    new_path = current_path+"["+parseRaw(prop)+"]";
+                var index = indexOfAlt(ref.objects, original[prop], function (obj, value) {
+                    return obj.obj === value;
+                }),
+                    new_path = current_path + "[" + parseRaw(prop) + "]";
 
                 if (~index) {
-                    return arguments[argIndex+1].command += new_path + "="+ref.objects[index].path+";";
+                    return arguments[argIndex + 1].command += new_path + "=" + ref.objects[index].path + ";";
                 }
 
-                if (typeof(original[prop]) in {"object":1,"function":1} && recursive) {
-                    var isfunc = typeof(original[prop].constructor) == "function";
-                    if (isfunc && typeof(original[prop]) == "object") { obj[prop] = new original[prop].constructor();
-                    } else if (!isfunc) { obj[prop] = {};
+                if (typeof (original[prop]) in { "object": 1, "function": 1 } && recursive) {
+                    var isfunc = typeof (original[prop].constructor) == "function";
+                    if (isfunc && typeof (original[prop]) == "object") {
+                        obj[prop] = new original[prop].constructor();
+                    } else if (!isfunc) {
+                        obj[prop] = {};
                     } else { obj[prop] = tryEval(original[prop].toString()); }
-                    ref.objects.push({obj:original[prop],path:new_path});
-                    return _duplicate(obj[prop], original[prop], true, ref, new_path, arguments[argIndex+1]);
+                    ref.objects.push({ obj: original[prop], path: new_path });
+                    return _duplicate(obj[prop], original[prop], true, ref, new_path, arguments[argIndex + 1]);
                 }
             } else if (!original.hasOwnProperty(prop)) {
                 return;
@@ -79,41 +81,41 @@ function _duplicate(obj, original, recursive/*, ref, current_path, exec*/) {
         if ($t.isArray(original)) {
             var i = 0, len = original.length;
             while (i++ < len) {
-                loop_func.call(obj, i - 1, original, ref, current_path, arguments[argIndex+2]);
+                loop_func.call(obj, i - 1, original, ref, current_path, arguments[argIndex + 2]);
             }
         } else {
-            for (var prop in original){
+            for (var prop in original) {
                 if (!original.hasOwnProperty(prop)) { continue; }
-                loop_func.call(obj, prop, original, ref, current_path, arguments[argIndex+2]);
+                loop_func.call(obj, prop, original, ref, current_path, arguments[argIndex + 2]);
             }
         }
 
-        if (!arguments[argIndex+1]) {
-            eval(arguments[argIndex+2].command);
+        if (!arguments[argIndex + 1]) {
+            eval(arguments[argIndex + 2].command);
         }
 
         return obj;
     } catch (e) {
-        error('_duplicate', e);
+        error && error('_duplicate', e);
     }
 }
-function _ext (cls, property, func, override) {
+function _ext(cls, property, func, override) {
     try {
         $g.__craydentNoConflict || (cls['prototype'][property] = cls['prototype'][property] || func);
         __defineFunction(property, func, override);
     } catch (e) {
-        error('_ext', e);
+        error && error('_ext', e);
     }
 }
-function _getFuncName (func) {
+function _getFuncName(func) {
     try {
-        return _general_trim(func.toString().replace(/\/\/.*?[\r\n]/gi,'').replace(/[\t\r\n]*/gi, '').replace(/\/\*.*?\*\//gi, '').replace(/.*?function\s*?(.*?)\s*?\(.*/,'$1'));
+        return _general_trim(func.toString().replace(/\/\/.*?[\r\n]/gi, '').replace(/[\t\r\n]*/gi, '').replace(/\/\*.*?\*\//gi, '').replace(/.*?function\s*?(.*?)\s*?\(.*/, '$1'));
     } catch (e) {
-        error('_getFuncName', e);
+        error && error('_getFuncName', e);
     }
 }
 
-function duplicate (obj, recursive) {
+function duplicate(obj, recursive) {
     /*|{
         "info": "Object class extension to copy an object including constructor",
         "category": "Object",
@@ -128,7 +130,7 @@ function duplicate (obj, recursive) {
     if ($t.isNull(obj)) { return obj; }
     return _duplicate(new obj.constructor(), obj, recursive);
 }
-function capitalize (str, pos, everyWord) {
+function capitalize(str, pos, everyWord) {
     /*|{
         "info": "String class extension to capitalize parts of the string",
         "category": "String",
@@ -141,7 +143,7 @@ function capitalize (str, pos, everyWord) {
         "url": "http://www.craydent.com/library/1.9.3/docs#string.capitalize",
         "returnType": "(String)"
     }|*/
-   try {
+    try {
         pos = pos || [0];
         !$t.isArray(pos) && (pos = [pos]);
         var wordArray = everyWord ? str.split(' ') : ([str]);
@@ -152,10 +154,10 @@ function capitalize (str, pos, everyWord) {
         }
         return wordArray.join(' ');
     } catch (e) {
-        error("String.capitalize", e);
+        error && error("String.capitalize", e);
     }
 }
-function equals (obj, compare, props){
+function equals(obj, compare, props) {
     /*|{
         "info": "Object class extension to check if object values are equal",
         "category": "Object",
@@ -172,7 +174,7 @@ function equals (obj, compare, props){
         if ($t.isArray(props)) {
             var j = 0;
             while (prop = props[j++]) {
-                if (obj.hasOwnProperty(prop) && compare.hasOwnProperty(prop) && !equals(obj[prop],compare[prop])
+                if (obj.hasOwnProperty(prop) && compare.hasOwnProperty(prop) && !equals(obj[prop], compare[prop])
                     || (!obj.hasOwnProperty(prop) && compare.hasOwnProperty(prop))
                     || (obj.hasOwnProperty(prop) && !compare.hasOwnProperty(prop))) {
                     return false;
@@ -181,11 +183,11 @@ function equals (obj, compare, props){
             return true;
         }
         if (($t.isObject(obj) && $t.isObject(compare)) || ($t.isArray(obj) && $t.isArray(compare))) {
-            for (var prop in compare){
+            for (var prop in compare) {
                 if (!compare.hasOwnProperty(prop)) { continue; }
                 if (!equals(obj[prop], compare[prop])) { return false; }
             }
-            for (var prop in obj){
+            for (var prop in obj) {
                 if (!obj.hasOwnProperty(prop)) { continue; }
                 if (!equals(obj[prop], compare[prop])) { return false; }
             }
@@ -196,10 +198,10 @@ function equals (obj, compare, props){
         if ($t.isRegExp(compare)) { return compare.test(obj.toString()); }
         return (obj.toString() == compare.toString() && obj.constructor == compare.constructor);
     } catch (e) {
-        error('Object.equals', e);
+        error && error('Object.equals', e);
     }
 }
-function foo () {
+function foo() {
     /*|{
         "info": "Place holder function for a blank function",
         "category": "Utility",
@@ -211,7 +213,7 @@ function foo () {
         "returnType": "(void)"
     }|*/
 }
-function getProperty (obj, path, delimiter, options) {
+function getProperty(obj, path, delimiter, options) {
     /*|{
         "info": "Object class extension to retrieve nested properties without error when property path does not exist",
         "category": "Object",
@@ -242,7 +244,7 @@ function getProperty (obj, path, delimiter, options) {
     try {
         if ($t.isRegExp(path)) {
             for (var prop in obj) {
-                if(!obj.hasOwnProperty(prop)){ continue; }
+                if (!obj.hasOwnProperty(prop)) { continue; }
                 if (path.test(prop)) { return obj[prop]; }
             }
             return undefined;
@@ -268,10 +270,10 @@ function getProperty (obj, path, delimiter, options) {
         options.validPath = 1;
         return value;
     } catch (e) {
-        error('Object.getProperty', e);
+        error && error('Object.getProperty', e);
     }
 }
-function globalize () {
+function globalize() {
     /*|{
         "info": "Module method to globalize functions",
         "category": "Module",
@@ -285,35 +287,10 @@ function globalize () {
     try {
         __contextualizeMethods($g);
     } catch (e) {
-        error('globalize', e);
+        error && error('globalize', e);
     }
 }
-function indexOf (objs, value) {
-    /*|{
-        "info": "Array class extension to implement indexOf",
-        "category": "Array",
-        "parameters":[
-            {"value": "(any) value to find"}],
-
-        "overloads":[],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#array.indexOf",
-        "typeParameter": "<T>",
-        "returnType": "(Int)"
-    }|*/
-    try {
-        var len = objs.length,
-            i = 0;
-        while (i < len) {
-            if (objs[i] === value) return i;
-            ++i;
-        }
-        return -1;
-    } catch (e) {
-        error("indexOf", e);
-    }
-}
-function indexOfAlt (obj, value, option) {
+function indexOfAlt(obj, value, option) {
     /*|{
         "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
         "category": "Array",
@@ -352,10 +329,10 @@ function indexOfAlt (obj, value, option) {
             return (index >= 0) ? (index + pos) : index;
         }
     } catch (e) {
-        error(_getFuncName(obj.constructor) + ".indexOfAlt", e);
+        error && error(_getFuncName(obj.constructor) + ".indexOfAlt", e);
     }
 }
-function merge (obj, secondary, condition) {
+function merge(obj, secondary, condition) {
     /*|{
         "info": "Object class extension to merge objects",
         "category": "Object",
@@ -399,7 +376,7 @@ function merge (obj, secondary, condition) {
                             objtmp.push(secondary[prop]);
                         }
                     } else if (recurse && ($t.isArray(objtmp[prop]) || $t.isObject(objtmp[prop])) && ($t.isArray(secondary[prop]) || $t.isObject(secondary[prop]))) {
-                        objtmp[prop] = merge(objtmp[prop],secondary[prop],condition);
+                        objtmp[prop] = merge(objtmp[prop], secondary[prop], condition);
                     } else {
                         objtmp[prop] = secondary[prop];
                     }
@@ -408,7 +385,7 @@ function merge (obj, secondary, condition) {
         }
         return intersect ? intersectObj : objtmp;
     } catch (e) {
-        error('Object.merge', e);
+        error && error('Object.merge', e);
     }
 }
 function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarNames) {
@@ -429,7 +406,7 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
         if ($t.isNull(value)) { return value + ""; }
         var raw = "";
         if ($t.isString(value)) {
-            raw = (!skipQuotes ? "\"" + replace_all(value,'"','\\"') + "\"" : value);
+            raw = (!skipQuotes ? "\"" + replace_all(value, '"', '\\"') + "\"" : value);
         } else if ($t.isArray(value)) {
             var tmp = [];
             for (var i = 0, len = value.length; i < len; i++) {
@@ -468,12 +445,12 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
                         raw += "\"" + prop + "\": " + parseRaw(value[prop], skipQuotes, saveCircular, __windowVars, __windowVarNames) + ",";
                     }
                 }
-                raw = (sliceit ? raw.slice(0,-1) : raw) + "}";
+                raw = (sliceit ? raw.slice(0, -1) : raw) + "}";
             } else {
                 if (!saveCircular) {
                     raw = "{}";
                 } else {
-                    raw = "$g['" + __windowVarNames[index ] +"']";
+                    raw = "$g['" + __windowVarNames[index] + "']";
                 }
             }
         } else {
@@ -481,7 +458,7 @@ function parseRaw(value, skipQuotes, saveCircular, __windowVars, __windowVarName
         }
         return raw;
     } catch (e) {
-        error('parseRaw', e);
+        error && error('parseRaw', e);
     }
 }
 function rand(num1, num2, inclusive) {
@@ -501,15 +478,15 @@ function rand(num1, num2, inclusive) {
     try {
         var val = (num2 - num1) * Math.random() + num1;
         if (inclusive) {
-            if(val == Math.max(num1,num2)) {
+            if (val == Math.max(num1, num2)) {
                 val -= 0.1
-            } else if (val == Math.min(num1,num2)) {
+            } else if (val == Math.min(num1, num2)) {
                 val += 0.1
             }
         }
         return val;
     } catch (e) {
-        error('rand', e);
+        error && error('rand', e);
     }
 }
 function replace_all(str, replace, subject, flag) {
@@ -526,7 +503,7 @@ function replace_all(str, replace, subject, flag) {
         "returnType": "(String)"
     }|*/
     try {
-        if (!$t.isArray(replace)){
+        if (!$t.isArray(replace)) {
             replace = [replace];
         }
         if (!$t.isArray(subject)) {
@@ -542,10 +519,10 @@ function replace_all(str, replace, subject, flag) {
         }
         return str.toString();
     } catch (e) {
-        error("replace_all", e);
+        error && error("replace_all", e);
     }
 }
-function setProperty (obj, path, value, delimiter) {
+function setProperty(obj, path, value, delimiter) {
     /*|{
         "info": "Object class extension to set nested properties creating necessary property paths",
         "category": "Object",
@@ -583,7 +560,7 @@ function setProperty (obj, path, value, delimiter) {
         }
         return false;
     } catch (e) {
-        error('Object.setProperty', e)
+        error && error('Object.setProperty', e)
     }
 }
 function suid(length) {
@@ -602,15 +579,15 @@ function suid(length) {
         length = length || 10;
         var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", id = "";
         while (id.length < length) {
-            id += chars[parseInt(rand(0,62))];
+            id += chars[parseInt(rand(0, 62))];
         }
 
         return id;
     } catch (e) {
-        error('suid', e);
+        error && error('suid', e);
     }
 }
-function syncroit (gen) {
+function syncroit(gen) {
     /*|{
         "info": "Generator/Async based control flow to allow for more \"syncronous\" programing structure",
         "category": "Control Flow|Utility",
@@ -624,7 +601,7 @@ function syncroit (gen) {
     }|*/
     try {
         if ($t.isAsync(gen)) { return gen(); }
-        return new Promise(function(res){
+        return new Promise(function (res) {
             var geno = gen();
             try {
                 $t.isGenerator(gen) && (function cb(value) {
@@ -641,7 +618,7 @@ function syncroit (gen) {
                         res($t.isNull(obj.value, value));
                     }
                 })();
-            } catch(e) {
+            } catch (e) {
                 if (process.listenerCount('uncaughtException')) {
                     return process.emit('uncaughtException', e);
                 }
@@ -650,11 +627,11 @@ function syncroit (gen) {
         });
 
     } catch (e) {
-        error('syncroit', e);
+        error && error('syncroit', e);
         throw e;
     }
 }
-function tryEval (expression, evaluator) {
+function tryEval(expression, evaluator) {
     /*|{
         "info": "Evaluates an expression without throwing an error",
         "category": "Utility",
@@ -675,10 +652,10 @@ function tryEval (expression, evaluator) {
             throw '';
         }
         return value;
-    } catch(e) {
+    } catch (e) {
         try {
-            return scope.eval("("+expression+")");
-        } catch(e) {
+            return scope.eval("(" + expression + ")");
+        } catch (e) {
             return null;
         }
     }
@@ -691,7 +668,12 @@ var info = require('../package.json'),
     _craydent_version = info.version, $s = {}, scope = { eval: eval }, $c = $g.$c;
 $g.navigator = $g.navigator || {};
 // merge typeof module to $c
-var $t = require((~info.name.indexOf('@craydent') ? '@craydent/' : '') + 'craydent-typeof/noConflict');
+var $t;
+if (~info.name.indexOf('@craydent')) {
+    $t = require('@craydent/craydent-typeof/noConflict');
+} else {
+    $t = require('craydent-typeof/noConflict');
+}
 
 var error = require('./error');
 var __defineFunction = require('./defineFunction')(scope);
@@ -736,60 +718,60 @@ var fsmethods = [
     "write",
     "writeFile"
 ],
-globalizables = [
-    'Benchmarker',
-    'CLI',
-    'Cursor',
-    'parseAdvanced',
-    'stringifyAdvanced',
-    // $c.JSONPA && (ctx.JSONPA = JSON.parseAdvanced);
-    // $c.JSONSA && (ctx.JSONSA = JSON.stringifyAdvanced);
-    'JSZip',
-    'OrderedList',
-    'Queue',
-    'Set',
-    'addObjectPrototype',
-    'ajax',
-    'yieldable',
-    'catchAll',
-    'clearCache',
-    'clusterit',
-    'cout',
-    'createServer',
-    'cuid',
-    'emit',
-    'error',
-    'exclude',
-    'fillTemplate',
-    'foo',
-    'include',
-    'isNull',
-    'isNullOrEmpty',
-    'logit',
-    'md5',
-    'mkdirRecursive',
-    'namespace',
-    'next',
-    'foo',
-    'now',
-    'parseBoolean',
-    'parseRaw',
-    'rand',
-    'requireDirectory',
-    'suid',
-    'syncroit',
-    'tryEval',
-    'wait',
-    'xmlToJson',
-    'yieldable',
-    'zipit'
-].concat(fsmethods);
+    globalizables = [
+        'Benchmarker',
+        'CLI',
+        'Cursor',
+        'parseAdvanced',
+        'stringifyAdvanced',
+        // $c.JSONPA && (ctx.JSONPA = JSON.parseAdvanced);
+        // $c.JSONSA && (ctx.JSONSA = JSON.stringifyAdvanced);
+        'JSZip',
+        'OrderedList',
+        'Queue',
+        'Set',
+        'addObjectPrototype',
+        'ajax',
+        'yieldable',
+        'catchAll',
+        'clearCache',
+        'clusterit',
+        'cout',
+        'createServer',
+        'cuid',
+        'emit',
+        'error',
+        'exclude',
+        'fillTemplate',
+        'foo',
+        'include',
+        'isNull',
+        'isNullOrEmpty',
+        'logit',
+        'md5',
+        'mkdirRecursive',
+        'namespace',
+        'next',
+        'foo',
+        'now',
+        'parseBoolean',
+        'parseRaw',
+        'rand',
+        'requireDirectory',
+        'suid',
+        'syncroit',
+        'tryEval',
+        'wait',
+        'xmlToJson',
+        'yieldable',
+        'zipit'
+    ].concat(fsmethods);
 
 module.exports = function () {
     $c = $g.$c;
     $s = {};
     // scope = { eval: eval }
-    if (!$g.$c || __isNewer($g.$c.VERSION.split('.'), _craydent_version.split('.')) ) {
+    if (!$g.$c || __isNewer($g.$c.VERSION.split('.'), _craydent_version.split('.'))) {
         $g.$c = $c = $g.$c || {};
 
         $c.VERSION = _craydent_version;
@@ -815,7 +797,7 @@ module.exports = function () {
     }
 
     try {
-    // retrieve public and local IP Addresses
+        // retrieve public and local IP Addresses
         var nics = require('os').networkInterfaces();
         for (var nic in nics) {
             if (!nics.hasOwnProperty(nic)) {
@@ -838,7 +820,7 @@ module.exports = function () {
             }
         }
     } catch (e) {
-        error('common', e);
+        error && error('common', e);
     }
     obj.$c = $s = $g.$c;
 
@@ -857,7 +839,6 @@ module.exports = function () {
     obj._getFuncArgs = $c._getFuncArgs = _getFuncArgs;
     obj._getFuncName = $c._getFuncName = _getFuncName;
     obj.getProperty = $c.getProperty = getProperty;
-    obj.indexOf = $c.indexOf = indexOf;
     obj.indexOfAlt = $c.indexOfAlt = indexOfAlt;
     obj.info = $c.info = info;
     obj.merge = /*$c.merge =*/ merge;

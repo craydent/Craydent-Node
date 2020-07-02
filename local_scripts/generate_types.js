@@ -7,14 +7,14 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 var fs = require('fs');
-var root = require.resolve('../package.json').replace('/package.json','');
+var root = require.resolve('../package.json').replace('/package.json', '');
 var $u = require('@craydent/craydent-utility/noConflict'),
-$t = $u.include('@craydent/craydent-template/noConflict',true),
-$i = $u.include('@craydent/craydent-cli/noConflict',true),
-$a = $u.include('@craydent/craydent-array/noConflict',true),
-$s = $u.include('@craydent/craydent-string/noConflict',true),
-$f = $u.include('@craydent/craydent-fs/noConflict',true),
-$cls = $u.include('@craydent/craydent-class/noConflict',true);
+    $t = $u.include('@craydent/craydent-template/noConflict', true),
+    $i = $u.include('@craydent/craydent-cli/noConflict', true),
+    $a = $u.include('@craydent/craydent-array/noConflict', true),
+    $s = $u.include('@craydent/craydent-string/noConflict', true),
+    $f = $u.include('@craydent/craydent-fs/noConflict', true),
+    $cls = $u.include('@craydent/craydent-class/noConflict', true);
 var dependencies = require(`${root}/submodules/dependencies`);
 var globalizables = require(`${root}/submodules/common`)().globalizables;
 var typePath = `${root}/@types/DefinitelyTyped/types/craydent`;
@@ -35,56 +35,56 @@ var tsConfigFiles = [
 var modules = dependencies.primary;
 
 var mainTemplate =
-'// Type definitions for Craydent 0.8.9\n\
+    `// Type definitions for Craydent 0.8.9
 // Project: https://bitbucket.org/craydent/node-library/\n\
 // Definitions by: Clark Inada <https://github.com/cinada>\n\
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped\n\
 // TypeScript Version: 2.6\n\
 \n\
-${FOREACH ${path} in ${refs}}/// <reference path="${path}" />\n${END FOREACH}\n\
+\${FOREACH \${path} in \${refs}}/// <reference path="\${path}" />\n\${END FOREACH}\n\
 \n\
 export = $c;\n\
 export as namespace $c;\n\n\
 declare const $c: $c.CraydentStatic;\n\
 declare namespace $c {\n\
     // tslint:disable-next-line no-empty-interface (This will be augmented)\n\
-    interface CraydentStatic {${FOREACH ${constant} in ${constants}}\n${TAB}${TAB}${constant}${END FOREACH}\n\
+    interface CraydentStatic {\${FOREACH \${constant} in \${constants}}\n\${TAB}\${TAB}\${constant}\${END FOREACH}\n\
     }\n\
 }\n\
 declare global {\n\
     interface Worker { }\n\
     interface GeneratorFunction { }\n\
     interface Set<T> { }\n\
-    ${IF (${global})}interface ChildProcess { }\n\
+    \${IF (\${global})}interface ChildProcess { }\n\
     interface Server { }\n\
     interface IncomingMessage { }\n\
-    interface ServerResponse { }\n${END IF}\
-}';
+    interface ServerResponse { }\n\${END IF}\
+}`;
 
 var template =
-'${IF (${injectHeader})}${TAB}interface CraydentStatic {${END IF}\
-${IF ("${category}" != "Class")}\
-${TAB}${TAB}${RUN[generateJavadoc;${this};${this.parameters}]}\
-${TAB}${TAB}${RUN[generateMethodDefinition;${this};${this.parameters}]}\
-${FOREACH ${overload} in ${this.overloads}}\
-${TAB}${TAB}${RUN[generateJavadoc;${this};${overload.parameters}]}\
-${TAB}${TAB}${RUN[generateMethodDefinition;${this};${overload.parameters}]}\
-${END FOREACH}\
-${ELSE}${TAB}class ${name}${typeParameter} {\
-${RUN[generateClass;${this}]}\
-\n}${END IF}\
-${IF (${injectHeader})}${TAB}}${END IF}',
-gtemplate ='\
-${TAB}${RUN[generateJavadoc;${this};${this.parameters}]}\
-${IF ("${this.name}" == "Set")}${TAB}// @ts-ignore: Duplicate identifier error\n${END IF}\
-${TAB}declare function ${RUN[generateMethodDefinition;${this};${this.parameters}]}\
-${FOREACH ${overload} in ${this.overloads}}\
-${TAB}${RUN[generateJavadoc;${this};${overload.parameters}]}\
-${IF ("${this.name}" == "Set")}${TAB}// @ts-ignore: Duplicate identifier error\n${END IF}\
-${TAB}declare function ${RUN[generateMethodDefinition;${this};${overload.parameters}]}\
-${END FOREACH}',
-TAB = '    ';
-$t.TEMPLATE_VARS.push({name: 'TAB', value: TAB})
+    `\${IF (\${injectHeader})}\${TAB}interface CraydentStatic {\${END IF}\
+\${IF ("\${category}" != "Class")}\
+\${TAB}\${TAB}\${RUN[generateJavadoc;\${this};\${this.parameters}]}\
+\${TAB}\${TAB}\${RUN[generateMethodDefinition;\${this};\${this.parameters}]}\
+\${FOREACH \${overload} in \${this.overloads}}\
+\${TAB}\${TAB}\${RUN[generateJavadoc;\${this};\${overload.parameters}]}\
+\${TAB}\${TAB}\${RUN[generateMethodDefinition;\${this};\${overload.parameters}]}\
+\${END FOREACH}\
+\${ELSE}\${TAB}class \${name}\${typeParameter} {\
+\${RUN[generateClass;\${this}]}\
+\n}\${END IF}\
+\${IF (\${injectHeader})}\${TAB}}\${END IF}`,
+    gtemplate = `\
+\${TAB}\${RUN[generateJavadoc;\${this};\${this.parameters}]}\
+\${IF ("\${this.name}" == "Set")}\${TAB}// @ts-ignore: Duplicate identifier error\n\${END IF}\
+\${TAB}declare function \${RUN[generateMethodDefinition;\${this};\${this.parameters}]}\
+\${FOREACH \${overload} in \${this.overloads}}\
+\${TAB}\${RUN[generateJavadoc;\${this};\${overload.parameters}]}\
+\${IF ("\${this.name}" == "Set")}\${TAB}// @ts-ignore: Duplicate identifier error\n\${END IF}\
+\${TAB}declare function \${RUN[generateMethodDefinition;\${this};\${overload.parameters}]}\
+\${END FOREACH}`,
+    TAB = '    ';
+$t.TEMPLATE_VARS.push({ name: 'TAB', value: TAB })
 $f.DEBUG_MODE = true;
 global.generateJavadoc = function (obj, parameters) {
     return `
@@ -94,13 +94,13 @@ ${TAB}${TAB} *\n${TAB}${TAB}${javaDocParameters(parameters)}
 ${TAB}${TAB} * @return ${obj.returnType}
 ${TAB}${TAB} */\n`;
 }
-global.generateClass = function (obj){
-    let constructors = [{parameters: obj.parameters}].concat(obj.overloads);
+global.generateClass = function (obj) {
+    let constructors = [{ parameters: obj.parameters }].concat(obj.overloads);
     let body = "";
     for (let i = 0, len = constructors.length; i < len; i++) {
         let params = constructors[i].parameters;
         body += generateJavadoc(obj, params);
-        body += `${TAB}${TAB}constructor(${javaDocParameters(params, javaDocArg,', ')})\n`;
+        body += `${TAB}${TAB}constructor(${javaDocParameters(params, javaDocArg, ', ')})\n`;
     }
     let props = obj.instanceProperties || [];
     for (let i = 0, len = props.length; i < len; i++) {
@@ -108,35 +108,35 @@ global.generateClass = function (obj){
         body += `${TAB}${TAB}${prop.name}: ${prop.type}\n`;
     }
 
-// "instanceProperties":[
-//     {"name":"add", "type":"(value:T) => boolean"},
-//     {"name":"hasNext", "type":"boolean"},
-//     {"name":"next", "type":"() => {value:T, done:boolean}"},
-//     {"name":"size", "type":"number"}
-// ],
+    // "instanceProperties":[
+    //     {"name":"add", "type":"(value:T) => boolean"},
+    //     {"name":"hasNext", "type":"boolean"},
+    //     {"name":"next", "type":"() => {value:T, done:boolean}"},
+    //     {"name":"size", "type":"number"}
+    // ],
     return body;
 }
-function javaDocArg (param) {
+function javaDocArg(param) {
     for (var prop in param) {
         if (param.hasOwnProperty(prop)) {
-            return `${prop}:${param[prop].replace(/^\((.*?)\).*/,'$1')}`;
+            return `${prop}:${param[prop].replace(/^\((.*?)\).*/, '$1')}`;
         }
     }
 }
-function javaDocParameters (parameters, formatParameter, delimiter) {
+function javaDocParameters(parameters, formatParameter, delimiter) {
     delimiter = delimiter || `\n${TAB}${TAB}`;
     if (!parameters.length) { return ''; }
     formatParameter = formatParameter || formatJavadocParameter;
     return parameters.map(p => formatParameter(p)).join(delimiter);
 }
-function formatJavadocParameter (param) {
+function formatJavadocParameter(param) {
     for (var prop in param) {
         if (param.hasOwnProperty(prop)) {
             return ` * @param ${prop} ${param[prop]}`;
         }
     }
 }
-function parseParameter (param, defaults) {
+function parseParameter(param, defaults) {
     for (var prop in param) {
         if (param.hasOwnProperty(prop)) {
             // var paramType = param[prop]
@@ -147,12 +147,12 @@ function parseParameter (param, defaults) {
             //     .replace('Boolean', 'boolean')
             //     .replace('Bool', 'boolean')
             //     .replace('Char', 'String');
-            var paramType = $s.replace_all(param[prop].replace(/\((.*?)\).*$/i,'$1'),
+            var paramType = $s.replace_all(param[prop].replace(/\((.*?)\).*$/i, '$1'),
                 ['Integer[]', 'Int[]', 'Integer', 'Int', 'Boolean', 'Bool', 'Char'],
                 ['number[]', 'number[]', 'number', 'number', 'boolean', 'boolean', 'String']);
 
             if (defaults && defaults[prop] !== undefined) {
-                prop = $s.strip(prop,"?");
+                prop = $s.strip(prop, "?");
                 paramType = defaults[prop];
             }
             prop = prop == "default" ? "def" : prop;
@@ -161,7 +161,7 @@ function parseParameter (param, defaults) {
     }
 }
 global.generateMethodDefinition = (obj, parameters) => {
-    var returnType = obj.returnType.replace(/\((.*?)\).*$/,'$1')
+    var returnType = obj.returnType.replace(/\((.*?)\).*$/, '$1')
         .replace('Object', 'any')
         .replace('Integer', 'number')
         .replace('Int', 'number')
@@ -169,12 +169,12 @@ global.generateMethodDefinition = (obj, parameters) => {
         .replace('Boolean', 'boolean')
         .replace('Bool', 'boolean'),
         params = parameters.map(p => parseParameter(p, obj.defaults)).join(`,\n${TAB}${TAB}${TAB}`);
-        if (params) {
-            params = `\n${TAB}${TAB}${TAB}${params}\n${TAB}${TAB}`;
-        }
+    if (params) {
+        params = `\n${TAB}${TAB}${TAB}${params}\n${TAB}${TAB}`;
+    }
     return `${obj.name}${obj.typeParameter || ''}(${params}): ${returnType}\n`;
 };
-async function prep () {
+async function prep() {
     var promises = [];
 
     promises.push($f.readFile(`${templatePath}/common.template.ct`, 'utf8'));
@@ -218,7 +218,7 @@ async function prep () {
     var results = await Promise.all(promises);
     return results[0];
 }
-function populateCommon (populationCommon, prop, promises, subpath) {
+function populateCommon(populationCommon, prop, promises, subpath) {
     let addRefs = prop in { "array": 1, "date": 1, "function": 1, "number": 1, "object": 1, "regexp": 1, "string": 1 };
     let submoduleText = [];
     let refs = [];
@@ -226,7 +226,7 @@ function populateCommon (populationCommon, prop, promises, subpath) {
 
     for (let i = 0, len = populationCommon.length; i < len; i++) {
         let method = populationCommon[i];
-        let name = method in { "delete":1,"catch":1,"extends":1} ? `_${method}` : method;
+        let name = method in { "delete": 1, "catch": 1, "extends": 1 } ? `_${method}` : method;
         if (addRefs || true) {
             refs.push(`/// <reference path="../../${prop}/${subpath}/${method}.d.ts" />`);
             generateP && (refs.push(`/// <reference path="../../${prop}/${subpath}/${method}.p.d.ts" />`));
@@ -237,28 +237,28 @@ function populateCommon (populationCommon, prop, promises, subpath) {
     submoduleText.sort();
     let body = `${refs.join('\n')}\n\n${submoduleText.join('\n')}`;
     // promises.push($f.writeFile(`${typePath}/common/${subpath}/${prop}.d.ts`, body));
-    promises.push($f.writeFile(`${typePath}-${prop}/common/${subpath}/${prop}.d.ts`, body.replace(new RegExp(`${prop}/`,'g'), '')));
+    promises.push($f.writeFile(`${typePath}-${prop}/common/${subpath}/${prop}.d.ts`, body.replace(new RegExp(`${prop}/`, 'g'), '')));
 }
 let contexts = {
 };
-contexts[`${mainPath}/index`] = {path:"base", dir:"..", ext:".p"};
-contexts[`noConflict`] = {path:"noConflict", dir:"..", ext:""};
-contexts[`global`] = {path:"global", dir:"..", ext:".p"};
-function renderSubmodule (mod, method, prop, dir, context) {
+contexts[`${mainPath}/index`] = { path: "base", dir: "..", ext: ".p" };
+contexts[`noConflict`] = { path: "noConflict", dir: "..", ext: "" };
+contexts[`global`] = { path: "global", dir: "..", ext: ".p" };
+function renderSubmodule(mod, method, prop, dir, context) {
     let subpath = dir;
     let ext = contexts[context].ext;
     let mainFile = context;
     let fstr = mod[method].toString(),
-    code = $s.replace_all(fstr,['\n','\\n','\t','\\t'], '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1'),
-    doc = $u.tryEval(code);
-    if (!doc || !doc.category || !$a.contains(doc.category.toLowerCase(), prop.replace('-',' '))) { return; }
+        code = $s.replace_all(fstr, ['\n', '\\n', '\t', '\\t'], '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1'),
+        doc = $u.tryEval(code);
+    if (!doc || !doc.category || !$a.contains(doc.category.toLowerCase(), prop.replace('-', ' '))) { return; }
     require;
     doc.name = method;
     var param = null;
-    var category = $s.replace_all(doc.category.split('|')[0], ' ','-');
+    var category = $s.replace_all(doc.category.split('|')[0], ' ', '-');
     switch (category) {
         case "Array":
-            param = {"Array": "(Array<T>) Array to perform the operation on."};
+            param = { "Array": "(Array<T>) Array to perform the operation on." };
             break;
         case "Date":
         case "Function":
@@ -270,7 +270,7 @@ function renderSubmodule (mod, method, prop, dir, context) {
             param[category] = `(${category}) ${category} class to perform the operation on.`;
             break;
     }
-    switch (prop){
+    switch (prop) {
         case "cli":
         case "control-flow":
         case "fs":
@@ -284,7 +284,7 @@ function renderSubmodule (mod, method, prop, dir, context) {
             break;
     }
     if (!doc.overloads) {
-        console.error(RED, `${method} has no overloads property`);
+        console.log(YELLOW, `${method} has no overloads property`);
     }
     doc.overloads = doc.overloads || [];
 
@@ -308,15 +308,15 @@ function renderSubmodule (mod, method, prop, dir, context) {
             //     }
             //     // console.log(success ? `${typePath}/${prop}/${subpath}/${method}${ext}.d.ts done:${success}` : success);
             // }));
-            promises.push($f.writeFile(`${typePath}-${prop}/${subpath}/${method}${ext}.d.ts`, body.replace(/\.\.\/\.\.\//g,'../'))
-            .then((success)=>{
-                if (success) {
-                    // console.log(GREEN, `${typePath}-${prop}/${subpath}/${method}${ext}.d.ts`);
-                } else {
-                    console.error(success);
-                }
-                // console.log(success ? `${typePath}-${prop}/${subpath}/${method}${ext}.d.ts done:${success}` : success);
-            }));
+            promises.push($f.writeFile(`${typePath}-${prop}/${subpath}/${method}${ext}.d.ts`, body.replace(/\.\.\/\.\.\//g, '../'))
+                .then((success) => {
+                    if (success) {
+                        // console.log(GREEN, `${typePath}-${prop}/${subpath}/${method}${ext}.d.ts`);
+                    } else {
+                        console.log(RED, success);
+                    }
+                    // console.log(success ? `${typePath}-${prop}/${subpath}/${method}${ext}.d.ts done:${success}` : success);
+                }));
             doc.injectHeader = true;
         }
         if (method != 'emit') {
@@ -338,78 +338,78 @@ function renderSubmodule (mod, method, prop, dir, context) {
     //         }
     //         // console.log(success ? `${typePath}/${prop}/${subpath}/${method}.d.ts done:${success}` : success);
     //     }))
-    promises.push($f.writeFile(`${typePath}-${prop}/${subpath}/${method}.d.ts`, submoduleText.replace(/\.\.\/\.\.\//g,'../'))
-        .then((success)=>{
+    promises.push($f.writeFile(`${typePath}-${prop}/${subpath}/${method}.d.ts`, submoduleText.replace(/\.\.\/\.\.\//g, '../'))
+        .then((success) => {
             if (success) {
                 // console.log(GREEN, `${typePath}-${prop}/${subpath}/${method}.d.ts`);
             } else {
-                console.error(success);
+                console.log(RED, success);
             }
             // console.log(success ? `${typePath}-${prop}/${subpath}/${method}.d.ts done:${success}` : success);
         }))
     return promises;
 }
-async function updateTSConfig (prop, types) {
+async function updateTSConfig(prop, types) {
     prop = prop || '';
     types = types || [];
     if (prop) {
         prop = `-${prop}`;
     }
     prop += '/';
-    tsConfig.files = tsConfigFiles.concat([`craydent${prop.slice(0,-1)}-tests.ts`]);
+    tsConfig.files = tsConfigFiles.concat([`craydent${prop.slice(0, -1)}-tests.ts`]);
     tsConfig.compilerOptions.types = types.concat(['node']);
     var success = await $f.writeFile(`${typePath}${prop}tsconfig.json`, JSON.stringify(tsConfig, null, '    '));
     if (success) {
         // console.log(GREEN, `${typePath}${prop}tsconfig.json`);
     } else {
-        console.error(success);
+        console.log(RED, success);
     }
     // console.log(success ? `${typePath}${prop}tsconfig.json done` : success);
 }
-async function createMainFiles (refs, file, prop) {
+async function createMainFiles(refs, file, prop) {
     prop = prop || '';
     prop += '/';
     let mod;
     if (prop[0] == "-") {
-        mod = $u.include(`@craydent/craydent${prop}/noConflict`,true);
+        mod = $u.include(`@craydent/craydent${prop}/noConflict`, true);
     } else {
-        mod = $u.include(root + '/noConflict',true);
+        mod = $u.include(root + '/noConflict', true);
     }
     var constants = [];
-	for (var p in mod) {
-		if (!mod.hasOwnProperty(p) || p[0] == "_") { continue; }
-        if (/^[A-Z_0-9]*$/.test(p) && !(p in {"CLI":1,"JSONPA":1,"JSONSA":1})) {
-            if ($a.contains(constants,p)) { continue; }
+    for (var p in mod) {
+        if (!mod.hasOwnProperty(p) || p[0] == "_") { continue; }
+        if (/^[A-Z_0-9]*$/.test(p) && !(p in { "CLI": 1, "JSONPA": 1, "JSONSA": 1 })) {
+            if ($a.contains(constants, p)) { continue; }
             var type = $u.getProperty(mod, `${p}.constructor.name`) || 'string';
             if (type == "Array") {
-                switch(p) {
+                switch (p) {
                     case "MODULES_LOADED":
                         type += "<string>";
-                    break;
+                        break;
                     case "ERROR_TYPES":
                         type += "<Error>";
-                    break;
+                        break;
                     case "TEMPLATE_VARS":
                         type += "<TemplateVar>";
-                    break;
+                        break;
                     case "HTTP_STATUS_TEMPLATE":
                         type += "<HTTPStatusTemplate>";
-                    break;
+                        break;
                 }
             }
             constants.push(`${p}: ${type}`);
         }
     }
-    var content = $t.fillTemplate(mainTemplate, {refs: refs, global: file == "global", constants});
-    var success = await $f.writeFile(`${typePath}${prop}${file.replace('/index','')}/index.d.ts`, content);
+    var content = $t.fillTemplate(mainTemplate, { refs: refs, global: file == "global", constants });
+    var success = await $f.writeFile(`${typePath}${prop}${file.replace('/index', '')}/index.d.ts`, content);
     if (success) {
         // console.log(GREEN, `${typePath}${prop}${file}.d.ts`);
     } else {
-        console.error(RED, success);
+        console.log(RED, success);
     }
     // console.log(success ? `${typePath}${prop}${file}.d.ts done` : success);
 }
-function createCommonFile (content, dir, context, prop){
+function createCommonFile(content, dir, context, prop) {
     prop = prop || '';
     prop += '/';
 
@@ -420,7 +420,7 @@ function createCommonFile (content, dir, context, prop){
     var path = `${typePath}${prop}common`;
     var file = context;
     var imports = 'import { ChildProcess } from "child_process";\nimport { Server } from "net";\nimport { IncomingMessage, ServerResponse } from "http";\n\n'
-    var full = `import $c = require("../../${file.replace('index','index.d')}");\n${imports}declare module "../../${file}" {\n${content}\n}`;
+    var full = `import $c = require("../../${file.replace('index', 'index.d')}");\n${imports}declare module "../../${file}" {\n${content}\n}`;
     if (prop == '/') {
         // file = file.replace(/\.\.\/\.\.\//g,'../');
         // full = full.replace(/\.\.\/\.\.\//g,'../');
@@ -443,13 +443,17 @@ async function run(context, commonContent) {
         fs.createReadStream(`${templatePath}/tslint.json`).pipe(fs.createWriteStream(`${typePath}-${prop}/tslint.json`));
         fs.createReadStream(`${templatePath}/readme.md`).pipe(fs.createWriteStream(`${typePath}-${prop}/readme.md`));
         //fs.createReadStream(`${templatePath}/craydent-${prop}-tests.ts`).pipe(fs.createWriteStream(`${typePath}-${prop}/craydent-${prop}-tests.ts`));
-        promises.push($f.readFile(`${templatePath}/craydent-${prop}-tests.ts`, 'utf8').then((content)=>{
-            return $f.writeFile(`${typePath}-${prop}/craydent-${prop}-tests.ts`, $t.fillTemplate(content.replace('@craydent/',''), {prop:`-${prop}`}));
+        promises.push($f.readFile(`${templatePath}/craydent-${prop}-tests.ts`, 'utf8').then((content) => {
+            return $f.writeFile(
+                `${typePath}-${prop}/craydent-${prop}-tests.ts`,
+                content.replace('@craydent/', '')
+                // $t.fillTemplate(content.replace('@craydent/', ''), { prop: `-${prop}` })
+            );
         }));
         filecount += 2;
 
         promises = promises.concat(createCommonFile(commonContent, dir, context, `-${prop}`));
-        var subRefs = [commonRef,`${currentDir}/common/${dir}/${prop}.d.ts`];
+        var subRefs = [commonRef, `${currentDir}/common/${dir}/${prop}.d.ts`];
         createMainFiles(subRefs, context, `-${prop}`);
         filecount++;
 
@@ -478,13 +482,13 @@ async function run(context, commonContent) {
 
 
 }
-async function begin () {
+async function begin() {
     console.log(GREEN, '>>>>>>>>>>>>>>> GENERATING TYPES <<<<<<<<<<<<<<<');
     var commonContent = await prep();
     await Promise.all([
         run(`${mainPath}/index`, commonContent),
-        run("noConflict", commonContent),
-        run("global", commonContent)
+        // run("noConflict", commonContent),
+        // run("global", commonContent)
     ]);
     console.log(GREEN, '>>>>>>>>>>>>>>> TYPES GENERATED <<<<<<<<<<<<<<<');
 }
