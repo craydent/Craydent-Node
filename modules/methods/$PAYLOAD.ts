@@ -3,7 +3,7 @@ import { VerbOptions } from "../models/VerbOptions";
 import error from "./error";
 import _verbPayloadHelper from "../protected/_verbPayloadHelper";
 
-export default function $PAYLOAD(this: Craydent | Window, variable?: string, options?: VerbOptions) {
+export default function $PAYLOAD(this: Craydent, variable?: string, options?: VerbOptions) {
     /*|{
         "info": "Retrieve all or specific variables in the Body",
         "category": "HTTP",

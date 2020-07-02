@@ -37,8 +37,8 @@ declare global {
         parseAdvanced: typeof IParseAdvanced.default;
         stringifyAdvanced: typeof IStringifyAdvanced.default;
     }
-    const parseAdvanced: typeof IParseAdvanced.default;
-    const stringifyAdvanced: typeof IStringifyAdvanced.default;
+    var parseAdvanced: typeof IParseAdvanced.default;
+    var stringifyAdvanced: typeof IStringifyAdvanced.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

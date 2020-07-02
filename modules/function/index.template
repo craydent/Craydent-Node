@@ -81,18 +81,18 @@ declare global {
         then: typeof IThen.default;
         catchit: typeof ICatch.default;
     }
-    const equals: typeof IEquals.default;
-    const next: typeof INext.default;
-    const emit: typeof IEmit.default;
-    const namespace: typeof INamespace.default;
-    const extend: typeof IExtend.default;
-    const toPromise: typeof IToPromise.default;
-    const getParameters: typeof IGetParameters.default;
-    const getName: typeof IGetName.default;
-    const getValue: typeof IGetValue.default;
-    const on: typeof IOn.default;
-    const then: typeof IThen.default;
-    const catchit: typeof ICatch.default;
+    var equals: typeof IEquals.default;
+    var next: typeof INext.default;
+    var emit: typeof IEmit.default;
+    var namespace: typeof INamespace.default;
+    var extend: typeof IExtend.default;
+    var toPromise: typeof IToPromise.default;
+    var getParameters: typeof IGetParameters.default;
+    var getName: typeof IGetName.default;
+    var getValue: typeof IGetValue.default;
+    var on: typeof IOn.default;
+    var then: typeof IThen.default;
+    var catchit: typeof ICatch.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

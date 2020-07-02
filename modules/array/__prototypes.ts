@@ -304,8 +304,8 @@ export function _distinct<T>(this: T[], fields: string | string[], condition?: W
     }|*/
     return distinct(this, fields, condition);
 }
-export function _equals(this: AnyObject, compare: AnyObject, props?: string[]): boolean;
-export function _equals(this: any, compare: any): boolean;
+export function _equals(this: any[], compare: any, props?: string[]): boolean;
+export function _equals(this: any[], compare: any): boolean;
 export function _equals(compare, props?): boolean {
     /*|{
            "info": "Object class extension to check if object values are equal",
@@ -668,8 +668,8 @@ export function _normalize(this: AnyObjects) {
     return normalize(this);
 }
 export function _parallelEach(this: any[], args: any[]): Promise<any[]>;
-export function _parallelEach(this: any[], gen: Yieldables, args?: any[]): Promise<any>;
-export function _parallelEach(this: Yieldables[]): Promise<any>;
+export function _parallelEach(this: any[], gen: Yieldables, args?: any[]): Promise<any[]>;
+export function _parallelEach(this: Yieldables[]): Promise<any[]>;
 export function _parallelEach(gen?, args?): Promise<any[]> {
     /*|{
         "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",

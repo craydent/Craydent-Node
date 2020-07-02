@@ -124,32 +124,32 @@ declare global {
         tryEval: typeof ITryEval.default;
 
     }
-    const ajax: typeof IAjax.default;
-    const noop: typeof INoop.default;
-    const catchAll: typeof ICatchAll.default;
-    const clusterit: typeof IClusterit.default;
-    const cuid: typeof ICuid.default
-    const exclude: typeof IExclude.default;
-    const md5: typeof IMd5.default;
-    const wait: typeof IWait.default;
-    const JSZip: typeof IJSZip.default;
-    const zipit: typeof IZipit.default;
-    const clearCache: typeof IClearCache.default;
-    const cout: typeof ICout.default;
-    const foo: typeof IFoo.default;
-    const logit: typeof ILogit.default;
-    const include: typeof IInclude.default;
-    const mkdirRecursive: typeof IMkdirRecursive.default;
-    const namespace: typeof INamespace.default;
-    const now: typeof INow.default;
-    const parseBoolean: typeof IParseBoolean.default;
-    const parseRaw: typeof IParseRaw.default;
-    const rand: typeof IRand.default;
-    const requireDirectory: typeof IRequireDirectory.default;
-    const suid: typeof ISuid.default;
-    const syncroit: typeof ISyncroit.default;
-    const tryEval: typeof ITryEval.default;
-    const $d: Document;
+    var ajax: typeof IAjax.default;
+    var noop: typeof INoop.default;
+    var catchAll: typeof ICatchAll.default;
+    var clusterit: typeof IClusterit.default;
+    var cuid: typeof ICuid.default
+    var exclude: typeof IExclude.default;
+    var md5: typeof IMd5.default;
+    var wait: typeof IWait.default;
+    var JSZip: typeof IJSZip.default;
+    var zipit: typeof IZipit.default;
+    var clearCache: typeof IClearCache.default;
+    var cout: typeof ICout.default;
+    var foo: typeof IFoo.default;
+    var logit: typeof ILogit.default;
+    var include: typeof IInclude.default;
+    var mkdirRecursive: typeof IMkdirRecursive.default;
+    var namespace: typeof INamespace.default;
+    var now: typeof INow.default;
+    var parseBoolean: typeof IParseBoolean.default;
+    var parseRaw: typeof IParseRaw.default;
+    var rand: typeof IRand.default;
+    var requireDirectory: typeof IRequireDirectory.default;
+    var suid: typeof ISuid.default;
+    var syncroit: typeof ISyncroit.default;
+    var tryEval: typeof ITryEval.default;
+    var $d: Document;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

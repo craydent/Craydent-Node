@@ -45,10 +45,10 @@ declare global {
         syncroit: typeof ISyncroit.default;
         yieldable: typeof IYieldable.default;
     }
-    const parallelEach: typeof IParallelEach.default;
-    const awaitable: typeof IAwaitable.default;
-    const syncroit: typeof ISyncroit.default;
-    const yieldable: typeof IYieldable.default;
+    var parallelEach: typeof IParallelEach.default;
+    var awaitable: typeof IAwaitable.default;
+    var syncroit: typeof ISyncroit.default;
+    var yieldable: typeof IYieldable.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

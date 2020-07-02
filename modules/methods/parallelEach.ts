@@ -14,10 +14,10 @@ const _isArray = isArray,
     _isGenerator = isGenerator,
     _isPromise = isPromise;
 
-export default function parallelEach(obj: any[], args: any[]): Promise<any>;
+export default function parallelEach(obj: any[], args: any[]): Promise<any[]>;
 export default function parallelEach(obj: any[], gen: Yieldables, args?: any[]): Promise<any>;
-export default function parallelEach(obj: Yieldables[]): Promise<any>;
-export default function parallelEach(obj, gen?, args?): Promise<any> {
+export default function parallelEach(obj: Yieldables[]): Promise<any[]>;
+export default function parallelEach(obj, gen?, args?): Promise<any[]> {
     try {
         let self = obj, arr = obj;
         if (_isArray(gen)) {

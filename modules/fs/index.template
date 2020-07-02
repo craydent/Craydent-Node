@@ -121,39 +121,39 @@ declare global {
         }
     }
 
-    const access: typeof IAccess.default;
-    const appendFile: typeof IAppendFile.default;
-    const chmod: typeof IChmod.default;
-    const chown: typeof IChown.default;
+    var access: typeof IAccess.default;
+    var appendFile: typeof IAppendFile.default;
+    var chmod: typeof IChmod.default;
+    var chown: typeof IChown.default;
     // const close: typeof IClose.default;
-    const fchmod: typeof IFchmod.default;
-    const fchown: typeof IFchown.default;
-    const fdatasync: typeof IFdatasync.default;
-    const fstat: typeof IFstat.default;
-    const fsync: typeof IFsync.default;
-    const ftruncate: typeof IFtruncate.default;
-    const futimes: typeof IFutimes.default;
-    const lchmod: typeof ILchmod.default;
-    const lchown: typeof ILchown.default;
-    const link: typeof ILink.default;
-    const lstat: typeof ILstat.default;
-    const mkdir: typeof IMkdir.default;
-    const mkdtemp: typeof IMkdtemp.default;
+    var fchmod: typeof IFchmod.default;
+    var fchown: typeof IFchown.default;
+    var fdatasync: typeof IFdatasync.default;
+    var fstat: typeof IFstat.default;
+    var fsync: typeof IFsync.default;
+    var ftruncate: typeof IFtruncate.default;
+    var futimes: typeof IFutimes.default;
+    var lchmod: typeof ILchmod.default;
+    var lchown: typeof ILchown.default;
+    var link: typeof ILink.default;
+    var lstat: typeof ILstat.default;
+    var mkdir: typeof IMkdir.default;
+    var mkdtemp: typeof IMkdtemp.default;
     // const open: typeof IOpen.default;
-    const read: typeof IRead.default;
-    const readdir: typeof IReaddir.default;
-    const readFile: typeof IReadFile.default;
-    const readlink: typeof IReadlink.default;
-    const realpath: typeof IRealpath.default;
-    const rename: typeof IRename.default;
-    const rmdir: typeof IRmdir.default;
-    const stat: typeof IStat.default;
-    const symlink: typeof ISymlink.default;
-    const truncate: typeof ITruncate.default;
-    const unlink: typeof IUnlink.default;
-    const utimes: typeof IUtimes.default;
-    const write: typeof IWrite.default;
-    const writeFile: typeof IWriteFile.default;
+    var read: typeof IRead.default;
+    var readdir: typeof IReaddir.default;
+    var readFile: typeof IReadFile.default;
+    var readlink: typeof IReadlink.default;
+    var realpath: typeof IRealpath.default;
+    var rename: typeof IRename.default;
+    var rmdir: typeof IRmdir.default;
+    var stat: typeof IStat.default;
+    var symlink: typeof ISymlink.default;
+    var truncate: typeof ITruncate.default;
+    var unlink: typeof IUnlink.default;
+    var utimes: typeof IUtimes.default;
+    var write: typeof IWrite.default;
+    var writeFile: typeof IWriteFile.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

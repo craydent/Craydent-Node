@@ -128,26 +128,26 @@ declare global {
         isString: typeof IIsString.default;
     }
 
-    const isArray: typeof IIsArray.default;
-    const isAsync: typeof IIsAsync.default;
-    const isBetween: typeof IIsBetween.default;
-    const isBoolean: typeof IIsBoolean.default;
-    const isDate: typeof IIsDate.default;
-    const isDomElement: typeof IIsDomElement.default;
-    const isEmpty: typeof IIsEmpty.default;
-    const isError: typeof IIsError.default;
-    const isFloat: typeof IIsFloat.default;
-    const isFunction: typeof IIsFunction.default;
-    const isGenerator: typeof IIsGenerator.default;
-    const isGeolocation: typeof IIsGeolocation.default;
-    const isInt: typeof IIsInt.default;
-    const isNull: typeof IIsNull.default;
-    const isNullOrEmpty: typeof IIsNullOrEmpty.default;
-    const isNumber: typeof IIsNumber.default;
-    const isObject: typeof IIsObject.default;
-    const isPromise: typeof IIsPromise.default;
-    const isRegExp: typeof IIsRegExp.default;
-    const isString: typeof IIsString.default;
+    var isArray: typeof IIsArray.default;
+    var isAsync: typeof IIsAsync.default;
+    var isBetween: typeof IIsBetween.default;
+    var isBoolean: typeof IIsBoolean.default;
+    var isDate: typeof IIsDate.default;
+    var isDomElement: typeof IIsDomElement.default;
+    var isEmpty: typeof IIsEmpty.default;
+    var isError: typeof IIsError.default;
+    var isFloat: typeof IIsFloat.default;
+    var isFunction: typeof IIsFunction.default;
+    var isGenerator: typeof IIsGenerator.default;
+    var isGeolocation: typeof IIsGeolocation.default;
+    var isInt: typeof IIsInt.default;
+    var isNull: typeof IIsNull.default;
+    var isNullOrEmpty: typeof IIsNullOrEmpty.default;
+    var isNumber: typeof IIsNumber.default;
+    var isObject: typeof IIsObject.default;
+    var isPromise: typeof IIsPromise.default;
+    var isRegExp: typeof IIsRegExp.default;
+    var isString: typeof IIsString.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

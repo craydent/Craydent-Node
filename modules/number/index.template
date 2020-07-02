@@ -72,15 +72,15 @@ declare global {
         toCurrencyNotation: typeof IToCurrencyNotation.default;
         rand: typeof IRand.default;
     }
-    const aboutEqualTo: typeof IAboutEqualTo.default;
-    const contains: typeof IContains.default;
-    const equals: typeof IEquals.default;
-    const getValue: typeof IGetValue.default;
-    const isBetween: typeof IIsBetween.default;
-    const isEven: typeof IIsEven.default;
-    const isOdd: typeof IIsOdd.default;
-    const toCurrencyNotation: typeof IToCurrencyNotation.default;
-    const rand: typeof IRand.default;
+    var aboutEqualTo: typeof IAboutEqualTo.default;
+    var contains: typeof IContains.default;
+    var equals: typeof IEquals.default;
+    var getValue: typeof IGetValue.default;
+    var isBetween: typeof IIsBetween.default;
+    var isEven: typeof IIsEven.default;
+    var isOdd: typeof IIsOdd.default;
+    var toCurrencyNotation: typeof IToCurrencyNotation.default;
+    var rand: typeof IRand.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

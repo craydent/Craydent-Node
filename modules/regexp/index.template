@@ -43,9 +43,9 @@ declare global {
         equals: typeof IEquals.default;
         getValue: typeof IGetValue.default;
     }
-    const addFlags: typeof IAddFlags.default;
-    const equals: typeof IEquals.default;
-    const getValue: typeof IGetValue.default;
+    var addFlags: typeof IAddFlags.default;
+    var equals: typeof IEquals.default;
+    var getValue: typeof IGetValue.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

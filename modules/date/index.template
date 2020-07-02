@@ -67,14 +67,14 @@ declare global {
         isValidDate: typeof IIsValidDate.default;
         now: typeof INow.default;
     }
-    const equals: typeof IEquals.default;
-    const format: typeof IFormat.default;
-    const getDayOfYear: typeof IGetDayOfYear.default;
-    const getGMTOffset: typeof IGetGMTOffset.default;
-    const getValue: typeof IGetValue.default;
-    const getWeek: typeof IGetWeek.default;
-    const isValidDate: typeof IIsValidDate.default;
-    const now: typeof INow.default;
+    var equals: typeof IEquals.default;
+    var format: typeof IFormat.default;
+    var getDayOfYear: typeof IGetDayOfYear.default;
+    var getGMTOffset: typeof IGetGMTOffset.default;
+    var getValue: typeof IGetValue.default;
+    var getWeek: typeof IGetWeek.default;
+    var isValidDate: typeof IIsValidDate.default;
+    var now: typeof INow.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

@@ -39,7 +39,7 @@ declare global {
     interface Window {
         xmlToJson: typeof IXmlToJson.default;
     }
-    const xmlToJson: typeof IXmlToJson.default;
+    var xmlToJson: typeof IXmlToJson.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

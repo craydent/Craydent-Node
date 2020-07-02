@@ -29,7 +29,7 @@ declare global {
     interface Window {
         fillTemplate: typeof IFillTemplate.default;
     }
-    const fillTemplate: typeof IFillTemplate.default;
+    var fillTemplate: typeof IFillTemplate.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

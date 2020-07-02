@@ -6,7 +6,6 @@ import * as IGetValue from '../methods/getValue';
 import * as IGetWeek from '../methods/getWeek';
 import * as IIsValidDate from '../methods/isValidDate';
 import * as INow from '../methods/now';
-import { AnyObject } from '../models/Arrays';
 
 //#region dependencies
 const equals: typeof IEquals.default = require('../methods/equals').default;
@@ -19,10 +18,9 @@ const isValidDate: typeof IIsValidDate.default = require('../methods/isValidDate
 const now: typeof INow.default = require('../methods/now').default;
 //#endregion
 
-export function _equals(this: AnyObject, compare: AnyObject, props?: string[]): boolean;
-export function _equals(this: any, compare: any): boolean;
+export function _equals(this: Date, compare: any, props?: string[]): boolean;
+export function _equals(this: Date, compare: any): boolean;
 export function _equals(compare, props?): boolean {
-
     /*|{
         "info": "Object class extension to check if object values are equal",
         "category": "Object",

@@ -218,7 +218,7 @@ export function _isNumber(this: any): boolean {
     }|*/
     return isNumber(this);
 }
-export function _isObject(this: any, check_instance): boolean {
+export function _isObject(this: any, check_instance?: boolean): boolean {
     /*|{
         "info": "Object class extension to check if object is an object",
         "category": "Object|TypeOf",
