@@ -1,3 +1,3 @@
-export default function __log_module(name) {
+export default function __logModule(name) {
     $c.MODULES_LOADED[name] = $c.VERSION;
 }

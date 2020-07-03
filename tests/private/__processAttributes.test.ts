@@ -2,7 +2,7 @@
 
 import __processAttributes from '../../modules/private/__processAttributes';
 
-describe('__setPath', () => {
+describe('__processAttributes', () => {
     it('should parse attributes', () => {
         const attributes = __processAttributes('<node attr="attribute1"  attr2="attribute2"></node>', {});
         expect(attributes).toEqual({ '@attributes': { attr: "attribute1", attr2: "attribute2" } });
