@@ -12,11 +12,15 @@ export default function __processAttributes(node: string, refs: any): AnyObject 
         attr = !~attIndex ? "" : tag.substring(attIndex),
         text = node.substring(tagend + 1, node.indexOf('<', tagend));
 
-    if (attr[attr.length - 1] == "/") { attr = attr.substring(0, attr.length - 1); }
+    // self closing
+    if (attr[attr.length - 1] == "/") {
+        attr = attr.substring(0, attr.length - 1);
+        text = "";
+    }
     attr = _generalTrim(attr);
 
+    if (text) { obj['#text'] = fillTemplate(text, refs); }
     if (attr) {
-        obj['#text'] = fillTemplate(text, refs);
         let attributes = attr.split(' ');
         for (let i = 0, len = attributes.length; i < len; i++) {
             let attribute = attributes[i];
