@@ -1,6 +1,6 @@
 import __logModule from '../../modules/private/__logModule';
 
-(global as any).$c = global.$c || { MODULES_LOADED: {}, VERSION: "1" }
+(global as any).$c = (global as any).$c || { MODULES_LOADED: {}, VERSION: "1" }
 
 describe('__logModule', () => {
     it('should set the loaded Module', () => {
