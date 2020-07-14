@@ -11,20 +11,23 @@ import strip from '../methods/strip';
 import tryEval from '../methods/tryEval';
 import { AnyObjects, AnyObject } from '../models/Arrays';
 
+declare var $g: any;
+
 export default function _parseAdvanced(obj: any): any;
 export default function _parseAdvanced(obj: any, original: any, values: AnyObject | AnyObjects, base_path?: string, depth?: number): any;
-export default function _parseAdvanced(obj, original?, values?, base_path?, depth?, _parent?, _current_path?): any {
+export default function _parseAdvanced(obj, original?, values?, base_path?, depth?, _parents?, _current_path?): any {
     values = values || [];
     base_path = base_path || "";
     depth = depth || 0;
-    _parent = _parent;
+    _parents = _parents || [];
     _current_path = _current_path || base_path || "";
     if (!obj) { return; }
     original = original || obj;
     for (let prop in obj) {
+        /* istanbul ignore if */
         if (!obj.hasOwnProperty(prop)) { continue; }
         let nprop = fillTemplate(prop.toString(), values);
-        if (~nprop.indexOf('.') && (nprop.match(/\./) || []).length == 1) {
+        if (~nprop.indexOf('.') && (/* istanbul ignore next */nprop.match(/\./) || []).length == 1) {
             let parts = nprop.split('.'),
                 name = parts[1],
                 type = parts[0],
@@ -39,9 +42,12 @@ export default function _parseAdvanced(obj, original?, values?, base_path?, dept
                 value = new $g[type](value);
             } else {
                 name = nprop;
+                /* istanbul ignore else */
                 if (isObject(value) || isArray(obj[prop])) {
+                    _parents.push(obj);
                     // @ts-ignore
-                    value = _parseAdvanced(value, original, values, base_path, depth + 1, obj, `${_current_path}/${prop}`);
+                    value = _parseAdvanced(value, original, values, base_path, depth + 1, _parents, `${_current_path}/${prop}`);
+                    _parents.pop();
                 }
             }
 
@@ -56,13 +62,19 @@ export default function _parseAdvanced(obj, original?, values?, base_path?, dept
                 fieldpath = parts[1];
             if (hashIndex == 0) {
                 value = value.substring(1);
+                let index = _parents.length - 1;
                 if (value[0] == "/") {
                     refobj = original;
                 } else if (!startsWithAny(value, "../")) {
-                    refobj = _parent;
+                    refobj = _parents[index];
+                    if (value.indexOf('./') === 0) {
+                        value = value.replace('./', '');
+                    }
                 } else {
                     let refpath = _current_path;
+                    refobj = _parents[index--];
                     while (startsWithAny(value, "../")) {
+                        refobj = _parents[index--];
                         value = value.substring(3);
                         refpath = refpath.substring(0, refpath.lastIndexOf("/"));
                         if (!refpath) { return undefined; }
@@ -71,22 +83,31 @@ export default function _parseAdvanced(obj, original?, values?, base_path?, dept
                 return getProperty(refobj, value, '/');
             }
             if (startsWithAny(filepath, '/')) {
-                let pkg = require("./package.json");
-                filepath = (base_path ? "" : __dirname.replace(new RegExp(`/node_modules/${pkg.name}$`), '')) + filepath;
+                let path = require('path').resolve('./');
+                /* istanbul ignore next */
+                filepath = (base_path ? "" : path) + filepath;
             }
             try {
                 let module = relativePathFinder(base_path + filepath, depth + 1);
                 clearCache(module);
+                _parents.push(obj);
                 // @ts-ignore
-                refobj = _parseAdvanced(require(module), null, values, base_path, depth + 1, obj, `${_current_path}/${prop}`);
+                refobj = _parseAdvanced(require(module), null, values, base_path, depth + 1, _parents, `${_current_path}/${prop}`);
+                _parents.pop();
             } catch (e) {
+                /* istanbul ignore next */
                 error && error('JSON.parseAdvanced._parseAdvanced', e);
+                /* istanbul ignore next */
                 return null;
             }
+            /* istanbul ignore next */
             return fieldpath ? getProperty(refobj, fieldpath, '/') : refobj;
         } else if (isObject(obj[prop]) || isArray(obj[prop])) {
+            _parents.push(obj);
             // @ts-ignore
-            obj[nprop] = _parseAdvanced(obj[prop], original, values, base_path, depth + 1, obj, `${_current_path}/${prop}`);
+            obj[nprop] = _parseAdvanced(obj[prop], original, values, base_path, depth + 1, _parents, `${_current_path}/${prop}`);
+            _parents.pop();
+            /* istanbul ignore next */
             nprop != prop && delete obj[prop];
         } else {
             let value = obj[prop];

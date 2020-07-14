@@ -10,6 +10,8 @@ import isNull from './isNull';
 import isRegExp from './isRegExp';
 import isString from './isString';
 
+declare var $g: any;
+
 export default function parseRaw(value: any, skipQuotes?: boolean, saveCircular?: boolean, __windowVars?: any[], __windowVarNames?: any): string {
     /*|{
         "info": "Creates an evaluable string",
@@ -28,7 +30,7 @@ export default function parseRaw(value: any, skipQuotes?: boolean, saveCircular?
         if (isNull(value)) { return value + ""; }
         let raw = "";
         if (isString(value)) {
-            raw = (!skipQuotes ? `${replaceAll(value, '"', '\\"')}"` : value);
+            raw = (!skipQuotes ? `"${replaceAll(value, '"', '\\"')}"` : value);
         } else if (isArray(value)) {
             let tmp = [];
             for (let i = 0, len = value.length; i < len; i++) {

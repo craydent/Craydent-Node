@@ -1,4 +1,4 @@
-
+/* istanbul ignore file */
 const _irregularNouns = {
     "addendum": "addenda",
     "alga": "algae",

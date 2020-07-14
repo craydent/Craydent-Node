@@ -297,10 +297,10 @@ declare global {
 }
 if (!$c.MODULES_LOADED[info.name]) {
     scope.eval = str => eval(str);
-    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);
-    const emit: typeof IEmit.default = require('../methods/emit');
-    const ext: typeof IExt.default = require('../protected/_ext');
+    const emit: typeof IEmit.default = require('../methods/emit').default;
+    const ext: typeof IExt.default = require('../protected/_ext').default;
     const prototypes: typeof IPrototypes = require('./__prototypes');
 
     ext(Array, 'add', prototypes._add, true);

@@ -1,12 +1,14 @@
 import error from "../methods/error";
 import isFunction from "../methods/isFunction";
+import { $c } from "../private/__common";
 
-export default function _invokeHashChange() {
+export default function _invokeHashChange(): void | false {
     try {
-        const $COMMIT = (window as any).$c.$COMMIT || (window as any).$COMMIT;
-        let hc = ($COMMIT as any).onhashchange || (window as any).$c.onhashchange;
-        hc && isFunction(hc) && hc();
+        const $COMMIT: any = $c.$COMMIT;
+        let hc = $COMMIT.onhashchange || $c.onhashchange;
+        return isFunction(hc) && hc();
     } catch (e) {
+        /* istanbul ignore next */
         error && error('_invokeHashChange', e);
     }
 }

@@ -158,7 +158,7 @@ declare global {
 }
 if (!$c.MODULES_LOADED[info.name]) {
     scope.eval = str => eval(str);
-    const __logModule: typeof ILogModule.default = require('../private/__logModule');
+    const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);
     const prototypes: typeof IPrototypes = require('./__prototypes');
 

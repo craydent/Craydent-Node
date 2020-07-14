@@ -1,1 +1,1 @@
-export type EachIterator<T> = (this: T, value: any, prop: string) => boolean
+export type EachIterator<T> = (this: T, value: any, prop: string) => boolean | void

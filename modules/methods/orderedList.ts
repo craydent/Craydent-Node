@@ -52,7 +52,7 @@ class OrderedList<T> extends Array<T> {
     private nextIndex: number;
     private sorter: SortIterator<T>;
     constructor(records?: T[], sorter?: SortIterator<T>) {
-        super(duplicate(records || [], true) as any);
+        super(...duplicate(records || [], true) as any);
         Object.setPrototypeOf(this, Object.create(OrderedList.prototype))
         this.sort(this.sorter = sorter || iterator);
         this.nextIndex = 0;

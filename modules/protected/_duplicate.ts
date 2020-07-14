@@ -25,9 +25,10 @@ enum Args {
 
 }
 
-export default function _duplicate<T>(obj: T, original: T, recursive: boolean, ref?: Ref, current_path?: string, exec?: Exec): T {
+export default function _duplicate<T>(obj: any, original: T, recursive: boolean, ref?: Ref, current_path?: string, exec?: Exec): T {
     try {
         if (isNull(obj)) { return obj; }
+        if (isNull(original)) { return original; }
         if (isString(obj) || isString(original)
             || isInt(obj) || isInt(original)
             || isFloat(obj) || isFloat(original)
@@ -43,7 +44,9 @@ export default function _duplicate<T>(obj: T, original: T, recursive: boolean, r
 
         // (arguments[argIndex + 2] || (arguments[argIndex + 2] = {})) && (arguments[argIndex + 2].command = arguments[argIndex + 2].command || "");
         if (!(ref.objects.length == 1)) {
+            /* istanbul ignore next */
             for (let prop in obj) {
+                /* istanbul ignore next */
                 if (obj.hasOwnProperty(prop)) { delete obj[prop]; }
             }
         }
@@ -52,14 +55,14 @@ export default function _duplicate<T>(obj: T, original: T, recursive: boolean, r
                 const index = indexOfAlt(ref.objects, original[prop], function (obj: any, value) {
                     return obj.obj === value;
                 }),
-                    new_path = current_path + "[" + parseRaw(prop) + "]";
+                    new_path = `${current_path}[${parseRaw(prop)}]`;
 
                 if (~index) {
-                    return lExe.command += new_path + "=" + ref.objects[index].path + ";";
+                    return lExe.command += `${new_path}=${ref.objects[index].path};`;
                 }
 
                 if (typeof (original[prop]) in { "object": 1, "function": 1 } && recursive) {
-                    let isfunc = typeof (original[prop].constructor) == "function";
+                    let isfunc = typeof (original[prop].constructor) == "function" && original[prop].constructor != Object;
                     if (isfunc && typeof (original[prop]) == "object") {
                         obj[prop] = new original[prop].constructor();
                     } else if (!isfunc) {
@@ -68,7 +71,7 @@ export default function _duplicate<T>(obj: T, original: T, recursive: boolean, r
                     ref.objects.push({ obj: original[prop], path: new_path });
                     return _duplicate(obj[prop], original[prop], true, ref, new_path, lExe);
                 }
-            } else if (!original.hasOwnProperty(prop)) {
+            }/* istanbul ignore next */else if (!original.hasOwnProperty(prop)) {
                 return;
             }
             obj[prop] = original[prop];
@@ -87,12 +90,12 @@ export default function _duplicate<T>(obj: T, original: T, recursive: boolean, r
         }
 
         if (!arguments[Args.CURRENT_PATH]) {
-            eval(arguments[Args.EXEC].command);
+            eval(exec.command);
         }
 
         return obj;
     } catch (e) {
+        /* istanbul ignore next */
         error && error('_duplicate', e);
-        return null;
     }
 }

@@ -29,7 +29,7 @@ class Set<T> extends Array<T> {
     }|*/
     protected nextIndex: number;
     constructor(records: T[]) {
-        super(duplicate(records || [], true) as any);
+        super(...duplicate(records || [], true) as any);
         Object.setPrototypeOf(this, Object.create(Set.prototype))
         this.nextIndex = 0;
         this.clean();

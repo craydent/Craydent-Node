@@ -5,6 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
+declare var $c;
 export default function error(fname: string, e: Error): void {
     /*|{
         "info": "User implemented place holder function to handle errors",

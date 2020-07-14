@@ -27,7 +27,7 @@ export default function __convertRegexSafe(reg_str: string): string {
             .replace(/\)/gi, "\\)")
             .replace('\n', '\\n');
     } catch (e) {
+        /* istanbul ignore next*/
         error && error('__convertRegexSafe', e);
-        return null;
     }
 }

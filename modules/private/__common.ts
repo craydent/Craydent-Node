@@ -5,18 +5,21 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-// import error from '../methods/error';
+///<reference path="../globalTypes/global.base.ts" />
 import globalize from '../methods/globalize';
 import __isNewer from '../private/__isNewer';
-global.$g = global;
+declare var $g: any;
+(global as any).$g = global;
 
-var info = require('../package.json'),
+let info = require('../package.json'),
     _craydent_version = info.version,
-    scope = { eval },
+    scope = { eval: eval },
     $c = $g.$c;
 
-($g as any).navigator = ($g as any).navigator || {};
+/* istanbul ignore next */
+$g.navigator = $g.navigator || {};
 
+/* istanbul ignore next */
 if (!$g.$c || __isNewer($g.$c.VERSION.split('.'), _craydent_version.split('.'))) {
     $g.$c = $c = $g.$c || {} as Craydent;
 
@@ -34,13 +37,14 @@ if (!$g.$c || __isNewer($g.$c.VERSION.split('.'), _craydent_version.split('.')))
 
     try {
         // retrieve public and local IP Addresses
-        var nics = require('os').networkInterfaces();
-        for (var nic in nics) {
+        const nics = require('os').networkInterfaces();
+        for (let nic in nics) {
             if (!nics.hasOwnProperty(nic)) {
+                /* istanbul ignore next */
                 continue;
             }
             // filter for address that is IPv4
-            var iface = nics[nic].filter(function (ic) {
+            let iface = nics[nic].filter(function (ic) {
                 return ic.family == 'IPv4';
             })[0];
             if (iface) {

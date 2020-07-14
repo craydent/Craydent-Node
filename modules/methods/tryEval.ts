@@ -1,6 +1,5 @@
 
 type EvaluatorMethod = (expression: any) => any;
-import { scope } from '../private/__common';
 
 export default function tryEval(expression: any, evaluator?: EvaluatorMethod) {
     /*|{
@@ -18,14 +17,14 @@ export default function tryEval(expression: any, evaluator?: EvaluatorMethod) {
     try {
         let value;
         if (evaluator) { value = evaluator(expression); }
-        else { value = scope.eval(expression); }
+        else { value = eval(expression); }
         if (value === undefined && expression != "undefined") {
             throw '';
         }
         return value;
     } catch (e) {
         try {
-            return scope.eval("(" + expression + ")");
+            return eval("(" + expression + ")");
         } catch (e) {
             return null;
         }

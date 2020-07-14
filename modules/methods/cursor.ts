@@ -33,7 +33,7 @@ class Cursor<T> extends Array<T> {
     public current: T;
 
     constructor(records?: AnyObject | any[]) {
-        super(duplicate(records || [], true) as any);
+        super(...duplicate(records || [], true) as any);
         Object.setPrototypeOf(this, Object.create(Cursor.prototype))
         this.currentIndex = 0;
         this.props = [];

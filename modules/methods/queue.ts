@@ -23,7 +23,7 @@ class Queue<T> extends Array<T> {
     }|*/
     protected nextIndex: number;
     constructor(records: T[]) {
-        super(duplicate(records || [], true) as any);
+        super(...duplicate(records || [], true) as any);
         Object.setPrototypeOf(this, Object.create(Queue.prototype))
         this.nextIndex = 0;
     }

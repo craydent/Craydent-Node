@@ -1,3 +1,4 @@
+///<reference path="../globalTypes/global.base.ts" />
 import error from './error';
 
 export default function isOpera(this: Craydent | Window) {
@@ -12,11 +13,12 @@ export default function isOpera(this: Craydent | Window) {
         "returnType": "(Bool)"
     }|*/
     try {
-        var nu = this.navigator.userAgent;
+        const nu = (this as Window).navigator.userAgent;
         return /chrome/i.test(nu)
             && /apple/i.test(nu)
-            && /opera/i.test(nu);
+            && /opera|opr/i.test(nu);
     } catch (e) {
+        /* istanbul ignore next */
         error && error('isOpera', e);
     }
 }

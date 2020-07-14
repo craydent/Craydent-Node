@@ -1,3 +1,4 @@
+///<reference path="../globalTypes/global.base.ts" />
 import error from './error';
 
 export default function isSafari(this: Craydent | Window) {
@@ -12,9 +13,10 @@ export default function isSafari(this: Craydent | Window) {
         "returnType": "(Bool)"
     }|*/
     try {
-        var nu = this.navigator.userAgent;
-        return !this.isChrome() && (/chrome/i.test(nu)) && (/apple/i.test(nu));
+        const nu = (this as Window).navigator.userAgent;
+        return !(this as any).isChrome() && (/chrome/i.test(nu)) && (/apple/i.test(nu));
     } catch (e) {
+        /* istanbul ignore next */
         error && error('isSafari', e);
     }
 }

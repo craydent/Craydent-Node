@@ -1,6 +1,7 @@
 import error from '../methods/error';
 
-export default function __contextualizeMethods<T>(ctx: T): T {
+declare var $c: any
+export default function __contextualizeMethods<T>(ctx?: T): T {
     try {
         // @ts-ignore
         ctx = ctx || {};
@@ -11,8 +12,8 @@ export default function __contextualizeMethods<T>(ctx: T): T {
 
         return ctx;
     } catch (e) {
+        /* istanbul ignore next*/
         error && error('__contextualizeMethods', e);
-        return null;
     }
 }
 const fsmethods = [

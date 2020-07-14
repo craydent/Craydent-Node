@@ -4,6 +4,6 @@ import isArray from './isArray';
 
 export default function isInt(obj: any): boolean {
 
-    if (isNull(obj) || isArray(obj)) { return obj; }
-    return (parseInt(obj) == obj || parseInt(obj) === 0);
+    if (isNull(obj) || isArray(obj)) { return false; }
+    return (parseInt(obj) == obj || obj === 0);
 }

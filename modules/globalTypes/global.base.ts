@@ -1,9 +1,9 @@
 interface HelperOptions {
-    removeNewLineFromLogicalSyntax: RegExp;
-    max: number;
-    offset: number;
-    newlineToHtml: boolean;
-    preserveNonMatching: boolean;
+    removeNewLineFromLogicalSyntax?: boolean;
+    max?: number;
+    offset?: number;
+    newlineToHtml?: boolean;
+    preserveNonMatching?: boolean;
 }
 interface BlockofCode {
     id: string;
