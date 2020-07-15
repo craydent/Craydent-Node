@@ -1,15 +1,15 @@
-function __binarySearch(arr: any[], value: any, min?: number, max?: number): number {
+export function __binarySearch(arr: any[], value: any, min?: number, max?: number): number {
     min = min || 0;
     max = max || arr.length;
 
-    if (min + 1 == max) { return max; }
+    if (min + 1 >= max) { return max; }
 
     // @ts-ignore
     let mid = parseInt((max - min) / 2) + min;
 
     if (arr[mid] == value) {
         mid--;
-        while (min > mid) {
+        while (min < mid) {
             if (arr[mid] != value) { break; }
             mid--;
         }

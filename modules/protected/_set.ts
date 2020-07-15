@@ -4,7 +4,7 @@ import $COOKIE from "../methods/$COOKIE";
 import _invokeHashChange from "./_invokeHashChange";
 import { VerbOptions } from "../models/VerbOptions";
 
-export default function _set(variable: string, value: string, defer: boolean, options: VerbOptions, loc: any) {
+export default function _set<T>(variable: string, value: string, defer: boolean, options: VerbOptions, loc: T): T {
     try {
         value = encodeURI(value);
         let ignoreCase = (options as any).ignoreCase || options == "ignoreCase" ? "i" : "",
@@ -18,7 +18,7 @@ export default function _set(variable: string, value: string, defer: boolean, op
         $COMMIT[attr] = $COMMIT[attr] || "";
 
         if (defer) {
-            $COMMIT[attr] = ($COMMIT[attr] || location[attr]);
+            $COMMIT[attr] = $COMMIT[attr] || loc[attr];
             queryStr = regex.test($COMMIT[attr]) ?
                 $COMMIT[attr].replace(regex, `$1$2${value}$4`) :
                 `${$COMMIT[attr]}${symbol}${variable}=${value}`;
@@ -30,18 +30,19 @@ export default function _set(variable: string, value: string, defer: boolean, op
         } else {
             queryStr = regex.test(loc[attr]) ?
                 loc[attr].replace(regex, `$1$2${value}$4`) :
-                `${loc[attr]}${symbol}$variable=${value}`;
+                `${loc[attr]}${symbol}${variable}=${value}`;
             if (symbol == "&" && queryStr.indexOf('&') == 0) {
                 queryStr = `?${queryStr.substring(1)}`;
             }
             loc[attr] = queryStr;
             if (attr == 'hash') {
-                $COOKIE("CRAYDENTHASH", loc.hash[0] == '#' ? loc.hash.substring(1) : loc.hash);
+                $COOKIE("CRAYDENTHASH", (loc as any).hash[0] == '#' ? (loc as any).hash.substring(1) : (loc as any).hash);
                 _invokeHashChange();
             }
         }
         return loc;
     } catch (e) {
+        /* istanbul ignore next */
         error && error("_set", e);
     }
 }

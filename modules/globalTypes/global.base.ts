@@ -1,5 +1,6 @@
 interface HelperOptions {
     removeNewLineFromLogicalSyntax?: boolean;
+    removeWhitespaceFromLogicalSyntax?: boolean;
     max?: number;
     offset?: number;
     newlineToHtml?: boolean;
@@ -13,6 +14,9 @@ interface BlockofCode {
 }
 interface TemplateTagConfig {
     IGNORE_CHARS: string[];
+    AND: {
+        syntax: RegExp
+    };
     FOR: {
         begin: RegExp;
         end: RegExp;
@@ -38,6 +42,9 @@ interface TemplateTagConfig {
         end: RegExp;
         helper: (code: string) => string;
         parser: (code: string, oobj, bind) => string;
+    };
+    OR: {
+        syntax: RegExp
     };
     SWITCH: {
         begin: RegExp;

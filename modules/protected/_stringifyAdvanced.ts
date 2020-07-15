@@ -9,6 +9,7 @@ export default function _stringifyAdvanced(obj: any, _nobj?, _objs?, _paths?, _c
     _paths = _paths || ["/"];
     _cpath = _cpath || "";
     for (let prop in obj) {
+        /* istanbul ignore next */
         if (!obj.hasOwnProperty(prop)) { continue; }
         let val = obj[prop];
         if (isObject(obj[prop]) || isArray(obj[prop])) {

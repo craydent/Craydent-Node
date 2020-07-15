@@ -1,38 +1,46 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import error from '../methods/error';
 import tryEval from '../methods/tryEval';
 import mkdirRecursive from '../methods/mkdirRecursive';
 import { AnyObject } from '../models/Arrays';
 
-export default function _sessionFileCreateAndRetrieve(directory: string, path: string, sync?: boolean, callback?: (data: AnyObject) => void) {
+export default function _sessionFileCreateAndRetrieve(filepath: string, sync?: boolean, callback?: (data: AnyObject) => void): AnyObject | Promise<AnyObject> {
     try {
+        const directory = path.dirname(filepath);
         if (sync) {
-            if (!fs.existsSync(path)) {
-                if (!fs.existsSync(directory)) {
+            try {
+                fs.accessSync(filepath);
+            } catch (e) {
+                try {
+                    fs.accessSync(directory);
+                } catch (e) {
                     let dirPath = "";
                     // create all missing parent directories sync
                     let dirs = directory.split('/'), i = 0, dir;
                     while (dir = dirs[i++]) {
                         dirPath += `${dir}/`;
-                        if (!fs.existsSync(dirPath)) {
-                            fs.mkdirSync(dirPath);
-                        }
+                        try { fs.accessSync(dirPath); } catch (e) { fs.mkdirSync(dirPath) }
                     }
                 }
                 // creates the file
-                fs.openSync(path, 'w+');
+                fs.openSync(filepath, 'w+');
             }
-            return tryEval(fs.readFileSync(path).toString()) || {};
+            return tryEval(fs.readFileSync(filepath).toString()) || {};
         }
-        fs.exists(path, function (exists) {
-            if (!exists) {
-                // create all missing parent directories async then create the file
-                return mkdirRecursive(directory, function () { fs.open(path, 'w+', function () { callback({}); }); });
-            }
-            fs.readFile(path, function (err, data) { callback(tryEval(data)); });
+        return new Promise((res) => {
+            callback = callback || res;
+            fs.access(filepath, function (err) {
+                if (err) {
+                    // create all missing parent directories async then create the file
+                    return mkdirRecursive(directory, function () { fs.open(filepath, 'w+', function () { callback({}); }); });
+                }
+                fs.readFile(filepath, function (err, data) { callback(tryEval(data)); });
+            });
         });
 
     } catch (e) {
+        /* istanbul ignore next */
         error && error('_sessionFileCreateAndRetrieve', e);
     }
 }

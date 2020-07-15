@@ -16,13 +16,16 @@ export default function _replaceAll(str, replace, subject, flag?): string {
         for (let i = 0, len = replace.length; i < len; i++) {
             let rep = replace[i];
             let reg = new RegExp(__convertRegexSafe(rep), flag);
+            /* istanbul ignore if */
             if (!~str.search(reg)) { continue; }
             str = str.replace(reg, subject[i] === undefined ? subject[last] : subject[i]);
             if (subject[last + 1]) { last++; }
         }
         return str.toString();
     } catch (e) {
+        /* istanbul ignore next */
         error && error("_replaceAll", e);
+        /* istanbul ignore next */
         return '';
     }
 }

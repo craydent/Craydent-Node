@@ -1,4 +1,3 @@
-import { scope } from '../private/__common';
 import tryEval from '../methods/tryEval';
 import syncroit from '../methods/syncroit';
 import isArray from '../methods/isArray';
@@ -11,22 +10,24 @@ const _isArray = isArray,
     _isGenerator = isGenerator,
     _isAsync = isAsync;
 
-export default function _runFuncArray(funcs: Function | Function[], args: any[]) {
-    var self = this;
+export default function _runFuncArray(funcs: Function | Function[], args?: any[]) {
+    var sc = syncroit;
+    args = args || [];
+    let self = this;
     // @ts-ignore
     !_isArray(funcs) && (funcs = [funcs]);
     let i = 0, func, rtn = [];
-    scope.eval = eval;
     while (func = funcs[i++]) {
         try {
-            if (_isFunction(func)) {
-                rtn = rtn.concat(func.apply(self, args));
-            } else if (_isGenerator(func)) {
-                tryEval('syncroit(function *(){rtn = rtn.concat(yield func.apply(self,args));});');
+            if (_isGenerator(func)) {
+                tryEval('rtn = rtn.concat(sc(function *(){return yield func.apply(self,args);}));', (val) => eval(val));
             } else if (_isAsync(func)) {
-                tryEval('(async function (){rtn = rtn.concat(await func.apply(self,args));})();');
+                tryEval('rtn = rtn.concat((async function (){return await func.apply(self,args);})());', (val) => eval(val));
+            } else if (_isFunction(func)) {
+                rtn = rtn.concat(func.apply(self, args));
             }
         } catch (e) {
+            /* istanbul ignore next */
             throw e;
         }
     }

@@ -9,6 +9,7 @@ import error from './error';
 import isNull from './isNull';
 import df from '../private/__defineFunction';
 
+declare var $g: any;
 const exceptions = { get: 1, set: 1 };
 
 export default function addObjectPrototype(name: string, fn: Function, override?: boolean): void {
@@ -58,5 +59,5 @@ export default function addObjectPrototype(name: string, fn: Function, override?
             error && error("addPrototype:Non-ECMAScript 5", e);
         }
     }
-    return df(name, fn, override), void (0);
+    return df(name, fn), void (0);
 }
