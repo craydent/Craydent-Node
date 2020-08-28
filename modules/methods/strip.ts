@@ -7,7 +7,7 @@
 /*/---------------------------------------------------------/*/
 import error from './error';
 import _generalTrim from '../protected/_generalTrim';
-export default function strip(str: string, character: string | string[]): string {
+export default function strip(str: string, character?: string | string[]): string {
     /*|{
         "info": "String class extension to remove characters from the beginning and end of the string",
         "category": "String",
@@ -21,7 +21,7 @@ export default function strip(str: string, character: string | string[]): string
     }|*/
     try {
         return _generalTrim(str, undefined, character);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("_strip", e);
         return null;
     }

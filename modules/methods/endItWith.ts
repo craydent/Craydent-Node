@@ -15,7 +15,7 @@ export default function endItWith(str: string, ending: string): string {
     try {
         if (str.slice(-(ending.length)) == ending) { return str; }
         return str + ending;
-    } catch (e) {
-        error('String.endItWith', e);
+    } catch (e) /* istanbul ignore next */ {
+        error && error('String.endItWith', e);
     }
 }

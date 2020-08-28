@@ -1,7 +1,7 @@
 import error from './error';
 import IEVersion from './IEVersion';
 
-export default function isIE(this: Craydent | Window) {
+export default function isIE(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if browser is Internet Explorer",
         "category": "HTTP",
@@ -14,7 +14,7 @@ export default function isIE(this: Craydent | Window) {
     }|*/
     try {
         return (!!~IEVersion.call(this));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isIE', e);
     }
 }

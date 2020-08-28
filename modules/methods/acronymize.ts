@@ -1,5 +1,6 @@
 import error from './error';
 import isBoolean from './isBoolean';
+import isNull from './isNull';
 
 export default function acronymize(str: string, capsOnly?: boolean, delimiter?: string | RegExp): string;
 export default function acronymize(str: string, match?: RegExp): string;
@@ -28,7 +29,7 @@ export default function acronymize(str: string, capsOnly?, delimiter?): string {
     }|*/
     try {
         delimiter = delimiter || " ";
-        if (isBoolean(capsOnly)) {
+        if (isBoolean(capsOnly) || isNull(capsOnly)) {
             if (capsOnly) {
                 capsOnly = /[A-Z]/
             } else {
@@ -38,10 +39,10 @@ export default function acronymize(str: string, capsOnly?, delimiter?): string {
         let words = str.split(delimiter),
             acronym = "";
         for (let i = 0, len = words.length; i < len; i++) {
-            if (capsOnly.test(words[0])) { acronym += words[0]; }
+            if (capsOnly.test(words[i])) { acronym += words[i].match(capsOnly)[0]; }
         }
         return acronym.toUpperCase();
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.acronymize", e);
     }
 }

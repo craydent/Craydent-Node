@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function isBlackBerry(this: Craydent | Window) {
+export default function isBlackBerry(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if device is BlackBerry",
         "category": "HTTP",
@@ -13,7 +13,7 @@ export default function isBlackBerry(this: Craydent | Window) {
     }|*/
     try {
         return (/blackberry/i.test(this.navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isBlackBerry', e);
     }
 }

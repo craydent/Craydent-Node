@@ -6,10 +6,8 @@ export default function _typeCheck(obj: any, cls: any, backward_compatible?: boo
         if (isNull(obj)) { return false; }
         if (backward_compatible) { return obj.constructor.name == cls; }
         return obj.constructor == cls;
-    } catch (e) {
-        /* istanbul ignore next */
-        error && error('is' + cls.constructor.name, e);
-        /* istanbul ignore next */
+    } catch (e) /* istanbul ignore next */ {
+        error && error(`is${cls.constructor.name}`, e);
         return null;
     }
 }

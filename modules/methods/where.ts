@@ -62,7 +62,8 @@ import {
     ExtendedArray,
     UnwindOptions,
     AnyObjects,
-    AnyObject
+    AnyObject,
+    Fields
 } from '../models/Arrays';
 
 
@@ -203,6 +204,7 @@ export function __processStage<T>(docs: Documents<T>, stage: Stage): Documents<T
 }
 
 export function __pullHelper(target: any[], lookup: any[]): void {
+    if (!_isArray(lookup)) { lookup = [lookup]; }
     for (let i = 0, len = lookup.length; i < len; i++) {
         let value = lookup[i];
         for (let j = 0, jlen = target.length; j < jlen; j++) {
@@ -367,7 +369,7 @@ export function __processGroup<T>(docs: Documents<T>, expr: any): Documents<T> {
         return null;
     }
 }
-export function _copyWithProjection(record: any, projection_arg?: string | string[] | boolean, preserveProperties?: boolean): any {
+export function _copyWithProjection(record: any, projection_arg?: string | string[] | boolean | AnyObject, preserveProperties?: boolean): any {
     if (projection_arg === true) {
         return record;
     }
@@ -472,7 +474,7 @@ export function _createFunc<T>(args: CreateFuncOptions): T[] {
                         return false;
                     }
                 }
-                projected.push(_copyWithProjection(projection, record));
+                projected.push(_copyWithProjection(record, projection));
                 return true;
             }
         }
@@ -485,7 +487,7 @@ export function _createFunc<T>(args: CreateFuncOptions): T[] {
         }
         let projection_code = "";
         if (projection) {
-            projection_code = "projected.push(_copyWithProjection(projection, record));";
+            projection_code = "projected.push(_copyWithProjection(record, projection));";
         }
         eval(`${varStrings}func = function (record,the_current_index,farr) {var values;${projection_code}return ${ifblock};}`);
     }
@@ -721,7 +723,7 @@ export function _subQuery(query: MongoQuery, field: string, index: number, _wher
                 if (isfunc) {
                     _whereRefs.push(query['$where']);
                 }
-                val = `(${(isfunc ? '__where_cb' + _whereRefs.length : 'function(){return (' + query['$where'] + ');}')})`;
+                val = `(${(isfunc ? `__where_cb${_whereRefs.length}` : `function(){return (${query['$where']});}`)})`;
                 expression += ' && ' + val + '.call(record)';
                 break;
             case '$elemMatch':
@@ -1296,9 +1298,10 @@ export function _whereFunction<T>(options: WhereFunctionOptions<T>): T[] {
 export type AccumulatorMeta<T> = { length: number, index: number, sample: T[] };
 export type MongoQuery = any;
 export type WhereFunctionOptions<T> = { obj: T[], condition: Function, limit: number };
+export type WhereProjection = string | string[] | boolean | Fields;
 export default function where<T>(objs: AnyObjects, condition?: MongoQuery, limit?: number): T[];
 export default function where<T>(objs: AnyObjects, condition?: MongoQuery, useReference?: boolean, limit?: number): T[];
-export default function where<T>(objs: AnyObjects, condition?: MongoQuery, projection?: any, limit?: number): T[];
+export default function where<T>(objs: AnyObjects, condition?: MongoQuery, projection?: WhereProjection, limit?: number): T[];
 export default function where<T>(objs, condition?, projection?, limit?): T[] {
     try {
         let records = objs as IndexedArray<T>;

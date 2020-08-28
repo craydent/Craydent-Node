@@ -82,7 +82,36 @@
         "@craydent/craydent-xml-to-json": "file:./submodules/xml-to-json"
     },
     "devDependencies": {
+        "@types/jest": "^26.0.3",
         "@types/node": "^11.9.4",
-        "jasmine-node": "^1.16.2"
+        "jest": "^26.1.0",
+        "ts-jest": "^26.1.1",
+        "typescript": "^3.9.6"
+    },
+    "jest": {
+        "transform": {
+            "^.+\\.ts$": "ts-jest"
+        },
+        "testPathIgnorePatterns": [
+            ".history",
+            "__prototypes.ts",
+            "index.template",
+            "global.base.ts",
+            "global.vars.ts"
+        ],
+        "testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.(ts)$",
+        "moduleFileExtensions": [
+            "js",
+            "json",
+            "node",
+            "ts"
+        ],
+        "moduleNameMapper": {
+            "^protected(.*)$": "<rootDir>/modules/protected$1",
+            "^private(.*)$": "<rootDir>/modules/private$1",
+            "^methods(.*)$": "<rootDir>/modules/methods$1",
+            "^models(.*)$": "<rootDir>/modules/models$1"
+        },
+        "coverageDirectory": "<rootDir>/reports/code_coverage"
     }
 }

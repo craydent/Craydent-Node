@@ -1,5 +1,4 @@
-import error from './error';
-import * as fs from 'fs';
+import _fsHelper from '../protected/_fsHelper';
 
 export default function rmdir(path: string): Promise<NodeJS.ErrnoException | void> {
     /*|{
@@ -12,22 +11,5 @@ export default function rmdir(path: string): Promise<NodeJS.ErrnoException | voi
         "url": "http://www.craydent.com/library/1.9.3/docs#rmdir",
         "returnType": "(any)"
     }|*/
-    let args = [];
-    for (let i = 0, len = arguments.length; i < len; i++) {
-        args.push(arguments[i]);
-    }
-    return new Promise(function (res) {
-        try {
-            args.push(function (err) {
-                if (err) {
-                    res(err);
-                }
-                res(null);
-            });
-            fs.rmdir.apply(this, args);
-        } catch (e) {
-            error && error('fs.rmdir', e);
-            res(e);
-        }
-    });
+    return _fsHelper.apply(this, ['rmdir', ...arguments as any]);
 }

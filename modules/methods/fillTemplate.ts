@@ -32,7 +32,7 @@ import suid from './suid';
 import tryEval from './tryEval';
 import { AnyObjects, AnyObject } from '../models/Arrays';
 
-declare var $g: any;
+const $g: any = global;
 interface EchoFunction extends Function {
     out?: string;
 }
@@ -142,7 +142,7 @@ let _template_config = {
             }
             /* istanbul ignore next */
             let value = mresult[2] || mresult[4];
-            objs = tryEval(value, (val) => eval(val));
+            objs = tryEval(value, ((val) => eval(val)).bind(this));
             if (!objs && startsWithAny(value, "${", "{{") && !value.endsWith("}")) {
                 return code;
             }
@@ -299,7 +299,7 @@ let _template_config = {
                     var_match_name = ttc.VARIABLE_NAME(var_match),
                     var_match_index = code_result.indexOf(var_match),
                     before, after;
-                const evaluated = tryEval(`${var_match_name};`, (val) => eval(val));
+                const evaluated = tryEval(`${var_match_name};`, ((val) => eval(val)).bind(this));
                 if (evaluated !== null) {
                     var_match_index += var_match.length;
                 }
@@ -339,7 +339,7 @@ let _template_config = {
                     ifsyntax = new RegExp(`${IF.begin.source}|${IF.elseif.source}|${IF["else"].source}`, 'i');
 
                 if (!code.match(new RegExp(`${IF.elseif.source}|${IF["else"].source}`, 'ig'))) {
-                    if ("undefined" == ifmatch[1] || !tryEval(ifmatch[1], (val) => eval(val))) {
+                    if ("undefined" == ifmatch[1] || !tryEval(ifmatch[1], ((val) => eval(val)).bind(this))) {
                         return pre + post;
                     }
                     return pre + code.substring(startindex + (ifmatch[0] as string).length, endindex) + post;
@@ -351,7 +351,7 @@ let _template_config = {
                     let ifm2 = ifmatch[i] as string,
                         ife = condense(ifm2.match(ifsyntax)),
                         condition = ife[1],
-                        value = "undefined" == condition ? false : tryEval(condition, (val) => eval(val)),
+                        value = "undefined" == condition ? false : tryEval(condition, ((val) => eval(val)).bind(this)),
                         sindex = code.indexOf(ifm2) + ifm2.length;
 
                     if (condition && condition.length && condition != 'null' && !contains(condition, vsyntax) && value === null) {
@@ -411,7 +411,7 @@ let _template_config = {
                     switchmatch[j] = replaceAll(swmatch, ['\\[', '\\]'], ['[', ']']).toString();
                 }
                 let pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
-                    val = tryEval(switchmatch[2], (val) => eval(val)) || switchmatch[2],
+                    val = tryEval(switchmatch[2], ((val) => eval(val)).bind(this)) || switchmatch[2],
                     cgsyntax = addFlags(SWITCH["case"], "g"),
                     cases = code.match(cgsyntax),
                     /* istanbul ignore next */
@@ -430,7 +430,7 @@ let _template_config = {
                         /* istanbul ignore next */
                         cvalue = cs[1] || cs[2];
                     /* istanbul ignore next */
-                    cvalue = tryEval(cvalue, (val) => eval(val)) || cvalue;
+                    cvalue = tryEval(cvalue, ((val) => eval(val)).bind(this)) || cvalue;
                     if (val == cvalue) {
                         let cindex = code.indexOf(cse),
                             bindex = indexOfAlt(code, brk, cindex);
@@ -589,7 +589,7 @@ let _template_config = {
              var_nameValue = (matches[1]||matches[2]).strip(';').split("=");
 
              $c.fillTemplate.declared[var_nameValue[0]] = var_nameValue[1];*/
-            merge(this.declared, tryEval(`({${replaceAll(matches[1], '=', ':')}})`, (val) => eval(val)));
+            merge(this.declared, tryEval(`({${replaceAll(matches[1], '=', ':')}})`, ((val) => eval(val)).bind(this)));
             return replaceAll(htmlTemplate, declare, '');
         }
     }
@@ -768,7 +768,7 @@ export function __run_replace(reg: RegExp, template: string, use_run: boolean, o
             funcValue = replaceAll(match[1], ['\\[', '\\]'], ['[', ']']).split(split_param);
             while (count(funcValue[0], "{") != count(funcValue[0], "}")) {
                 /* istanbul ignore if */
-                if (tryEval(funcValue[0], (val) => eval(val))) { break; }
+                if (tryEval(funcValue[0], ((val) => eval(val)).bind(this))) { break; }
                 /* istanbul ignore next */
                 funcValue[0] += (isString(split_param) ? split_param : ";") + funcValue[1];
                 funcValue.splice(1, 1);
@@ -786,12 +786,12 @@ export function __run_replace(reg: RegExp, template: string, use_run: boolean, o
             __count([]);
             funcValue = funcValue.map(function (item) {
                 /* istanbul ignore else */
-                return tryEval(item, (val) => eval(val)) || item;
+                return tryEval(item, ((val) => eval(val)).bind(this)) || item;
             });
             /* istanbul ignore next */
             template = ~template.indexOf(match[1]) ? template.replace(match[1], (match[1] = replaceAll(match[1], ['\\[', '\\]'], ['[', ']']))) : template;
             /* istanbul ignore next */
-            const replacer = (getProperty($g, func) ? getProperty($g, func) : (tryEval(`(${func})`, (val) => eval(val)) || foo)).apply(obj, funcValue) || "";
+            const replacer = (getProperty($g, func) ? getProperty($g, func) : (tryEval(`(${func})`, ((val) => eval(val)).bind(this)) || foo)).apply(obj, funcValue) || "";
             template = replaceAll(template, `\${${pre + match[1] + post}}`, replacer)
         }
         return template;

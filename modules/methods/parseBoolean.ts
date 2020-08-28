@@ -22,17 +22,15 @@ export default function parseBoolean(value: any, strict?: boolean): boolean | un
     try {
         if (_isString(value)) {
             value = value.toLowerCase();
-            let valids = strict ? { "true": 1, "false": 1 } : { "true": 1, "false": 1, "0": 1, "1": 1 };
-            if (value in valids) {
-                return (value == "true" ? true : value == "false" ? false : value == "1" ? true : value == "0" ? false : undefined);
-            }
+            let valids = strict ? { "true": true, "false": false } : { "true": true, "false": false, "0": false, "1": true };
+            return valids[value];
         } else if (_isNumber(value) && !strict) {
             return (value === 1 ? true : value === 0 ? false : undefined);
         } else if (_isBoolean(value)) {
             return value;
         }
         return undefined;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('parseBoolean', e);
         return null;
     }

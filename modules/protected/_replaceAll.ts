@@ -22,10 +22,8 @@ export default function _replaceAll(str, replace, subject, flag?): string {
             if (subject[last + 1]) { last++; }
         }
         return str.toString();
-    } catch (e) {
-        /* istanbul ignore next */
+    } catch (e) /* istanbul ignore next */ {
         error && error("_replaceAll", e);
-        /* istanbul ignore next */
         return '';
     }
 }

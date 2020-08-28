@@ -2,6 +2,7 @@ import error from './error';
 import condense from './condense';
 import isArray from './isArray';
 import { IndexedArray, IndexedBucket } from '../models/Arrays';
+import isNull from './isNull';
 
 export default function createIndex<T>(objs: T[], indexes: string | string[]): IndexedArray<T> {
     try {
@@ -11,8 +12,10 @@ export default function createIndex<T>(objs: T[], indexes: string | string[]): I
         if (!isArray(indexes)) { indexes = (indexes as string).split(','); }
         indexes = condense(indexes as string[], true);
 
+        let subArr = arr.slice().filter((obj) => !isNull(obj));
         for (let i = 0, len = indexes.length; i < len; i++) {
-            let prop = indexes[i].trim(), subArr = arr.slice();
+            let prop = indexes[i].trim();
+            subArr = subArr.slice();
 
             let bucket = arr.__indexed_buckets[prop] = {} as IndexedBucket;
             let keys = bucket.__bucket__keys = [];
@@ -35,7 +38,7 @@ export default function createIndex<T>(objs: T[], indexes: string | string[]): I
             }
         }
         return arr;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error("Array.createIndex", e);
         let emptyArr = [] as IndexedArray<T>;
         emptyArr.__indexed_buckets = {};

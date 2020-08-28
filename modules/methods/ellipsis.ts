@@ -1,7 +1,8 @@
 import error from './error';
 import cut from './cut';
+import isNull from './isNull';
 
-export default function ellipsis(str: string, before: number, after: number): string {
+export default function ellipsis(str: string, before: number, after?: number): string {
     /*|{
         "info": "String class extension to shorten by ellipsis",
         "category": "String",
@@ -15,10 +16,11 @@ export default function ellipsis(str: string, before: number, after: number): st
         "returnType": "(String)"
     }|*/
     try {
+        const afterIsNull = isNull(after);
         after = after || 0;
         if (before + after > str.length) { return str; }
-        return cut(str, before, -1 * after, "...");
-    } catch (e) {
+        return cut(str, before, afterIsNull ? null : -1 * after, "...");
+    } catch (e) /* istanbul ignore next */ {
         error && error('String.ellipsis', e);
     }
 }

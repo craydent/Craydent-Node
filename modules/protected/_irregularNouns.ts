@@ -8,9 +8,12 @@ const _irregularNouns = {
     "bacillus": "bacilli",
     "bacterium": "bacteria",
     "beau": "beaux",
+    "belief": "beliefs",
     "bison": "bison",
     "bureau": "bureaus",
+    "chef": "chefs",
     "child": "children",
+    "chief": "chiefs",
     "corps": "corps",
     "corpus": "corpora",
     "curriculum": "curricula",
@@ -20,10 +23,13 @@ const _irregularNouns = {
     "diagnosis": "diagnoses",
     "erratum": "errata",
     "fireman": "firemen",
-    "focus": "focuses",
+    "fish": "fish",
+    // "focus": "focuses",
     "foot": "feet",
+    "genesis": "geneses",
     "genus": "genera",
     "goose": "geese",
+    "halo": "halos",
     "index": "indices",
     "louse": "lice",
     "man": "men",
@@ -38,7 +44,10 @@ const _irregularNouns = {
     "ovum": "ova",
     "ox": "oxen",
     "person": "people",
+    "photo": "photos",
+    "piano": "pianos",
     "radius": "radii",
+    "roof": "roofs",
     "series": "series",
     "sheep": "sheep",
     "scissors": "scissors",
@@ -55,3 +64,7 @@ const _irregularNouns = {
     "zero": "zeros"
 };
 export default _irregularNouns;
+
+
+
+

@@ -11,7 +11,7 @@ export default function insertBefore<T>(arr: T[], index: number, value: any): bo
             _addToIndex(objs.__indexed_buckets, value);
         }
         return true;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.insertBefore", e);
         return null;
     }

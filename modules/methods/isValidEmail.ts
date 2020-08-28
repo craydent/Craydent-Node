@@ -14,12 +14,12 @@ export default function isValidEmail(str: string): boolean {
         "returnType": "(Bool)"
     }|*/
     try {
-        if (!isBlank(this) && !isNull(str)) {
+        if (!isBlank(str) && !isNull(str)) {
             let reg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             return reg.test(str);
         }
         return false;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.isValidEmail", e);
     }
 }

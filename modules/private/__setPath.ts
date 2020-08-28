@@ -35,8 +35,7 @@ export default function __setPath(verb: Verbs, http: CraydentHttp, path: string 
             (route as Route).callback = (route as Route).callback || [];
             http.routes.push(route as any);
         }
-    } catch (e) {
-        /* istanbul ignore next*/
+    } catch (e) /* istanbul ignore next */ {
         error && error(`CraydentServer.${verb}`, e);
     }
 }

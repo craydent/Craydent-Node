@@ -22,7 +22,7 @@ export default function removeAll<T>(arr: T[], value?: any, indexOf?: ArrayItera
         delete obj.__indexed_buckets;
         return obj.splice(0, obj.length);
 
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.removeAll", e);
         return null;
     }

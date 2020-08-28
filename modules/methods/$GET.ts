@@ -3,8 +3,12 @@ import isString from './isString';
 import { AnyObject } from "../models/Arrays";
 import { VerbOptions } from "../models/VerbOptions";
 import $COMMIT from "./$COMMIT";
+import isObject from "./isObject";
 
-export default function $GET(this: Craydent | Window, variable?: string, options?: VerbOptions): AnyObject | string {
+export default function $GET(this: Craydent | void, options: VerbOptions): AnyObject | string;
+export default function $GET(this: Craydent | void, variable: string, url?: string): AnyObject | string;
+export default function $GET(this: Craydent | void, variable?: string, options?: VerbOptions): AnyObject | string;
+export default function $GET(variable?, options?): AnyObject | string {
     /*|{
        "info": "Retrieve all or specific variables in the url",
        "category": "HTTP",
@@ -21,19 +25,24 @@ export default function $GET(this: Craydent | Window, variable?: string, options
    }|*/
     try {
         const isNode = typeof window == 'undefined';
+        if (isObject(variable)) {
+            options = variable;
+            variable = undefined;
+        }
         options = options || {};
         let url = (options as any).url;
-        let search = (isNode ? this.location.search : location.search) || "";
-        let hash = (isNode ? this.location.hash : location.hash) || "";
+        let search = (isNode ? (this as any).location.search : location.search) || "";
+        let hash = (isNode ? (this as any).location.hash : location.hash) || "";
         if (!variable) {
             if (url) {
                 let index = -1;
+                /* istanbul ignore else */
                 if (~(index = url.indexOf("#"))) {
                     hash = url.substring(index);
                     search = url.substring(0, index);
-                }
-                if (~(index = url.indexOf("?"))) {
+                } else if (~(index = url.indexOf("?"))) {
                     search = url.substring(index);
+                    hash = ""
                 }
             }
             let allkeyvalues = {},
@@ -44,7 +53,7 @@ export default function $GET(this: Craydent | Window, variable?: string, options
                     if (len > 2) {
                         let i = 2, kv;
                         while (kv = keyvalue[i++]) {
-                            keyvalue[1] += kv;
+                            keyvalue[1] += `=${kv}`;
                         }
                     }
                     return allkeyvalues[keyvalue[0]] = keyvalue[1];
@@ -62,7 +71,7 @@ export default function $GET(this: Craydent | Window, variable?: string, options
         loc.hash = hash;
         loc.search = search;
 
-        if (defer && isNode) {
+        if (defer && !isNode) {
             loc.hash = ($COMMIT as any).hash || "";
             loc.search = ($COMMIT as any).search || "";
         } else if (url || (isString(options) && (~(options as string).indexOf("?") || ~(options as string).indexOf("#")))) {
@@ -87,7 +96,7 @@ export default function $GET(this: Craydent | Window, variable?: string, options
         }
         regex = new RegExp(`(.*)?(${variable}=)(.*?)(([${delimiter}])(.*)|$)`, ignoreCase);
         return decodeURI(loc[attr].replace(regex, '$3'));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('$GET', e);
     }
 }

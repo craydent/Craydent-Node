@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function isMac(this: Craydent | Window) {
+export default function isMac(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if OS is Mac Based",
         "category": "HTTP",
@@ -13,7 +13,7 @@ export default function isMac(this: Craydent | Window) {
     }|*/
     try {
         return /mac/i.test(this.navigator.platform);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isMac', e);
     }
 }

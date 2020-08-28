@@ -14,7 +14,7 @@ export default function OperaVersion(this: Craydent | Window) {
     }|*/
     try {
         return _getBrowserVersion(this, "Opera");
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('OperaVersion', e);
     }
 }

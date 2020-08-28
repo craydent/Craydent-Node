@@ -16,7 +16,7 @@ export default function (func: Function, callback: Function) {
     }|*/
     try {
         return on(func, 'catch', callback);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next*/ {
         error && error("Function.catch", e);
     }
 }

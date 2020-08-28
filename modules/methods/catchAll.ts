@@ -28,7 +28,7 @@ export default function catchAll(callback: NodeJS.UncaughtExceptionListener, app
             process.on('uncaughtException', callback);
             logit("listening for uncaught errors");
         }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('catchAll', e);
     }
 }

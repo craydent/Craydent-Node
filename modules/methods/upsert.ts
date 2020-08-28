@@ -33,23 +33,21 @@ export type UpsertItemRef<T> = {
     record: T;
     index: number;
 };
-export type UpsertIterator<T> = (value?: T, ref?: UpsertItemRef<T>, collection?: Array<T>) => boolean;
+export type UpsertIterator<T> = (value?: T, ref?: T, collection?: Array<T>) => boolean;
 
 export default function upsert<T>(arr: T[], records: T[] | T): UpsertResults<T>;
 export default function upsert<T>(arr: T[], records: T[] | T, callback: UpsertIterator<T>): UpsertResults<T>;
 export default function upsert<T>(arr: T[], records: T[] | T, prop: string, callback?: Function): UpsertResults<T>;
 export default function upsert<T>(arr, records, prop?, callback?): UpsertResults<T> {
     try {
-        let usePrimaryKey = true;
         if (!isArray(records)) { records = [records]; }
         if (isFunction(prop)) {
             callback = prop;
             prop = undefined;
         }
         if (!prop) { prop = "_id"; }
-        if (callback) { usePrimaryKey = false; }
 
-        let ids = [], refs = {}, insert = [];
+        let ids = [], refs = {} as { [key: string]: UpsertItemRef<T> }, insert = [];
         for (let i = 0, len = records.length; i < len; i++) {
             let record = records[i];
             refs[record[prop]] = { record: record, index: i };
@@ -103,13 +101,13 @@ export default function upsert<T>(arr, records, prop?, callback?): UpsertResults
                     cb(record,i);
                 }
             })`;
-        if (_refs.length) {
-            let varStrings = "";
-            for (let i = 0, len = _refs.length; i < len; i++) {
-                varStrings += `var __where_cb${(i + 1)}=_refs[${i}];`
-            }
-            eval(varStrings);
-        }
+        // if (_refs.length) {
+        //     let varStrings = "";
+        //     for (let i = 0, len = _refs.length; i < len; i++) {
+        //         varStrings += `var __where_cb${(i + 1)}=_refs[${i}];`
+        //     }
+        //     eval(varStrings);
+        // }
         arr.filter(eval(func));
 
         for (let i = 0, len = ids.length; i < len; i++) {
@@ -127,7 +125,7 @@ export default function upsert<T>(arr, records, prop?, callback?): UpsertResults
             updated: uArr,
             unchanged: sArr
         };
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.upsert", e);
         return {
             insertedIndexes: [],

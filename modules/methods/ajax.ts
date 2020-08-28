@@ -12,11 +12,15 @@ import toStringAlt from './toStringAlt';
 import runFuncArray from './runFuncArray';
 import tryEval from './tryEval';
 import isNull from './isNull';
+import Request from './Request';
 import { AnyObject } from '../models/Arrays';
 import { Reviver } from '../models/Reviver';
+import getProperty from "./getProperty";
+import rand from "./rand";
 
 export type AjaxReturnType = "response" | "res" | "request" | "req";
 export type AjaxOptions = {
+    url?: string;
     alwaysResolve?: boolean;
     dataType?: string;
     hitch?: any;
@@ -40,12 +44,12 @@ export type AjaxOptions = {
     agent?: string;
     createConnection?: string;
 
-    onstatechange: () => void;
-    onfileload: () => void;
-    onprogress: () => void;
-    onabort: () => void;
-    onresponse: () => void;
-    onloadstart: () => void;
+    onstatechange?: () => void;
+    onfileload?: () => void;
+    onprogress?: () => void;
+    onabort?: () => void;
+    onresponse?: () => void;
+    onloadstart?: () => void;
     onbefore?: (request?: IHTTP.IncomingMessage, hitch?: any, context?: any) => void;
     oncomplete?: (data?: any, hitch?: any, context?: any, statusCode?: number) => void;
     ondata?: (chunk?: string, body?: string, request?: IHTTP.IncomingMessage, hitch?: any, context?: any) => void;
@@ -71,91 +75,116 @@ export default function ajax(params, returnData?): Promise<any> {
         "url": "http://www.craydent.com/library/1.9.3/docs#ajax",
         "returnType": "(Promise<any>)"
     }|*/
+    if (isString(params)) {
+        params = { url: params };
+    } else {
+        params = { ...params }
+    }
+    /* istanbul ignore next */
+    params.alwaysResolve = params.alwaysResolve === false ? false : true;
+    params.thiss = this;
+    params.url = params.url || "";
+    params.context = params.context || this;
+    params.dataType = params.dataType || 'json';
+    params.hitch = params.hitch || "";
+    params.query = params.data || params.query || "";
+    params.timeout = params.timeout || 120000;
+    params.onbefore = params.onbefore || [foo];
+    params.oncomplete = params.oncomplete || [foo];
+    params.ondata = params.ondata || params.onstatechange || [foo];
+    params.onresponse = params.onresponse || [foo]
+    params.onerror = params.onerror || params.onresponse;
+    params.onsuccess = params.onsuccess || params.onresponse;
+    params.json_parser = params.json_parser || JSON.parse;
+
+    if (!isArray(params.onbefore)) {
+        params.onbefore = [params.onbefore];
+    }
+    if (!isArray(params.oncomplete)) {
+        params.oncomplete = [params.oncomplete];
+    }
+    if (!isArray(params.ondata)) {
+        params.ondata = [params.ondata];
+    }
+    if (!isArray(params.onerror)) {
+        params.onerror = [params.onerror];
+    }
+    if (!isArray(params.onresponse)) {
+        params.onresponse = [params.onresponse];
+    }
+    if (!isArray(params.onsuccess)) {
+        params.onsuccess = [params.onsuccess];
+    }
+
+    // if (params.onsuccess.length > 1 || params.onsuccess[0] == foo) {
+    //     alwaysResolve = params.alwaysResolve || false;
+    // }
+    params.method = params.method || "GET";
+    params.headers = params.headers || {};
+
+    if (params.query && isObject(params.query)) {
+        params.query = toStringAlt(params.query, '=', '&', true);
+    }
+    params.query = (params.run ? `run=${params.run}` : "") + (params.query || "");
+    params.contentType = params.contentType || "application/json";
+    params.onstatechange = params.onstatechange || foo;
+
+    if (params.method.toLowerCase() == "get") {
+        params.data = params.query;
+        params.url += params.query ? `?${params.query}` : "";
+        params.query = undefined;
+    }
+    params.data = params.data || params.query;
     if (typeof window != 'undefined') {
-        return _ajaxNode.call(this, params, returnData);
+        return _ajaxJS.call(this, params, returnData);
     }
     return _ajaxNode.call(this, params, returnData);
 }
-ajax.get = function (params, returnData) {
+function _get(url: string, returnData?: AjaxReturnType): Promise<any>;
+function _get(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
+function _get(params, returnData?) {
     params.method = "GET";
     return ajax.apply(this, arguments);
-};
-ajax.delete = function (params, returnData) {
+}
+function _delete(url: string, returnData?: AjaxReturnType): Promise<any>;
+function _delete(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
+function _delete(params, returnData?) {
     params.method = "DELETE";
     return ajax.apply(this, arguments);
 };
-ajax.post = function (params, returnData) {
+function _post(url: string, returnData?: AjaxReturnType): Promise<any>;
+function _post(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
+function _post(params, returnData?) {
     params.method = "POST";
     return ajax.apply(this, arguments);
 };
-ajax.put = function (params, returnData) {
+function _put(url: string, returnData?: AjaxReturnType): Promise<any>;
+function _put(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
+function _put(params, returnData?) {
     params.method = "PUT";
     return ajax.apply(this, arguments);
 };
+ajax.get = _get;
+ajax.delete = _delete;
+ajax.post = _post;
+ajax.put = _put;
 function _ajaxNode(url: string, returnData?: AjaxReturnType): Promise<any>;
 function _ajaxNode(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
 function _ajaxNode(params, returnData): Promise<any> {
     try {
-        if (isString(params)) {
-            params = { url: params };
-        }
-        let alwaysResolve = params.alwaysResolve === false ? false : true;
-        params.dataType = params.dataType || 'json';
-        params.hitch = params.hitch || "";
-        params.onbefore = params.onbefore || [foo];
-        params.oncomplete = params.oncomplete || [foo];
-        params.ondata = params.ondata || [foo];
-        params.onerror = params.onerror || params.onresponse || [foo];
-        params.onsuccess = params.onsuccess || params.onresponse || [foo];
-        params.query = params.data || params.query || "";
-        params.timeout = params.timeout || 120000;
-        params.json_parser = params.json_parser || JSON.parse;
+        params.protocol = params.protocol || (~params.url.indexOf('https:') ? 'https:' : 'http:')
 
-        if (!isArray(params.onbefore)) {
-            params.onbefore = [params.onbefore];
-        }
-        if (!isArray(params.oncomplete)) {
-            params.oncomplete = [params.oncomplete];
-        }
-        if (!isArray(params.ondata)) {
-            params.ondata = [params.ondata];
-        }
-        if (!isArray(params.onerror)) {
-            params.onerror = [params.onerror];
-        }
-        if (!isArray(params.onresponse)) {
-            params.onresponse = [params.onresponse];
-        }
-        if (!isArray(params.onsuccess)) {
-            params.onsuccess = [params.onsuccess];
-        }
-
-        if (params.onsuccess.length > 1 || params.onsuccess[0] == foo) {
-            alwaysResolve = params.alwaysResolve || false;
-        }
-        params.thiss = this;
-        params.url = params.url || "";
+        // if (params.onsuccess.length > 1 || params.onsuccess[0] == foo) {
+        //     alwaysResolve = params.alwaysResolve || false;
+        // }
 
         let httpRequest: typeof IHTTP = require('http');
-        params.method = params.method || "GET";
-        params.headers = params.headers || {};
+        if (params.protocol == 'https:') { httpRequest = require('https'); }
 
-        if (params.query && isObject(params.query)) {
-            params.query = toStringAlt(params.query, '=', '&', true);
-        }
-        params.query = (params.run ? "run=" + params.run : "") + (params.query || "");
-        params.contentType = params.contentType || "application/json";
-        params.onstatechange = params.onstatechange || foo;
-
-        if (params.method.toLowerCase() == "get") {
-            params.url += params.query ? "?" + params.query : "";
-            params.query = undefined;
-        }
-
-        runFuncArray.call((params.context || this), params.onbefore, [httpRequest, params.hitch, this]);
+        runFuncArray.call(params.context, params.onbefore, [httpRequest, params.hitch, this]);
 
         let prms: Promise<any>, defaults = {
-            protocol: 'http',
+            protocol: 'http:',
             host: 'localhost',
             family: '',
             port: 80,
@@ -183,10 +212,13 @@ function _ajaxNode(params, returnData): Promise<any> {
         }*/;
         params.headers['Content-Type'] = params.headers['Content-Type'] || params.contentType;
         prms = new Promise(function (resolve, reject) {
+            /* istanbul ignore next */
+            let resrej = params.alwaysResolve ? resolve : reject;
             if (params.url) {
-                let parts = params.url.match(/^(https?):\/\/(.*?)(?::([0-9]*)?)?(\/.*)$/);
+                let parts = params.url.match(/^(https?:)\/\/(.*?)(?::([0-9]*)?)?(\/.*)?$/);
+                /* istanbul ignore next */
                 if (parts) {
-                    params.protocol = (params.protocol || parts[1]) + ":";
+                    params.protocol = (params.protocol || parts[1]);
                     params.host = params.host || parts[2];
                     let port = params.port || parts[3];
                     port && (params.port = port);
@@ -194,33 +226,36 @@ function _ajaxNode(params, returnData): Promise<any> {
                 }
             }
             try {
-                if (params.protocol && ~params.protocol.indexOf('https')) { httpRequest = require('https'); }
                 let req = httpRequest.request(merge(defaults, params, { clone: true, intersect: true }), function (res) {
-                    let body = { data: "" }, ctx = params.context || res;
+                    let body = { data: "" },
+                        /* istanbul ignore next */
+                        ctx = params.context || res;
                     res.on('data', function (chunk) {
                         body.data += chunk;
-                        runFuncArray.call(ctx, params.ondata, [chunk, body, req, params.hitch, this]);
+                        runFuncArray.call(ctx, params.ondata, [chunk, { ...body }, req, params.hitch, res]);
                     });
                     res.on('error', function (err) {
+                        /* istanbul ignore else */
                         if (params.dataType.toLowerCase() == 'json') {
                             body.data = tryEval(body.data, params.json_parser) || body.data;
                         }
                         body.data = body.data || err as any;
-                        let resrej = alwaysResolve ? resolve : reject;
-                        runFuncArray.call(ctx, params.onerror, [body.data, params.hitch, this, res.statusCode]);
-                        runFuncArray.call(ctx, params.oncomplete, [body.data, params.hitch, this, res.statusCode]);
+                        runFuncArray.call(ctx, params.onerror, [body.data, params.hitch, res, res.statusCode]);
+                        runFuncArray.call(ctx, params.oncomplete, [body.data, params.hitch, res, res.statusCode]);
                         resrej(body.data);
                     });
                     res.on('end', function () {
+                        /* istanbul ignore else */
                         if (params.dataType.toLowerCase() == 'json') {
+                            /* istanbul ignore next */
                             body.data = tryEval(body.data, params.json_parser) || body.data;
                         }
                         let methods = params.onsuccess;
                         if (!isBetween(res.statusCode, 200, 299, true)) {
                             methods = params.onerror;
                         }
-                        runFuncArray.call(ctx, methods, [body.data, params.hitch, this, res.statusCode]);
-                        runFuncArray.call(ctx, params.oncomplete, [body.data, params.hitch, this, res.statusCode]);
+                        runFuncArray.call(ctx, methods, [body.data, params.hitch, res, res.statusCode]);
+                        runFuncArray.call(ctx, params.oncomplete, [body.data, params.hitch, res, res.statusCode]);
 
                         let rtn = body.data;
                         if (returnData == "response" || returnData == "res") {
@@ -234,54 +269,51 @@ function _ajaxNode(params, returnData): Promise<any> {
                 });
                 req.on('error', function (e) {
                     if ((e as any).errno != "ETIMEDOUT") {
-                        runFuncArray.call(req, params.onerror, [null, params.hitch, this, (e as any).code]);
-                        runFuncArray.call(req, params.oncomplete, [null, params.hitch, this, (e as any).code]);
-                        let resrej = alwaysResolve ? resolve : reject;
+                        runFuncArray.call(params.context, params.onerror, [null, params.hitch, req, (e as any).code]);
+                        runFuncArray.call(params.context, params.oncomplete, [null, params.hitch, req, (e as any).code]);
                         return resrej(e);
                     }
                     logit(e);
                 });
 
                 req.setTimeout(params.timeout, function () {
-                    runFuncArray.call(params.thiss, params.onerror, ['', params.hitch, this, 504]);
-                    runFuncArray.call(params.thiss, params.oncomplete, ['', params.hitch, this, 504]);
-                    let e: any = new Error('connect ETIMEDOUT ' + params.host);
+                    runFuncArray.call(params.context, params.onerror, ['', params.hitch, req, 504]);
+                    runFuncArray.call(params.context, params.oncomplete, ['', params.hitch, req, 504]);
+                    let e: any = new Error(`connect ETIMEDOUT ${params.host}`);
                     e.address = params.host;
                     e.code = "ETIMEDOUT";
                     e.errno = "ETIMEDOUT";
-                    e.message = 'connect ETIMEDOUT ' + params.host;
+                    e.message = `connect ETIMEDOUT ${params.host}`;
                     e.port = params.port;
-                    let resrej = alwaysResolve ? resolve : reject;
                     resrej(e);
                 });
+                /* istanbul ignore next */
                 let req_body = (isObject(params.data) || isArray(params.data)) && ~params.contentType.indexOf("/json") ? JSON.stringify(params.data) : params.data;
                 req.write(req_body || '');
                 req.end();
-            } catch (e) {
+            } catch (e)/* istanbul ignore next */ {
                 error && error("ajax.Promise", e);
             }
         });
 
-
-        if (params.onsuccess.length == 1 && params.onsuccess[0] !== foo) {
-            (prms as any)._then = prms.then || foo;
-            prms.then = function (res, rej) { //noinspection CommaExpressionJS
-                alwaysResolve = params.alwaysResolve || false;
-                params.onsuccess.push(res);
-                params.onerror.push(rej);
-                return this;
-            };
-        }
-        (prms as any).otherwise = function (callback) {
-            alwaysResolve = params.alwaysResolve || false;
+        (prms as any)._then = prms.then;
+        prms.then = function (res, rej) {
+            if (__isTSTranspiledPromise.call(this, arguments)) {
+                return this._then(res, rej);
+            }
+            params.onsuccess.push(res);
+            params.onerror.push(rej);
+            return this;
+        };
+        // }
+        (prms as any).otherwise = (prms as any).catch = function (callback) {
             return params.onerror.push(callback), this;
         };
-        prms['finally'] = function (callback) {
-            alwaysResolve = params.alwaysResolve || false;
+        prms.finally = function (callback) {
             return params.oncomplete.push(callback), this;
         };
         return prms;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("ajax", e);
     }
 }
@@ -290,200 +322,130 @@ function _ajaxJS(url: string, returnData?: AjaxReturnType): Promise<any>;
 function _ajaxJS(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
 function _ajaxJS(params, returnData): Promise<any> {
     try {
-        if (isString(params)) {
-            params = { url: params };
-        }
-        let need_to_shard = false, browser_url_limit = 1500, query, url, alwaysResolve = params.alwaysResolve === false ? false : true;
-        params.dataType = params.dataType || 'json';
-        params.hitch = params.hitch || "";
-        params.onbefore = params.onbefore || [foo];
-        params.oncomplete = params.oncomplete || [foo];
-        params.onerror = params.onerror || params.onresponse || [foo];
-        params.onsuccess = params.onsuccess || params.onresponse || [foo];
-        params.query = params.data || params.query || "";
-        params.timeout = params.timeout || 120000;
-        params.jsonp = (params.jsonp || "callback") + "=";
+        let url, alwaysResolve = params.alwaysResolve;
+        params.jsonp = `${(params.jsonp || "callback")}=`;
 
-        if (!isArray(params.oncomplete)) {
-            params.oncomplete = [params.oncomplete];
-        }
-        if (!isArray(params.onbefore)) {
-            params.onbefore = [params.onbefore];
-        }
-        if (!isArray(params.onerror)) {
-            params.onerror = [params.onerror];
-        }
-        if (!isArray(params.onresponse)) {
-            params.onresponse = [params.onresponse];
-        }
-        if (!isArray(params.onsuccess)) {
-            params.onsuccess = [params.onsuccess];
-        }
-        if (params.onsuccess.length > 1 || params.onsuccess[0] == foo) {
-            alwaysResolve = params.alwaysResolve || false;
-        }
-
-        params.thiss = this;
-        params.url = params.url || "";
         let cbk = (function (res, rej) {
+            /* istanbul ignore next */
+            let resrej = alwaysResolve ? res : rej;
             if (params.dataType.toLowerCase() == 'jsonp') {
                 let head = document.getElementsByTagName('head')[0],
-                    func: string = params.jsonpCallback || '_cjson' + Math.floor(Math.random() * 1000000),
-                    insert = 'insertBefore',
+                    func: string = params.jsonpCallback || '_cjson' + Math.floor(rand(0, 1000000)),
                     tag = document.createElement('script');
-                while (!params.jsonpCallback && $w[func]) {
-                    func = '_cjson' + Math.floor(Math.random() * 1000000);
+                while (!params.jsonpCallback && window[func]) {
+                    func = `_cjson${Math.floor(rand(0, 1000000))}`;
                 }
-                params.jsonpCallback && (params.onsuccess = $w[func]);
-                $w[func] = function (data) {
-                    if (params.query) {
-                        let thiss = params.thiss;
-                        delete params.thiss;
-                        ajax.call(thiss, params);
+                // params.jsonpCallback && (params.onsuccess = window[func]);
+                window[func] = function (data) {
+                    /* istanbul ignore next */
+                    let ctx = params.context || params.thiss;
+
+                    let code;
+                    let resrej = res;
+                    if (!isNull(data.hasErrors) || data.hasErrors || !data.success) {
+                        runFuncArray.call(ctx, params.onerror, [data, params.hitch, tag, tag, (code = data.code || 500)]);
                     } else {
-                        let code = data.code || 500;
-                        let resrej = res;
-                        if (!isNull(data.hasErrors) && data.hasErrors || !isNull(data.hasErrors) && !data.success) {
-                            runFuncArray.call((params.context || params.thiss), params.onerror, [data, params.hitch, params.thiss, params.context, data.code || 500]);
-                            resrej = alwaysResolve ? res : rej;
-                        } else {
-                            runFuncArray.call((params.context || params.thiss), params.onsuccess, [data, params.hitch, params.thiss, params.context, code = 200]);
-                        }
-
-                        runFuncArray.call((params.context || this), params.oncomplete, [data, params.hitch, params.thiss, params.context, params.context, code]);
-                        if (params.jsonpCallback) {
-                            $w[func] = params.onsuccess;
-                        } else {
-                            try {
-                                delete $w[func]
-                            } catch (e) {
-                                $w[func] = undefined;
-                            }
-                        }
-
-                        let rtn = data;
-                        if (returnData == "response" || returnData == "res" || returnData == "request" || returnData == "req") {
-                            rtn = tag;
-                        }
-                        resrej(rtn);
+                        runFuncArray.call(ctx, params.onsuccess, [data, params.hitch, tag, tag, (code = data.code || 200)]);
                     }
+
+                    runFuncArray.call(ctx, params.oncomplete, [data, params.hitch, tag, tag, code]);
+                    // if (params.jsonpCallback) {
+                    //     window[func] = params.onsuccess;
+                    // } else {
+                    try {
+                        delete window[func]
+                    } catch (e) /* istanbul ignore next */ {
+                        window[func] = undefined;
+                    }
+                    // }
+
+                    let rtn = data;
+                    if (returnData == "response" || returnData == "res" || returnData == "request" || returnData == "req") {
+                        rtn = tag;
+                    }
+                    resrej(rtn);
+
                 };
-                if (params.shard_data && params.query && !isObject(params.query) && params.query.length > browser_url_limit) {
-                    need_to_shard = true;
-                    var query_parts = params.query;
-                    params.query = {};
-                    query_parts = query_parts.indexOf('?') == 0 ? query_parts.substr(1) : query_parts;
-                    query_parts = query_parts.split("&");
-                    // params.query now has the object representation of the query
-                    query_parts.map(function (str) {
-                        var name_value = str.split('=');
-                        this[encodeURIComponent(name_value[0])] = encodeURIComponent(name_value[1]);
-                    }, params.query);
-                } else if (params.query && isObject(params.query)) {
-                    query = toStringAlt(params.query, '=', '&', true);
-                    if (query.length > browser_url_limit) {
-                        need_to_shard = true;
-                    } else {
-                        params.query = query;
-                    }
-                }
 
-                // if need_to_shard is true then params.query is an object
-                // and if if need_to_shard is false, params.query is a string ready by sent
-                query = params.query;
                 url = params.url;
-                if (need_to_shard) {
-                    params.__FIRST = isNull(params.__FIRST);
-                    params.__EOF = true;
-                    query = "&EOQ=false";
-                    for (let prop in params.query) {
-                        if ((`${query}${prop}xxx`).length > browser_url_limit) {
-                            break;
-                        }
-                        query += `&${encodeURIComponent(prop)}=${encodeURIComponent(params.query[prop])}`;
-                        if (query.length > browser_url_limit) {
-                            let left_over = query.substr(browser_url_limit);
-                            query = query.substr(0, browser_url_limit);
-                            params.query[prop] = left_over;
-                            break;
-                        }
-                        delete params.query[prop];
-                    }
-                } else {
-                    params.__EOF && (params.__EOF = "true");
-                    delete params.query;
-                }
-                query = (params.run ? `&run=${params.run}` : "") +
-                    (query || "") +
-                    ((params.__EOF && params.__EOF === "true" && ("&EOQ=true")) || "") +
-                    ((params.__FIRST && ("&FIRST=true")) || "");
-                url += (~params.url.indexOf('?') ? "&" : "?") + (params.jsonp || "callback=") + func + (query || "");
+                /* istanbul ignore next */
+                url += (~params.url.indexOf('?') ? "&" : "?") + (params.jsonp || "callback=") + func;
 
                 tag['type'] = "text/javascript";
                 (tag as any).async = "async";
                 tag['src'] = url;
 
                 // Attach handlers for all browsers
-                tag.onload = (tag as any).onreadystatechange = function (ev) {
+                tag.onload = (tag as any).onreadystatechange = function () {
                     try {
+                        /* istanbul ignore next */
+                        const ctx = params.context || this;
+                        runFuncArray.call(ctx, params.ondata, [this.readyState, {}, tag, params.hitch, this]);
+                        /* istanbul ignore else */
                         if (!this.readyState || /complete|loaded/.test(this.readyState.toString())) {
                             // Handle memory leak in IE
                             this.onload = this.onreadystatechange = null;
 
                             // Remove the script
-                            if (head && this.parentNode && !~IEVersion.call($w)) {
+                            if (head && this.parentNode && !~IEVersion.call(window)) {
                                 head.removeChild(this);
                             }
                         }
                     } catch (e) {
+                        /* istanbul ignore next */
                         error && error('ajax.tag.statechange', e);
                     }
                 };
-                runFuncArray.call((params.context || this), params.onbefore, [tag, params.hitch, this]);
-                head[insert](tag, head.firstChild);
+                runFuncArray.call(params.context, params.onbefore, [tag, params.hitch, this]);
+                head['insertBefore'](tag, head.firstChild);
                 return tag;
             } else {
                 let httpRequest = Request(),
                     fileUpload = httpRequest.upload || {};
-                params.method = params.method || "POST";
-                params.headers = params.headers || [];
-
-                if (params.query && isObject(params.query)) {
-                    params.query = toStringAlt(params.query, '=', '&', true);
-                }
-                params.query = (params.run ? `run=${params.run}` : "") + (params.query || "");
-                params.contentType = params.contentType || "application/x-www-form-urlencoded";
-                params.onstatechange = params.onstatechange || foo;
 
                 fileUpload.onload = params.onfileload || foo;
                 fileUpload.onprogress = params.onprogress || foo;
                 fileUpload.onabort = params.onabort || foo;
+                /* istanbul ignore next */
                 fileUpload.onerror = params.onerror || foo;
                 fileUpload.onloadstart = params.onloadstart || foo;
 
-                if (params.method == "GET") {
-                    params.url += params.query ? "?" + params.query : "";
-                    params.query = undefined;
-                }
-                runFuncArray.call((params.context || this), params.onbefore, [httpRequest, params.hitch, this]);
+                runFuncArray.call(params.context, params.onbefore, [httpRequest, params.hitch, this]);
+                let body = { data: '' }
                 httpRequest.onreadystatechange = function (xp) {
-                    params.onstatechange(xp);
-                    let resrej = res;
-                    let data = __ajaxServerResponse(this), done = this.readyState == 4;
-                    if (data && params.dataType.toLowerCase() == 'json' || done && this.responseText) {
-                        runFuncArray.call((params.context || this), params.onsuccess, [data || this.responseText, params.hitch, params.thiss, params.context, this.status]);
+                    /* istanbul ignore next */
+                    const ctx = params.context || this;
+                    /* istanbul ignore next */
+                    body.data += this.responseText || '';
+                    runFuncArray.call(ctx, params.ondata, [this.responseText, { ...body }, this, params.hitch, xp]);
+                    let data = __ajaxServerResponse(this, params.json_parser),
+                        done = this.readyState == 4;
+
+                    /* istanbul ignore else */
+                    if (isBetween(this.status, 200, 299, true)
+                        &&/* istanbul ignore next */(data && params.dataType.toLowerCase() == 'json' || done && body.data)) {
+                        /* istanbul ignore next */
+                        let obj = data || body.data;
+                        runFuncArray.call(ctx, params.onsuccess, [obj, params.hitch, this, xp, this.status]);
                     } else if (done) {
-                        try {
-                            let resrej = alwaysResolve ? res : rej;
-                            runFuncArray.call((params.context || this), params.onerror, [eval(this.responseText), params.hitch, params.thiss, params.context, this.status]);
-                        } catch (e) {
-                            runFuncArray.call((params.context || this), params.onerror, [this.responseText, params.hitch, params.thiss, params.context, this.status]);
-                        }
+                        runFuncArray.call(
+                            ctx,
+                            params.onerror,
+                            [
+                                /* istanbul ignore next */
+                                tryEval(this.responseText) || this.responseText,
+                                params.hitch,
+                                this,
+                                xp,
+                                this.status
+                            ]
+                        );
                     }
-                    done && runFuncArray.call((params.context || this), params.oncomplete, [data, params.hitch, params.thiss, params.context, this.status]);
-                    let rtn = data;
+                    done && runFuncArray.call(ctx, params.oncomplete, [data, params.hitch, this, xp, this.status]);
+                    /* istanbul ignore next */
+                    let rtn = data || body.data;
                     if (returnData == "response" || returnData == "res") {
-                        rtn = this;
+                        rtn = xp;
                     } else if (returnData == "request" || returnData == "req") {
                         rtn = httpRequest;
                     }
@@ -492,90 +454,71 @@ function _ajaxJS(params, returnData): Promise<any> {
                 httpRequest.open(params.method, params.url, true);
                 httpRequest.setRequestHeader("Content-type", params.contentType);
 
-                for (let i = 0; i < params.headers.length; i++) {
-                    let header = params.headers[i];
-                    httpRequest.setRequestHeader(header.type, header.value);
+                if (isObject(params.headers)) {
+                    for (let prop in params.headers) {
+                        let value = params.headers[prop];
+                        httpRequest.setRequestHeader(prop, value);
+                    }
+                } else {
+                    for (let i = 0, len = params.headers.length; i < len; i++) {
+                        let header = params.headers[i];
+                        httpRequest.setRequestHeader(header.type, header.value);
+                    }
                 }
                 httpRequest.send(params.query);
                 return httpRequest;
             }
         }).bind(this);
-        let prm: Promise<any> = {} as any;
-        if (typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1 && (params.onsuccess.length == 1 && params.onsuccess[0] === foo)) {
-            prm = new Promise(cbk);
-            (prm as any)._then = prm.then || foo;
-            prm.then = function (res, rej) { //noinspection CommaExpressionJS
-                alwaysResolve = params.alwaysResolve || false;
+        let prms: Promise<any> = {} as any;
+        if (typeof Promise !== "undefined" && ~Promise.toString().indexOf("[native code]")) {
+            prms = new Promise(cbk);
+            /* istanbul ignore next */
+            (prms as any)._then = prms.then || foo;
+            prms.then = function (res, rej) {
+                if (__isTSTranspiledPromise.call(this, arguments)) {
+                    return this._then(res, rej);
+                }
                 params.onsuccess.push(res);
                 params.onerror.push(rej);
                 return this;
             };
         } else {
-            prm = cbk(foo, foo);
-            prm.then = function (callback) { //noinspection CommaExpressionJS
+            prms = cbk(foo, foo);
+            prms.then = function (callback) {
                 return params.onsuccess.push(callback), this;
             };
         }
 
-        (prm as any).otherwise = function (callback) { //noinspection CommaExpressionJS
-            alwaysResolve = params.alwaysResolve || false;
+        (prms as any).otherwise = (prms as any).catch = function (callback) {
             return params.onerror.push(callback), this;
         };
-        prm['finally'] = function (callback) { //noinspection CommaExpressionJS
-            alwaysResolve = params.alwaysResolve || false;
+        prms['finally'] = function (callback) {
             return params.oncomplete.push(callback), this;
         };
-        return prm
-    } catch (e) {
+        return prms;
+    } catch (e) /* istanbul ignore next */ {
         error && error("ajax", e);
     }
 }
-function __ajaxServerResponse(response) {
+function __isTSTranspiledPromise(args) {
+    // will need to update if the name changes
+    const caller = getProperty(args, 'callee.caller');
+    const arg = isNull(getProperty(args, 'callee.caller.arguments[0]'), {});
+    return caller && /step/.test(caller.name) && arg.value == this && arg.hasOwnProperty('done');
+}
+
+export function __ajaxServerResponse(response, json_parser?) {
     try {
-        if (response.readyState == 4 && response.status == 200) {
-
-            let objResponse = tryEval(response.responseText.trim());
-
+        if (response.readyState == 4) {
+            let objResponse = tryEval(response.responseText.trim(), json_parser);
             if (!objResponse || objResponse.hasErrors) {
                 return false;
             }
             return objResponse;
         }
         return false;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("ajax._ajaxServerResponse", e);
         return false;
     }
-}
-function Request() {
-    /*|{
-        "info": "Create cross browser XMLHttpRequest object",
-        "category": "Utility",
-        "parameters":[],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#Request",
-        "returnType": "(XMLHttpRequest)"
-    }|*/
-    let ajaxHttpCaller;
-    try {
-        //request object for mozilla
-        //@ts-ignore
-        ajaxHttpCaller = new XMLHttpRequest();
-    } catch (ex) {
-        //request object for IE
-        try {
-            //@ts-ignore
-            ajaxHttpCaller = new ActiveXObject("Msxml2.XMLHTTP");
-        } catch (ex) {
-            try {
-                //@ts-ignore
-                ajaxHttpCaller = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch (ex) //noinspection JSConstructorReturnsPrimitive
-            {
-                error && error("Request", ex);
-                return null;
-            }
-        }
-    }
-    return ajaxHttpCaller;
 }

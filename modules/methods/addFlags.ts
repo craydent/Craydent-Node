@@ -7,14 +7,14 @@
 /*/---------------------------------------------------------/*/
 import error from './error';
 
-export default function addFlags(obj: RegExp, flags: string): RegExp {
+export default function addFlags(regex: RegExp, flags: string): RegExp {
     try {
-        if (obj.global && !~flags.indexOf('g')) { flags += "g"; }
-        if (obj.ignoreCase && !~flags.indexOf('i')) { flags += "i"; }
-        if (obj.multiline && !~flags.indexOf('m')) { flags += "m"; }
+        if (regex.global && !~flags.indexOf('g')) { flags += "g"; }
+        if (regex.ignoreCase && !~flags.indexOf('i')) { flags += "i"; }
+        if (regex.multiline && !~flags.indexOf('m')) { flags += "m"; }
 
-        return new RegExp(obj.source, flags);
-    } catch (e) {
+        return new RegExp(regex.source, flags);
+    } catch (e) /* istanbul ignore next */ {
         error && error("RegExp.addFlags", e);
         return null;
     }

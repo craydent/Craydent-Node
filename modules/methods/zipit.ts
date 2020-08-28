@@ -3,9 +3,11 @@ import isString from './isString';
 import isObject from './isObject';
 import isArray from './isArray';
 import JSZip from './JSZip';
+import { AnyObject } from '../models/Arrays';
 
-export default function zipit(files: { name: string, content: string });
-export default function zipit(filename: string, content/*=NULL*/);
+export default function zipit(files: Array<{ name: string, content: string | AnyObject }>);
+export default function zipit(file: { name: string, content: string | AnyObject });
+export default function zipit(filename: string, content: string | AnyObject/*=NULL*/);
 export default function zipit(files, content?) {
     /*|{
         "info": "Download a zip of files from file contents",
@@ -40,7 +42,7 @@ export default function zipit(files, content?) {
 
         content = zip.generate();
         return content;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('zipit', e);
     }
 }

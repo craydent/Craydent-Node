@@ -12,7 +12,9 @@ import isNull from './isNull';
 const _isFunction = isFunction,
     _isArray = isArray;
 
-export default function getValue(obj: Function | any, args?: any[], dflt?: any): any {
+export default function getValue(obj: any, dflt?: any): any;
+export default function getValue(obj: Function, args?: any[], dflt?: any): any;
+export default function getValue(obj, args?, dflt?): any {
     try {
         if (!_isFunction(obj)) {
             if (args && !dflt) { dflt = args; }
@@ -22,7 +24,7 @@ export default function getValue(obj: Function | any, args?: any[], dflt?: any):
         }
         let rtn = obj.apply(obj, args);
         return rtn === undefined ? dflt : rtn;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error(`${obj.constructor.name}.getValue`, e);
         return null;
     }

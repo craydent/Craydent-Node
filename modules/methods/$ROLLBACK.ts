@@ -1,4 +1,5 @@
 import error from './error';
+import $COMMIT from './$COMMIT';
 
 export default function $ROLLBACK() {
     /*|{
@@ -13,13 +14,12 @@ export default function $ROLLBACK() {
         "returnType": "(void)"
     }|*/
     try {
-        const $COMMIT = (window as any).$c.$COMMIT || (window as any).$COMMIT;
-        delete $COMMIT.update;
-        delete $COMMIT.noHistory;
-        delete $COMMIT.search;
-        delete $COMMIT.hash;
-        delete $COMMIT.onhashchange;
-    } catch (e) {
+        delete $COMMIT['update'];
+        delete $COMMIT['noHistory'];
+        delete $COMMIT['search'];
+        delete $COMMIT['hash'];
+        delete $COMMIT['onhashchange'];
+    } catch (e) /* istanbul ignore next */ {
         error && error('$ROLLBACK', e);
     }
 }

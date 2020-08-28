@@ -5,6 +5,7 @@ import getDayOfYear from './getDayOfYear';
 import isValidDate from './isValidDate';
 import isInt from './isInt';
 import keyOf from './keyOf';
+import isNull from './isNull';
 
 /*
  *  options properties:
@@ -175,31 +176,35 @@ const _isInt = isInt;
 
 export default function format(date: Date, format: string, options?: DateOptions): string {
     try {
-        if (!isValidDate(date)) { return; }
-        options = options || { offset: 0 };
+        if (!isValidDate(date)) { return ""; }
+        options = options || { offset: null };
         let localTimeZoneOffset = getGMTOffset(date),
-            datetime = options.offset ? new Date(date.valueOf() - (options.offset + (options.offset ? -1 : 1) * localTimeZoneOffset) * 60 * 60000) : date;
+            datetime = !isNull(options.offset) ? new Date(date.valueOf() - (options.offset + (options.offset ? -1 : 1) * localTimeZoneOffset) * 60 * 60000) : date;
 
-        const ct = datetime.toTimeString().replace(/.*?\((.*?)\).*?/, '$1'),
-            hour = datetime.getHours(),
-            uhour = datetime.getUTCHours(),
-            ctkey = keyOf(timezones, ct);
+        const ct = datetime.toTimeString().replace(/.*?\((.*?)\).*?/, '$1');
+        let hour = datetime.getHours(),
+            uhour = datetime.getUTCHours();
+        const ctkey = keyOf(timezones, ct);
 
-        let currentTimezone = "\\" + (!ctkey ? (timezones[ct] || "") : ct).split('').join("\\"),
-            currentTimezoneLong = "\\" + (ctkey || ct).split('').join("\\"),
+        /* istanbul ignore next */
+        let currentTimezone = `\\${(!ctkey ? (timezones[ct] || "") : ct).split('').join("\\")}`,
+            /* istanbul ignore next */
+            currentTimezoneLong = `\\${(ctkey || ct).split('').join("\\")}`,
             GMTDiff = options.offset || hour - (hour > uhour ? 24 : 0) - uhour;
 
         if (options.gmt) {
             datetime = new Date(datetime.valueOf() - localTimeZoneOffset * 60 * 60000);
             currentTimezone = "\\G\\M\\T";
+            hour = datetime.getHours();
+            uhour = datetime.getUTCHours();
             GMTDiff = 0;
         }
 
         const minute = datetime.getMinutes(),
             second = datetime.getSeconds(),
             epoch = datetime.getTime(),
-            minuteWithZero = (minute < 10 ? "0" + minute : minute),
-            secondsWithZero = (second < 10 ? "0" + second : second),
+            minuteWithZero = (minute < 10 ? `0${minute}` : minute),
+            secondsWithZero = (second < 10 ? `0${second}` : second),
             dt = datetime.getDate(),
             day = datetime.getDay(),
             month = datetime.getMonth() + 1,
@@ -208,110 +213,139 @@ export default function format(date: Date, format: string, options?: DateOptions
             week = getWeek(datetime) - 1,
             dayOfYear = getDayOfYear(datetime),
             dayOfYearFrom0 = dayOfYear - 1,
-            dayOfYearWithZero = (dayOfYearFrom0 < 10 ? "00" + dayOfYearFrom0 : (dayOfYearFrom0 < 100 ? "0" + dayOfYearFrom0 : dayOfYearFrom0)),
+            dayOfYearWithZero = (dayOfYearFrom0 < 10 ? `00${dayOfYearFrom0}` : (dayOfYearFrom0 < 100 ? `0${dayOfYearFrom0}` : dayOfYearFrom0)),
 
-            dateWithZero = (dt < 10 ? "0" + dt : dt),
+            dateWithZero = (dt < 10 ? `0${dt}` : dt),
             threeLetterDay = ['\\S\\u\\n', '\\M\\o\\n', '\\T\\u\\e\\s', '\\W\\e\\d', '\\T\\h\\u', '\\F\\r\\i', '\\S\\a\\t'][day],
             threeLetterMonth = ['\\J\\a\\n', '\\F\\e\\b', '\\M\\a\\r', '\\A\\p\\r', '\\M\\a\\y', '\\J\\u\\n', '\\J\\u\\l', '\\A\\u\\g', '\\S\\e\\p', '\\O\\c\\t', '\\N\\o\\v', '\\D\\e\\c'][month - 1],
-            hour24 = (hour < 10 ? "0" + hour : hour),
-            GMTDiffFormatted = (GMTDiff > 0 ? "+" : "-") + (Math.abs(GMTDiff) < 10 ? "0" : "") + Math.abs(GMTDiff) + "00";
-        let hr = hour < 10 ? "0" + hour : (hour > 12 && hour - 12 < 10) ? "0" + (hour - 12) : hour - 12;
+            hour24 = (hour < 10 ? `0${hour}` : hour),
+            /* istanbul ignore next */
+            GMTDiffFormatted = `${GMTDiff > 0 ? "+" : "-"}${Math.abs(GMTDiff) < 10 ? "0" : ""}${Math.abs(GMTDiff)}00`,
+            /* istanbul ignore next */
+            ISOstring = datetime.toISOString ? datetime.toISOString() : "";
 
+        /* istanbul ignore next */
+        let hr = hour < 10 ? `0${hour}` : (hour > 12 && hour - 12 < 10) ? `0${hour - 12}` : hour - 12;
+
+        /* istanbul ignore next */
         hr = hr == 0 ? 12 : hr;
 
         // Double replace is used to fix concecutive character bug
+        /* istanbul ignore next */
         return format.
+        // Day
         // replace all d's with the 2 digit day leading 0
-        /*option d or %d*/replace(/([^\\])%d|^%d|([^\\])d|^d/g, '$1$2' + dateWithZero).replace(/([^\\])%d|^%d|([^\\])d|^d/g, '$1$2' + dateWithZero).
+        /*option d or %d*/replace(/([^\\])%d|^%d|([^\\])d|^d/g, `$1$2${dateWithZero}`).replace(/([^\\])%d|^%d|([^\\])d|^d/g, `$1$2${dateWithZero}`).
         // replace all D's with A textual representation of a day, three letters
-        /*option D*/replace(/([^\\])D|^D/g, '$1' + threeLetterDay).replace(/([^\\])D|^D/g, '$1' + threeLetterDay).
+        /*option D*/replace(/([^\\])D|^D/g, `$1${threeLetterDay}`).replace(/([^\\])D|^D/g, `$1${threeLetterDay}`).
         // replace all j's with the day without leading 0
-        /*option j*/replace(/([^\\%])j|^j/g, '$1' + dt).replace(/([^\\%])j|^j/g, '$1' + dt).
+        /*option j*/replace(/([^\\%])j|^j/g, `$1${dt}`).replace(/([^\\%])j|^j/g, `$1${dt}`).
         // replace all l's (lower case L) with A full textual representation of the day of the week
-        /*option l*/replace(/([^\\])l|^l/g, '$1' + ['\\S\\u\\n\\d\\a\\y', '\\M\\o\\n\\d\\a\\y', '\\T\\u\\e\\s\\d\\a\\y', '\\W\\e\\d\\n\\e\\s\\d\\a\\y', '\\T\\h\\u\\r\\s\\d\\a\\y', '\\F\\r\\i\\d\\a\\y', '\\S\\a\\t\\u\\r\\d\\a\\y'][day]).replace(/([^\\])l|^l/g, '$1' + ['\\S\\u\\n\\d\\a\\y', '\\M\\o\\n\\d\\a\\y', '\\T\\u\\e\\s\\d\\a\\y', '\\W\\e\\d\\n\\e\\s\\d\\a\\y', '\\T\\h\\u\\r\\s\\d\\a\\y', '\\F\\r\\i\\d\\a\\y', '\\S\\a\\t\\u\\r\\d\\a\\y'][day]).
+        /*option l*/replace(/([^\\])l|^l/g, `$1${['\\S\\u\\n\\d\\a\\y', '\\M\\o\\n\\d\\a\\y', '\\T\\u\\e\\s\\d\\a\\y', '\\W\\e\\d\\n\\e\\s\\d\\a\\y', '\\T\\h\\u\\r\\s\\d\\a\\y', '\\F\\r\\i\\d\\a\\y', '\\S\\a\\t\\u\\r\\d\\a\\y'][day]}`).
+            replace(/([^\\])l|^l/g, `$1${['\\S\\u\\n\\d\\a\\y', '\\M\\o\\n\\d\\a\\y', '\\T\\u\\e\\s\\d\\a\\y', '\\W\\e\\d\\n\\e\\s\\d\\a\\y', '\\T\\h\\u\\r\\s\\d\\a\\y', '\\F\\r\\i\\d\\a\\y', '\\S\\a\\t\\u\\r\\d\\a\\y'][day]}`).
         // replace all N's with ISO-8601 numeric representation of the day of the week
-        /*option N*/replace(/([^\\])N|^N/g, '$1' + (day == 0 ? 7 : day.toString())).replace(/([^\\])N|^N/g, '$1' + (day == 0 ? 7 : day)).
+        /*option N*/replace(/([^\\])N|^N/g, `$1${day == 0 ? 7 : day.toString()}`).replace(/([^\\])N|^N/g, `$1${day == 0 ? 7 : day.toString()}`).
         // replace all S's with English ordinal suffix for the day of the month, 2 characters
-        /*option S*/replace(/([^\\%]S)|^S/g, '$1' + (dt > 3 ? '\\t\\h' : (dt == 1 ? '\\s\\t' : (dt == 2 ? '\\n\\d' : '\\r\\d')))).replace(/([^\\%]S)|^S/g, '$1' + (dt > 3 ? '\\t\\h' : (dt == 1 ? '\\s\\t' : (dt == 2 ? '\\n\\d' : '\\r\\d')))).
+        /*option S*/replace(/([^\\%]S)|^S/g, `$1${dt > 3 ? '\\t\\h' : (dt == 1 ? '\\s\\t' : (dt == 2 ? '\\n\\d' : '\\r\\d'))}`).
+            replace(/([^\\%]S)|^S/g, `$1${dt > 3 ? '\\t\\h' : (dt == 1 ? '\\s\\t' : (dt == 2 ? '\\n\\d' : '\\r\\d'))}`).
         // replace all %w's with Numeric representation of the day of the week (starting from 0)
         /*option %w*/replace(/([^\\])%w|^%w/g, (day + 1).toString()).replace(/([^\\])%w|^%w/g, (day + 1).toString()).
         // replace all w's with Numeric representation of the day of the week (starting from 1)
-        /*option w*/replace(/([^\\])w|^w/g, '$1' + day).replace(/([^\\])w|^w/g, '$1' + day).
+        /*option w*/replace(/([^\\])w|^w/g, `$1${day}`).replace(/([^\\])w|^w/g, `$1${day}`).
         // replace all z's with The day of the year (starting from 0)
-        /*option z*/replace(/([^\\])z|^z/g, '$1' + dayOfYearFrom0).replace(/([^\\])z|^z/g, '$1' + dayOfYearFrom0).
+        /*option z*/replace(/([^\\])z|^z/g, `$1${dayOfYearFrom0}`).replace(/([^\\])z|^z/g, `$1${dayOfYearFrom0}`).
         // replace all %j's with The day of the year (starting from 1)
         /*option %j*/replace(/([^\\])%j|^%j/g, dayOfYear.toString()).replace(/([^\\])%j|^%j/g, dayOfYear.toString()).
 
+        // Week
         // replace all W's with ISO-8601 week number of the year, weeks starting on Monday
-        /*option W*/replace(/([^\\])W|^W/g, '$1' + (week > 0 ? week : 52)).replace(/([^\\])W|^W/g, '$1' + (week > 0 ? week : 52)).
+        /*option W*/replace(/([^\\])W|^W/g, `$1${week > 0 ? week : 52}`).replace(/([^\\])W|^W/g, `$1${week > 0 ? week : 52}`).
         // replace all %U's with ISO-8601 week number of the year, weeks starting on Monday with leading 0
-        /*option W*/replace(/([^\\])%U|^%U/g, (week < 10 ? "0" + week : week).toString()).replace(/([^\\])%U|^%U/g, (week < 10 ? "0" + week : week).toString()).
+        /*option %U*/replace(/([^\\])%U|^%U/g, (week < 10 ? `0${week}` : week).toString()).replace(/([^\\])%U|^%U/g, (week < 10 ? `0${week}` : week).toString()).
 
         // replace all F's with A full textual representation of a month, such as January or March
-        /*option F*/replace(/([^\\])F|^F/g, '$1' + ['\\J\\a\\n\\u\\a\\r\\y', '\\F\\e\\b\\r\\u\\a\\r\\y', '\\M\\a\\r\\c\\h', '\\A\\p\\r\\i\\l', '\\M\\a\\y', '\\J\\u\\n\\e', '\\J\\u\\l\\y', '\\A\\u\\g\\u\\s\\t', '\\S\\e\\p\\t\\e\\m\\b\\e\\r', '\\O\\c\\t\\o\\b\\e\\r', '\\N\\o\\v\\e\\m\\b\\e\\r', '\\D\\e\\c\\e\\m\\b\\e\\r'][month - 1]).replace(/([^\\])F|^F/g, '$1' + ['\\J\\a\\n\\u\\a\\r\\y', '\\F\\e\\b\\r\\u\\a\\r\\y', '\\M\\a\\r\\c\\h', '\\A\\p\\r\\i\\l', '\\M\\a\\y', '\\J\\u\\n\\e', '\\J\\u\\l\\y', '\\A\\u\\g\\u\\s\\t', '\\S\\e\\p\\t\\e\\m\\b\\e\\r', '\\O\\c\\t\\o\\b\\e\\r', '\\N\\o\\v\\e\\m\\b\\e\\r', '\\D\\e\\c\\e\\m\\b\\e\\r'][month - 1]).
+        /*option F*/replace(/([^\\])F|^F/g, `$1${['\\J\\a\\n\\u\\a\\r\\y', '\\F\\e\\b\\r\\u\\a\\r\\y', '\\M\\a\\r\\c\\h', '\\A\\p\\r\\i\\l', '\\M\\a\\y', '\\J\\u\\n\\e', '\\J\\u\\l\\y', '\\A\\u\\g\\u\\s\\t', '\\S\\e\\p\\t\\e\\m\\b\\e\\r', '\\O\\c\\t\\o\\b\\e\\r', '\\N\\o\\v\\e\\m\\b\\e\\r', '\\D\\e\\c\\e\\m\\b\\e\\r'][month - 1]}`).
+            replace(/([^\\])F|^F/g, `$1${['\\J\\a\\n\\u\\a\\r\\y', '\\F\\e\\b\\r\\u\\a\\r\\y', '\\M\\a\\r\\c\\h', '\\A\\p\\r\\i\\l', '\\M\\a\\y', '\\J\\u\\n\\e', '\\J\\u\\l\\y', '\\A\\u\\g\\u\\s\\t', '\\S\\e\\p\\t\\e\\m\\b\\e\\r', '\\O\\c\\t\\o\\b\\e\\r', '\\N\\o\\v\\e\\m\\b\\e\\r', '\\D\\e\\c\\e\\m\\b\\e\\r'][month - 1]}`).
+
+        // Month
         // replace all m's with Numeric representation of a month, with leading zeros
-        /*option m* or %m*/replace(/([^\\])%m|^%m|([^\\])m|^m/g, '$1$2' + (month < 10 ? "0" + month : month)).replace(/([^\\])%m|^%m|([^\\])m|^m/g, '$1$2' + (month < 10 ? "0" + month : month)).
+        /*option m* or %m*/replace(/([^\\])%m|^%m|([^\\])m|^m/g, `$1$2${month < 10 ? "0" + month : month}`).replace(/([^\\])%m|^%m|([^\\])m|^m/g, `$1$2${month < 10 ? "0" + month : month}`).
         // replace all M's with A short textual representation of a month, three letters
-        /*option M or %M*/replace(/([^\\])%M|^%M|([^\\])M|^M/g, '$1$2' + threeLetterMonth).replace(/([^\\])%M|^%M|([^\\])M|^M/g, '$1$2' + threeLetterMonth).
+        /*option M or %M*/replace(/([^\\])%M|^%M|([^\\])M|^M/g, `$1$2${threeLetterMonth}`).replace(/([^\\])%M|^%M|([^\\])M|^M/g, `$1$2${threeLetterMonth}`).
         // replace all n's with Numeric representation of a month, without leading zeros
-        /*option n*/replace(/([^\\])n|^n/g, '$1' + month).replace(/([^\\])n|^n/g, '$1' + month).
+        /*option n*/replace(/([^\\])n|^n/g, `$1${month}`).replace(/([^\\])n|^n/g, `$1${month}`).
         // replace all t's with Number of days in the given month
-        /*option t*/replace(/([^\\])t|^t/g, '$1' + (month == 2 && _isInt(year / 4) ? 29 : [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1])).replace(/([^\\])t|^t/g, '$1' + (month == 2 && _isInt(year / 4) ? 29 : [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1])).
+        /*option t*/replace(/([^\\])t|^t/g, `$1${month == 2 && _isInt(year / 4) ? 29 : [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1]}`).
+            replace(/([^\\])t|^t/g, `$1${month == 2 && _isInt(year / 4) ? 29 : [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1]}`).
 
+        // Year
         //replace all L's with Whether it's a leap year
-        /*option L*/replace(/([^\\%])L|^L/g, '$1' + (_isInt(year % 4) ? 1 : 0)).replace(/([^\\%])L|^L/g, '$1' + (_isInt(year % 4) ? 1 : 0)).
+        /*option L*/replace(/([^\\%])L|^L/g, `$1${(_isInt(year % 4) ? 1 : 0)}`).replace(/([^\\%])L|^L/g, `$1${(_isInt(year % 4) ? 1 : 0)}`).
         //replace all o's with A full numeric representation of a year, 4 digits.  If 'W' belongs to the previous or next year, that year is used instead.
-        /*option o*/replace(/([^\\])o|^o/g, '$1' + (week > 0 ? year : year - 1)).replace(/([^\\])o|^o/g, '$1' + (week > 0 ? year : year - 1)).
+        /*option o*/replace(/([^\\])o|^o/g, `$1${week > 0 ? year : year - 1}`).replace(/([^\\])o|^o/g, `$1${week > 0 ? year : year - 1}`).
         //replace all Y's with A full numeric representation of a year, 4 digits
-        /*option Y or %Y*/replace(/([^\\])%Y|^%Y|([^\\])Y|^Y/g, '$1$2' + year).replace(/([^\\])%Y|^%Y|([^\\])Y|^Y/g, '$1$2' + year).
-        //replace all t's with A two digit representation of a year
-        /*option y*/replace(/([^\\])y|^y/g, '$1' + year.toString().substring(year.toString().length - 2)).replace(/([^\\])y|^y/g, '$1' + year.toString().substring(year.toString().length - 2)).
+        /*option Y or %Y*/replace(/([^\\])%Y|^%Y|([^\\])Y|^Y/g, `$1$2${year}`).replace(/([^\\])%Y|^%Y|([^\\])Y|^Y/g, `$1$2${year}`).
+        //replace all y's with A two digit representation of a year
+        /*option y*/replace(/([^\\])y|^y/g, `$1${year.toString().substring(year.toString().length - 2)}`).replace(/([^\\])y|^y/g, `$1${year.toString().substring(year.toString().length - 2)}`).
 
+        // Meridiem
         //replace all a's with Lowercase Ante Meridiem and Post Meridiem
-        /*option a*/replace(/([^\\])a|^a/g, '$1' + (hour > 11 ? "\\p\\m" : "\\a\\m")).replace(/([^\\])a|^a/g, '$1' + (hour > 11 ? "\\p\\m" : "\\a\\m")).
+        /*option a*/replace(/([^\\])a|^a/g, `$1${hour > 11 ? "\\p\\m" : "\\a\\m"}`).replace(/([^\\])a|^a/g, `$1${hour > 11 ? "\\p\\m" : "\\a\\m"}`).
         //replace all A's with Uppercase Ante Meridiem and Post Meridiem
-        /*option A*/replace(/([^\\])A|^A/g, '$1' + (hour > 11 ? "\\P\\M" : "\\A\\M")).replace(/([^\\])A|^A/g, '$1' + (hour > 11 ? "\\P\\M" : "\\A\\M")).
+        /*option A*/replace(/([^\\])A|^A/g, `$1${hour > 11 ? "\\P\\M" : "\\A\\M"}`).replace(/([^\\])A|^A/g, `$1${hour > 11 ? "\\P\\M" : "\\A\\M"}`).
         //replace all B's with Swatch Internet time
-        /*option B*/replace(/([^\\])B|^B/g, '$1' + Math.floor((((datetime.getUTCHours() + 1) % 24) + datetime.getUTCMinutes() / 60 + datetime.getUTCSeconds() / 3600) * 1000 / 24)).replace(/([^\\])B|^B/g, '$1' + Math.floor((((datetime.getUTCHours() + 1) % 24) + datetime.getUTCMinutes() / 60 + datetime.getUTCSeconds() / 3600) * 1000 / 24)).
+        /*option B*/replace(/([^\\])B|^B/g, `$1${Math.floor((((datetime.getUTCHours() + 1) % 24) + datetime.getUTCMinutes() / 60 + datetime.getUTCSeconds() / 3600) * 1000 / 24)}`).
+            replace(/([^\\])B|^B/g, `$1${Math.floor((((datetime.getUTCHours() + 1) % 24) + datetime.getUTCMinutes() / 60 + datetime.getUTCSeconds() / 3600) * 1000 / 24)}`).
+
+        // Hour
         //replace all g's with 12-hour format of an hour without leading zeros
-        /*option g*/replace(/([^\\])g|^g/g, '$1' + (hour == 0 ? 12 : hour > 12 ? hour - 12 : hour)).replace(/([^\\])g|^g/g, '$1' + (hour == 0 ? 12 : hour > 12 ? hour - 12 : hour)).
+        /*option g*/replace(/([^\\])g|^g/g, `$1${hour == 0 ? 12 : hour > 12 ? hour - 12 : hour}`).replace(/([^\\])g|^g/g, `$1${hour == 0 ? 12 : hour > 12 ? hour - 12 : hour}`).
         //replace all G's with 24-hour format of an hour without leading zeros
-        /*option G*/replace(/([^\\])G|^G/g, '$1' + hour).replace(/([^\\])G|^G/g, '$1' + hour).
+        /*option G*/replace(/([^\\])G|^G/g, `$1${hour}`).replace(/([^\\])G|^G/g, `$1${hour}`).replace(/([^\\])G|^G/g, `$1${hour}`).replace(/([^\\])G|^G/g, `$1${hour}`).
         //replace all h's with 12-hour format of an hour with leading zeros
-        /*option h*/replace(/([^\\])h|^h/g, '$1' + hr).replace(/([^\\])h|^h/g, '$1' + hr).
+        /*option h*/replace(/([^\\])h|^h/g, `$1${hr}`).replace(/([^\\])h|^h/g, `$1${hr}`).replace(/([^\\])h|^h/g, `$1${hr}`).replace(/([^\\])h|^h/g, `$1${hr}`).
         //replace all H's with 24-hour format of an hour with leading zeros
-        /*option H or %H*/replace(/([^\\])%H|^%H|([^\\])H|^H/g, '$1$2' + hour24).replace(/([^\\])%H|^%H|([^\\])H|^H/g, '$1$2' + hour24).
+        /*option H or %H*/replace(/([^\\])%H|^%H|([^\\])H|^H/g, `$1$2${hour24}`).replace(/([^\\])%H|^%H|([^\\])H|^H/g, `$1$2${hour24}`).
+
+        // Minute
         //replace all i's with Minutes with leading zeros
-        /*option i*/replace(/([^\\])i|^i/g, '$1' + minuteWithZero).replace(/([^\\])i|^i/g, '$1' + minuteWithZero).
+        /*option i*/replace(/([^\\])i|^i/g, `$1${minuteWithZero}`).replace(/([^\\])i|^i/g, `$1${minuteWithZero}`).
+
+        // Seconds
         //replace all s's with Seconds, with leading zeros
-        /*option s or %S*/replace(/([^\\])%S|^%S|([^\\])s|^s/g, '$1$2' + secondsWithZero).replace(/([^\\])%S|^%S|([^\\])s|^s/g, '$1$2' + secondsWithZero).
+        /*option s or %S*/replace(/([^\\])%S|^%S|([^\\])s|^s/g, `$1$2${secondsWithZero}`).replace(/([^\\])%S|^%S|([^\\])s|^s/g, `$1$2${secondsWithZero}`).
+
+        // Micro/Milliseconds
         //replace all u's with Microseconds
-        /*option u*/replace(/([^\\])u|^u/g, '$1' + epoch * 1000).replace(/([^\\])u|^u/g, '$1' + epoch * 1000).
+        /*option u*/replace(/([^\\])u|^u/g, `$1${epoch * 1000}`).replace(/([^\\])u|^u/g, `$1${epoch * 1000}`).
         //replace all L's with Milliseconds
         /*option %L*/replace(/([^\\])%L|^%L/g, epoch.toString()).replace(/([^\\])%L|^%L/g, epoch.toString()).
 
+        // Timezone
         //replace all e's with Timezone identifier
-        /*option e*/replace(/([^\\])e|^e/g, '$1' + currentTimezoneLong).replace(/([^\\])e|^e/g, '$1' + currentTimezoneLong).
+        /*option e*/replace(/([^\\])e|^e/g, `$1${currentTimezoneLong}`).replace(/([^\\])e|^e/g, `$1${currentTimezoneLong}`).
         //replace all I's with Whether or not the date is in daylight saving time
-        /*option I*/replace(/([^\\])I|^I/g, '$1' + (Math.max((new Date(datetime.getFullYear(), 0, 1)).getTimezoneOffset(), (new Date(datetime.getFullYear(), 6, 1)).getTimezoneOffset()) > datetime.getTimezoneOffset() ? 0 : 1)).replace(/([^\\])I|^I/g, '$1' + (Math.max((new Date(datetime.getFullYear(), 0, 1)).getTimezoneOffset(), (new Date(datetime.getFullYear(), 6, 1)).getTimezoneOffset()) > datetime.getTimezoneOffset() ? 0 : 1)).
-
+        /*option I*/replace(/([^\\])I|^I/g, `$1${Math.max((new Date(datetime.getFullYear(), 0, 1)).getTimezoneOffset(), (new Date(datetime.getFullYear(), 6, 1)).getTimezoneOffset()) > datetime.getTimezoneOffset() ? 0 : 1}`).
+            replace(/([^\\])I|^I/g, `$1${Math.max((new Date(datetime.getFullYear(), 0, 1)).getTimezoneOffset(), (new Date(datetime.getFullYear(), 6, 1)).getTimezoneOffset()) > datetime.getTimezoneOffset() ? 0 : 1}`).
         //replace all O's with Difference to Greenwich time (GMT) in hours
-        /*option O*/replace(/([^\\])O|^O/g, '$1' + GMTDiffFormatted).replace(/([^\\])O|^O/g, '$1' + GMTDiffFormatted).
+        /*option O*/replace(/([^\\])O|^O/g, `$1${GMTDiffFormatted}`).replace(/([^\\])O|^O/g, `$1${GMTDiffFormatted}`).
         //replace all P's with Difference to Greenwich time (GMT) with colon between hours and minutes
-        /*option P*/replace(/([^\\])P|^P/g, '$1' + GMTDiffFormatted.substr(0, 3) + ":" + GMTDiffFormatted.substr(3, 2)).replace(/([^\\])P|^P/g, '$1' + GMTDiffFormatted.substr(0, 3) + ":" + GMTDiffFormatted.substr(3, 2)).
+        /*option P*/replace(/([^\\])P|^P/g, `$1${GMTDiffFormatted.substr(0, 3)}:${GMTDiffFormatted.substr(3, 2)}`).replace(/([^\\])P|^P/g, `$1${GMTDiffFormatted.substr(0, 3)}:${GMTDiffFormatted.substr(3, 2)}`).
         //replace all T's with Timezone abbreviation
-        /*option T*/replace(/([^\\])T|^T/g, '$1' + currentTimezone).replace(/([^\\])T|^T/g, '$1' + currentTimezone).
+        /*option T*/replace(/([^\\])T|^T/g, `$1${currentTimezone}`).replace(/([^\\])T|^T/g, `$1${currentTimezone}`).
         //replace all Z's with Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive
-        /*option Z*/replace(/([^\\])Z|^Z/g, '$1' + (-1 * GMTDiff * 60)).replace(/([^\\])T|^T/g, '$1' + currentTimezone).
+        /*option Z*/replace(/([^\\])Z|^Z/g, `$1${-1 * GMTDiff * 60}`).replace(/([^\\])Z|^Z/g, `$1${-1 * GMTDiff * 60}`).
 
+        // Other
         //replace all c's with ISO 8601 date
-        /*option c*/replace(/([^\\])c|^c/g, '$1' + (datetime.toISOString ? datetime.toISOString() : "")).replace(/([^\\])c|^c/g, '$1' + (datetime.toISOString ? datetime.toISOString() : "")).
+        /*option c*/replace(/([^\\])c|^c/g, `$1${ISOstring}`).replace(/([^\\])c|^c/g, `$1${ISOstring}`).
         //replace all r's with RFC 2822 formatted date
-        /*option r*/replace(/([^\\])r|^r/g, '$1' + threeLetterDay + ', ' + dateWithZero + ' ' + threeLetterMonth + ' ' + year + ' ' + hour24 + ':' + minuteWithZero + ':' + secondsWithZero + ' ' + GMTDiffFormatted).replace(/([^\\])r|^r/g, '$1' + threeLetterDay + ', ' + dateWithZero + ' ' + threeLetterMonth + ' ' + year + ' ' + hour24 + ':' + minuteWithZero + ':' + secondsWithZero + ' ' + GMTDiffFormatted).
+        /*option r*/replace(/([^\\])r|^r/g, `$1${threeLetterDay}, ${dateWithZero} ${threeLetterMonth} ${year} ${hour24}:${minuteWithZero}:${secondsWithZero} ${GMTDiffFormatted}`).
+            replace(/([^\\])r|^r/g, `$1${threeLetterDay}, ${dateWithZero} ${threeLetterMonth} ${year} ${hour24}:${minuteWithZero}:${secondsWithZero} ${GMTDiffFormatted}`).
         //replace all U's with Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
-        /*option U*/replace(/([^\\])U|^U/g, '$1' + epoch / 1000).replace(/([^\\])U|^U/g, '$1' + epoch / 1000).
+        /*option U*/replace(/([^\\])U|^U/g, `$1${epoch / 1000}`).replace(/([^\\])U|^U/g, `$1${epoch / 1000}`).
             replace(/\\/gi, "");
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Date.format", e);
         return "";
     }

@@ -21,16 +21,16 @@ class Queue<T> extends Array<T> {
         "typeParameter": "<T>",
         "returnType": "(IQueue<T>)"
     }|*/
-    protected nextIndex: number;
-    constructor(records: T[]) {
-        super(...duplicate(records || [], true) as any);
+    /* istanbul ignore next */
+    constructor(records?: T[]) {
+        super();
         Object.setPrototypeOf(this, Object.create(Queue.prototype))
-        this.nextIndex = 0;
+        let items = duplicate(records || [], true);
+        for (let i = 0, len = items.length; i < len; i++) {
+            this.push(items[i])
+        }
     }
-    public enqueue(value) { this.push(value); };
+    public enqueue(value) { return !!this.push(value); };
     public dequeue() { return this.splice(0, 1)[0]; };
-    public next() { return { value: this[this.nextIndex++], done: this.nextIndex >= this.size() }; };
-    public hasNext() { return this.nextIndex < this.size(); };
-    public size() { return this.length; };
 }
 export default Queue;

@@ -20,7 +20,7 @@ export default function isNull(value: any, defaultValue?: any): boolean | any {
             return isnull;
         }
         return isnull ? defaultValue : value;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isNull', e);
     }
 }

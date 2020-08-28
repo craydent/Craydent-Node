@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function isPresto(this: Craydent | Window) {
+export default function isPresto(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if engine is Presto",
         "category": "HTTP",
@@ -13,7 +13,7 @@ export default function isPresto(this: Craydent | Window) {
     }|*/
     try {
         return (/presto/i.test(this.navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isPresto', e);
     }
 }

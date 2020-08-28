@@ -1,23 +1,35 @@
 import { VerbOptions } from "../models/VerbOptions";
 import { AnyObject } from "../models/Arrays";
+import merge from "../methods/merge";
 
-
-export default function _verbPayloadHelper(context: Craydent, variable?: string, options?: VerbOptions): boolean | AnyObject {
-    context.raw = context.raw || "";
-    if (!variable) { return context.rawData || context.raw; }
-    context.rawData = context.rawData || {};
+export type Verbs = 'get' | 'delete' | 'post' | 'put' | 'payload';
+export default function _verbPayloadHelper(context: Craydent): boolean | AnyObject;
+export default function _verbPayloadHelper(context: Craydent, variable: string, method: Verbs, options?: VerbOptions): boolean | AnyObject;
+export default function _verbPayloadHelper(context: Craydent, variable?: string, method?: Verbs, options?: VerbOptions): boolean | AnyObject {
+    let { rawData } = context;
+    let defaultData = { get: null, post: null, delete: null, put: null };
+    let data = (rawData || defaultData)[method] || {};
+    let theRawData = rawData || {} as any;
+    if (method == 'payload') {
+        for (let prop in defaultData) {
+            const d = theRawData[prop];
+            if (!d) { continue; }
+            data = merge(data, d);
+        }
+    }
+    if (!variable) { return data; }
     if (!options) {
-        return context.rawData[variable] === undefined ? false : context.rawData[variable];
+        return !data || data[variable] === undefined ? false : data[variable];
     }
 
     if (options == 'i' || (options as any).ignoreCase || options == "ignoreCase") {
-        for (let prop in context.rawData) {
+        for (let prop in data) {
             /* istanbul ignore next */
-            if (!context.rawData.hasOwnProperty(prop)) { continue; }
-            if (prop.toLowerCase() == variable.toLowerCase()) { return context.rawData[prop]; }
+            if (!data.hasOwnProperty(prop)) { continue; }
+            if (prop.toLowerCase() == variable.toLowerCase()) { return data[prop]; }
         }
         return false;
     }
 
-    return context.rawData[variable] || false;
+    return data[variable] || false;
 }

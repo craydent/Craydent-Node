@@ -12,7 +12,7 @@ export default function replaceAt<T>(arr: T[], index: number, value: T): T {
             _addToIndex(objs.__indexed_buckets, value);
         }
         return item;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.replaceAt", e);
         return null;
     }

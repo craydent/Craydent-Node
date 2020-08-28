@@ -3,8 +3,8 @@ import duplicate from './duplicate';
 import { AnyObject } from '../models/Arrays';
 import isArray from './isArray';
 import isFunction from './isFunction';
-import isNull from './isNull';
 import isObject from './isObject';
+import isNullOrEmpty from './isNullOrEmpty';
 
 export type MergeEnums = "recurse" | "onlyShared" | "intersect" | "clone";
 
@@ -17,7 +17,9 @@ export interface MergeOptions {
 };
 export type MergeIterator = (original: any, comparison: any) => boolean;
 
-export default function merge<T, R, TResult>(obj: T, secondary: R, condition?: MergeEnums | MergeOptions | MergeIterator): TResult {
+export default function merge<T, R, TResult>(obj: T[], secondary: R[], condition?: MergeIterator): TResult;
+export default function merge<T, R, TResult>(obj: T, secondary: R, condition?: MergeEnums | MergeOptions): TResult;
+export default function merge<TResult>(obj, secondary, condition?): TResult {
     /*|{
         "info": "Object class extension to merge objects",
         "category": "Object",
@@ -40,6 +42,7 @@ export default function merge<T, R, TResult>(obj: T, secondary: R, condition?: M
             intersectObj = {} as AnyObject;
 
         for (let prop in secondary) {
+            /* istanbul ignore else */
             if (secondary.hasOwnProperty(prop)) {
                 if (intersect && objtmp.hasOwnProperty(prop)) {
                     intersectObj[prop] = secondary[prop];
@@ -55,7 +58,7 @@ export default function merge<T, R, TResult>(obj: T, secondary: R, condition?: M
                     }
                     objtmp.push(duplicate(secondary[prop]));
                 } else {
-                    if (isArray(objtmp) && (isNull(condition) || recurse)) {
+                    if (isArray(objtmp) && (isNullOrEmpty(condition) && !recurse)) {
                         if (!~objtmp.indexOf(secondary[prop])) {
                             objtmp.push(secondary[prop]);
                         }
@@ -68,7 +71,7 @@ export default function merge<T, R, TResult>(obj: T, secondary: R, condition?: M
             }
         }
         return (intersect ? intersectObj : objtmp) as TResult;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('Object.merge', e);
         return null;
     }

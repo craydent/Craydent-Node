@@ -1,7 +1,7 @@
 import error from './error';
 import _getFuncArgs from '../protected/_getFuncArgs';
 
-export default function (fn: Function): string[] {
+export default function getParameters(fn: Function): string[] {
     /*|{
         "info": "Function class extension to get parameters in definition",
         "category": "Function",
@@ -15,7 +15,7 @@ export default function (fn: Function): string[] {
     }|*/
     try {
         return _getFuncArgs(fn);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Function.getParameters", e);
     }
 }

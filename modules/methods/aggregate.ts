@@ -10,7 +10,7 @@ export default function aggregate<T, TResult>(arr: Documents<T>, pipelines: Mong
             rtn = __processStage(rtn, pipeline);
         }
         return rtn.sample && !hasGroup ? rtn.sample : rtn;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.aggregate", e);
         return [];
     }

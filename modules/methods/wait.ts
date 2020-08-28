@@ -2,6 +2,7 @@ import error from './error';
 import parseRaw from './parseRaw';
 import isNumber from './isNumber';
 
+/* istanbul ignore next */
 export default function wait(condition) { // TODO: allow for nested wait calls
     /*|{
         "info": "Stops execution until the condition is satisfied",

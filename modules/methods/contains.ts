@@ -27,15 +27,15 @@ const _isFunction = isFunction,
 
 
 export default function contains<T, TValue>(arr: T[], func: ContainsObjectIterator<T, TValue>): boolean;
-export default function contains<T, TValue>(arr: T[], val: ContainsValue, func: ContainsObjectIterator<T, TValue>): boolean;
-export default function contains<T, TValue>(arr: T[], val: ContainsValue, operator: ComparisonOperator): boolean;
-export default function contains<T, TValue>(obj: T, val: ContainsValue, func: ContainsObjectIterator<T, TValue>): boolean;
+export default function contains<T, TValue>(arr: T[], val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
+export default function contains<T, TValue>(arr: T[], val: ContainsValue, operator?: ComparisonOperator): boolean;
+export default function contains<T, TValue>(obj: T, val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
 export default function contains<T, TValue>(str: string, val: ContainsValue): boolean;
 export default function contains<T, TValue>(num: number, val: ContainsValue): boolean;
 export default function contains(obj, val, func?) {
     try {
         if (_isFunction(val) && !func) {
-            for (var prop in obj) {
+            for (let prop in obj) {
                 if (val(obj[prop], prop, obj)) {
                     return true;
                 }
@@ -52,7 +52,7 @@ export default function contains(obj, val, func?) {
                 return !!~_indexOfAlt(obj, val, func);
             }
             if (_isString(func)) {
-                var f = _foo as any;
+                let f = _foo as any;
                 switch (func) {
                     case "$lt":
                         f = _containsLessThan;
@@ -76,8 +76,8 @@ export default function contains(obj, val, func?) {
                 return !!f(obj, val);
             }
             if (_isArray(val)) {
-                for (var i = 0, len = val.length; i < len; i++) {
-                    var item = val[i];
+                for (let i = 0, len = val.length; i < len; i++) {
+                    let item = val[i];
                     if (contains(obj, item, func)) {
                         return item;
                     }
@@ -88,11 +88,14 @@ export default function contains(obj, val, func?) {
             return !!~(_isRegExp(val) ? obj.search(val) : obj.indexOf(val));
         }
         if (_isObject(obj)) {
-            for (var prop in obj) {
+            for (let prop in obj) {
+                /* istanbul ignore next */
                 if (!obj.hasOwnProperty(prop)) {
                     continue;
                 }
-                if ((func && func(obj[prop], prop, obj)) || obj[prop] == val) {
+                /* istanbul ignore next */
+                const result = func && func(obj[prop], prop, obj);
+                if (result || obj[prop] == val) {
                     return true;
                 }
             }
@@ -102,7 +105,7 @@ export default function contains(obj, val, func?) {
             return !!~obj.toString().indexOf(val);
         }
         return false;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.contains", e);
         return null;
     }

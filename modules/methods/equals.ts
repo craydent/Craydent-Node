@@ -33,10 +33,12 @@ export default function equals(obj, compare, props?): boolean {
         }
         if ((isObject(obj) && isObject(compare)) || (isArray(obj) && isArray(compare))) {
             for (let prop in compare) {
+                /* istanbul ignore next */
                 if (!compare.hasOwnProperty(prop)) { continue; }
                 if (!equals(obj[prop], compare[prop])) { return false; }
             }
             for (let prop in obj) {
+                /* istanbul ignore next */
                 if (!obj.hasOwnProperty(prop)) { continue; }
                 if (!equals(obj[prop], compare[prop])) { return false; }
             }
@@ -45,8 +47,9 @@ export default function equals(obj, compare, props?): boolean {
         if (obj === undefined && compare !== undefined || obj !== undefined && compare === undefined) { return false; }
         if (obj === null && compare !== null || obj !== null && compare === null) { return false; }
         if (isRegExp(compare)) { return compare.test(obj.toString()); }
+        if (obj === undefined && compare === undefined || obj === null && compare === null) { return true; }
         return (obj.toString() == compare.toString() && obj.constructor == compare.constructor);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error(`${obj.constructor.name}.equals`, e);
         return null;
     }

@@ -1,7 +1,7 @@
 ///<reference path="../globalTypes/global.base.ts" />
 import error from './error';
 
-export default function isFirefox(this: Craydent | Window) {
+export default function isFirefox(this: Craydent | Window):boolean {
     /*|{
         "info": "Check if browser is Firefox",
         "category": "HTTP",
@@ -18,8 +18,7 @@ export default function isFirefox(this: Craydent | Window) {
             && !/apple/i.test(nu)
             && !/opera/i.test(nu)
             && /firefox/i.test(nu));
-    } catch (e) {
-        /* istanbul ignore next */
+    } catch (e) /* istanbul ignore next */ {
         error && error('isFirefox', e);
     }
 }

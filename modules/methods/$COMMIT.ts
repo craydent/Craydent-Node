@@ -19,28 +19,29 @@ export default function $COMMIT(options?: VerbOptions) {
         "returnType": "(void)"
     }|*/
     try {
+        let COMMIT: any = $COMMIT;
         options = options || {};
         let noHistory = (options as any).noHistory || options == "noHistory" || options == "h";
-        if (($COMMIT as any).update) {
-            if (($COMMIT as any).search) {
+        if (COMMIT.update) {
+            if (COMMIT.search) {
                 if (noHistory) {
-                    location.replace(($COMMIT as any).search + (($COMMIT as any).hash || ""));
+                    location.replace(COMMIT.search + (COMMIT.hash || ""));
                 } else {
-                    location.href = ($COMMIT as any).search + (($COMMIT as any).hash || "");
+                    location.href = COMMIT.search + (COMMIT.hash || "");
                 }
-            } else if (($COMMIT as any).hash) {
+            } else if (COMMIT.hash) {
+                let hash = COMMIT.hash[0] == '#' ? COMMIT.hash : `#${COMMIT.hash}`;
                 if (noHistory) {
-                    let hash = ($COMMIT as any).hash[0] == '#' ? ($COMMIT as any).hash : `#${($COMMIT as any).hash}`;
-                    location.replace(($COMMIT as any).hash);
+                    location.replace(hash);
                 } else {
-                    location.hash = ($COMMIT as any).hash;
+                    location.hash = hash;
                 }
-                $COOKIE("CRAYDENTHASH", location.hash[0] == '#' ? location.hash.substring(1) : location.hash);
+                $COOKIE("CRAYDENTHASH", hash);
                 _invokeHashChange();
             }
             $ROLLBACK();
         }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('$COMMIT', e);
     }
 }

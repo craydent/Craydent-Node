@@ -9,25 +9,32 @@ import isArray from './isArray';
 import isFunction from './isFunction';
 import isGenerator from './isGenerator';
 import isAsync from './isAsync';
-import tryEval from './tryEval';
-import syncroit from './syncroit';
+import { AsyncFunction } from '../models/AsyncFunction';
+import parallelEach from './parallelEach';
 
-export default function runFuncArray(funcs, args) {
+export type Executables = Array<Executable> | Executable;
+export type Executable = Function | AsyncFunction | GeneratorFunction;
+export default function runFuncArray(funcs: Executables, args: any[] = []): any[] | Promise<any[]> {
     let self = this;
-    !isArray(funcs) && (funcs = [funcs]);
-    let i = 0, func, rtn = [];
+    !isArray(funcs) && (funcs = [funcs as Executable]);
+    let i = 0, func,
+        rtn = [],
+        usePromise = false;
     while (func = funcs[i++]) {
         try {
-            if (isFunction(func)) {
-                rtn = rtn.concat(func.apply(self, args));
-            } else if (isGenerator(func)) {
-                tryEval('syncroit(function *(){rtn = rtn.concat(yield func.apply(self,args));});');
-            } else if (isAsync(func)) {
-                tryEval('(async function (){rtn = rtn.concat(await func.apply(self,args));})();');
+            /* istanbul ignore else */
+            if (isGenerator(func) || isAsync(func)) {
+                usePromise = true;
+                rtn.push(func);
+            } else if (isFunction(func)) {
+                rtn.push(func.apply(self, args));
             }
-        } catch (e) {
+        } catch (e) /* istanbul ignore next */ {
             throw e;
         }
+    }
+    if (usePromise) {
+        return parallelEach(rtn, args);
     }
     return rtn;
 };

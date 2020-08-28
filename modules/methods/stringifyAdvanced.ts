@@ -2,7 +2,7 @@ import _stringifyAdvanced from '../protected/_stringifyAdvanced';
 import { AnyObject, AnyObjects } from '../models/Arrays';
 
 export type Replacer = (key?: string, value?: any) => any;
-export default function (obj: AnyObject | AnyObjects, replacer: Replacer, space?: string | number): string {
+export default function stringifyAdvanced(obj: AnyObject | AnyObjects, replacer?: Replacer, space?: string | number): string {
     /*|{
         "info": "JSON Parser that can handle types and refs",
         "category": "JSON Parser",

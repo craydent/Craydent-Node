@@ -13,9 +13,8 @@ export default function copyObject<T>(obj: T): T {
         "returnType": "(Object)"
     }|*/
     try {
-        if (!obj) { return undefined; }
         return _duplicate({} as T, obj, true);
-    } catch (e) {
-        error("Object.copyObject", e);
+    } catch (e) /* istanbul ignore next */ {
+        error && error("Object.copyObject", e);
     }
 }

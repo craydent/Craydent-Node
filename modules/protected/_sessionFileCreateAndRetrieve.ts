@@ -39,8 +39,7 @@ export default function _sessionFileCreateAndRetrieve(filepath: string, sync?: b
             });
         });
 
-    } catch (e) {
-        /* istanbul ignore next */
+    } catch (e) /* istanbul ignore next */ {
         error && error('_sessionFileCreateAndRetrieve', e);
     }
 }

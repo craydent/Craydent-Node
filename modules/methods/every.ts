@@ -19,7 +19,7 @@ export default function every<T>(objs: T[] | T, callback: ArrayIterator<T> | Obj
                 }
         }
         return true;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.every", e);
         return null;
     }

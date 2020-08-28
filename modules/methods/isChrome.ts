@@ -1,7 +1,7 @@
 ///<reference path="../globalTypes/global.base.ts" />
 import error from './error';
 
-export default function isChrome(this: Craydent | Window) {
+export default function isChrome(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if browser is Chrome",
         "category": "HTTP",
@@ -14,7 +14,7 @@ export default function isChrome(this: Craydent | Window) {
     }|*/
     try {
         return (/chrome/i.test((this as Window).navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         /* istanbul ignore next */
         error && error('isChrome', e);
     }

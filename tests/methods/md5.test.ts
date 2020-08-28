@@ -1,0 +1,27 @@
+import add from '../../modules/methods/add';
+import md5 from '../../modules/methods/md5';
+import { create } from 'domain';
+jest.mock('crypto', () => {
+    return {
+        "createHash": (...args) => createHash.apply(this, args)
+    }
+});
+let createHash = () => { };
+let update = () => { };
+let digest = () => { };
+describe('add', () => {
+    beforeEach(() => {
+        createHash = () => { };
+        update = () => { };
+        digest = () => { };
+    });
+    it('should add to the array and index', () => {
+        update = jest.fn();
+        digest = jest.fn(() => 'digest');
+        createHash = jest.fn(() => ({ update, digest }));
+        expect(md5('md5string')).toBe('digest');
+        expect(createHash).toHaveBeenCalledWith('md5');
+        expect(update).toHaveBeenCalledWith('md5string');
+        expect(digest).toHaveBeenCalledWith('hex');
+    });
+});

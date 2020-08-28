@@ -9,7 +9,6 @@ import merge from './merge';
 import duplicate from './duplicate';
 import isArray from './isArray';
 import isFunction from './isFunction';
-import isObject from './isObject';
 import isString from './isString';
 
 export default function mapReduce<T, TResult>(objs: T[], map: ArrayIterator<T>, reduce: MongoReducer<TResult>, options?: MongoMapReduceOptions<TResult>): TResult[] {
@@ -17,17 +16,7 @@ export default function mapReduce<T, TResult>(objs: T[], map: ArrayIterator<T>, 
         options = options || {};
         let obj = {}, results = where(objs, options.query, null, options.limit), rtnArr = [], final = options.finalize;
         if (options.sort) {
-            if (isObject(options.sort)) {
-                let sortProps = [];
-                for (let prop in options.sort) {
-                    if (!options.sort.hasOwnProperty(prop)) { continue; }
-                    if (options.sort[prop] == 1) { sortProps.push(prop); }
-                    if (!~options.sort[prop]) { sortProps.push(`!${prop}`); }
-                }
-                results = sortBy(results, sortProps);
-            } else {
-                results = sortBy(results, options.sort);
-            }
+            results = sortBy(results, options.sort);
         }
         on(map, 'emit', function (key, value) {
             obj[key] = obj[key] || [];
@@ -35,6 +24,7 @@ export default function mapReduce<T, TResult>(objs: T[], map: ArrayIterator<T>, 
         });
         for (let i = 0, len = results.length; i < len; i++) { map.call(results[i]) }
         for (let key in obj) {
+            /* istanbul ignore if */
             if (!obj.hasOwnProperty(key)) { continue; }
             let reducedValue = reduce(key, obj[key]);
             if (isFunction(final)) { reducedValue = final(key, reducedValue); }
@@ -42,13 +32,13 @@ export default function mapReduce<T, TResult>(objs: T[], map: ArrayIterator<T>, 
         }
 
         if (isString(options.out)) {
-            global[options.out] = duplicate(rtnArr, true);
+            global[options.out as string] = duplicate(rtnArr, true);
         } else if (isArray(options.out)) {
             removeAll(options.out as any);
             return merge(options.out, rtnArr);
         }
         return rtnArr;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.mapReduce", e);
         return [];
     }

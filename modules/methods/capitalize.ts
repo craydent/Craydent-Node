@@ -24,7 +24,7 @@ export default function capitalize(str: string, pos?: number | number[], everyWo
             }
         }
         return wordArray.join(' ');
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.capitalize", e);
         return "";
     }

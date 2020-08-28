@@ -27,6 +27,7 @@ if (!$g.$c || __isNewer($g.$c.VERSION.split('.'), _craydent_version.split('.')))
     $c.MODULES_LOADED && delete $c.MODULES_LOADED[info.name];
 
     $c.DEBUG_MODE = $c.DEBUG_MODE || false;
+    $c.ERROR_TYPES = $c.ERROR_TYPES || [];
     $c.MODULES_LOADED = $c.MODULES_LOADED || {};
     $c.CONSOLE_COLORS = $c.CONSOLE_COLORS || {
         RED: '\x1b[31m%s\x1b[0m',

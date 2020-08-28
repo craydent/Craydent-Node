@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function on<T>(obj: T, ev: string, func: Function): T {
+export default function on(obj: Function, ev: string, func: Function): Function {
     /*|{
         "info": "Function listener to register events",
         "category": "Function",
@@ -18,7 +18,7 @@ export default function on<T>(obj: T, ev: string, func: Function): T {
         obj[eventName] = obj[eventName] || [];
         obj[eventName].push(func);
         return obj;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Function.on", e);
         return null;
     }

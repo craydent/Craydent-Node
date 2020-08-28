@@ -21,18 +21,21 @@ export default function clearCache(module?: string): boolean {
     }|*/
     try {
         if (module) {
-            delete require.cache[require.resolve(module)];
-            return true;
+            return _clearCacheHelper(require.resolve(module));
         }
         for (let prop in require.cache) {
-            if (!require.cache.hasOwnProperty(prop)) {
+            /* istanbul ignore next */
+            if (require.cache.hasOwnProperty && !require.cache.hasOwnProperty(prop)) {
                 continue;
             }
-            delete require.cache[prop];
+            _clearCacheHelper(prop);
         }
         return true;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('clearCache', e);
         return false;
     }
+}
+export const _clearCacheHelper = (module) => {
+    return delete require.cache[module];
 }

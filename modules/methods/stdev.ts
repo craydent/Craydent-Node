@@ -6,7 +6,7 @@ const _isNumber = isNumber;
 
 export default function stdev(arr: number[]): number {
     try {
-        if (!arr.length) { return 0; }
+        if (!arr || !arr.length) { return 0; }
         let avg = _average(arr),
             sum = null, sdlen = 0;
         for (let i = 0, len = arr.length; i < len; i++) {
@@ -17,7 +17,7 @@ export default function stdev(arr: number[]): number {
             sum += diff * diff;
         }
         return Math.sqrt(sum / sdlen);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.stdev", e);
         return NaN;
     }

@@ -13,10 +13,11 @@ export default function isCuid(str: string, msFormat?: boolean): boolean {
         "returnType": "(Bool)"
     }|*/
     try {
+        if (!str) { return false; }
         let pre = "", post = "", length = 36;
         msFormat && ((pre = "{") && (post = "}"), length += 2);
-        return str.length == length && (new RegExp(pre + "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}" + post)).test(str);
-    } catch (e) {
+        return str.length == length && (new RegExp(`${pre}[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}${post}`)).test(str);
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.isCuid", e);
     }
 }

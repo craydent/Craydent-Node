@@ -1,4 +1,3 @@
-import _typeCheck from '../protected/_typeCheck';
 import isNull from './isNull';
 
 export default function isObject(obj: any, check_instance?: boolean): boolean {

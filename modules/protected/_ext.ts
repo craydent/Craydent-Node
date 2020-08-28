@@ -1,7 +1,7 @@
 import error from '../methods/error';
 import __defineFunction from '../private/__defineFunction';
 
-declare var $g;
+const $g: any = global;
 
 export default function _ext(cls: any, property: string, func: Function, override?: boolean): void {
     try {
@@ -13,8 +13,7 @@ export default function _ext(cls: any, property: string, func: Function, overrid
             }
         }
         __defineFunction(property, func);
-    } catch (e) {
-        /* istanbul ignore next */
+    } catch (e) /* istanbul ignore next */ {
         error && error('_ext', e);
     }
 }

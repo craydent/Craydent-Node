@@ -1,7 +1,7 @@
 import error from './error';
 import isWebkit from './isWebkit';
 
-export default function isKHTML(this: Craydent | Window) {
+export default function isKHTML(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if engine is KHTML",
         "category": "HTTP",
@@ -14,7 +14,7 @@ export default function isKHTML(this: Craydent | Window) {
     }|*/
     try {
         return !isWebkit.call(this) && (/khtml/i.test(this.navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isKHTML', e);
     }
 }

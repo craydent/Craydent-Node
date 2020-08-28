@@ -44,8 +44,7 @@ export default function _getSession(ctx: Craydent, sid: string, callback?: (data
         } else {
             return callback ? callback(__GLOBALSESSION[(ctx as any).sessionid]) : __GLOBALSESSION[(ctx as any).sessionid];
         }
-    } catch (e) {
-        /* istanbul ignore next */
+    } catch (e) /* istanbul ignore next */ {
         error && error('_getSession', e);
     }
 }

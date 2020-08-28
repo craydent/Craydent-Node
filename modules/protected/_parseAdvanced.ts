@@ -5,13 +5,13 @@ import getProperty from '../methods/getProperty';
 import isArray from '../methods/isArray';
 import isObject from '../methods/isObject';
 import isString from '../methods/isString';
-import relativePathFinder from '../methods/relativePathFinder';
+import absolutePath from '../methods/absolutePath';
 import startsWithAny from '../methods/startsWithAny';
 import strip from '../methods/strip';
 import tryEval from '../methods/tryEval';
 import { AnyObjects, AnyObject } from '../models/Arrays';
 
-declare var $g: any;
+const $g: any = global;
 
 export default function _parseAdvanced(obj: any): any;
 export default function _parseAdvanced(obj: any, original: any, values: AnyObject | AnyObjects, base_path?: string, depth?: number): any;
@@ -88,7 +88,7 @@ export default function _parseAdvanced(obj, original?, values?, base_path?, dept
                 filepath = (base_path ? "" : path) + filepath;
             }
             try {
-                let module = relativePathFinder(base_path + filepath, depth + 1);
+                let module = absolutePath(base_path + filepath, depth + 1);
                 clearCache(module);
                 _parents.push(obj);
                 // @ts-ignore

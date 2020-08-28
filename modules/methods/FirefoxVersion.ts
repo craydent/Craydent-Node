@@ -14,7 +14,7 @@ export default function FirefoxVersion(this: Craydent | Window) {
     }|*/
     try {
         return _getBrowserVersion(this, "Firefox");
-    } catch (e) {
-        error('FirefoxVersion', e);
+    } catch (e) /* istanbul ignore next */ {
+        error && error('FirefoxVersion', e);
     }
 }

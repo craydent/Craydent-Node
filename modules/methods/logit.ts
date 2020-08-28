@@ -16,13 +16,13 @@ export default function logit(...args): void {
         "returnType": "(void)"
     }|*/
     try {
-        let location = "", err = new Error(), args = [], arg, i = 0;
+        let path = "", err = new Error();
 
-        $c.VERBOSE_LOGS && err.stack && (location = "\t\t\t\t    " + err.stack.split('\n')[2]);
-        for (let i = 0, len = arguments.length; i < len; i++) { args.push(arguments[i]); }
-        if ($c.VERBOSE_LOGS) { args.push(location); }
-        cout.apply(this, arguments);
-    } catch (e) {
+        $c.VERBOSE_LOGS && err.stack && (path = `\t\t\t\t    ${err.stack.split('\n')[2]}`);
+        // for (let i = 0, len = args.length; i < len; i++) { args.push(args[i]); }
+        if ($c.VERBOSE_LOGS && path) { args.push(path); }
+        cout.apply(this, args);
+    } catch (e) /* istanbul ignore next */ {
         error && error('logit', e);
     }
 }

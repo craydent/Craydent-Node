@@ -1,4 +1,5 @@
 import error from './error';
+import isNullOrEmpty from './isNullOrEmpty';
 
 export default function reverse(str: string): string {
     /*|{
@@ -12,8 +13,9 @@ export default function reverse(str: string): string {
         "returnType": "(String)"
     }|*/
     try {
+        if (isNullOrEmpty(str)) { return ''; }
         return str.split('').reverse().join('');
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.reverse", e);
     }
 }

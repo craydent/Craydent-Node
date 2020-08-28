@@ -1,7 +1,7 @@
 import error from './error';
 import format from './format';
 
-export default function now(fmt): Date | string {
+export default function now(fmt?: string): Date | string {
     /*|{
         "info": "Get the DateTime of now",
         "category": "Utility",
@@ -15,7 +15,7 @@ export default function now(fmt): Date | string {
     }|*/
     try {
         return fmt ? format((new Date()), fmt) : new Date();
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('now', e);
         return '';
     }

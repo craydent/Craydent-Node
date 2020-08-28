@@ -1,9 +1,8 @@
-import { SortIterator } from "modules/models/SortIterator";
-import { IteratorItem } from "modules/models/IteratorItem";
+import { SortIterator } from "../models/SortIterator";
 import duplicate from "./duplicate";
 import error from "./error";
 
-function _orderListHelper<T>(value: T, sorter: SortIterator<T>, arr: T[]): number {
+export function _orderListHelper<T>(value: T, sorter: SortIterator<T>, arr: T[]): number {
     try {
         let ii = 0, i = 0, len = arr.length, origlen = arr.length;
         if (!~sorter(value, arr[0])) { return 0; }
@@ -11,6 +10,7 @@ function _orderListHelper<T>(value: T, sorter: SortIterator<T>, arr: T[]): numbe
         while (len > 1) {
             len = Math.ceil(len / 2);
             ii = i + len;
+            /* istanbul ignore if */
             if (ii >= origlen) { ii = origlen - 1; }
             let order = sorter(value, arr[ii]);
             if (order === 0) { return ii; }
@@ -19,12 +19,13 @@ function _orderListHelper<T>(value: T, sorter: SortIterator<T>, arr: T[]): numbe
         }
         return ii;
 
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("OrderedList._orderListHelper", e);
         return -1;
     }
 }
 
+/* istanbul ignore next */
 function iterator(a, b) { if (a < b) { return -1; } if (a > b) { return 1; } return 0; };
 
 class OrderedList<T> extends Array<T> {
@@ -49,25 +50,25 @@ class OrderedList<T> extends Array<T> {
         "typeParameter": "<T>",
         "returnType": "(IOrderedList<T>)"
     }|*/
-    private nextIndex: number;
     private sorter: SortIterator<T>;
-    constructor(records?: T[], sorter?: SortIterator<T>) {
-        super(...duplicate(records || [], true) as any);
+    /* istanbul ignore next */
+    constructor(records: T[] = [], sorter: SortIterator<T> = iterator) {
+        super();
         Object.setPrototypeOf(this, Object.create(OrderedList.prototype))
+        let items = duplicate(records || [], true);
+        for (let i = 0, len = items.length; i < len; i++) {
+            this.push(items[i])
+        }
         this.sort(this.sorter = sorter || iterator);
-        this.nextIndex = 0;
     }
 
     public add = function (value: T): boolean {
-        if (!this.length) { return this.push(value); }
+        if (!this.length) { return !!this.push(value); }
         let index = _orderListHelper<T>(value, this.sorter, this);
+        /* istanbul ignore if */
         if (!~index) { return false; }
         return !!this.splice(index, 0, value);
     };
-
-    public next(): IteratorItem { return { value: this[this.nextIndex++], done: this.nextIndex >= this.size() }; }
-    public hasNext(): boolean { return this.nextIndex < this.size(); }
-    public size(): number { return this.length; }
 }
 
 export default OrderedList

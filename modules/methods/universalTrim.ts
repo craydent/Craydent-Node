@@ -42,16 +42,18 @@ export default function universalTrim(subject, chars?, ref?: boolean): string | 
             // var ref = chars,
             let arr = [],
                 alter = false;
-            if (_isBoolean(ref)) { alter = true; }
+            if (_isBoolean(ref) && ref) { alter = true; }
 
             for (let i = 0, len = subject.length; i < len; i++) {
                 let item = subject[i];
+                /* istanbul ignore next */
                 _isString(item) && (arr[i] = _generalTrim(item.toString(), undefined, chars)) || (arr[i] = item);
                 alter && ((subject as any[])[i] = arr[i]);
             }
             return arr;
         }
-    } catch (e) {
+        return '';
+    } catch (e) /* istanbul ignore next */ {
         error && error(`${_getFuncName(subject.constructor)}.trim`, e);
         return '';
     }

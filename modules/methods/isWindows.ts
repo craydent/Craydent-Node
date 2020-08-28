@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function isWindows(this: Craydent | Window) {
+export default function isWindows(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if OS is Windows",
         "category": "HTTP",
@@ -13,7 +13,7 @@ export default function isWindows(this: Craydent | Window) {
     }|*/
     try {
         return /win/i.test(this.navigator.platform);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isWindows', e);
     }
 }

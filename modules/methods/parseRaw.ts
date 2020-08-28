@@ -10,7 +10,7 @@ import isNull from './isNull';
 import isRegExp from './isRegExp';
 import isString from './isString';
 
-declare var $g: any;
+const $g: any = global;
 
 export default function parseRaw(value: any, skipQuotes?: boolean, saveCircular?: boolean, __windowVars?: any[], __windowVarNames?: any): string {
     /*|{
@@ -27,7 +27,7 @@ export default function parseRaw(value: any, skipQuotes?: boolean, saveCircular?
         "returnType": "(String)"
     }|*/
     try {
-        if (isNull(value)) { return value + ""; }
+        if (isNull(value)) { return `${value}`; }
         let raw = "";
         if (isString(value)) {
             raw = (!skipQuotes ? `"${replaceAll(value, '"', '\\"')}"` : value);
@@ -47,6 +47,7 @@ export default function parseRaw(value: any, skipQuotes?: boolean, saveCircular?
                 __windowVarNames = [];
                 if (saveCircular) {
                     for (let prop in $g) {
+                        /* istanbul ignore if */
                         if (!$g.hasOwnProperty(prop)) { continue; }
                         if (value.hasOwnProperty(prop)) {
                             __windowVars.push($g[prop]);
@@ -57,13 +58,12 @@ export default function parseRaw(value: any, skipQuotes?: boolean, saveCircular?
             }
             let index = __windowVars.indexOf(value);
             if (!~index) {
-                if (saveCircular) {
-                    __windowVars.push(value);
-                    __windowVarNames.push(suid());
-                }
+                __windowVars.push(value);
+                __windowVarNames.push(suid());
                 raw = "{";
                 let sliceit = false;
                 for (let prop in value) {
+                    /* istanbul ignore else */
                     if (value.hasOwnProperty(prop)) {
                         sliceit = true;
                         raw += `"${prop}": ${parseRaw(value[prop], skipQuotes, saveCircular, __windowVars, __windowVarNames)},`;
@@ -81,7 +81,7 @@ export default function parseRaw(value: any, skipQuotes?: boolean, saveCircular?
             raw = value.toString();
         }
         return raw;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('parseRaw', e);
         return null;
     }

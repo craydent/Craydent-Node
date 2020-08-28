@@ -17,7 +17,7 @@ export default function md5(str: string): string {
         let md5sum = crypto.createHash('md5');
         md5sum.update(str);
         return md5sum.digest('hex');
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('md5', e);
     }
 }

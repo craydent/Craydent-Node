@@ -14,15 +14,17 @@ import tryEval from './tryEval';
 import * as IChildProcess from 'child_process';
 import { AsyncFunction } from '../models/AsyncFunction';
 import { AnyObject } from "../models/Generics";
-import { Options, CLIOptions, ExecOptions, ExecCallback } from "../models/CLI";
+import { Option, CLIOptions, ExecOptions, ExecCallback } from "../models/CLI";
+import _getFuncName from '../protected/_getFuncName';
 
+const syncro = syncroit;
 export type ActionCallback = (this: CLI, arg: string) => any;
 
 function _cli_exec(command: string, callback: ExecCallback);
 function _cli_exec(command: string, options?: ExecOptions, callback?: ExecCallback);
 function _cli_exec(command, options?, callback?) {
     let child: typeof IChildProcess = require('child_process');
-    if (typeof options == 'function') {
+    if (isFunction(options)) {
         callback = options;
         options = undefined;
     }
@@ -32,13 +34,21 @@ function _cli_exec(command, options?, callback?) {
             options = options || {};
             options.silent = !!options.silent;
 
-            var output = '';
-            var cprocess = child.exec(command, { env: process.env, maxBuffer: 20 * 1024 * 1024 }, function (err) {
-                var fin = !err || options.alwaysResolve ? res : rej
-                var re = callback || fin;
-                if (options.outputOnly) { return re(output); }
-                if (callback) { fin(); return re.call(cprocess, err ? err.code : 0, output); }
-                re({ code: err ? err.code : 0, output: output });
+            let output = '';
+            const cprocess = child.exec(command, { env: process.env, maxBuffer: 20 * 1024 * 1024 }, function (err) {
+                const fin = !err || options.alwaysResolve ? res : rej
+                if (options.outputOnly) {
+                    if (callback) { callback.call(cprocess, output); }
+                    return fin(output);
+                }
+                if (callback) {
+                    const code = err ? err.code : 0;
+                    callback.call(cprocess, code, output);
+                    return !code ? fin() : fin({ code, output });
+                }
+                /* istanbul ignore next */
+                let code = err ? err.code : 0;
+                fin({ code, output });
             });
 
             cprocess.stdout.on('data', function (data) {
@@ -50,94 +60,107 @@ function _cli_exec(command, options?, callback?) {
                 output += data;
                 if (!options.silent) { process.stdout.write(data); }
             });
-        } catch (e) {
+        } catch (e) /* istanbul ignore next */ {
             error && error('CLI.exec', e);
         }
     });
 }
-function add(opt: Options, self: CLI): CLI {
+function add(opt: Option, self: CLI): CLI {
     try {
         opt.command = opt.command || "*";
-        let value: AnyObject = {}, popt = processOptions(opt, value, self), options = self.Options;
+        let processedOptions = processOptions(opt, self),
+            popt = processedOptions.options,
+            options,
+            value = processedOptions.value;// = self.Options;
         options = self.Commands[opt.command] = self.Commands[opt.command] || [];
         self._commandIndex.push(opt.command);
-        if (!isNull(self._command_possible) && self._command_possible == opt.command) {
-            for (let i = 0, len = self.Commands['*'].length; i < len; i++) {
-                let topt = processOptions(self.Commands['*'][i], null, self);
-
-                for (let j = 0, jlen = topt.length; j < jlen; j++) {
-                    delete self[topt[j]._property];
-                }
-            }
-            self.CommandName = self._command_possible;
-            self._command_possible = null;
+        if (!isNull(self._potentialCommand) && self._potentialCommand == opt.command) {
+            self.CommandName = self._potentialCommand;
+            self._potentialCommand = null;
         }
         if (self.CommandName == opt.command) {
-            if (self.Arguments[0] == self.CommandName && !self._command_removed) {
-                self._command_removed = true;
+            /* istanbul ignore else */
+            if (self.Arguments[0] == self.CommandName && !self._commandRemoved) {
+                self._commandRemoved = true;
                 self.Arguments.splice(0, 1);
             }
-            let val = !self.UsingLabels && self.Arguments[options.length] || value.value || opt.default;
-            for (let i = 0, len = popt.length; i < len && !isNull(val); i++) {
-                let v = val;
-                switch (popt[i].type.toLowerCase()) {
-                    case "number":
-                        v = Number(v);
-                        v = isNaN(v) ? Number(popt[i].default) : v;
-                        break;
-                    case "array":
-                    case "object":
-                        v = tryEval(v, parseAdvanced) || v;
-                        break;
-                    case "bool":
-                    case "boolean":
-                        var tmp = parseBoolean(v);
-                        v = isNull(tmp) ? v : tmp;
-                        break;
-                }
-                self[popt[i]._property] = v;
-            }
         }
+        // let val = !self.UsingLabels && self.Arguments[options.length], v;
+        let v;
+        for (let i = 0, len = popt.length; i < len /* && !isNull(value) */; i++) {
+            if (!isNull(v)) {
+                self[(popt[i] as any)._property] = v;
+                continue;
+            }
+            // if (isNull(val)) {
+            v = !isNull(value) ? value : opt.default;
+            // }
+            switch (popt[i].type.toLowerCase()) {
+                case "number":
+                    v = Number(v);
+                    v = isNaN(v) ? Number(popt[i].default) : v;
+                    if (isNaN(v)) {
+                        v = undefined;
+                    }
+                    break;
+                case "array":
+                case "object":
+                    v = tryEval(v, parseAdvanced) || v;
+                    break;
+                case "bool":
+                case "boolean":
+                    const tmp = parseBoolean(v);
+                    v = isNull(tmp) ? v : tmp;
+                    break;
+            }
+            self[(popt[i] as any)._property] = v;
+        }
+        if (!opt.command || opt.command == '*') { self.Options.push(opt); }
         options.push(opt);
         return self;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error('CLI.add', e);
     }
 }
-function processOptions(option: Options, value, self) {
-    value = value || {};
-    if (!isObject(option)) { throw "Error: Option [" + JSON.stringify(option) + "] must be an object.  Option will be ignored."; }
-    if (!option.option) { return [option]; }
+function processOptions(option: Option, self): { options: Option[], value?: any } {
+    /* istanbul ignore if */
+    if (!isObject(option)) {
+        throw `Error: Option [${JSON.stringify(option)}] must be an object.  Option will be ignored.`;
+    }
+    // if (!option.option) { return { options: [option] }; }
     let o = option.option.split(',');
-    if (o.length === 1) { return [option]; }
-    let arr: Options[] = [];
+    let options: Option[] = [], value;
     for (let i = 0, len = o.length; i < len; i++) {
         let prop = strip(o[i], '-');
-        if (prop != "name" && self[prop]) { value.value = self[prop]; }
-        arr.push({
+        // if (prop != "name" && self[prop]) { value.value = self[prop]; }
+        if (self[prop]) { value = self[prop]; }
+        options.push({
             option: o[i],
-            type: option.type,
+            type: option.type || 'string',
             description: option.description,
             default: option.default,
             command: option.command,
             required: option.required,
             _property: prop
-        });
+        } as any);
     }
-    return arr;
+    return { options, value };
 }
 
-function renderOptions(options: Options[], extratabs?: string) {
+function renderOptions(options: Option[], extratabs?: string) {
     extratabs = extratabs || "";
     let content = "", nlinetab = "\n\t";
     for (let i = 0, len = options.length; i < len; i++) {
+        /* istanbul ignore next */
         let option = options[i], optnames = (option.option || "").split(","), sep = "";
         if (optnames.length > 1) {
             optnames.sort(function (a, b) { return a.length - b.length; });
             sep = ",";
         }
-        content += nlinetab + extratabs + optnames[0] + sep + "\t\t" + (option.type ? "(" + option.type + ")" : "") + " " + option.description + (option.required ? "(required)" : "");
+        content += nlinetab + extratabs + optnames[0] + sep
+        content += `\t\t${option.type ? `(${option.type})` : "(string)"} ${option.description}${option.required ? "(required)" : ""}`;
         for (let j = 1, jlen = optnames.length; j < jlen; j++) {
+            /* istanbul ignore else */
             if (j + 1 == jlen) { sep = ""; }
             content += nlinetab + extratabs + optnames[j] + sep;
         }
@@ -145,18 +168,24 @@ function renderOptions(options: Options[], extratabs?: string) {
     return content;
 };
 function validate(self: CLI): void {
-    var options = self.Options;
-    if (self.CommandName) {
-        options = self.Commands[self.CommandName] || [];
-    }
+    /* istanbul ignore next */
+    self.CommandName = self.CommandName || '*';
+    /* istanbul ignore next */
+    let options = self.Commands[self.CommandName] || [];
 
-    for (var i = 0, len = options.length; i < len; i++) {
-        var option = options[i], copt = strip(option.option.split(',')[0], '-');
-        if (self[copt] === undefined) { self[copt] = self.UsingLabels && self.Arguments[i] || option.default; }
+    for (let i = 0, len = options.length; i < len; i++) {
+        const option = options[i], copt = strip(option.option.split(',')[0], '-');
+        /* istanbul ignore else */
+        if (self[copt] === undefined) {
+            /* istanbul ignore next */
+            self[copt] = self.UsingLabels && self.Arguments[i] || option.default;
+        }
+        /* istanbul ignore else */
         if (option.required && isNull(self[copt])) {
-            throw 'Option ' + option.option + ' is required.';
+            throw `Option ${option.option} is required.`;
         } else if (option.type && !isNull(self[copt])) {
-            switch (option.type.toLowerCase()) {
+            let type = option.type.toLowerCase();
+            switch (type) {
                 case "number":
                     self[copt] = isNaN(Number(self[copt])) ? self[copt] : Number(self[copt]);
                     break;
@@ -166,12 +195,13 @@ function validate(self: CLI): void {
                     break;
                 case "bool":
                 case "boolean":
-                    var tmp = parseBoolean(self[copt]);
+                    type = 'boolean';
+                    const tmp = parseBoolean(self[copt]);
                     self[copt] = isNull(tmp) ? self[copt] : tmp;
                     break;
             }
-            if (typeof self[copt] != option.type) {
-                throw 'Option ' + option.option + ' must be a ' + option.type + '.';
+            if (_getFuncName(self[copt].constructor).toLowerCase() != type) {
+                throw `Option ${option.option} must be a ${option.type}.`;
             }
         }
     }
@@ -209,18 +239,19 @@ class CLI {
     public isHelp: boolean;
 
     public _commandIndex: string[];
-    public _command_possible: string;
-    public _command_removed: boolean;
+    public _potentialCommand: string;
+    public _commandRemoved: boolean;
+    public waitForPending: Promise<any>[];
 
-    constructor(params: CLIOptions) {
+    constructor(params?: CLIOptions) {
         params = params || {};
         let args = process.argv,
             self = this,
             cself = self,
             sindex = 2;
         this._commandIndex = [];
-        this._command_possible = args[sindex];
-        this._command_removed = false;
+        this._potentialCommand = args[sindex];
+        this._commandRemoved = false;
 
         this.Interpreter = args[0];
         this.ScriptPath = args[1];
@@ -243,62 +274,53 @@ class CLI {
         command:"",
         required:false
         }*/];
-
-        if (params.options) {
-            for (var i = 0, len = params.options.length; i < len; i++) {
-                add(params.options[i], self);
-            }
-        }
         self.Arguments = [];
         self.Notes = params.notes || "";
         self.isMan = false;
         self.isHelp = false;
+        self.waitForPending = [];
+        const command = args[2];
 
-        if (args[sindex] != "man" && self.Commands[args[sindex]]) {
-            self.CommandName = args[sindex++];
-        } else if (!~self._commandIndex.indexOf('*') && args[sindex] && args[sindex][0] == "-") {
+        if (!~self._commandIndex.indexOf('*') && command && command[0] == "-") {
             self.CommandName = "*";
-        } else {
-            self.CommandName = args[sindex] || "*";
+        }
+        else if (command == 'man' || command == 'help') {
+            self.CommandName = command;
+            self.isHelp = command == 'help'; // requesting help
+            self.isMan = command == 'man'; // requesting man
+            sindex++;
         }
 
-        if (self.CommandName == 'man') { // requesting man
-            self.isMan = true;
-        }
-        if (self.CommandName == 'help') { // requesting man
-            self.isHelp = true;
-        }
         for (let i = sindex, len = args.length; i < len; i++) {
             let arg = args[i];
-            if (!arg || arg[sindex] != '-' && arg[0] != '-') { // no label
-                if (arg == 'man') { // requesting man
-                    self.isMan = true;
-                }
-                if (arg == 'help') { // requesting man
-                    self.isHelp = true;
-                }
+            /* istanbul ignore else */
+            if (arg[0] != '-') { // no label
                 self.UsingLabels = false;
-                self.CommandName = "*";
+                cself[arg] = arg;
                 self.Arguments.push(arg);
             } else if (arg.startsWith('--')) { // this is a multi char label
-                if (arg == '--help') { // requesting help
-                    self.isHelp = true;
-                }
+                // check if next arg is an option.  if it is then this is a flag
                 if (!args[i + 1] || args[i + 1][0] == '-') {
                     cself[strip(arg, '-')] = true;
                     continue;
                 }
                 i++;
+                // add the value of the option as a property
                 cself[strip(arg, '-')] = args[i];
-            } else if (arg[0] == '-') { // this is a single char label
-                var opts = strip(arg, '-');
+                self.Arguments.push(arg);
+                self.Arguments.push(args[i]);
+            } else if (arg.startsWith('-')) { // this is a single char label
+                const opts = strip(arg, '-');
                 if (opts.length == 1) {
+                    // check if next arg is an option.  if it is then this is a flag
                     if (!args[i + 1] || args[i + 1][0] == '-') {
                         cself[opts] = true;
                         continue;
                     }
                     i++;
                     cself[opts] = args[i];
+                    self.Arguments.push(arg);
+                    self.Arguments.push(args[i]);
                     continue;
                 }
                 for (var j = 0, jlen = opts.length; j < jlen; j++) {
@@ -306,41 +328,53 @@ class CLI {
                 }
             }
         }
+        if (params.options) {
+            for (var i = 0, len = params.options.length; i < len; i++) {
+                this.add(params.options[i]);
+            }
+        }
     }
     public isValid(): boolean {
-        try { validate(this); return true; } catch (e) { logit(e); return false; }
+        try { this.validate(); return true; }
+        catch (e) { logit(e); return false; }
     }
     public validate() {
         validate(this);
     }
-    public add(opt: Options) {
+    public add(opt: Option) {
         add(opt, this);
     }
-    public option(opt: Options) {
+    public option(opt: Option) {
         add(opt, this);
     }
-    public command(cmd: string, opts: Options | Options[]) {
+    public command(cmd: string, opts: Option | Option[]) {
         try {
+            /* istanbul ignore next */
             opts = opts || [];
             let args = process.argv;
             if (isNull(cmd)) { throw "Command name must be provided. This operation will be ignored."; }
             let cindexCMD = cmd.split(/\s/)[0];
             this._commandIndex.push(cindexCMD);
+            /* istanbul ignore else */
             if (args[2] == cindexCMD) { this.CommandName = cindexCMD; }
+            /* istanbul ignore else */
             if (!isArray(opts)) { opts = [opts] as any; }
-            for (let i = 0, len = (opts as Options[]).length; i < len; i++) {
+            for (let i = 0, len = (opts as Option[]).length; i < len; i++) {
                 var opt = opts[i];
+                /* istanbul ignore next */
                 if (!isObject(opt)) {
-                    error('CLI.command', new Error("Option [" + JSON.stringify(opt) + "] must be an object.  Option will be ignored."));
+                    error('CLI.command', new Error(`Option [${JSON.stringify(opt)}] must be an object.  Option will be ignored.`));
                     continue;
                 }
                 opt.command = cmd;
                 add(opt, this);
             }
+            /* istanbul ignore next */
             this.Commands[cmd] = this.Commands[cmd] || [];
             return this;
         } catch (e) {
             error && error('CLI.command', e);
+            throw e;
         }
     }
     public action(cb: ActionCallback | GeneratorFunction | AsyncFunction);
@@ -348,18 +382,19 @@ class CLI {
     public action(name, cb?) {
         let args = process.argv,
             self = this;
+        /* istanbul ignore else */
         if (isFunction(name) || isGenerator(name) || isAsync(name)) {
             cb = name;
             name = self._commandIndex[self._commandIndex.length - 1];
         }
-
+        /* istanbul ignore else */
         if (self.CommandName == name) {
             if (isGenerator(cb)) {
-                eval('syncroit(function*(){ return yield* cb.call(self,args[2]); });');
+                eval('self.waitForPending.push(syncro(function*(){ return yield* cb.call(self,args[2]); }));');
             } else if (isAsync(cb)) {
-                eval('(async function (){ return await cb.call(self,args[2]); })();');
+                eval('self.waitForPending.push((async function (){ return await cb.call(self,args[2]); })());');
             } else {
-                cb.call(self, args[2]);
+                cb.call(self, name);
             }
         }
         return self;
@@ -369,18 +404,21 @@ class CLI {
             let nlinetab = "\n\t", dline = "\n\n";
             let commands = "", self = this;
             for (var prop in self.Commands) {
+                /* istanbul ignore if */
                 if (!self.Commands.hasOwnProperty(prop)) { continue; }
-                if (!commands) { commands = "ADDITIONAL COMMANDS" + nlinetab; }
-                commands += prop + renderOptions(self.Commands[prop], '\t') + '\n' + nlinetab;
+                if (prop == '*') { continue; }
+                if (!commands) { commands = `ADDITIONAL COMMANDS${nlinetab}`; }
+                commands += `${prop}${renderOptions(self.Commands[prop], '\t')}\n${nlinetab}`;
             }
             commands += "\n";
-            return "NAME" + nlinetab + self.Name + (self.Info ? " -- " + self.Info : "") + dline +
-                "SYNOPSIS" + nlinetab + self.Synopsis + dline +
-                "DESCRIPTION" + nlinetab + self.Description + dline +
-                "OPTIONS" + renderOptions(self.Options) + dline +
-                commands +
-                "NOTES" + nlinetab + self.Notes + dline;
-        } catch (e) {
+            let content = `NAME${nlinetab}${self.Name}${(self.Info ? " -- " + self.Info : "")}${dline}`;
+            content += `SYNOPSIS${nlinetab}${self.Synopsis}${dline}`;
+            content += `DESCRIPTION${nlinetab}${self.Description}${dline}`;
+            content += `OPTIONS${renderOptions(self.Options)}${dline}`
+            content += commands;
+            content += `NOTES${nlinetab}${self.Notes}${dline}`;
+            return content;
+        } catch (e) /* istanbul ignore next */ {
             error('CLI.renderMan', e);
         }
     }
@@ -391,14 +429,17 @@ class CLI {
             let commands = "";
             let hasOptions = !!self.Options.length;
             for (let prop in self.Commands) {
+                /* istanbul ignore if */
                 if (!self.Commands.hasOwnProperty(prop)) { continue; }
-                commands += prop + renderOptions(self.Commands[prop], '\t') + '\n' + nlinetab;
+                if (prop == '*') { continue; }
+                commands += `${prop}${renderOptions(self.Commands[prop], '\t')}\n${nlinetab}`;
                 hasOptions = hasOptions || !!self.Commands[prop].length;
             }
-            return "Description: " + self.Synopsis + dline +
-                "Usage: " + self.ScriptName + (commands && " [command] ") + (hasOptions ? " [options] " : "") + nlinetab + commands + "\n" +
-                "Options: " + renderOptions(self.Options) + dline;
-        } catch (e) {
+            let content = `Description: ${self.Synopsis}${dline}`;
+            content += `Usage: ${self.ScriptName}${(commands && " [command]")}${(hasOptions ? " [options]" : "")}${nlinetab}${commands}\n`;
+            content += `Options:${renderOptions(self.Options)}${dline}`;
+            return content;
+        } catch (e) /* istanbul ignore next */ {
             error('CLI.renderMan', e);
         }
 
@@ -407,7 +448,7 @@ class CLI {
         return _cli_exec(command, options, callback);
     }
     public exec(command, options?, callback?) {
-        return _cli_exec(command, options, callback);
+        return CLI.exec(command, options, callback);
     }
 }
 export default CLI;

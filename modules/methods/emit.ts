@@ -2,7 +2,7 @@ import _runFuncArray from '../protected/_runFuncArray';
 import isArray from './isArray';
 const _isArray = isArray;
 
-export default function emit(ev: string, ...arg: any): any[] {
+export default function emit(ev?: string, ...arg: any): any[] {
     /*|{
         "info": "Call the next function(s) in queue",
         "category": "Function|Array",
@@ -19,6 +19,7 @@ export default function emit(ev: string, ...arg: any): any[] {
     }|*/
     let args: IArguments = arguments, vals = [];
     try {
+        /* istanbul ignore else */
         if (!_isArray(args)) {
             args = [] as any;
             for (let prop in arguments) {
@@ -34,6 +35,6 @@ export default function emit(ev: string, ...arg: any): any[] {
         }
         return vals;
     } catch (e) {
-        return e != 'catch' && _runFuncArray.call(this, arguments.callee.caller['_catch'], args.length == arguments.length ? (args as any).splice(1) : args);
+        return e != 'catch' && _runFuncArray.call(this, arguments.callee.caller['_catch'], arguments);
     }
 }

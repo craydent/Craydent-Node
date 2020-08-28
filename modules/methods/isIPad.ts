@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function isIPad(this: Craydent | Window) {
+export default function isIPad(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if device is iPad",
         "category": "HTTP",
@@ -13,7 +13,7 @@ export default function isIPad(this: Craydent | Window) {
     }|*/
     try {
         return (/iPad|iPhone OS 3_[1|2]_2/i.test(this.navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isIPad', e);
     }
 }

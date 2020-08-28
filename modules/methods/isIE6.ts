@@ -1,7 +1,7 @@
 import error from './error';
 import IEVersion from './IEVersion';
 
-export default function isIE6(this: Craydent | Window) {
+export default function isIE6(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if browser is Internet Explorer 6",
         "category": "HTTP",
@@ -14,8 +14,8 @@ export default function isIE6(this: Craydent | Window) {
     }|*/
     try {
         let rv = IEVersion.call(this);
-        return (~rv && rv < 7.0);
-    } catch (e) {
+        return !!(~rv && rv < 7.0);
+    } catch (e) /* istanbul ignore next */ {
         error && error('isIE6', e);
     }
 }

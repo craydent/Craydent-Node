@@ -23,10 +23,10 @@ export default function namespace(name, clazz: Function, callback?: Function): F
         const className = _getFuncName(clazz);
         const prop = `${name}.${className}`;
         const cpath = `${prop}.class`;
-        const dclass = getProperty(namespace, cpath);
+        const dclass = getProperty(namespace, prop);
         raw[name] = raw[name] || { string: "" };
         if (dclass) {
-            raw[name].string = raw[name].string.replace(dclass, '');
+            raw[name].string = raw[name].string.replace(dclass.toString(), '');
         }
         raw[name].string = raw[name].string + clazz.toString()
         setProperty(raw, cpath, clazz);
@@ -36,7 +36,7 @@ export default function namespace(name, clazz: Function, callback?: Function): F
         };
         callback && callback.call(clazz);
         return clazz;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('namespace', e);
     }
 }

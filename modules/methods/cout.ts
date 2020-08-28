@@ -26,7 +26,7 @@ export default function cout(...args): void {
                 console.log(arguments[i]);
             }
         }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('cout', e);
     }
 }

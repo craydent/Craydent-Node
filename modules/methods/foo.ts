@@ -1,4 +1,4 @@
-
+/* istanbul ignore next */
 export default function foo(): void {
     /*|{
         "info": "Place holder function for a blank function",

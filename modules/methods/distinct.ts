@@ -5,7 +5,7 @@ import getProperty from './getProperty';
 import isNullOrEmpty from './isNullOrEmpty';
 import isString from './isString';
 
-export default function distinct<T>(docs: T[], fields: string | string[], condition: string | WhereCondition): T[] {
+export default function distinct<T>(docs: T[], fields: string | string[], condition?: string | WhereCondition): T[] {
     try {
         if (isString(fields)) { fields = (fields as string).split(","); }
 
@@ -21,7 +21,7 @@ export default function distinct<T>(docs: T[], fields: string | string[], condit
         let i = 0, r;
         while (r = records[i++]) { !isNullOrEmpty(r) && arr.push(r); }
         return arr;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.distinct", e);
         return [];
     }

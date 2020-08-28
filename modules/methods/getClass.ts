@@ -14,7 +14,7 @@ export default function getClass(obj: any): string {
     }|*/
     try {
         return _getFuncName(obj.constructor);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('Object.getClass', e)
     }
 }

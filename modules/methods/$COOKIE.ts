@@ -12,14 +12,14 @@ export interface CookieOptions {
     cookie?: any;
     path?: string;
     domain?: string;
-    expiration?: string;
+    expiration?: number;
     delete?: boolean
 }
-
-export default function $COOKIE(key: string, options?: CookieOptions): any;
-export default function $COOKIE(keyValue: AnyObject, options?: CookieOptions): any;
-export default function $COOKIE(key: string, value: string, options?: CookieOptions): any;
-export default function $COOKIE(key, value?, options?): any {
+export default function $COOKIE(this: Craydent | void): any;
+export default function $COOKIE(this: Craydent | void, key: string, options?: CookieOptions): any;
+export default function $COOKIE(this: Craydent | void, keyValue: AnyObject, options?: CookieOptions): any;
+export default function $COOKIE(this: Craydent | void, key: string, value: string, options?: CookieOptions): any;
+export default function $COOKIE(this: Craydent | void, key?, value?, options?): any {
     /*|{
          "info": "Get/set Cookies",
          "category": "HTTP",
@@ -43,14 +43,14 @@ export default function $COOKIE(key, value?, options?): any {
      }|*/
     try {
         const isNode = typeof window == 'undefined';
-        options = options || {};
         let path = "", domain = "", keys = [], values = [];
-        let c = options.cookie ? options.cookie : getProperty(this, 'request.headers.cookie') || getProperty(this, 'document.cookie');
+
         if (isObject(key)) {
             options = value;
             for (let prop in key) {
+                /* istanbul ignore next */
                 if (!key.hasOwnProperty(prop)) { continue; }
-                values.push(JSON.stringify(key[prop]));
+                values.push(isString(key[prop]) ? key[prop] : JSON.stringify(key[prop]));
                 keys.push(prop);
             }
         } else if (isString(key) && isObject(value) && !options) {
@@ -59,14 +59,16 @@ export default function $COOKIE(key, value?, options?): any {
             keys.push(key);
         } else if (arguments.length > 1) {
             keys.push(key);
-            values.push(JSON.stringify(value));
+            values.push(isString(value) ? value : JSON.stringify(value));
         }
+        options = options || {};
+        let c = options.cookie ? options.cookie : (isNode ? getProperty(this, 'request.headers.cookie') : window.document.cookie);
 
         if (!c && !values.length) { return {}; }
-        if (options.path && isString(options.path)) { path = `path=${(options.path || '/')};`; }
+        if (options.path && isString(options.path)) { path = `path=${options.path};`; }
         if (options.domain && isString(options.domain)) { domain = `domain=${options.domain};` }
         if (options["delete"]) {
-            isNode ? this.response.setHeader("Set-Cookie", [`${key}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;${path}${domain}`]) :
+            isNode ? (this as any).response.setHeader("Set-Cookie", [`${key}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;${path}${domain}`]) :
                 document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;${path}${domain}`;
             return true;
         }
@@ -79,7 +81,7 @@ export default function $COOKIE(key, value?, options?): any {
                 expires = `;expires=${dt.toUTCString()}`;
             }
             for (let j = 0, jlen = keys.length; j < jlen; j++) {
-                isNode ? this.response.setHeader("Set-Cookie", [`${encodeURIComponent(keys[j])}=${encodeURIComponent(values[j])}${expires}${path}${domain}`]) :
+                isNode ? (this as any).response.setHeader("Set-Cookie", [`${encodeURIComponent(keys[j])}=${encodeURIComponent(values[j])}${expires}${path}${domain}`]) :
                     document.cookie = `${encodeURIComponent(keys[j])}=${encodeURIComponent(values[j])}${expires}${path}${domain}`;
             }
             return true;
@@ -99,7 +101,7 @@ export default function $COOKIE(key, value?, options?): any {
 
         if (key) { return false; }
         return cookies;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('$COOKIE', e);
     }
 }

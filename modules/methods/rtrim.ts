@@ -1,7 +1,7 @@
 import error from "./error";
 import _generalTrim from "../protected/_generalTrim";
 
-export default function (str: string, character?: string | string[]): string {
+export default function rtrim(str: string, character?: string | string[]): string {
     /*|{
         "info": "String class extension to remove characters from the end of the string",
         "category": "String",
@@ -15,7 +15,7 @@ export default function (str: string, character?: string | string[]): string {
     }|*/
     try {
         return _generalTrim(str, 'r', character);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.rtrim", e);
     }
 }

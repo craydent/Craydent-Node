@@ -19,7 +19,7 @@ export default function cuid(msFormat?: boolean): string {
             let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         }) + pt;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('cuid', e);
     }
 }

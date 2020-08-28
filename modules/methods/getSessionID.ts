@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function getSessionID() {
+export default function getSessionID(this: Craydent | void) {
     /*|{
         "info": "Retrieve the session id when used in conjunction with createServer",
         "category": "HTTP",
@@ -12,8 +12,8 @@ export default function getSessionID() {
         "returnType": "(String)"
     }|*/
     try {
-        return this.sessionid;
-    } catch (e) {
+        return (this as any).sessionid;
+    } catch (e) /* istanbul ignore next */ {
         error && error('getSessionID', e);
     }
 }

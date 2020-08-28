@@ -16,6 +16,7 @@ describe('__common', () => {
         ${(global as any).$g.$c.globalize}        | ${'globalize'}
         ${(global as any).$g.$c.LOCAL_IP}         | ${'LOCAL_IP'}
         ${(global as any).$g.$c.PUBLIC_IP}        | ${'PUBLIC_IP'}
+        ${(global as any).$g.$c.ERROR_TYPES}      | ${'ERROR_TYPES'}
     `('$name should exists', ({ variable }) => {
         expect(typeof variable).not.toBe('undefined');
     });

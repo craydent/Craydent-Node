@@ -1,4 +1,4 @@
-import error from './error';
+import _fsHelper from '../protected/_fsHelper';
 import * as fs from 'fs';
 
 export type ReadDirOptions = {
@@ -25,22 +25,5 @@ export default function readdir(path, options?): Promise<any> {
         "url": "http://www.craydent.com/library/1.9.3/docs#readdir",
         "returnType": "(any)"
     }|*/
-    let args = [];
-    for (let i = 0, len = arguments.length; i < len; i++) {
-        args.push(arguments[i]);
-    }
-    return new Promise(function (res) {
-        try {
-            args.push(function (err, data) {
-                if (err) {
-                    res(err);
-                }
-                res(data);
-            });
-            fs.readdir.apply(this, args);
-        } catch (e) {
-            error && error('fs.readdir', e);
-            res(e);
-        }
-    });
+    return _fsHelper.apply(this, ['readdir', ...arguments as any]);
 }

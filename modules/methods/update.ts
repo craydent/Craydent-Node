@@ -1,3 +1,4 @@
+//#region imports
 import error from './error';
 import { MongoSet, WhereCondition } from '../models/Arrays';
 import { _processClause, __queryNestedProperty, _subQuery, __pullHelper } from './where';
@@ -25,14 +26,15 @@ import toSet from './toSet';
 import deleteIt from './delete';
 import insertBefore from './insertBefore';
 import sortBy from './sortBy';
-
+import tryEval from './tryEval';
+//#endregion imports
 
 export interface UpdateOptions {
     multi?: boolean;
     upsert?: boolean;
 }
 
-export default function update<T>(arr: T[], condition: WhereCondition, setClause: MongoSet, options?: UpdateOptions): T[] {
+export default function update<T>(arr: T[], condition: WhereCondition | string, setClause: MongoSet, options?: UpdateOptions): T[] {
     try {
         options = options || {};
         // if sql syntax convert to mongo object syntax
@@ -45,7 +47,7 @@ export default function update<T>(arr: T[], condition: WhereCondition, setClause
             setObject['$set'] = {};
             for (let i = 0, len = setClause.length; i < len; i++) {
                 let keyVal = setClause[i].split("=");
-                setObject['$set'][_generalTrim(keyVal[0])] = _generalTrim(keyVal[1]);
+                setObject['$set'][_generalTrim(keyVal[0])] = tryEval(_generalTrim(keyVal[1]));
             }
         }
         let found = false, plainObject = true;
@@ -80,7 +82,7 @@ export default function update<T>(arr: T[], condition: WhereCondition, setClause
         let _refs = [], ifblock = _subQuery(condition, null, null, _refs), func = `
             (function (record,i) {
             	var values,finished;
-            	if (${ifblock}") {
+            	if (${ifblock}) {
             		if(!cb.call(thiz,record,i)) { throw 'keep going'; }
             	}
             })`
@@ -111,6 +113,7 @@ export default function update<T>(arr: T[], condition: WhereCondition, setClause
             }
             if (setObject['$max']) {
                 for (let prop in setObject['$max']) {
+                    /* istanbul ignore if */
                     if (!setObject['$max'].hasOwnProperty(prop)) { continue; }
                     obj[prop] = _isNull(obj[prop], setObject['$max'][prop]);
                     let value = obj[prop];
@@ -119,6 +122,7 @@ export default function update<T>(arr: T[], condition: WhereCondition, setClause
             }
             if (setObject['$min']) {
                 for (let prop in setObject['$min']) {
+                    /* istanbul ignore if */
                     if (!setObject['$min'].hasOwnProperty(prop)) { continue; }
                     obj[prop] = _isNull(obj[prop], setObject['$min'][prop]);
                     let value = obj[prop];
@@ -136,14 +140,15 @@ export default function update<T>(arr: T[], condition: WhereCondition, setClause
                     if (_isInt(setObject['$bit'][prop]['and'])) {
                         obj[prop] &= setObject['$bit'][prop]['and'];
                     } else if (_isInt(setObject['$bit'][prop]['or'])) {
-                        obj[prop] |= setObject['$bit'][prop]['and'];
+                        obj[prop] |= setObject['$bit'][prop]['or'];
                     } else if (_isInt(setObject['$bit'][prop]['xor'])) {
-                        obj[prop] ^= setObject['$bit'][prop]['and'];
+                        obj[prop] ^= setObject['$bit'][prop]['xor'];
                     }
                 }
             }
             if (setObject['$rename']) {
                 for (let prop in setObject['$rename']) {
+                    /* istanbul ignore if */
                     if (!obj.hasOwnProperty(prop)) { continue; }
                     let value = obj[prop];
                     setObject['$rename'].hasOwnProperty(prop) && delete obj[prop] && (obj[setObject['$rename'][prop]] = value);
@@ -151,14 +156,16 @@ export default function update<T>(arr: T[], condition: WhereCondition, setClause
             }
 
             // Array operations
+            /* istanbul ignore next */
             if (setObject['$']) {
 
             }
             if (setObject['$addToSet']) {
                 for (let prop in setObject['$addToSet']) {
+                    /* istanbul ignore if */
                     if (!setObject['$addToSet'].hasOwnProperty(prop)) { continue; }
                     let each;
-                    if (each = getProperty(setObject, '$addToSet.' + prop + '.$each')) {
+                    if (each = getProperty(setObject, `$addToSet.${prop}.$each`)) {
                         for (let i = 0, len = each.length; i < len; i++) {
                             obj[prop].push(each[i]);
                         }
@@ -171,6 +178,7 @@ export default function update<T>(arr: T[], condition: WhereCondition, setClause
             if (setObject['$pop']) {
                 for (let prop in setObject['$pop']) {
                     if (!setObject['$pop'].hasOwnProperty(prop) || !_isArray(obj[prop])) { continue; }
+                    /* istanbul ignore next */
                     if (setObject['$pop'][prop] === 1) { obj[prop].pop(); }
                     else if (!~setObject['$pop'][prop]) { obj[prop].shift(); }
                 }
@@ -186,17 +194,18 @@ export default function update<T>(arr: T[], condition: WhereCondition, setClause
             if (setObject['$pull']) {
                 for (let prop in setObject['$pull']) {
                     let arr = getProperty(obj, prop),
-                        values = setObject['$pullAll'][prop];
+                        values = setObject['$pull'][prop];
                     if (!_isArray(arr)) { continue; }
-                    if (_isArray(values)) {
+                    if (!_isObject(values)) {
                         __pullHelper(arr, values);
-                    } else if (_isObject(values)) {
-                        deleteIt(values, false);
+                    } else {
+                        deleteIt(arr, values, false);
                     }
                 }
             }
             if (setObject['$push']) {
                 for (let prop in setObject['$push']) {
+                    /* istanbul ignore if */
                     if (!setObject['$push'].hasOwnProperty(prop)) { continue; }
                     let each = getProperty(setObject, `$push.${prop}.$each`),
                         slice = getProperty(setObject, `$push.${prop}.$slice`),
@@ -221,11 +230,12 @@ export default function update<T>(arr: T[], condition: WhereCondition, setClause
                     if (each && sort) {
                         let sorter = [];
                         for (let p in sort) {
+                            /* istanbul ignore if */
                             if (!sort.hasOwnProperty(p)) { continue; }
                             if (sort[p] == 1) {
                                 sorter.push(p)
                             } else if (!~sort[p]) {
-                                sorter.push("!" + p)
+                                sorter.push(`!${p}`)
                             }
                         }
                         sortBy(obj[prop], sorter);
@@ -236,7 +246,6 @@ export default function update<T>(arr: T[], condition: WhereCondition, setClause
                     }
                 }
             }
-
 
             return !!options.multi;
         };
@@ -249,16 +258,16 @@ export default function update<T>(arr: T[], condition: WhereCondition, setClause
         }
         try {
             arr.filter(eval(func));
-        } catch (e) {
+        } catch (e) /* istanbul ignore next */ {
             if (e != 'keep going') { throw e; }
         }
 
 
         if (!found && options.upsert) {
-            arr.push(update([{}], {}, setObject)[0] || setObject);
+            arr.push(isNull(update([{}], {}, setObject)[0], setObject));
         }
 
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.update", e);
     } finally {
         return arr;

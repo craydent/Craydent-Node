@@ -1,5 +1,10 @@
+import { AnyObject } from "../models/Arrays";
+import isObject from "../methods/isObject";
 
-export default function _removeFromIndex(buckets, obj) {
+export default function _removeFromIndex(buckets: AnyObject, obj: AnyObject): void {
+    if (!isObject(obj)) {
+        return;
+    }
     for (let prop in buckets) {
         let sarr = buckets[prop][obj[prop]],
             index = sarr.indexOf(obj);

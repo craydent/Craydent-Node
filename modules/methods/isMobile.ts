@@ -8,7 +8,7 @@ import isPalmOS from './isPalmOS';
 import isSymbian from './isSymbian';
 import isWindowsMobile from './isWindowsMobile';
 
-export default function isMobile(this: Craydent | Window) {
+export default function isMobile(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if the device is a Mobile device",
         "category": "HTTP",
@@ -21,7 +21,7 @@ export default function isMobile(this: Craydent | Window) {
     }|*/
     try {
         return isAndroid.call(this) || isBlackBerry.call(this) || isIPad.call(this) || isIPhone.call(this) || isIPod.call(this) || isPalmOS.call(this) || isSymbian.call(this) || isWindowsMobile.call(this);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isMobile', e);
     }
 }

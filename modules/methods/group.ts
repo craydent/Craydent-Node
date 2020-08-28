@@ -25,8 +25,9 @@ import duplicate from './duplicate';
 import setProperty from './setProperty';
 import merge from './merge';
 import getProperty from './getProperty';
+import getValue from './getValue';
 
-export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps: boolean): T[] {
+export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps?: boolean): T[] {
     try {
         let key = params.field || params.key,
             condition = params.cond || {},
@@ -50,8 +51,11 @@ export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps
             cb = function (doc, i) {
                 // _groupFieldHelper creates a grouping string based on the field value pairs
                 if (!fields && keyf) {
-                    // @ts-ignore
-                    fields = isFunction(keyf) ? keyf(doc) : keyf;
+                    fields = getValue(keyf, [doc]);
+                    key = key || {};
+                    for (let i = 0, len = fields.length; i < len; i++) {
+                        key[fields[i]] = 1;
+                    }
                 }
                 let objs = [];
                 for (let f = 0, flen = fields.length; f < flen; f++) {
@@ -60,6 +64,7 @@ export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps
                         objs = objs.concat(_unwind([doc], field));
                     }
                 }
+                /* istanbul ignore next */
                 objs = objs.length ? objs : [doc];
                 for (let o = 0, olen = objs.length; o < olen; o++) {
                     let ob = objs[o];
@@ -71,7 +76,7 @@ export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps
                     }
                     let curr = duplicate(ob), item;
                     reduce(curr, result[prop]);
-                    item = _copyWithProjection(fields, ob, !removeProps);
+                    item = _copyWithProjection(ob, fields, !removeProps);
                     item[id] = prop;
                     addit && arr.push(item);
                 }
@@ -133,12 +138,13 @@ export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps
         }
         try {
             let rarr = docs.filter(eval(func));
-        } catch (e) {
+        } catch (e) /* istanbul ignore next */ {
             if (e != 'keep going') { throw e; }
         }
 
         let keyObj = duplicate(initial);
         for (let prop in key) {
+            /* istanbul ignore next */
             if (!key.hasOwnProperty(prop) || !key[prop]) { continue; }
             setProperty(keyObj, prop, key[prop]);
         }
@@ -147,7 +153,7 @@ export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps
             arr[i] = merge(keyObj, finalize(merge1) || merge1, { clone: true, intersect: true });
         }
         return arr;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.group", e);
         return [];
     }

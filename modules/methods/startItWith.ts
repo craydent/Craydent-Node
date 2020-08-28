@@ -13,9 +13,9 @@ export default function startItWith(str: string, starting: string): string {
         "returnType": "(String)"
     }|*/
     try {
-        if (str.slice(-(starting.length)) == starting) { return str; }
-        return str + starting;
-    } catch (e) {
+        if (str.slice(0, (starting.length)) == starting) { return str; }
+        return starting + str;
+    } catch (e) /* istanbul ignore next */ {
         error && error('String.startItWith', e);
     }
 }

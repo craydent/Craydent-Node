@@ -11,7 +11,7 @@ const _isArray = isArray,
     _isAsync = isAsync;
 
 export default function _runFuncArray(funcs: Function | Function[], args?: any[]) {
-    var sc = syncroit;
+    const sc = syncroit;
     args = args || [];
     let self = this;
     // @ts-ignore
@@ -26,8 +26,7 @@ export default function _runFuncArray(funcs: Function | Function[], args?: any[]
             } else if (_isFunction(func)) {
                 rtn = rtn.concat(func.apply(self, args));
             }
-        } catch (e) {
-            /* istanbul ignore next */
+        } catch (e) /* istanbul ignore next */ {
             throw e;
         }
     }

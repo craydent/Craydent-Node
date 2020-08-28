@@ -1,8 +1,9 @@
 import error from './error';
 import strip from './strip';
 import isArray from './isArray';
+import isObject from './isObject';
 
-export default function setProperty(obj: any, path: string, value: any, delimiter?: string): boolean {
+export default function setProperty<T>(obj: T, path: string, value: any, delimiter?: string): T {
     /*|{
         "info": "Object class extension to set nested properties creating necessary property paths",
         "category": "Object",
@@ -17,19 +18,29 @@ export default function setProperty(obj: any, path: string, value: any, delimite
         "returnType": "(Bool)"
     }|*/
     try {
+        const original = obj;
         delimiter = delimiter || ".";
         path = strip(path, delimiter);
+        if (/\[\d*?\]/.test(path)) {
+            path = path.replace(/\[(\d*?)\]/g, '.$1');
+        }
         let props = path.split(delimiter);
         let i = 0, prop, len = props.length, pobj, pprop;
         while (prop = props[i++]) {
             if (i == len) {
-                return obj[prop] = value, true;
+                return obj[prop] = value, original;
             }
-            if (pobj && pprop && !isArray(pobj[pprop]) && parseInt(prop) >= 0) {
+            if (pobj && pprop && !isArray(pobj[pprop]) && parseInt(prop) >= 0 && !obj.hasOwnProperty(prop)) {
                 let tmp = pobj[pprop];
                 pobj[pprop] = [];
                 for (let p in tmp) {
-                    if (tmp.hasOwnProperty(p)) { pobj[p] = tmp[p]; }
+                    /* istanbul ignore else */
+                    if (tmp.hasOwnProperty(p)) {
+                        if (isObject(tmp) && !isObject(pobj[pprop])) {
+                            pobj[pprop] = {};
+                        }
+                        pobj[pprop][p] = tmp[p];
+                    }
                 }
                 obj = pobj[pprop];
             }
@@ -38,8 +49,7 @@ export default function setProperty(obj: any, path: string, value: any, delimite
             pprop = prop;
             obj = obj[prop];
         }
-        return false;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('Object.setProperty', e);
         return null;
     }

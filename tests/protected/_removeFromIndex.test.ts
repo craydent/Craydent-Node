@@ -12,6 +12,18 @@ describe('_removeFromIndex', () => {
         _removeFromIndex(buckets, obj)
         expect(buckets).toEqual(expected);
     });
+    it('should fail when obj is null/undefined', () => {
+        const buckets = {
+            prop: { value: [], __bucket__keys: ['value'] }
+        };
+        const expected = {
+            prop: { value: [], __bucket__keys: ['value'] }
+        }
+        _removeFromIndex(buckets, null);
+        expect(buckets).toEqual(expected);
+        _removeFromIndex(buckets, undefined);
+        expect(buckets).toEqual(expected);
+    });
     it('should remove not from index when value does not exist', () => {
         const obj = { prop: 'value' };
         const buckets = {
@@ -20,7 +32,7 @@ describe('_removeFromIndex', () => {
         const expected = {
             prop: { value: [obj], __bucket__keys: ['value'] }
         }
-        _removeFromIndex(buckets, { prop: 'value' })
+        _removeFromIndex(buckets, { prop: 'value' });
         expect(buckets).toEqual(expected);
     });
 });

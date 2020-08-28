@@ -19,7 +19,7 @@ export default function startsWith(str: string, searchString: string, start?: nu
             str = str.slice(start);
         }
         return str.slice(0, searchString.length) == searchString;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('String.startsWith', e);
     }
 

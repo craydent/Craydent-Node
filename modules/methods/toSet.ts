@@ -14,7 +14,7 @@ export default function toSet<T>(arr: any[]): Set<T> {
                 }
             }
         }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.toSet", e);
         return null;
     }

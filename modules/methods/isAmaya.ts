@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function isAmaya(this: Craydent | Window) {
+export default function isAmaya(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if browser is Amaya",
         "category": "HTTP",
@@ -13,7 +13,7 @@ export default function isAmaya(this: Craydent | Window) {
     }|*/
     try {
         return (/amaya/i.test(this.navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isAmaya', e);
     }
 }

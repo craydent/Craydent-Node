@@ -1,0 +1,44 @@
+import $HEADER from '../../modules/methods/$HEADER';
+
+describe('$HEADER', () => {
+    describe('NodeJS', () => {
+        const win = window;
+        beforeAll(() => {
+            delete (window as any).window;
+        });
+        afterAll(() => {
+            (global as any).window = win;
+        });
+        it('should return {} when there are no headers', () => {
+            const dis = { request: {} };
+            expect($HEADER.call(dis)).toEqual({});
+        });
+        it('should get all headers', () => {
+            const dis = { request: { headers: { cookie: 'key=value' } } };
+            expect($HEADER.call(dis)).toEqual({ cookie: 'key=value' });
+        });
+        it('should get header', () => {
+            const dis = { request: { headers: { cookie: 'key=value' } } };
+            expect($HEADER.call(dis, 'cookie')).toBe('key=value');
+        });
+        it('should not get header when it does not exist', () => {
+            const dis = { request: { headers: { cookie: 'key=value' } } };
+            expect($HEADER.call(dis, 'keys')).toBe(false);
+            expect($HEADER.call(dis, 'keys', 'i')).toBe(false);
+            expect($HEADER.call(dis, 'keys', {})).toBe(false);
+        });
+        it('should get header and ignore case', () => {
+            const dis = {
+                request: { headers: { COOKIE: 'key=value' } },
+            };
+            expect($HEADER.call(dis, 'cookie', { ignoreCase: true })).toBe('key=value');
+            expect($HEADER.call(dis, 'cookie', 'i')).toBe('key=value');
+            expect($HEADER.call(dis, 'cookie', 'ignoreCase')).toBe('key=value');
+        });
+    });
+    describe('JS', () => {
+        it('should not execute when using browser', () => {
+            expect($HEADER()).toBe(null);
+        });
+    })
+});

@@ -1,6 +1,8 @@
 import error from './error';
 import addFlags from './addFlags';
 import isRegExp from './isRegExp';
+import replaceAll from './replaceAll';
+import { isString } from 'util';
 
 export default function highlight(str: string, search: string | RegExp, cssClass?: string, tag?: string): string {
     /*|{
@@ -19,16 +21,19 @@ export default function highlight(str: string, search: string | RegExp, cssClass
     try {
         cssClass = cssClass || "chighlight";
         tag = tag || "span";
-        let txt = "", flags = "g";
+        let txt = search, flags = "g";
         if (isRegExp(search) && !~(search as RegExp).source.indexOf("(")) {
             txt = `(${(search as RegExp).source})`;
             if ((search as RegExp).ignoreCase) { flags += "i"; }
             if ((search as RegExp).multiline) { flags += "m"; }
-        } else if (!~(search as string).indexOf("(")) {
-            txt = `(${search})`;
+        } else if (isString(search)) {
+            if (~(search as string).indexOf("(")) {
+                txt = replaceAll(txt as string, ['(', ')'], ['\\(', '\\)']);
+            }
+            txt = `(${txt})`;
         }
-        return str.replace(addFlags((new RegExp(txt)), flags), `<${tag} class="${cssClass}>$1</${tag}>`);
-    } catch (e) {
+        return str.replace(addFlags((new RegExp(txt)), flags), `<${tag} class="${cssClass}">$1</${tag}>`);
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.highlight", e);
     }
 }

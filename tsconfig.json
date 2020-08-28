@@ -1,9 +1,10 @@
 {
     "compilerOptions": {
+        "noImplicitUseStrict": true,
         "outDir": "./compiled",
         "baseUrl": "./",
         "declaration": true,
-        "target": "es6",
+        "target": "es5",
         "sourceMap": false,
         "module": "commonjs",
         "lib": [
@@ -20,9 +21,8 @@
         "local_scripts",
         "submodules",
         "test",
+        "tests",
         "@types",
-        "modules",
-        "modules.bk",
-        "modules.bk2"
+        "modules"
     ]
 }

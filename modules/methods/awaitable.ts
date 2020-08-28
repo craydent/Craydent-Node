@@ -6,12 +6,12 @@ export interface AwaitableOption {
     returnIndex: number;
     method: GeneratorFunction | AsyncFunction | Promise<any> | Function;
 }
-export default function awaitable(value: GeneratorFunction | AsyncFunction | Promise<any> | Function | AwaitableOption): Promise<any>;
-export default function awaitable(func: Function, context: any): Promise<any>;
-export default function awaitable(func: Function, callbackIndex: number): Promise<any>;
-export default function awaitable(func: Function, context: any, callbackIndex: number): Promise<any>;
-export default function awaitable(func: Function, context: any, callbackIndex: number, returnIndex?: number): Promise<any>;
-export default function awaitable(value, context?, callbackIndex?, returnIndex?) {
+export default function awaitable(value: GeneratorFunction | AsyncFunction | Promise<any> | Function | AwaitableOption): () => Promise<any>;
+export default function awaitable(func: Function, context: any): () => Promise<any>;
+export default function awaitable(func: Function, callbackIndex: number): () => Promise<any>;
+export default function awaitable(func: Function, context: any, callbackIndex: number): () => Promise<any>;
+export default function awaitable(func: Function, context: any, callbackIndex: number, returnIndex?: number): () => Promise<any>;
+export default function awaitable(value, context?, callbackIndex?, returnIndex?): () => Promise<any> {
     /*|{
         "info": "Makes a value awaitable via a Promise.",
         "category": "Control Flow|Utility",

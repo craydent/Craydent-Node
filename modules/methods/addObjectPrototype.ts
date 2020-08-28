@@ -9,7 +9,7 @@ import error from './error';
 import isNull from './isNull';
 import df from '../private/__defineFunction';
 
-declare var $g: any;
+declare const $g: any;
 const exceptions = { get: 1, set: 1 };
 
 export default function addObjectPrototype(name: string, fn: Function, override?: boolean): void {
@@ -29,6 +29,7 @@ export default function addObjectPrototype(name: string, fn: Function, override?
     try {
         if (!(name in exceptions) && (isNull($g.__craydentNoConflict) || !$g.__craydentNoConflict)) {
             let shouldOverride = false;
+            /* istanbul ignore else */
             if (eval(`typeof(${name})`) == "undefined") {
                 shouldOverride = true;
             }
@@ -50,12 +51,13 @@ export default function addObjectPrototype(name: string, fn: Function, override?
             Boolean.prototype[name] = !override && Boolean.prototype[name] || fn;
             Error.prototype[name] = !override && Error.prototype[name] || fn;
 
+            /* istanbul ignore else */
             // @ts-ignore
             if (typeof GeoLocation !== 'undefined') {
                 // @ts-ignore
                 GeoLocation.prototype[name] = !override && GeoLocation.prototype[name] || fn;
             }
-        } catch (ex) {
+        } catch (e) /* istanbul ignore next */ {
             error && error("addPrototype:Non-ECMAScript 5", e);
         }
     }

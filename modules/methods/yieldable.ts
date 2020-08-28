@@ -12,17 +12,17 @@ import syncroit from './syncroit';
 import { AsyncFunction } from '../models/AsyncFunction';
 
 export interface YieldableOption {
-    context: any;
-    callbackIndex: number;
-    returnIndex: number;
+    context?: any;
+    callbackIndex?: number;
+    returnIndex?: number | boolean;
     method: GeneratorFunction | AsyncFunction | Promise<any> | Function;
 }
-export default function yieldable(value: GeneratorFunction | AsyncFunction | Promise<any> | YieldableOption): Promise<any>;
-export default function yieldable(value: Function): () => Promise<any>;
-export default function yieldable(func: Function, context: any): Promise<any>;
-export default function yieldable(func: Function, callbackIndex: number): Promise<any>;
-export default function yieldable(func: Function, context: any, callbackIndex: number): Promise<any>;
-export default function yieldable(func: Function, context: any, callbackIndex: number, returnIndex?: number): Promise<any>;
+export default function yieldable(value: GeneratorFunction | AsyncFunction | Promise<any> | YieldableOption): (...args) => Promise<any>;
+export default function yieldable(value: Function): (...args) => Promise<any>;
+export default function yieldable(func: Function, context: any): (...args) => Promise<any>;
+export default function yieldable(func: Function, callbackIndex: number): (...args) => Promise<any>;
+export default function yieldable(func: Function, context: any, callbackIndex: number): (...args) => Promise<any>;
+export default function yieldable(func: Function, context: any, callbackIndex: number, returnIndex?: number): (...args) => Promise<any>;
 export default function yieldable(value, context?, callbackIndex?, returnIndex?) {
     /*|{
         "info": "Makes a value yieldable via a Promise.",
@@ -60,15 +60,14 @@ export default function yieldable(value, context?, callbackIndex?, returnIndex?)
             returnIndex = value.returnIndex;
             value = value.method;
         }
-        if (isPromise(value) || isAsync(value)) { return value; }
-        if (isGenerator(value)) { return syncroit(value); }
+        context = context || this;
+        if (isAsync(value)) { return value; }
+        if (isPromise(value)) { return ((...args) => value).bind(context) }
+        if (isGenerator(value)) { return ((...args) => syncroit(value)).bind(context) }
         if (isFunction(value)) {
-            context = context || this;
-            return function () {
-                let args = [];
-                for (let i = 0, len = arguments.length; i < len; i++) {
-                    args.push(arguments[i]);
-                }
+            return (function (...args) {
+                /* istanbul ignore next */
+                args = args || [];
                 return new Promise(function (res) {
                     let fn = function () {
                         let args = arguments;
@@ -90,11 +89,11 @@ export default function yieldable(value, context?, callbackIndex?, returnIndex?)
                     }
                     value.apply(context, args);
                 });
-            };
+            }).bind(context);
         }
-        return new Promise(function (res) { return res(value); });
+        return ((...args) => new Promise(function (res) { return res(value); })).bind(context);
 
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('yieldable', e);
     }
 }

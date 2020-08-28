@@ -1,0 +1,14 @@
+import isValidEmail from '../../modules/methods/isValidEmail';
+describe('isValidEmail', () => {
+    it('should check if the value is a valid email', () => {
+        expect(isValidEmail('clark@craydent.com')).toBe(true);
+        expect(isValidEmail('clark.inada@craydent.com')).toBe(true);
+        expect(isValidEmail('clark_inada@craydent.com')).toBe(true);
+        expect(isValidEmail('clark-inada@craydent.com')).toBe(true);
+        expect(isValidEmail(null)).toBe(false);
+        expect(isValidEmail('')).toBe(false);
+        expect(isValidEmail('clark-inada@craydent')).toBe(false);
+        expect(isValidEmail('clark-inada@craydent.')).toBe(false);
+        expect(isValidEmail('clark-inada@craydent.c')).toBe(false);
+    })
+});

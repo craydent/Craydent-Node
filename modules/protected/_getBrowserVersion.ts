@@ -15,8 +15,7 @@ export default function _getBrowserVersion(win: Window | Craydent, browser: stri
         if (!~endIndex) { endIndex = undefined }
         let version = parseFloat((win as Window).navigator.userAgent.substring(startIndex, endIndex));
         return version === 0 || version ? version : -1;
-    } catch (e) {
-        /* istanbul ignore next */
+    } catch (e) /* istanbul ignore next */ {
         error && error('_getBrowserVersion', e);
     }
 }

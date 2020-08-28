@@ -31,7 +31,7 @@ export default function condense<T>(arr: T[], check_values?: any[] | boolean): T
             obj as any !== "" && !isNull(obj) && !~skip.indexOf(i) && items.push(obj);
         }
         return items;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("condence", e);
         return [];
     }

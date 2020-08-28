@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function isWebkit(this: Craydent | Window) {
+export default function isWebkit(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if engine is Webkit",
         "category": "HTTP",
@@ -13,7 +13,7 @@ export default function isWebkit(this: Craydent | Window) {
     }|*/
     try {
         return (/webkit/i.test(this.navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isWebkit', e);
     }
 }

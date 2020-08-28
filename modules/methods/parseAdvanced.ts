@@ -3,7 +3,7 @@ import _parseAdvanced from '../protected/_parseAdvanced';
 import include from './include';
 import isObject from './isObject';
 import isString from './isString';
-import relativePathFinder from './relativePathFinder';
+import absolutePath from './absolutePath';
 import { AnyObject } from '../models/Arrays';
 import { Reviver } from '../models/Reviver';
 
@@ -24,6 +24,7 @@ export default function parseAdvanced(text: string, reviver?: Reviver, values?: 
     try {
         base_path = base_path || "";
         let err;
+        //handle numbers greater than max
         if (isString(text) && /\d{16,}/.test(text)) {
             text = text.replace(/(\d{16,})/g, "\"$1\"");
             if (/""\d{16,}""/.test(text)) {
@@ -34,14 +35,14 @@ export default function parseAdvanced(text: string, reviver?: Reviver, values?: 
         try { parsedObject = JSON.parse(text, reviver) || text; } catch (e) { err = e; }
         if (!isObject(parsedObject)) {
             base_path = text.substring(0, text.lastIndexOf('/'));
-            parsedObject = include(relativePathFinder(text));
+            parsedObject = include(absolutePath(text));
             if (!parsedObject) { throw err; }
         }
         if (base_path && base_path.slice(-1) != "/") {
             base_path += "/";
         }
         return _parseAdvanced(parsedObject, null, values, base_path, 0);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('JSON.parseAdvanced', e);
     }
 }

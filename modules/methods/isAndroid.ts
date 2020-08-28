@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function isAndroid(this: Craydent | Window) {
+export default function isAndroid(this: Craydent | Window):boolean {
     /*|{
         "info": "Check if device is Android",
         "category": "HTTP",
@@ -13,7 +13,7 @@ export default function isAndroid(this: Craydent | Window) {
     }|*/
     try {
         return (/android/i.test(this.navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isAndroid', e);
     }
 }

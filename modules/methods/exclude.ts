@@ -1,6 +1,7 @@
 import error from './error';
 import capitalize from './capitalize';
 
+/* istanbul ignore next */
 export default function exclude(list: string[]): void {
     /*|{
         "info": "Exclude prototyping",

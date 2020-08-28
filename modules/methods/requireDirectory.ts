@@ -6,9 +6,11 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 import error from './error';
+import include from './include';
 import isString from './isString';
-import relativePathFinder from './relativePathFinder';
+import absolutePath from './absolutePath';
 import startsWithAny from './startsWithAny';
+import endItWith from './endItWith';
 import parallelEach from './parallelEach';
 import { AnyObject } from '../models/Arrays';
 
@@ -33,84 +35,78 @@ export default function requireDirectory(path: string, options?: 'r' | 's' | 'rs
     try {
         let __basepath = arguments[2] || path,
             __objs = arguments[3] || {},
-            __fs = arguments[4] || require('fs')
+            __fs = arguments[4] || require('fs');
+        options = options || { syncronous: false, recursive: false };
         let delimiter = "/";
 
-        path = relativePathFinder(path);
+        path = endItWith(absolutePath(path), delimiter);
+        __basepath = endItWith(__basepath, delimiter);
 
-        options = options || { syncronous: false, recursive: false };
-
-        if (!path.endsWith(delimiter)) {
-            path += delimiter;
+        let isSync = (options as RequireDirectoryOptions).syncronous;
+        let isRecur = (options as RequireDirectoryOptions).recursive;
+        if (isString(options)) {
+            isSync = !!~(options as string).indexOf('s');
+            isRecur = !!~(options as string).indexOf('r');
         }
 
-        if (isString(options) && ~(options as string).indexOf('s') || (options as RequireDirectoryOptions).syncronous) {
+        if (isSync) {
             let files = __fs.readdirSync(path);
             for (let i = 0, len = files.length; i < len; i++) {
-                let rpath = path + files[i];
+                let name = files[i];
+                let rpath = path + name;
                 if (__fs.statSync(rpath).isDirectory()) {
-                    if (options != "r" && !(options as RequireDirectoryOptions).recursive) {
-                        continue;
-                    }
-                    if (!rpath.endsWith(delimiter)) {
-                        rpath += delimiter;
-                    }
+                    if (!isRecur) { continue; }
+                    rpath = endItWith(rpath, delimiter);
                     //@ts-ignore
-                    requireDirectory(rpath, options, __basepath, __objs, __fs);
+                    requireDirectory(rpath, options, __basepath + name, __objs, __fs);
                 }
-                if (!rpath.endsWith('/')) {
-                    let filename = rpath.substring(path.lastIndexOf('/') + 1);
-                    if (!startsWithAny(filename, ['_', '.'])) {
-                        __objs[rpath.replace(__basepath, '')] = require(rpath);
-                    }
-
+                if (validModule(rpath, name)) {
+                    __objs[rpath.replace(path, __basepath)] = include(rpath);
                 }
             }
             return __objs;
         }
         return new Promise(function (res) {
             __fs.readdir(path, function (err, files) {
-                if (err) {
-                    return res(err);
-                }
-                let recFunc = function (rpath) {
+                /* istanbul ignore if */
+                if (err) { return res(err); }
+                let recFunc = function (rpath, name) {
                     return new Promise(function (res2) {
-                        __fs.statSync(rpath, function (err, stat) {
-                            if (err) {
-                                res2(err);
-                            }
+                        __fs.stat(rpath, function (err, stat) {
+                            /* istanbul ignore if */
+                            if (err) { res2(err); }
                             if (stat.isDirectory()) {
-                                if (options != "r" && !(options as RequireDirectoryOptions).recursive) {
-                                    return res2();
-                                }
-                                if (!rpath.endsWith(delimiter)) {
-                                    rpath += delimiter;
-                                }
+                                if (!isRecur) { return res2(); }
+                                rpath = endItWith(rpath, delimiter);
                                 //@ts-ignore
-                                requireDirectory(rpath, options, __basepath, __objs, __fs)
-                                    .then(function () {
-                                        if (!rpath.endsWith('/')) {
-                                            let filename = rpath.substring(path.lastIndexOf('/') + 1);
-                                            if (!startsWithAny(filename, ['_', '.'])) {
-                                                __objs[rpath.replace(__basepath, '')] = require(rpath);
-                                            }
-
-                                        }
-                                    });
+                                requireDirectory(rpath, options, __basepath + name, __objs, __fs)
+                                    .then(function () { res2(); });
+                            } else {
+                                if (validModule(rpath, name)) {
+                                    __objs[rpath.replace(path, __basepath)] = include(rpath);
+                                }
+                                res2();
                             }
                         })
                     });
                 };
-                let arr = [];
+                var arr = [];
                 for (let i = 0, len = files.length; i < len; i++) {
-                    arr.push(recFunc(path + files[i]));
+                    arr.push(recFunc(path + files[i], files[i]));
                 }
-                parallelEach(arr).then(function () {
-                    res(__objs);
-                });
+                parallelEach(arr).then(function () { res(__objs); });
             });
         });
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('fs.requireDirectory', e);
     }
+}
+
+function validModule(rpath: string, filename): boolean {
+    if (!rpath.endsWith('/')) {
+        if (!startsWithAny(filename, ['_', '.'])) {
+            return true;
+        }
+    }
+    return false;
 }

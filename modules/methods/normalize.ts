@@ -11,6 +11,7 @@ export default function normalize<T, TResult>(arr: T[]): TResult[] {
                 continue;
             }
             for (let prop in json) {
+                /* istanbul ignore else */
                 if (json.hasOwnProperty(prop)) {
                     allProps[prop] = 1;
                 }
@@ -18,13 +19,15 @@ export default function normalize<T, TResult>(arr: T[]): TResult[] {
         }
         for (let i = 0; i < len; i++) {
             for (let prop in allProps) {
+                if (!isObject(arr[i])) { continue; }
+                /* istanbul ignore if */
                 if (!allProps.hasOwnProperty(prop)) { continue; }
                 arr[i][prop] = arr[i][prop] || null;
             }
             arrObj.push(arr[i]);
         }
         return arrObj;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.normalize", e);
         return [];
     }

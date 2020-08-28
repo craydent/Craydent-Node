@@ -2,7 +2,7 @@ import error from './error';
 import foo from './foo';
 import _getSession from '../protected/_getSession';
 
-export default function getSession(sid: string, callback?: (data: any) => void) {
+export default function getSession(this: Craydent | void, sid: string, callback?: (data: any) => void) {
     /*|{
         "info": "Asynchronous retrieval of the session object when used in conjunction with createServer",
         "category": "HTTP",
@@ -27,7 +27,7 @@ export default function getSession(sid: string, callback?: (data: any) => void) 
             };
             _getSession(this, sid, cb);
         });
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('getSession', e);
     }
 }

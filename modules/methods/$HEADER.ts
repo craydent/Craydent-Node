@@ -1,8 +1,9 @@
 
 import { VerbOptions } from "../models/VerbOptions";
 import error from "./error";
+import { AnyObject } from "../models/Arrays";
 
-export default function $HEADER(variable: string, options: VerbOptions) {
+export default function $HEADER(variable?: string, options?: VerbOptions): boolean | AnyObject {
     /*|{
         "info": "Retrieve all or specific variables in the headers",
         "category": "HTTP",
@@ -18,6 +19,7 @@ export default function $HEADER(variable: string, options: VerbOptions) {
         "returnType": "(Bool|Object)"
     }|*/
     try {
+        if (typeof window != 'undefined') { return null; }
         this.request.headers = this.request.headers || {};
 
         if (!variable) { return this.request.headers; }
@@ -25,12 +27,13 @@ export default function $HEADER(variable: string, options: VerbOptions) {
 
         if (options == 'i' || (options as any).ignoreCase || options == "ignoreCase") {
             for (let prop in this.request.headers) {
+                /* istanbul ignore next */
                 if (!this.request.headers.hasOwnProperty(prop)) { continue; }
                 if (prop.toLowerCase() == variable.toLowerCase()) { return this.request.headers[prop]; }
             }
         }
         return false;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('$HEADER', e);
     }
 }

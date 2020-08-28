@@ -18,7 +18,7 @@ export default function ireplaceAll(str, replace, subject): string {
    }|*/
     try {
         return _replaceAll(str, replace, subject, "gi")
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.ireplaceAll", e);
     }
 }

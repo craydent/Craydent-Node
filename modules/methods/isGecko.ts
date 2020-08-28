@@ -2,7 +2,7 @@ import error from './error';
 import isWebkit from './isWebkit';
 import isKHTML from './isKHTML';
 
-export default function isGecko(this: Craydent | Window) {
+export default function isGecko(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if engine is Gecko",
         "category": "HTTP",
@@ -15,7 +15,7 @@ export default function isGecko(this: Craydent | Window) {
     }|*/
     try {
         return !isWebkit.call(this) && !isKHTML.call(this) && (/gecko/i.test(this.navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isGecko', e);
     }
 }

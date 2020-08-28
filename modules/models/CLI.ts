@@ -12,14 +12,15 @@ export interface CLIOptions {
     options?: Options[];
     notes?: string;
 }
-export interface Options {
+export interface Option {
     option: string;
     type: string;
     description: string;
-    default: string;
-    command: string;
-    required: boolean;
-    _property: string;
+    default?: any;
+    command?: string;
+    required?: boolean;
+    // _property?: string;
+    // _value?: any;
 }
 export interface ExecOptions {
     silent?: boolean;

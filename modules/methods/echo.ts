@@ -12,5 +12,11 @@ export default function echo(output: string) {
         "url": "http://www.craydent.com/library/1.9.3/docs#echo",
         "returnType":"(void)"
     }|*/
-    try { (echo as any).out += output; } catch (e) { error && error('echo', e); }
+    try {
+        (echo as any).out = (echo as any).out || "";
+        (echo as any).out += output;
+    }
+    catch (e) /* istanbul ignore next */ {
+        error && error('echo', e);
+    }
 }

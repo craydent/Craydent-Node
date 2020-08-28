@@ -3,6 +3,7 @@ import isString from './isString';
 import echo from './echo';
 import logit from './logit';
 import merge from './merge';
+import { $c } from '../private/__common';
 
 export default function end(status?: number, output?: string, encoding?: string);
 export default function end(output?: string, encoding?: string);
@@ -29,7 +30,10 @@ export default function end(status?, output?, encoding?) {
     }
     output = output || "";
     let response = this.response;
-    if (encoding && !isString(encoding)) { response = encoding; }
+    if (encoding && !isString(encoding)) {
+        response = encoding;
+        encoding = undefined;
+    }
     // response already ended
     if (!response) { return; }
 
@@ -39,6 +43,7 @@ export default function end(status?, output?, encoding?) {
         while (obj = $c.GarbageCollector.splice(0, 1)[0]) { obj.destruct && obj.destruct(); }
         this.writeSession();
 
+        /* istanbul ignore next */
         // @ts-ignore
         let heads = typeof header != "undefined" ? header : { headers: {} };
         // @ts-ignore
@@ -57,7 +62,8 @@ export default function end(status?, output?, encoding?) {
                     eco = "Resource Not Found";
                     break;
                 case !!~ctype.indexOf('/html'):
-                    eco = $c.HTTP_STATUS_TEMPLATE[404] || "<html><head></head><body><h1>" + code + ": Resource Not Found</h1><p>The resource you are trying to receive was not found</p></body></html>";
+                    /* istanbul ignore next */
+                    eco = $c.HTTP_STATUS_TEMPLATE[404] || `<html><head></head><body><h1>${code}: Resource Not Found</h1><p>The resource you are trying to receive was not found</p></body></html>`;
                     break;
                 case !!~ctype.indexOf('/json'):
                     eco = JSON.stringify($c.RESPONSES["404"]);
@@ -74,10 +80,11 @@ export default function end(status?, output?, encoding?) {
 
         !response.headersSent && response.writeHead(code, headers);
         response.end(isString(output) ? pre + eco + post : output, encoding);
-        this.respond_sent = true;
+        this.response_sent = true;
         logit('end*******************************************************');
     } catch (e) {
         response.writeHead(500, this.header.headers);
+        /* istanbul ignore next */
         response.end($c.DEBUG_MODE ? e.stack : JSON.stringify($c.RESPONSES["500"]));
     } finally {
         logit("response ended");

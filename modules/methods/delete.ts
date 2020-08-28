@@ -55,7 +55,7 @@ export default function deleteIt<T>(objs, condition?, justOne?): T[] {
             (function (record,i) {
             	var values,finished;
             	if (${ifblock}) {
-            		if(!cb.call(thiz,record,i)) { throw 'keep going'; }
+            		if(!cb.call(objs,record,i)) { throw 'keep going'; }
             	}
             })`;
         if (_refs.length) {
@@ -68,6 +68,7 @@ export default function deleteIt<T>(objs, condition?, justOne?): T[] {
         try {
             docs.filter(eval(func));
         } catch (e) {
+            /* istanbul ignore if */
             if (e != 'keep going') { throw e; }
         }
 
@@ -80,7 +81,7 @@ export default function deleteIt<T>(objs, condition?, justOne?): T[] {
         }
 
         return arr;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error("Array.delete", e);
         return [];
     }

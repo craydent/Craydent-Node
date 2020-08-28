@@ -1,6 +1,7 @@
 import error from './error';
+import isWebkit from './isWebkit';
 
-export default function isSymbian(this: Craydent | Window) {
+export default function isSymbian(this: Craydent | Window):boolean {
     /*|{
         "info": "Check if OS is Symbian",
         "category": "HTTP",
@@ -13,8 +14,8 @@ export default function isSymbian(this: Craydent | Window) {
     }|*/
     try {
         let nu = this.navigator.userAgent;
-        return (this.isWebkit() && (/series60/i.test(nu) || /symbian/i.test(nu)));
-    } catch (e) {
+        return (isWebkit.call(this) && (/series60/i.test(nu) || /symbian/i.test(nu)));
+    } catch (e) /* istanbul ignore next */ {
         error && error('isSymbian', e);
     }
 }

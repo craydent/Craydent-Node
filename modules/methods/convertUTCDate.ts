@@ -1,11 +1,11 @@
 import error from './error';
 
-export default function convertUTCDate(dateAsString: string, delimiter: string): string {
+export default function convertUTCDate(dateAsString: string, delimiter?: string): string {
     /*|{
         "info": "String class extension to convert date string to UTC format",
         "category": "String",
         "parameters":[
-            {"delimiter": "(String) Character that delimits the date string"}],
+            {"delimiter?": "(String) Character that delimits the date string. Default is '-'"}],
 
         "overloads":[],
 
@@ -13,6 +13,7 @@ export default function convertUTCDate(dateAsString: string, delimiter: string):
         "returnType": "(String)"
     }|*/
     try {
+        delimiter = delimiter || '-';
         if (dateAsString.substring(dateAsString.length - 2) == ".0") {
             dateAsString = dateAsString.substring(0, dateAsString.length - 2);
         }
@@ -20,7 +21,7 @@ export default function convertUTCDate(dateAsString: string, delimiter: string):
         let parts = dateAsString.match(pattern);
 
         return parts ? `${parts[2]}/${parts[3]}/${parts[1]} ${parts[4]}:${parts[5]}:${parts[6]}` : dateAsString;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('String.convertUTCDate', e);
     }
 }

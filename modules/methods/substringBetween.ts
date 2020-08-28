@@ -1,12 +1,10 @@
 import error from './error';
 import isNull from './isNull';
 import substringEndAt from './substringEndAt';
-import substringStartFrom from './substringStartFrom';
-import cut from './cut';
 
 export default function substringBetween(str: string, start?: string, end?: string): string {
     /*|{
-        "info": "String class extension to substring by character instead of using indexes",
+        "info": "String class extension to substring (exclusive) by character instead of using indexes",
         "category": "String",
         "parameters":[
             {"start?": "(Char) Character to use for the starting index (required if end is not passed)"},
@@ -19,12 +17,12 @@ export default function substringBetween(str: string, start?: string, end?: stri
     }|*/
     try {
         if (isNull(start)) { return substringEndAt(str, end); }
-        if (isNull(end)) { return substringStartFrom(str, start); }
+        if (isNull(end)) { return str.substring(str.indexOf(start) + 1); }
         let si = str.indexOf(start), ei = str.indexOf(end);
-        if (!~si) { si = 0; }
-        if (!~ei) { ei = str.length; }
-        return cut(str, si, ei);
-    } catch (e) {
+        if (!~si) { si = -1; }
+        if (!~ei) { ei = str.length + 1; }
+        return str.slice(si + 1, ei);
+    } catch (e) /* istanbul ignore next */ {
         error && error('Object.substringBetween', e);
     }
 }

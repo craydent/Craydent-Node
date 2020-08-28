@@ -3,7 +3,7 @@ import _getFuncName from '../protected/_getFuncName';
 import namespace from './namespace';
 import foo from './foo';
 
-export default function extend(func: Function, extendee: FunctionConstructor, inheritAsOwn?: boolean): Function {
+export default function extend(func: VoidFunction, extendee: VoidFunction, inheritAsOwn?: boolean): Function {
     /*|{
         "info": "Function class extension to extend another class",
         "category": "Function",
@@ -28,6 +28,7 @@ export default function extend(func: Function, extendee: FunctionConstructor, in
         }
         if (!inheritAsOwn) {
             for (let prop in extendee) {
+                /* istanbul ignore if */
                 if (!extendee.hasOwnProperty(prop)) {
                     continue;
                 }
@@ -37,7 +38,7 @@ export default function extend(func: Function, extendee: FunctionConstructor, in
         func.prototype.construct = func.prototype.construct || (cls as any).construct || foo;
 
         return func;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Function.extend", e);
     }
 }

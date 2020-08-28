@@ -1,7 +1,7 @@
 import error from "./error";
 import _generalTrim from "../protected/_generalTrim";
 
-export default function (str: string, character?: string | string[]) {
+export default function ltrim(str: string, character?: string | string[]) {
     /*|{
         "info": "String class extension to remove characters from the beginning of the string",
         "category": "String",
@@ -15,7 +15,7 @@ export default function (str: string, character?: string | string[]) {
     }|*/
     try {
         return _generalTrim(str, 'l', character);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.ltrim", e);
     }
 }

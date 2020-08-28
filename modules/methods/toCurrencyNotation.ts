@@ -30,7 +30,7 @@ export default function toCurrencyNotation(obj: string | number, sep?: string): 
             }
         }
         return whole.replace(/\B(?=(\d{3})+(?!\d))/g, sep) + fraction;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('Number.toCurrencyNotation', e);
     }
 }

@@ -59,7 +59,7 @@ export type MongoMapReduceOptions<T> = {
     query?: WhereCondition;
     limit?: number;
     finalize?: MongoFinalize<T>;
-    out?: string;
+    out?: string | Array<any>;
 };
 export type MongoFinalize<T> = (key: string, value: T) => T;
 export type MongoGroupFinalize<T> = (value: T) => T | void;
@@ -97,11 +97,11 @@ export type GroupOptions<T> = {
     cond?: string | any,
     reduce?: (current: any, accumulator: any) => void,
     initial?: any,
-    keyf?: (doc: any) => string[] | string[],
+    keyf?: string[] | ((doc: any) => string[]),
     finalize?: MongoGroupFinalize<T>
 };
 export type ArrayIterator<T> = (obj: T, index?: number, objs?: T[]) => any
 
 export interface Fields {
-    [key: string]: boolean
+    [key: string]: boolean | 0 | 1
 }

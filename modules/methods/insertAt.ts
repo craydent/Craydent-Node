@@ -11,7 +11,7 @@ export default function insertAt<T>(arr: T[], index: number, value: any): boolea
             _addToIndex(objs.__indexed_buckets, value);
         }
         return true;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.insertAt", e);
         return null;
     }

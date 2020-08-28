@@ -2,8 +2,9 @@ import error from "./error";
 import merge from "./merge";
 import isString from "./isString";
 import isInt from "./isInt";
+import { AnyObject } from "../models/Arrays";
 
-export default function header(headers: any, code: number): void {
+export default function header(headers: string | AnyObject, code?: number): void {
     /*|{
         "info": "Set Http Headers to send",
         "category": "HTTP",
@@ -17,14 +18,15 @@ export default function header(headers: any, code: number): void {
         "returnType": "(void)"
     }|*/
     try {
-        if (isString(headers) && !code) {
+        (header as any).headers = (header as any).headers || {};
+        if (isString(headers)) {
             if (!~headers.indexOf(':')) {
                 code = parseInt(headers.replace(/.*?([\d]{3}).*/, '$1'));
             }
             if (headers.toLowerCase().indexOf('http/') == 0) {
                 headers = { 'Content-Type': 'text/html' };
             } else {
-                var parts = headers.split(':');
+                const parts = headers.split(':');
                 headers = {};
                 headers[parts[0].trim()] = parts[1].trim();
             }
@@ -32,7 +34,7 @@ export default function header(headers: any, code: number): void {
         (header as any).headers = merge((header as any).headers, headers);
         if (code && isInt(code)) { (header as any).code = code; }
 
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('header', e);
     }
 }

@@ -15,6 +15,7 @@ export default function next(...arg: any): void {
     }|*/
     let args = arguments;
     try {
+        /* istanbul ignore else */
         if (!isArray(args)) {
             args = [] as any;
             for (let prop in arguments) {
@@ -24,6 +25,6 @@ export default function next(...arg: any): void {
         }
         return runFuncArray.call(this, (arguments.callee.caller as any)._then, arguments);
     } catch (e) {
-        return e != 'catch' && runFuncArray.call(this, arguments.callee.caller['_catch'], args.length == arguments.length ? (args as any).splice(1) : args);
+        return e != 'catch' && runFuncArray.call(this, arguments.callee.caller['_catch'], args);
     }
 }

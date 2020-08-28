@@ -5,7 +5,7 @@ export default function endsWith(str: string, searchString: string, length?: num
         "info": "String class extension to check if the string ends with the given string",
         "category": "String",
         "parameters":[
-            {"searchString": "(String) any number of arguments can be passed"},
+            {"searchString": "(String) string to compare"},
             {"length": "(Number) Specify the length of the string to search. If omitted, the default value is the length of the string"}],
 
         "overloads":[],
@@ -19,8 +19,8 @@ export default function endsWith(str: string, searchString: string, length?: num
             str = str.slice(0, length);
         }
         return str.slice(-searchString.length) == searchString;
-    } catch (e) {
-        error('String.endsWith', e);
+    } catch (e) /* istanbul ignore next */ {
+        error && error('String.endsWith', e);
     }
 
 }

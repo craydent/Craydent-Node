@@ -14,7 +14,7 @@ export default function ChromeVersion(this: Craydent | Window) {
     }|*/
     try {
         return _getBrowserVersion(this, "Chrome");
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('ChromeVersion', e);
     }
 }

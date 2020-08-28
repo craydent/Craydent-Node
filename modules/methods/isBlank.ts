@@ -13,7 +13,7 @@ export default function isBlank(str: string): boolean {
     }|*/
     try {
         return !str.length;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.isBlank", e);
         return null;
     }

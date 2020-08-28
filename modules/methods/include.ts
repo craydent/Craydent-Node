@@ -6,7 +6,7 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 import clearCache from './clearCache';
-import relativePathFinder from './relativePathFinder';
+import absolutePath from './absolutePath';
 import startsWithAny from './startsWithAny';
 
 export default function include(path?: string, refresh?: boolean): any {
@@ -25,12 +25,12 @@ export default function include(path?: string, refresh?: boolean): any {
     try {
         if (refresh) { clearCache(path); }
         if (startsWithAny(path, ['/', '.'])) {
-            return require(relativePathFinder(path));
+            return require(absolutePath(path));
         }
         return require(path);
     } catch (e) {
         try {
-            return require(relativePathFinder(path));
+            return require(absolutePath(path));
         } catch (err) {
             return null;
         }

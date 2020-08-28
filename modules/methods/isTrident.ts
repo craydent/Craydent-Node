@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function isTrident(this: Craydent | Window) {
+export default function isTrident(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if engine is Trident",
         "category": "HTTP",
@@ -13,7 +13,7 @@ export default function isTrident(this: Craydent | Window) {
     }|*/
     try {
         return (/trident/i.test(this.navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isTrident', e);
     }
 }

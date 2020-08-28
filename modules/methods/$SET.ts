@@ -3,14 +3,15 @@ import isString from './isString';
 import isArray from './isArray';
 import isObject from './isObject';
 import _set from '../protected/_set';
-import { AnyObjects } from '../models/Arrays';
+import { AnyObject } from '../models/Arrays';
 import { VerbOptions } from '../models/VerbOptions';
 
-export default function $SET(keyValuePairs: AnyObjects): void;
-export default function $SET(keyValuePairs: AnyObjects, options: VerbOptions): void;
-export default function $SET(key: string, value: string): void;
-export default function $SET(key: string, value: string, options: VerbOptions): void;
-export default function $SET(keyValuePairs, options?): void {
+export type KeyValuePair = { key: string, value: string };
+
+export default function $SET(this: Craydent | void, keyValuePairs: AnyObject | KeyValuePair, options?: VerbOptions): void;
+export default function $SET(this: Craydent | void, key: string, value: string): void;
+export default function $SET(this: Craydent | void, key: string, value: string, options: VerbOptions): void;
+export default function $SET(this: Craydent | void, keyValuePairs, options?): void {
     /*|{
         "info": "Store variable in the url",
         "category": "Utility",
@@ -34,6 +35,7 @@ export default function $SET(keyValuePairs, options?): void {
         "returnType": "(Mixed)"
     }|*/
     try {
+        const isNode = typeof window == 'undefined';
         if (arguments.length == 3 || isString(keyValuePairs)) {
             let variable = keyValuePairs;
             keyValuePairs = {};
@@ -44,9 +46,10 @@ export default function $SET(keyValuePairs, options?): void {
         }
         let defer = !!(options.defer || options == "defer"),
             loc = {
-                'search': location.search,
-                'hash': location.hash
+                'search': isNode ? (this as any).location.search : location.search,
+                'hash': isNode ? (this as any).location.hash : location.hash
             };
+        /* istanbul ignore else */
         if (isArray(keyValuePairs)) {
             for (let i = 0, len = keyValuePairs.length; i < len; i++) {
                 let keyValuePair = keyValuePairs[i];
@@ -54,31 +57,39 @@ export default function $SET(keyValuePairs, options?): void {
             }
         } else if (isObject(keyValuePairs)) {
             for (let variable in keyValuePairs) {
+                /* istanbul ignore next */
                 if (!keyValuePairs.hasOwnProperty(variable)) {
                     continue;
                 }
                 loc = _set(variable, keyValuePairs[variable], defer, options, loc);
             }
         }
-
+        if (isNode) {
+            (this as any).location.search = loc.search;
+            (this as any).location.hash = loc.hash;
+            return;
+        }
         if (!defer) {
             let noHistory = options.noHistory || options == "noHistory" || options == "h";
             if (noHistory) {
+                /* istanbul ignore else */
                 if (loc.hash[0] != "#") {
-                    loc.hash = "#" + loc.hash;
+                    loc.hash = `#${loc.hash}`;
                 }
+                /* istanbul ignore else */
                 if (loc.search && loc.search[0] != "?") {
-                    loc.search = "?" + loc.search;
+                    loc.search = `?${loc.search}`;
                 }
                 location.replace(loc.search + loc.hash);
                 return;
             }
             location.hash = loc.hash;
+            /* istanbul ignore else */
             if (location.search.trim() != loc.search.trim()) {
                 location.search = loc.search;
             }
         }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("$SET", e);
     }
 }

@@ -13,14 +13,15 @@ const _isObject = isObject,
     _isRegExp = isRegExp;
 
 export default function count(obj: AnyObject): number;
-export default function count(objs: AnyObjects, option?: WhereCondition): number;
 export default function count(arr: string[], option?: string | RegExp): number;
+export default function count(objs: AnyObjects, option?: WhereCondition): number;
 export default function count(str: string, option?: string | RegExp): number;
 export default function count(obj, option?): number {
     try {
         if (_isObject(obj)) {
             let count = 0;
             for (let prop in obj as AnyObject) {
+                /* istanbul ignore else */
                 if (obj.hasOwnProperty(prop)) { count++; }
             }
             return count;
@@ -33,6 +34,7 @@ export default function count(obj, option?): number {
             if (_isString(option) || isReg) {
                 let ct = 0;
                 for (let i = 0, len = obj.length; i < len; i++) {
+                    /* istanbul ignore else */
                     if (~obj[i].indexOf(option) || (isReg && option.test(obj[i]))) { ct++; }
                 }
                 return ct;
@@ -41,6 +43,7 @@ export default function count(obj, option?): number {
         }
         if (_isString(obj)) {
             let word = option;
+            /* istanbul ignore else */
             if (!_isRegExp(word)) {
                 word = new RegExp(word, "g");
             } else if (!option.global) {
@@ -52,7 +55,7 @@ export default function count(obj, option?): number {
             return (obj.match(word) || []).length;
         }
         return NaN;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('Object.count', e);
         return NaN;
     }

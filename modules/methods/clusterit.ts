@@ -25,7 +25,9 @@ export interface ClusterReturnType {
     on: Function
 }
 
-export default function clusterit(options, callback: (data: typeof cluster | cluster.Worker) => void): ClusterReturnType | typeof cluster {
+export default function clusterit(callback: (data: typeof cluster | cluster.Worker) => void): ClusterReturnType | typeof cluster;
+export default function clusterit(options: ClusterOptions, callback?: (data: typeof cluster | cluster.Worker) => void): ClusterReturnType | typeof cluster;
+export default function clusterit(options, callback?) {
     /*|{
         "info": "Enable clustering",
         "category": "Utility",
@@ -51,6 +53,7 @@ export default function clusterit(options, callback: (data: typeof cluster | clu
             for (let i = 0; i < numCPUs; i++) {
                 let child = cluster.fork();
                 (options.onfork || foo)(child);
+                /* istanbul ignore else */
                 if (options.auto_spawn) {
                     child.on('exit', function (code, signal) {
                         (options.onexit || foo)(child, code, signal);
@@ -76,7 +79,7 @@ export default function clusterit(options, callback: (data: typeof cluster | clu
             workers: {},
             on: foo
         }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('clusterit', e);
     }
 }

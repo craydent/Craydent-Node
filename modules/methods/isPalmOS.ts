@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function isPalmOS(this: Craydent | Window) {
+export default function isPalmOS(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if OS is PalmOS",
         "category": "HTTP",
@@ -13,7 +13,7 @@ export default function isPalmOS(this: Craydent | Window) {
     }|*/
     try {
         return (/palm/i.test(this.navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isPalmOS', e);
     }
 }

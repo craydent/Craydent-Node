@@ -10,7 +10,7 @@ export default function add<T>(arr: T[], obj: any): boolean {
             _addToIndex(objs.__indexed_buckets, obj);
         }
         return true;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.add", e);
         return null;
     }

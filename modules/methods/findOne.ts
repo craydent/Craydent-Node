@@ -1,11 +1,11 @@
-import where from "./where";
+import where, { WhereProjection } from "./where";
 import error from './error';
-import { WhereCondition, Fields } from "../models/Arrays";
+import { WhereCondition } from "../models/Arrays";
 
-export default function findOne<T>(arr: T[], condition: WhereCondition | string, projection?: string | Fields | boolean): T {
+export default function findOne<T>(arr: T[], condition: WhereCondition | string, projection?: WhereProjection): T {
     try {
-        where<T>(arr, condition, projection, 1)[0];
-    } catch (e) {
+        return where<T>(arr, condition, projection, 1)[0];
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.where", e);
         return null;
     }

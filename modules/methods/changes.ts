@@ -27,6 +27,7 @@ export default function changes(obj: AnyObject, compare: AnyObject): CompareResu
         let rtn = { $length: 0, $add: [], $update: [], $delete: [] };
         // loop through each property of the original
         for (let prop in obj) {
+            /* istanbul ignore else */
             if (obj.hasOwnProperty(prop)) {
                 if (!compare.hasOwnProperty(prop)) {
                     rtn[prop] = null;
@@ -50,7 +51,8 @@ export default function changes(obj: AnyObject, compare: AnyObject): CompareResu
         }
         return rtn;
 
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Object.changes", e);
+        return null;
     }
 }

@@ -21,14 +21,15 @@ export default function toStringAlt(obj: AnyObject, delimiter?: string, prefix?:
         prefix = prefix || '&';
         let str = '';
         for (let prop in obj) {
+            /* istanbul ignore else */
             if (obj.hasOwnProperty(prop)) {
                 let value = isObject(obj[prop]) ? JSON.stringify(obj[prop]) : obj[prop];
-                urlEncode &&
+                (urlEncode) &&
                     (str += prefix + encodeURIComponent(prop) + delimiter + encodeURIComponent(value)) || (str += prefix + prop + delimiter + value);
             }
         }
         return str;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('Object.toStringAlt', e);
     }
 }

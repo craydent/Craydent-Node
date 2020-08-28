@@ -22,7 +22,7 @@ export default function suid(length?: number): string {
         }
 
         return id;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('suid', e);
         return '';
     }

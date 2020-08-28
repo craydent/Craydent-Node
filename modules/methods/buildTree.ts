@@ -28,7 +28,6 @@ export default function buildTree<T, TResult>(arr: T[], parentFinder: TreeParent
                 continue;
             }
 
-            // root not found yet
             if (!rootFound) {
                 singles[cat] = singles[cat] || [];
                 singles[cat].push(objt);
@@ -39,6 +38,7 @@ export default function buildTree<T, TResult>(arr: T[], parentFinder: TreeParent
             }
         }
         for (let prop in singles) {
+            /* istanbul ignore next */
             if (!singles.hasOwnProperty(prop)) { continue; }
             let j = 0, single;
             while (single = singles[prop][j++]) {
@@ -47,7 +47,7 @@ export default function buildTree<T, TResult>(arr: T[], parentFinder: TreeParent
             rtnArr = rtnArr.concat(singles[prop]);
         }
         return rtnArr;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('Array.buildTree', e);
         return [];
     }

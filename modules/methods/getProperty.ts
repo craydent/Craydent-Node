@@ -43,6 +43,7 @@ export default function getProperty(obj, path, delimiter?, options?): any {
     try {
         if (isRegExp(path)) {
             for (let prop in obj) {
+                /* istanbul ignore next */
                 if (!obj.hasOwnProperty(prop)) { continue; }
                 if (path.test(prop)) { return obj[prop]; }
             }
@@ -56,11 +57,13 @@ export default function getProperty(obj, path, delimiter?, options?): any {
         options = options || {};
         delimiter = delimiter || ".";
         path = strip(path, delimiter);
+        if (/\[\d*?\]/.test(path)) {
+            path = path.replace(/\[(\d*?)\]/g, '.$1');
+        }
         let props = path.split(delimiter);
         let value = obj, i = 0, prop: string;
         while (prop = props[i++]) {
-            if (isNull(value[prop])
-                || (options.noInheritance && !value.hasOwnProperty(prop))) {
+            if (isNull(value[prop]) || (options.noInheritance && !value.hasOwnProperty(prop))) {
                 if (!value.hasOwnProperty(prop)) { options.validPath = 0; }
                 return undefined;
             }
@@ -68,7 +71,7 @@ export default function getProperty(obj, path, delimiter?, options?): any {
         }
         options.validPath = 1;
         return value;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('Object.getProperty', e);
         return null;
     }

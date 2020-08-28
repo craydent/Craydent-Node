@@ -1,5 +1,19 @@
 import error from './error';
 
+const chars = {
+    '&': '&#38;',
+    '#': '&#35;',
+    '%': '&#37;',
+    ';': '&#59;',
+    '+': '&#43;',
+    '-': '&#45;',
+    '\'': '&#39;',
+    '"': '&#34;',
+    '(': '&#40;',
+    ')': '&#41;',
+    '<': '&#60;',
+    '>': '&#62;'
+}
 export default function sanitize(str: string): string {
     /*|{
         "info": "String class extension to remove potential XSS threats",
@@ -12,19 +26,12 @@ export default function sanitize(str: string): string {
         "returnType": "(String)"
     }|*/
     try {
-        return str.replace(/&/gi, "&#38;").
-            replace(/#/gi, "&#35;").
-            replace(/%/gi, "&#37;").
-            replace(/;/gi, "&#59;").
-            replace(/\+/gi, "&#43;").
-            replace(/\-/gi, "&#45;").
-            replace(/\'/gi, "&#39;").
-            replace(/\\"/gi, "&#34;").
-            replace(/\(/gi, "&#40;").
-            replace(/\)/gi, "&#41;").
-            replace(/\</gi, "&#60;").
-            replace(/\>/gi, "&#62;");
-    } catch (e) {
+        let sanitizedString = "";
+        for (let i = 0, len = str.length; i < len; i++) {
+            sanitizedString += chars[str[i]];
+        }
+        return sanitizedString;
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.sanitize", e);
     }
 }

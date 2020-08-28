@@ -2,8 +2,7 @@ import duplicate from "./duplicate";
 import removeAll from "./removeAll";
 import equals from "./equals";
 import toSet from "./toSet";
-import { IteratorItem } from "modules/models/IteratorItem";
-import { ArrayIterator } from "modules/models/Arrays";
+import { ArrayIterator } from "../models/Arrays";
 
 class Set<T> extends Array<T> {
     /*|{
@@ -27,11 +26,14 @@ class Set<T> extends Array<T> {
         "typeParameter": "<T, TResult>",
         "returnType": "(ISet<T, TResult>)"
     }|*/
-    protected nextIndex: number;
-    constructor(records: T[]) {
-        super(...duplicate(records || [], true) as any);
+    /* istanbul ignore next */
+    constructor(records: T[] = []) {
+        super();
+        const copy = duplicate(records, true);
         Object.setPrototypeOf(this, Object.create(Set.prototype))
-        this.nextIndex = 0;
+        for (let i = 0, len = copy.length; i < len; i++) {
+            this.push(copy[i]);
+        }
         this.clean();
     }
     public add = function (value: T): boolean {
@@ -47,8 +49,5 @@ class Set<T> extends Array<T> {
     };
     public clear(val?: any, indexOf?: ArrayIterator<T>): void { removeAll(this, val, indexOf); }
     public clean(): void { toSet(this) }
-    public next(): IteratorItem { return { value: this[this.nextIndex++], done: this.nextIndex >= this.size() }; }
-    public hasNext(): boolean { return this.nextIndex < this.size(); }
-    public size(): number { return this.length; }
 }
 export default Set;

@@ -24,21 +24,24 @@ export default function syncroit(gen: GeneratorFunction | Generator | AsyncFunct
             //@ts-ignore
             let geno = gen();
             try {
-                isGenerator(gen) && (function cb(value) {
-                    let obj = geno.next(value);
+                if (isGenerator(gen)) {
+                    return (function cb(value) {
+                        let obj = geno.next(value);
 
-                    if (!obj.done) {
-                        if (isPromise(obj.value)) {
-                            return obj.value.then(cb).catch(cb);
+                        if (!obj.done) {
+                            if (isPromise(obj.value)) {
+                                return obj.value.then(cb).catch(cb);
+                            }
+                            setTimeout(function () {
+                                cb(obj.value);
+                            }, 0);
+                        } else {
+                            res(isNull(obj.value, value));
                         }
-                        setTimeout(function () {
-                            cb(obj.value);
-                        }, 0);
-                    } else {
-                        res(isNull(obj.value, value));
-                    }
-                })();
-            } catch (e) {
+                    })();
+                }
+                res(geno);
+            } catch (e) /* istanbul ignore next */ {
                 if (process.listenerCount('uncaughtException')) {
                     return process.emit('uncaughtException', e);
                 }
@@ -46,7 +49,7 @@ export default function syncroit(gen: GeneratorFunction | Generator | AsyncFunct
             }
         });
 
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('syncroit', e);
         throw e;
     }

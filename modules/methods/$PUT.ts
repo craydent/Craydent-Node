@@ -19,8 +19,8 @@ export default function $PUT(this: Craydent, variable?: string, options?: VerbOp
         "returnType": "(Bool|Object)"
     }|*/
     try {
-        return _verbPayloadHelper(this, variable, options);
-    } catch (e) {
+        return _verbPayloadHelper(this, variable, 'put', options);
+    } catch (e) /* istanbul ignore next */ {
         error('$PUT', e);
     }
 }

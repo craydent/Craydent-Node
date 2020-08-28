@@ -94,8 +94,7 @@ export default function _duplicate<T>(obj: any, original: T, recursive: boolean,
         }
 
         return obj;
-    } catch (e) {
-        /* istanbul ignore next */
+    } catch (e) /* istanbul ignore next */ {
         error && error('_duplicate', e);
     }
 }

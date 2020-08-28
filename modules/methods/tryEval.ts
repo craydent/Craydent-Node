@@ -24,7 +24,7 @@ export default function tryEval(expression: any, evaluator?: EvaluatorMethod) {
         return value;
     } catch (e) {
         try {
-            return eval("(" + expression + ")");
+            return eval(`(${expression})`);
         } catch (e) {
             return null;
         }

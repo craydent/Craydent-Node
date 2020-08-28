@@ -11,7 +11,7 @@ export default function average(arr: number[]): number {
             }
         }
         return sum / length;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.average", e);
         return NaN;
     }

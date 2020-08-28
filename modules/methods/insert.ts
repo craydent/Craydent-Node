@@ -12,7 +12,7 @@ export default function insert<T>(objs: T[], value: any | any[]): boolean {
             add(objs, value);
         }
         return true;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.insert", e);
         return null;
     }

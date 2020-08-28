@@ -1,6 +1,5 @@
 import error from './error';
 import { AnyObject } from '../models/Arrays';
-import _addToIndex from '../protected/_addToIndex';
 
 export default function toObject(str: string, assignmentChar?: string, delimiter?: string): AnyObject {
     /*|{
@@ -27,7 +26,7 @@ export default function toObject(str: string, assignmentChar?: string, delimiter
             rtn[kv[0]] = kv[1];
         }
         return rtn;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("String.toObject", e);
     }
 }

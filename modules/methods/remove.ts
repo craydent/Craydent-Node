@@ -12,7 +12,7 @@ export default function remove<T>(arr: T[], value: any, indexOf?: ArrayIterator<
             _removeFromIndex(objs.__indexed_buckets, objs[index]);
         }
         return objs.splice(index, 1)[0];
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.remove", e);
         return null;
     }

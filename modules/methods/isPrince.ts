@@ -1,6 +1,6 @@
 import error from './error';
 
-export default function isPrince(this: Craydent | Window) {
+export default function isPrince(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if engine is Prince",
         "category": "HTTP",
@@ -13,7 +13,7 @@ export default function isPrince(this: Craydent | Window) {
     }|*/
     try {
         return (/prince/i.test(this.navigator.userAgent));
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('isPrince', e);
     }
 }

@@ -1,6 +1,6 @@
 import foo from './foo';
 
-let JSZip: (compression?: string) => void = foo as any;
+let JSZip: any = foo as any;
 try {
     // load node jszip module if available;
     JSZip = require('jszip');
@@ -44,6 +44,8 @@ try {
             throw compression + " is not a valid compression method !";
         }
     };
+
+
     /**
      * Add a file to the zip file
      * @param   name  The name of the file
@@ -288,7 +290,7 @@ try {
     * STORE is the default compression method, so it's included in this file.
     * Other methods should go to separated files : the user wants modularity.
     */
-    (JSZip as any).compressions = {
+    JSZip.compressions = {
         "STORE": {
             magic: "\x00\x00",
             compress: function (content) {
@@ -380,7 +382,7 @@ try {
 
         return {
             // public method for encoding
-            encode: function (input, utf8) {
+            encode: function (input, utf8?) {
                 let output = "",
                     chr1, chr2, chr3, enc1, enc2, enc3, enc4,
                     i = 0;
@@ -408,7 +410,7 @@ try {
             },
             // public method for decoding
 
-            decode: function (input, utf8) {
+            decode: function (input, utf8?) {
                 let output = "",
                     chr1, chr2, chr3,
                     enc1, enc2, enc3, enc4,
@@ -439,5 +441,74 @@ try {
             }
         };
     }();
+    JSZip.prototype.add = function (name, data, o) {
+        o = o || {};
+        name = this.root + name;
+        if (o.base64 === true && o.binary == null) o.binary = true;
+        for (var opt in this.d) {
+            o[opt] = o[opt] || this.d[opt];
+        }
+
+        // date
+        // @see http://www.delorie.com/djgpp/doc/rbinter/it/52/13.html
+        // @see http://www.delorie.com/djgpp/doc/rbinter/it/65/16.html
+        // @see http://www.delorie.com/djgpp/doc/rbinter/it/66/16.html
+
+        o.date = o.date || new Date();
+        var dosTime, dosDate;
+
+        dosTime = o.date.getHours();
+        dosTime = dosTime << 6;
+        dosTime = dosTime | o.date.getMinutes();
+        dosTime = dosTime << 5;
+        dosTime = dosTime | o.date.getSeconds() / 2;
+
+        dosDate = o.date.getFullYear() - 1980;
+        dosDate = dosDate << 4;
+        dosDate = dosDate | (o.date.getMonth() + 1);
+        dosDate = dosDate << 5;
+        dosDate = dosDate | o.date.getDate();
+
+        if (o.base64 === true) data = JSZipBase64.decode(data);
+        // decode UTF-8 strings if we are dealing with text data
+        if (o.binary === false) data = this.utf8encode(data);
+
+
+        var compression = JSZip.compressions[this.compression];
+        var compressedData = compression.compress(data);
+
+        var header = "";
+
+        // version needed to extract
+        header += "\x0A\x00";
+        // general purpose bit flag
+        header += "\x00\x00";
+        // compression method
+        header += compression.magic;
+        // last mod file time
+        header += this.decToHex(dosTime, 2);
+        // last mod file date
+        header += this.decToHex(dosDate, 2);
+        // crc-32
+        header += this.decToHex(this.crc32(data), 4);
+        // compressed size
+        header += this.decToHex(compressedData.length, 4);
+        // uncompressed size
+        header += this.decToHex(data.length, 4);
+        // file name length
+        header += this.decToHex(name.length, 2);
+        // extra field length
+        header += "\x00\x00";
+
+        // file name
+
+        this.files[name] = {
+            header: header,
+            data: compressedData,
+            dir: o.dir
+        };
+
+        return this;
+    };
 }
 export default JSZip;

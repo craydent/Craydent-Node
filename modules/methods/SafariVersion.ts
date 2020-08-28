@@ -13,8 +13,8 @@ export default function SafariVersion(this: Craydent | Window) {
         "returnType": "(Float)"
     }|*/
     try {
-        return this.isChrome() ? -1 : _getBrowserVersion(this, "Safari");
-    } catch (e) {
+        return (this as any).isChrome() ? -1 : _getBrowserVersion(this, "Safari");
+    } catch (e) /* istanbul ignore next */ {
         error && error('SafariVersion', e);
     }
 }

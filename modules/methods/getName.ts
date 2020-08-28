@@ -14,7 +14,7 @@ export default function getName(fn: Function) {
     }|*/
     try {
         return fn.name || _getFuncName(fn);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Function.getName", e);
     }
 }

@@ -2,22 +2,22 @@ import _verbPayloadHelper from '../../modules/protected/_verbPayloadHelper';
 
 describe('_verbPayloadHelper', () => {
     it('should return the data when variable is defined', () => {
-        expect(_verbPayloadHelper({ raw: null, rawData: null } as any, 'data', {})).toEqual(false)
-        expect(_verbPayloadHelper({ raw: "data", rawData: { data: 'data' } } as any, 'data', {})).toEqual('data');
+        expect(_verbPayloadHelper({ raw: null, rawData: null } as any, 'data', 'get', {})).toEqual(false)
+        expect(_verbPayloadHelper({ raw: "data", rawData: { get: { data: 'data' } } } as any, 'data', 'payload', {})).toEqual('data');
     });
     it('should return all the data if variable is not defined', () => {
-        expect(_verbPayloadHelper({ raw: null, rawData: { rawData: '' } } as any, '')).toEqual({ rawData: '' })
-        expect(_verbPayloadHelper({ raw: 'data', rawData: null } as any, '')).toEqual('data');
-        expect(_verbPayloadHelper({ raw: 'data', rawData: {} } as any, '')).toEqual({});
+        expect(_verbPayloadHelper({ raw: null, rawData: { delete: { rawData: '' } } } as any, '', 'delete')).toEqual({ rawData: '' })
+        expect(_verbPayloadHelper({ raw: 'data', rawData: null } as any, '', 'put')).toEqual({});
+        expect(_verbPayloadHelper({ raw: 'data', rawData: {} } as any, '', 'post')).toEqual({});
     });
     it('should return data when options are not provided', () => {
-        expect(_verbPayloadHelper({ raw: 'data', rawData: { rawData: '' } } as any, 'data')).toEqual(false);
-        expect(_verbPayloadHelper({ raw: 'data', rawData: { data: {} } } as any, 'data')).toEqual({});
+        expect(_verbPayloadHelper({ raw: 'data', rawData: { get: { rawData: '' } } } as any, 'data', 'get')).toEqual(false);
+        expect(_verbPayloadHelper({ raw: 'data', rawData: { get: { data: {} } } } as any, 'data', 'get')).toEqual({});
     });
     it('should return data when options are provided', () => {
-        expect(_verbPayloadHelper({ raw: 'data', rawData: { rawData: '' } } as any, 'Data', { ignoreCase: true })).toEqual(false);
-        expect(_verbPayloadHelper({ raw: 'data', rawData: { data: {} } } as any, 'Data', 'ignoreCase')).toEqual({});
-        expect(_verbPayloadHelper({ raw: 'data', rawData: { data: {} } } as any, 'Data', 'ignoreCase')).toEqual({});
-        expect(_verbPayloadHelper({ raw: 'data', rawData: { data: {} } } as any, 'Datas', 'ignoreCase')).toEqual(false);
+        expect(_verbPayloadHelper({ raw: 'data', rawData: { get: { rawData: '' } } } as any, 'Data', 'get', { ignoreCase: true })).toEqual(false);
+        expect(_verbPayloadHelper({ raw: 'data', rawData: { get: { data: {} } } } as any, 'Data', 'get', 'ignoreCase')).toEqual({});
+        expect(_verbPayloadHelper({ raw: 'data', rawData: { get: { data: {} } } } as any, 'Data', 'get', 'ignoreCase')).toEqual({});
+        expect(_verbPayloadHelper({ raw: 'data', rawData: { get: { data: {} } } } as any, 'Datas', 'get', 'ignoreCase')).toEqual(false);
     });
 });

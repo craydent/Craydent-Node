@@ -8,7 +8,7 @@ export default function sum(arr: number[]): number {
             value += isNumber(arr[i]) ? arr[i] : 0;
         }
         return value;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error("Array.sum", e);
         return NaN;
     }
