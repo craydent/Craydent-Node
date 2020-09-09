@@ -8,7 +8,7 @@ import {
     _containsMod,
     _containsType
 } from '../protected/_containsComparisons';
-import { __queryNestedProperty, _subQuery, _unwind, _groupFieldHelper, _copyWithProjection } from './where'
+import { _copyWithProjection } from './where'
 import foo from './foo';
 import getKeys from './getKeys';
 import suid from './suid';
@@ -26,6 +26,11 @@ import setProperty from './setProperty';
 import merge from './merge';
 import getProperty from './getProperty';
 import getValue from './getValue';
+import parseBoolean from './parseBoolean';
+import _unwind from '../protected/_unwind';
+import _groupFieldHelper from '../protected/_groupFieldHelper';
+import __queryNestedProperty from '../private/__queryNestedProperty';
+import _subQuery from '../protected/_subQuery';
 
 export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps?: boolean): T[] {
     try {
@@ -121,9 +126,11 @@ export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps
             _cgte = _containsGreaterThanEqual,
             _ct = _containsType,
             _cm = _containsMod,
+            _getProperty = getProperty,
+            _parseBoolean = parseBoolean,
             _refs = [],
             ifblock = _subQuery(condition, null, null, _refs),
-            func = `(function (record,i) {
+                func = `(function (record,i) {
                 var values,finished;
                 if (${ifblock}) {
                 if(!cb.call(thiz,record,i)) { throw 'keep going'; }

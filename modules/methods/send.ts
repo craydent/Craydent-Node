@@ -1,3 +1,4 @@
+import isNull from "./isNull";
 
 export default function send(status: number, data: any): void;
 export default function send(data: any): void;
@@ -21,5 +22,8 @@ export default function send(status, data?): void {
         status = undefined;
     }
     if (typeof data == "object") { this.header({ 'Content-Type': 'application/json' }); }
-    this.end(status || 200, JSON.stringify(data));
+    let args = [status || 200];
+    data = JSON.stringify(data);
+    !isNull(data) && args.push(data);
+    this.end.apply(this, args);
 }

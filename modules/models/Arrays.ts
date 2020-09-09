@@ -6,10 +6,13 @@ export { ContainsObjectIterator, ContainsValue } from '../models/Contains'
 export interface IndexedArray<T> extends Array<T> {
     [index: number]: T;
     __indexed_buckets?: {
-        [key: string]: IndexedBucket
+        [indexedProp: string]: IndexedBucket<T>
     }
 }
-export interface IndexedBucket { __bucket__keys: any[] }
+export interface IndexedBucket<T> {
+    __bucket_keys: any[],
+    [value: string]: T | any
+}
 
 
 export interface Documents<T> extends Array<T> {
@@ -18,7 +21,7 @@ export interface Documents<T> extends Array<T> {
 }
 export interface UnwindOptions {
     path?: string;
-    includeArrayIndex?: number;
+    includeArrayIndex?: string;
     preserveNullAndEmptyArrays?: boolean;
 }
 export interface Meta {
@@ -28,17 +31,17 @@ export interface Meta {
     stop?: boolean;
 }
 export interface Stage {
-    $project: any;
-    $match: any;
-    $redact: any;
-    $limit: any;
-    $skip: any;
-    $unwind: any;
-    $group: any;
-    $sort: any;
-    $out: any;
-    $sample: any;
-    $lookup: any;
+    $project?: any;
+    $match?: any;
+    $redact?: any;
+    $limit?: any;
+    $skip?: any;
+    $unwind?: any;
+    $group?: any;
+    $sort?: any;
+    $out?: any;
+    $sample?: any;
+    $lookup?: any;
 }
 export interface MongoPipelines {
     $project?: any;
@@ -70,11 +73,11 @@ export interface ExtendedArray extends Array<any> {
     items?: number;
 }
 export interface SearchRangeOptions {
-    prop;
-    condition;
-    findIndex;
-    startIndex;
-    endIndex;
+    // prop;
+    condition: any;
+    findIndex?: boolean;
+    // startIndex;
+    // endIndex;
 }
 export interface CreateFuncOptions {
     ifblock?;

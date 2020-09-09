@@ -26,8 +26,8 @@ export default function _addToIndex(buckets: any, obj: any): void {
         let sarr = buckets[prop][obj[prop]];
         if (!sarr || !sarr.length) {
             sarr = sarr || (buckets[prop][obj[prop]] = []);
-            var keys = buckets[prop].__bucket__keys;
-            var index = __binarySearch(keys, obj[prop]);
+            let keys = buckets[prop].__bucket_keys;
+            let index = __binarySearch(keys, obj[prop]);
             keys.splice(index, 0, obj[prop]);
         }
         sarr.push(obj);

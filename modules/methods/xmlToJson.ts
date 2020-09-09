@@ -7,11 +7,18 @@ import strip from "./strip";
 import suid from "./suid";
 import __processAttributes from "../private/__processAttributes";
 import merge from "../methods/merge";
+import isEmpty from "./isEmpty";
+import isNull from "./isNull";
 
 export function __processChildren(nodename: string, children: string[], xml: string, refs: any, ignoreAttributes?: boolean): AnyObject {
     let child, i = 0, obj = {};
     if (!children.length && !ignoreAttributes) {
-        obj[nodename] = __processAttributes(xml, refs);
+        const attributes = __processAttributes(xml, refs);
+        if (isEmpty(attributes)) {
+            obj[nodename] = '';
+        } else {
+            obj[nodename] = __processAttributes(xml, refs);
+        }
     }
     while (child = children[i++]) {
         let index = child.indexOf('>'),
@@ -19,52 +26,87 @@ export function __processChildren(nodename: string, children: string[], xml: str
             attributes = ignoreAttributes ? {} : __processAttributes(child, refs),
             childXML = strip(child.substring(index + 1, lindex), '\n').trim();
         if (children.length == 1) {
-            obj[nodename] = merge(xmlToJson(childXML), attributes);
+            // @ts-ignore
+            childXML = xmlToJson(childXML, ignoreAttributes, refs);
+            if (!isString(childXML)) {
+                childXML = merge(attributes, childXML)
+            }
+            obj[nodename] = childXML;
         } else {
             obj[nodename] = obj[nodename] || [];
-            obj[nodename].push(merge(attributes, xmlToJson(childXML)));
+            // @ts-ignore
+            childXML = xmlToJson(childXML, ignoreAttributes, refs);
+            if (!isString(childXML)) {
+                childXML = merge(attributes, childXML)
+            }
+            obj[nodename].push(childXML);
         }
     }
     return obj;
 }
-export function __processSiblings(xml: string, refs: any): AnyObject {
+export function __processSiblings(xml: string, refs: any, ignoreAttributes?: boolean): AnyObject {
     let parts = xml.split('<'), obj = {},
-        tag = "", node = "", etag;
+        tag = "", node = "", etag, tagCount = 0;
     obj['#text'] = obj['#text'] || "";
     for (let i = 0; i < parts.length; i++) {
         let part = parts[i];
         if (!part) {
             continue;
         }
-        if (!tag && !~part.indexOf('/>')) {
-            etag = part.indexOf('>');
-            if (!~etag) {
-                if (!i) {
-                    obj['#text'] += fillTemplate(strip(part, ['\n', ' ']), refs);
-                } else {
-                    node += part;
+        /* istanbul ignore else */
+        if (!~part.indexOf('/>')) {
+            /* istanbul ignore else */
+            if (!tag) {
+                etag = part.indexOf('>');
+                if (!~etag) {
+                    if (!i) {
+                        obj['#text'] += fillTemplate(strip(part, ['\n', ' ']), refs);
+                    } else {
+                        node += part;
+                    }
+                    continue;
                 }
+                tag = part.split(/\s|>/)[0];
+                tagCount++;
+                node += `<${part}`;
                 continue;
+            } else if (part.indexOf(tag) == 0) {
+                tagCount++;
+            } else if (part.indexOf(`/${tag}>`) == 0) {
+                tagCount--;
             }
-            tag = part.split(/\s|>/)[0];
-            node += "<" + part;
-        } else if (~(etag = part.indexOf('/' + tag + '>'))) {
+        } else if (!tagCount) {
+            tag = part.replace('/>', '').trim();
+        }
+        etag = part.indexOf(`/${tag}>`);
+        if (!~etag) {
+            let selfClosing = new RegExp(`${tag}(\\s*)/>`);
+            const matching = part.match(selfClosing);
+            if (matching && !isNull(matching[1])) {
+                etag = part.search(selfClosing) + matching[1].length;
+            }
+        }
+        if (!tagCount && ~etag) {
             let text = strip(part.substr(etag + tag.length + 2), ['\n', ' ']);
             if (text) {
                 obj['#text'] += fillTemplate(text, refs);
             }
-            node += "<" + part.substring(0, etag + tag.length + 2);
-            if (obj[tag] && isArray(obj[tag])) {
-                obj[tag].push(xmlToJson(node)[tag]);
-            } else if (obj[tag]) {
-                obj[tag] = [obj[tag]];
-                obj[tag].push(xmlToJson(node)[tag]);
+            node += `<${part.substring(0, etag + tag.length + 2)}`;
+            if (obj[tag]) {
+                if (!isArray(obj[tag])) {
+                    obj[tag] = [obj[tag]];
+                }
+                // @ts-ignore
+                let child = xmlToJson(node, ignoreAttributes, refs);
+                obj['#text'] += child['#text'] || '';
+                obj[tag].push(child[tag]);
             } else {
-                obj = merge(obj, xmlToJson(node));
+                // @ts-ignore
+                obj = merge(obj, xmlToJson(node, ignoreAttributes, refs));
             }
             tag = "", node = "";
         } else {
-            node += "<" + part;
+            node += `<${part}`;
         }
 
     }
@@ -73,7 +115,9 @@ export function __processSiblings(xml: string, refs: any): AnyObject {
     }
     return obj;
 }
-export default function xmlToJson(xml: string | XMLDocument, ignoreAttributes?: boolean): AnyObject {
+
+export default function xmlToJson(xml: string | XMLDocument, ignoreAttributes?: boolean): AnyObject;
+export default function xmlToJson(xml: string | XMLDocument, ignoreAttributes?: boolean, _refs?: any): AnyObject {
     /*|{
         "info": "Converts XML to JSON",
         "category": "XML to JSON",
@@ -100,30 +144,51 @@ export default function xmlToJson(xml: string | XMLDocument, ignoreAttributes?: 
         xml = strip((xml as string).replace(/<\?.*?\?>/, ''), '\n').replace(/>\s*?\n\s*/g, '>');
 
         let index = (xml as string).indexOf('>'),
-            nodename = (xml as string).substring(0, index + 1).replace(/<(\S*)?(?:\s?.*?)>/, '$1');
+            nodename = (xml as string).substring(0, index + 1).replace(/<([^\s\/]*)?(?:\s*?.*?)>/, '$1').replace(/<(\S*)?(?:\s*?.*?)>/, '$1');
 
+        let hasSiblings = false;
+        /* istanbul ignore else */
         if (nodename) {
-
-            let parts = (xml as string).split(nodename), child = "", children = [];
+            let parts = (xml as string).split(nodename),
+                child = "",
+                children = [],
+                openCount = 0;
 
             // break down construct string of children
             for (let i = 0, len = parts.length; i < len; i++) {
                 let part = parts[i] = strip(parts[i], '\n');
 
-                if (part == ">" || part == "><") {
+                if (!(openCount) && (part == ">" /* || part == "><" */)) {
                     child += ">";
                     children.push(child);
                     child = part.substr(1) + nodename;
                 } else {
+                    /* istanbul ignore else */
+                    if (part.slice(-1) == "<") {
+                        openCount++;
+                    } else if (~part.indexOf("</") || part.slice(-2) == "/>") {
+                        openCount--;
+                        let offset = 2;
+                        if (part == "/>") {
+                            offset = 1;
+                        }
+                        if (!openCount && i != len - offset) {
+                            hasSiblings = true;
+                        }
+                    }
                     child += part + nodename;
                 }
             }
+            if (children.length == 1 && children[0] == xml && hasSiblings) {
+                children = [];
+            }
 
             // when there are different nodes
-            let scount = ((xml as string).match(new RegExp("<" + nodename + ".*?>", 'g')) || []).length,
-                ecount = ((xml as string).match(new RegExp("</" + nodename + ">", 'g')) || []).length;
-            if (xml && !children.length && scount == ecount) {
-                rtn = __processSiblings((xml as string), (xmlToJson as any).refs);
+            const xmlWithoutSelfClosing: string = xml.replace(new RegExp(`<${nodename}[^>]*?/>`, 'g'), '');
+            let scount = (xmlWithoutSelfClosing.match(new RegExp(`<${nodename}.*?>`, 'g')) || []).length,
+                ecount = (xmlWithoutSelfClosing.match(new RegExp(`</${nodename}>`, 'g')) || []).length;
+            if (xmlWithoutSelfClosing && !children.length && scount == ecount) {
+                rtn = __processSiblings((xml as string), (xmlToJson as any).refs, ignoreAttributes);
             } else {
                 rtn = __processChildren(nodename, children, (xml as string), (xmlToJson as any).refs, ignoreAttributes);
             }
@@ -134,7 +199,7 @@ export default function xmlToJson(xml: string | XMLDocument, ignoreAttributes?: 
             delete (xmlToJson as any).refs[ids[i]];
         }
         return rtn;
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         error && error('xmlToJson', e);
         return null;
     }

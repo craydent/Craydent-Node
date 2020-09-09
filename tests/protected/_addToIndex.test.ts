@@ -3,20 +3,20 @@ import * as _addToIndex from '../../modules/protected/_addToIndex';
 describe('_addToIndex', () => {
     it('should add to index when value is null', () => {
         const buckets = {
-            prop: { value: null, __bucket__keys: [] }
+            prop: { value: null, __bucket_keys: [] }
         };
         const expected = {
-            prop: { value: [{ prop: 'value' }], __bucket__keys: ['value'] }
+            prop: { value: [{ prop: 'value' }], __bucket_keys: ['value'] }
         }
         _addToIndex.default(buckets, { prop: 'value' })
         expect(buckets).toEqual(expected);
     });
     it('should add to index when value is []', () => {
         const buckets = {
-            prop: { value: [], __bucket__keys: [] }
+            prop: { value: [], __bucket_keys: [] }
         }
         const expected = {
-            prop: { value: [{ prop: 'value' }], __bucket__keys: ['value'] }
+            prop: { value: [{ prop: 'value' }], __bucket_keys: ['value'] }
         }
         _addToIndex.default(buckets, { prop: 'value' })
         expect(buckets).toEqual(expected);

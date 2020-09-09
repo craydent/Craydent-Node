@@ -4,6 +4,7 @@ import echo from './echo';
 import logit from './logit';
 import merge from './merge';
 import { $c } from '../private/__common';
+import isNull from './isNull';
 
 export default function end(status?: number, output?: string, encoding?: string);
 export default function end(output?: string, encoding?: string);
@@ -74,12 +75,14 @@ export default function end(status?, output?, encoding?) {
 
         let cb = this.$GET('callback'), pre = "", post = "";
         if (cb) {
-            pre = cb + "(";
+            pre = `${cb}(`;
             post = ")";
         }
 
         !response.headersSent && response.writeHead(code, headers);
-        response.end(isString(output) ? pre + eco + post : output, encoding);
+        let args = [isString(output) ? pre + eco + post : output];
+        !isNull(encoding) && args.push(encoding);
+        response.end.apply(response, args);
         this.response_sent = true;
         logit('end*******************************************************');
     } catch (e) {

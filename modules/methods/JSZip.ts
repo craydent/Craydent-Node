@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import foo from './foo';
 
 let JSZip: any = foo as any;

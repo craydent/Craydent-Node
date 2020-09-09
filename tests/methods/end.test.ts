@@ -37,7 +37,7 @@ describe('end', () => {
         expect(httpMock.writeSession).toHaveBeenCalled();
         expect(httpMock.response_sent).toBe(true);
         expect(httpMock.response.writeHead).toHaveBeenCalledWith(200, { 'content-type': 'json' });
-        expect(httpMock.response.end).toHaveBeenCalledWith("cb(hello world)", undefined);
+        expect(httpMock.response.end).toHaveBeenCalledWith("cb(hello world)");
         expect(_logit).toHaveBeenCalledTimes(2);
     });
     it('should end the request when encoding is the response object', () => {
@@ -51,7 +51,7 @@ describe('end', () => {
             $GET: () => "cb"
         };
         end.apply(httpMock, [{}, response]);
-        expect(response.end).toHaveBeenCalledWith({}, undefined);
+        expect(response.end).toHaveBeenCalledWith({});
     });
     it('should end the request when given as status', () => {
         const response = { headersSent: false, writeHead: jest.fn(), end: jest.fn() }

@@ -16,7 +16,7 @@ describe('createIndex', () => {
         ] as any;
         expected.__indexed_buckets = {
             id: {
-                __bucket__keys: [1, 2],
+                __bucket_keys: [1, 2],
                 1: [{ id: 1, value: 'value' }, { id: 1, value: 'value2' }],
                 2: [{ id: 2, value: 'value' }]
             } as any
@@ -33,8 +33,8 @@ describe('createIndex', () => {
             { id: 1, value: 'value' }
         ] as any;
         expected.__indexed_buckets = {
-            id: { __bucket__keys: [1], 1: [{ id: 1, value: 'value' }] } as any,
-            value: { __bucket__keys: ['value'], 'value': [{ id: 1, value: 'value' }] } as any
+            id: { __bucket_keys: [1], 1: [{ id: 1, value: 'value' }] } as any,
+            value: { __bucket_keys: ['value'], 'value': [{ id: 1, value: 'value' }] } as any
         };
         const recieved = createIndex([{ id: 1, value: 'value' }], ['id', 'value']);
         expect(JSON.stringify(recieved)).toEqual(JSON.stringify(expected));

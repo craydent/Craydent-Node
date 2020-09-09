@@ -51,7 +51,7 @@ module.exports.primary = {
         "include"
     ],
     "function": ["emit", "getValue", "on", "namespace", "run_func_array"],
-    "http":[
+    "http": [
         "fillTemplate",
         "include",
         "isValidDate",
@@ -119,13 +119,13 @@ module.exports.secondary = {
     "fillTemplate": ["addFlags", "count", "cut", "eachProperty", "orderedlist", "removeAt", "startsWithAny"],
     // "getKeys": [],
     // "getValue": [],
-    "include": ["clearCache","relativePathFinder", "startsWithAny"],
+    "include": ["clearCache", "relativePathFinder", "startsWithAny"],
     "insertAt": ["_add_to_index"],
     "isSubset": ["contains"],
     // "keyOf": [],
     // "logit": [],
     "mkdirRecursive": ["startsWithAny"],
-     "on": ["emit"],
+    "on": ["emit"],
     // "orderedlist": [],
     // "parallelEach": [],
     // "parseBoolean": [],
@@ -141,7 +141,7 @@ module.exports.secondary = {
     // "toCurrencyNotiation": [],
     "toSet": ["removeAt"],
     "universal_trim": [],
-    "where":[
+    "where": [
         "_contains_comparisons",
         "average",
         "contains",
@@ -169,7 +169,7 @@ meta += "/*/\n\
 /*/---------------------------------------------------------/*/\n";
 module.exports.meta = meta;
 // module.exports = function (ctx) {\n",
-    // post_text = "};";
+// post_text = "};";
 module.exports.details = {
     "array": {
         "description": "Node module to extend array functionality and simplify code for maintainability and readability",
@@ -220,7 +220,7 @@ module.exports.details = {
             "control flow"
         ]
     },
-    "http":{
+    "http": {
         "description": "Node module http servers and routing",
         "keywords": [
             "ajax",

@@ -2,7 +2,6 @@ import error from './error';
 import { WhereCondition, IndexedArray, DeleteOptions } from '../models/Arrays';
 import equals from './equals';
 import contains from './contains';
-import { __queryNestedProperty, _subQuery } from './where';
 import { _containsLessThan, _containsLessThanEqual, _containsGreaterThan, _containsGreaterThanEqual, _containsType, _containsMod } from '../protected/_containsComparisons';
 import isNull from './isNull';
 import isArray from './isArray';
@@ -13,6 +12,9 @@ import isRegExp from './isRegExp';
 import isString from './isString';
 import parseBoolean from './parseBoolean';
 import _removeFromIndex from '../protected/_removeFromIndex';
+import getProperty from './getProperty';
+import __queryNestedProperty from '../private/__queryNestedProperty';
+import _subQuery from '../protected/_subQuery';
 
 export default function deleteIt<T>(objs: T[], condition?: WhereCondition, justOne?: boolean): T[];
 export default function deleteIt<T>(objs: T[], condition?: WhereCondition, options?: DeleteOptions): T[];
@@ -34,7 +36,9 @@ export default function deleteIt<T>(objs, condition?, justOne?): T[] {
             _cgt = _containsGreaterThan,
             _cgte = _containsGreaterThanEqual,
             _ct = _containsType,
-            _cm = _containsMod;
+            _cm = _containsMod,
+            _getProperty = getProperty,
+            _parseBoolean = parseBoolean;
         justOne = parseBoolean(isNull(justOne) ? true : isNull((justOne as DeleteOptions).justOne, justOne));
         // if no condition was given, remove all
         if (!condition) { return docs.splice(0, justOne ? 1 : docs.length); }

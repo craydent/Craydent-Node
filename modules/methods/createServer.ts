@@ -8,9 +8,14 @@ import isArray from './isArray';
 import isFunction from './isFunction';
 import isGenerator from './isGenerator';
 import isAsync from './isAsync';
+import isBoolean from './isBoolean';
+import isRegExp from './isRegExp';
+import isInt from './isInt';
+import isValidEmail from './isValidEmail';
 import ServerManager from './ServerManager';
 import __setPath from '../private/__setPath'
-import { CraydentHttp } from '../models/CraydentHttp'
+import { $c } from '../private/__common'
+import { CraydentHttp, Route, Parameter } from '../models/CraydentHttp'
 import logit from './logit';
 import strip from './strip';
 import equals from './equals';
@@ -29,11 +34,13 @@ import parseAdvanced from './parseAdvanced';
 import parseBoolean from './parseBoolean';
 import capitalize from './capitalize';
 import include from './include';
+import syncroit from './syncroit';
 import { AnyObject } from '../models/Arrays';
 
 export interface CreateServerOptions {
     createServer: typeof _http.createServer;
-    favicon: string;
+    favicon?: string;
+    callback?: Function;
 }
 export default function createServer(options: CreateServerOptions): CraydentHttp;
 export default function createServer(callback: Function, options?: CreateServerOptions): CraydentHttp;
@@ -54,12 +61,12 @@ export default function createServer(callback, options?): CraydentHttp {
     }|*/
     if (!callback || isObject(callback)) {
         options = callback;
-        callback = foo;
+        callback = options.callback || foo;
     }
     options = options || {};
-
+    const _syncroit = syncroit;
     const http: CraydentHttp = (options.createServer || _http.createServer)(function (request, response) {
-        let cray = new ServerManager(request, response);
+        var cray = new ServerManager(request, response);
         cray.server = http;
         $c.GarbageCollector = [];
 
@@ -70,11 +77,14 @@ export default function createServer(callback, options?): CraydentHttp {
                 response.writeHead(code, { "Content-Type": "image/x-icon" });
                 response.end(data);
             };
+            /* istanbul ignore else */
             if (options.favicon) {
                 try {
                     code = 200;
                     fs.readFile(options.favicon, function (err, data) {
-                        cb(err, data || cray.RESPONSES[code]);
+                        /* istanbul ignore next */
+                        data = data || cray.RESPONSES[code];
+                        cb(err, data);
                     });
                     return;
                 } catch (e) {
@@ -85,15 +95,27 @@ export default function createServer(callback, options?): CraydentHttp {
         }
         function onRequestReceived(methods: string[], body?: any) {
             try {
+                const isArrayLocal = isArray,
+                    isBooleanLocal = isBoolean,
+                    isIntLocal = isInt,
+                    isNumberLocal = isNumber,
+                    isObjectLocal = isObject,
+                    isRegExpLocal = isRegExp,
+                    isStringLocal = isString;
+
                 body = body || {};
-                let url = strip(request.url.split(/[?#]/)[0], '/'), params = merge<any, AnyObject, any>(body, cray.$GET() || {}), haveRoutes = false;
+                let url = strip(request.url.split(/[?#]/)[0], '/'),
+                    /* istanbul ignore next */
+                    params = merge<any, AnyObject, any>(body, cray.$GET() || {}),
+                    haveRoutes = false;
 
                 if (!equals(params, {})) {
                     cray.callback = params.callback || "";
                     delete params.callback;
                 }
-                let routes = where(http.routes, { method: { $in: methods } });
-                let i = 0, route, execute = [];
+                let routes: Route[] = where(http.routes, { method: { $in: methods } });
+                let i = 0, route: Route;
+                var execute = [];
                 while (route = routes[i++]) {
                     cray.rest = haveRoutes = true;
 
@@ -109,6 +131,7 @@ export default function createServer(callback, options?): CraydentHttp {
 
                         let var_regex = /\$\{(.*?)\}/;
                         for (let k = 0, l = 0, klen = Math.max(rout_parts.length, requ_parts.length); k < klen; k++, l++) {
+                            /* istanbul ignore next */
                             let ro = rout_parts[k], re = decodeURIComponent(replaceAll(requ_parts[l], '+', '%20')), prop = (ro || "").replace(var_regex, '$1'),
                                 qVal = params[prop];
                             if (ro == "*") {
@@ -117,11 +140,12 @@ export default function createServer(callback, options?): CraydentHttp {
                             if (var_regex.test(ro)) {
                                 if (qVal) {
                                     qVal = decodeURIComponent(replaceAll(qVal, '+', '%20'));
-                                    vars[prop] = tryEval(qVal) || qVal;
+                                    vars[prop] = tryEval(qVal, JSON.parse) || qVal;
                                     l--;
                                     continue;
                                 }
-                                vars[prop] = tryEval(re) || re;
+                                /* istanbul ignore next */
+                                vars[prop] = tryEval(re, JSON.parse) || re;
                             } else if (ro != re) {
                                 no_route = true;
                                 break;
@@ -130,23 +154,28 @@ export default function createServer(callback, options?): CraydentHttp {
                     }
                     if (!no_route) {
                         for (let prop in params) {
+                            /* istanbul ignore if */
                             if (!params.hasOwnProperty(prop)) { continue; }
                             let val = vars[prop] || params[prop], obj;
+                            /* istanbul ignore next */
                             vars[prop] = isNull(params[prop]) ? undefined : (isString(val) ? decodeURIComponent(replaceAll(val, '+', '%20')) : val);
 
                             obj = tryEval(vars[prop], parseAdvanced) || vars[prop];
                             // this is probably a date
+                            /* istanbul ignore if */
                             if (isNumber(obj) && obj.toString() != vars[prop]) {
                                 continue;
                             }
                             vars[prop] = obj;
                         }
                         let parameters = route.parameters || [],
-                            p = 0, parameter, bad = [];
+                            p = 0, parameter: Parameter, bad = [];
+
+
                         while (parameter = parameters[p++]) {
                             let name = parameter.name, type = (parameter.type || "").toLowerCase();
                             if (parameter.required && isNull(vars[name])) {
-                                bad.push("Required parameter " + name + " was not provided.");
+                                bad.push(`Required parameter ${name} was not provided.`);
                                 continue;
                             }
                             vars[name] = vars[name] || parameter.default;
@@ -155,25 +184,33 @@ export default function createServer(callback, options?): CraydentHttp {
                                 let dt = new Date(vars[name]);
                                 if (isValidDate(dt)) {
                                     vars[name] = dt;
-                                } else {
-                                    bad.push("Invalid parameter type, " + name + " must be a " + type + ".");
+                                } else if (parameter.required || !isNull(vars[name])) {
+                                    bad.push(`Invalid parameter type, ${name} must be a ${type}.`);
                                 }
                                 continue;
                             }
-
-                            if (type && type != "string") {
+                            if (type == "email") {
+                                if (!isValidEmail(vars[name]) && (parameter.required || !isNull(vars[name]))) {
+                                    bad.push(`Invalid parameter type, ${name} must be a ${type}.`);
+                                }
+                                continue;
+                            }
+                            if (type) {
                                 if (type == "regexp") { type = "RegExp"; }
-                                let checker = eval(`is${capitalize(type)}`), value = tryEval(vars[name], parseAdvanced);
-                                if (type == "bool") {
+                                let checker, value;
+                                if (type == "bool" || type == 'boolean') {
                                     type = "boolean";
-                                    checker = "isBoolean";
+                                    checker = isBoolean;
                                     value = parseBoolean(value, true);
                                     vars[name] = parseBoolean(vars[name], true);
+                                } else {
+                                    checker = eval(`is${capitalize(type)}Local`), value = tryEval(vars[name], parseAdvanced);
                                 }
 
-                                if (!checker(value) && !checker(vars[name])) {
+                                if (!checker(value) && !checker(vars[name]) && (parameter.required || !isNull(vars[name]))) {
+                                    /* istanbul ignore next */
                                     let an = type[0] in { a: 1, e: 1, i: 1, o: 1, u: 1 } ? "an" : "a";
-                                    bad.push("Invalid parameter type, " + name + " must be " + an + " " + type + ".");
+                                    bad.push(`Invalid parameter type, ${name} must be ${an} ${type}.`);
                                     continue;
                                 }
                                 vars[name] = value || vars[name];
@@ -187,39 +224,15 @@ export default function createServer(callback, options?): CraydentHttp {
                         }
                     }
                 }
-                if (execute.length) {
 
-                    function setUpNext(exec, i) {
-                        i++;
-                        if (isFunction(exec[0])) {
-                            return function () {
-                                exec[0] && exec[0].call(cray, request, response, execute[`v${i}`], setUpNext(exec.slice(1), i));
-                            }
-                        }
-                        if (isGenerator(exec[0])) {
-                            return eval("function* () {exec[0] && exec[0].call(cray, request, response, execute['v' + i], setUpNext(exec.slice(1), i));}");
-                        }
-                        if (isAsync(exec[0])) {
-                            return eval("(async function () {exec[0] && (await exec[0].call(cray, request, response, execute['v' + i], setUpNext(exec.slice(1), i)));})()");
-                        }
-                    }
-                    if (isGenerator(execute[0])) {
-                        eval("$s.syncroit(function*(){_complete(yield* execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1)));});");
-                    } else if (isAsync(execute[0])) {
-                        eval("(async function(){_complete(await execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1)));})();");
-                    } else {
-                        _complete(execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1)));
-                    }
-
-
-                } else { _complete(); }
-                function _complete(value?) {
-                    if (haveRoutes && callback == foo) {
-                        return cray.send(404, cray.RESPONSES["404"]);
+                var _complete = (value?) => {
+                    if (isNull(value) && haveRoutes && callback == foo) {
+                        return Promise.resolve(cray.send(404, cray.RESPONSES["404"]));
                     }
 
 
                     // look for other node apps
+                    /* istanbul ignore next */
                     if (~url.indexOf(':')) {
                         let parts = url.split(':'),
                             appPath = parts[0],
@@ -262,15 +275,76 @@ export default function createServer(callback, options?): CraydentHttp {
                         }
                     }
                     if (isGenerator(callback)) {
-                        eval("$s.syncroit(function* (){ return (yield* callback.call(cray, request, response, value)); }).then(_cleanup);");
+                        return eval(`_syncroit(function* () {
+                            var cb = callback.bind(cray);
+                            return yield* cb(request, response, value);
+                        }).then(_cleanup);`);
                     } else if (isAsync(callback)) {
-                        eval("(async function (){ return (await callback.call(cray, request, response, value)); })().then(_cleanup);");
+                        return eval(`(async function (){
+                            var cb = callback.bind(cray);
+                            return await cb(request, response, value); })()
+                            .then(_cleanup);`);
                     } else {
-                        _cleanup(callback.call(cray, request, response, value));
+                        return Promise.resolve(_cleanup(callback.call(cray, request, response, value)));
                     }
+                };
+                if (execute.length) {
 
+                    var setUpNext = (exec, i) => {
+                        i++;
+                        if (isGenerator(exec[0])) {
+                            // return eval(`(function(){return _syncroit(function* () { if (exec[0]){ return yield* exec[0].call(cray, request, response, execute['v${i}'], setUpNext(exec.slice(1), ${i}));}})})`);
+                            return eval(`(function () {
+                                return _syncroit(function* () {
+                                    if (exec[0]) {
+                                        var e = exec[0].bind(cray);
+                                        var next = setUpNext(exec.slice(1), ${i});
+                                        return yield* e(request, response, execute['v${i}'], next);
+                                    }
+                                })
+                            })`);
+                        }
+                        if (isAsync(exec[0])) {
+                            // return eval(`(async function () {exec[0] && (await exec[0].call(cray, request, response, execute['v${i}'], setUpNext(exec.slice(1), ${i})));})`);
+                            return eval(`(async function () {
+                                if (exec[0]) {
+                                    var e = exec[0].bind(cray);
+                                    var next = setUpNext(exec.slice(1), ${i});
+                                    return await e(request, response, execute['v${i}'], next);
+                                }
+                            })`);
+                        }
+                        if (isFunction(exec[0])) {
+                            return function () {
+                                /* istanbul ignore else */
+                                if (exec[0]) {
+                                    var e = exec[0].bind(cray);
+                                    var next = setUpNext(exec.slice(1), i);
+                                    return e(request, response, execute[`v${i}`], next);
+                                }
+                            }
+                        }
+                    }
+                    if (isGenerator(execute[0])) {
+                        return eval(`_syncroit(function* () {
+                            var e = execute[0].bind(cray);
+                            var next = setUpNext(execute.slice(1), 1);
+                            var result = yield* e(request, response, execute['v1'], next);
+                            yield _complete(result);
+                        })`);
+                    }
+                    if (isAsync(execute[0])) {
+                        return eval(`(async function () {
+                            var e = execute[0].bind(cray);
+                            var next = setUpNext(execute.slice(1), 1);
+                            var result = await e(request, response, execute['v1'], next);
+                            await _complete(result);
+                        })()`);
+                    }
+                    return _complete(execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1)));
                 }
-            } catch (e) {
+                return _complete();
+            } catch (e) /* istanbul ignore next */ {
                 error('createServer.onRequestReceived', e);
                 response.writeHead(500, (header as any).headers);
                 return cray.end(JSON.stringify(cray.RESPONSES["500"]));
@@ -285,6 +359,7 @@ export default function createServer(callback, options?): CraydentHttp {
             request.on('data', function (data) {
                 body += data;
                 // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+                /* istanbul ignore if */
                 if (body.length > 1e6) {
                     // FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
                     request.connection.destroy();
@@ -292,31 +367,46 @@ export default function createServer(callback, options?): CraydentHttp {
             });
             request.on('end', function () {
                 cray.raw = body;
-                if (request.method == "POST") { body = cray.$PAYLOAD(); }
+                let method = request.method.toLowerCase();
+                // if ( == "post") { body = cray.$PAYLOAD(); }
+                /* istanbul ignore next */
                 let ct = cray.$HEADER('content-type', 'i') || "";
+                /* istanbul ignore else */
                 if (~ct.indexOf('/json')) {
-                    body = tryEval(body);
+                    body = tryEval(body, JSON.parse);
                 } else if (~ct.indexOf('/x-www-form-urlencoded') || ~ct.indexOf('text/plain')) {
                     body = toObject(body) as any;
                 }
-                onRequestReceived(["all", request.method.toLowerCase(), "middleware"], body);
+                /* istanbul ignore else */
+                if (isObject(body)) {
+                    cray.rawData = cray.rawData || { post: null, delete: null, put: null };
+                    cray.rawData[method] = cray.rawData[method] || {};
+                    cray.rawData[method] = body;
+                }
+
+                return onRequestReceived(["all", request.method.toLowerCase(), "middleware"], body);
             });
         } else {
-            onRequestReceived(["all", "get", "middleware"]);
+            return onRequestReceived(["all", "get", "middleware"]);
         }
     });
     http.loadBalance = function (ips): CraydentHttp {
         let list = isString(ips) ? (ips as string).split(',') : ips,
             len = list.length;
-        $c.BALANCE_SERVER_LIST = list as string[];
+        /* istanbul ignore next */
+        $c.BALANCE_SERVER_LIST = $c.BALANCE_SERVER_LIST || [];
 
+        /* istanbul ignore else */
         if (isArray(list)) {
             let ip, i = 0;
             while (ip = list[i++]) {
+                /* istanbul ignore if */
                 if (!/^\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3}$/.test(ip)) { break; }
+                $c.BALANCE_SERVER_LIST.push(ip);
                 if (i == len) { return this; }
             }
         }
+        /* istanbul ignore next */
         throw "parameter must be a string or an array of ip addresses";
     };
 
@@ -328,7 +418,7 @@ export default function createServer(callback, options?): CraydentHttp {
         }
         callback = (callback || []) as any;
         if (isFunction(callback) || isGenerator(path) || isAsync(path)) { callback = [callback] as any; }
-        http.routes.push({ path: path, callback: callback, method: 'middleware' });
+        http.routes.push({ path, callback, method: 'middleware' });
     };
 
     http.delete = function (path, callback) { __setPath("delete", http, path, callback); };

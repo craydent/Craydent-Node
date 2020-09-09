@@ -1,5 +1,4 @@
 import update from '../../modules/methods/update';
-import { __queryNestedProperty, _subQuery, __pullHelper } from '../../modules/methods/where';
 
 describe('update', () => {
 

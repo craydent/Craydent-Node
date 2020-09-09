@@ -1,7 +1,6 @@
 //#region imports
 import error from './error';
 import { MongoSet, WhereCondition } from '../models/Arrays';
-import { _processClause, __queryNestedProperty, _subQuery, __pullHelper } from './where';
 import _generalTrim from '../protected/_generalTrim';
 import {
     _containsLessThan,
@@ -27,6 +26,11 @@ import deleteIt from './delete';
 import insertBefore from './insertBefore';
 import sortBy from './sortBy';
 import tryEval from './tryEval';
+import parseBoolean from './parseBoolean';
+import _processClause from '../protected/_processClause';
+import __queryNestedProperty from '../private/__queryNestedProperty';
+import _subQuery from '../protected/_subQuery';
+import __pullHelper from '../private/__pullHelper';
 //#endregion imports
 
 export interface UpdateOptions {
@@ -78,7 +82,9 @@ export default function update<T>(arr: T[], condition: WhereCondition | string, 
             _isObject = isObject,
             _isString = isString,
             _isRegExp = isRegExp,
-            _isInt = isInt;
+            _isInt = isInt,
+            _getProperty = getProperty,
+            _parseBoolean = parseBoolean;
         let _refs = [], ifblock = _subQuery(condition, null, null, _refs), func = `
             (function (record,i) {
             	var values,finished;

@@ -13,7 +13,7 @@ export default function _removeFromIndex(buckets: AnyObject, obj: AnyObject): vo
         }
         if (!sarr.length) {
             delete buckets[prop][obj[prop]];
-            let keys = buckets[prop].__bucket__keys;
+            let keys = buckets[prop].__bucket_keys;
             keys.splice(keys.indexOf(obj[prop]), 1);
         }
     }

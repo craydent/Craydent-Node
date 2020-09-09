@@ -4,7 +4,6 @@
     "description": "node library based on craydent-1.9.3",
     "main": "index.js",
     "scripts": {
-        "test": "./local_scripts/test.sh",
         "testTypes": "./local_scripts/testtypes.js",
         "testMain": "jasmine-node test/ --color --autotest --watch index.js --match -main-",
         "testNoConflict": "jasmine-node test/ --color --autotest --watch index.js --match -noconflict-",
@@ -18,7 +17,10 @@
         "buildDev": "./local_scripts/buildDev.sh",
         "build": "./local_scripts/build.sh",
         "generateTypes": "./local_scripts/generate_types.js",
-        "transpile": "./local_scripts/build.js && tsc"
+        
+        "test": "jest --coverage",
+        "transpileDev": "./local_scripts/buildDev.js && tsc",
+        "transpile": "./local_scripts/buildProd.js && tsc"
     },
     "repository": {
         "type": "git",

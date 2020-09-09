@@ -9,7 +9,6 @@ import {
 } from '../protected/_containsComparisons';
 import contains from './contains';
 import equals from './equals';
-import { __queryNestedProperty, _subQuery, __pullHelper } from './where';
 import isNull from './isNull';
 import isArray from './isArray';
 import isFunction from './isFunction';
@@ -20,6 +19,10 @@ import isString from './isString';
 import add from './add';
 import duplicate from './duplicate';
 import merge from './merge';
+import getProperty from './getProperty';
+import parseBoolean from './parseBoolean';
+import __queryNestedProperty from '../private/__queryNestedProperty';
+import _subQuery from '../protected/_subQuery';
 
 export interface UpsertResults<T> {
     insertedIndexes: T[],
@@ -91,7 +94,9 @@ export default function upsert<T>(arr, records, prop?, callback?): UpsertResults
             _isObject = isObject,
             _isString = isString,
             _isRegExp = isRegExp,
-            _isInt = isInt;
+            _isInt = isInt,
+            _getProperty = getProperty,
+            _parseBoolean = parseBoolean;
         let _refs = [],
             ifblock = _subQuery(condition, null, null, _refs),
             func = `

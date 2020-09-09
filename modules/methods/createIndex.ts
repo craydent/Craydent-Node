@@ -3,6 +3,7 @@ import condense from './condense';
 import isArray from './isArray';
 import { IndexedArray, IndexedBucket } from '../models/Arrays';
 import isNull from './isNull';
+import isObject from './isObject';
 
 export default function createIndex<T>(objs: T[], indexes: string | string[]): IndexedArray<T> {
     try {
@@ -17,8 +18,8 @@ export default function createIndex<T>(objs: T[], indexes: string | string[]): I
             let prop = indexes[i].trim();
             subArr = subArr.slice();
 
-            let bucket = arr.__indexed_buckets[prop] = {} as IndexedBucket;
-            let keys = bucket.__bucket__keys = [];
+            let bucket = arr.__indexed_buckets[prop] = {} as IndexedBucket<T>;
+            let keys = bucket.__bucket_keys = [];
 
             subArr.sort(function (a, b) {
                 if (a[prop] < b[prop]) { return -1; }

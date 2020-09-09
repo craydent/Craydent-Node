@@ -10,7 +10,9 @@ export default function __processAttributes(node: string, refs: any): AnyObject 
         tag = node.substring(1, tagend),
         attIndex = tag.search(/\s|>/),
         attr = !~attIndex ? "" : tag.substring(attIndex),
-        text = node.substring(tagend + 1, node.indexOf('<', tagend));
+        textEnd = node.indexOf('<', tagend),
+        text = node.substring(tagend + 1, textEnd);
+    if (!~textEnd) { text = ''; }
 
     // self closing
     if (attr[attr.length - 1] == "/") {
