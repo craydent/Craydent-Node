@@ -14,6 +14,8 @@ import {
     AnyObject
 } from '../models/Arrays';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 //#region dependencies
 const aboutEqualTo: typeof IAboutEqualTo.default = require('../methods/aboutEqualTo').default;
 const contains: typeof IContains.default = require('../methods/contains').default;
@@ -75,7 +77,7 @@ export function _equals(compare, props?): boolean {
 }
 
 export function _getValue(this: number, args?: any[], dflt?: any): any {
-    return getValue(this, args, dflt);
+    return getValue(this as any, args, dflt);
 }
 export function _aboutEqualTo(compare, giveOrTake): boolean {
     /*|{

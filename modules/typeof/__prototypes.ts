@@ -19,6 +19,8 @@ import isPromise from '../methods/isPromise';
 import isRegExp from '../methods/isRegExp';
 import isString from '../methods/isString';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 
 export function _isArray(this: any): boolean {
     /*|{

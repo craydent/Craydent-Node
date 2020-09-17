@@ -1,5 +1,4 @@
-import error from './error';
-import $COMMIT from './$COMMIT';
+import { $ROLLBACK as RB } from './$COMMIT';
 
 export default function $ROLLBACK() {
     /*|{
@@ -13,13 +12,5 @@ export default function $ROLLBACK() {
         "url": "http://www.craydent.com/library/1.9.3/docs#$ROLLBACK",
         "returnType": "(void)"
     }|*/
-    try {
-        delete $COMMIT['update'];
-        delete $COMMIT['noHistory'];
-        delete $COMMIT['search'];
-        delete $COMMIT['hash'];
-        delete $COMMIT['onhashchange'];
-    } catch (e) /* istanbul ignore next */ {
-        error && error('$ROLLBACK', e);
-    }
+    RB();
 }

@@ -7,6 +7,8 @@ import * as IGetWeek from '../methods/getWeek';
 import * as IIsValidDate from '../methods/isValidDate';
 import * as INow from '../methods/now';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 //#region dependencies
 const equals: typeof IEquals.default = require('../methods/equals').default;
 const format: typeof IFormat.default = require('../methods/format').default;
@@ -49,7 +51,7 @@ export function _getGMTOffset(this: Date): number {
 }
 
 export function _getValue(this: Date, args?: any[], dflt?: any): any {
-    return getValue(this, args, dflt);
+    return getValue(this as any, args, dflt);
 }
 
 export function _getWeek(this: Date): number {

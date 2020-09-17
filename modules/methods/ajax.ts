@@ -441,15 +441,18 @@ function _ajaxJS(params, returnData): Promise<any> {
                             ]
                         );
                     }
-                    done && runFuncArray.call(ctx, params.oncomplete, [data, params.hitch, this, xp, this.status]);
-                    /* istanbul ignore next */
-                    let rtn = data || body.data;
-                    if (returnData == "response" || returnData == "res") {
-                        rtn = xp;
-                    } else if (returnData == "request" || returnData == "req") {
-                        rtn = httpRequest;
+                    /* istanbul ignore else */
+                    if (done) {
+                        runFuncArray.call(ctx, params.oncomplete, [data, params.hitch, this, xp, this.status]);
+                        /* istanbul ignore next */
+                        let rtn = data || body.data;
+                        if (returnData == "response" || returnData == "res") {
+                            rtn = xp;
+                        } else if (returnData == "request" || returnData == "req") {
+                            rtn = httpRequest;
+                        }
+                        resrej(rtn);
                     }
-                    resrej(rtn);
                 };
                 httpRequest.open(params.method, params.url, true);
                 httpRequest.setRequestHeader("Content-type", params.contentType);

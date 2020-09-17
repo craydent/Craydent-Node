@@ -52,9 +52,10 @@ if (!$c.MODULES_LOADED[info.name]) {
 
     ext(String, 'xmlToJson', prototypes._xmlToJson, true);
     typeof XMLDocument != 'undefined' && ext(XMLDocument, "xmlToJson", prototypes._xmlToJson, true);
+    $c.xmlToJson = IXmlToJson.default;
 
     //#region global
     $c.globalize();
     //#endregion global
 }
-export default $c;
+export default $c as Craydent;

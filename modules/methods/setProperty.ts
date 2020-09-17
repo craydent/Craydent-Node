@@ -3,7 +3,7 @@ import strip from './strip';
 import isArray from './isArray';
 import isObject from './isObject';
 
-export default function setProperty<T>(obj: T, path: string, value: any, delimiter?: string): T {
+export default function setProperty<T>(obj: T, path: string, value: any, delimiter?: string): boolean {
     /*|{
         "info": "Object class extension to set nested properties creating necessary property paths",
         "category": "Object",
@@ -28,7 +28,7 @@ export default function setProperty<T>(obj: T, path: string, value: any, delimit
         let i = 0, prop, len = props.length, pobj, pprop;
         while (prop = props[i++]) {
             if (i == len) {
-                return obj[prop] = value, original;
+                return obj[prop] = value, true;
             }
             if (pobj && pprop && !isArray(pobj[pprop]) && parseInt(prop) >= 0 && !obj.hasOwnProperty(prop)) {
                 let tmp = pobj[pprop];

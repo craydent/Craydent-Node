@@ -1,4 +1,3 @@
-import { AccumulatorMeta } from "../methods/where";
 import isNull from "../methods/isNull";
 import average from "../methods/average";
 import stdev from "../methods/stdev";
@@ -63,6 +62,7 @@ export interface MongoExpression {
     $cond?: any
     $ifNull?: any;
 }
+export type AccumulatorMeta<T> = { length: number, index: number, sample: T[] };
 const literalKeys = ['$literal'],
     boolKeys = ['$and', '$or', '$not'],
     setKeys = ['$setEquals', '$setIntersection', '$setUnion', '$setDifference', '$setIsSubset', '$anyElementTrue', '$allElementsTrue'],

@@ -1,7 +1,6 @@
 import error from './error';
 import _invokeHashChange from '../protected/_invokeHashChange';
 import $COOKIE from './$COOKIE';
-import $ROLLBACK from './$ROLLBACK';
 import { VerbOptions } from '../models/VerbOptions';
 
 export default function $COMMIT(options?: VerbOptions) {
@@ -43,5 +42,16 @@ export default function $COMMIT(options?: VerbOptions) {
         }
     } catch (e) /* istanbul ignore next */ {
         error && error('$COMMIT', e);
+    }
+}
+export function $ROLLBACK() {
+    try {
+        delete $COMMIT['update'];
+        delete $COMMIT['noHistory'];
+        delete $COMMIT['search'];
+        delete $COMMIT['hash'];
+        delete $COMMIT['onhashchange'];
+    } catch (e) /* istanbul ignore next */ {
+        error && error('$ROLLBACK', e);
     }
 }

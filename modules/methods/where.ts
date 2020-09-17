@@ -490,7 +490,6 @@ export function _searchRange<T>(sarr_arg: IndexedBucket<T>, options: SearchRange
     return sarr[value];
 }
 
-export type AccumulatorMeta<T> = { length: number, index: number, sample: T[] };
 export type MongoQuery = any;
 export type WhereProjection = string | string[] | boolean | Fields;
 export default function where<T>(objs: AnyObjects, condition?: MongoQuery, limit?: number): T[];

@@ -68,53 +68,55 @@ import * as IUpsert from '../methods/upsert';
 import * as IWhere from '../methods/where';
 import { _containsMod, _containsType } from '../protected/_containsComparisons';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 //#region dependencies
-const add: typeof IAdd.default = require('../methods/add');
-const aggregate: typeof IAggregate.default = require('../methods/aggregate');
-const average: typeof IAverage.default = require('../methods/average');
-const buildTree: typeof IBuildTree.default = require('../methods/buildTree');
-const condense: typeof ICondense.default = require('../methods/condense');
-const contains: typeof IContains.default = require('../methods/contains');
-const count: typeof ICount.default = require('../methods/count');
-const createIndex: typeof ICreateIndex.default = require('../methods/createIndex');
-const deleteIt: typeof IDeleteIt.default = require('../methods/delete');
-const distinct: typeof IDistinct.default = require('../methods/distinct');
-const equals: typeof IEquals.default = require('../methods/equals');
-const filter: typeof IFilter.default = require('../methods/filter');
-const find: typeof IFind.default = require('../methods/find');
-const findOne: typeof IFindOne.default = require('../methods/findOne');
-const every: typeof IEvery.default = require('../methods/every');
-const getValue: typeof IGetValue.default = require('../methods/getValue');
-const group: typeof IGroup.default = require('../methods/group');
-const indexOfAlt: typeof IIndexOfAlt.default = require('../methods/indexOfAlt');
-const innerJoin: typeof IInnerJoin.default = require('../methods/innerJoin');
-const insert: typeof IInsert.default = require('../methods/insert');
-const insertAfter: typeof IInsertAfter.default = require('../methods/insertAfter');
-const insertAt: typeof IInsertAt.default = require('../methods/insertAt');
-const insertBefore: typeof IInsertBefore.default = require('../methods/insertBefore');
-const isEmpty: typeof IIsEmpty.default = require('../methods/isEmpty');
-const isSubset: typeof IIsSubset.default = require('../methods/isSubset');
-const joinLeft: typeof IJoinLeft.default = require('../methods/joinLeft');
-const joinRight: typeof IJoinRight.default = require('../methods/joinRight');
-const last: typeof ILast.default = require('../methods/last');
-const limit: typeof ILimit.default = require('../methods/limit');
-const map: typeof IMap.default = require('../methods/map');
-const mapReduce: typeof IMapReduce.default = require('../methods/mapReduce');
-const normalize: typeof INormalize.default = require('../methods/normalize');
-const parallelEach: typeof IParallelEach.default = require('../methods/parallelEach');
-const remove: typeof IRemove.default = require('../methods/remove');
-const removeAll: typeof IRemoveAll.default = require('../methods/removeAll');
-const removeAt: typeof IRemoveAt.default = require('../methods/removeAt');
-const replaceAt: typeof IReplaceAt.default = require('../methods/replaceAt');
-const scramble: typeof IScramble.default = require('../methods/scramble');
-const sortBy: typeof ISortBy.default = require('../methods/sortBy');
-const stdev: typeof IStdev.default = require('../methods/stdev');
-const sum: typeof ISum.default = require('../methods/sum');
-const toSet: typeof IToSet.default = require('../methods/toSet');
-const universalTrim: typeof IUniversalTrim.default = require('../methods/universalTrim');
-const update: typeof IUpdate.default = require('../methods/update');
-const upsert: typeof IUpsert.default = require('../methods/upsert');
-const where: typeof IWhere.default = require('../methods/where');
+const add: typeof IAdd.default = require('../methods/add').default;
+const aggregate: typeof IAggregate.default = require('../methods/aggregate').default;
+const average: typeof IAverage.default = require('../methods/average').default;
+const buildTree: typeof IBuildTree.default = require('../methods/buildTree').default;
+const condense: typeof ICondense.default = require('../methods/condense').default;
+const contains: typeof IContains.default = require('../methods/contains').default;
+const count: typeof ICount.default = require('../methods/count').default;
+const createIndex: typeof ICreateIndex.default = require('../methods/createIndex').default;
+const deleteIt: typeof IDeleteIt.default = require('../methods/delete').default;
+const distinct: typeof IDistinct.default = require('../methods/distinct').default;
+const equals: typeof IEquals.default = require('../methods/equals').default;
+const filter: typeof IFilter.default = require('../methods/filter').default;
+const find: typeof IFind.default = require('../methods/find').default;
+const findOne: typeof IFindOne.default = require('../methods/findOne').default;
+const every: typeof IEvery.default = require('../methods/every').default;
+const getValue: typeof IGetValue.default = require('../methods/getValue').default;
+const group: typeof IGroup.default = require('../methods/group').default;
+const indexOfAlt: typeof IIndexOfAlt.default = require('../methods/indexOfAlt').default;
+const innerJoin: typeof IInnerJoin.default = require('../methods/innerJoin').default;
+const insert: typeof IInsert.default = require('../methods/insert').default;
+const insertAfter: typeof IInsertAfter.default = require('../methods/insertAfter').default;
+const insertAt: typeof IInsertAt.default = require('../methods/insertAt').default;
+const insertBefore: typeof IInsertBefore.default = require('../methods/insertBefore').default;
+const isEmpty: typeof IIsEmpty.default = require('../methods/isEmpty').default;
+const isSubset: typeof IIsSubset.default = require('../methods/isSubset').default;
+const joinLeft: typeof IJoinLeft.default = require('../methods/joinLeft').default;
+const joinRight: typeof IJoinRight.default = require('../methods/joinRight').default;
+const last: typeof ILast.default = require('../methods/last').default;
+const limit: typeof ILimit.default = require('../methods/limit').default;
+const map: typeof IMap.default = require('../methods/map').default;
+const mapReduce: typeof IMapReduce.default = require('../methods/mapReduce').default;
+const normalize: typeof INormalize.default = require('../methods/normalize').default;
+const parallelEach: typeof IParallelEach.default = require('../methods/parallelEach').default;
+const remove: typeof IRemove.default = require('../methods/remove').default;
+const removeAll: typeof IRemoveAll.default = require('../methods/removeAll').default;
+const removeAt: typeof IRemoveAt.default = require('../methods/removeAt').default;
+const replaceAt: typeof IReplaceAt.default = require('../methods/replaceAt').default;
+const scramble: typeof IScramble.default = require('../methods/scramble').default;
+const sortBy: typeof ISortBy.default = require('../methods/sortBy').default;
+const stdev: typeof IStdev.default = require('../methods/stdev').default;
+const sum: typeof ISum.default = require('../methods/sum').default;
+const toSet: typeof IToSet.default = require('../methods/toSet').default;
+const universalTrim: typeof IUniversalTrim.default = require('../methods/universalTrim').default;
+const update: typeof IUpdate.default = require('../methods/update').default;
+const upsert: typeof IUpsert.default = require('../methods/upsert').default;
+const where: typeof IWhere.default = require('../methods/where').default;
 //#endregion
 
 export function _add(this: any[], item: any): boolean {
@@ -418,7 +420,7 @@ export function _getValue(this: any[], args?: any[], dflt?: any): any {
         "typeParameter": "<T>",
         "returnType": "(any) the value of any type.  if the type is a method, it will execute the methed and use its return value."
     }|*/
-    return getValue(this, args, dflt);
+    return getValue(this as any, args, dflt);
 }
 export function _group<T>(this: T[], params: GroupOptions<T>, removeProps: boolean): T[] {
     /*|{

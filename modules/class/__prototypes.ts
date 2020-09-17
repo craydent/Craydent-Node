@@ -5,12 +5,14 @@ import * as IOrderedList from '../methods/orderedList';
 import * as IQueue from '../methods/queue';
 import * as ISet from '../methods/set';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 //#region dependencies
-const Benchmarker: typeof IBenchmarker.default = require('../methods/benchmarker');
-const Cursor: typeof ICursor.default = require('../methods/cursor');
-const OrderedList: typeof IOrderedList.default = require('../methods/orderedList');
-const Queue: typeof IQueue.default = require('../methods/queue');
-const Set: typeof ISet.default = require('../methods/set');
+const Benchmarker: typeof IBenchmarker.default = require('../methods/benchmarker').default;
+const Cursor: typeof ICursor.default = require('../methods/cursor').default;
+const OrderedList: typeof IOrderedList.default = require('../methods/orderedList').default;
+const Queue: typeof IQueue.default = require('../methods/queue').default;
+const Set: typeof ISet.default = require('../methods/set').default;
 //#endregion
 
 export { Benchmarker, Cursor, OrderedList, Queue, Set };

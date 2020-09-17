@@ -7,7 +7,7 @@
 /*/---------------------------------------------------------/*/
 ///<reference path="../globalTypes/global.vars.ts" />
 //#region imports
-import { $c, scope, info } from '../private/__common';
+import { $c, info } from '../private/__common';
 import * as IAddObjectPrototype from '../methods/addObjectPrototype';
 import * as ILogModule from '../private/__logModule';
 import * as IIsArray from '../methods/isArray';
@@ -152,7 +152,6 @@ declare global {
 }
 if (!$c.MODULES_LOADED[info.name]) {
     $c.ERROR_TYPES = $c.ERROR_TYPES || [];
-    scope.eval = str => eval(str);
     const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);
     const _ao: typeof IAddObjectPrototype.default = require('../methods/addObjectPrototype').default;
@@ -177,10 +176,10 @@ if (!$c.MODULES_LOADED[info.name]) {
     _ao("isObject", prototypes._isObject);
     _ao("isPromise", prototypes._isPromise);
     _ao("isRegExp", prototypes._isRegExp);
-    _ao("isString", prototypes._isRegExp);
+    _ao("isString", prototypes._isString);
     //#region global
     $c.globalize();
     //#endregion global
 
 }
-export default $c;
+export default $c as Craydent;

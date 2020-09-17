@@ -4,11 +4,13 @@ import * as IYieldable from '../methods/yieldable';
 import * as ISyncroit from '../methods/syncroit';
 import { Yieldables } from '../models/Arrays';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 //#region dependencies
-const parallelEach: typeof IParallelEach.default = require('../methods/parallelEach');
-const awaitable: typeof IAwaitable.default = require('../methods/awaitable');
-const yieldable: typeof IYieldable.default = require('../methods/yieldable');
-const syncroit: typeof ISyncroit.default = require('../methods/syncroit');
+const parallelEach: typeof IParallelEach.default = require('../methods/parallelEach').default;
+const awaitable: typeof IAwaitable.default = require('../methods/awaitable').default;
+const yieldable: typeof IYieldable.default = require('../methods/yieldable').default;
+const syncroit: typeof ISyncroit.default = require('../methods/syncroit').default;
 //#endregion
 
 export function _parallelEach(args: any[]): Promise<any[]>;

@@ -8,7 +8,7 @@
 ///<reference path="../globalTypes/global.vars.ts" />
 //#region imports
 //@ts-ignore
-import { $c, scope, info } from '../private/__common';
+import { $c, info } from '../private/__common';
 import * as ILogModule from '../private/__logModule';
 import * as IBenchmarker from '../methods/benchmarker';
 import * as ICursor from '../methods/cursor';
@@ -51,7 +51,6 @@ declare global {
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {
-    scope.eval = str => eval(str);
     const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);
     const prototypes: typeof IPrototypes = require('./__prototypes');
@@ -66,4 +65,4 @@ if (!$c.MODULES_LOADED[info.name]) {
     $c.globalize();
     //#endregion global
 }
-export default $c;
+export default $c as Craydent;

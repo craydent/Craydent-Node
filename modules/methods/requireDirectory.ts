@@ -33,13 +33,13 @@ export default function requireDirectory(path: string, options?: 'r' | 's' | 'rs
         "returnType": "(Promise<any>|any)"
     }|*/
     try {
-        let __basepath = arguments[2] || path,
+        let __basepath = arguments[2] || '',
             __objs = arguments[3] || {},
             __fs = arguments[4] || require('fs');
         options = options || { syncronous: false, recursive: false };
         let delimiter = "/";
 
-        path = endItWith(absolutePath(path), delimiter);
+        path = endItWith(absolutePath(path, 1), delimiter);
         __basepath = endItWith(__basepath, delimiter);
 
         let isSync = (options as RequireDirectoryOptions).syncronous;

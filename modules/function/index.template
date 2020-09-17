@@ -8,7 +8,7 @@
 ///<reference path="../globalTypes/global.vars.ts" />
 //#region imports
 //@ts-ignore
-import { $c, scope, info } from '../private/__common';
+import { $c, info } from '../private/__common';
 import * as ILogModule from '../private/__logModule';
 import * as IEquals from '../methods/equals';
 import * as INext from '../methods/next';
@@ -32,13 +32,21 @@ declare global {
         equals: typeof IEquals.default;
         next: typeof INext.default;
         emit: typeof IEmit.default;
-        extend: typeof IExtend.default;
         namespace: typeof INamespace.default;
+        extend: typeof IExtend.default;
+        toPromise: typeof IToPromise.default;
+        getParameters: typeof IGetParameters.default;
+        getName: typeof IGetName.default;
+        getValue: typeof IGetValue.default;
+        on: typeof IOn.default;
+        then: typeof IThen.default;
+        catch: typeof ICatch.default;
     }
     //#region proto
     interface Function {
         equals: typeof IPrototypes._equals;
         extend: typeof IPrototypes._extend;
+        toPromise: typeof IPrototypes._toPromise;
         getParameters: typeof IPrototypes._getParameters;
         getName: typeof IPrototypes._getName;
         getValue: typeof IPrototypes._getValue;
@@ -96,7 +104,6 @@ declare global {
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {
-    scope.eval = str => eval(str);
     const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);
     const ext: typeof IExt.default = require('../protected/_ext').default;
@@ -120,4 +127,4 @@ if (!$c.MODULES_LOADED[info.name]) {
     $c.globalize();
     //#endregion global
 }
-export default $c;
+export default $c as Craydent;

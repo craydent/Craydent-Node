@@ -12,6 +12,8 @@ import * as ICatch from '../methods/catch';
 import * as IOn from '../methods/on';
 import { AnyObject } from '../models/Arrays';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 //#region dependencies
 const equals: typeof IEquals.default = require('../methods/equals').default;
 const next: typeof INext.default = require('../methods/next').default;
@@ -46,7 +48,7 @@ export function _equals(compare, props?): boolean {
     return equals(this, compare, props);
 }
 export function _extend(this: Function, extendee: FunctionConstructor, inheritAsOwn?: boolean): Function {
-    return extend(this, extendee, inheritAsOwn);
+    return extend(this as any, extendee, inheritAsOwn);
 }
 export function _getParameters(this: Function,): string[] {
     return getParameters(this);
@@ -70,9 +72,9 @@ export function _on<T>(this: T, ev: string, func: Function): T {
         "url": "http://www.craydent.com/library/1.9.3/docs#function.on",
         "returnType": "(Function)"
     }|*/
-    return on<T>(this, ev, func);
+    return on(this as any, ev, func) as any;
 }
-export function _toPromise(this: Generator): Promise<any> {
+export function _toPromise(this: GeneratorFunction): Promise<any> {
     return toPromise(this);
 }
 export function _then(this: Function, callback: Function): Function {

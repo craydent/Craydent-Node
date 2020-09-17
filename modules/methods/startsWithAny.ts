@@ -11,7 +11,7 @@ import isNull from './isNull';
 
 export default function startsWithAny(subject: string, startsWith: string[]): string | false;
 export default function startsWithAny(subject: string, ...args): string | false;
-export default function startsWithAny(subject, ...args) {
+export default function startsWithAny(subject) {
     /*|{
         "info": "String class extension to check if the string starts with the given string",
         "category": "String",

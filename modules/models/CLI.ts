@@ -9,12 +9,12 @@ export interface CLIOptions {
     optionsDescription?: string;
     description?: string;
     commands?: AnyObject;
-    options?: Options[];
+    options?: Option[];
     notes?: string;
 }
 export interface Option {
     option: string;
-    type: string;
+    type?: string;
     description: string;
     default?: any;
     command?: string;

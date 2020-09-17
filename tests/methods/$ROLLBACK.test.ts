@@ -1,14 +1,14 @@
 import $ROLLBACK from '../../modules/methods/$ROLLBACK';
 import * as $COMMIT from '../../modules/methods/$COMMIT';
-jest.mock('../../modules/methods/$COMMIT', () => {
-    return {
-        "default": {}
-    }
-});
+// jest.mock('../../modules/methods/$COMMIT', () => {
+//     return {
+//         "default": {}
+//     }
+// });
 describe('$ROLLBACK', () => {
     describe('JS', () => {
         beforeEach(() => {
-            ($COMMIT as any).default = {};
+            // ($COMMIT as any).default = {};
         });
         it('should run reset all committed values logic using global', () => {
             const commit: any = $COMMIT;

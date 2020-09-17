@@ -8,7 +8,7 @@
 ///<reference path="../globalTypes/global.vars.ts" />
 //#region imports
 //@ts-ignore
-import { $c, scope, info } from '../private/__common';
+import { $c, info } from '../private/__common';
 import * as ILogModule from '../private/__logModule';
 import * as IExt from '../protected/_ext';
 import * as IFillTemplate from '../methods/fillTemplate';
@@ -33,7 +33,6 @@ declare global {
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {
-    scope.eval = str => eval(str);
     const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);
     const ext: typeof IExt.default = require('../protected/_ext').default;
@@ -43,11 +42,12 @@ if (!$c.MODULES_LOADED[info.name]) {
     $c.TEMPLATE_VARS = $c.TEMPLATE_VARS || prototypes.TEMPLATE_VARS;
     $c.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || prototypes.TEMPLATE_TAG_CONFIG;
 
+    $c.fillTemplate = IFillTemplate.default;
     //#region global
     $c.globalize();
     //#endregion global
 }
-export default $c;
+export default $c as Craydent;
 
 
 

@@ -94,6 +94,10 @@
         "transform": {
             "^.+\\.ts$": "ts-jest"
         },
+        "coveragePathIgnorePatterns": [
+            "<rootDir>/transformed",
+            "<rootDir>/tests"
+        ],
         "testPathIgnorePatterns": [
             ".history",
             "__prototypes.ts",

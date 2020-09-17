@@ -41,7 +41,7 @@ describe('requireDirectory', () => {
             statSync = jest.fn((path) => ({ isDirectory: () => false }));
             readdirSync = jest.fn((path) => ['_file', '.file', 'thefile'])
 
-            expect(requireDirectory('./path', 's')).toEqual({ "./path/thefile": {} });
+            expect(requireDirectory('./path', 's')).toEqual({ "/thefile": {} });
         });
 
         it('should require all files in a directory excluding subdirectories and files starting with . or _', () => {
@@ -70,7 +70,7 @@ describe('requireDirectory', () => {
                 .mockImplementationOnce((path) => ['_file', '.file', 'directory'])
                 .mockImplementationOnce((path) => ['thefile']);
 
-            expect(requireDirectory('./path', 'sr')).toEqual({ "./path/directory/thefile": {} });
+            expect(requireDirectory('./path', 'sr')).toEqual({ "/directory/thefile": {} });
         });
     });
     describe('asyncronous', () => {
@@ -80,7 +80,7 @@ describe('requireDirectory', () => {
             stat = jest.fn((path, cb) => cb(null, { isDirectory: () => false }));
             readdir = jest.fn((path, cb) => cb(null, ['_file', '.file', 'thefile']))
 
-            expect(await requireDirectory('./path')).toEqual({ "./path/thefile": {} });
+            expect(await requireDirectory('./path')).toEqual({ "/thefile": {} });
         });
 
         it('should require all files in a directory excluding subdirectories and files starting with . or _', async () => {
@@ -109,7 +109,7 @@ describe('requireDirectory', () => {
                 .mockImplementationOnce((path, cb) => cb(null, ['_file', '.file', 'directory']))
                 .mockImplementationOnce((path, cb) => cb(null, ['thefile']));
 
-            expect(await requireDirectory('./path', 'r')).toEqual({ "./path/directory/thefile": {} });
+            expect(await requireDirectory('./path', 'r')).toEqual({ "/directory/thefile": {} });
         });
     });
 });

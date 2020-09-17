@@ -666,7 +666,6 @@ export function __enum(obj, delimiter?, prePost?): string {
 export function __logic_parser(code: string, obj?: AnyObject, bind?: string, options?: HelperOptions): string {
     if (!code) { return ""; }
     let ttc = $c.TEMPLATE_TAG_CONFIG, indexes = [], logic = {};
-    // code = replaceAll(code, ttc.IGNORE_CHARS, ['']);
     eachProperty(ttc, function (value) {
         if (!value.begin) { return; }
         let index = indexOfAlt(code, value.begin);
@@ -1054,6 +1053,7 @@ class FillTemplate {
                 html += replaceAll((!preserve_nonmatching && vsyntax.test(template) ? template.replace(vsyntax, "") : template), ';\\', ';');
             }
 
+            html = replaceAll(html, ttc.IGNORE_CHARS, ['']);
             html = replaceAll(html, [
                 "this.refs['newline']",
                 "this.refs['returnline']"

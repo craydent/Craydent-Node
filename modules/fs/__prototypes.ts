@@ -32,6 +32,8 @@ import * as IUtimes from '../methods/utimes';
 import * as IWrite from '../methods/write';
 import * as IWriteFile from '../methods/writeFile';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 //#region dependencies
 const access: typeof IAccess.default = require('../methods/access').default;
 const appendFile: typeof IAppendFile.default = require('../methods/appendFile').default;
@@ -65,7 +67,7 @@ const truncate: typeof ITruncate.default = require('../methods/truncate').defaul
 const unlink: typeof IUnlink.default = require('../methods/unlink').default;
 const utimes: typeof IUtimes.default = require('../methods/utimes').default;
 const write: typeof IWrite.default = require('../methods/write').default;
-const writeFile: typeof IWriteFile.default = require('../methods/writeFile').writeFile;
+const writeFile: typeof IWriteFile.default = require('../methods/writeFile').default;
 //#endregion
 
 export {

@@ -25,12 +25,12 @@ export default function include(path?: string, refresh?: boolean): any {
     try {
         if (refresh) { clearCache(path); }
         if (startsWithAny(path, ['/', '.'])) {
-            return require(absolutePath(path));
+            return require(absolutePath(path, 1));
         }
         return require(path);
     } catch (e) {
         try {
-            return require(absolutePath(path));
+            return require(absolutePath(path, 1));
         } catch (err) {
             return null;
         }

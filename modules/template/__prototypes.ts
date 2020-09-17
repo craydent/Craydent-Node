@@ -1,6 +1,8 @@
 
 import * as IFillTemplate from '../methods/fillTemplate';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 //#region dependencies
 const module = require('../methods/fillTemplate');
 const fillTemplate: typeof IFillTemplate.default = module.default;

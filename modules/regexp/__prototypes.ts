@@ -5,6 +5,8 @@ import {
     AnyObject
 } from '../models/Arrays';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 //#region dependencies
 const addFlags: typeof IAddFlags.default = require('../methods/addFlags').default;
 const equals: typeof IEquals.default = require('../methods/equals').default;
@@ -44,5 +46,5 @@ export function _equals(compare, props?): boolean {
 }
 
 export function _getValue(this: RegExp, args?: any[], dflt?: any): any {
-    return getValue(this, args, dflt);
+    return getValue(this as any, args, dflt);
 }

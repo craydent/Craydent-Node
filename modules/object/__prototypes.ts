@@ -42,6 +42,8 @@ import {
 import { EachIterator } from '../models/EachIterator';
 import { ObjectIterator } from '../models/ObjectIterator';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 //#region dependencies
 const changes: typeof IChanges.default = require('../methods/changes').default;
 const contains: typeof IContains.default = require('../methods/contains').default;
@@ -648,7 +650,7 @@ export function _merge(secondary: any, condition: IMerge.MergeEnums | IMerge.Mer
         "typeParameter": "<T>",
         "returnType": "(Object)"
     }|*/
-    return merge(this, secondary, condition);
+    return merge(this, secondary, condition as any);
 }
 export function _set(path: string, value: any, delimiter?: string): boolean {
     /*|{

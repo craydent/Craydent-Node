@@ -29,15 +29,16 @@ export default function _unwind<T>(docs: Documents<T>, path: string | UnwindOpti
             if (!isArray(arr)) {
                 throw `Exception: Value at end of $unwind field path '${path}' must be an Array, but is a ${capitalize(typeof arr)}.`;
             }
+            let ppath = path;
             if (path[0] == "$") {
-                path = (path as string).substr(1);
+                ppath = (path as string).substr(1);
             }
             for (let j = 0, jlen = arr.length; j < jlen; j++) {
                 let dup = duplicate(doc);
                 if (options.includeArrayIndex) {
                     dup[options.includeArrayIndex] = j;
                 }
-                setProperty(dup, (path as string), arr[j]);
+                setProperty(dup, (ppath as string), arr[j]);
                 results.push(dup);
             }
         }

@@ -8,7 +8,7 @@
 ///<reference path="../globalTypes/global.vars.ts" />
 //#region imports
 //@ts-ignore
-import { $c, scope, info } from '../private/__common';
+import { $c, info } from '../private/__common';
 import * as IAdd from '../methods/add';
 import * as IAggregate from '../methods/aggregate';
 import * as IAverage from '../methods/average';
@@ -34,6 +34,7 @@ import * as IInsert from '../methods/insert';
 import * as IInsertAfter from '../methods/insertAfter';
 import * as IInsertAt from '../methods/insertAt';
 import * as IInsertBefore from '../methods/insertBefore';
+import * as IIsEmpty from '../methods/isEmpty';
 import * as IIsSubset from '../methods/isSubset';
 import * as IJoinLeft from '../methods/joinLeft';
 import * as IJoinRight from '../methods/joinRight';
@@ -53,6 +54,7 @@ import * as ISortBy from '../methods/sortBy';
 import * as IStdev from '../methods/stdev';
 import * as ISum from '../methods/sum';
 import * as IToSet from '../methods/toSet';
+import * as IUniversalTrim from '../methods/universalTrim';
 import * as IUpdate from '../methods/update';
 import * as IUpsert from '../methods/upsert';
 import * as IWhere from '../methods/where';
@@ -85,6 +87,7 @@ declare global {
         insertAfter: typeof IInsertAfter.default;
         insertAt: typeof IInsertAt.default;
         insertBefore: typeof IInsertBefore.default;
+        isEmpty: typeof IIsEmpty.default;
         isSubset: typeof IIsSubset.default;
         joinLeft: typeof IJoinLeft.default;
         joinRight: typeof IJoinRight.default;
@@ -103,6 +106,7 @@ declare global {
         stdev: typeof IStdev.default;
         sum: typeof ISum.default;
         toSet: typeof IToSet.default;
+        trim: typeof IUniversalTrim.default;
         update: typeof IUpdate.default;
         upsert: typeof IUpsert.default;
         where: typeof IWhere.default;
@@ -129,6 +133,7 @@ declare global {
         insertAfter: typeof IPrototypes._insertAfter;
         insertAt: typeof IPrototypes._insertAt;
         insertBefore: typeof IPrototypes._insertBefore;
+        isEmpty: typeof IPrototypes._isEmpty;
         isSubset: typeof IPrototypes._isSubset;
         joinLeft: typeof IPrototypes._joinLeft;
         joinRight: typeof IPrototypes._joinRight;
@@ -146,6 +151,7 @@ declare global {
         stdev: typeof IPrototypes._stdev;
         sum: typeof IPrototypes._sum;
         toSet: typeof IPrototypes._toSet;
+        trim: typeof IPrototypes._trim;
         update: typeof IPrototypes._update;
         upsert: typeof IPrototypes._upsert;
         where: typeof IPrototypes._where;
@@ -178,6 +184,7 @@ declare global {
             insertAfter: typeof IInsertAfter.default;
             insertAt: typeof IInsertAt.default;
             insertBefore: typeof IInsertBefore.default;
+            isEmpty: typeof IIsEmpty.default;
             isSubset: typeof IIsSubset.default;
             joinLeft: typeof IJoinLeft.default;
             joinRight: typeof IJoinRight.default;
@@ -196,6 +203,7 @@ declare global {
             stdev: typeof IStdev.default;
             sum: typeof ISum.default;
             toSet: typeof IToSet.default;
+            trim: typeof IUniversalTrim.default;
             update: typeof IUpdate.default;
             upsert: typeof IUpsert.default;
             where: typeof IWhere.default;
@@ -226,6 +234,7 @@ declare global {
         insertAfter: typeof IInsertAfter.default;
         insertAt: typeof IInsertAt.default;
         insertBefore: typeof IInsertBefore.default;
+        isEmpty: typeof IIsEmpty.default;
         isSubset: typeof IIsSubset.default;
         joinLeft: typeof IJoinLeft.default;
         joinRight: typeof IJoinRight.default;
@@ -244,6 +253,7 @@ declare global {
         stdev: typeof IStdev.default;
         sum: typeof ISum.default;
         toSet: typeof IToSet.default;
+        trim: typeof IUniversalTrim.default;
         update: typeof IUpdate.default;
         upsert: typeof IUpsert.default;
         where: typeof IWhere.default;
@@ -272,6 +282,7 @@ declare global {
     var insertAfter: typeof IInsertAfter.default;
     var insertAt: typeof IInsertAt.default;
     var insertBefore: typeof IInsertBefore.default;
+    var isEmpty: typeof IIsEmpty.default;
     var isSubset: typeof IIsSubset.default;
     var joinLeft: typeof IJoinLeft.default;
     var joinRight: typeof IJoinRight.default;
@@ -290,13 +301,13 @@ declare global {
     var stdev: typeof IStdev.default;
     var sum: typeof ISum.default;
     var toSet: typeof IToSet.default;
+    var trim: typeof IUniversalTrim.default;
     var update: typeof IUpdate.default;
     var upsert: typeof IUpsert.default;
     var where: typeof IWhere.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {
-    scope.eval = str => eval(str);
     const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);
     const emit: typeof IEmit.default = require('../methods/emit').default;
@@ -355,4 +366,4 @@ if (!$c.MODULES_LOADED[info.name]) {
     $c.globalize();
     //#endregion global
 }
-export default $c;
+export default $c as Craydent;

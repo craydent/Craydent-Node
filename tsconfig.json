@@ -23,6 +23,7 @@
         "test",
         "tests",
         "@types",
-        "modules"
+        "modules",
+        "modules.bk"
     ]
 }

@@ -20,7 +20,7 @@ describe('include', () => {
         absolutePath = jest.fn().mockImplementationOnce(() => 'fakeModule');
         expect(include('fakeModule', true)).toEqual(null);
         expect(clearCache).toHaveBeenCalledWith('fakeModule');
-        expect(absolutePath).toHaveBeenCalledWith('fakeModule');
+        expect(absolutePath).toHaveBeenCalledWith('fakeModule',1);
     })
     it('should find jest', () => {
         expect(include('jest')).toBeTruthy();
@@ -30,16 +30,16 @@ describe('include', () => {
         absolutePath = jest.fn().mockImplementationOnce(() => 'jest');
 
         expect(include('/fakeModule')).toBeTruthy();
-        expect(absolutePath).toHaveBeenCalledWith('/fakeModule');
+        expect(absolutePath).toHaveBeenCalledWith('/fakeModule', 1);
     })
     it('should find ../fakeModule', () => {
         absolutePath = jest.fn().mockImplementationOnce(() => 'jest');
         expect(include('../fakeModule')).toBeTruthy();
-        expect(absolutePath).toHaveBeenCalledWith('../fakeModule');
+        expect(absolutePath).toHaveBeenCalledWith('../fakeModule', 1);
     })
     it('should find fakeModule', () => {
         absolutePath = jest.fn().mockImplementationOnce(() => 'jest');
         expect(include('fakeModule')).toBeTruthy();
-        expect(absolutePath).toHaveBeenCalledWith('fakeModule');
+        expect(absolutePath).toHaveBeenCalledWith('fakeModule', 1);
     })
 });

@@ -49,8 +49,8 @@ export default function sortBy<T>(arr, props, rev?, primer?, lookup?, options?):
                 prop = prop.replace('!', '');
                 reverseProp = true;
             }
-            const alookUp = getProperty(lookup, `${a[prop]}.${prop}`);
-            const blookUp = getProperty(lookup, `${b[prop]}.${prop}`);
+            const alookUp = getProperty(lookup, `${a[prop] || a}.${prop}`);
+            const blookUp = getProperty(lookup, `${b[prop] || b}.${prop}`);
 
             let aVal = primer.call(a, isNull(alookUp, a[prop]), prop),
                 bVal = primer.call(b, isNull(blookUp, b[prop]), prop);

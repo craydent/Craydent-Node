@@ -43,9 +43,10 @@ import {
     WhereCondition,
     ArrayIterator
 } from '../models/Arrays';
-import { start } from 'repl';
 import { DateTimeOptions } from '../models/DateTimeOptions';
 
+import { scope } from '../private/__common';
+scope.eval = str => eval(str);
 //#region dependencies
 const acronymize: typeof IAcronymize.default = require('../methods/acronymize').default;
 const contains: typeof IContains.default = require('../methods/contains').default;
@@ -230,11 +231,18 @@ export function _endItWith(ending: string): string {
 export function _endsWith(searchString: string, length?: number): boolean {
     return endsWith(this, searchString, length);
 }
-export function _endsWithAny(args: string[]): string | false;
+export function _endsWithAny(endsWith: string[]): string | false;
 export function _endsWithAny(...args: string[]): string | false;
-export function _endsWithAny(...args): string | false {
-    return endsWithAny(this, ...args);
+export function _endsWithAny() {
+    let args = [this];
+    for (let i = 0, len = arguments.length; i < len; i++) {
+        // @ts-ignore
+        if (!i && typeof craydent_ctx != 'undefined' && this == arguments[i]) { continue; }
+        args.push(arguments[i]);
+    }
+    return endsWithAny.apply(void 0, args);
 }
+
 export function _equals(this: AnyObject, compare: AnyObject, props?: string[]): boolean;
 export function _equals(this: any, compare: any): boolean;
 export function _equals(compare, props?): boolean {
@@ -253,7 +261,7 @@ export function _equals(compare, props?): boolean {
     return equals(this, compare, props);
 }
 export function _getValue(this: number, args?: any[], dflt?: any): any {
-    return getValue(this, args, dflt);
+    return getValue(this as any, args, dflt);
 }
 export function _highlight(search: string | RegExp, cssClass?: string, tag?: string): string {
     /*|{
@@ -481,9 +489,15 @@ export function _startsWith(searchString: string, start: number): boolean {
     return startsWith(this, searchString, start);
 }
 export function _startsWithAny(startsWith: string[]): string | false;
-export function _startsWithAny(...args): string | false;
-export function _startsWithAny(...args) {
-    return startsWithAny(this, ...args);
+export function _startsWithAny(...args: string[]): string | false;
+export function _startsWithAny() {
+    let args = [this];
+    for (let i = 0, len = arguments.length; i < len; i++) {
+        // @ts-ignore
+        if (!i && typeof craydent_ctx != 'undefined' && this == arguments[i]) { continue; }
+        args.push(arguments[i]);
+    }
+    return startsWithAny.apply(void 0, args);
 }
 export function _strip(character?: string[]): string {
     /*|{
