@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 
 export default function limit<T>(arr: T[], max: number, skip?: number): T[] {
     try {

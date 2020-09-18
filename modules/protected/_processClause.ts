@@ -1,8 +1,8 @@
 import error from '../methods/error';
-import indexOfAlt from "../methods/indexOfAlt";
-import tryEval from "../methods/tryEval";
-import replaceAll from "../methods/replaceAll";
-import _generalTrim from "./_generalTrim";
+import indexOfAlt from '../methods/indexOfAlt';
+import tryEval from '../methods/tryEval';
+import replaceAll from '../methods/replaceAll';
+import _generalTrim from '../protected/_generalTrim';
 
 export default function _processClause(clause: string): any {
     try {

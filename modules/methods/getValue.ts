@@ -5,10 +5,10 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import error from './error';
-import isArray from './isArray';
-import isFunction from './isFunction';
-import isNull from './isNull';
+import error from '../methods/error';
+import isArray from '../methods/isArray';
+import isFunction from '../methods/isFunction';
+import isNull from '../methods/isNull';
 const _isFunction = isFunction,
     _isArray = isArray;
 

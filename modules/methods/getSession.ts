@@ -1,5 +1,5 @@
-import error from './error';
-import foo from './foo';
+import error from '../methods/error';
+import foo from '../methods/foo';
 import _getSession from '../protected/_getSession';
 
 export default function getSession(this: Craydent | void, sid: string, callback?: (data: any) => void) {

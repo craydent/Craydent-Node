@@ -1,6 +1,6 @@
-import error from './error';
+import error from '../methods/error';
 import _invokeHashChange from '../protected/_invokeHashChange';
-import $COOKIE from './$COOKIE';
+import $COOKIE from '../methods/$COOKIE';
 import { VerbOptions } from '../models/VerbOptions';
 
 export default function $COMMIT(options?: VerbOptions) {

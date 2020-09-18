@@ -1,6 +1,6 @@
-import where from "./where";
-import error from './error';
-import { WhereCondition } from "../models/Arrays";
+import where from '../methods/where';
+import error from '../methods/error';
+import { WhereCondition } from '../models/Arrays';
 
 export default function find<T>(arr: T[], condition: WhereCondition | string, projection?: any): T[] {
     try {

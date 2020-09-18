@@ -1,6 +1,6 @@
-import error from './error';
-import parseRaw from './parseRaw';
-import isNumber from './isNumber';
+import error from '../methods/error';
+import parseRaw from '../methods/parseRaw';
+import isNumber from '../methods/isNumber';
 
 /* istanbul ignore next */
 export default function wait(condition) { // TODO: allow for nested wait calls

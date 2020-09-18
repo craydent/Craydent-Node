@@ -1,7 +1,6 @@
-import error from './error';
+import error from '../methods/error';
 import __contextualizeMethods from '../private/__contextualizeMethods';
 
-const $g: any = global;
 export default function globalize(): void {
     /*|{
         "info": "Module method to globalize functions",
@@ -14,7 +13,7 @@ export default function globalize(): void {
         "returnType": "(void)"
     }|*/
     try {
-        __contextualizeMethods($g);
+        __contextualizeMethods(global);
     } catch (e) /* istanbul ignore next */ {
         error && error('globalize', e);
     }

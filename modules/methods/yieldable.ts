@@ -1,14 +1,14 @@
-import error from './error';
-import insertAt from './insertAt';
-import isAsync from './isAsync';
-import isBoolean from './isBoolean';
-import isFunction from './isFunction';
-import isGenerator from './isGenerator';
-import isNull from './isNull';
-import isNumber from './isNumber';
-import isObject from './isObject';
-import isPromise from './isPromise';
-import syncroit from './syncroit';
+import error from '../methods/error';
+import insertAt from '../methods/insertAt';
+import isAsync from '../methods/isAsync';
+import isBoolean from '../methods/isBoolean';
+import isFunction from '../methods/isFunction';
+import isGenerator from '../methods/isGenerator';
+import isNull from '../methods/isNull';
+import isNumber from '../methods/isNumber';
+import isObject from '../methods/isObject';
+import isPromise from '../methods/isPromise';
+import syncroit from '../methods/syncroit';
 import { AsyncFunction } from '../models/AsyncFunction';
 
 export interface YieldableOption {

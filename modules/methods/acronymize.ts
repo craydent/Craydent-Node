@@ -1,6 +1,6 @@
-import error from './error';
-import isBoolean from './isBoolean';
-import isNull from './isNull';
+import error from '../methods/error';
+import isBoolean from '../methods/isBoolean';
+import isNull from '../methods/isNull';
 
 export default function acronymize(str: string, capsOnly?: boolean, delimiter?: string | RegExp): string;
 export default function acronymize(str: string, match?: RegExp): string;

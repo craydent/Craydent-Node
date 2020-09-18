@@ -1,4 +1,4 @@
-import duplicate from "./duplicate";
+import duplicate from '../methods/duplicate';
 
 class Queue<T> extends Array<T> {
     /*|{

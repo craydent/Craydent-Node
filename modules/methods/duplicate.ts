@@ -1,5 +1,5 @@
 import _duplicate from '../protected/_duplicate';
-import isNull from './isNull';
+import isNull from '../methods/isNull';
 
 export default function duplicate<T>(obj: T, recursive?: boolean): T {
     /*|{

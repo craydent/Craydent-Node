@@ -1,6 +1,6 @@
-import error from './error';
-import isNull from './isNull';
-import substringEndAt from './substringEndAt';
+import error from '../methods/error';
+import isNull from '../methods/isNull';
+import substringEndAt from '../methods/substringEndAt';
 
 export default function substringBetween(str: string, start?: string, end?: string): string {
     /*|{

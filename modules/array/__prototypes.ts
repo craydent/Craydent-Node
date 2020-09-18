@@ -200,9 +200,9 @@ export function _condense(this: any[], check_values?: boolean): any[] {
     return condense(this, check_values);
 }
 export function _contains<T, TValue>(this: T[], func: ContainsObjectIterator<T, TValue>): boolean;
-export function _contains<T, TValue>(this: T[], val: ContainsValue, func: ContainsObjectIterator<T, TValue>): boolean;
-export function _contains<T, TValue>(this: T[], val: ContainsValue, operator: ComparisonOperator): boolean;
-export function _contains<T, TValue>(this: T, val: ContainsValue, func: ContainsObjectIterator<T, TValue>): boolean;
+export function _contains<T, TValue>(this: T[], val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
+export function _contains<T, TValue>(this: T[], val: ContainsValue, operator?: ComparisonOperator): boolean;
+export function _contains<T, TValue>(this: T, val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
 export function _contains(this: string, val: ContainsValue): boolean;
 export function _contains(this: number, val: ContainsValue): boolean;
 export function _contains(val, func?) {
@@ -422,7 +422,7 @@ export function _getValue(this: any[], args?: any[], dflt?: any): any {
     }|*/
     return getValue(this as any, args, dflt);
 }
-export function _group<T>(this: T[], params: GroupOptions<T>, removeProps: boolean): T[] {
+export function _group<T>(this: T[], params: GroupOptions<T>, removeProps?: boolean): T[] {
     /*|{
         "info": "Array class extension to group records by fields",
         "category": "Array",
@@ -638,7 +638,7 @@ export function _map<T>(this: any[], callback: ArrayIterator<T>, context: any): 
     }|*/
     return map(this, callback, context);
 }
-export function _mapReduce<T, TResult>(this: T[], map: ArrayIterator<T>, reduce: MongoReducer<TResult>, options: MongoMapReduceOptions<TResult>): TResult[] {
+export function _mapReduce<T, TResult>(this: T[], map: ArrayIterator<T>, reduce: MongoReducer<TResult>, options?: MongoMapReduceOptions<TResult>): TResult[] {
     /*|{
         "info": "Array class extension to run map-reduce aggregation over records",
         "category": "Array",
@@ -710,7 +710,7 @@ export function _remove<T>(this: T[], value: any, indexOf?: ArrayIterator<T>): T
     }|*/
     return remove(this, value, indexOf);
 }
-export function _removeAll<T>(this: T[], value: any, indexOf?: ArrayIterator<T>): T[] | boolean {
+export function _removeAll<T>(this: T[], value?: any, indexOf?: ArrayIterator<T>): T[] | boolean {
     /*|{
         "info": "Array class extension to remove all items by value",
         "category": "Array",

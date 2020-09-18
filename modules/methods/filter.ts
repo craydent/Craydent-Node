@@ -1,5 +1,5 @@
-import error from './error';
-import isFunction from './isFunction';
+import error from '../methods/error';
+import isFunction from '../methods/isFunction';
 
 import { ArrayIterator } from '../models/Arrays';
 

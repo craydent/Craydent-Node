@@ -1,4 +1,4 @@
-import $c from '../../transformed/control-flow/noConflict';
+import $c from '../../transformedMajor/control-flow';
 import ajax from '../../modules/methods/ajax';
 
 describe('Global methods', function () {

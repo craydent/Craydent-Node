@@ -5,13 +5,13 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import error from './error';
-import include from './include';
-import isString from './isString';
-import absolutePath from './absolutePath';
-import startsWithAny from './startsWithAny';
-import endItWith from './endItWith';
-import parallelEach from './parallelEach';
+import error from '../methods/error';
+import include from '../methods/include';
+import isString from '../methods/isString';
+import absolutePath from '../methods/absolutePath';
+import startsWithAny from '../methods/startsWithAny';
+import endItWith from '../methods/endItWith';
+import parallelEach from '../methods/parallelEach';
 import { AnyObject } from '../models/Arrays';
 
 export interface RequireDirectoryOptions {

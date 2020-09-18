@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import _duplicate from '../protected/_duplicate';
 
 export default function copyObject<T>(obj: T): T {

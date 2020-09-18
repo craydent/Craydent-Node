@@ -1,5 +1,5 @@
-import error from './error';
-import rand from './rand';
+import error from '../methods/error';
+import rand from '../methods/rand';
 
 export default function suid(length?: number): string {
     /*|{

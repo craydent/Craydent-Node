@@ -47,33 +47,12 @@ declare global {
     //#region global
     module NodeJS {
         interface Global {
-            equals: typeof IEquals.default;
-            format: typeof IFormat.default;
-            getDayOfYear: typeof IGetDayOfYear.default;
-            getGMTOffset: typeof IGetGMTOffset.default;
-            getValue: typeof IGetValue.default;
-            getWeek: typeof IGetWeek.default;
-            isValidDate: typeof IIsValidDate.default;
             now: typeof INow.default;
         }
     }
     interface Window {
-        equals: typeof IEquals.default;
-        format: typeof IFormat.default;
-        getDayOfYear: typeof IGetDayOfYear.default;
-        getGMTOffset: typeof IGetGMTOffset.default;
-        getValue: typeof IGetValue.default;
-        getWeek: typeof IGetWeek.default;
-        isValidDate: typeof IIsValidDate.default;
         now: typeof INow.default;
     }
-    var equals: typeof IEquals.default;
-    var format: typeof IFormat.default;
-    var getDayOfYear: typeof IGetDayOfYear.default;
-    var getGMTOffset: typeof IGetGMTOffset.default;
-    var getValue: typeof IGetValue.default;
-    var getWeek: typeof IGetWeek.default;
-    var isValidDate: typeof IIsValidDate.default;
     var now: typeof INow.default;
     //#endregion global
 }

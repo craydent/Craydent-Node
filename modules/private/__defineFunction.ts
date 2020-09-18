@@ -8,7 +8,7 @@
 import _generalTrim from '../protected/_generalTrim';
 import _getFuncArgs from '../protected/_getFuncArgs';
 import error from '../methods/error';
-import { scope } from './__common';
+import { scope } from '../private/__common';
 
 export default function __defineFunction(name: string, func: Function/* , override?: boolean */): Function {
     try {

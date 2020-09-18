@@ -1,6 +1,6 @@
-import isArray from "../methods/isArray";
-import isNull from "../methods/isNull";
-import { AnyObject } from "../models/Arrays";
+import isArray from '../methods/isArray';
+import isNull from '../methods/isNull';
+import { AnyObject } from '../models/Arrays';
 
 export default function __queryNestedProperty(obj: AnyObject, path: string/*, value*/): any[] {
     if (obj[path]) { return [obj[path]]; }

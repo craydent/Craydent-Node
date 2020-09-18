@@ -1,6 +1,6 @@
-import error from './error';
-import _foo from './foo';
-import _indexOfAlt from './indexOfAlt';
+import error from '../methods/error';
+import _foo from '../methods/foo';
+import _indexOfAlt from '../methods/indexOfAlt';
 import {
     _containsMatches,
     _containsLessThan,
@@ -10,12 +10,12 @@ import {
     _containsMod,
     _containsType
 } from '../protected/_containsComparisons'
-import isArray from './isArray';
-import isFunction from './isFunction';
-import isNumber from './isNumber';
-import isObject from './isObject';
-import isRegExp from './isRegExp';
-import isString from './isString';
+import isArray from '../methods/isArray';
+import isFunction from '../methods/isFunction';
+import isNumber from '../methods/isNumber';
+import isObject from '../methods/isObject';
+import isRegExp from '../methods/isRegExp';
+import isString from '../methods/isString';
 import { ContainsValue, ContainsObjectIterator, ComparisonOperator } from '../models/Arrays';
 
 const _isFunction = isFunction,

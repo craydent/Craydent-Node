@@ -1,11 +1,11 @@
-import isObject from "../methods/isObject";
-import parseRaw from "../methods/parseRaw";
-import getValue from "../methods/getValue";
-import isFunction from "../methods/isFunction";
-import _getFuncName from "./_getFuncName";
-import isNull from "../methods/isNull";
-import isArray from "../methods/isArray";
-import replaceAll from "../methods/replaceAll";
+import isObject from '../methods/isObject';
+import parseRaw from '../methods/parseRaw';
+import getValue from '../methods/getValue';
+import isFunction from '../methods/isFunction';
+import _getFuncName from '../protected/_getFuncName';
+import isNull from '../methods/isNull';
+import isArray from '../methods/isArray';
+import replaceAll from '../methods/replaceAll';
 
 export type MongoQuery = any;
 

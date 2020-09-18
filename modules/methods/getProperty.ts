@@ -1,8 +1,8 @@
-import error from './error';
-import isNull from './isNull';
-import isObject from './isObject';
-import isRegExp from './isRegExp';
-import strip from './strip';
+import error from '../methods/error';
+import isNull from '../methods/isNull';
+import isObject from '../methods/isObject';
+import isRegExp from '../methods/isRegExp';
+import strip from '../methods/strip';
 
 export interface GetPropertyOptions {
     noInheritance?: boolean;

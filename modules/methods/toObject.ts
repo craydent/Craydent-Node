@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import { AnyObject } from '../models/Arrays';
 
 export default function toObject(str: string, assignmentChar?: string, delimiter?: string): AnyObject {

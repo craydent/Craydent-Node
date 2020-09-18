@@ -1,5 +1,5 @@
-import error from "./error";
-import echo from "./echo";
+import error from '../methods/error';
+import echo from '../methods/echo';
 
 export default function var_dump(...args) {
     /*|{

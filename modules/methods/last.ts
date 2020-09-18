@@ -1,5 +1,5 @@
-import error from './error';
-import isNull from './isNull';
+import error from '../methods/error';
+import isNull from '../methods/isNull';
 
 export default function last<T>(arr: T[]): T {
     try {

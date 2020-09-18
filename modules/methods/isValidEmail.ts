@@ -1,6 +1,6 @@
-import error from './error';
-import isBlank from './isBlank';
-import isNull from './isNull';
+import error from '../methods/error';
+import isBlank from '../methods/isBlank';
+import isNull from '../methods/isNull';
 
 export default function isValidEmail(str: string): boolean {
     /*|{

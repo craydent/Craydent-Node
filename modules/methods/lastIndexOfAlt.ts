@@ -1,5 +1,5 @@
-// import error from './error';
-// import isNull from './isNull';
+// import error from '../methods/error';
+// import isNull from '../methods/isNull';
 
 // export default function lastIndexOfAlt(str: string, regex: RegExp, pos?: number): number {
 //     /*|{
@@ -35,14 +35,14 @@
 
 
 
-import error from './error';
+import error from '../methods/error';
 import _getFuncName from '../protected/_getFuncName';
-import isArray from './isArray';
-import isFunction from './isFunction';
-import isNull from './isNull';
-import isRegExp from './isRegExp';
-import isString from './isString';
-import isNumber from './isNumber';
+import isArray from '../methods/isArray';
+import isFunction from '../methods/isFunction';
+import isNull from '../methods/isNull';
+import isRegExp from '../methods/isRegExp';
+import isString from '../methods/isString';
+import isNumber from '../methods/isNumber';
 import { ArrayIterator } from '../models/Arrays';
 
 export default function lastIndexOfAlt<T>(obj: any[], value: any, callback: ArrayIterator<T>, pos?: number): number;

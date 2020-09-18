@@ -5,12 +5,12 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import isArray from './isArray';
-import isFunction from './isFunction';
-import isGenerator from './isGenerator';
-import isAsync from './isAsync';
+import isArray from '../methods/isArray';
+import isFunction from '../methods/isFunction';
+import isGenerator from '../methods/isGenerator';
+import isAsync from '../methods/isAsync';
 import { AsyncFunction } from '../models/AsyncFunction';
-import parallelEach from './parallelEach';
+import parallelEach from '../methods/parallelEach';
 
 export type Executables = Array<Executable> | Executable;
 export type Executable = Function | AsyncFunction | GeneratorFunction;

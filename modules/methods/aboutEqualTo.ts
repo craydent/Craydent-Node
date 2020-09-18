@@ -1,4 +1,4 @@
-import isBetween from './isBetween';
+import isBetween from '../methods/isBetween';
 
 export default function aboutEqualTo(num: number, compare: number, giveOrTake: number): boolean {
     /*|{

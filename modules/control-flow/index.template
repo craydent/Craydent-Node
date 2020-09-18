@@ -33,19 +33,16 @@ declare global {
     //#region global
     module NodeJS {
         interface Global {
-            parallelEach: typeof IParallelEach.default;
             awaitable: typeof IAwaitable.default;
             syncroit: typeof ISyncroit.default;
             yieldable: typeof IYieldable.default;
         }
     }
     interface Window {
-        parallelEach: typeof IParallelEach.default;
         awaitable: typeof IAwaitable.default;
         syncroit: typeof ISyncroit.default;
         yieldable: typeof IYieldable.default;
     }
-    var parallelEach: typeof IParallelEach.default;
     var awaitable: typeof IAwaitable.default;
     var syncroit: typeof ISyncroit.default;
     var yieldable: typeof IYieldable.default;

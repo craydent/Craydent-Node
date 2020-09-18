@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import _getFuncName from '../protected/_getFuncName';
 
 export default function getClass(obj: any): string {

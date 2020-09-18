@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 
 export default function isWebkit(this: Craydent | Window): boolean {
     /*|{

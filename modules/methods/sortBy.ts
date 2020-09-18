@@ -1,8 +1,8 @@
-import error from './error';
-import isNull from './isNull';
-import isString from './isString';
-import isObject from './isObject';
-import getProperty from './getProperty';
+import error from '../methods/error';
+import isNull from '../methods/isNull';
+import isString from '../methods/isString';
+import isObject from '../methods/isObject';
+import getProperty from '../methods/getProperty';
 
 export type SortOptions = 'i' | 'ignoreCase' | {
     ignoreCase?: 0 | 1 | boolean;

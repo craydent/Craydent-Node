@@ -1,7 +1,7 @@
-import error from './error';
+import error from '../methods/error';
 import _getFuncName from '../protected/_getFuncName';
-import namespace from './namespace';
-import foo from './foo';
+import namespace from '../methods/namespace';
+import foo from '../methods/foo';
 
 export default function extend(func: VoidFunction, extendee: VoidFunction, inheritAsOwn?: boolean): Function {
     /*|{

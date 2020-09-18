@@ -1,5 +1,5 @@
-import error from './error';
-import isWebkit from './isWebkit';
+import error from '../methods/error';
+import isWebkit from '../methods/isWebkit';
 
 export default function isKHTML(this: Craydent | Window): boolean {
     /*|{

@@ -1,7 +1,7 @@
-import error from './error';
+import error from '../methods/error';
 import { ArrayIterator } from '../models/Arrays';
-import isArray from './isArray';
-import duplicate from './duplicate';
+import isArray from '../methods/isArray';
+import duplicate from '../methods/duplicate';
 import { ObjectIterator } from '../models/ObjectIterator';
 
 

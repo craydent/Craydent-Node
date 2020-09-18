@@ -129,9 +129,9 @@ export function _capitalize(pos?: number | number[], everyWord?: boolean): strin
     return capitalize(this, pos, everyWord);
 }
 export function _contains<T, TValue>(this: T[], func: ContainsObjectIterator<T, TValue>): boolean;
-export function _contains<T, TValue>(this: T[], val: ContainsValue, func: ContainsObjectIterator<T, TValue>): boolean;
-export function _contains<T, TValue>(this: T[], val: ContainsValue, operator: ComparisonOperator): boolean;
-export function _contains<T, TValue>(this: T, val: ContainsValue, func: ContainsObjectIterator<T, TValue>): boolean;
+export function _contains<T, TValue>(this: T[], val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
+export function _contains<T, TValue>(this: T[], val: ContainsValue, operator?: ComparisonOperator): boolean;
+export function _contains<T, TValue>(this: T, val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
 export function _contains(this: string, val: ContainsValue): boolean;
 export function _contains(this: number, val: ContainsValue): boolean;
 export function _contains(val, func?) {
@@ -210,7 +210,7 @@ export function _cut(startIndex: number, endIndex: number, replacement?: string)
     }|*/
     return cut(this, startIndex, endIndex, replacement);
 }
-export function _ellipsis(before: number, after: number): string {
+export function _ellipsis(before: number, after?: number): string {
     /*|{
         "info": "String class extension to shorten by ellipsis",
         "category": "String",
@@ -260,7 +260,7 @@ export function _equals(compare, props?): boolean {
     }|*/
     return equals(this, compare, props);
 }
-export function _getValue(this: number, args?: any[], dflt?: any): any {
+export function _getValue(this: string, args?: any[], dflt?: any): any {
     return getValue(this as any, args, dflt);
 }
 export function _highlight(search: string | RegExp, cssClass?: string, tag?: string): string {
@@ -374,7 +374,7 @@ export function _lastIndexOfAlt(regex: RegExp, pos?: number): number {
     }|*/
     return lastIndexOfAlt(this, regex, pos);
 }
-export function _ltrim(character?: string[]): string {
+export function _ltrim(character?: string | string[]): string {
     /*|{
         "info": "String class extension to remove characters from the beginning of the string",
         "category": "String",
@@ -431,7 +431,7 @@ export function _reverse() {
     }|*/
     return reverse(this);
 }
-export function _rtrim(character?: string[]): string {
+export function _rtrim(character?: string | string[]): string {
     /*|{
         "info": "String class extension to remove characters from the end of the string",
         "category": "String",
@@ -499,7 +499,7 @@ export function _startsWithAny() {
     }
     return startsWithAny.apply(void 0, args);
 }
-export function _strip(character?: string[]): string {
+export function _strip(character?: string | string[]): string {
     /*|{
         "info": "String class extension to remove characters from the beginning and end of the string",
         "category": "String",

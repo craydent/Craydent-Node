@@ -50,36 +50,12 @@ declare global {
     //#region global
     module NodeJS {
         interface Global {
-            aboutEqualTo: typeof IAboutEqualTo.default;
-            contains: typeof IContains.default;
-            equals: typeof IEquals.default;
-            getValue: typeof IGetValue.default;
-            isBetween: typeof IIsBetween.default;
-            isEven: typeof IIsEven.default;
-            isOdd: typeof IIsOdd.default;
-            toCurrencyNotation: typeof IToCurrencyNotation.default;
             rand: typeof IRand.default;
         }
     }
     interface Window {
-        aboutEqualTo: typeof IAboutEqualTo.default;
-        contains: typeof IContains.default;
-        equals: typeof IEquals.default;
-        getValue: typeof IGetValue.default;
-        isBetween: typeof IIsBetween.default;
-        isEven: typeof IIsEven.default;
-        isOdd: typeof IIsOdd.default;
-        toCurrencyNotation: typeof IToCurrencyNotation.default;
         rand: typeof IRand.default;
     }
-    var aboutEqualTo: typeof IAboutEqualTo.default;
-    var contains: typeof IContains.default;
-    var equals: typeof IEquals.default;
-    var getValue: typeof IGetValue.default;
-    var isBetween: typeof IIsBetween.default;
-    var isEven: typeof IIsEven.default;
-    var isOdd: typeof IIsOdd.default;
-    var toCurrencyNotation: typeof IToCurrencyNotation.default;
     var rand: typeof IRand.default;
     //#endregion global
 }

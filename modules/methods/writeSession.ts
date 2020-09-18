@@ -1,7 +1,7 @@
-import getProperty from "./getProperty";
+import getProperty from '../methods/getProperty';
 import * as fs from 'fs';
-import foo from "./foo";
-import error from "./error";
+import foo from '../methods/foo';
+import error from '../methods/error';
 import { $c } from '../private/__common';
 
 export default function writeSession() {

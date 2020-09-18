@@ -1,5 +1,5 @@
 import error from '../methods/error';
-import _generalTrim from './_generalTrim';
+import _generalTrim from '../protected/_generalTrim';
 
 export default function _getFuncName(func: Function): string {
     try {

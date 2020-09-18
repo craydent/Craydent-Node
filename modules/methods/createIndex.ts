@@ -1,9 +1,8 @@
-import error from './error';
-import condense from './condense';
-import isArray from './isArray';
+import error from '../methods/error';
+import condense from '../methods/condense';
+import isArray from '../methods/isArray';
 import { IndexedArray, IndexedBucket } from '../models/Arrays';
-import isNull from './isNull';
-import isObject from './isObject';
+import isNull from '../methods/isNull';
 
 export default function createIndex<T>(objs: T[], indexes: string | string[]): IndexedArray<T> {
     try {

@@ -5,7 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import error from "./error";
+import error from '../methods/error';
 
 export default function toCurrencyNotation(obj: string | number, sep?: string): string {
     /*|{

@@ -1,28 +1,29 @@
-import $c from '../../transformed/number/noConflict';
-
+import $c from '../../transformedMajor/number/index';
+$c;
 describe('No Conflict Number', function () {
+    const ten = 10, nine = 9, eight = 8, seven = 7;
     it('aboutEqualTo', function () {
-        expect($c.aboutEqualTo(10, 9, 1)).toBe(true);
-        expect($c.aboutEqualTo(10, 9, 1.1)).toBe(true);
-        expect($c.aboutEqualTo(10, 9, 0.9)).toBe(false);
-        expect($c.aboutEqualTo(8, 9, 1)).toBe(true);
-        expect($c.aboutEqualTo(8, 9, 1.1)).toBe(true);
-        expect($c.aboutEqualTo(8, 9, 0.9)).toBe(false);
-        expect($c.aboutEqualTo(7, 9, 1.1)).toBe(false);
+        expect(ten.aboutEqualTo(9, 1)).toBe(true);
+        expect(ten.aboutEqualTo(9, 1.1)).toBe(true);
+        expect(ten.aboutEqualTo(9, 0.9)).toBe(false);
+        expect(eight.aboutEqualTo(9, 1)).toBe(true);
+        expect(eight.aboutEqualTo(9, 1.1)).toBe(true);
+        expect(eight.aboutEqualTo(9, 0.9)).toBe(false);
+        expect(seven.aboutEqualTo(9, 1.1)).toBe(false);
     });
     it('isOdd', function () {
-        expect($c.isOdd(10)).toBe(false);
-        expect($c.isOdd(9)).toBe(true);
+        expect(ten.isOdd()).toBe(false);
+        expect(nine.isOdd()).toBe(true);
     });
     it('isEven', function () {
-        expect($c.isEven(10)).toBe(true);
-        expect($c.isEven(9)).toBe(false);
+        expect(ten.isEven()).toBe(true);
+        expect(nine.isEven()).toBe(false);
     });
 
     it('toCurrencyNotation', function () {
-        expect($c.toCurrencyNotation(1000)).toBe("1,000");
-        expect($c.toCurrencyNotation(1000000)).toBe("1,000,000");
-        expect($c.toCurrencyNotation(1000, '.')).toBe('1.000');
+        expect((1000).toCurrencyNotation()).toBe("1,000");
+        expect((1000000).toCurrencyNotation()).toBe("1,000,000");
+        expect((1000).toCurrencyNotation('.')).toBe('1.000');
     });
 
 });

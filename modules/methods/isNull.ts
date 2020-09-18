@@ -1,4 +1,4 @@
-import error from './error'
+import error from '../methods/error'
 export default function isNull(value: any, defaultValue?: any): boolean | any {
     /*|{
         "info": "Check if a value is Null",

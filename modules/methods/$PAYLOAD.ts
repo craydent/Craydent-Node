@@ -1,7 +1,7 @@
 
-import { VerbOptions } from "../models/VerbOptions";
-import error from "./error";
-import _verbPayloadHelper from "../protected/_verbPayloadHelper";
+import { VerbOptions } from '../models/VerbOptions';
+import error from '../methods/error';
+import _verbPayloadHelper from '../protected/_verbPayloadHelper';
 
 export default function $PAYLOAD(this: Craydent, variable?: string, options?: VerbOptions) {
     /*|{

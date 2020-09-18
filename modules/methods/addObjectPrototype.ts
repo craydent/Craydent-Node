@@ -5,8 +5,8 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import error from './error';
-import isNull from './isNull';
+import error from '../methods/error';
+import isNull from '../methods/isNull';
 import df from '../private/__defineFunction';
 
 declare const $g: any;

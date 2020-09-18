@@ -1,7 +1,7 @@
-import error from './error';
-import isString from './isString';
-import isArray from './isArray';
-import isObject from './isObject';
+import error from '../methods/error';
+import isString from '../methods/isString';
+import isArray from '../methods/isArray';
+import isObject from '../methods/isObject';
 import _set from '../protected/_set';
 import { AnyObject } from '../models/Arrays';
 import { VerbOptions } from '../models/VerbOptions';

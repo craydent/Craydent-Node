@@ -1,8 +1,8 @@
-import error from "./error";
-import merge from "./merge";
-import isString from "./isString";
-import isInt from "./isInt";
-import { AnyObject } from "../models/Arrays";
+import error from '../methods/error';
+import merge from '../methods/merge';
+import isString from '../methods/isString';
+import isInt from '../methods/isInt';
+import { AnyObject } from '../models/Arrays';
 
 export default function header(headers: string | AnyObject, code?: number): void {
     /*|{

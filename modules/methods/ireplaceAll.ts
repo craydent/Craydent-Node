@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import _replaceAll from '../protected/_replaceAll';
 
 export default function ireplaceAll(str: string, replace: string, subject: string): string;

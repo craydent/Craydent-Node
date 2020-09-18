@@ -5,10 +5,10 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import error from './error';
-import foo from './foo';
+import error from '../methods/error';
+import foo from '../methods/foo';
 import * as fs from 'fs';
-import startsWithAny from './startsWithAny';
+import startsWithAny from '../methods/startsWithAny';
 
 export default function mkdirRecursive(path: string, callback?: (err: NodeJS.ErrnoException, processedPath?: string) => void): Promise<any> {
     /*|{

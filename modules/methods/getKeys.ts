@@ -1,6 +1,6 @@
-import error from './error';
+import error from '../methods/error';
 import { AnyObject } from '../models/Arrays';
-import isNull from './isNull';
+import isNull from '../methods/isNull';
 
 export default function getKeys(obj: AnyObject): string[] {
     try {

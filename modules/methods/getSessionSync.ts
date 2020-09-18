@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import _getSession from '../protected/_getSession';
 
 export default function getSessionSync(this: Craydent | void, sid) {

@@ -1,6 +1,6 @@
-import error from './error';
-import cut from './cut';
-import isNull from './isNull';
+import error from '../methods/error';
+import cut from '../methods/cut';
+import isNull from '../methods/isNull';
 
 export default function ellipsis(str: string, before: number, after?: number): string {
     /*|{

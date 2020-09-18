@@ -1,6 +1,6 @@
-import $c from '../../transformed/fs/noConflict';
+import $c from '../../transformedMajor/fs';
 import * as fs from 'fs';
-jest.mock('../../transformed/fs/protected/_fsHelper', () => {
+jest.mock('../../transformedMajor/fs/protected/_fsHelper', () => {
     return {
         "default": (...args) => _fsHelper.apply(this, args)
 

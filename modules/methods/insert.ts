@@ -1,6 +1,6 @@
-import error from './error';
-import add from './add';
-import isArray from './isArray';
+import error from '../methods/error';
+import add from '../methods/add';
+import isArray from '../methods/isArray';
 
 export default function insert<T>(objs: T[], value: any | any[]): boolean {
     try {

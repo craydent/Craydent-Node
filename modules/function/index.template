@@ -61,46 +61,19 @@ declare global {
     //#region global
     module NodeJS {
         interface Global {
-            equals: typeof IEquals.default;
             next: typeof INext.default;
             emit: typeof IEmit.default;
             namespace: typeof INamespace.default;
-            extend: typeof IExtend.default;
-            toPromise: typeof IToPromise.default;
-            getParameters: typeof IGetParameters.default;
-            getName: typeof IGetName.default;
-            getValue: typeof IGetValue.default;
-            on: typeof IOn.default;
-            then: typeof IThen.default;
-            catchit: typeof ICatch.default;
         }
     }
     interface Window {
-        equals: typeof IEquals.default;
         next: typeof INext.default;
         emit: typeof IEmit.default;
         namespace: typeof INamespace.default;
-        extend: typeof IExtend.default;
-        toPromise: typeof IToPromise.default;
-        getParameters: typeof IGetParameters.default;
-        getName: typeof IGetName.default;
-        getValue: typeof IGetValue.default;
-        on: typeof IOn.default;
-        then: typeof IThen.default;
-        catchit: typeof ICatch.default;
     }
-    var equals: typeof IEquals.default;
     var next: typeof INext.default;
     var emit: typeof IEmit.default;
     var namespace: typeof INamespace.default;
-    var extend: typeof IExtend.default;
-    var toPromise: typeof IToPromise.default;
-    var getParameters: typeof IGetParameters.default;
-    var getName: typeof IGetName.default;
-    var getValue: typeof IGetValue.default;
-    var on: typeof IOn.default;
-    var then: typeof IThen.default;
-    var catchit: typeof ICatch.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

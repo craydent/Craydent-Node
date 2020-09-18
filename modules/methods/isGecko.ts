@@ -1,6 +1,6 @@
-import error from './error';
-import isWebkit from './isWebkit';
-import isKHTML from './isKHTML';
+import error from '../methods/error';
+import isWebkit from '../methods/isWebkit';
+import isKHTML from '../methods/isKHTML';
 
 export default function isGecko(this: Craydent | Window): boolean {
     /*|{

@@ -1,5 +1,5 @@
-import error from './error';
-import capitalize from './capitalize';
+import error from '../methods/error';
+import capitalize from '../methods/capitalize';
 
 /* istanbul ignore next */
 export default function exclude(list: string[]): void {

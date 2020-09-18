@@ -1,68 +1,139 @@
-import $c from '../../transformed/array/noConflict';
+import $c from '../../transformedMajor/array';
 import isNull from '../../modules/methods/isNull';
-import syncroit from '../../modules/methods/syncroit';
 import duplicate from '../../modules/methods/duplicate';
 import ajax from '../../modules/methods/ajax';
-
-describe('No Conflict Array', function () {
-    describe('aggregate', function () {
-        it('$project', function () {
-            // $project
-            expect($c.aggregate([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], [{ $project: { p: 1, index: 1, b: 10 } }])).toEqual([
-                    { p: "10", index: 10, b: 10 },
-                    { p: "20", index: 20, b: 10 },
-                    { p: "30", index: 30, b: 10 },
-                    { b: 10 }]);
-            expect($c.aggregate([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], [{ $project: { p: 1, index: 1, b: { $multiply: ['$index', 10] } } }])).toEqual([
-                    { p: "10", index: 10, b: 100 },
-                    { p: "20", index: 20, b: 200 },
-                    { p: "30", index: 30, b: 300 },
-                    { b: 0 }]);
-            expect($c.aggregate([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], [{ $project: { p: 1, index: 1 } }])).toEqual([
-                    { p: "10", index: 10 },
-                    { p: "20", index: 20 },
-                    { p: "30", index: 30 },
-                    {}]);
-        });
-        it('$match', function () {
-            // $match
-            expect($c.aggregate([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], [{ $match: { p: "10" } }])).toEqual([
-                    { id: 1, p: "10", share: "shared", index: 10, std: 4 }
-                ]);
-        });
-        it('$redact', function () {
-            // $redact
-            expect($c.aggregate([{
-                _id: 1,
-                title: "123 Department Report",
-                tags: ["G", "STLW"],
-                year: 2014,
-                subsections: [
+import indexOfAlt from '../../modules/methods/indexOfAlt';
+$c;
+describe('Array', function () {
+    var arrObjs = [
+        { id: 1, p: "10", share: "shared", index: 10, std: 4 },
+        { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+        { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+        { id: 4, std: 4 }],
+        arrObjsScramble = [
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 4, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 5, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 6, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 7, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 8, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 9, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 10, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 11, std: 4 },
+            { id: 12, std: 4 },
+            { id: 13, std: 4 },
+            { id: 14, std: 4 },
+            { id: 15, std: 4 },
+            { id: 16, std: 4 },
+            { id: 17, std: 4 },
+            { id: 18, std: 4 },
+            { id: 19, std: 4 },
+            { id: 20, std: 4 },
+            { id: 21, std: 4 },
+            { id: 22, std: 4 },
+            { id: 23, std: 4 },
+            { id: 24, std: 4 },
+            { id: 25, std: 4 }],
+        arrStrings = ["string 1", "string 2", "string 3", "string 4"],
+        arrMix = [1, {}, "adsf", 10],
+        arrSort = [{ id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }, { id: 4, s: 3 }, { id: 5, s: 2 }],
+        arrLookup = [{ "_id": 1, "item": "abc", "price": 12, "quantity": 2 }, { "_id": 2, "item": "jkl", "price": 20, "quantity": 1 }, { "_id": 3 }],
+        arrLookupJoiner = [{ "_id": 1, "sku": "abc", description: "product 1", "instock": 120 },
+        { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
+        { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
+        { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
+        { "_id": 5, "sku": null, description: "Incomplete" },
+        { "_id": 6 }],
+        arrGroup = [
+            { "_id": 1, item: { "sku": "111" }, name: "p1", status: "ordered", "instock": 10, sizes: ["S", "M"], dept: "A" },
+            { "_id": 2, item: { "sku": "222" }, name: "p2", status: "ordered", "instock": 80, sizes: ["M", "L"], dept: "A" },
+            { "_id": 3, item: { "sku": "111" }, name: "p1", status: "ordered", "instock": 60, sizes: "S", dept: "B" },
+            { "_id": 4, item: { "sku": "333" }, name: "p3", status: "ordered", "instock": 70, sizes: ["S"], dept: "A" },
+            { "_id": 5, item: { "sku": "111" }, name: "p1", status: "incomplete" },
+            { "_id": 6 }],
+        arrTree = [
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 4, share: "shared", odd: false },
+            { id: 5, share: "shared1", odd: true }
+        ];
+    it('aggregate - $project', function () {
+        // $project
+        expect(duplicate(arrObjs, true).aggregate([{ $project: { p: 1, index: 1, b: 10 } }])).toEqual([
+            { p: "10", index: 10, b: 10 },
+            { p: "20", index: 20, b: 10 },
+            { p: "30", index: 30, b: 10 },
+            { b: 10 }]);
+        expect(duplicate(arrObjs, true).aggregate([{ $project: { p: 1, index: 1, b: { $multiply: ['$index', 10] } } }])).toEqual([
+            { p: "10", index: 10, b: 100 },
+            { p: "20", index: 20, b: 200 },
+            { p: "30", index: 30, b: 300 },
+            { b: 0 }]);
+        expect(duplicate(arrObjs, true).aggregate([{ $project: { p: 1, index: 1 } }])).toEqual([
+            { p: "10", index: 10 },
+            { p: "20", index: 20 },
+            { p: "30", index: 30 },
+            {}]);
+    });
+    it('aggregate - $match', function () {
+        // $match
+        expect(duplicate(arrObjs, true).aggregate([{ $match: { p: "10" } }])).toEqual([
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 }
+        ]);
+    });
+    it('aggregate - $redact', function () {
+        // $redact
+        expect([{
+            _id: 1,
+            title: "123 Department Report",
+            tags: ["G", "STLW"],
+            year: 2014,
+            subsections: [
+                {
+                    subtitle: "Section 1: Overview",
+                    tags: ["SI", "G"],
+                    content: "Section 1: This is the content of section 1."
+                },
+                {
+                    subtitle: "Section 2: Analysis",
+                    tags: ["STLW"],
+                    content: "Section 2: This is the content of section 2."
+                },
+                {
+                    subtitle: "Section 3: Budgeting",
+                    tags: ["TK"],
+                    content: {
+                        text: "Section 3: This is the content of section3.",
+                        tags: ["HCS"]
+                    }
+                }]
+        }].aggregate([{
+            $redact: {
+                $cond: {
+                    if: { $gt: [{ $size: { $setIntersection: ["$tags", ["STLW", "G"]] } }, 0] },
+                    then: "$$KEEP",
+                    else: "$$PRUNE"
+                }
+            }
+        }])).toEqual([
+            {
+                "_id": 1,
+                "title": "123 Department Report",
+                "tags": ["G", "STLW"],
+                "year": 2014,
+                "subsections": [
                     {
-                        subtitle: "Section 1: Overview",
-                        tags: ["SI", "G"],
-                        content: "Section 1: This is the content of section 1."
+                        "subtitle": "Section 1: Overview",
+                        "tags": ["SI", "G"],
+                        "content": "Section 1: This is the content of section 1."
                     },
                     {
-                        subtitle: "Section 2: Analysis",
-                        tags: ["STLW"],
-                        content: "Section 2: This is the content of section 2."
+                        "subtitle": "Section 2: Analysis",
+                        "tags": ["STLW"],
+                        "content": "Section 2: This is the content of section 2."
                     },
                     {
                         subtitle: "Section 3: Budgeting",
@@ -73,578 +144,358 @@ describe('No Conflict Array', function () {
                         }
                     }
                 ]
-            }], [{
-                $redact: {
-                    $cond: {
-                        if: { $gt: [{ $size: { $setIntersection: ["$tags", ["STLW", "G"]] } }, 0] },
-                        then: "$$KEEP",
-                        else: "$$PRUNE"
+            }
+        ]);
+        expect([{
+            _id: 1,
+            title: "123 Department Report",
+            tags: ["G", "STLW"],
+            year: 2014,
+            subsections: [
+                {
+                    subtitle: "Section 1: Overview",
+                    tags: ["SI", "G"],
+                    content: "Section 1: This is the content of section 1."
+                },
+                {
+                    subtitle: "Section 2: Analysis",
+                    tags: ["STLW"],
+                    content: "Section 2: This is the content of section 2."
+                },
+                {
+                    subtitle: "Section 3: Budgeting",
+                    tags: ["TK"],
+                    content: {
+                        text: "Section 3: This is the content of section3.",
+                        tags: ["HCS"]
                     }
                 }
-            }])).toEqual([
-                {
-                    "_id": 1,
-                    "title": "123 Department Report",
-                    "tags": ["G", "STLW"],
-                    "year": 2014,
-                    "subsections": [
-                        {
-                            "subtitle": "Section 1: Overview",
-                            "tags": ["SI", "G"],
-                            "content": "Section 1: This is the content of section 1."
-                        },
-                        {
-                            "subtitle": "Section 2: Analysis",
-                            "tags": ["STLW"],
-                            "content": "Section 2: This is the content of section 2."
-                        },
-                        {
-                            subtitle: "Section 3: Budgeting",
-                            tags: ["TK"],
-                            content: {
-                                text: "Section 3: This is the content of section3.",
-                                tags: ["HCS"]
-                            }
-                        }
-                    ]
+            ]
+        }].aggregate([{
+            $redact: {
+                $cond: {
+                    if: { $gt: [{ $size: { $setIntersection: ["$tags", ["STLW", "G"]] } }, 0] },
+                    then: "$$DESCEND",
+                    else: "$$PRUNE"
                 }
-            ]);
-            expect($c.aggregate([{
-                _id: 1,
-                title: "123 Department Report",
-                tags: ["G", "STLW"],
-                year: 2014,
-                subsections: [
+            }
+        }])).toEqual([
+            {
+                "_id": 1,
+                "title": "123 Department Report",
+                "tags": ["G", "STLW"],
+                "year": 2014,
+                "subsections": [
                     {
-                        subtitle: "Section 1: Overview",
-                        tags: ["SI", "G"],
-                        content: "Section 1: This is the content of section 1."
+                        "subtitle": "Section 1: Overview",
+                        "tags": ["SI", "G"],
+                        "content": "Section 1: This is the content of section 1."
                     },
                     {
-                        subtitle: "Section 2: Analysis",
-                        tags: ["STLW"],
-                        content: "Section 2: This is the content of section 2."
-                    },
-                    {
-                        subtitle: "Section 3: Budgeting",
-                        tags: ["TK"],
-                        content: {
-                            text: "Section 3: This is the content of section3.",
-                            tags: ["HCS"]
-                        }
+                        "subtitle": "Section 2: Analysis",
+                        "tags": ["STLW"],
+                        "content": "Section 2: This is the content of section 2."
                     }
                 ]
-            }], [{
-                $redact: {
-                    $cond: {
-                        if: { $gt: [{ $size: { $setIntersection: ["$tags", ["STLW", "G"]] } }, 0] },
-                        then: "$$DESCEND",
-                        else: "$$PRUNE"
-                    }
-                }
-            }])).toEqual([
-                {
-                    "_id": 1,
-                    "title": "123 Department Report",
-                    "tags": ["G", "STLW"],
-                    "year": 2014,
-                    "subsections": [
-                        {
-                            "subtitle": "Section 1: Overview",
-                            "tags": ["SI", "G"],
-                            "content": "Section 1: This is the content of section 1."
-                        },
-                        {
-                            "subtitle": "Section 2: Analysis",
-                            "tags": ["STLW"],
-                            "content": "Section 2: This is the content of section 2."
-                        }
-                    ]
-                }
-            ]);
-        });
-        it('$limit', function () {
-            // $limit
-            expect($c.aggregate([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], [{ $limit: 1 }])).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
-        });
-        it('$skip', function () {
-            // $skip
-            expect($c.aggregate([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], [{ $skip: 3 }])).toEqual([{ id: 4, std: 4 }]);
-        });
-        it('$unwind', function () {
-            // $unwind
-            expect($c.aggregate([{ "_id": 1, "item": "ABC1", sizes: ["S", "M", "L"] }], [{ $unwind: "$sizes" }])).toEqual([
-                { "_id": 1, "item": "ABC1", "sizes": "S" },
-                { "_id": 1, "item": "ABC1", "sizes": "M" },
-                { "_id": 1, "item": "ABC1", "sizes": "L" }
-            ]);
-            expect($c.aggregate([{ "_id": 1, "item": "ABC1", sizes: ["S", "M", "L"] }, { "_id": 2, "item": "ABC1" }], [{ $unwind: { path: "$sizes", preserveNullAndEmptyArrays: true } }])).toEqual([
-                { "_id": 1, "item": "ABC1", "sizes": "S" },
-                { "_id": 1, "item": "ABC1", "sizes": "M" },
-                { "_id": 1, "item": "ABC1", "sizes": "L" },
-                { "_id": 2, "item": "ABC1" }
-            ]);
-            expect($c.aggregate(
-                [{ "_id": 1, "item": "ABC1", sizes: ["S", "M", "L"] }, { "_id": 2, "item": "ABC1" }],
+            }
+        ]);
+    });
+    it('aggregate - $limit', function () {
+        // $limit
+        expect(duplicate(arrObjs, true).aggregate([{ $limit: 1 }])).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
+    });
+    it('aggregate - $skip', function () {
+        // $skip
+        expect(duplicate(arrObjs, true).aggregate([{ $skip: 3 }])).toEqual([{ id: 4, std: 4 }]);
+    });
+    it('aggregate - $unwind', function () {
+        // $unwind
+        expect([{ "_id": 1, "item": "ABC1", sizes: ["S", "M", "L"] }].aggregate([{ $unwind: "$sizes" }])).toEqual([
+            { "_id": 1, "item": "ABC1", "sizes": "S" },
+            { "_id": 1, "item": "ABC1", "sizes": "M" },
+            { "_id": 1, "item": "ABC1", "sizes": "L" }
+        ]);
+        expect([{ "_id": 1, "item": "ABC1", sizes: ["S", "M", "L"] }, { "_id": 2, "item": "ABC1" }].aggregate([{ $unwind: { path: "$sizes", preserveNullAndEmptyArrays: true } }])).toEqual([
+            { "_id": 1, "item": "ABC1", "sizes": "S" },
+            { "_id": 1, "item": "ABC1", "sizes": "M" },
+            { "_id": 1, "item": "ABC1", "sizes": "L" },
+            { "_id": 2, "item": "ABC1" }
+        ]);
+        expect(
+            [{ "_id": 1, "item": "ABC1", sizes: ["S", "M", "L"] }, { "_id": 2, "item": "ABC1" }].aggregate(
                 [{ $unwind: { path: "$sizes", preserveNullAndEmptyArrays: true, includeArrayIndex: "ind" } }])).toEqual([
                     { "_id": 1, "item": "ABC1", "sizes": "S", ind: 0 },
                     { "_id": 1, "item": "ABC1", "sizes": "M", ind: 1 },
                     { "_id": 1, "item": "ABC1", "sizes": "L", ind: 2 },
                     { "_id": 2, "item": "ABC1", ind: 0 }
                 ]);
-        });
-        it('$group', function () {
-            // $group & $sample
-            expect($c.aggregate([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], [
-                { $sample: { size: 4 } },
-                {
-                    $group: {
-                        _id: null,
-                        count: { $sum: 1 },
-                        averageQuantity: { $avg: "index" },
-                        totalPrice: { $sum: { $multiply: ["$id", "$index"] } },
-                        f: { $first: "$p" },
-                        l: { $last: "$p" },
-                        max: { $max: '$index' },
-                        min: { $min: '$index' },
-                        pushed: { $push: "$share" },
-                        theset: { $addToSet: "$share" },
-                        stdsamp: { $stdDevSamp: "$std" },
-                        stdpop: { $stdDevPop: "$std" }
-                    }
-                }])).toEqual([{ _id: null, totalPrice: 140, averageQuantity: 20, count: 4, f: "10", l: "30", max: 30, min: 10, pushed: ["shared", "shared", "shared"], theset: ["shared"], stdsamp: 0, stdpop: 0 }]);
-        });
-        it('$sample', function () {
-            // $sample
-            expect($c.aggregate([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], [{ $sample: { size: 2 } }]).length).toBe(2);
-        });
-        it('$sort', function () {
-            // $sort
-            expect($c.aggregate([{ id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }, { id: 4, s: 3 }, { id: 5, s: 2 }], [{ $sort: { s: -1, id: 1 } }])).toEqual([{ id: 3, s: 6 }, { id: 1, s: 5 }, { id: 2, s: 5 }, { id: 4, s: 3 }, { id: 5, s: 2 }]);
-        });
-        // $geoNear *****not implemented
-        it('$lookup', function () {
-            // $lookup
-            expect($c.aggregate([{ "_id": 1, "item": "abc", "price": 12, "quantity": 2 }, { "_id": 2, "item": "jkl", "price": 20, "quantity": 1 }, { "_id": 3 }], [{
-                $lookup: {
-                    from: [{ "_id": 1, "sku": "abc", description: "product 1", "instock": 120 },
-                    { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
-                    { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
-                    { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
-                    { "_id": 5, "sku": null, description: "Incomplete" },
-                    { "_id": 6 }], localField: "item", foreignField: "sku", as: "idocs"
+    });
+    it('aggregate - $group', function () {
+        // $group & $sample
+        expect(duplicate(arrObjs, true).aggregate([
+            { $sample: { size: 4 } },
+            {
+                $group: {
+                    _id: null,
+                    count: { $sum: 1 },
+                    averageQuantity: { $avg: "index" },
+                    totalPrice: { $sum: { $multiply: ["$id", "$index"] } },
+                    f: { $first: "$p" },
+                    l: { $last: "$p" },
+                    max: { $max: '$index' },
+                    min: { $min: '$index' },
+                    pushed: { $push: "$share" },
+                    theset: { $addToSet: "$share" },
+                    stdsamp: { $stdDevSamp: "$std" },
+                    stdpop: { $stdDevPop: "$std" }
                 }
-            }])).toEqual([
-                {
-                    "_id": 1,
-                    "item": "abc",
-                    "price": 12,
-                    "quantity": 2,
-                    "idocs": [
-                        { "_id": 1, "sku": "abc", description: "product 1", "instock": 120 }
-                    ]
-                },
-                {
-                    "_id": 2,
-                    "item": "jkl",
-                    "price": 20,
-                    "quantity": 1,
-                    "idocs": [
-                        { "_id": 4, "sku": "jkl", "description": "product 4", "instock": 70 }
-                    ]
-                },
-                {
-                    "_id": 3,
-                    "idocs": [
-                        { "_id": 5, "sku": null, "description": "Incomplete" },
-                        { "_id": 6 }
-                    ]
+            }])).toEqual([{ _id: null, totalPrice: 140, averageQuantity: 20, count: 4, f: "10", l: "30", max: 30, min: 10, pushed: ["shared", "shared", "shared"], theset: ["shared"], stdsamp: 0, stdpop: 0 }]);
+    });
+    it('aggregate - $sample', function () {
+        // $sample
+        expect(duplicate(arrObjs, true).aggregate([{ $sample: { size: 2 } }]).length).toBe(2);
+    });
+    it('aggregate - $sort', function () {
+        // $sort
+        expect(duplicate(arrSort, true).aggregate([{ $sort: { s: -1, id: 1 } }])).toEqual([{ id: 3, s: 6 }, { id: 1, s: 5 }, { id: 2, s: 5 }, { id: 4, s: 3 }, { id: 5, s: 2 }]);
+    });
+    // $geoNear *****not implemented
+    it('aggregate - $lookup', function () {
+        // $lookup
+        expect(duplicate(arrLookup, true).aggregate([{ $lookup: { from: duplicate(arrLookupJoiner, true), localField: "item", foreignField: "sku", as: "idocs" } }])).toEqual([
+            {
+                "_id": 1,
+                "item": "abc",
+                "price": 12,
+                "quantity": 2,
+                "idocs": [
+                    { "_id": 1, "sku": "abc", description: "product 1", "instock": 120 }
+                ]
+            },
+            {
+                "_id": 2,
+                "item": "jkl",
+                "price": 20,
+                "quantity": 1,
+                "idocs": [
+                    { "_id": 4, "sku": "jkl", "description": "product 4", "instock": 70 }
+                ]
+            },
+            {
+                "_id": 3,
+                "idocs": [
+                    { "_id": 5, "sku": null, "description": "Incomplete" },
+                    { "_id": 6 }
+                ]
+            }
+        ]);
+    });
+    it('aggregate - $out', function () {
+        // $out
+        var arrOut = [];
+        expect(duplicate(arrObjs, true).aggregate([
+            {
+                $group: {
+                    _id: null,
+                    count: { $sum: 1 },
+                    averageQuantity: { $avg: "index" },
+                    totalPrice: { $sum: { $multiply: ["$id", "$index"] } },
                 }
-            ]);
-        });
-        it('$out', function () {
-            // $out
-            var arrOut = [];
-            expect($c.aggregate([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], [
-                {
-                    $group: {
-                        _id: null,
-                        count: { $sum: 1 },
-                        averageQuantity: { $avg: "index" },
-                        totalPrice: { $sum: { $multiply: ["$id", "$index"] } },
-                    }
-                }, { $out: arrOut }])).toBe(arrOut);
-            expect(arrOut).toEqual([{ _id: null, totalPrice: 140, averageQuantity: 20, count: 4 }]);
+            }, { $out: arrOut }])).toBe(arrOut);
+        expect(arrOut).toEqual([{ _id: null, totalPrice: 140, averageQuantity: 20, count: 4 }]);
 
-        });
     });
     it('average', function () {
-        expect($c.average([1, {} as any, "adsf" as any, 10])).toBe(11 / 2);
+        expect((arrMix as Array<any>).average()).toBe(11 / 2);
     });
-    describe('buildTree', function () {
-        it('childFinder:string', function () {
-            expect($c.buildTree([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, share: "shared", odd: false },
-                { id: 5, share: "shared1", odd: true }
-            ], function (item) {
-                return !item.index;
-            }, 'share')).toEqual([{
-                id: 4, share: "shared", odd: false, children: [
-                    { id: 1, p: "10", share: "shared", index: 10, std: 4, children: [] },
-                    { id: 2, p: "20", share: "shared", index: 20, std: 4, children: [] },
-                    { id: 3, p: "30", share: "shared", index: 30, std: 4, children: [] }
-                ]
-            }, { id: 5, share: "shared1", odd: true, children: [] }]);
-        });
-        it('childFinder: string with options', function () {
-            expect($c.buildTree([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, share: "shared", odd: false },
-                { id: 5, share: "shared1", odd: true }
-            ], function (item) {
-                return !item.index;
-            }, 'share', { childProperty: "cc" })).toEqual([{
-                id: 4, share: "shared", odd: false, cc: [
-                    { id: 1, p: "10", share: "shared", index: 10, std: 4, cc: [] },
-                    { id: 2, p: "20", share: "shared", index: 20, std: 4, cc: [] },
-                    { id: 3, p: "30", share: "shared", index: 30, std: 4, cc: [] }]
-            }, { id: 5, share: "shared1", odd: true, cc: [] }]);
-        });
-        it('childFinder: function', function () {
-            expect($c.buildTree([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, share: "shared", odd: false },
-                { id: 5, share: "shared1", odd: true }
-            ], function (item) {
-                return !isNull(item.odd);
-            }, function (item) { return !!(item.id % 2); }, { childProperty: "cc" })).toEqual([
-                { id: 4, share: "shared", odd: false, cc: [{ id: 2, p: "20", share: "shared", index: 20, std: 4, cc: [] }] },
-                { id: 5, share: "shared1", odd: true, cc: [{ id: 1, p: "10", share: "shared", index: 10, std: 4, cc: [] }, { id: 3, p: "30", share: "shared", index: 30, std: 4, cc: [] }] }
-            ]);
-        });
+    it('buildTree - childFinder:string', function () {
+        expect(duplicate(arrTree, true).buildTree(function (item) {
+            return !item.index;
+        }, 'share')).toEqual([{
+            id: 4, share: "shared", odd: false, children: [
+                { id: 1, p: "10", share: "shared", index: 10, std: 4, children: [] },
+                { id: 2, p: "20", share: "shared", index: 20, std: 4, children: [] },
+                { id: 3, p: "30", share: "shared", index: 30, std: 4, children: [] }
+            ]
+        }, { id: 5, share: "shared1", odd: true, children: [] }]);
+    });
+    it('buildTree - childFinder: string with options', function () {
+        expect(duplicate(arrTree, true).buildTree(function (item) {
+            return !item.index;
+        }, 'share', { childProperty: "cc" })).toEqual([{
+            id: 4, share: "shared", odd: false, cc: [
+                { id: 1, p: "10", share: "shared", index: 10, std: 4, cc: [] },
+                { id: 2, p: "20", share: "shared", index: 20, std: 4, cc: [] },
+                { id: 3, p: "30", share: "shared", index: 30, std: 4, cc: [] }]
+        }, { id: 5, share: "shared1", odd: true, cc: [] }]);
+    });
+    it('buildTree - childFinder: function', function () {
+        expect(duplicate(arrTree, true).buildTree(function (item) {
+            return !isNull(item.odd);
+        }, function (item) { return !!(item.id % 2); }, { childProperty: "cc" })).toEqual([
+            { id: 4, share: "shared", odd: false, cc: [{ id: 2, p: "20", share: "shared", index: 20, std: 4, cc: [] }] },
+            { id: 5, share: "shared1", odd: true, cc: [{ id: 1, p: "10", share: "shared", index: 10, std: 4, cc: [] }, { id: 3, p: "30", share: "shared", index: 30, std: 4, cc: [] }] }
+        ]);
     });
     // TO/DO complexSort
     //it('complexSort',function(){
     //
     //});
-    describe('condense', function () {
-        it('without checking values', function () {
-            expect($c.condense(['a', '', 'b', 0, 'c', false, 'd', null, 'e', undefined])).toEqual(['a', 'b', 0, 'c', false, 'd', 'e']);
-            expect($c.condense(['a', '', 'b', 0, 'c', false, 'd', null, 'e', undefined, 'e', 'a', 'c'], true)).toEqual(['a', 'b', 0, 'c', false, 'd', 'e']);
-        });
-        it('with checking values', function () {
-            expect($c.condense(['a', '', 'b', 0, 'c', false, 'd', null, 'e', undefined, 'e', 'a', 'c'], true)).toEqual(['a', 'b', 0, 'c', false, 'd', 'e']);
-        });
+    it('condense', function () {
+        expect(['a', '', 'b', 0, 'c', false, 'd', null, 'e', undefined].condense()).toEqual(['a', 'b', 0, 'c', false, 'd', 'e']);
     });
-    describe('contains', function () {
-        it('value', function () {
-            expect($c.contains(['a'], 'b')).toEqual(false);
-            expect($c.contains(['a'], 'a')).toEqual(true);
-        });
-        it('regex', function () {
-            expect($c.contains(['abcd'], /dc/)).toEqual(false);
-            expect($c.contains(['abcd'], /bc/)).toEqual(true);
-        });
-        it('function', function () {
-            expect($c.contains(['a', 'b'], function (val, i, arr) { return val == "c"; })).toEqual(false);
-            expect($c.contains(['a', 'b'], function (val, i, arr) { return val == "b"; })).toEqual(true);
-        });
-        it('value and function', function () {
-            expect($c.contains([{ prop: 'a' }], 'a', function (item, value) { return (item as any).prop == value; })).toEqual(true);
-            expect($c.contains([{ prop: 'a' }], 'b', function (item, value) { return (item as any).prop == value; })).toEqual(false);
-        });
-        it('value and string', function () {
-            var arrInt = [1, 2, 3, 4];
-            expect($c.contains(arrInt, 2, '$lt')).toEqual(true);
-            expect($c.contains(arrInt, 1, '$lt')).toEqual(false);
-            expect($c.contains(arrInt, 1, '$lte')).toEqual(true);
-            expect($c.contains(arrInt, 0, '$lte')).toEqual(false);
-            expect($c.contains(arrInt, 3, '$gt')).toEqual(true);
-            expect($c.contains(arrInt, 4, '$gt')).toEqual(false);
-            expect($c.contains(arrInt, 4, '$gte')).toEqual(true);
-            expect($c.contains(arrInt, 5, '$gte')).toEqual(false);
-            expect($c.contains(arrInt, [4, 0], '$mod')).toEqual(true);
-            expect($c.contains(arrInt, [1, 1], '$mod')).toEqual(false);
-            expect($c.contains(arrInt, Number, '$type')).toEqual(true);
-            expect($c.contains(arrInt, String, '$type')).toEqual(false);
-        });
-        it('array', function () {
-            expect($c.contains([1, 2, 3, 4], [1, 5])).toEqual(1);
-            expect($c.contains([1, 2, 3, 4], [2, 3])).toEqual(2);
-            expect($c.contains([1, 2, 3, 4], [5, 6])).toEqual(false);
-        });
+    it('condense - check values', function () {
+        expect(['a', '', 'b', 0, 'c', false, 'd', null, 'e', undefined, 'e', 'a', 'c'].condense(true)).toEqual(['a', 'b', 0, 'c', false, 'd', 'e']);
     });
-    describe('count', function () {
-        it('no args', function () {
-            expect($c.count([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }])).toBe(4);
-        });
-        it('query', function () {
-            expect($c.count([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], { id: 1 })).toBe(1);
-        });
-        it('string', function () {
-            expect($c.count(["string 1", "string 2", "string 3", "string 4"], '1')).toBe(1);
-            expect($c.count(["string 1", "string 2", "string 3", "string 4"], 'string')).toBe(4);
-            expect($c.count(["string 1", "string 2", "string 3", "string 4"], 'strings')).toBe(0);
-        });
-        it('regex', function () {
-            expect($c.count(["string 1", "string 2", "string 3", "string 4"], /1/)).toBe(1);
-            expect($c.count(["string 1", "string 2", "string 3", "string 4"], /string/)).toBe(4);
-            expect($c.count(["string 1", "string 2", "string 3", "string 4"], /strings/)).toBe(0);
-        });
+    it('contains - value', function () {
+        expect(['a'].contains('b')).toEqual(false);
+        expect(['a'].contains('a')).toEqual(true);
+    });
+    it('contains - regex', function () {
+        expect(['abcd'].contains(/dc/)).toEqual(false);
+        expect(['abcd'].contains(/bc/)).toEqual(true);
+    });
+    it('contains - function', function () {
+        expect(['a', 'b'].contains(function (val, i, arr) { return val == "c"; })).toEqual(false);
+        expect(['a', 'b'].contains(function (val, i, arr) { return val == "b"; })).toEqual(true);
+    });
+    it('contains - value and function', function () {
+        expect([{ prop: 'a' }].contains('a', function (item, value) { return (item as any).prop == value; })).toEqual(true);
+        expect([{ prop: 'a' }].contains('b', function (item, value) { return (item as any).prop == value; })).toEqual(false);
+    });
+    it('contains - value and string', function () {
+        var arrInt = [1, 2, 3, 4];
+        expect(arrInt.contains(2, '$lt')).toEqual(true);
+        expect(arrInt.contains(1, '$lt')).toEqual(false);
+        expect(arrInt.contains(1, '$lte')).toEqual(true);
+        expect(arrInt.contains(0, '$lte')).toEqual(false);
+        expect(arrInt.contains(3, '$gt')).toEqual(true);
+        expect(arrInt.contains(4, '$gt')).toEqual(false);
+        expect(arrInt.contains(4, '$gte')).toEqual(true);
+        expect(arrInt.contains(5, '$gte')).toEqual(false);
+        expect(arrInt.contains([4, 0], '$mod')).toEqual(true);
+        expect(arrInt.contains([1, 1], '$mod')).toEqual(false);
+        expect(arrInt.contains(Number, '$type')).toEqual(true);
+        expect(arrInt.contains(String, '$type')).toEqual(false);
+    });
+    it('contains - array', function () {
+        expect([1, 2, 3, 4].contains([1, 5])).toEqual(1);
+        expect([1, 2, 3, 4].contains([2, 3])).toEqual(2);
+        expect([1, 2, 3, 4].contains([5, 6])).toEqual(false);
+    });
+    it('count - no args', function () {
+        expect(arrObjs.count()).toBe(4);
+    });
+    it('count - query', function () {
+        expect(arrObjs.count({ id: 1 })).toBe(1);
+    });
+    it('count - string', function () {
+        expect(arrStrings.count('1')).toBe(1);
+        expect(arrStrings.count('string')).toBe(4);
+        expect(arrStrings.count('strings')).toBe(0);
+    });
+    it('count - regex', function () {
+        expect(arrStrings.count(/1/)).toBe(1);
+        expect(arrStrings.count(/string/)).toBe(4);
+        expect(arrStrings.count(/strings/)).toBe(0);
     });
     it('createIndex - string', function () {
-        var expected: any = [
-            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }];
-
-        expected.__indexed_buckets = {
-            prop: {
-                __bucket_keys: [undefined],
-                undefined: [
-                    { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                    { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                    { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                    { id: 4, std: 4 }]
-            },
-            prop2: {
-                __bucket_keys: [undefined],
-                undefined: [
-                    { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                    { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                    { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                    { id: 4, std: 4 }]
-            }
-        };
-        expect($c.createIndex([
-            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }], "prop, prop2")).toEqual(expected);
+        expect(arrObjs.createIndex("prop, prop2")).toEqual(arrObjs);
     });
     it('createIndex - array', function () {
-        var arr = [
-            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
+        expect(arrObjs.createIndex(["prop", "prop2"])).toEqual(arrObjs);
+    });
+    it('delete', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.delete({ share: "shared" })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
+        expect(temp).toEqual([
             { id: 2, p: "20", share: "shared", index: 20, std: 4 },
             { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }
-        ],
-            expected: any = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
+            { id: 4, std: 4 }]);
 
-        expected.__indexed_buckets = {
-            prop: {
-                __bucket_keys: [undefined],
-                undefined: [
-                    { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                    { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                    { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                    { id: 4, std: 4 }]
-            },
-            prop2: {
-                __bucket_keys: [undefined],
-                undefined: [
-                    { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                    { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                    { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                    { id: 4, std: 4 }]
-            }
-        };
-        expect($c.createIndex(arr, ["prop", "prop2"])).toEqual(expected);
     });
-    describe('delete', function () {
-        it('justOne:default(true)', function () {
-            var arr = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.delete(arr, { share: "shared" })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
-            expect(arr).toEqual([
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }]);
-
-        });
-        it('justOne:false', function () {
-            var arr = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.delete(arr, { share: "shared" }, false)).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
-            expect(arr).toEqual([{ id: 4, std: 4 }]);
-        });
+    it('delete - justOne:false', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.delete({ share: "shared" }, false)).toEqual([
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
+        expect(temp).toEqual([{ id: 4, std: 4 }]);
     });
-    describe('distinct', function () {
-        it('array', function () {
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], ["share", "std"])).toEqual([
-                    { share: "shared", std: 4 }, { share: undefined, std: 4 }]);
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], ["share"])).toEqual(["shared"]);
+    it('distinct - string', function () {
+        var temp: any = duplicate(arrObjs, true);
+        expect(temp.distinct("share,std")).toEqual([
+            { share: "shared", std: 4 }, { share: undefined, std: 4 }]);
+        expect(temp.distinct("share")).toEqual(["shared"]);
+        temp = duplicate(arrGroup, true);
 
-            var arr = [
-                { "_id": 1, item: { "sku": "111" }, name: "p1", status: "ordered", "instock": 10, sizes: ["S", "M"], dept: "A" },
-                { "_id": 2, item: { "sku": "222" }, name: "p2", status: "ordered", "instock": 80, sizes: ["M", "L"], dept: "A" },
-                { "_id": 3, item: { "sku": "111" }, name: "p1", status: "ordered", "instock": 60, sizes: "S", dept: "B" },
-                { "_id": 4, item: { "sku": "333" }, name: "p3", status: "ordered", "instock": 70, sizes: ["S"], dept: "A" },
-                { "_id": 5, item: { "sku": "111" }, name: "p1", status: "incomplete" },
-                { "_id": 6 }];
-            expect($c.distinct(arr, "sizes,dept")).toEqual([
-                { sizes: "S", dept: "A" },
-                { sizes: "M", dept: "A" },
-                { sizes: "L", dept: "A" },
-                { sizes: "S", dept: "B" }
-            ]);
-            expect($c.distinct(arr, "sizes")).toEqual(["S", "M", "L"]);
-            expect($c.distinct(arr, "item.sku")).toEqual(["111", "222", "333"]);
-        });
-        it('string', function () {
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], "share,std")).toEqual([
-                    { share: "shared", std: 4 }, { share: undefined, std: 4 }]);
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], "share")).toEqual(["shared"]);
-        });
-        it('string with query', function () {
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], "share,std", { share: { $exists: 1 } })).toEqual([
-                    { share: "shared", std: 4 }]);
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], "share", { share: { $exists: 1 } })).toEqual(["shared"]);
-        });
-        it('array with query', function () {
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], ["share", "std"], { share: { $exists: 1 } })).toEqual([
-                    { share: "shared", std: 4 }]);
 
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], ["share"], { share: { $exists: 1 } })).toEqual(["shared"]);
-        });
-        it('string with sql query', function () {
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], "share,std", "")).toEqual([
-                    { share: "shared", std: 4 },
-                    { share: undefined, std: 4 }
-                ]);
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], "share", "")).toEqual(["shared"]);
-        });
-        it('array with sql query', function () {
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], ["share", "std"], "")).toEqual([
-                    { share: "shared", std: 4 },
-                    { share: undefined, std: 4 }
-                ]);
+        expect(temp.distinct("sizes,dept")).toEqual([
+            { sizes: "S", dept: "A" },
+            { sizes: "M", dept: "A" },
+            { sizes: "L", dept: "A" },
+            { sizes: "S", dept: "B" }
+        ]);
+        expect(temp.distinct("sizes")).toEqual(["S", "M", "L"]);
+        expect(temp.distinct("item.sku")).toEqual(["111", "222", "333"]);
+    });
+    it('distinct - string with query', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.distinct("share,std", { share: { $exists: 1 } })).toEqual([
+            { share: "shared", std: 4 }]);
+        expect(temp.distinct("share", { share: { $exists: 1 } })).toEqual(["shared"]);
+    });
+    it('distinct - array', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.distinct(["share", "std"])).toEqual([
+            { share: "shared", std: 4 }, { share: undefined, std: 4 }]);
+        expect(temp.distinct(["share"])).toEqual(["shared"]);
 
-            expect($c.distinct([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }], ["share"], "")).toEqual(["shared"]);
-        });
+    });
+    it('distinct - string with query', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.distinct(["share", "std"], { share: { $exists: 1 } })).toEqual([
+            { share: "shared", std: 4 }]);
+
+        expect(temp.distinct(["share"], { share: { $exists: 1 } })).toEqual(["shared"]);
+    });
+    it('distinct - string with sql query', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.distinct("share,std", "")).toEqual([
+            { share: "shared", std: 4 },
+            { share: undefined, std: 4 }
+        ]);
+        expect(temp.distinct("share", "")).toEqual(["shared"]);
+    });
+    it('distinct - array with sql query', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.distinct(["share", "std"], "")).toEqual([
+            { share: "shared", std: 4 },
+            { share: undefined, std: 4 }
+        ]);
+
+        expect(temp.distinct(["share"], "")).toEqual(["shared"]);
     });
     it('every', function () {
         var arr = ['a', '', 'b', 0, 'c', false, 'd', null, 'e', undefined];
-        expect($c.every(arr, function (item, i, arr) { return !isNull(item); })).toBe(false);
-        expect($c.every($c.condense(arr), function (item, i, arr) { return !isNull(item); })).toBe(true);
+        expect(arr.every(function (item, i, arr) { return !isNull(item); })).toBe(false);
+        expect(arr.condense().every(function (item, i, arr) { return !isNull(item); })).toBe(true);
     });
     it('filter', function () {
         var arr = ['a', '', 'b', 0, 'c', false, 'd', null, 'e', undefined];
-        expect($c.filter(arr, function (item, i, arr) { return item; })).toEqual(['a', 'b', 'c', 'd', 'e']);
+        expect(arr.filter(function (item, i, arr) { return item; })).toEqual(['a', 'b', 'c', 'd', 'e']);
     });
     it('group', function () {
-        var arr = [
-            { "_id": 1, item: { "sku": "111" }, name: "p1", status: "ordered", "instock": 10, sizes: ["S", "M"], dept: "A" },
-            { "_id": 2, item: { "sku": "222" }, name: "p2", status: "ordered", "instock": 80, sizes: ["M", "L"], dept: "A" },
-            { "_id": 3, item: { "sku": "111" }, name: "p1", status: "ordered", "instock": 60, sizes: "S", dept: "B" },
-            { "_id": 4, item: { "sku": "333" }, name: "p3", status: "ordered", "instock": 70, sizes: ["S"], dept: "A" },
-            { "_id": 5, item: { "sku": "111" }, name: "p1", status: "incomplete" },
-            { "_id": 6 } as any];
-        expect($c.group(arr, { key: { 'item.sku': 1, name: 1 }, reduce: function (curr, result) { }, initial: {}, })).toEqual([
+        var temp = duplicate(arrGroup);
+        expect(temp.group({ key: { 'item.sku': 1, name: 1 }, reduce: function (curr, result) { }, initial: {}, })).toEqual([
             { item: { sku: '111' }, name: 'p1' },
             { item: { sku: '222' }, name: 'p2' },
             { item: { sku: '333' }, name: 'p3' },
             { item: { sku: null }, name: null }
         ]);
 
-        expect($c.group(arr, {
+        temp = duplicate(arrGroup);
+        expect(temp.group({
             cond: { _id: { $exists: true } },
             key: { 'item.sku': 1, name: 1 },
             reduce: function (curr, result) { result.total += curr.instock || 0; },
@@ -656,7 +507,8 @@ describe('No Conflict Array', function () {
             { item: { sku: null }, name: null, total: 0 }
         ]);
 
-        expect($c.group(arr, {
+        temp = duplicate(arrGroup);
+        expect(temp.group({
             cond: { _id: { $exists: true } },
             key: { 'item.sku': 1, name: 1 },
             reduce: function (curr, result) { result.total += curr.instock || 0; },
@@ -664,7 +516,7 @@ describe('No Conflict Array', function () {
             finalize: function (result) { return {} as any; }
         })).toEqual([{}, {}, {}, {}]);
 
-        expect($c.group(arr, {
+        expect(temp.group({
             cond: { neverTrue: "" },
             key: { 'item.sku': 1, name: 1 },
             reduce: function (curr, result) { },
@@ -675,200 +527,135 @@ describe('No Conflict Array', function () {
     //it('groupBy',function(){
     //
     //});
-    // it('indexOf', function () {
-    //     expect($c.indexOf(["string 1", "string 2", "string 3", "string 4"], "string 1")).toBe(0);
-    //     expect($c.indexOf(["string 1", "string 2", "string 3", "string 4"], "string 10")).toBe(-1);
-    // });
+    it('indexOf', function () {
+        expect(arrStrings.indexOf("string 1")).toBe(0);
+        expect(arrStrings.indexOf("string 10")).toBe(-1);
+    });
     it('indexOfAlt', function () {
-        expect($c.indexOfAlt([
-            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }], "20", function (item, value) { return (item as any).p == value })).toBe(1);
-        expect($c.indexOfAlt([
-            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }], "201", function (item, value) { return (item as any).p == value })).toBe(-1);
+        expect(arrObjs.indexOfAlt("20", function (item, value) { return (item as any).p == value })).toBe(1);
+        expect(arrObjs.indexOfAlt("201", function (item, value) { return (item as any).p == value })).toBe(-1);
     });
-    describe('innerJoin', function () {
-        var arrLookup = [
-            { "_id": 1, "item": "abc", "price": 12, "quantity": 2 },
-            { "_id": 2, "item": "jkl", "price": 20, "quantity": 1 },
-            { "_id": 3 }];
-        var arr = [
-            { "_id": 1, "sku": "abc", description: "product 1", "instock": 120 },
-            { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
-            { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
-            { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
-            { "_id": 5, "sku": null, description: "Incomplete" },
-            { "_id": 6 }
-        ];
-        it('full', function () {
-            expect($c.innerJoin(duplicate(arrLookup, true), arr, "_id=_id")).toEqual([
-                { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
-                { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
-                { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
-        });
-        it('shorthand', function () {
-            expect($c.innerJoin(duplicate(arrLookup, true), arr, "_id")).toEqual([
-                { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
-                { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
-                { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
-        });
+    it('innerJoin - full', function () {
+        expect(duplicate(arrLookup, true).innerJoin(duplicate(arrLookupJoiner, true), "_id=_id")).toEqual([
+            { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
+            { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
+            { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
     });
-    describe('insert', function () {
-        it('single', function () {
-            var arr = [1, {}, "adsf", 10];
-            expect($c.insert(arr, 'abcd')).toEqual(true);
-            expect(arr).toEqual([1, {}, "adsf", 10, 'abcd']);
+    it('innerJoin - shorthand', function () {
+        expect(duplicate(arrLookup, true).innerJoin(duplicate(arrLookupJoiner, true), "_id")).toEqual([
+            { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
+            { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
+            { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
+    });
+    it('insert - single', function () {
+        arrMix = [1, {}, "adsf", 10];
+        var temp = duplicate(arrMix, true);
+        expect(temp.insert('abcd')).toEqual(true);
+        expect(temp).toEqual([1, {}, "adsf", 10, 'abcd']);
 
-        });
-        it('multiple', function () {
-            var arr = [1, {}, "adsf", 10];
-            expect($c.insert(arr, ['abcd', 99])).toEqual(true);
-            expect(arr).toEqual([1, {}, "adsf", 10, 'abcd', 99]);
-
-        });
     });
-    describe('insertAfter', function () {
-        it('single', function () {
-            var arr = [1, {}, "adsf", 10];
-            expect($c.insertAfter(arr, 1, 'abcd')).toEqual(true);
-            expect(arr).toEqual([1, {}, 'abcd', "adsf", 10]);
-        });
-        it('multiple', function () {
-            var arr = [1, {}, "adsf", 10];
-            expect($c.insertAfter(arr, 1, ['abcd', 99])).toEqual(true);
-            expect(arr).toEqual([1, {}, ['abcd', 99], "adsf", 10]);
-        });
-    });
-    describe('insertBefore', function () {
-        it('single', function () {
-            var arr = [1, {}, "adsf", 10];
-            expect($c.insertBefore(arr, 1, 'abcd')).toEqual(true);
-            expect(arr).toEqual([1, 'abcd', {}, "adsf", 10]);
-        });
-        it('multiple', function () {
-            var arr = [1, {}, "adsf", 10];
-            expect($c.insertBefore(arr, 1, ['abcd', 99])).toEqual(true);
-            expect(arr).toEqual([1, ['abcd', 99], {}, "adsf", 10]);
+    it('insert - multiple', function () {
+        var temp = duplicate(arrMix, true);
+        expect(temp.insert(['abcd', 99])).toEqual(true);
+        expect(temp).toEqual([1, {}, "adsf", 10, 'abcd', 99]);
 
-        });
+    });
+    it('insertAfter - single', function () {
+        arrMix = [1, {}, "adsf", 10];
+        var temp = duplicate(arrMix, true);
+        expect(temp.insertAfter(1, 'abcd')).toEqual(true);
+        expect(temp).toEqual([1, {}, 'abcd', "adsf", 10]);
+    });
+    it('insertAfter - multiple', function () {
+        var temp = duplicate(arrMix, true);
+        expect(temp.insertAfter(1, ['abcd', 99])).toEqual(true);
+        expect(temp).toEqual([1, {}, ['abcd', 99], "adsf", 10]);
+    });
+    it('insertBefore - single', function () {
+        arrMix = [1, {}, "adsf", 10];
+        var temp = duplicate(arrMix, true);
+        expect(temp.insertBefore(1, 'abcd')).toEqual(true);
+        expect(temp).toEqual([1, 'abcd', {}, "adsf", 10]);
+    });
+    it('insertBefore - multiple', function () {
+        var temp = duplicate(arrMix, true);
+        expect(temp.insertBefore(1, ['abcd', 99])).toEqual(true);
+        expect(temp).toEqual([1, ['abcd', 99], {}, "adsf", 10]);
+
     });
     it('isEmpty', function () {
-        expect($c.isEmpty([{}])).toBe(false);
-        expect($c.isEmpty([])).toBe(true);
+        expect(arrObjs.isEmpty()).toBe(false);
+        expect([].isEmpty()).toBe(true);
     });
-    describe('joinLeft', function () {
-        it('full', function () {
-            var arr = [{ "_id": 1, "sku": "abc", description: "product 1", "instock": 120 },
-            { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
+    it('joinLeft - full', function () {
+        expect(duplicate(arrLookup, true).joinLeft(duplicate(arrLookupJoiner, true), "_id=_id")).toEqual([
+            { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
+            { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
+            { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
+
+        expect(duplicate(arrLookupJoiner, true).joinLeft(duplicate(arrLookup, true), "_id=_id")).toEqual([
+            { "_id": 1, "sku": "abc", description: "product 1", "instock": 120, "item": "abc", "price": 12, "quantity": 2 },
+            { "_id": 2, "sku": "def", description: "product 2", "instock": 80, "item": "jkl", "price": 20, "quantity": 1 },
             { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
-            { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
-            { "_id": 5, "sku": null, description: "Incomplete" },
-            { "_id": 6 }];
-            var arrLookup = [{ "_id": 1, "item": "abc", "price": 12, "quantity": 2 }, { "_id": 2, "item": "jkl", "price": 20, "quantity": 1 }, { "_id": 3 }];
-            expect($c.joinLeft(arrLookup, duplicate(arr, true), "_id=_id")).toEqual([
-                { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
-                { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
-                { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
-
-            expect($c.joinLeft(duplicate(arr, true), arrLookup, "_id=_id")).toEqual([
-                { "_id": 1, "sku": "abc", description: "product 1", "instock": 120, "item": "abc", "price": 12, "quantity": 2 },
-                { "_id": 2, "sku": "def", description: "product 2", "instock": 80, "item": "jkl", "price": 20, "quantity": 1 },
-                { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
-                { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70, "item": null, "price": null, "quantity": null },
-                { "_id": 5, "sku": null, description: "Incomplete", "item": null, "price": null, "quantity": null },
-                { "_id": 6, "item": null, "price": null, "quantity": null }]);
-        });
-        it('shorthand', function () {
-            var arr = [{ "_id": 1, "sku": "abc", description: "product 1", "instock": 120 },
-            { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
-            { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
-            { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
-            { "_id": 5, "sku": null, description: "Incomplete" },
-            { "_id": 6 }];
-            var arrLookup = [{ "_id": 1, "item": "abc", "price": 12, "quantity": 2 }, { "_id": 2, "item": "jkl", "price": 20, "quantity": 1 }, { "_id": 3 }];
-            expect($c.joinLeft(arrLookup, arr, "_id")).toEqual([
-                { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
-                { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
-                { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
-
-
-            expect($c.joinLeft(arr, arrLookup, "_id")).toEqual([
-                { "_id": 1, "sku": "abc", description: "product 1", "instock": 120, "item": "abc", "price": 12, "quantity": 2 },
-                { "_id": 2, "sku": "def", description: "product 2", "instock": 80, "item": "jkl", "price": 20, "quantity": 1 },
-                { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
-                { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70, "item": null, "price": null, "quantity": null },
-                { "_id": 5, "sku": null, description: "Incomplete", "item": null, "price": null, "quantity": null },
-                { "_id": 6, "item": null, "price": null, "quantity": null }]);
-        });
+            { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70, "item": null, "price": null, "quantity": null },
+            { "_id": 5, "sku": null, description: "Incomplete", "item": null, "price": null, "quantity": null },
+            { "_id": 6, "item": null, "price": null, "quantity": null }]);
     });
-    describe('joinRight', function () {
-        it('full', function () {
-            var arr = [{ "_id": 1, "sku": "abc", description: "product 1", "instock": 120 },
-            { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
+    it('joinLeft - shorthand', function () {
+        expect(duplicate(arrLookup, true).joinLeft(duplicate(arrLookupJoiner, true), "_id")).toEqual([
+            { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
+            { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
+            { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
+
+
+        expect(duplicate(arrLookupJoiner, true).joinLeft(duplicate(arrLookup, true), "_id")).toEqual([
+            { "_id": 1, "sku": "abc", description: "product 1", "instock": 120, "item": "abc", "price": 12, "quantity": 2 },
+            { "_id": 2, "sku": "def", description: "product 2", "instock": 80, "item": "jkl", "price": 20, "quantity": 1 },
             { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
-            { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
-            { "_id": 5, "sku": null, description: "Incomplete" },
-            { "_id": 6 }];
-            var arrLookup = [{ "_id": 1, "item": "abc", "price": 12, "quantity": 2 }, { "_id": 2, "item": "jkl", "price": 20, "quantity": 1 }, { "_id": 3 }];
-            expect($c.joinRight(arr, arrLookup, "_id=_id")).toEqual([
-                { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
-                { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
-                { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
+            { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70, "item": null, "price": null, "quantity": null },
+            { "_id": 5, "sku": null, description: "Incomplete", "item": null, "price": null, "quantity": null },
+            { "_id": 6, "item": null, "price": null, "quantity": null }]);
+    });
+    it('joinRight - full', function () {
+        expect(duplicate(arrLookupJoiner, true).joinRight(duplicate(arrLookup, true), "_id=_id")).toEqual([
+            { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
+            { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
+            { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
 
-            expect($c.joinRight(arrLookup, arr, "_id=_id")).toEqual([
-                { "_id": 1, "sku": "abc", description: "product 1", "instock": 120, "item": "abc", "price": 12, "quantity": 2 },
-                { "_id": 2, "sku": "def", description: "product 2", "instock": 80, "item": "jkl", "price": 20, "quantity": 1 },
-                { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
-                { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70, "item": null, "price": null, "quantity": null },
-                { "_id": 5, "sku": null, description: "Incomplete", "item": null, "price": null, "quantity": null },
-                { "_id": 6, "item": null, "price": null, "quantity": null }]);
-        });
-        it('shorthand', function () {
-            var arr = [{ "_id": 1, "sku": "abc", description: "product 1", "instock": 120 },
-            { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
+        expect(duplicate(arrLookup, true).joinRight(duplicate(arrLookupJoiner, true), "_id=_id")).toEqual([
+            { "_id": 1, "sku": "abc", description: "product 1", "instock": 120, "item": "abc", "price": 12, "quantity": 2 },
+            { "_id": 2, "sku": "def", description: "product 2", "instock": 80, "item": "jkl", "price": 20, "quantity": 1 },
             { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
-            { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
-            { "_id": 5, "sku": null, description: "Incomplete" },
-            { "_id": 6 }];
-            var arrLookup = [{ "_id": 1, "item": "abc", "price": 12, "quantity": 2 }, { "_id": 2, "item": "jkl", "price": 20, "quantity": 1 }, { "_id": 3 }];
-            expect($c.joinRight(arr, arrLookup, "_id")).toEqual([
-                { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
-                { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
-                { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
+            { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70, "item": null, "price": null, "quantity": null },
+            { "_id": 5, "sku": null, description: "Incomplete", "item": null, "price": null, "quantity": null },
+            { "_id": 6, "item": null, "price": null, "quantity": null }]);
+    });
+    it('joinRight - shorthand', function () {
+        expect(duplicate(arrLookupJoiner, true).joinRight(duplicate(arrLookup, true), "_id")).toEqual([
+            { "_id": 1, "item": "abc", "price": 12, "quantity": 2, "sku": "abc", description: "product 1", "instock": 120 },
+            { "_id": 2, "item": "jkl", "price": 20, "quantity": 1, "sku": "def", description: "product 2", "instock": 80 },
+            { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 }]);
 
 
-            expect($c.joinRight(arrLookup, arr, "_id")).toEqual([
-                { "_id": 1, "sku": "abc", description: "product 1", "instock": 120, "item": "abc", "price": 12, "quantity": 2 },
-                { "_id": 2, "sku": "def", description: "product 2", "instock": 80, "item": "jkl", "price": 20, "quantity": 1 },
-                { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
-                { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70, "item": null, "price": null, "quantity": null },
-                { "_id": 5, "sku": null, description: "Incomplete", "item": null, "price": null, "quantity": null },
-                { "_id": 6, "item": null, "price": null, "quantity": null }]);
-        });
+        expect(duplicate(arrLookup, true).joinRight(duplicate(arrLookupJoiner, true), "_id")).toEqual([
+            { "_id": 1, "sku": "abc", description: "product 1", "instock": 120, "item": "abc", "price": 12, "quantity": 2 },
+            { "_id": 2, "sku": "def", description: "product 2", "instock": 80, "item": "jkl", "price": 20, "quantity": 1 },
+            { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
+            { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70, "item": null, "price": null, "quantity": null },
+            { "_id": 5, "sku": null, description: "Incomplete", "item": null, "price": null, "quantity": null },
+            { "_id": 6, "item": null, "price": null, "quantity": null }]);
     });
     it('limit', function () {
-        expect($c.limit([
-            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }], 1)).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
+        expect(arrObjs.limit(1)).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
     });
     it('map', function () {
-
-        expect($c.map([
-            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }], function (item) { item.p = 10; return item; }))
-            .toEqual([
-                { id: 1, p: 10, share: "shared", index: 10, std: 4 },
-                { id: 2, p: 10, share: "shared", index: 20, std: 4 },
-                { id: 3, p: 10, share: "shared", index: 30, std: 4 },
-                { id: 4, p: 10, std: 4 }]);
+        var temp = duplicate(arrObjs, true);
+        temp.map(function (item) { (item as any).p = 10; return item; });
+        expect(temp).toEqual([
+            { id: 1, p: 10, share: "shared", index: 10, std: 4 },
+            { id: 2, p: 10, share: "shared", index: 20, std: 4 },
+            { id: 3, p: 10, share: "shared", index: 30, std: 4 },
+            { id: 4, p: 10, std: 4 }]);
     });
 
     var arr = [{
@@ -896,46 +683,40 @@ describe('No Conflict Array', function () {
         items: [{ sku: "ooo", qty: 5, price: 2.5 },
         { sku: "ppp", qty: 5, price: 2.5 }]
     }];
-
-    describe('mapReduce', function () {
-        var reduceFunction1 = function (keyCustId, valuesPrices) {
-            return valuesPrices.sum();
-        };
-        var mapFunction1 = function () {
-            $c.emit(this.cust_id, this.price);
-        };
-        it('simple', function () {
-            expect($c.mapReduce(duplicate(arr, true), mapFunction1, reduceFunction1))
-                .toEqual([{ _id: 'abc123', value: 50 }, { _id: 'abc124', value: 30 }]);
-        });
-        it('query', function () {
-            expect($c.mapReduce(duplicate(arr, true), mapFunction1, reduceFunction1, { query: { cust_id: 'abc123' } }))
-                .toEqual([{ _id: 'abc123', value: 50 }]);
-        });
-        it('limit', function () {
-            expect($c.mapReduce(duplicate(arr, true), mapFunction1, reduceFunction1, { limit: 1 }))
-                .toEqual([{ _id: 'abc123', value: 25 }]);
-        });
-        it('out', function () {
-            var rarr = [];
-            expect($c.mapReduce(duplicate(arr, true), mapFunction1, reduceFunction1, { out: rarr }))
-                .toBe(rarr);
-        });
-        it('limit/final', function () {
-            expect($c.mapReduce(duplicate(arr, true), mapFunction1, reduceFunction1, { limit: 1, finalize: function () { return {}; } }))
-                .toEqual([{ _id: 'abc123', value: {} }]);
-        });
+    var reduceFunction1 = function (keyCustId, valuesPrices) {
+        return valuesPrices.sum();
+    };
+    var mapFunction1 = function () {
+        $c.emit(this.cust_id, this.price);
+    };
+    it('mapReduce - simple', function () {
+        expect(duplicate(arr, true).mapReduce(mapFunction1, reduceFunction1))
+            .toEqual([{ _id: 'abc123', value: 50 }, { _id: 'abc124', value: 30 }]);
+    });
+    it('mapReduce - query', function () {
+        expect(duplicate(arr, true).mapReduce(mapFunction1, reduceFunction1, { query: { cust_id: 'abc123' } }))
+            .toEqual([{ _id: 'abc123', value: 50 }]);
+    });
+    it('mapReduce - limit', function () {
+        expect(duplicate(arr, true).mapReduce(mapFunction1, reduceFunction1, { limit: 1 }))
+            .toEqual([{ _id: 'abc123', value: 25 }]);
+    });
+    it('mapReduce - out', function () {
+        var rarr = [];
+        expect(duplicate(arr, true).mapReduce(mapFunction1, reduceFunction1, { out: rarr }))
+            .toBe(rarr);
+    });
+    it('mapReduce - limit/final', function () {
+        expect(duplicate(arr, true).mapReduce(mapFunction1, reduceFunction1, { limit: 1, finalize: function () { return {}; } }))
+            .toEqual([{ _id: 'abc123', value: {} }]);
     });
     it('normalize', function () {
-        expect($c.normalize([
+        var temp = duplicate(arrObjs, true);
+        expect(temp.normalize()).toEqual([
             { id: 1, p: "10", share: "shared", index: 10, std: 4 },
             { id: 2, p: "20", share: "shared", index: 20, std: 4 },
             { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }])).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, p: null, share: null, index: null, std: 4 }]);
+            { id: 4, p: null, share: null, index: null, std: 4 }]);
     });
     describe("parallelEach async test", function () {
         var results: any = [];
@@ -955,54 +736,64 @@ describe('No Conflict Array', function () {
                 { username: 'czass', name: 'Cater Zass', age: 10 },
                 { username: 'awesome_game', name: 'clash of clans', age: 21 }]
         };
+        var promise = function () {
+            return ajax('http://craydent.com:8000/test/users.js');
+        };
+        // if ($m.noAsync) {
+        //     promise = function () {
+        //         return new Promise(function (res) {
+        //             setTimeout(function () { res(usersdata); }, 1)
+        //         });
+        //     };
+        // }
         const win = (global as any).window;
         delete (global as any).window;
-        beforeEach(function (done) {
-            syncroit(function* () {
-                results = yield $c.parallelEach([
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-
-
-                    ajax('http://craydent.com:8000/test/users.js'),
-                    ajax('http://craydent.com:8000/test/users.js'),
-                    ajax('http://craydent.com:8000/test/users.js'),
-                    ajax('http://craydent.com:8000/test/users.js'),
-                    ajax('http://craydent.com:8000/test/users.js'),
-                    ajax('http://craydent.com:8000/test/users.js'),
-                    ajax('http://craydent.com:8000/test/users.js'),
-                    ajax('http://craydent.com:8000/test/users.js'),
-                    ajax('http://craydent.com:8000/test/users.js'),
-                    ajax('http://craydent.com:8000/test/users.js'),
-
-                    function (a) { return 1 + a; },
-                    function (a) { return 2 + a; },
-                    function (a) { return 3 + a; },
-                    function (a) { return 4 + a; },
-                    function (a) { return 5 + a; },
-                    function (a) { return 6 + a; },
-                    function (a) { return 7 + a; },
-                    function (a) { return 8 + a; },
-                    function (a) { return 9 + a; },
-                    function (a) { return 10 + a; },
-                    "asdf"
-
-                ], [1]);
-                if (!results) { console.log('wtf'); }
-                done();
-            });
-        });
         afterAll(() => {
             if (win) { (global as any).window = win; }
         });
+        beforeEach(async function () {
+
+            results = await ([
+                function* () { return yield promise(); },
+                function* () { return yield promise(); },
+                function* () { return yield promise(); },
+                function* () { return yield promise(); },
+                function* () { return yield promise(); },
+                async function () { return await promise(); },
+                async function () { return await promise(); },
+                async function () { return await promise(); },
+                async function () { return await promise(); },
+                async function () { return await promise(); },
+
+
+                promise(),
+                promise(),
+                promise(),
+                promise(),
+                promise(),
+                promise(),
+                promise(),
+                promise(),
+                promise(),
+                promise(),
+
+                function (a) { return 1 + a; },
+                function (a) { return 2 + a; },
+                function (a) { return 3 + a; },
+                function (a) { return 4 + a; },
+                function (a) { return 5 + a; },
+                function (a) { return 6 + a; },
+                function (a) { return 7 + a; },
+                function (a) { return 8 + a; },
+                function (a) { return 9 + a; },
+                function (a) { return 10 + a; },
+                "asdf"
+
+            ].parallelEach([1]));
+            if (!results) { console.log('wtf'); }
+
+        });
+
         it('parallelEach', function () {
             expect(results).toEqual([
                 usersdata,
@@ -1030,63 +821,44 @@ describe('No Conflict Array', function () {
         });
 
     });
-    describe('remove', function () {
-        it('simple', function () {
-            var arr = [1, {}, "adsf", 10];
-            expect($c.remove(arr, "adsf")).toBe("adsf");
-            expect(arr).toEqual([1, {}, 10]);
-        });
-        it('callback', function () {
-            var arr = [1, {}, "adsf", 10];
-            expect($c.remove(arr, "adsf", function () { return 1; })).toEqual({});
-            expect(arr).toEqual([1, 'adsf', 10]);
-        });
+    it('remove - simple', function () {
+        //arrMix = [1,{},"adsf",10];
+        var temp = duplicate(arrMix, true);
+        expect(temp.remove("adsf")).toBe("adsf");
+        expect(temp).toEqual([1, {}, 10]);
     });
-    describe('removeAll', function () {
-        it('simple', function () {
-            var arr = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            $c.removeAll(arr);
-            expect(arr).toEqual([]);
-            expect($c.removeAll([])).toEqual([]);
-        });
-        it('complex', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            // expect($c.removeAll(temp, "10", function (item) { return item.p; })).toEqual([]);
-            expect($c.removeAll(temp, "10", function (value) { return $c.indexOfAlt(this, value, function (item, value, arr) { return (item as any).p == value; }); }))
-                .toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);;
-            expect(temp).toEqual([
-                { id: 2, p: '20', share: 'shared', index: 20, std: 4 },
-                { id: 3, p: '30', share: 'shared', index: 30, std: 4 },
-                { id: 4, std: 4 }]);
-        });
+    it('remove - callback', function () {
+        //arrMix = [1,{},"adsf",10];
+        var temp = duplicate(arrMix, true);
+        expect(temp.remove("adsf", function () { return 1/*index*/; })).toEqual({});
+        expect(temp).toEqual([1, 'adsf', 10]);
+    });
+    it('removeAll - simple', function () {
+        var temp = duplicate(arrObjs, true);
+        temp.removeAll();
+        expect(temp).toEqual([]);
+        expect([].removeAll()).toEqual([]);
+    });
+    it('removeAll - complex', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.removeAll("10", function (value) { return indexOfAlt(this, value, function (item, value, arr) { return (item as any).p == value; }); }))
+            .toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);;
+        expect(temp).toEqual([
+            { id: 2, p: '20', share: 'shared', index: 20, std: 4 },
+            { id: 3, p: '30', share: 'shared', index: 30, std: 4 },
+            { id: 4, std: 4 }]);
     });
     it('removeAt', function () {
-        var temp = [
-            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }];
-        expect($c.removeAt(temp, 1)).toEqual({ id: 2, p: "20", share: "shared", index: 20, std: 4 });
+        var temp = duplicate(arrObjs, true);
+        expect(temp.removeAt(1)).toEqual({ id: 2, p: "20", share: "shared", index: 20, std: 4 });
         expect(temp).toEqual([
             { id: 1, p: "10", share: "shared", index: 10, std: 4 },
             { id: 3, p: "30", share: "shared", index: 30, std: 4 },
             { id: 4, std: 4 }]);
     });
     it('replaceAt', function () {
-        var temp = [
-            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }];
-        expect($c.replaceAt(temp, 1, { id: 5, p: "50", share: "shared", index: 50, std: 4 })).toEqual({ id: 2, p: "20", share: "shared", index: 20, std: 4 });
+        var temp = duplicate(arrObjs, true);
+        expect(temp.replaceAt(1, { id: 5, p: "50", share: "shared", index: 50, std: 4 })).toEqual({ id: 2, p: "20", share: "shared", index: 20, std: 4 });
         expect(temp).toEqual([
             { id: 1, p: "10", share: "shared", index: 10, std: 4 },
             { id: 5, p: "50", share: "shared", index: 50, std: 4 },
@@ -1094,658 +866,544 @@ describe('No Conflict Array', function () {
             { id: 4, std: 4 }]);
     });
     it('scramble', function () {
-        var arrObjsScramble = [
-            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 5, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 6, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 7, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 8, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 9, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 10, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 11, std: 4 },
-            { id: 11, std: 4 },
-            { id: 12, std: 4 },
-            { id: 13, std: 4 },
-            { id: 14, std: 4 },
-            { id: 15, std: 4 },
-            { id: 16, std: 4 },
-            { id: 17, std: 4 },
-            { id: 18, std: 4 },
-            { id: 19, std: 4 },
-            { id: 20, std: 4 },
-            { id: 21, std: 4 },
-            { id: 22, std: 4 },
-            { id: 23, std: 4 },
-            { id: 24, std: 4 },
-            { id: 25, std: 4 }]
         var temp = duplicate(arrObjsScramble, true);
-        expect($c.scramble(temp)).not.toEqual(arrObjsScramble);
+        expect(temp.scramble()).not.toEqual(arrObjsScramble);
         expect(temp.length).toEqual(arrObjsScramble.length);
     });
-    describe('sortBy', function () {
-        it('simple', function () {
-            expect($c.sortBy([{ id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }, { id: 4, s: 3 }, { id: 5, s: 2 }], 's')).toEqual([{ id: 5, s: 2 }, { id: 4, s: 3 }, { id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }]);
-        });
-        it('simple negate', function () {
-            expect($c.sortBy([{ id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }, { id: 4, s: 3 }, { id: 5, s: 2 }], ['s', '!id'])).toEqual([{ id: 5, s: 2 }, { id: 4, s: 3 }, { id: 2, s: 5 }, { id: 1, s: 5 }, { id: 3, s: 6 }]);
-        });
-        it('simple comma separated', function () {
-            expect($c.sortBy([{ id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }, { id: 4, s: 3 }, { id: 5, s: 2 }], 's,!id')).toEqual([{ id: 5, s: 2 }, { id: 4, s: 3 }, { id: 2, s: 5 }, { id: 1, s: 5 }, { id: 3, s: 6 }]);
-            expect($c.sortBy([{ id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }, { id: 4, s: 3 }, { id: 5, s: 2 }], 's,!id', true)).toEqual([{ id: 3, s: 6 }, { id: 1, s: 5 }, { id: 2, s: 5 }, { id: 4, s: 3 }, { id: 5, s: 2 }]);
-        });
-        it('primer', function () {
-            var primer = function (val) { if (val % 2) { return val - 1; } return val; };
-            expect($c.sortBy([{ id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }, { id: 4, s: 3 }, { id: 5, s: 2 }], ['s', 'id'], false, primer)).toEqual([{ id: 4, s: 3 }, { id: 5, s: 2 }, { id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }]);
-        });
-        it('lookup', function () {
-            var arr = ['a', 'b', 'c', 'd'], lookup = { a: { s: 4 }, b: { s: 3 }, c: { s: 2 }, d: { s: 1 } };
-            expect($c.sortBy(arr, ['s'], false, null, lookup)).toEqual(['d', 'c', 'b', 'a']);
+    it('sortBy - simple', function () {
+        var temp = duplicate(arrSort, true);
+        expect(temp.sortBy('s')).toEqual([{ id: 5, s: 2 }, { id: 4, s: 3 }, { id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }]);
+    });
+    it('sortBy - simple negate', function () {
+        var temp = duplicate(arrSort, true);
+        expect(temp.sortBy(['s', '!id'])).toEqual([{ id: 5, s: 2 }, { id: 4, s: 3 }, { id: 2, s: 5 }, { id: 1, s: 5 }, { id: 3, s: 6 }]);
+    });
+    it('sortBy - simple comma separated', function () {
+        var temp = duplicate(arrSort, true);
+        expect(temp.sortBy('s,!id')).toEqual([{ id: 5, s: 2 }, { id: 4, s: 3 }, { id: 2, s: 5 }, { id: 1, s: 5 }, { id: 3, s: 6 }]);
 
-            var lookup2 = { a: { s: "a" }, b: { s: "B" }, c: { s: "c" }, d: { s: "d" } };
-            expect($c.sortBy(arr, ['s'], false, null, lookup2)).toEqual(['b', 'a', 'c', 'd']);
-        });
-        it('lookup string', function () {
-            var arr = ['a', 'b', 'c', 'd'];
+        temp = duplicate(arrSort, true);
+        expect(temp.sortBy('s,!id', true)).toEqual([{ id: 3, s: 6 }, { id: 1, s: 5 }, { id: 2, s: 5 }, { id: 4, s: 3 }, { id: 5, s: 2 }]);
+    });
+    it('sortBy - primer', function () {
+        var temp = duplicate(arrSort, true);
 
-            var lookup2 = { a: { s: "a" }, b: { s: "B" }, c: { s: "c" }, d: { s: "d" } };
-            expect($c.sortBy(arr, ['s'], false, null, lookup2)).toEqual(['b', 'a', 'c', 'd']);
-        });
-        it('lookup string ignore case', function () {
-            var arr = ['a', 'b', 'c', 'd'];
+        var primer = function (val) { if (val % 2) { return val - 1; } return val; };
+        expect(temp.sortBy(['s', 'id'], false, primer)).toEqual([{ id: 4, s: 3 }, { id: 5, s: 2 }, { id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }]);
+    });
+    it('sortBy - lookup', function () {
+        var arr = ['a', 'b', 'c', 'd'], lookup = { a: { s: 4 }, b: { s: 3 }, c: { s: 2 }, d: { s: 1 } };
+        expect(arr.sortBy(['s'], false, null, lookup)).toEqual(['d', 'c', 'b', 'a']);
 
-            var lookup2 = { a: { s: "a" }, b: { s: "B" }, c: { s: "c" }, d: { s: "d" } };
-            expect($c.sortBy(arr, ['s'], false, null, lookup2, 'i')).toEqual(['a', 'b', 'c', 'd']);
-        });
+        var lookup2 = { a: { s: "a" }, b: { s: "B" }, c: { s: "c" }, d: { s: "d" } };
+        expect(arr.sortBy(['s'], false, null, lookup2)).toEqual(['b', 'a', 'c', 'd']);
+    });
+    it('sortBy - lookup string', function () {
+        var arr = ['a', 'b', 'c', 'd'];
+
+        var lookup2 = { a: { s: "a" }, b: { s: "B" }, c: { s: "c" }, d: { s: "d" } };
+        expect(arr.sortBy(['s'], false, null, lookup2)).toEqual(['b', 'a', 'c', 'd']);
+    });
+    it('sortBy - lookup string ignore case', function () {
+        var arr = ['a', 'b', 'c', 'd'];
+
+        var lookup2 = { a: { s: "a" }, b: { s: "B" }, c: { s: "c" }, d: { s: "d" } };
+        expect(arr.sortBy(['s'], false, null, lookup2, 'i')).toEqual(['a', 'b', 'c', 'd']);
     });
     it('stdev', function () {
         var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
         var arr2 = [1, undefined, 2, '', 3, {}, 4, [], 5, null, function () { }, 6, 7, 8, 9, 0];
-        expect($c.stdev(arr)).toBe(2.8722813232690143);
-        expect($c.stdev(arr2 as any)).toBe(2.8722813232690143);
+        expect(arr.stdev()).toBe(2.8722813232690143);
+        expect((arr2 as Array<any>).stdev()).toBe(2.8722813232690143);
     });
     it('sum', function () {
-        expect($c.sum([1, {} as any, "adsf" as any, 10])).toBe(11);
+        expect((arrMix as Array<any>).sum()).toBe(11);
     });
     it('toSet', function () {
-        var arr = ["string 1", "string 2", "string 3", "string 4", "string 1"]
-        $c.toSet(arr);
-        expect(arr).toEqual(["string 1", "string 2", "string 3", "string 4"]);
-        arr = [{}, {}, {}, {}] as any;
-        $c.toSet(arr);
+        var arr: any = duplicate(arrStrings);
+        arr.push("string 1");
+        arr.toSet();
+        expect(arr).toEqual(arrStrings);
+        arr = [{}, {}, {}, {}];
+        arr.toSet();
         expect(arr).toEqual([{}]);
     });
     it('trim', function () {
         var arr = ["     string 1    ", "  string 2  ", " string 3 ", "string 4"];
-        expect($c.trim(arr)).toEqual(["string 1", "string 2", "string 3", "string 4"]);
+        expect(arr.trim()).toEqual(["string 1", "string 2", "string 3", "string 4"]);
         expect(arr).toEqual(["     string 1    ", "  string 2  ", " string 3 ", "string 4"]);
-        $c.trim(arr, null, true);
+        arr.trim(null, true);
         expect(arr).toEqual(["string 1", "string 2", "string 3", "string 4"]);
     });
-    describe('update', function () {
-        it('$set/single', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            $c.update(temp, { share: "shared" }, { $set: { index: 15 } });
-            expect(temp).toEqual([
-                { id: 1, p: "10", share: "shared", index: 15, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }]);
-        });
-        it('$set/multiple', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            $c.update(temp, { share: "shared" }, { $set: { index: 15 } }, { multi: true });
-            expect(temp).toEqual([
-                { id: 1, p: "10", share: "shared", index: 15, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 15, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 15, std: 4 },
-                { id: 4, std: 4 }]);
-        });
-        it('replace/single', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            $c.update(temp, { share: "shared" }, {});
-            expect(temp).toEqual([
-                {},
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }]);
-        });
-        it('replace/multiple', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            $c.update(temp, { share: "shared" }, {}, { multi: true });
-            expect(temp).toEqual([{}, {}, {}, { id: 4, std: 4 }]);
-        });
-        it('$inc', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            $c.update(temp, { share: "shared" }, { $inc: { index: 1 } }, { multi: true });
-            expect(temp).toEqual([
-                { id: 1, p: "10", share: "shared", index: 11, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 21, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 31, std: 4 },
-                { id: 4, std: 4 }]);
-        });
-        it('$unset', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            $c.update(temp, { share: "shared" }, { $unset: { index: 1 } });
-            expect(temp).toEqual([
-                { id: 1, p: "10", share: "shared", std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }]);
-        });
-        it('$currentDate', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            $c.update(temp, { share: "shared" }, { $currentDate: { currentDate: 1 } });
-            expect((temp[0] as any).currentDate.toString()).toBe((new Date()).toString());
-            delete (temp[0] as any).currentDate;
-            expect(temp).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }]);
-        });
-        it('$min/$max/$mul/$rename', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            $c.update(temp, {}, { $min: { index: 20 }, $max: { index: 20 }, $mul: { std: 2 }, $rename: { share: 'shared' } }, { multi: true });
-            expect(temp).toEqual([
-                { id: 1, p: "10", shared: "shared", index: 20, std: 8 },
-                { id: 2, p: "20", shared: "shared", index: 20, std: 8 },
-                { id: 3, p: "30", shared: "shared", index: 20, std: 8 },
-                { id: 4, index: 20, std: 8 }]);
-        });
-        var arrArr = [
-            {
-                id: 1, arr: [
-                    { "id": 1, "score": 6 },
-                    { "id": 2, "score": 9 }
-                ]
-            }
-        ];
-        it('$push', function () {
-            var temp = duplicate(arrArr, true);
-            $c.update(temp, {}, {
-                $push: {
-                    arr: {
-                        $each: [{ id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 }],
-                        $sort: { score: 1 }
-                    }
-                }
-            });
-            expect(temp).toEqual([{
-                id: 1, arr: [
-                    { "id": 1, "score": 6 },
-                    { "id": 5, "score": 6 },
-                    { "id": 4, "score": 7 },
-                    { "id": 3, "score": 8 },
-                    { "id": 2, "score": 9 }
-                ]
-            }]);
-
-            temp = duplicate(arrArr, true);
-            $c.update(temp, {}, {
-                $push: {
-                    arr: {
-                        $each: [{ id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 }],
-                        $slice: -2
-                    }
-                }
-            });
-            expect(temp).toEqual([{
-                id: 1, arr: [
-                    { id: 4, score: 7 }, { id: 5, score: 6 }
-                ]
-            }]);
-
-            temp = duplicate(arrArr, true);
-            $c.update(temp, {}, {
-                $push: {
-                    arr: {
-                        $each: [{ id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 }],
-                        $position: 1
-                    }
-                }
-            });
-            expect(temp).toEqual([{
-                id: 1, arr: [
-                    { "id": 1, "score": 6 },
-                    { "id": 3, "score": 8 },
-                    { "id": 4, "score": 7 },
-                    { "id": 5, "score": 6 },
-                    { "id": 2, "score": 9 }
-                ]
-            }]);
-        });
-        it('$pop', function () {
-            var temp = duplicate(arrArr, true);
-            $c.update(temp, {}, { $pop: { arr: -1 } });
-            expect(temp).toEqual([{
-                id: 1, arr: [
-                    { "id": 2, "score": 9 }
-                ]
-            }]);
-
-            temp = duplicate(arrArr, true);
-            $c.update(temp, {}, { $pop: { arr: 1 } });
-            expect(temp).toEqual([{
-                id: 1, arr: [
-                    { "id": 1, "score": 6 }
-                ]
-            }]);
-        });
-        it('$pullAll', function () {
-            var temp = [{ id: 1, scores: [0, 2, 5, 5, 1, 0] }];
-            $c.update(temp, {}, { $pullAll: { scores: [0, 5] } });
-            expect(temp).toEqual([{ id: 1, scores: [2, 1] }]);
-        });
-        it('$upsert/$set', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            $c.update(temp, { nonexistant: "shared" }, { $set: { index: 15 } }, { upsert: true });
-            expect(temp).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }, { index: 15 }]);
-        });
-        it('$upsert/replace', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            $c.update(temp, { nonexistant: "shared" }, { index: 15 }, { upsert: true });
-            expect(temp).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }, { index: 15 }]);
-        });
+    it('update - $set/single', function () {
+        var temp = duplicate(arrObjs, true);
+        temp.update({ share: "shared" }, { $set: { index: 15 } });
+        expect(temp).toEqual([
+            { id: 1, p: "10", share: "shared", index: 15, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 4, std: 4 }]);
     });
-    describe('upsert', function () {
-        it('unchanged', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.upsert(temp, { id: 1, p: "10", share: "shared", index: 10, std: 4 }, "id")).toEqual({
-                insertedIndexes: [],
-                updatedIndexes: [],
-                unchangedIndexes: [0],
-                inserted: [],
-                updated: [],
-                unchanged: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]
-            });
-            expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+    it('update - $set/multiple', function () {
+        var temp = duplicate(arrObjs, true);
+        temp.update({ share: "shared" }, { $set: { index: 15 } }, { multi: true });
+        expect(temp).toEqual([
+            { id: 1, p: "10", share: "shared", index: 15, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 15, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 15, std: 4 },
             { id: 4, std: 4 }]);
-        });
-        it('insert', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.upsert(temp, { id: 5, p: "10", share: "shared", index: 10, std: 4 }, "id")).toEqual({
-                insertedIndexes: [4],
-                updatedIndexes: [],
-                unchangedIndexes: [],
-                inserted: [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }],
-                updated: [],
-                unchanged: []
-            });
-            expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }, { id: 5, p: "10", share: "shared", index: 10, std: 4 }]);
-        });
-        it('insert/function', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.upsert(temp, { id: 5, p: "10", share: "shared", index: 10, std: 4 }, "id", function (doc, record) {
-                return true;
-            })).toEqual({
-                insertedIndexes: [4],
-                updatedIndexes: [],
-                unchangedIndexes: [],
-                inserted: [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }],
-                updated: [],
-                unchanged: []
-            });
-        });
-        it('unchanged/function', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.upsert(temp, { id: 1, p: "10", share: "shared", index: 10, std: 4 }, "id", function () { return true; })).toEqual({
-                insertedIndexes: [],
-                updatedIndexes: [],
-                unchangedIndexes: [0],
-                inserted: [],
-                updated: [],
-                unchanged: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]
-            });
-            expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }]);
-        });
-        it('updated/function', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.upsert(temp, { id: 1, p: "10", share: "shared", index: 10, std: 4 }, "id", function () { return false; })).toEqual({
-                insertedIndexes: [],
-                updatedIndexes: [0],
-                unchangedIndexes: [],
-                inserted: [],
-                updated: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }],
-                unchanged: []
-            });
-            expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }]);
-        });
-        it('unchanged/array', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.upsert(temp, [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }], "id")).toEqual({
-                insertedIndexes: [],
-                updatedIndexes: [],
-                unchangedIndexes: [0],
-                inserted: [],
-                updated: [],
-                unchanged: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]
-            });
-            expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }]);
-        });
-        it('insert/array', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.upsert(temp, [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }], "id")).toEqual({
-                insertedIndexes: [4],
-                updatedIndexes: [],
-                unchangedIndexes: [],
-                inserted: [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }],
-                updated: [],
-                unchanged: []
-            });
-            expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }, { id: 5, p: "10", share: "shared", index: 10, std: 4 }]);
-        });
-        it('insert/array/function', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.upsert(temp, [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }], "id", function (doc, record) {
-                return true;
-            })).toEqual({
-                insertedIndexes: [4],
-                updatedIndexes: [],
-                unchangedIndexes: [],
-                inserted: [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }],
-                updated: [],
-                unchanged: []
-            });
-        });
-        it('unchanged/array/function', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.upsert(temp, [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }], "id", function () { return true; })).toEqual({
-                insertedIndexes: [],
-                updatedIndexes: [],
-                unchangedIndexes: [0],
-                inserted: [],
-                updated: [],
-                unchanged: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]
-            });
-            expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }]);
-        });
-        it('updated/array/function', function () {
-            var temp = [
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-                { id: 4, std: 4 }];
-            expect($c.upsert(temp, [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }], "id", function () { return false; })).toEqual({
-                insertedIndexes: [],
-                updatedIndexes: [0],
-                unchangedIndexes: [],
-                inserted: [],
-                updated: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }],
-                unchanged: []
-            });
-            expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
-            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }]);
-        });
     });
-    describe('where', function () {
-        var arrObjs = [
+    it('update - replace/single', function () {
+        var temp = duplicate(arrObjs, true);
+        temp.update({ share: "shared" }, {});
+        expect(temp).toEqual([
+            {},
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 4, std: 4 }]);
+    });
+    it('update - replace/multiple', function () {
+        var temp = duplicate(arrObjs, true);
+        temp.update({ share: "shared" }, {}, { multi: true });
+        expect(temp).toEqual([{}, {}, {}, { id: 4, std: 4 }]);
+    });
+    it('update - $inc', function () {
+        var temp = duplicate(arrObjs, true);
+        temp.update({ share: "shared" }, { $inc: { index: 1 } }, { multi: true });
+        expect(temp).toEqual([
+            { id: 1, p: "10", share: "shared", index: 11, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 21, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 31, std: 4 },
+            { id: 4, std: 4 }]);
+    });
+    it('update - $unset', function () {
+        var temp = duplicate(arrObjs, true);
+        temp.update({ share: "shared" }, { $unset: { index: 1 } });
+        expect(temp).toEqual([
+            { id: 1, p: "10", share: "shared", std: 4 },
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 4, std: 4 }]);
+    });
+    it('update - $currentDate', function () {
+        var temp = duplicate(arrObjs, true);
+        temp.update({ share: "shared" }, { $currentDate: { currentDate: 1 } });
+        expect((temp[0] as any).currentDate.toString()).toBe((new Date()).toString());
+        delete (temp[0] as any).currentDate;
+        expect(temp).toEqual([
             { id: 1, p: "10", share: "shared", index: 10, std: 4 },
             { id: 2, p: "20", share: "shared", index: 20, std: 4 },
             { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }];
-        it('simple', function () {
-            expect($c.where(arrObjs, { share: "shared" })).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
-        });
-        it('comparison', function () {
-            expect($c.where(arrObjs, { index: { $eq: 10 } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
-            expect($c.where(arrObjs, { index: { $gt: 20 } })).toEqual([{ id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
-            expect($c.where(arrObjs, { index: { $lt: 20 } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
-            expect($c.where(arrObjs, { index: { $gte: 20 } })).toEqual([{ id: 2, p: "20", share: "shared", index: 20, std: 4 }, { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
-            expect($c.where(arrObjs, { index: { $lte: 20 } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }, { id: 2, p: "20", share: "shared", index: 20, std: 4 }]);
-            expect($c.where(arrObjs, { index: { $ne: 20 } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }, { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
-        });
-        it('$in & $nin', function () {
-            expect($c.where(arrObjs, { index: { $in: [10, 20] } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }, { id: 2, p: "20", share: "shared", index: 20, std: 4 }]);
-            expect($c.where(arrObjs, { index: { $nin: [10, 20] } })).toEqual([{ id: 3, p: "30", share: "shared", index: 30, std: 4 }, { id: 4, std: 4 }]);
-
-            var whereTemp = [
-                {
-                    id: 1, locations: [{
-                        country: "us"
-                    }]
-                },
-                {
-                    id: 2, locations: [{
-                        country: "uk"
-                    }]
-                },
-                {
-                    id: 3, locations: [{
-                        country: "jp"
-                    }, {
-                        country: "us"
-                    }]
-                },
-                {
-                    id: 4, locations: [{
-                        country: "de"
-                    }]
+            { id: 4, std: 4 }]);
+    });
+    it('update - $min/$max/$mul/$rename', function () {
+        var temp = duplicate(arrObjs, true);
+        temp.update({}, { $min: { index: 20 }, $max: { index: 20 }, $mul: { std: 2 }, $rename: { share: 'shared' } }, { multi: true });
+        expect(temp).toEqual([
+            { id: 1, p: "10", shared: "shared", index: 20, std: 8 },
+            { id: 2, p: "20", shared: "shared", index: 20, std: 8 },
+            { id: 3, p: "30", shared: "shared", index: 20, std: 8 },
+            { id: 4, index: 20, std: 8 }]);
+    });
+    var arrArr = [
+        {
+            id: 1, arr: [
+                { "id": 1, "score": 6 },
+                { "id": 2, "score": 9 }
+            ]
+        }
+    ];
+    it('update - $push', function () {
+        var temp = duplicate(arrArr, true);
+        temp.update({}, {
+            $push: {
+                arr: {
+                    $each: [{ id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 }],
+                    $sort: { score: 1 }
                 }
-            ], results = [
-                {
-                    id: 1, locations: [{
-                        country: "us"
-                    }]
-                },
-                {
-                    id: 3, locations: [{
-                        country: "jp"
-                    }, {
-                        country: "us"
-                    }]
-                },
-                {
-                    id: 4, locations: [{
-                        country: "de"
-                    }]
-                }
-            ];
+            }
+        });
+        expect(temp).toEqual([{
+            id: 1, arr: [
+                { "id": 1, "score": 6 },
+                { "id": 5, "score": 6 },
+                { "id": 4, "score": 7 },
+                { "id": 3, "score": 8 },
+                { "id": 2, "score": 9 }
+            ]
+        }]);
 
-            expect($c.where(whereTemp, { 'locations.country': { $in: ['us', 'de'] } })).toEqual(results);
+        temp = duplicate(arrArr, true);
+        temp.update({}, {
+            $push: {
+                arr: {
+                    $each: [{ id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 }],
+                    $slice: -2
+                }
+            }
         });
-        it('logical', function () {
-            expect($c.where(arrObjs, { $and: [{ std: 4 }, { index: 10 }] })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
-            expect($c.where(arrObjs, { $and: [{ std: 5 }, { index: 10 }] })).toEqual([]);
-            expect($c.where(arrObjs, { $or: [{ index: 20 }, { index: 10 }] })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }, { id: 2, p: "20", share: "shared", index: 20, std: 4 }]);
-            expect($c.where(arrObjs, { index: { $not: { $gte: 20 } } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }, { id: 4, std: 4 }]);
-            expect($c.where(arrObjs, { $nor: [{ index: 20 }, { index: 10 }] })).toEqual([{ id: 3, p: "30", share: "shared", index: 30, std: 4 }, { id: 4, std: 4 }]);
+        expect(temp).toEqual([{
+            id: 1, arr: [
+                { id: 4, score: 7 }, { id: 5, score: 6 }
+            ]
+        }]);
+
+        temp = duplicate(arrArr, true);
+        temp.update({}, {
+            $push: {
+                arr: {
+                    $each: [{ id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 }],
+                    $position: 1
+                }
+            }
         });
-        it('$exists', function () {
-            expect($c.where(arrObjs, { index: { $exists: true } })).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
-            expect($c.where(arrObjs, { index: { $exists: false } })).toEqual([{ id: 4, std: 4 }]);
+        expect(temp).toEqual([{
+            id: 1, arr: [
+                { "id": 1, "score": 6 },
+                { "id": 3, "score": 8 },
+                { "id": 4, "score": 7 },
+                { "id": 5, "score": 6 },
+                { "id": 2, "score": 9 }
+            ]
+        }]);
+    });
+    it('update - $pop', function () {
+        var temp = duplicate(arrArr, true);
+        temp.update({}, { $pop: { arr: -1 } });
+        expect(temp).toEqual([{
+            id: 1, arr: [
+                { "id": 2, "score": 9 }
+            ]
+        }]);
+
+        temp = duplicate(arrArr, true);
+        temp.update({}, { $pop: { arr: 1 } });
+        expect(temp).toEqual([{
+            id: 1, arr: [
+                { "id": 1, "score": 6 }
+            ]
+        }]);
+    });
+    it('update - $pullAll', function () {
+        var temp = [{ id: 1, scores: [0, 2, 5, 5, 1, 0] }];
+        temp.update({}, { $pullAll: { scores: [0, 5] } });
+        expect(temp).toEqual([{ id: 1, scores: [2, 1] }]);
+    });
+    it('update - $upsert/$set', function () {
+        var temp = duplicate(arrObjs, true);
+        temp.update({ nonexistant: "shared" }, { $set: { index: 15 } }, { upsert: true });
+        expect(temp).toEqual([
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 4, std: 4 }, { index: 15 }]);
+    });
+    it('update - $upsert/replace', function () {
+        var temp = duplicate(arrObjs, true);
+        temp.update({ nonexistant: "shared" }, { index: 15 }, { upsert: true });
+        expect(temp).toEqual([
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+            { id: 4, std: 4 }, { index: 15 }]);
+    });
+    it('upsert - unchanged', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.upsert({ id: 1, p: "10", share: "shared", index: 10, std: 4 }, "id")).toEqual({
+            insertedIndexes: [],
+            updatedIndexes: [],
+            unchangedIndexes: [0],
+            inserted: [],
+            updated: [],
+            unchanged: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]
         });
-        it('$type', function () {
-            expect($c.where(arrObjs, { index: { $type: Number } })).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 },
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
+        expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
+        { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+        { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+        { id: 4, std: 4 }]);
+    });
+    it('upsert - insert', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.upsert({ id: 5, p: "10", share: "shared", index: 10, std: 4 }, "id")).toEqual({
+            insertedIndexes: [4],
+            updatedIndexes: [],
+            unchangedIndexes: [],
+            inserted: [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }],
+            updated: [],
+            unchanged: []
         });
-        it('$mod', function () {
-            expect($c.where(arrObjs, { index: { $mod: [3, 2] } })).toEqual([
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 }]);
+        expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
+        { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+        { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+        { id: 4, std: 4 }, { id: 5, p: "10", share: "shared", index: 10, std: 4 }]);
+    });
+    it('upsert - insert/function', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.upsert({ id: 5, p: "10", share: "shared", index: 10, std: 4 }, "id", function (doc, record) {
+            return true;
+        })).toEqual({
+            insertedIndexes: [4],
+            updatedIndexes: [],
+            unchangedIndexes: [],
+            inserted: [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }],
+            updated: [],
+            unchanged: []
         });
-        it('$regex', function () {
-            expect($c.where(arrObjs, { index: { $regex: /[12]/ } })).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 },
-                { id: 2, p: "20", share: "shared", index: 20, std: 4 }]);
+    });
+    it('upsert - unchanged/function', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.upsert({ id: 1, p: "10", share: "shared", index: 10, std: 4 }, "id", function () { return true; })).toEqual({
+            insertedIndexes: [],
+            updatedIndexes: [],
+            unchangedIndexes: [0],
+            inserted: [],
+            updated: [],
+            unchanged: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]
         });
-        it('$where', function () {
-            expect($c.where(arrObjs, { $where: "this.index > 20" })).toEqual([
-                { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
-            expect($c.where(arrObjs, { $where: function () { return this.index < 20; } })).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
-            var tempValue = 20;
-            expect($c.where(arrObjs, { $where: function () { return this.index < tempValue; } })).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
+        expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
+        { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+        { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+        { id: 4, std: 4 }]);
+    });
+    it('upsert - updated/function', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.upsert({ id: 1, p: "10", share: "shared", index: 10, std: 4 }, "id", function () { return false; })).toEqual({
+            insertedIndexes: [],
+            updatedIndexes: [0],
+            unchangedIndexes: [],
+            inserted: [],
+            updated: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }],
+            unchanged: []
         });
-        it('function', function () {
-            expect($c.where(arrObjs, function () { return this.index < 20; })).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
+        expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
+        { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+        { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+        { id: 4, std: 4 }]);
+    });
+    it('upsert - unchanged/array', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.upsert([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }], "id")).toEqual({
+            insertedIndexes: [],
+            updatedIndexes: [],
+            unchangedIndexes: [0],
+            inserted: [],
+            updated: [],
+            unchanged: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]
         });
-        it('$all', function () {
-            expect($c.where([{ id: 1, p: "10", share: "shared", index: 10, std: 4, tags: ['a', 'b'] }], { tags: { $all: ['b', 'a'] } })).toEqual([
-                { id: 1, p: "10", share: "shared", index: 10, std: 4, tags: ['a', 'b'] }]);
+        expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
+        { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+        { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+        { id: 4, std: 4 }]);
+    });
+    it('upsert - insert/array', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.upsert([{ id: 5, p: "10", share: "shared", index: 10, std: 4 }], "id")).toEqual({
+            insertedIndexes: [4],
+            updatedIndexes: [],
+            unchangedIndexes: [],
+            inserted: [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }],
+            updated: [],
+            unchanged: []
         });
-        it('array', function () {
-            expect($c.where([{ id: 1, p: "10", share: "shared", index: 10, std: 4, tags: ['c', 'b'] }], { tags: ['b', 'a'] })).toEqual([]);
+        expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
+        { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+        { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+        { id: 4, std: 4 }, { id: 5, p: "10", share: "shared", index: 10, std: 4 }]);
+    });
+    it('upsert - insert/array/function', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.upsert([{ id: 5, p: "10", share: "shared", index: 10, std: 4 }], "id", function (doc, record) {
+            return true;
+        })).toEqual({
+            insertedIndexes: [4],
+            updatedIndexes: [],
+            unchangedIndexes: [],
+            inserted: [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }],
+            updated: [],
+            unchanged: []
         });
+    });
+    it('upsert - unchanged/array/function', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.upsert([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }], "id", function () { return true; })).toEqual({
+            insertedIndexes: [],
+            updatedIndexes: [],
+            unchangedIndexes: [0],
+            inserted: [],
+            updated: [],
+            unchanged: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]
+        });
+        expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
+        { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+        { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+        { id: 4, std: 4 }]);
+    });
+    it('upsert - updated/array/function', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(temp.upsert([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }], "id", function () { return false; })).toEqual({
+            insertedIndexes: [],
+            updatedIndexes: [0],
+            unchangedIndexes: [],
+            inserted: [],
+            updated: [{ id: 1, p: "10", share: "shared", index: 10, std: 4 }],
+            unchanged: []
+        });
+        expect(temp).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 },
+        { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+        { id: 3, p: "30", share: "shared", index: 30, std: 4 },
+        { id: 4, std: 4 }]);
+    });
+    it('where - simple', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(arrObjs.where({ share: "shared" })).toEqual([
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
+    });
+    it('where - comparison', function () {
+        expect(arrObjs.where({ index: { $eq: 10 } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
+        expect(arrObjs.where({ index: { $gt: 20 } })).toEqual([{ id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
+        expect(arrObjs.where({ index: { $lt: 20 } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
+        expect(arrObjs.where({ index: { $gte: 20 } })).toEqual([{ id: 2, p: "20", share: "shared", index: 20, std: 4 }, { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
+        expect(arrObjs.where({ index: { $lte: 20 } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }, { id: 2, p: "20", share: "shared", index: 20, std: 4 }]);
+        expect(arrObjs.where({ index: { $ne: 20 } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }, { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
+    });
+    it('where - $in & $nin', function () {
+        expect(arrObjs.where({ index: { $in: [10, 20] } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }, { id: 2, p: "20", share: "shared", index: 20, std: 4 }]);
+        expect(arrObjs.where({ index: { $nin: [10, 20] } })).toEqual([{ id: 3, p: "30", share: "shared", index: 30, std: 4 }, { id: 4, std: 4 }]);
         var whereTemp = [
             {
-                _id: 1, results: [
-                    { product: "abc", score: 10 },
-                    { product: "xyz", score: 5 }]
+                id: 1, locations: [{
+                    country: "us"
+                }]
             },
             {
-                _id: 2, results: [
-                    { product: "xyz", score: 7 }]
+                id: 2, locations: [{
+                    country: "uk"
+                }]
             },
             {
-                _id: 3, results: [
-                    { product: "abc", score: 7 },
-                    { product: "xyz", score: 8 }]
+                id: 3, locations: [{
+                    country: "jp"
+                }, {
+                    country: "us"
+                }]
             },
-            { _id: 3 },
-            { _id: 4, results: [] }];
-        it('$elemMatch', function () {
-            expect($c.where(whereTemp, { results: { $elemMatch: { product: "xyz", score: { $gte: 8 } } } })).toEqual([
-                { "_id": 3, "results": [{ "product": "abc", "score": 7 }, { "product": "xyz", "score": 8 }] }
-            ]);
-        });
-        it('$size', function () {
-            expect($c.where(whereTemp, { results: { $size: 1 } })).toEqual([
-                { _id: 2, results: [{ product: "xyz", score: 7 }] }
-            ]);
-            expect($c.where(whereTemp, { results: { $size: 0 } })).toEqual([{ _id: 3 }, { _id: 4, results: [] }]);
-            expect($c.where(whereTemp, { results: { $size: 2 } })).toEqual([
-                { _id: 1, results: [{ product: "abc", score: 10 }, { product: "xyz", score: 5 }] },
-                { "_id": 3, "results": [{ "product": "abc", "score": 7 }, { "product": "xyz", "score": 8 }] }
-            ]);
-        });
-        it('regex', function () {
-            var temp = [
-                { section: 'Result', category: "imaging" },
-                { section: 'Result', category: "blahimagingblah" },
-                { section: 'Result', category: "Imaging" },
-                { section: 'Result', category: "image" }];
-            expect($c.where(temp, { category: /imaging/i, section: { '$ne': 'history' } })).toEqual([
-                { section: 'Result', category: "imaging" },
-                { section: 'Result', category: "blahimagingblah" },
-                { section: 'Result', category: "Imaging" }]);
-        });
+            {
+                id: 4, locations: [{
+                    country: "de"
+                }]
+            }
+        ], results = [
+            {
+                id: 1, locations: [{
+                    country: "us"
+                }]
+            },
+            {
+                id: 3, locations: [{
+                    country: "jp"
+                }, {
+                    country: "us"
+                }]
+            },
+            {
+                id: 4, locations: [{
+                    country: "de"
+                }]
+            }
+        ];
+
+        expect(whereTemp.where({ 'locations.country': { $in: ['us', 'de'] } })).toEqual(results);
+    });
+    it('where - logical', function () {
+        expect(arrObjs.where({ $and: [{ std: 4 }, { index: 10 }] })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
+        expect(arrObjs.where({ $and: [{ std: 5 }, { index: 10 }] })).toEqual([]);
+        expect(arrObjs.where({ $or: [{ index: 20 }, { index: 10 }] })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }, { id: 2, p: "20", share: "shared", index: 20, std: 4 }]);
+        expect(arrObjs.where({ index: { $not: { $gte: 20 } } })).toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }, { id: 4, std: 4 }]);
+        expect(arrObjs.where({ $nor: [{ index: 20 }, { index: 10 }] })).toEqual([{ id: 3, p: "30", share: "shared", index: 30, std: 4 }, { id: 4, std: 4 }]);
+    });
+    it('where - $exists', function () {
+        expect(arrObjs.where({ index: { $exists: true } })).toEqual([
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
+        expect(arrObjs.where({ index: { $exists: false } })).toEqual([{ id: 4, std: 4 }]);
+    });
+    it('where - $type', function () {
+        expect(arrObjs.where({ index: { $type: Number } })).toEqual([
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 },
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
+    });
+    it('where - $mod', function () {
+        expect(arrObjs.where({ index: { $mod: [3, 2] } })).toEqual([
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 }]);
+    });
+    it('where - $regex', function () {
+        expect(arrObjs.where({ index: { $regex: /[12]/ } })).toEqual([
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 },
+            { id: 2, p: "20", share: "shared", index: 20, std: 4 }]);
+    });
+    it('where - $where', function () {
+        var temp = duplicate(arrObjs, true);
+        expect(arrObjs.where({ $where: "this.index > 20" })).toEqual([
+            { id: 3, p: "30", share: "shared", index: 30, std: 4 }]);
+        expect(arrObjs.where({ $where: function () { return this.index < 20; } })).toEqual([
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
+    });
+    it('where - function', function () {
+        expect(arrObjs.where(function () { return this.index < 20; })).toEqual([
+            { id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
+    });
+    it('where - $all', function () {
+        expect([{ id: 1, p: "10", share: "shared", index: 10, std: 4, tags: ['a', 'b'] }].where({ tags: { $all: ['b', 'a'] } })).toEqual([
+            { id: 1, p: "10", share: "shared", index: 10, std: 4, tags: ['a', 'b'] }]);
+    });
+    it('where - array', function () {
+        expect([{ id: 1, p: "10", share: "shared", index: 10, std: 4, tags: ['c', 'b'] }].where({ tags: ['b', 'a'] })).toEqual([]);
+    });
+    var whereTemp = [
+        {
+            _id: 1, results: [
+                { product: "abc", score: 10 },
+                { product: "xyz", score: 5 }]
+        },
+        {
+            _id: 2, results: [
+                { product: "xyz", score: 7 }]
+        },
+        {
+            _id: 3, results: [
+                { product: "abc", score: 7 },
+                { product: "xyz", score: 8 }]
+        },
+        { _id: 3 },
+        { _id: 4, results: [] }];
+    it('where - $elemMatch', function () {
+        expect(whereTemp.where({ results: { $elemMatch: { product: "xyz", score: { $gte: 8 } } } })).toEqual([
+            { "_id": 3, "results": [{ "product": "abc", "score": 7 }, { "product": "xyz", "score": 8 }] }
+        ]);
+    });
+    it('where - $size', function () {
+        expect(whereTemp.where({ results: { $size: 1 } })).toEqual([
+            { _id: 2, results: [{ product: "xyz", score: 7 }] }
+        ]);
+        expect(whereTemp.where({ results: { $size: 0 } })).toEqual([{ _id: 3 }, { _id: 4, results: [] }]);
+        expect(whereTemp.where({ results: { $size: 2 } })).toEqual([
+            { _id: 1, results: [{ product: "abc", score: 10 }, { product: "xyz", score: 5 }] },
+            { "_id": 3, "results": [{ "product": "abc", "score": 7 }, { "product": "xyz", "score": 8 }] }
+        ]);
+    });
+    it('where - regex', function () {
+        var temp = [
+            { section: 'Result', category: "imaging" },
+            { section: 'Result', category: "blahimagingblah" },
+            { section: 'Result', category: "Imaging" },
+            { section: 'Result', category: "image" }];
+        expect(temp.where({ category: /imaging/i, section: { '$ne': 'history' } })).toEqual([
+            { section: 'Result', category: "imaging" },
+            { section: 'Result', category: "blahimagingblah" },
+            { section: 'Result', category: "Imaging" }]);
     });
 });

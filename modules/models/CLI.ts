@@ -1,4 +1,4 @@
-import { AnyObject } from "./Generics";
+import { AnyObject } from '../models/Generics';
 import * as IChildProcess from 'child_process';
 
 export interface CLIOptions {

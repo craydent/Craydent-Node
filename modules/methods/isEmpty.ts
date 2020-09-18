@@ -1,9 +1,9 @@
 
-import isArray from './isArray';
-import isString from './isString';
-import isObject from './isObject';
-import isFunction from './isFunction';
-import itemCount from './itemCount';
+import isArray from '../methods/isArray';
+import isString from '../methods/isString';
+import isObject from '../methods/isObject';
+import isFunction from '../methods/isFunction';
+import itemCount from '../methods/itemCount';
 
 export default function isEmpty(obj: any): boolean {
     if (isArray(obj) || isString(obj)) { return !obj.length; }

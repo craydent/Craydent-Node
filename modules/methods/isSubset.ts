@@ -1,8 +1,8 @@
-import error from './error';
-import _contains from './contains';
-import isArray from './isArray';
-import isObject from './isObject';
-import isNull from './isNull';
+import error from '../methods/error';
+import _contains from '../methods/contains';
+import isArray from '../methods/isArray';
+import isObject from '../methods/isObject';
+import isNull from '../methods/isNull';
 // const _isArray = isArray,
 //     _isObject = isObject;
 

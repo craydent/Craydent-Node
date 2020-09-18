@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import { Documents, MongoPipelines } from '../models/Arrays';
 import { __processStage } from '../methods/where';
 

@@ -1,14 +1,14 @@
-import error from './error';
-import replaceAll from './replaceAll';
-import suid from './suid';
-import isArray from './isArray';
-import isAsync from './isAsync';
-import isDate from './isDate';
-import isFunction from './isFunction';
-import isGenerator from './isGenerator';
-import isNull from './isNull';
-import isRegExp from './isRegExp';
-import isString from './isString';
+import error from '../methods/error';
+import replaceAll from '../methods/replaceAll';
+import suid from '../methods/suid';
+import isArray from '../methods/isArray';
+import isAsync from '../methods/isAsync';
+import isDate from '../methods/isDate';
+import isFunction from '../methods/isFunction';
+import isGenerator from '../methods/isGenerator';
+import isNull from '../methods/isNull';
+import isRegExp from '../methods/isRegExp';
+import isString from '../methods/isString';
 
 const $g: any = global;
 

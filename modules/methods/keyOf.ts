@@ -1,6 +1,6 @@
-import error from './error';
-import equals from './equals';
-import isNull from './isNull';
+import error from '../methods/error';
+import equals from '../methods/equals';
+import isNull from '../methods/isNull';
 
 export default function keyOf<T>(obj: T, value: any): string {
     try {

@@ -1,7 +1,7 @@
 import _typeCheck from '../protected/_typeCheck';
-import isNull from './isNull';
-import isAsync from './isAsync';
-import isPromise from './isPromise';
+import isNull from '../methods/isNull';
+import isAsync from '../methods/isAsync';
+import isPromise from '../methods/isPromise';
 
 export default function isGenerator(obj: any): boolean {
     // return _typeCheck(obj, "GeneratorFunction", true);

@@ -1,4 +1,4 @@
-import $c from '../../transformed/utility/noConflict';
+import $c from '../../transformedMajor/utility';
 import _getFuncName from '../../modules/protected/_getFuncName';
 import isBetween from '../../modules/methods/isBetween';
 
@@ -116,9 +116,9 @@ describe('No Conflict Global methods', function () {
         expect($c.md5('A')).toBe('7fc56270e7a70fa81a5935b72eacbe29');
     });
     it('mkdirRecursive', function () {
-        $c.mkdirRecursive('/test/modules/createdModulesFolder/folder', function (err, path) {
+        $c.mkdirRecursive('/tests/modules/createdModulesFolder/folder', function (err, path) {
             expect(err).toBeNull();
-            expect(path).toBe("/test/modules/createdModulesFolder/folder");
+            expect(path).toBe("/tests/modules/createdModulesFolder/folder");
         });
     });
     it('namespace', function () {

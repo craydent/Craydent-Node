@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import foo from './foo';
+import foo from '../methods/foo';
 
 let JSZip: any = foo as any;
 try {

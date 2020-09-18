@@ -1,6 +1,6 @@
-import error from './error';
-import _equals from './equals';
-import _removeAt from './removeAt';
+import error from '../methods/error';
+import _equals from '../methods/equals';
+import _removeAt from '../methods/removeAt';
 
 export default function toSet<T>(arr: any[]): Set<T> {
     try {

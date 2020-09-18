@@ -1,9 +1,9 @@
-import error from './error';
+import error from '../methods/error';
 import * as cluster from 'cluster';
 import * as os from 'os';
-import isFunction from './isFunction';
-import isNull from './isNull';
-import foo from './foo';
+import isFunction from '../methods/isFunction';
+import isNull from '../methods/isNull';
+import foo from '../methods/foo';
 import { AnyObject } from '../models/Arrays';
 
 export interface ClusterOptions {

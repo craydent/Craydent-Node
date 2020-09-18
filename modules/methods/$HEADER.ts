@@ -1,7 +1,7 @@
 
-import { VerbOptions } from "../models/VerbOptions";
-import error from "./error";
-import { AnyObject } from "../models/Arrays";
+import { VerbOptions } from '../models/VerbOptions';
+import error from '../methods/error';
+import { AnyObject } from '../models/Arrays';
 
 export default function $HEADER(variable?: string, options?: VerbOptions): boolean | AnyObject {
     /*|{

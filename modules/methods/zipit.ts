@@ -1,8 +1,8 @@
-import error from './error';
-import isString from './isString';
-import isObject from './isObject';
-import isArray from './isArray';
-import JSZip from './JSZip';
+import error from '../methods/error';
+import isString from '../methods/isString';
+import isObject from '../methods/isObject';
+import isArray from '../methods/isArray';
+import JSZip from '../methods/JSZip';
 import { AnyObject } from '../models/Arrays';
 
 export default function zipit(files: Array<{ name: string, content: string | AnyObject }>);

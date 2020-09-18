@@ -1,11 +1,11 @@
-import $c from '../../transformed/object/noConflict';
+import $c from '../../transformedMajor/object';
 import foo from '../../modules/methods/foo';
 
 describe('No Conflict Object', function () {
     it('changes', function () {
         var obj1 = { id: 1, prop1: "prop1", prop3: "" };
         var obj2 = { id: 2, prop1: "propupdated", prop2: "prop2" };
-        expect($c.changes(obj1, obj2)).toEqual({
+        expect(obj1.changes(obj2)).toEqual({
             $length: 4,
             $add: ['prop2'],
             $update: ["id", "prop1"],
@@ -18,61 +18,61 @@ describe('No Conflict Object', function () {
 
     });
     it('contains - string/string', function () {
-        expect($c.contains("asdf", "a")).toBe(true);
-        expect($c.contains("asdf", "e")).toBe(false);
+        expect("asdf".contains("a")).toBe(true);
+        expect("asdf".contains("e")).toBe(false);
     });
     it('contains - string/regex', function () {
-        expect($c.contains("asdf", /^as/)).toBe(true);
-        expect($c.contains("asdf", /ad/)).toBe(false);
+        expect("asdf".contains(/^as/)).toBe(true);
+        expect("asdf".contains(/ad/)).toBe(false);
     });
     it('contains - array/string', function () {
-        expect($c.contains(['q', 'b'], "b")).toBe(true);
-        expect($c.contains(['q', 'b'], "c")).toBe(false);
+        expect(['q', 'b'].contains("b")).toBe(true);
+        expect(['q', 'b'].contains("c")).toBe(false);
     });
     it('contains - array/regex', function () {
-        expect($c.contains(['q', 'b'], /b/)).toBe(true);
+        expect(['q', 'b'].contains(/b/)).toBe(true);
     });
     it('contains - array/array', function () {
-        expect($c.contains(['q', 'b'], ['a', 'c'])).toBe(false);
-        expect($c.contains(['q', 'b'], ['a', 'q'])).toBe("q");
+        expect(['q', 'b'].contains(['a', 'c'])).toBe(false);
+        expect(['q', 'b'].contains(['a', 'q'])).toBe("q");
     });
     it('contains - array/value/func', function () {
-        expect($c.contains(['q', 'b'], 'a', function (value) { return !!'a'; })).toBe(true);
+        expect(['q', 'b'].contains('a', function (value) { return !!'a'; })).toBe(true);
     });
     it('contains - array/func', function () {
-        expect($c.contains(['q', 'b'], function (val, prop, arr) { return val == 'b'; })).toBe(true);
+        expect(['q', 'b'].contains(function (val, prop, arr) { return val == 'b'; })).toBe(true);
     });
     it('contains - object/string', function () {
-        expect($c.contains({ q: "asdf", b: "abbb" }, "abbb")).toBe(true);
-        expect($c.contains({ q: "asdf", b: "abbb" }, "asdfb")).toBe(false);
+        expect({ q: "asdf", b: "abbb" }.contains("abbb")).toBe(true);
+        expect({ q: "asdf", b: "abbb" }.contains("asdfb")).toBe(false);
     });
     it('copyObject', function () {
         function B() { this.hi = "hello"; }
         var b = new B();
-        var tb = $c.copyObject(b);
+        var tb = b.copyObject();
         expect(tb).toEqual({ hi: "hello" });
         expect(tb.constructor).not.toEqual(B);
     });
     it('duplicate - object', function () {
         var obj = { hi: "hello", bye: "ciao", o: { blah: '' } };
-        var tobj = $c.duplicate(obj);
+        var tobj = obj.duplicate();
         expect(tobj).not.toBe(obj);
         expect(tobj.o).toBe(tobj.o);
-        tobj = $c.duplicate(obj, true);
+        tobj = obj.duplicate(true);
         expect(tobj.o).not.toBe(obj.o);
     });
     it('duplicate - class', function () {
         function B() { this.hi = "hello"; }
         var b = new B();
-        var tb = $c.duplicate(b);
+        var tb = b.duplicate();
         expect(tb).toEqual({ hi: "hello" });
         expect(tb.constructor).toEqual(B);
     });
     it('duplicate - recursive', function () {
         function A() { console.log(''); }
         var obj = { use: A };
-        var obj2 = $c.duplicate(obj, true);
-        var obj3 = $c.duplicate(obj);
+        var obj2 = obj.duplicate(true);
+        var obj3 = obj.duplicate();
         expect(obj.use).toEqual(A);
         expect(obj2).not.toBe(obj);
         expect(obj2.use).not.toBe(obj.use);
@@ -80,7 +80,7 @@ describe('No Conflict Object', function () {
     });
     it('eachProperty', function () {
         var arrp = [], arrv = [], obj = { a: "a1", b: 'b1', c: 'c1' };
-        $c.eachProperty(obj, function (val, prop) {
+        obj.eachProperty(function (val, prop) {
             arrp.push(prop);
             arrv.push(val);
         });
@@ -88,38 +88,38 @@ describe('No Conflict Object', function () {
         expect(arrv).toEqual(['a1', 'b1', 'c1']);
     });
     it('equals - string', function () {
-        expect($c.equals("s", "s")).toBe(true);
-        expect($c.equals("s", "ss")).toBe(false);
+        expect("s".equals("s")).toBe(true);
+        expect("s".equals("ss")).toBe(false);
     });
     it('equals - number', function () {
-        expect($c.equals(0, 0)).toBe(true);
-        expect($c.equals(1, 2)).toBe(false);
+        expect((0).equals(0)).toBe(true);
+        expect((1).equals(2)).toBe(false);
     });
     it('equals - object', function () {
-        expect($c.equals({}, {})).toBe(true);
-        expect($c.equals({}, { hi: '' })).toBe(false);
+        expect({}.equals({})).toBe(true);
+        expect({}.equals({ hi: '' })).toBe(false);
     });
     it('equals - object with specified property', function () {
-        expect($c.equals({ hi: '', bye: '' }, { hi: '' }, ['hi'])).toBe(true);
+        expect({ hi: '', bye: '' }.equals({ hi: '' }, ['hi'])).toBe(true);
     });
     it('equals - array', function () {
-        expect($c.equals([], [])).toBe(true);
-        expect($c.equals([], [''])).toBe(false);
+        expect([].equals([])).toBe(true);
+        expect([].equals([''])).toBe(false);
 
     });
     it('every - array', function () {
-        expect($c.every(['a', 'b', 'c'], function (val, prop, arr) { return val; })).toBe(true);
-        expect($c.every(['a', '', 'c'], function (val, prop, arr) { return val; })).toBe(false);
+        expect(['a', 'b', 'c'].every(function (val, prop, arr) { return val; })).toBe(true);
+        expect(['a', '', 'c'].every(function (val, prop, arr) { return val; })).toBe(false);
     });
     it('every - object', function () {
-        expect($c.every({ a: 'a', b: 'b', c: 'c' }, function (val, prop, arr) { return val; })).toBe(true);
-        expect($c.every({ a: 'a', b: '', c: 'c' }, function (val, prop, arr) { return val; })).toBe(false);
+        expect({ a: 'a', b: 'b', c: 'c' }.every(function (val, prop, arr) { return val; })).toBe(true);
+        expect({ a: 'a', b: '', c: 'c' }.every(function (val, prop, arr) { return val; })).toBe(false);
 
     });
     it('getClass', function () {
         function C1() { }
         var c = new C1();
-        expect($c.getClass(c)).toBe("C1");
+        expect(c.getClass()).toBe("C1");
     });
     it('get', function () {
         var o = { path: { path: "hello world", arr: [{ foo: "bar" }] } };
@@ -129,9 +129,9 @@ describe('No Conflict Object', function () {
     });
     it('getProperty', function () {
         var o = { path: { path: "hello world", arr: [{ foo: "bar" }] } };
-        expect($c.getProperty(o, "path.path")).toBe("hello world");
-        expect($c.getProperty(o, "path.arr.foo")).toBe(undefined);
-        expect($c.getProperty(o, "path.arr.0.foo")).toBe("bar");
+        expect(o.getProperty("path.path")).toBe("hello world");
+        expect(o.getProperty("path.arr.foo")).toBe(undefined);
+        expect(o.getProperty("path.arr.0.foo")).toBe("bar");
     });
     var f = function (num) { return (num || 0) + 1; };
     var n = 10;
@@ -139,14 +139,14 @@ describe('No Conflict Object', function () {
     var o = {};
     var a = [];
     it('getValue - no default', function () {
-        expect($c.getValue(f)).toBe(1);
-        expect($c.getValue(n)).toBe(10);
-        expect($c.getValue(s)).toBe("s");
-        expect($c.getValue(o)).toEqual({});
-        expect($c.getValue(a)).toEqual([]);
+        expect(f.getValue()).toBe(1);
+        expect(n.getValue()).toBe(10);
+        expect(s.getValue()).toBe("s");
+        expect(o.getValue()).toEqual({});
+        expect(a.getValue()).toEqual([]);
     });
     it('getValue - with default', function () {
-        expect($c.getValue(foo, [-1], 1)).toBe(1);
+        expect(foo.getValue([-1], 1)).toBe(1);
         expect($c.getValue(null, n)).toBe(10);
         expect($c.getValue(null, s)).toBe("s");
         expect($c.getValue(null, o)).toEqual({});
@@ -154,262 +154,262 @@ describe('No Conflict Object', function () {
     });
     it('has', function () {
         var obj = { hi: "" };
-        expect($c.has(obj, "hi")).toBe(true);
-        expect($c.has(obj, "hasOwnProperty")).toBe(false);
+        expect(obj.has("hi")).toBe(true);
+        expect(obj.has("hasOwnProperty")).toBe(false);
 
     });
     it('isArray', function () {
-        expect($c.isArray([])).toBe(true);
-        expect($c.isArray(true)).toBe(false);
-        expect($c.isArray(new Date())).toBe(false);
-        expect($c.isArray({ nodeType: 1 })).toBe(false);
-        expect($c.isArray(2.001)).toBe(false);
-        expect($c.isArray(function () { })).toBe(false);
-        expect($c.isArray(function* () { })).toBe(false);
-        expect($c.isArray(2)).toBe(false);
-        expect($c.isArray((new Promise(function () { })))).toBe(false);
-        expect($c.isArray({})).toBe(false);
-        expect($c.isArray(/k/)).toBe(false);
-        expect($c.isArray("")).toBe(false);
+        expect([].isArray()).toBe(true);
+        expect(true.isArray()).toBe(false);
+        expect(new Date().isArray()).toBe(false);
+        expect({ nodeType: 1 }.isArray()).toBe(false);
+        expect(2.001.isArray()).toBe(false);
+        expect(function () { }.isArray()).toBe(false);
+        expect(function* () { }.isArray()).toBe(false);
+        expect((2).isArray()).toBe(false);
+        expect((new Promise(function () { }).isArray())).toBe(false);
+        expect({}.isArray()).toBe(false);
+        expect(/k/.isArray()).toBe(false);
+        expect("".isArray()).toBe(false);
     });
     it('isBetween - number', function () {
-        expect($c.isBetween(10, 11, 9)).toBe(false);
-        expect($c.isBetween(10, 9, 11)).toBe(true);
-        expect($c.isBetween(10, 10, 11)).toBe(false);
-        expect($c.isBetween(10, 10, 11, true)).toBe(true);
+        expect((10).isBetween(11, 9)).toBe(false);
+        expect((10).isBetween(9, 11)).toBe(true);
+        expect((10).isBetween(10, 11)).toBe(false);
+        expect((10).isBetween(10, 11, true)).toBe(true);
     });
     it('isBetween - string', function () {
-        expect($c.isBetween("b", "a", "c")).toBe(true);
-        expect($c.isBetween("b", "b", "c")).toBe(false);
-        expect($c.isBetween("b", "b", "c", true)).toBe(true);
+        expect("b".isBetween("a", "c")).toBe(true);
+        expect("b".isBetween("b", "c")).toBe(false);
+        expect("b".isBetween("b", "c", true)).toBe(true);
     });
     it('isBoolean', function () {
-        expect($c.isBoolean([])).toBe(false);
-        expect($c.isBoolean(true)).toBe(true);
-        expect($c.isBoolean(new Date())).toBe(false);
-        expect($c.isBoolean({ nodeType: 1 })).toBe(false);
-        expect($c.isBoolean(2.001)).toBe(false);
-        expect($c.isBoolean(function () { })).toBe(false);
-        expect($c.isBoolean(function* () { })).toBe(false);
-        expect($c.isBoolean(2)).toBe(false);
-        expect($c.isBoolean(new Promise(function () { }))).toBe(false);
-        expect($c.isBoolean({})).toBe(false);
-        expect($c.isBoolean(/k/)).toBe(false);
-        expect($c.isBoolean("")).toBe(false);
+        expect([].isBoolean()).toBe(false);
+        expect(true.isBoolean()).toBe(true);
+        expect(new Date().isBoolean()).toBe(false);
+        expect({ nodeType: 1 }.isBoolean()).toBe(false);
+        expect(2.001.isBoolean()).toBe(false);
+        expect(function () { }.isBoolean()).toBe(false);
+        expect(function* () { }.isBoolean()).toBe(false);
+        expect((2).isBoolean()).toBe(false);
+        expect(new Promise(function () { }).isBoolean()).toBe(false);
+        expect({}.isBoolean()).toBe(false);
+        expect(/k/.isBoolean()).toBe(false);
+        expect("".isBoolean()).toBe(false);
     });
     it('isDate', function () {
-        expect($c.isDate([])).toBe(false);
-        expect($c.isDate(true)).toBe(false);
-        expect($c.isDate(new Date())).toBe(true);
-        expect($c.isDate({ nodeType: 1 })).toBe(false);
-        expect($c.isDate(2.001)).toBe(false);
-        expect($c.isDate(function () { })).toBe(false);
-        expect($c.isDate(function* () { })).toBe(false);
-        expect($c.isDate(2)).toBe(false);
-        expect($c.isDate(new Promise(function () { }))).toBe(false);
-        expect($c.isDate({})).toBe(false);
-        expect($c.isDate(/k/)).toBe(false);
-        expect($c.isDate("")).toBe(false);
+        expect([].isDate()).toBe(false);
+        expect(true.isDate()).toBe(false);
+        expect(new Date().isDate()).toBe(true);
+        expect({ nodeType: 1 }.isDate()).toBe(false);
+        expect(2.001.isDate()).toBe(false);
+        expect(function () { }.isDate()).toBe(false);
+        expect(function* () { }.isDate()).toBe(false);
+        expect((2).isDate()).toBe(false);
+        expect(new Promise(function () { }).isDate()).toBe(false);
+        expect({}.isDate()).toBe(false);
+        expect(/k/.isDate()).toBe(false);
+        expect("".isDate()).toBe(false);
 
     });
     it('isDomElement', function () {
-        expect($c.isDomElement([])).toBe(false);
-        expect($c.isDomElement(true)).toBe(false);
-        expect($c.isDomElement(new Date())).toBe(false);
-        expect($c.isDomElement({ nodeType: 1 })).toBe(true);
-        expect($c.isDomElement(2.001)).toBe(false);
-        expect($c.isDomElement(function () { })).toBe(false);
-        expect($c.isDomElement(function* () { })).toBe(false);
-        expect($c.isDomElement(2)).toBe(false);
-        expect($c.isDomElement(new Promise(function () { }))).toBe(false);
-        expect($c.isDomElement({})).toBe(false);
-        expect($c.isDomElement(/k/)).toBe(false);
-        expect($c.isDomElement("")).toBe(false);
+        expect([].isDomElement()).toBe(false);
+        expect(true.isDomElement()).toBe(false);
+        expect(new Date().isDomElement()).toBe(false);
+        expect({ nodeType: 1 }.isDomElement()).toBe(true);
+        expect(2.001.isDomElement()).toBe(false);
+        expect(function () { }.isDomElement()).toBe(false);
+        expect(function* () { }.isDomElement()).toBe(false);
+        expect((2).isDomElement()).toBe(false);
+        expect(new Promise(function () { }).isDomElement()).toBe(false);
+        expect({}.isDomElement()).toBe(false);
+        expect(/k/.isDomElement()).toBe(false);
+        expect("".isDomElement()).toBe(false);
 
     });
     it('isEmpty - function', function () {
-        expect($c.isEmpty(function () { })).toBe(true);
-        expect($c.isEmpty(function () { var b; })).toBe(false);
+        expect(function () { }.isEmpty()).toBe(true);
+        expect(function () { var b; }.isEmpty()).toBe(false);
     });
     it('isEmpty - object', function () {
-        expect($c.isEmpty({})).toBe(true);
-        expect($c.isEmpty({ hi: "" })).toBe(false);
+        expect({}.isEmpty()).toBe(true);
+        expect({ hi: "" }.isEmpty()).toBe(false);
     });
     it('isEmpty - array', function () {
-        expect($c.isEmpty([])).toBe(true);
-        expect($c.isEmpty([''])).toBe(false);
+        expect([].isEmpty()).toBe(true);
+        expect([''].isEmpty()).toBe(false);
     });
     it('isFloat', function () {
-        expect($c.isFloat([])).toBe(false);
-        expect($c.isFloat(true)).toBe(false);
-        expect($c.isFloat(new Date())).toBe(false);
-        expect($c.isFloat({ nodeType: 1 })).toBe(false);
-        expect($c.isFloat(2.001)).toBe(true);
-        expect($c.isFloat(function () { })).toBe(false);
-        expect($c.isFloat(function* () { })).toBe(false);
-        expect($c.isFloat(2)).toBe(true);
-        expect($c.isFloat(new Promise(function () { }))).toBe(false);
-        expect($c.isFloat({})).toBe(false);
-        expect($c.isFloat(/k/)).toBe(false);
-        expect($c.isFloat("")).toBe(false);
+        expect([].isFloat()).toBe(false);
+        expect(true.isFloat()).toBe(false);
+        expect(new Date().isFloat()).toBe(false);
+        expect({ nodeType: 1 }.isFloat()).toBe(false);
+        expect(2.001.isFloat()).toBe(true);
+        expect(function () { }.isFloat()).toBe(false);
+        expect(function* () { }.isFloat()).toBe(false);
+        expect((2).isFloat()).toBe(true);
+        expect(new Promise(function () { }).isFloat()).toBe(false);
+        expect({}.isFloat()).toBe(false);
+        expect(/k/.isFloat()).toBe(false);
+        expect("".isFloat()).toBe(false);
 
     });
     it('isFunction', function () {
-        expect($c.isFunction([])).toBe(false);
-        expect($c.isFunction(true)).toBe(false);
-        expect($c.isFunction(new Date())).toBe(false);
-        expect($c.isFunction({ nodeType: 1 })).toBe(false);
-        expect($c.isFunction(2.001)).toBe(false);
-        expect($c.isFunction(function () { })).toBe(true);
-        expect($c.isFunction(function* () { })).toBe(false);
-        expect($c.isFunction(2)).toBe(false);
-        expect($c.isFunction(new Promise(function () { }))).toBe(false);
-        expect($c.isFunction({})).toBe(false);
-        expect($c.isFunction(/k/)).toBe(false);
-        expect($c.isFunction("")).toBe(false);
+        expect([].isFunction()).toBe(false);
+        expect(true.isFunction()).toBe(false);
+        expect(new Date().isFunction()).toBe(false);
+        expect({ nodeType: 1 }.isFunction()).toBe(false);
+        expect(2.001.isFunction()).toBe(false);
+        expect(function () { }.isFunction()).toBe(true);
+        expect(function* () { }.isFunction()).toBe(false);
+        expect((2).isFunction()).toBe(false);
+        expect(new Promise(function () { }).isFunction()).toBe(false);
+        expect({}.isFunction()).toBe(false);
+        expect(/k/.isFunction()).toBe(false);
+        expect("".isFunction()).toBe(false);
 
     });
     it('isGenerator', function () {
-        expect($c.isGenerator([])).toBe(false);
-        expect($c.isGenerator(true)).toBe(false);
-        expect($c.isGenerator(new Date())).toBe(false);
-        expect($c.isGenerator({ nodeType: 1 })).toBe(false);
-        expect($c.isGenerator(2.001)).toBe(false);
-        expect($c.isGenerator(function () { })).toBe(false);
-        expect($c.isGenerator(function* () { })).toBe(true);
-        expect($c.isGenerator(2)).toBe(false);
-        expect($c.isGenerator(new Promise(function () { }))).toBe(false);
-        expect($c.isGenerator({})).toBe(false);
-        expect($c.isGenerator(/k/)).toBe(false);
-        expect($c.isGenerator("")).toBe(false);
+        expect([].isGenerator()).toBe(false);
+        expect(true.isGenerator()).toBe(false);
+        expect(new Date().isGenerator()).toBe(false);
+        expect({ nodeType: 1 }.isGenerator()).toBe(false);
+        expect(2.001.isGenerator()).toBe(false);
+        expect(function () { }.isGenerator()).toBe(false);
+        expect(function* () { }.isGenerator()).toBe(true);
+        expect((2).isGenerator()).toBe(false);
+        expect(new Promise(function () { }).isGenerator()).toBe(false);
+        expect({}.isGenerator()).toBe(false);
+        expect(/k/.isGenerator()).toBe(false);
+        expect("".isGenerator()).toBe(false);
 
     });
     it('isGeolocation', function () {
         function Geolocation() { };
         var g = new Geolocation();
-        expect($c.isGeolocation([])).toBe(false);
-        expect($c.isGeolocation(g)).toBe(true);
+        expect([].isGeolocation()).toBe(false);
+        expect(g.isGeolocation()).toBe(true);
     });
     it('isInt', function () {
-        expect($c.isInt([])).toBe(false);
-        expect($c.isInt(true)).toBe(false);
-        expect($c.isInt(new Date())).toBe(false);
-        expect($c.isInt({ nodeType: 1 })).toBe(false);
-        expect($c.isInt(2.001)).toBe(false);
-        expect($c.isInt(function () { })).toBe(false);
-        expect($c.isInt(function* () { })).toBe(false);
-        expect($c.isInt(2)).toBe(true);
-        expect($c.isInt(new Promise(function () { }))).toBe(false);
-        expect($c.isInt({})).toBe(false);
-        expect($c.isInt(/k/)).toBe(false);
-        expect($c.isInt("")).toBe(false);
+        expect([].isInt()).toBe(false);
+        expect(true.isInt()).toBe(false);
+        expect(new Date().isInt()).toBe(false);
+        expect({ nodeType: 1 }.isInt()).toBe(false);
+        expect(2.001.isInt()).toBe(false);
+        expect(function () { }.isInt()).toBe(false);
+        expect(function* () { }.isInt()).toBe(false);
+        expect((2).isInt()).toBe(true);
+        expect(new Promise(function () { }).isInt()).toBe(false);
+        expect({}.isInt()).toBe(false);
+        expect(/k/.isInt()).toBe(false);
+        expect("".isInt()).toBe(false);
 
     });
     it('isNumber', function () {
-        expect($c.isNumber([])).toBe(false);
-        expect($c.isNumber(true)).toBe(false);
-        expect($c.isNumber(new Date())).toBe(false);
-        expect($c.isNumber({ nodeType: 1 })).toBe(false);
-        expect($c.isNumber(2.001)).toBe(true);
-        expect($c.isNumber(function () { })).toBe(false);
-        expect($c.isNumber(function* () { })).toBe(false);
-        expect($c.isNumber(2)).toBe(true);
-        expect($c.isNumber(new Promise(function () { }))).toBe(false);
-        expect($c.isNumber({})).toBe(false);
-        expect($c.isNumber(/k/)).toBe(false);
-        expect($c.isNumber("")).toBe(false);
+        expect([].isNumber()).toBe(false);
+        expect(true.isNumber()).toBe(false);
+        expect(new Date().isNumber()).toBe(false);
+        expect({ nodeType: 1 }.isNumber()).toBe(false);
+        expect(2.001.isNumber()).toBe(true);
+        expect(function () { }.isNumber()).toBe(false);
+        expect(function* () { }.isNumber()).toBe(false);
+        expect((2).isNumber()).toBe(true);
+        expect(new Promise(function () { }).isNumber()).toBe(false);
+        expect({}.isNumber()).toBe(false);
+        expect(/k/.isNumber()).toBe(false);
+        expect("".isNumber()).toBe(false);
 
     });
     it('isPromise', function () {
-        expect($c.isPromise([])).toBe(false);
-        expect($c.isPromise(true)).toBe(false);
-        expect($c.isPromise(new Date())).toBe(false);
-        expect($c.isPromise({ nodeType: 1 })).toBe(false);
-        expect($c.isPromise(2.001)).toBe(false);
-        expect($c.isPromise(function () { })).toBe(false);
-        expect($c.isPromise(function* () { })).toBe(false);
-        expect($c.isPromise(2)).toBe(false);
-        expect($c.isPromise(new Promise(function () { }))).toBe(true);
-        expect($c.isPromise({})).toBe(false);
-        expect($c.isPromise(/k/)).toBe(false);
-        expect($c.isPromise("")).toBe(false);
+        expect([].isPromise()).toBe(false);
+        expect(true.isPromise()).toBe(false);
+        expect(new Date().isPromise()).toBe(false);
+        expect({ nodeType: 1 }.isPromise()).toBe(false);
+        expect(2.001.isPromise()).toBe(false);
+        expect(function () { }.isPromise()).toBe(false);
+        expect(function* () { }.isPromise()).toBe(false);
+        expect((2).isPromise()).toBe(false);
+        expect(new Promise(function () { }).isPromise()).toBe(true);
+        expect({}.isPromise()).toBe(false);
+        expect(/k/.isPromise()).toBe(false);
+        expect("".isPromise()).toBe(false);
 
     });
     it('isObject', function () {
-        expect($c.isObject([])).toBe(false);
-        expect($c.isObject(true)).toBe(false);
-        expect($c.isObject(new Date())).toBe(false);
-        expect($c.isObject({ nodeType: 1 })).toBe(true);
-        expect($c.isObject(2.001)).toBe(false);
-        expect($c.isObject(function () { })).toBe(false);
-        expect($c.isObject(function* () { })).toBe(false);
-        expect($c.isObject(2)).toBe(false);
-        expect($c.isObject(new Promise(function () { }))).toBe(false);
-        expect($c.isObject({})).toBe(true);
-        expect($c.isObject(/k/)).toBe(false);
-        expect($c.isObject("")).toBe(false);
+        expect([].isObject()).toBe(false);
+        expect(true.isObject()).toBe(false);
+        expect(new Date().isObject()).toBe(false);
+        expect({ nodeType: 1 }.isObject()).toBe(true);
+        expect(2.001.isObject()).toBe(false);
+        expect(function () { }.isObject()).toBe(false);
+        expect(function* () { }.isObject()).toBe(false);
+        expect((2).isObject()).toBe(false);
+        expect(new Promise(function () { }).isObject()).toBe(false);
+        expect({}.isObject()).toBe(true);
+        expect(/k/.isObject()).toBe(false);
+        expect("".isObject()).toBe(false);
 
     });
     it('isRegExp', function () {
-        expect($c.isRegExp([])).toBe(false);
-        expect($c.isRegExp(true)).toBe(false);
-        expect($c.isRegExp(new Date())).toBe(false);
-        expect($c.isRegExp({ nodeType: 1 })).toBe(false);
-        expect($c.isRegExp(2.001)).toBe(false);
-        expect($c.isRegExp(function () { })).toBe(false);
-        expect($c.isRegExp(function* () { })).toBe(false);
-        expect($c.isRegExp(2)).toBe(false);
-        expect($c.isRegExp(new Promise(function () { }))).toBe(false);
-        expect($c.isRegExp({})).toBe(false);
-        expect($c.isRegExp(/k/)).toBe(true);
-        expect($c.isRegExp("")).toBe(false);
+        expect([].isRegExp()).toBe(false);
+        expect(true.isRegExp()).toBe(false);
+        expect(new Date().isRegExp()).toBe(false);
+        expect({ nodeType: 1 }.isRegExp()).toBe(false);
+        expect(2.001.isRegExp()).toBe(false);
+        expect(function () { }.isRegExp()).toBe(false);
+        expect(function* () { }.isRegExp()).toBe(false);
+        expect((2).isRegExp()).toBe(false);
+        expect(new Promise(function () { }).isRegExp()).toBe(false);
+        expect({}.isRegExp()).toBe(false);
+        expect(/k/.isRegExp()).toBe(true);
+        expect("".isRegExp()).toBe(false);
 
     });
     it('isString', function () {
-        expect($c.isString([])).toBe(false);
-        expect($c.isString(true)).toBe(false);
-        expect($c.isString(new Date())).toBe(false);
-        expect($c.isString({ nodeType: 1 })).toBe(false);
-        expect($c.isString(2.001)).toBe(false);
-        expect($c.isString(function () { })).toBe(false);
-        expect($c.isString(function* () { })).toBe(false);
-        expect($c.isString(2)).toBe(false);
-        expect($c.isString(new Promise(function () { }))).toBe(false);
-        expect($c.isString({})).toBe(false);
-        expect($c.isString(/k/)).toBe(false);
-        expect($c.isString("")).toBe(true);
+        expect([].isString()).toBe(false);
+        expect(true.isString()).toBe(false);
+        expect(new Date().isString()).toBe(false);
+        expect({ nodeType: 1 }.isString()).toBe(false);
+        expect(2.001.isString()).toBe(false);
+        expect(function () { }.isString()).toBe(false);
+        expect(function* () { }.isString()).toBe(false);
+        expect((2).isString()).toBe(false);
+        expect(new Promise(function () { }).isString()).toBe(false);
+        expect({}.isString()).toBe(false);
+        expect(/k/.isString()).toBe(false);
+        expect("".isString()).toBe(true);
 
     });
     it('itemCount', function () {
         var obj = { hi: "" };
-        expect($c.itemCount(obj)).toBe(1);
-        expect($c.itemCount({})).toBe(0);
+        expect(obj.itemCount()).toBe(1);
+        expect({}.itemCount()).toBe(0);
         expect($c.itemCount(undefined)).toBe(null);
     });
     it('keyOf', function () {
-        expect($c.keyOf({ hi: "hello", world: "worlds" }, "worlds")).toBe("world");
-        expect($c.keyOf({ hi: "worlds", world: "worlds" }, "worlds")).toBe("hi");
+        expect({ hi: "hello", world: "worlds" }.keyOf("worlds")).toBe("world");
+        expect({ hi: "worlds", world: "worlds" }.keyOf("worlds")).toBe("hi");
     });
     it('map', function () {
         var obj = { hi: "hello", world: "world", index: 1 };
-        var obj2 = $c.map(obj, function (val) { return val += 10; });
+        var obj2 = obj.map(function (val) { return val += 10; });
         expect(obj).toEqual({ hi: "hello", world: "world", index: 1 });
         expect(obj2).toEqual({ hi: "hello10", world: "world10", index: 11 });
     });
     it('merge - single', function () {
         var obj1: any = { id: 1, prop1: "prop1" };
         var obj2: any = { id: 2, prop2: "prop2" };
-        var merged = $c.merge(obj1, obj2);
+        var merged = obj1.merge(obj2);
         expect(merged).toBe(obj1);
-        merged = $c.merge(obj1, obj2, { clone: true });
+        merged = obj1.merge(obj2, { clone: true });
         expect(merged).not.toBe(obj1);
         obj1 = { id: 1, prop1: "prop1" };
         obj2 = { id: 2, prop2: "prop2" };
-        expect($c.merge(obj1, obj2, { onlyShared: true, clone: true })).toEqual({ id: 2, prop1: "prop1" });
-        expect($c.merge(obj1, obj2, { intersect: true, clone: true })).toEqual({ id: 2 });
+        expect(obj1.merge(obj2, { onlyShared: true, clone: true })).toEqual({ id: 2, prop1: "prop1" });
+        expect(obj1.merge(obj2, { intersect: true, clone: true })).toEqual({ id: 2 });
         obj1 = { id: 1, prop1: { p1: "adsf" }, arr: [] };
         obj2 = { id: 2, prop1: { p2: ";lkj" }, arr: ['1234'] };
-        expect($c.merge(obj1, obj2, { recurse: true })).toEqual({ id: 2, prop1: { p1: "adsf", p2: ";lkj" }, arr: ['1234'] });
+        expect(obj1.merge(obj2, { recurse: true })).toEqual({ id: 2, prop1: { p1: "adsf", p2: ";lkj" }, arr: ['1234'] });
     });
     // it('merge - multi', function () {
     //     var a = { a: "a" }, b = { b: "b" }, c = { c: "c" }, d = { d: "d" };
@@ -424,19 +424,19 @@ describe('No Conflict Object', function () {
     });
     it('setProperty', function () {
         var o = {};
-        expect($c.setProperty(o, "path.path", "hello world")).toBe(true);
+        expect(o.setProperty("path.path", "hello world")).toBe(true);
         expect(o).toEqual({ path: { path: "hello world" } });
-        expect($c.setProperty(o, "path.arr.0.foo", "bar")).toBe(true);
+        expect(o.setProperty("path.arr.0.foo", "bar")).toBe(true);
         expect(o).toEqual({ path: { path: "hello world", arr: [{ foo: "bar" }] } });
     });
     var objToStringAlt = { hi: "hello ", place: "world" };
     it('toStringAlt - basic', function () {
         var objToStringAlt = { hi: "hello ", place: "world" };
-        expect($c.toStringAlt(objToStringAlt)).toBe("&hi=hello &place=world");
-        expect($c.toStringAlt(objToStringAlt, "-")).toBe("&hi-hello &place-world");
-        expect($c.toStringAlt(objToStringAlt, "=", "@")).toBe("@hi=hello @place=world");
+        expect(objToStringAlt.toStringAlt()).toBe("&hi=hello &place=world");
+        expect(objToStringAlt.toStringAlt("-")).toBe("&hi-hello &place-world");
+        expect(objToStringAlt.toStringAlt("=", "@")).toBe("@hi=hello @place=world");
     });
     it('toStringAlt - encode uri', function () {
-        expect($c.toStringAlt(objToStringAlt, "=", "@", true)).toBe("@hi=hello%20@place=world");
+        expect(objToStringAlt.toStringAlt("=", "@", true)).toBe("@hi=hello%20@place=world");
     });
 });

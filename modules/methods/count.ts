@@ -1,10 +1,10 @@
-import error from './error';
-import isArray from './isArray';
-import isObject from './isObject';
-import isRegExp from './isRegExp';
-import isString from './isString';
-import strip from './strip';
-import where from './where';
+import error from '../methods/error';
+import isArray from '../methods/isArray';
+import isObject from '../methods/isObject';
+import isRegExp from '../methods/isRegExp';
+import isString from '../methods/isString';
+import strip from '../methods/strip';
+import where from '../methods/where';
 import { WhereCondition, AnyObject, AnyObjects } from '../models/Arrays';
 
 const _isObject = isObject,

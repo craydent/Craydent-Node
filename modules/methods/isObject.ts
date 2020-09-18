@@ -1,4 +1,4 @@
-import isNull from './isNull';
+import isNull from '../methods/isNull';
 
 export default function isObject(obj: any, check_instance?: boolean): boolean {
     if (isNull(obj)) { return false; }

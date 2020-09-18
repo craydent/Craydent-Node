@@ -1,5 +1,5 @@
-import error from './error';
-import isObject from './isObject';
+import error from '../methods/error';
+import isObject from '../methods/isObject';
 import { AnyObject } from '../models/Arrays';
 
 export default function toStringAlt(obj: AnyObject, delimiter?: string, prefix?: string, urlEncode?: boolean): string {

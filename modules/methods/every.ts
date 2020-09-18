@@ -1,6 +1,6 @@
-import error from './error';
+import error from '../methods/error';
 import { ArrayIterator } from '../models/Arrays';
-import isArray from './isArray';
+import isArray from '../methods/isArray';
 import { ObjectIterator } from '../models/ObjectIterator';
 
 

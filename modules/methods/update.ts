@@ -1,5 +1,5 @@
 //#region imports
-import error from './error';
+import error from '../methods/error';
 import { MongoSet, WhereCondition } from '../models/Arrays';
 import _generalTrim from '../protected/_generalTrim';
 import {
@@ -10,23 +10,23 @@ import {
     _containsMod,
     _containsType
 } from '../protected/_containsComparisons';
-import contains from './contains';
-import equals from './equals';
-import isNull from './isNull';
-import isArray from './isArray';
-import isFunction from './isFunction';
-import isInt from './isInt';
-import isObject from './isObject';
-import isRegExp from './isRegExp';
-import isString from './isString';
-import setProperty from './setProperty';
-import getProperty from './getProperty';
-import toSet from './toSet';
-import deleteIt from './delete';
-import insertBefore from './insertBefore';
-import sortBy from './sortBy';
-import tryEval from './tryEval';
-import parseBoolean from './parseBoolean';
+import contains from '../methods/contains';
+import equals from '../methods/equals';
+import isNull from '../methods/isNull';
+import isArray from '../methods/isArray';
+import isFunction from '../methods/isFunction';
+import isInt from '../methods/isInt';
+import isObject from '../methods/isObject';
+import isRegExp from '../methods/isRegExp';
+import isString from '../methods/isString';
+import setProperty from '../methods/setProperty';
+import getProperty from '../methods/getProperty';
+import toSet from '../methods/toSet';
+import deleteIt from '../methods/delete';
+import insertBefore from '../methods/insertBefore';
+import sortBy from '../methods/sortBy';
+import tryEval from '../methods/tryEval';
+import parseBoolean from '../methods/parseBoolean';
 import _processClause from '../protected/_processClause';
 import __queryNestedProperty from '../private/__queryNestedProperty';
 import _subQuery from '../protected/_subQuery';

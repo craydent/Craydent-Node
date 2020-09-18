@@ -1,5 +1,5 @@
-import error from './error';
-import isArray from './isArray';
+import error from '../methods/error';
+import isArray from '../methods/isArray';
 
 export default function capitalize(str: string, pos?: number | number[], everyWord?: boolean): string {
     /*|{

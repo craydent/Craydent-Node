@@ -1,4 +1,4 @@
-import yieldable from './yieldable';
+import yieldable from '../methods/yieldable';
 import { AsyncFunction } from '../models/AsyncFunction';
 export interface AwaitableOption {
     context: any;

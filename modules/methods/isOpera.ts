@@ -1,5 +1,5 @@
 ///<reference path="../globalTypes/global.base.ts" />
-import error from './error';
+import error from '../methods/error';
 
 export default function isOpera(this: Craydent | Window): boolean {
     /*|{

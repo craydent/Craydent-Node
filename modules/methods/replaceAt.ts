@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import { IndexedArray } from '../models/Arrays';
 import _addToIndex from '../protected/_addToIndex';
 import _removeFromIndex from '../protected/_removeFromIndex';

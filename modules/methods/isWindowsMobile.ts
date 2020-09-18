@@ -1,6 +1,6 @@
-import error from './error';
+import error from '../methods/error';
 
-export default function isWindowsMobile(this: Craydent | Window):boolean {
+export default function isWindowsMobile(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if device is Windows Mobile",
         "category": "HTTP",

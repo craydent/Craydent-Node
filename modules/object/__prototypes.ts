@@ -100,9 +100,9 @@ export function _changes(compare: AnyObject) {
     return changes(this, compare);
 }
 export function _contains<T, TValue>(this: T[], func: ContainsObjectIterator<T, TValue>): boolean;
-export function _contains<T, TValue>(this: T[], val: ContainsValue, func: ContainsObjectIterator<T, TValue>): boolean;
-export function _contains<T, TValue>(this: T[], val: ContainsValue, operator: ComparisonOperator): boolean;
-export function _contains<T, TValue>(this: T, val: ContainsValue, func: ContainsObjectIterator<T, TValue>): boolean;
+export function _contains<T, TValue>(this: T[], val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
+export function _contains<T, TValue>(this: T[], val: ContainsValue, operator?: ComparisonOperator): boolean;
+export function _contains<T, TValue>(this: T, val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
 export function _contains(this: string, val: ContainsValue): boolean;
 export function _contains(this: number, val: ContainsValue): boolean;
 export function _contains(val, func?): boolean {
@@ -230,9 +230,9 @@ export function _every(callback, thisObject?: any): boolean {
     }|*/
     return every(this, callback, thisObject);
 }
-export function _get(obj, path: string, delimiter?: string, options?: IGetProperty.GetPropertyOptions): any;
-export function _get(obj, path: RegExp): any;
-export function _get(obj, path: string, options?: IGetProperty.GetPropertyOptions): any;
+export function _get(path: string, delimiter?: string, options?: IGetProperty.GetPropertyOptions): any;
+export function _get(path: RegExp): any;
+export function _get(path: string, options?: IGetProperty.GetPropertyOptions): any;
 export function _get(path, delimiter?, options?): any {
     /*|{
         "info": "Alias to getProperty; however, it can not be used as a protoype property.",
@@ -277,9 +277,9 @@ export function _getClass(): string {
     }|*/
     return getClass(this);
 }
-export function _getProperty(obj, path: string, delimiter?: string, options?: IGetProperty.GetPropertyOptions): any;
-export function _getProperty(obj, path: RegExp): any;
-export function _getProperty(obj, path: string, options?: IGetProperty.GetPropertyOptions): any;
+export function _getProperty(path: string, delimiter?: string, options?: IGetProperty.GetPropertyOptions): any;
+export function _getProperty(path: RegExp): any;
+export function _getProperty(path: string, options?: IGetProperty.GetPropertyOptions): any;
 export function _getProperty(path, delimiter?, options?): any {
     /*|{
         "info": "Object class extension to retrieve nested properties without error when property path does not exist",
@@ -310,7 +310,7 @@ export function _getProperty(path, delimiter?, options?): any {
     }|*/
     return getProperty(this, path, delimiter, options);
 }
-export function _getValue(args?: any[], dflt?: any): any {
+export function _getValue(this: any, args?: any[], dflt?: any): any {
     return getValue(this, args, dflt);
 }
 export function _has(property: string): boolean {
@@ -620,7 +620,7 @@ export function _getKeys(): string[] {
     }|*/
     return getKeys(this);
 }
-export function _map<T>(callback: ObjectIterator<T>, thisObject: any): T {
+export function _map<T>(callback: ObjectIterator<T>, thisObject?: any): T {
     /*|{
         "info": "Object class extension to apply method to every value",
         "category": "Object",

@@ -1,9 +1,9 @@
-import error from "./error";
-import _verbPayloadHelper from "../protected/_verbPayloadHelper";
-import { VerbOptions } from "../models/VerbOptions";
-import $COMMIT from "./$COMMIT";
-import isString from "./isString";
-import _invokeHashChange from "../protected/_invokeHashChange";
+import error from '../methods/error';
+import _verbPayloadHelper from '../protected/_verbPayloadHelper';
+import { VerbOptions } from '../models/VerbOptions';
+import $COMMIT from '../methods/$COMMIT';
+import isString from '../methods/isString';
+import _invokeHashChange from '../protected/_invokeHashChange';
 
 
 export default function $DELETE(this: Craydent | void, variable?: string | string[], options?: VerbOptions) {

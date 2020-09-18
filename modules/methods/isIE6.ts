@@ -1,5 +1,5 @@
-import error from './error';
-import IEVersion from './IEVersion';
+import error from '../methods/error';
+import IEVersion from '../methods/IEVersion';
 
 export default function isIE6(this: Craydent | Window): boolean {
     /*|{

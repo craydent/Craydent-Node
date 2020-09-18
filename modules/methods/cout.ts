@@ -5,7 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import error from './error';
+import error from '../methods/error';
 import { $c } from '../private/__common';
 
 export default function cout(...args): void {

@@ -1,5 +1,5 @@
-import error from './error';
-import isFunction from './isFunction';
+import error from '../methods/error';
+import isFunction from '../methods/isFunction';
 import { TreeParentFinder, TreeChildFinder, TreeOptions } from '../models/Arrays';
 import { __processStage } from '../methods/where';
 

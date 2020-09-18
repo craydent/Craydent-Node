@@ -1,4 +1,4 @@
-import isNull from './isNull';
+import isNull from '../methods/isNull';
 
 export default function isDomElement(obj: any): boolean {
     if (isNull(obj)) { return false; }

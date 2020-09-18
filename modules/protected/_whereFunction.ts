@@ -1,4 +1,4 @@
-import foo from "../methods/foo";
+import foo from '../methods/foo';
 
 export type WhereFunctionOptions<T> = {
     objs: T[],

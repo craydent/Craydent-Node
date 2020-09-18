@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import * as crypto from 'crypto';
 
 export default function md5(str: string): string {

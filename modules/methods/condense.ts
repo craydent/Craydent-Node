@@ -5,8 +5,8 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import error from './error';
-import isNull from './isNull';
+import error from '../methods/error';
+import isNull from '../methods/isNull';
 
 export default function condense<T>(arr: T[], check_values?: any[] | boolean): T[] {
     try {

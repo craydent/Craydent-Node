@@ -1,8 +1,8 @@
-import duplicate from "./duplicate";
-import removeAll from "./removeAll";
-import equals from "./equals";
-import toSet from "./toSet";
-import { ArrayIterator } from "../models/Arrays";
+import duplicate from '../methods/duplicate';
+import removeAll from '../methods/removeAll';
+import equals from '../methods/equals';
+import toSet from '../methods/toSet';
+import { ArrayIterator } from '../models/Arrays';
 
 class Set<T> extends Array<T> {
     /*|{

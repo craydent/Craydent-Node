@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 
 export default function endsWith(str: string, searchString: string, length?: number) {
     /*|{

@@ -33,19 +33,11 @@ declare global {
     //#region global
     module NodeJS {
         interface Global {
-            addFlags: typeof IAddFlags.default;
-            equals: typeof IEquals.default;
-            getValue: typeof IGetValue.default;
         }
     }
     interface Window {
-        addFlags: typeof IAddFlags.default;
-        equals: typeof IEquals.default;
-        getValue: typeof IGetValue.default;
+
     }
-    var addFlags: typeof IAddFlags.default;
-    var equals: typeof IEquals.default;
-    var getValue: typeof IGetValue.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

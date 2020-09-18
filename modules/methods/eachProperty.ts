@@ -5,7 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import error from './error';
+import error from '../methods/error';
 import { AnyObject } from '../models/Arrays';
 import { EachIterator } from '../models/EachIterator';
 

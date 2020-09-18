@@ -1,6 +1,6 @@
-import error from './error';
-import _average from './average';
-import isNumber from './isNumber';
+import error from '../methods/error';
+import _average from '../methods/average';
+import isNumber from '../methods/isNumber';
 
 const _isNumber = isNumber;
 

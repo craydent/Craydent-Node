@@ -17,9 +17,9 @@
         "buildDev": "./local_scripts/buildDev.sh",
         "build": "./local_scripts/build.sh",
         "generateTypes": "./local_scripts/generate_types.js",
-        
+
         "test": "jest --coverage",
-        "transpileDev": "./local_scripts/buildDev.js && tsc",
+        "transpileDev": "./local_scripts/buildDev.js && tsc && ./local_scripts/copyPackageJsonFile.js",
         "transpile": "./local_scripts/buildProd.js && tsc"
     },
     "repository": {
@@ -65,23 +65,23 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library#readme",
     "dependencies": {
-        "@craydent/craydent-array": "file:./submodules/array",
-        "@craydent/craydent-class": "file:./submodules/class",
-        "@craydent/craydent-cli": "file:./submodules/cli",
-        "@craydent/craydent-control-flow": "file:./submodules/control-flow",
-        "@craydent/craydent-date": "file:./submodules/date",
-        "@craydent/craydent-fs": "file:./submodules/fs",
-        "@craydent/craydent-function": "file:./submodules/function",
-        "@craydent/craydent-http": "file:./submodules/http",
-        "@craydent/craydent-json-parser": "file:./submodules/json-parser",
-        "@craydent/craydent-number": "file:./submodules/number",
-        "@craydent/craydent-object": "file:./submodules/object",
-        "@craydent/craydent-regexp": "file:./submodules/regexp",
-        "@craydent/craydent-string": "file:./submodules/string",
-        "@craydent/craydent-template": "file:./submodules/template",
-        "@craydent/craydent-typeof": "file:./submodules/typeof",
-        "@craydent/craydent-utility": "file:./submodules/utility",
-        "@craydent/craydent-xml-to-json": "file:./submodules/xml-to-json"
+        "@craydent/craydent-array": "file:./transformedMajor/array",
+        "@craydent/craydent-class": "file:./transformedMajor/class",
+        "@craydent/craydent-cli": "file:./transformedMajor/cli",
+        "@craydent/craydent-control-flow": "file:./transformedMajor/control-flow",
+        "@craydent/craydent-date": "file:./transformedMajor/date",
+        "@craydent/craydent-fs": "file:./transformedMajor/fs",
+        "@craydent/craydent-function": "file:./transformedMajor/function",
+        "@craydent/craydent-http": "file:./transformedMajor/http",
+        "@craydent/craydent-json-parser": "file:./transformedMajor/json-parser",
+        "@craydent/craydent-number": "file:./transformedMajor/number",
+        "@craydent/craydent-object": "file:./transformedMajor/object",
+        "@craydent/craydent-regexp": "file:./transformedMajor/regexp",
+        "@craydent/craydent-string": "file:./transformedMajor/string",
+        "@craydent/craydent-template": "file:./transformedMajor/template",
+        "@craydent/craydent-typeof": "file:./transformedMajor/typeof",
+        "@craydent/craydent-utility": "file:./transformedMajor/utility",
+        "@craydent/craydent-xml-to-json": "file:./transformedMajor/xml-to-json"
     },
     "devDependencies": {
         "@types/jest": "^26.0.3",

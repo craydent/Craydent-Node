@@ -1,5 +1,5 @@
-import error from "./error";
-import _generalTrim from "../protected/_generalTrim";
+import error from '../methods/error';
+import _generalTrim from '../protected/_generalTrim';
 
 export default function rtrim(str: string, character?: string | string[]): string {
     /*|{

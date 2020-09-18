@@ -1,8 +1,8 @@
-import duplicate from "./duplicate";
-import isArray from "./isArray";
-import isObject from "./isObject";
-import { AnyObject } from "../models/Arrays";
-import { IteratorItem } from "../models/IteratorItem";
+import duplicate from '../methods/duplicate';
+import isArray from '../methods/isArray';
+import isObject from '../methods/isObject';
+import { AnyObject } from '../models/Arrays';
+import { IteratorItem } from '../models/IteratorItem';
 
 function Cursor(records?: AnyObject | any[]) {
     /*|{

@@ -5,31 +5,31 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import error from './error';
+import error from '../methods/error';
 import { $c } from '../private/__common';
-import addFlags from './addFlags';
-import condense from './condense';
-import contains from './contains';
-import count from './count';
-import cut from './cut';
-import eachProperty from './eachProperty';
-import foo from './foo';
-import getProperty from './getProperty';
-import isArray from './isArray';
-import isFunction from './isFunction';
-import isNull from './isNull';
-import isString from './isString';
-import indexOfAlt from './indexOfAlt';
-import isObject from './isObject';
-import merge from './merge';
-import OrderedList from './orderedList';
-import parseRaw from './parseRaw';
-import removeAt from './removeAt';
-import replaceAll from './replaceAll';
-import startsWithAny from './startsWithAny';
-import strip from './strip';
-import suid from './suid';
-import tryEval from './tryEval';
+import addFlags from '../methods/addFlags';
+import condense from '../methods/condense';
+import contains from '../methods/contains';
+import count from '../methods/count';
+import cut from '../methods/cut';
+import eachProperty from '../methods/eachProperty';
+import foo from '../methods/foo';
+import getProperty from '../methods/getProperty';
+import isArray from '../methods/isArray';
+import isFunction from '../methods/isFunction';
+import isNull from '../methods/isNull';
+import isString from '../methods/isString';
+import indexOfAlt from '../methods/indexOfAlt';
+import isObject from '../methods/isObject';
+import merge from '../methods/merge';
+import OrderedList from '../methods/orderedList';
+import parseRaw from '../methods/parseRaw';
+import removeAt from '../methods/removeAt';
+import replaceAll from '../methods/replaceAll';
+import startsWithAny from '../methods/startsWithAny';
+import strip from '../methods/strip';
+import suid from '../methods/suid';
+import tryEval from '../methods/tryEval';
 import { AnyObjects, AnyObject } from '../models/Arrays';
 
 const $g: any = global;

@@ -1,8 +1,8 @@
-import error from './error';
-import isAsync from './isAsync';
-import isGenerator from './isGenerator';
-import isPromise from './isPromise';
-import isNull from './isNull';
+import error from '../methods/error';
+import isAsync from '../methods/isAsync';
+import isGenerator from '../methods/isGenerator';
+import isPromise from '../methods/isPromise';
+import isNull from '../methods/isNull';
 import { AsyncFunction } from '../models/AsyncFunction';
 
 export default function syncroit(gen: GeneratorFunction | Generator | AsyncFunction | Function): Promise<any> {

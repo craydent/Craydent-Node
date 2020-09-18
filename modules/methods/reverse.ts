@@ -1,5 +1,5 @@
-import error from './error';
-import isNullOrEmpty from './isNullOrEmpty';
+import error from '../methods/error';
+import isNullOrEmpty from '../methods/isNullOrEmpty';
 
 export default function reverse(str: string): string {
     /*|{

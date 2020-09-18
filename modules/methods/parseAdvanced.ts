@@ -1,9 +1,9 @@
-import error from './error';
+import error from '../methods/error';
 import _parseAdvanced from '../protected/_parseAdvanced';
-import include from './include';
-import isObject from './isObject';
-import isString from './isString';
-import absolutePath from './absolutePath';
+import include from '../methods/include';
+import isObject from '../methods/isObject';
+import isString from '../methods/isString';
+import absolutePath from '../methods/absolutePath';
 import { AnyObject } from '../models/Arrays';
 import { Reviver } from '../models/Reviver';
 

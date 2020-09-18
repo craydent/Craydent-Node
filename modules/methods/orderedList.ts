@@ -1,6 +1,6 @@
-import { SortIterator } from "../models/SortIterator";
-import duplicate from "./duplicate";
-import error from "./error";
+import { SortIterator } from '../models/SortIterator';
+import duplicate from '../methods/duplicate';
+import error from '../methods/error';
 
 export function _orderListHelper<T>(value: T, sorter: SortIterator<T>, arr: T[]): number {
     try {

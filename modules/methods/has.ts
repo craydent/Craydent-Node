@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import { AnyObject } from '../models/Arrays';
 
 export default function has(obj: AnyObject, property: string): boolean {

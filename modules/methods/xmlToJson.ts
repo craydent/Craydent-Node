@@ -1,14 +1,14 @@
-import { AnyObject } from "../models/Arrays";
-import error from "./error";
-import fillTemplate from "./fillTemplate";
-import isArray from "./isArray";
-import isString from "./isString";
-import strip from "./strip";
-import suid from "./suid";
-import __processAttributes from "../private/__processAttributes";
-import merge from "../methods/merge";
-import isEmpty from "./isEmpty";
-import isNull from "./isNull";
+import { AnyObject } from '../models/Arrays';
+import error from '../methods/error';
+import fillTemplate from '../methods/fillTemplate';
+import isArray from '../methods/isArray';
+import isString from '../methods/isString';
+import strip from '../methods/strip';
+import suid from '../methods/suid';
+import __processAttributes from '../private/__processAttributes';
+import merge from '../methods/merge';
+import isEmpty from '../methods/isEmpty';
+import isNull from '../methods/isNull';
 
 export function __processChildren(nodename: string, children: string[], xml: string, refs: any, ignoreAttributes?: boolean): AnyObject {
     let child, i = 0, obj = {};

@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import {
     _containsLessThan,
     _containsGreaterThan,
@@ -7,20 +7,20 @@ import {
     _containsMod,
     _containsType
 } from '../protected/_containsComparisons';
-import contains from './contains';
-import equals from './equals';
-import isNull from './isNull';
-import isArray from './isArray';
-import isFunction from './isFunction';
-import isInt from './isInt';
-import isObject from './isObject';
-import isRegExp from './isRegExp';
-import isString from './isString';
-import add from './add';
-import duplicate from './duplicate';
-import merge from './merge';
-import getProperty from './getProperty';
-import parseBoolean from './parseBoolean';
+import contains from '../methods/contains';
+import equals from '../methods/equals';
+import isNull from '../methods/isNull';
+import isArray from '../methods/isArray';
+import isFunction from '../methods/isFunction';
+import isInt from '../methods/isInt';
+import isObject from '../methods/isObject';
+import isRegExp from '../methods/isRegExp';
+import isString from '../methods/isString';
+import add from '../methods/add';
+import duplicate from '../methods/duplicate';
+import merge from '../methods/merge';
+import getProperty from '../methods/getProperty';
+import parseBoolean from '../methods/parseBoolean';
 import __queryNestedProperty from '../private/__queryNestedProperty';
 import _subQuery from '../protected/_subQuery';
 

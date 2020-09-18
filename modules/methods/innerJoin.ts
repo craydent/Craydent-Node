@@ -1,5 +1,5 @@
-import { _joinHelper } from "./where";
-import error from './error';
+import { _joinHelper } from '../methods/where';
+import error from '../methods/error';
 
 export default function innerJoin<T, R, TResult>(orig: T[], arr: R[], on: string): TResult[] {
     try {

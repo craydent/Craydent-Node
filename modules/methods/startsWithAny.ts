@@ -5,9 +5,9 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import isArray from './isArray';
-import error from './error';
-import isNull from './isNull';
+import isArray from '../methods/isArray';
+import error from '../methods/error';
+import isNull from '../methods/isNull';
 
 export default function startsWithAny(subject: string, startsWith: string[]): string | false;
 export default function startsWithAny(subject: string, ...args): string | false;

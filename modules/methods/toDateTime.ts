@@ -1,9 +1,9 @@
-import error from './error';
+import error from '../methods/error';
 import { DateTimeOptions } from '../models/DateTimeOptions';
-import isString from './isString';
-import isNull from './isNull';
-import getGMTOffset from './getGMTOffset';
-import format from './format';
+import isString from '../methods/isString';
+import isNull from '../methods/isNull';
+import getGMTOffset from '../methods/getGMTOffset';
+import format from '../methods/format';
 
 export default function toDateTime(strDatetime: string, options?: DateTimeOptions): Date | string {
     /*|{

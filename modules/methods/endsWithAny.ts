@@ -1,6 +1,6 @@
-import error from './error';
-import isArray from './isArray';
-import isNull from './isNull';
+import error from '../methods/error';
+import isArray from '../methods/isArray';
+import isNull from '../methods/isNull';
 
 export default function endsWithAny(subject: string, args: string[]): string | false;
 export default function endsWithAny(subject: string, ...args: string[]): string | false;

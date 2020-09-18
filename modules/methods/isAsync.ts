@@ -1,5 +1,5 @@
-import isNull from './isNull';
-import error from './error';
+import isNull from '../methods/isNull';
+import error from '../methods/error';
 
 export default function isAsync(obj: any): boolean {
     try {

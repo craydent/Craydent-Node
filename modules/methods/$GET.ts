@@ -1,9 +1,9 @@
-import error from "./error";
-import isString from './isString';
-import { AnyObject } from "../models/Arrays";
-import { VerbOptions } from "../models/VerbOptions";
-import $COMMIT from "./$COMMIT";
-import isObject from "./isObject";
+import error from '../methods/error';
+import { AnyObject } from '../models/Arrays';
+import isString from '../methods/isString';
+import { VerbOptions } from '../models/VerbOptions';
+import $COMMIT from '../methods/$COMMIT';
+import isObject from '../methods/isObject';
 
 export default function $GET(this: Craydent | void, options: VerbOptions): AnyObject | string;
 export default function $GET(this: Craydent | void, variable: string, url?: string): AnyObject | string;

@@ -1,4 +1,4 @@
-import { $ROLLBACK as RB } from './$COMMIT';
+import { $ROLLBACK as RB } from '../methods/$COMMIT';
 
 export default function $ROLLBACK() {
     /*|{

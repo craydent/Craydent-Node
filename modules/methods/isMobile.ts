@@ -1,12 +1,12 @@
-import error from './error';
-import isAndroid from './isAndroid';
-import isBlackBerry from './isBlackBerry';
-import isIPad from './isIPad';
-import isIPhone from './isIPhone';
-import isIPod from './isIPod';
-import isPalmOS from './isPalmOS';
-import isSymbian from './isSymbian';
-import isWindowsMobile from './isWindowsMobile';
+import error from '../methods/error';
+import isAndroid from '../methods/isAndroid';
+import isBlackBerry from '../methods/isBlackBerry';
+import isIPad from '../methods/isIPad';
+import isIPhone from '../methods/isIPhone';
+import isIPod from '../methods/isIPod';
+import isPalmOS from '../methods/isPalmOS';
+import isSymbian from '../methods/isSymbian';
+import isWindowsMobile from '../methods/isWindowsMobile';
 
 export default function isMobile(this: Craydent | Window): boolean {
     /*|{

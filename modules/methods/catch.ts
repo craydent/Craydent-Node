@@ -1,5 +1,5 @@
-import error from './error';
-import on from './on';
+import error from '../methods/error';
+import on from '../methods/on';
 
 export default function (func: Function, callback: Function) {
     /*|{

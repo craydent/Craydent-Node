@@ -1,5 +1,5 @@
-import error from './error';
-import isNumber from './isNumber';
+import error from '../methods/error';
+import isNumber from '../methods/isNumber';
 
 export default function sum(arr: number[]): number {
     try {

@@ -1,5 +1,5 @@
-import error from './error';
-import equals from './equals';
+import error from '../methods/error';
+import equals from '../methods/equals';
 import { AnyObject } from '../models/Arrays';
 
 export interface CompareResults {

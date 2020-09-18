@@ -1,8 +1,8 @@
-import error from "../methods/error";
-import $COMMIT from "../methods/$COMMIT";
-import $COOKIE from "../methods/$COOKIE";
-import _invokeHashChange from "./_invokeHashChange";
-import { VerbOptions } from "../models/VerbOptions";
+import error from '../methods/error';
+import $COMMIT from '../methods/$COMMIT';
+import $COOKIE from '../methods/$COOKIE';
+import _invokeHashChange from '../protected/_invokeHashChange';
+import { VerbOptions } from '../models/VerbOptions';
 
 export default function _set<T>(variable: string, value: string, defer: boolean, options: VerbOptions, loc: T): T {
     try {

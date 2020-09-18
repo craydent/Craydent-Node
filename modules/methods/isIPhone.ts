@@ -1,5 +1,5 @@
-import error from './error';
-import isIPad from './isIPad';
+import error from '../methods/error';
+import isIPad from '../methods/isIPad';
 
 export default function isIPhone(this: Craydent | Window): boolean {
     /*|{

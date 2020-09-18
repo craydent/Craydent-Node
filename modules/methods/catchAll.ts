@@ -1,5 +1,5 @@
-import error from './error';
-import logit from './logit';
+import error from '../methods/error';
+import logit from '../methods/logit';
 
 export default function catchAll(callback: NodeJS.UncaughtExceptionListener, append?: boolean): void {
     /*|{

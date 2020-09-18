@@ -1,4 +1,4 @@
-import isNull from './isNull';
+import isNull from '../methods/isNull';
 
 export default function isBetween(obj: any, lowerBound: any, upperBound: any, inclusive?: boolean): boolean {
     if (isNull(obj)) { return false; }

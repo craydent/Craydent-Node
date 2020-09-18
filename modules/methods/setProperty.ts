@@ -1,7 +1,7 @@
-import error from './error';
-import strip from './strip';
-import isArray from './isArray';
-import isObject from './isObject';
+import error from '../methods/error';
+import strip from '../methods/strip';
+import isArray from '../methods/isArray';
+import isObject from '../methods/isObject';
 
 export default function setProperty<T>(obj: T, path: string, value: any, delimiter?: string): boolean {
     /*|{

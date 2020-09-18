@@ -1,7 +1,7 @@
 import _typeCheck from '../protected/_typeCheck';
-import isNull from './isNull';
-import isArray from './isArray';
-import { isNumber } from 'util';
+import isNull from '../methods/isNull';
+import isArray from '../methods/isArray';
+import isNumber from '../methods/isNumber';
 
 export default function isInt(obj: any): boolean {
     if (isNull(obj) || isArray(obj)) { return false; }

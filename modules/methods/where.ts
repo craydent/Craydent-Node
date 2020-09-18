@@ -6,7 +6,7 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 //#region imports
-import error from './error';
+import error from '../methods/error';
 import {
     _containsLessThan,
     _containsGreaterThan,
@@ -16,25 +16,25 @@ import {
     _containsType
 } from '../protected/_containsComparisons';
 import _getFuncName from '../protected/_getFuncName';
-import duplicate from './duplicate';
-import getProperty from './getProperty';
-import setProperty from './setProperty';
-import isNull from './isNull';
-import isArray from './isArray';
-import isFunction from './isFunction';
-import isInt from './isInt';
-import isObject from './isObject';
-import isRegExp from './isRegExp';
-import isString from './isString';
-import parseBoolean from './parseBoolean';
-import contains from './contains';
-import removeAt from './removeAt';
-import equals from './equals';
-import tryEval from './tryEval';
-import sortBy from './sortBy';
-import removeAll from './removeAll';
-import rand from './rand';
-import merge from './merge';
+import duplicate from '../methods/duplicate';
+import getProperty from '../methods/getProperty';
+import setProperty from '../methods/setProperty';
+import isNull from '../methods/isNull';
+import isArray from '../methods/isArray';
+import isFunction from '../methods/isFunction';
+import isInt from '../methods/isInt';
+import isObject from '../methods/isObject';
+import isRegExp from '../methods/isRegExp';
+import isString from '../methods/isString';
+import parseBoolean from '../methods/parseBoolean';
+import contains from '../methods/contains';
+import removeAt from '../methods/removeAt';
+import equals from '../methods/equals';
+import tryEval from '../methods/tryEval';
+import sortBy from '../methods/sortBy';
+import removeAll from '../methods/removeAll';
+import rand from '../methods/rand';
+import merge from '../methods/merge';
 import universalTrim from '../methods/universalTrim';
 import _generalTrim from '../protected/_generalTrim';
 import __pullHelper from '../private/__pullHelper';
@@ -109,7 +109,7 @@ export function __processStage<T>(docs: Documents<T>, stage: Stage): Documents<T
                 return sortBy(docs, sorter);
             case "$out":
                 let rtnDocs = duplicate(docs, true);
-                 /* istanbul ignore else */
+                /* istanbul ignore else */
                 if (isString(value)) {
                     // @ts-ignore
                     global[value] = rtnDocs;
@@ -152,7 +152,7 @@ export function _joinHelper<T, R, TResult>(objs: T[], arr: R[], on: string | str
         if (on.length == 1) { on = [on, on]; }
         let name = _getFuncName(arguments.callee.caller);
         on = universalTrim(on as string[]);
-         /* istanbul ignore next */
+        /* istanbul ignore next */
         name == "joinRight" && (on = [on[1], on[0]]);
     }
 

@@ -1,11 +1,11 @@
-import $c from '../../transformed/regexp/noConflict';
-
+import $c from '../../transformedMajor/regexp';
+$c;
 describe('No Conflict RegExp', function () {
 	it('addFlags', function () {
-		expect($c.addFlags(/a/, 'gim').source).toBe((/a/gim).source);
-		expect($c.addFlags(/a/, 'igm').source).toBe((/a/igm).source);
-		expect($c.addFlags(/a/, 'g').source).toBe((/a/g).source);
-		expect($c.addFlags(/a/, 'i').source).toBe((/a/i).source);
-		expect($c.addFlags(/a/, 'm').source).toBe((/a/m).source);
+		expect(/a/.addFlags('gim').source).toBe((/a/gim).source);
+		expect(/a/.addFlags('igm').source).toBe((/a/igm).source);
+		expect(/a/.addFlags('g').source).toBe((/a/g).source);
+		expect(/a/.addFlags('i').source).toBe((/a/i).source);
+		expect(/a/.addFlags('m').source).toBe((/a/m).source);
 	});
 });

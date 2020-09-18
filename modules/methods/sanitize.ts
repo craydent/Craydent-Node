@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 
 const chars = {
     '&': '&#38;',

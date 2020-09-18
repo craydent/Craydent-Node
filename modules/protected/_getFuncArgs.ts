@@ -6,7 +6,7 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 import error from '../methods/error';
-import _generalTrim from './_generalTrim';
+import _generalTrim from '../protected/_generalTrim';
 import strip from '../methods/strip';
 import condense from '../methods/condense'
 

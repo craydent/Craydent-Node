@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 
 export default function startsWith(str: string, searchString: string, start?: number) {
     /*|{

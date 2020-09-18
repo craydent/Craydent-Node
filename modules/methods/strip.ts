@@ -5,7 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import error from './error';
+import error from '../methods/error';
 import _generalTrim from '../protected/_generalTrim';
 export default function strip(str: string, character?: string | string[]): string {
     /*|{

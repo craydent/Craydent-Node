@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 
 export default function rand(): number;
 export default function rand(lower: number, upper: number, inclusive?: boolean): number;

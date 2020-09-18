@@ -1,12 +1,12 @@
-import error from "./error";
-import getProperty from "./getProperty";
-import isObject from "./isObject";
-import { AnyObject } from "../models/Arrays";
-import isInt from "./isInt";
-import isString from "./isString";
-import ltrim from "./ltrim";
-import rtrim from "./rtrim";
-import tryEval from "./tryEval";
+import error from '../methods/error';
+import getProperty from '../methods/getProperty';
+import isObject from '../methods/isObject';
+import { AnyObject } from '../models/Arrays';
+import isInt from '../methods/isInt';
+import isString from '../methods/isString';
+import ltrim from '../methods/ltrim';
+import rtrim from '../methods/rtrim';
+import tryEval from '../methods/tryEval';
 
 export interface CookieOptions {
     cookie?: any;

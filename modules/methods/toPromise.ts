@@ -1,5 +1,5 @@
-import error from './error';
-import syncroit from './syncroit';
+import error from '../methods/error';
+import syncroit from '../methods/syncroit';
 
 export default function toPromise(gen: GeneratorFunction): Promise<any> {
     /*|{

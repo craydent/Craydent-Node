@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import _irregularNouns from '../protected/_irregularNouns';
 
 export default function pluralize(str: string): string {

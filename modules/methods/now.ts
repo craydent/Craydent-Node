@@ -1,5 +1,5 @@
-import error from './error';
-import format from './format';
+import error from '../methods/error';
+import format from '../methods/format';
 
 export default function now(fmt?: string): Date | string {
     /*|{

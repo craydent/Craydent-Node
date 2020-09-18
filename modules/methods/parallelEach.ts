@@ -1,11 +1,11 @@
-import error from './error';
-import syncroit from './syncroit';
+import error from '../methods/error';
+import syncroit from '../methods/syncroit';
 
-import isArray from './isArray';
-import isAsync from './isAsync';
-import isFunction from './isFunction';
-import isGenerator from './isGenerator';
-import isPromise from './isPromise';
+import isArray from '../methods/isArray';
+import isAsync from '../methods/isAsync';
+import isFunction from '../methods/isFunction';
+import isGenerator from '../methods/isGenerator';
+import isPromise from '../methods/isPromise';
 
 import { Yieldables } from '../models/Yieldables';
 const _isArray = isArray,

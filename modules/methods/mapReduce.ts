@@ -1,15 +1,15 @@
 
-import error from './error';
+import error from '../methods/error';
 import { ArrayIterator, MongoReducer, MongoMapReduceOptions } from '../models/Arrays';
-import where from './where';
-import sortBy from './sortBy';
-import on from './on';
-import removeAll from './removeAll';
-import merge from './merge';
-import duplicate from './duplicate';
-import isArray from './isArray';
-import isFunction from './isFunction';
-import isString from './isString';
+import where from '../methods/where';
+import sortBy from '../methods/sortBy';
+import on from '../methods/on';
+import removeAll from '../methods/removeAll';
+import merge from '../methods/merge';
+import duplicate from '../methods/duplicate';
+import isArray from '../methods/isArray';
+import isFunction from '../methods/isFunction';
+import isString from '../methods/isString';
 
 export default function mapReduce<T, TResult>(objs: T[], map: ArrayIterator<T>, reduce: MongoReducer<TResult>, options?: MongoMapReduceOptions<TResult>): TResult[] {
     try {

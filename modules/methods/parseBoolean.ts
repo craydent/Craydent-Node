@@ -1,7 +1,7 @@
-import error from './error';
-import isBoolean from './isBoolean';
-import isNumber from './isNumber';
-import isString from './isString';
+import error from '../methods/error';
+import isBoolean from '../methods/isBoolean';
+import isNumber from '../methods/isNumber';
+import isString from '../methods/isString';
 const _isString = isString,
     _isNumber = isNumber,
     _isBoolean = isBoolean;

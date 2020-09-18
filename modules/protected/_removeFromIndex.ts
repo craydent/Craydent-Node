@@ -1,5 +1,5 @@
-import { AnyObject } from "../models/Arrays";
-import isObject from "../methods/isObject";
+import { AnyObject } from '../models/Arrays';
+import isObject from '../methods/isObject';
 
 export default function _removeFromIndex(buckets: AnyObject, obj: AnyObject): void {
     if (!isObject(obj)) {

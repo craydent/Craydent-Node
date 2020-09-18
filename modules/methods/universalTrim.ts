@@ -5,12 +5,12 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import error from './error';
+import error from '../methods/error';
 import _getFuncName from '../protected/_getFuncName';
 import _generalTrim from '../protected/_generalTrim';
-import isArray from './isArray';
-import isBoolean from './isBoolean';
-import isString from './isString';
+import isArray from '../methods/isArray';
+import isBoolean from '../methods/isBoolean';
+import isString from '../methods/isString';
 
 const _isString = isString,
     _isArray = isArray,

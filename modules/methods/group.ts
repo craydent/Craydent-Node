@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import { GroupOptions } from '../models/Arrays';
 import {
     _containsLessThan,
@@ -8,25 +8,25 @@ import {
     _containsMod,
     _containsType
 } from '../protected/_containsComparisons';
-import { _copyWithProjection } from './where'
-import foo from './foo';
-import getKeys from './getKeys';
-import suid from './suid';
-import equals from './equals';
-import contains from './contains';
-import isNull from './isNull';
-import isArray from './isArray';
-import isFunction from './isFunction';
-import isInt from './isInt';
-import isObject from './isObject';
-import isRegExp from './isRegExp';
-import isString from './isString';
-import duplicate from './duplicate';
-import setProperty from './setProperty';
-import merge from './merge';
-import getProperty from './getProperty';
-import getValue from './getValue';
-import parseBoolean from './parseBoolean';
+import { _copyWithProjection } from '../methods/where'
+import foo from '../methods/foo';
+import getKeys from '../methods/getKeys';
+import suid from '../methods/suid';
+import equals from '../methods/equals';
+import contains from '../methods/contains';
+import isNull from '../methods/isNull';
+import isArray from '../methods/isArray';
+import isFunction from '../methods/isFunction';
+import isInt from '../methods/isInt';
+import isObject from '../methods/isObject';
+import isRegExp from '../methods/isRegExp';
+import isString from '../methods/isString';
+import duplicate from '../methods/duplicate';
+import setProperty from '../methods/setProperty';
+import merge from '../methods/merge';
+import getProperty from '../methods/getProperty';
+import getValue from '../methods/getValue';
+import parseBoolean from '../methods/parseBoolean';
 import _unwind from '../protected/_unwind';
 import _groupFieldHelper from '../protected/_groupFieldHelper';
 import __queryNestedProperty from '../private/__queryNestedProperty';
@@ -130,7 +130,7 @@ export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps
             _parseBoolean = parseBoolean,
             _refs = [],
             ifblock = _subQuery(condition, null, null, _refs),
-                func = `(function (record,i) {
+            func = `(function (record,i) {
                 var values,finished;
                 if (${ifblock}) {
                 if(!cb.call(thiz,record,i)) { throw 'keep going'; }

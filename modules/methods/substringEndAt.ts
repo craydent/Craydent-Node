@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 
 export default function substringEndAt(str: string, end: string): string {
     try {

@@ -1,6 +1,6 @@
-import error from './error';
-import remove from './remove';
-import isInt from './isInt';
+import error from '../methods/error';
+import remove from '../methods/remove';
+import isInt from '../methods/isInt';
 
 import { IndexedArray, ArrayIterator } from '../models/Arrays';
 

@@ -1,20 +1,20 @@
-import isNull from "../methods/isNull";
-import average from "../methods/average";
-import stdev from "../methods/stdev";
-import isString from "../methods/isString";
-import getProperty from "../methods/getProperty";
-import isObject from "../methods/isObject";
-import isArray from "../methods/isArray";
-import getDayOfYear from "../methods/getDayOfYear";
-import getWeek from "../methods/getWeek";
-import format from "../methods/format";
-import duplicate from "../methods/duplicate";
-import toSet from "../methods/toSet";
-import capitalize from "../methods/capitalize";
-import removeAt from "../methods/removeAt";
-import isSubset from "../methods/isSubset";
-import { Documents, Meta } from "../models/Arrays";
-import error from "../methods/error";
+import isNull from '../methods/isNull';
+import average from '../methods/average';
+import stdev from '../methods/stdev';
+import isString from '../methods/isString';
+import getProperty from '../methods/getProperty';
+import isObject from '../methods/isObject';
+import isArray from '../methods/isArray';
+import getDayOfYear from '../methods/getDayOfYear';
+import getWeek from '../methods/getWeek';
+import format from '../methods/format';
+import duplicate from '../methods/duplicate';
+import toSet from '../methods/toSet';
+import capitalize from '../methods/capitalize';
+import removeAt from '../methods/removeAt';
+import isSubset from '../methods/isSubset';
+import { Documents, Meta } from '../models/Arrays';
+import error from '../methods/error';
 
 export interface MongoExpression {
     $literal?: any;

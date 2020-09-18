@@ -1,5 +1,5 @@
-import error from './error';
-import cout from './cout';
+import error from '../methods/error';
+import cout from '../methods/cout';
 import { $c } from '../private/__common';
 
 

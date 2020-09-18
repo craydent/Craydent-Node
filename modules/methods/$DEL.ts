@@ -1,5 +1,5 @@
-import $DELETE from "./$DELETE";
-import { VerbOptions } from "../models/VerbOptions";
+import $DELETE from '../methods/$DELETE';
+import { VerbOptions } from '../models/VerbOptions';
 
 export default function $DEL(this: Craydent | Window, variable?: string, options?: VerbOptions) {
     /*|{

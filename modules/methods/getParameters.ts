@@ -1,4 +1,4 @@
-import error from './error';
+import error from '../methods/error';
 import _getFuncArgs from '../protected/_getFuncArgs';
 
 export default function getParameters(fn: Function): string[] {

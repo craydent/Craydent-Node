@@ -1,4 +1,4 @@
-import $c from '../../transformed/class/noConflict';
+import $c from '../../transformedMajor/class';
 
 describe('No Conflict Global classes', function () {
     var arr = [1, 2, 4, 5, 6],

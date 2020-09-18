@@ -291,6 +291,44 @@ declare global {
     }
     const ServerManager: typeof IServerManager.default;
     const __GLOBALSESSION: AnyObject
+    var $COMMIT: typeof I$COMMIT.default;
+    var $COOKIE: typeof I$COOKIE.default;
+    var $DELETE: typeof I$DELETE.default;
+    var $DEL: typeof I$DEL.default;
+    var $GET: typeof I$GET.default;
+    var $ROLLBACK: typeof I$ROLLBACK.default;
+    var $SET: typeof I$SET.default;
+
+    var ChromeVersion: typeof IChromeVersion.default;
+    var FirefoxVersion: typeof IFirefoxVersion.default;
+    var IEVersion: typeof IIEVersion.default;
+    var OperaVersion: typeof IOperaVersion.default;
+    var SafariVersion: typeof ISafariVersion.default;
+    var isAmaya: typeof IIsAmaya.default;
+    var isAndroid: typeof IIsAndroid.default;
+    var isBlackBerry: typeof IIsBlackBerry.default;
+    var isChrome: typeof IIsChrome.default;
+    var isFirefox: typeof IIsFirefox.default;
+    var isGecko: typeof IIsGecko.default;
+    var isIE6: typeof IIsIE6.default;
+    var isIE: typeof IIsIE.default;
+    var isIPad: typeof IIsIPad.default;
+    var isIPhone: typeof IIsIPhone.default;
+    var isIPod: typeof IIsIPod.default;
+    var isKHTML: typeof IIsKHTML.default;
+    var isLinux: typeof IIsLinux.default;
+    var isMac: typeof IIsMac.default;
+    var isMobile: typeof IIsMobile.default;
+    var isOpera: typeof IIsOpera.default;
+    var isPalmOS: typeof IIsPalmOS.default;
+    var isPresto: typeof IIsPresto.default;
+    var isPrince: typeof IIsPrince.default;
+    var isSafari: typeof IIsSafari.default;
+    var isSymbian: typeof IIsSymbian.default;
+    var isTrident: typeof IIsTrident.default;
+    var isWebkit: typeof IIsWebkit.default;
+    var isWindows: typeof IIsWindows.default;
+    var isWindowsMobile: typeof IIsWindowsMobile.default;
     //#endregion global
 }
 if (!$c.MODULES_LOADED[info.name]) {

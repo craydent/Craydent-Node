@@ -1,7 +1,7 @@
-import error from './error';
-import isWebkit from './isWebkit';
+import error from '../methods/error';
+import isWebkit from '../methods/isWebkit';
 
-export default function isSymbian(this: Craydent | Window):boolean {
+export default function isSymbian(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if OS is Symbian",
         "category": "HTTP",

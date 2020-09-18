@@ -1,7 +1,7 @@
 ///<reference path="../globalTypes/global.base.ts" />
-import error from './error';
+import error from '../methods/error';
 
-export default function isFirefox(this: Craydent | Window):boolean {
+export default function isFirefox(this: Craydent | Window): boolean {
     /*|{
         "info": "Check if browser is Firefox",
         "category": "HTTP",

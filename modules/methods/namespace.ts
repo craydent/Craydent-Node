@@ -1,7 +1,7 @@
-import error from './error';
+import error from '../methods/error';
 import _getFuncName from '../protected/_getFuncName';
-import getProperty from './getProperty';
-import setProperty from './setProperty';
+import getProperty from '../methods/getProperty';
+import setProperty from '../methods/setProperty';
 
 let raw = {};
 

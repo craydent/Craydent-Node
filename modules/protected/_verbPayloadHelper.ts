@@ -1,6 +1,6 @@
-import { VerbOptions } from "../models/VerbOptions";
-import { AnyObject } from "../models/Arrays";
-import merge from "../methods/merge";
+import { VerbOptions } from '../models/VerbOptions';
+import { AnyObject } from '../models/Arrays';
+import merge from '../methods/merge';
 
 export type Verbs = 'get' | 'delete' | 'post' | 'put' | 'payload';
 export default function _verbPayloadHelper(context: Craydent): boolean | AnyObject;
