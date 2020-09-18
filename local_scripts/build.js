@@ -6,12 +6,19 @@ const $a = require('@craydent/craydent-array/noConflict');
 const $f = require('@craydent/craydent-fs/noConflict');
 const $i = require('@craydent/craydent-cli/noConflict');
 const $cf = require('@craydent/craydent-control-flow/noConflict');
-
+$f.CONSOLE_COLORS = $f.CONSOLE_COLORS || {
+    RED: '\x1b[31m%s\x1b[0m',
+    GREEN: '\x1b[32m%s\x1b[0m',
+    YELLOW: '\x1b[33m%s\x1b[0m'
+};
 const copyFile = $cf.yieldable(fs.copyFile, fs);
 
 var package = require(`${root}/modules/package.json`, "utf8");
-var version = package.version;
+var version = require(`${root}/package.json`, "utf8").version;
 var spaces = 37 - version.length;
+var gitUrlTemplate = "git+https://github.com/craydent/Node-Library.git";
+var homepageUrlTemplate = "https://bitbucket.org/craydent/node-library/src//submodules/${submodule}/";
+
 let meta = "/*/---------------------------------------------------------/*/\n\
     /*/ Craydent LLC node-v" + version + "";
 for (var i = 0; i < spaces; i++) { meta += " "; }
@@ -178,15 +185,16 @@ async function start(pkgPrefix) {
         promises.push(processModule(folder, pkgPrefix));
     }
     await Promise.all(promises);
+    await createMethodPackages(pkgPrefix);
     console.log($f.CONSOLE_COLORS.GREEN, 'all done')
 }
 async function processModule(name, pkgPrefix) {
-    const destination = `${root}/transformed/${name}`;
+    const destination = `${root}/transformedMajor/${name}`;
     let contents = await $f.readFile(`${root}/modules/${name}/index.template`, 'utf8');
-    contents = contents.replace(/\.\.\/private/, './private')
-        .replace(/\.\.\/protected/, './protected')
-        .replace(/\.\.\/methods/, './methods')
-        .replace(/\.\.\/models/, './models');
+    contents = contents.replace(/\.\.\/private/g, './private')
+        .replace(/\.\.\/protected/g, './protected')
+        .replace(/\.\.\/methods/g, './methods')
+        .replace(/\.\.\/models/g, './models');
     const globalContents = contents.replace('<reference path="../globalTypes/global.vars.ts" />', '<reference path="./global.vars.ts" />')
         .replace(/from '..\//g, 'from \'./');
     const baseContents = globalContents.replace(/\/\/#region global[\s\S]*?\/\/#endregion global/g, '')
@@ -194,7 +202,11 @@ async function processModule(name, pkgPrefix) {
     const noConflictContents = baseContents.replace(/\/\/#region proto[\s\S]*?\/\/#endregion proto/g, '')
         .replace(/\/\/\/<reference path=.*?\/>[\n]/, '');
     let proto = await $f.readFile(`${root}/modules/${name}/__prototypes.ts`, 'utf8');
-    const prototypesContent = proto.replace(/from '..\//g, 'from \'./');
+    const prototypesContent = proto.replace(/from '..\//g, 'from \'./')
+        .replace(/\.\.\/private/g, './private')
+        .replace(/\.\.\/protected/g, './protected')
+        .replace(/\.\.\/methods/g, './methods')
+        .replace(/\.\.\/models/g, './models');;
 
     let promises = [];
     promises.push($i.CLI.exec(`mkdir -p  ${destination}`));
@@ -224,14 +236,14 @@ async function processModule(name, pkgPrefix) {
 
     for (let i = 0, len = files.length; i < len; i++) {
         let file = files[i];
-        promises.push(copyFile(file, file.replace('/modules/', `/transformed/${name}/`)));
-        // fs.createReadStream(file).pipe(fs.createWriteStream(file.replace('/modules/', `/transformed/${name}/`)));
+        promises.push(copyFile(file, file.replace('/modules/', `/transformedMajor/${name}/`)));
+        // fs.createReadStream(file).pipe(fs.createWriteStream(file.replace('/modules/', `/transformedMajor/${name}/`)));
     }
     await Promise.all(promises);
 
     let alterPromises = [];
     for (let i = 0, len = alterFiles.length; i < len; i++) {
-        let file = alterFiles[i] = alterFiles[i].replace(`/modules/${name}/`, `/transformed/${name}/`).replace(`/modules/`, `/transformed/${name}/`);
+        let file = alterFiles[i] = alterFiles[i].replace(`/modules/${name}/`, `/transformedMajor/${name}/`).replace(`/modules/`, `/transformedMajor/${name}/`);
 
         alterPromises.push($f.readFile(file, 'utf8'));
     }
@@ -243,7 +255,9 @@ async function processModule(name, pkgPrefix) {
         writePromises.push($f.writeFile(alterFiles[i], fileData));
     }
     await Promise.all(writePromises);
-    await createPackageJSON(name, pkgPrefix);
+    await createPackageJSONMajor(name, pkgPrefix);
+
+    console.log($f.CONSOLE_COLORS.GREEN, `completed transform for ${name}`)
 }
 
 async function getDependencies(filePath, results = [], alterFiles = []) {
@@ -277,25 +291,84 @@ async function getDependencies(filePath, results = [], alterFiles = []) {
 async function prep() {
     let promises = [];
 
-    promises.push($i.CLI.exec(`rm -rf ${root}/transformed;`));
-    promises.push($i.CLI.exec(`mkdir -p  ${root}/transformed`));
+    promises.push($i.CLI.exec(`rm -rf ${root}/transformedMajor;`));
+    promises.push($i.CLI.exec(`rm -rf ${root}/transformedMinor;`));
+    promises.push($i.CLI.exec(`mkdir -p  ${root}/transformedMajor`));
+    promises.push($i.CLI.exec(`mkdir -p  ${root}/transformedMinor`));
 
     let results = await Promise.all(promises);
     return results[0];
 }
 
-async function createPackageJSON(folder, pkgPrefix) {
-    var path = base + folder;
+async function createPackageJSONMajor(folder, pkgPrefix) {
+    const path = `${root}/transformedMajor/${folder}`;
 
     package.name = `${pkgPrefix}craydent-${folder}`;
+    package.version = version;
     package.description = details[folder].description;
     package.keywords = details[folder].keywords.concat(defaultKeywords, [folder]).sort();
-    package.repository.url = gitUrlTemplate.replace("${submodule}", folder);
-    package.homepage = homepageUrlTemplate.replace("${submodule}", folder);
+    package.repository.url = package.repository.url.replace("${submodule}", folder);
+    package.homepage = package.homepage.replace("${submodule}", folder);
 
-    await $fs.writeFile(`${path}/package.json`, JSON.stringify(package, null, 4)).then(() => {
-        console.log(GREEN, `saved: ${base.replace(root, '')}${folder}/package.json`)
+    await $f.writeFile(`${path}/package.json`, JSON.stringify(package, null, 4)).then(() => {
+        console.log($f.CONSOLE_COLORS.GREEN, `saved: ${path}/package.json`)
     });
 }
+async function createPackageJSONMinor(file, pkgPrefix) {
+    const path = `${root}/transformedMinor/craydent.${file}`;
 
+    package.name = `${pkgPrefix}craydent.${file}`;
+    package.version = version;
+    package.description = '';//details[file].description;
+    package.keywords = [];//details[file].keywords.concat(defaultKeywords, [file]).sort();
+    package.repository.url = package.repository.url.replace("${submodule}", file);
+    package.homepage = package.homepage.replace("${submodule}", file);
+
+    await $f.writeFile(`${path}/package.json`, JSON.stringify(package, null, 4)).then(() => {
+        console.log($f.CONSOLE_COLORS.GREEN, `saved: ${path}/package.json`)
+    });
+}
+async function createMethodPackages(pkgPrefix) {
+
+    let files = await $f.readdir(`${root}/modules/methods`);
+    let promises = [];
+    for (let i = 0, len = files.length; i < len; i++) {
+        let file = files[i];
+        let prepPromises = [];
+        let contents = await $f.readFile(`${root}/modules/methods/${file}`, 'utf8');
+        contents = contents.replace(/\.\.\/private/g, './private')
+            .replace(/\.\.\/protected/g, './protected')
+            .replace(/\.\.\/methods/g, './methods')
+            .replace(/\.\.\/models/g, './models')
+            .replace('<reference path="../globalTypes/', '<reference path="./globalTypes/');;
+
+        const folder = file.replace(/\.ts$/i, '');
+        const destination = `${root}/transformedMinor/craydent.${folder}`;
+        prepPromises.push($i.CLI.exec(`mkdir -p  '${destination}'`));
+        prepPromises.push($i.CLI.exec(`mkdir -p  '${destination}/methods'`));
+        prepPromises.push($i.CLI.exec(`mkdir -p  '${destination}/models'`));
+        prepPromises.push($i.CLI.exec(`mkdir -p  '${destination}/private'`));
+        prepPromises.push($i.CLI.exec(`mkdir -p  '${destination}/protected'`));
+        prepPromises.push($i.CLI.exec(`mkdir -p  '${destination}/globalTypes'`));
+        let dependencies = await getDependencies(`${root}/modules/methods/${file}`);
+        dependencies = $a.condense(dependencies, true);
+
+        await Promise.all(prepPromises);
+
+        promises.push(copyFile(`${root}/modules/globalTypes/global.base.ts`, `${destination}/globalTypes/global.base.ts`));
+        promises.push(copyFile(`${root}/modules/globalTypes/global.vars.ts`, `${destination}/globalTypes/global.vars.ts`));
+        for (let i = 0, len = dependencies.length; i < len; i++) {
+            let file = dependencies[i];
+            promises.push(await copyFile(file, file.replace('/modules/', `/transformedMinor/craydent.${folder}/`)));
+        }
+
+        promises.push($f.writeFile(`${destination}/index.ts`, contents));
+        promises.push(createPackageJSONMinor(folder, pkgPrefix));
+        promises.push(createReadme());
+    }
+    await Promise.all(promises);
+}
+async function createReadme() {
+
+}
 module.exports.start = start;
