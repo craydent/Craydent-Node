@@ -1,13 +1,8 @@
 #!/usr/bin/env node
 const root = require.resolve('../package.json').replace('/package.json', '');
+const fs = require('fs');
 const path = require('path');
-const condense = require('../modules/methods/condense').default;
-const readdir = require('../modules/methods/readdir').default;
-const readFile = require('../modules/methods/readFile').default;
-const writeFile = require('../modules/methods/writeFile').default;
-const CLI = require('../modules/cli/__prototypes').CLI;
-const copyFile = require('../modules/methods/copyFile').default;
-CONSOLE_COLORS = CONSOLE_COLORS || {
+const CONSOLE_COLORS = {
     RED: '\x1b[31m%s\x1b[0m',
     GREEN: '\x1b[32m%s\x1b[0m',
     YELLOW: '\x1b[33m%s\x1b[0m'
@@ -73,11 +68,11 @@ async function processModule(name, pkgPrefix) {
         .replace(/\.\.\/models/g, './models');;
 
     let promises = [];
-    promises.push(CLI.exec(`mkdir -p  ${destination}`));
-    promises.push(CLI.exec(`mkdir -p  ${destination}/methods`));
-    promises.push(CLI.exec(`mkdir -p  ${destination}/models`));
-    promises.push(CLI.exec(`mkdir -p  ${destination}/private`));
-    promises.push(CLI.exec(`mkdir -p  ${destination}/protected`));
+    promises.push(_cli_exec(`mkdir -p  ${destination}`));
+    promises.push(_cli_exec(`mkdir -p  ${destination}/methods`));
+    promises.push(_cli_exec(`mkdir -p  ${destination}/models`));
+    promises.push(_cli_exec(`mkdir -p  ${destination}/private`));
+    promises.push(_cli_exec(`mkdir -p  ${destination}/protected`));
 
     await Promise.all(promises);
     promises = [];
@@ -155,10 +150,12 @@ async function getDependencies(filePath, results = [], alterFiles = []) {
 async function prep() {
     let promises = [];
 
-    promises.push(CLI.exec(`rm -rf ${root}/transformedMajor;`));
-    promises.push(CLI.exec(`rm -rf ${root}/transformedMinor;`));
-    promises.push(CLI.exec(`mkdir -p  ${root}/transformedMajor`));
-    promises.push(CLI.exec(`mkdir -p  ${root}/transformedMinor`));
+    promises.push(_cli_exec(`rm -rf ${root}/transformedMajor;`));
+    promises.push(_cli_exec(`rm -rf ${root}/transformedMinor;`));
+    promises.push(_cli_exec(`rm -rf ${root}/compiled;`));
+    promises.push(_cli_exec(`mkdir -p  ${root}/transformedMajor`));
+    promises.push(_cli_exec(`mkdir -p  ${root}/transformedMinor`));
+    promises.push(_cli_exec(`mkdir -p  ${root}/compiled`));
 
     let results = await Promise.all(promises);
     return results[0];
@@ -208,12 +205,12 @@ async function createMethodPackages(pkgPrefix) {
 
         const folder = file.replace(/\.ts$/i, '');
         const destination = `${root}/transformedMinor/craydent.${folder}`;
-        prepPromises.push(CLI.exec(`mkdir -p  '${destination}'`));
-        prepPromises.push(CLI.exec(`mkdir -p  '${destination}/methods'`));
-        prepPromises.push(CLI.exec(`mkdir -p  '${destination}/models'`));
-        prepPromises.push(CLI.exec(`mkdir -p  '${destination}/private'`));
-        prepPromises.push(CLI.exec(`mkdir -p  '${destination}/protected'`));
-        prepPromises.push(CLI.exec(`mkdir -p  '${destination}/globalTypes'`));
+        prepPromises.push(_cli_exec(`mkdir -p  '${destination}'`));
+        prepPromises.push(_cli_exec(`mkdir -p  '${destination}/methods'`));
+        prepPromises.push(_cli_exec(`mkdir -p  '${destination}/models'`));
+        prepPromises.push(_cli_exec(`mkdir -p  '${destination}/private'`));
+        prepPromises.push(_cli_exec(`mkdir -p  '${destination}/protected'`));
+        prepPromises.push(_cli_exec(`mkdir -p  '${destination}/globalTypes'`));
         let dependencies = await getDependencies(`${root}/modules/methods/${file}`);
         dependencies = condense(dependencies, true);
 
@@ -275,5 +272,110 @@ function isNull(value, defaultValue) {
         return isnull ? defaultValue : value;
     } catch (e) /* istanbul ignore next */ {
 
+    }
+}
+function _fsHelper(name) {
+    var args = [];
+    for (let i = 1, len = arguments.length; i < len; i++) {
+        args.push(arguments[i]);
+    }
+    return new Promise(function (res) {
+        try {
+            args.push(function (err, data, buffer) {
+                if (err) {
+                    res(err);
+                }
+                if (buffer) {
+                    res({ bytes: data, buffer });
+                }
+                res(data || null);
+            });
+            fs[name].apply(this, args);
+        } catch (e) {
+            res(e);
+        }
+    });
+}
+
+function writeFile() {
+    return _fsHelper.apply(this, ['writeFile', ...arguments]);
+}
+function readdir() {
+    return _fsHelper.apply(this, ['readdir', ...arguments]);
+}
+function readFile() {
+    return _fsHelper.apply(this, ['readFile', ...arguments]);
+}
+function copyFile() {
+    return _fsHelper.apply(this, ['copyFile', ...arguments]);
+}
+function _cli_exec(command, options, callback) {
+    let child = require('child_process');
+    if (isFunction(options)) {
+        callback = options;
+        options = undefined;
+    }
+    return new Promise(function (res, rej) {
+        try {
+            if (!command) { res(false); }
+            options = options || {};
+            options.silent = !!options.silent;
+
+            let output = '';
+            const cprocess = child.exec(command, { env: process.env, maxBuffer: 20 * 1024 * 1024 }, function (err) {
+                const fin = !err || options.alwaysResolve ? res : rej
+                if (options.outputOnly) {
+                    if (callback) { callback.call(cprocess, output); }
+                    return fin(output);
+                }
+                if (callback) {
+                    const code = err ? err.code : 0;
+                    callback.call(cprocess, code, output);
+                    return !code ? fin() : fin({ code, output });
+                }
+                /* istanbul ignore next */
+                let code = err ? err.code : 0;
+                fin({ code, output });
+            });
+
+            cprocess.stdout.on('data', function (data) {
+                output += data;
+                if (!options.silent) { process.stdout.write(data); }
+            });
+
+            cprocess.stderr.on('data', function (data) {
+                output += data;
+                if (!options.silent) { process.stdout.write(data); }
+            });
+        } catch (e) {
+        }
+    });
+}
+function isFunction(obj) {
+    return _typeCheck(obj, Function) && !isAsync(obj);
+}
+function isAsync(obj) {
+    try {
+        if (isNull(obj)) { return false; }
+        const __awaiterSyntax = '__awaiter(this, void 0, void 0';
+        const __awaiterSyntax2 = '__awaiter(_this, void 0, void 0';
+        if (~obj.toString().indexOf(__awaiterSyntax)
+            || ~obj.prototype.constructor.toString().indexOf(__awaiterSyntax)
+            || ~obj.toString().indexOf(__awaiterSyntax2)
+            || ~obj.prototype.constructor.toString().indexOf(__awaiterSyntax2)) {
+            return true;
+        }
+        return obj.prototype.constructor.name == 'async';
+    } catch (e) /* istanbul ignore next */ {
+        return null;
+    }
+}
+function _typeCheck(obj, cls, backward_compatible) {
+    try {
+        if (isNull(obj)) { return false; }
+        if (backward_compatible) { return obj.constructor.name == cls; }
+        return obj.constructor == cls;
+    } catch (e) {
+        return null;
     }
 }
