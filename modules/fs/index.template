@@ -15,6 +15,7 @@ import * as IAppendFile from '../methods/appendFile';
 import * as IChmod from '../methods/chmod';
 import * as IChown from '../methods/chown';
 import * as IClose from '../methods/close';
+import * as ICopyFile from '../methods/copyFile';
 import * as IFchmod from '../methods/fchmod';
 import * as IFchown from '../methods/fchown';
 import * as IFdatasync from '../methods/fdatasync';
@@ -53,6 +54,7 @@ declare global {
         chmod: typeof IChmod.default;
         chown: typeof IChown.default;
         close: typeof IClose.default;
+        copyFile: typeof ICopyFile.default;
         fchmod: typeof IFchmod.default;
         fchown: typeof IFchown.default;
         fdatasync: typeof IFdatasync.default;
@@ -90,6 +92,7 @@ declare global {
             chmod: typeof IChmod.default;
             chown: typeof IChown.default;
             close: typeof IClose.default;
+            copyFile: typeof ICopyFile.default;
             fchmod: typeof IFchmod.default;
             fchown: typeof IFchown.default;
             fdatasync: typeof IFdatasync.default;
@@ -126,6 +129,7 @@ declare global {
     var chmod: typeof IChmod.default;
     var chown: typeof IChown.default;
     // const close: typeof IClose.default;
+    const copyFile: typeof ICopyFile.default;
     var fchmod: typeof IFchmod.default;
     var fchown: typeof IFchown.default;
     var fdatasync: typeof IFdatasync.default;
@@ -166,6 +170,7 @@ if (!$c.MODULES_LOADED[info.name]) {
     $c.chmod = $c.chmod || prototypes.chmod;
     $c.chown = $c.chown || prototypes.chown;
     $c.close = $c.close || prototypes.close;
+    $c.copyFile = $c.copyFile || prototypes.copyFile;
     $c.fchmod = $c.fchmod || prototypes.fchmod;
     $c.fchown = $c.fchown || prototypes.fchown;
     $c.fdatasync = $c.fdatasync || prototypes.fdatasync;

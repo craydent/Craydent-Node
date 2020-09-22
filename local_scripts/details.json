@@ -1,0 +1,137 @@
+{
+    "array": {
+        "description": "Node module to extend array functionality and simplify code for maintainability and readability",
+        "keywords": [
+            "mongo",
+            "mongodb"
+        ]
+    },
+    "class": {
+        "description": "Node module implementing addition classes for functionality and to simplify code for maintainability and readability",
+        "keywords": [
+            "array",
+            "cursor",
+            "benchmark",
+            "ordered list",
+            "queue",
+            "set"
+        ]
+    },
+    "cli": {
+        "description": "Node module to manage command line execution and arguments",
+        "keywords": [
+            "commander"
+        ]
+    },
+    "control-flow": {
+        "description": "Node module for control flow and async functionality to simplify code for maintainability and readability",
+        "keywords": []
+    },
+    "date": {
+        "description": "Node module to extend fs/file system functionality and simplify code for maintainability and readability",
+        "keywords": [
+            "moment",
+            "parser"
+        ]
+    },
+    "fs": {
+        "description": "Node module to extend fs functionality and simplify code for maintainability and readability",
+        "keywords": [
+            "require",
+            "require directory",
+            "file"
+        ]
+    },
+    "function": {
+        "description": "Node module to extend function functionality and simplify code for maintainability and readability",
+        "keywords": [
+            "control flow"
+        ]
+    },
+    "http": {
+        "description": "Node module http servers and routing",
+        "keywords": [
+            "ajax",
+            "express",
+            "http",
+            "json",
+            "koa",
+            "parser",
+            "REST",
+            "route",
+            "swagger"
+        ]
+    },
+    "json-parser": {
+        "description": "Node module to parse complex json including circular references",
+        "keywords": [
+            "json",
+            "object",
+            "parser",
+            "string"
+        ]
+    },
+    "number": {
+        "description": "Node module to extend number functionality and simplify code for maintainability and readability",
+        "keywords": []
+    },
+    "object": {
+        "description": "Node module to extend all native class functionality and simplify code for maintainability and readability",
+        "keywords": [
+            "array",
+            "class",
+            "co",
+            "control flow",
+            "date",
+            "function",
+            "json",
+            "moment",
+            "mongo",
+            "mongodb",
+            "number",
+            "object",
+            "regexp",
+            "string",
+            "template",
+            "typeof"
+        ]
+    },
+    "regexp": {
+        "description": "Node module to extend regular expressions functionality and simplify code for maintainability and readability",
+        "keywords": []
+    },
+    "string": {
+        "description": "Node module to extend string functionality and simplify code for maintainability and readability",
+        "keywords": [
+            "template"
+        ]
+    },
+    "template": {
+        "description": "Node module for templating to simplify code for maintainability and readability",
+        "keywords": []
+    },
+    "typeof": {
+        "description": "Node module for type checking",
+        "keywords": []
+    },
+    "utility": {
+        "description": "Node module to for commonly needed utility functions",
+        "keywords": [
+            "ajax",
+            "cluster",
+            "guid",
+            "uuid",
+            "md5",
+            "fs",
+            "mkdir",
+            "zip"
+        ]
+    },
+    "xml-to-json": {
+        "description": "Node module to parse xml into json",
+        "keywords": [
+            "xml",
+            "xml to json"
+        ]
+    }
+}

@@ -3,6 +3,7 @@ import * as IAppendFile from '../methods/appendFile';
 import * as IChmod from '../methods/chmod';
 import * as IChown from '../methods/chown';
 import * as IClose from '../methods/close';
+import * as ICopyFile from '../methods/copyFile';
 import * as IFchmod from '../methods/fchmod';
 import * as IFchown from '../methods/fchown';
 import * as IFdatasync from '../methods/fdatasync';
@@ -40,6 +41,7 @@ const appendFile: typeof IAppendFile.default = require('../methods/appendFile').
 const chmod: typeof IChmod.default = require('../methods/chmod').default;
 const chown: typeof IChown.default = require('../methods/chown').default;
 const close: typeof IClose.default = require('../methods/close').default;
+const copyFile: typeof ICopyFile.default = require('../methods/copyFile').default;
 const fchmod: typeof IFchmod.default = require('../methods/fchmod').default;
 const fchown: typeof IFchown.default = require('../methods/fchown').default;
 const fdatasync: typeof IFdatasync.default = require('../methods/fdatasync').default;
@@ -76,6 +78,7 @@ export {
     chmod,
     chown,
     close,
+    copyFile,
     fchmod,
     fchown,
     fdatasync,
