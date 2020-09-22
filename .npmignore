@@ -17,3 +17,8 @@ log.txt
 test.txt
 z_craydent.js
 @types
+reports
+transformedMajor
+transformedMinor
+modules
+compiled
