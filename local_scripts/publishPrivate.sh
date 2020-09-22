@@ -3,4 +3,4 @@
 BASEDIR=$(dirname "$0")
 
 cd $BASEDIR;
-./buildDev.js && ./populateReadmes.sh && ./npmpublish.sh;
+./buildDev.js && tsc && ./populateReadmes.sh && ./npmpublish.sh;
