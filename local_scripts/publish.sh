@@ -2,5 +2,7 @@
 # publish to public npm with updated readme
 BASEDIR=$(dirname "$0")
 
+cd $BASEDIR/..;
+npm run build
 cd $BASEDIR;
-npm run build && ./populateReadmes.sh && ./npmpublish.sh;
+./populateReadmes.sh && ./npmpublish.sh;

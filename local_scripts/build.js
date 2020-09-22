@@ -43,9 +43,14 @@ async function start(pkgPrefix) {
         if (folder in exclude) { continue; }
         promises.push(processModule(folder, pkgPrefix));
     }
+    promises.push(updateMainModule(pkgPrefix));
     await Promise.all(promises);
     await createMethodPackages(pkgPrefix);
     console.log(CONSOLE_COLORS.GREEN, 'all done')
+}
+async function updateMainModule(pkgPrefix) {
+    let contents = await readFile(`${root}/index.template.js`, 'utf8');
+    contents = contents.replace(/\$\{prefix\}/g, pkgPrefix);
 }
 async function processModule(name, pkgPrefix) {
     const destination = `${root}/transformedMajor/${name}`;
@@ -178,7 +183,7 @@ async function createPackageJSONMajor(folder, pkgPrefix) {
 async function createPackageJSONMinor(file, pkgPrefix) {
     const path = `${root}/transformedMinor/craydent.${file}`;
 
-    package.name = `${pkgPrefix}craydent.${file}`;
+    package.name = `${pkgPrefix}craydent.${file.toLowerCase().replace('$', '')}`;
     package.version = version;
     package.description = '';//details[file].description;
     package.keywords = [];//details[file].keywords.concat(defaultKeywords, [file]).sort();

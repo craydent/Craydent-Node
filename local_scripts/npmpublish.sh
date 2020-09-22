@@ -7,7 +7,7 @@ cd $BASEDIR/../compiled/transformedMajor;
 
 for dir in */; do
     cd $dir
-    rm -r node_modules;
+    rm -rf node_modules;
     npm publish;
     cd ..
 done
@@ -17,7 +17,7 @@ cd $BASEDIR/../compiled/transformedMinor;
 
 for dir in */; do
     cd $dir
-    rm -r node_modules;
+    rm -rf node_modules;
     npm publish;
     cd ..
 done

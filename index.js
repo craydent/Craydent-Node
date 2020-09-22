@@ -5,24 +5,23 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-var pre = require('./package.json').name;
-require(pre + '-array');
-require(pre + '-class');
-require(pre + '-cli');
-require(pre + '-control-flow');
-require(pre + '-date');
-require(pre + '-fs');
-require(pre + '-function');
-require(pre + '-http');
-require(pre + '-json-parser');
-require(pre + '-number');
-require(pre + '-object');
-require(pre + '-regexp');
-require(pre + '-string');
-require(pre + '-template');
-require(pre + '-typeof');
-require(pre + '-utility');
-require(pre + '-xml-to-json');
+require('craydent-array');
+require('craydent-class');
+require('craydent-cli');
+require('craydent-control-flow');
+require('craydent-date');
+require('craydent-fs');
+require('craydent-function');
+require('craydent-http');
+require('craydent-json-parser');
+require('craydent-number');
+require('craydent-object');
+require('craydent-regexp');
+require('craydent-string');
+require('craydent-template');
+require('craydent-typeof');
+require('craydent-utility');
+require('craydent-xml-to-json');
 
 JSON.parseAdvanced = $c.parseAdvanced;
 JSON.stringifyAdvanced = $c.stringifyAdvanced;
