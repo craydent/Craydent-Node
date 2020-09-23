@@ -2,6 +2,16 @@ import isNull from '../methods/isNull';
 import error from '../methods/error';
 
 export default function isAsync(obj: any): boolean {
+    /*|{
+        "info": "Object class extension to check if object is a async function",
+        "category": "Object|TypeOf",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.isAsnyc",
+        "returnType": "(Bool)"
+    }|*/
     try {
         if (isNull(obj)) { return false; }
         const __awaiterSyntax = '__awaiter(this, void 0, void 0';

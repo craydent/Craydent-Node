@@ -6,6 +6,19 @@ import { ObjectIterator } from '../models/ObjectIterator';
 
 
 export default function map<T>(objs: T[] | T, callback: ArrayIterator<T> | ObjectIterator<T>, context?: any): T[] | T {
+    /*|{
+        "info": "Array class extension to implement map",
+        "category": "Array",
+        "parameters":[
+            {"callback": "(ArrayIterator<T, TResult>) Callback function used to apply changes"},
+            {"thisObject?": "(any) Specify the context on callback function"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.map",
+        "typeParameter": "<T, TResult>",
+        "returnType": "(Array<TResult>) returns the resulting array."
+    }|*/
     try {
         context = context || objs;
         if (isArray(objs)) {

@@ -7,7 +7,7 @@
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
 
-var root = require.resolve('../package.json').replace('/package.json','');
+var root = require.resolve('../package.json').replace('/package.json', '');
 var mod = root;
 var name = "craydent";
 var RED = '\x1b[31m%s\x1b[0m';
@@ -15,25 +15,25 @@ var GREEN = '\x1b[32m%s\x1b[0m';
 var YELLOW = '\x1b[33m%s\x1b[0m';
 var exclude = [];
 var categories = [
-    'Constants',
-    'Featured',
-    "Array",
-    "Class",
-    "CLI",
-    "Control Flow",
-    "Date",
-    "FS",
-    "Function",
-    "HTTP",
-    "JSON Parser",
-    "Number",
-    "Object",
-    "RegExp",
-    "String",
-    "Template",
-    "TypeOf",
-    "Utility",
-    "XML to JSON"
+	'Constants',
+	'Featured',
+	"Array",
+	"Class",
+	"CLI",
+	"Control Flow",
+	"Date",
+	"FS",
+	"Function",
+	"HTTP",
+	"JSON Parser",
+	"Number",
+	"Object",
+	"RegExp",
+	"String",
+	"Template",
+	"TypeOf",
+	"Utility",
+	"XML to JSON"
 ];
 var categories_map = {
 	"array": "Array",
@@ -59,26 +59,28 @@ var modName = "";
 if (process.argv[2]) {
 	modName = process.argv[2].substring(process.argv[2].lastIndexOf('/') + 1);
 	if (categories_map[modName]) {
-		categories = ['Constants','Featured'];
+		categories = ['Constants', 'Featured'];
 		mod = root + process.argv[2];
 		name += "-" + modName;
 		categories.push(categories_map[modName]);
 	}
 }
 // console.log(require(mod),mod);
-var $c = require(mod + '/noConflict');
-var $arr = require(root + '/submodules/array/noConflict');
-var $cls = require(root + '/submodules/class/noConflict');
-var $str = require(root + '/submodules/string/noConflict');
-var $typ = require(root + '/submodules/typeof/noConflict');
-var $utl = require(root + '/submodules/utility/noConflict');
+var $c;
+$c = require(mod + '/noConflict').default || require(mod + '/noConflict');
+var $arr = require(root + '/compiled/transformedMajor/array/noConflict').default;
+var $cls = require(root + '/compiled/transformedMajor/class/noConflict').default;
+var $str = require(root + '/compiled/transformedMajor/string/noConflict').default;
+var $typ = require(root + '/compiled/transformedMajor/typeof/noConflict').default;
+var $utl = require(root + '/compiled/transformedMajor/utility/noConflict').default;
+var getProperty = require(root + '/compiled/transformedMinor/craydent.getProperty').default;
 var fs = require('fs'),
 	// Craydent = require(mod),
 	instC,
-	ln = '\n\n',tab = '>',tab2 = "",
+	ln = '\n\n', tab = '>', tab2 = "",
 	readme = "<img src=\"http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg\" width=75 height=75/>" + ln +
 		"# Craydent " + $c.VERSION + "\n**by Clark Inada**" + ln,
-	constants = {}, properties = {}, methods = {},featured = {},
+	constants = {}, properties = {}, methods = {}, featured = {},
 	orderedFeatured = new $cls.OrderedList(),
 	orderedMethods = new $cls.OrderedList(),
 	orderedConstants = new $cls.OrderedList(),
@@ -99,7 +101,7 @@ readme += "Craydent is all inclusive utility library.  There are several ways to
 	"var $c = require('" + name + "/noConflict');\n" +
 	"$c.logit($c.VERSION);\n" +
 	"$c.prototypedMethod(arr, args);\n" +
-	"```" +ln +
+	"```" + ln +
 	"```js\n" +
 	"// require global - this require constants and methods in the global space and add prototypes to extend classes.\n" +
 	"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
@@ -110,9 +112,9 @@ readme += "Craydent is all inclusive utility library.  There are several ways to
 	ln;
 try {
 	if (isHTTP) {
-		categories.splice(1,0,"Properties");
-		instC = new $c.context({headers:{host:"",cookie:""},url:"",connection:{encrypted:""}});
-		readme += "Note: All methods and properties defined in the http module must be used as a property of the context (this) within the createServer callback method.\n\n"+
+		categories.splice(1, 0, "Properties");
+		instC = new $c.ServerManager({ headers: { host: "", cookie: "" }, url: "", connection: { encrypted: "" } });
+		readme += "Note: All methods and properties defined in the http module must be used as a property of the context (this) within the createServer callback method.\n\n" +
 			"Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.\n" +
 			"More detailed documentation on constants can be found at [Craydent Properties](http://www.craydent.com/JsonObjectEditor/docs.html#/property/CraydentNode).\n" +
 			"More detailed documentation on methods can be found at [Craydent Methods](http://www.craydent.com/JsonObjectEditor/docs.html#/method/CraydentNode)" + ln +
@@ -126,7 +128,7 @@ try {
 			"// require no conflict - this require is the fully modular version with no global constants, prototypes, or methods.\n" +
 			"var $c = require('" + name + "/noConflict');\n" +
 			"$c.createServer(function(req, res){ this.$GET(); });\n" +
-			"```" +ln +
+			"```" + ln +
 			"```js\n" +
 			"// require global - this require constants and methods in the global space and add prototypes to extend classes.\n" +
 			"// $g is an alias to global and $c is the constant containing all the utility methods and properties.\n" +
@@ -175,15 +177,15 @@ for (var o = 0; o < 2; o++) {
 		//console.log(prop);
 		if (!c.hasOwnProperty(prop) || prop[0] == "_") { continue; }
 		// constants
-		if (/^[A-Z_0-9]*$/.test(prop) && !(prop in {"CLI":1,"JSONPA":1,"JSONSA":1})) {
-			if ($arr.contains(orderedConstants,prop)) { continue; }
+		if (/^[A-Z_0-9]*$/.test(prop) && !(prop in { "CLI": 1, "JSONPA": 1, "JSONSA": 1 })) {
+			if ($arr.contains(orderedConstants, prop)) { continue; }
 			orderedConstants.add(prop);
 			constants[prop] = $typ.isNull(constants[prop], "");
-			constants[prop] += prop + ' ('+ ($utl.getProperty(c, prop+'.constructor.name') || 'String') +')';
-		// methods
+			constants[prop] += prop + ' (' + (getProperty(c, prop + '.constructor.name') || 'String') + ')';
+			// methods
 		} else if ($typ.isFunction(c[prop])) {
 			var fstr = c[prop].toString(),
-				code = $str.replace_all(fstr,['\n','\\n','\t','\\t'], '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1'),
+				code = $str.replace_all(fstr, ['\n', '\\n', '\t', '\\t'], '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1'),
 				doc = $utl.tryEval(code);
 			if (doc && $typ.isObject(doc)) {
 				var obj = methods, ordered = orderedMethods;
@@ -192,7 +194,7 @@ for (var o = 0; o < 2; o++) {
 					ordered = orderedFeatured;
 				}
 				prop = 'p' + prop;
-				if ($arr.contains(ordered,prop)) { continue; }
+				if ($arr.contains(ordered, prop)) { continue; }
 				ordered.add(prop);
 
 				var params = doc.parameters || [];
@@ -220,7 +222,7 @@ for (var o = 0; o < 2; o++) {
 				}
 			} else if (!doc && prop != "format") {
 				try {
-					code = $str.replace_all(fstr.replace(/\/\*[\s\S]*?\*\//g,'').replace(/\/\/[\s\S]*?\n/g,''),['\n','\\n','\t','\\t'], '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1');
+					code = $str.replace_all(fstr.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[\s\S]*?\n/g, ''), ['\n', '\\n', '\t', '\\t'], '').replace(/.*\/\*\|(.*)?\|\*\/.*/, '$1');
 
 					eval("(" + code + ")");
 				} catch (e) {
@@ -228,16 +230,16 @@ for (var o = 0; o < 2; o++) {
 					console.error(e, code);
 				}
 			}
-		} else if (!(prop in {info:1,scope:1,context:1})) {
+		} else if (!(prop in { info: 1, scope: 1, context: 1 })) {
 			if (isHTTP) {
-				if ($arr.contains(orderedHttpProps,prop)) { continue; }
+				if ($arr.contains(orderedHttpProps, prop)) { continue; }
 				orderedHttpProps.add(prop);
 				var type = "Object";
 				if (prop == "sessionid") {
 					type = 'String';
 				}
 				properties[prop] = $typ.isNull(properties[prop], "");
-				properties[prop] += prop + ' ('+ ($utl.getProperty(c, prop+'.constructor.name') || type) +')';
+				properties[prop] += prop + ' (' + (getProperty(c, prop + '.constructor.name') || type) + ')';
 			} else {
 				// console.log("<"+c[prop]+">", prop,"is not a method");
 				console.log(RED, $typ.isFunction(c[prop]));
@@ -245,7 +247,7 @@ for (var o = 0; o < 2; o++) {
 		}
 	}
 }
-function outParams (params) {
+function outParams(params) {
 	params = params || [];
 	var out = "";
 	for (var j = 0, jlen = params.length; j < jlen; j++) {
@@ -274,9 +276,9 @@ readme += '\n';
 if (orderedConstants.length) {
 	readme += "<a name='markdown-header-constants'></a>\n## Constants" + ln;
 	var grid = [], headerdiv = [], headers = [], cols = 3;
-	for (var i = 0, len = orderedConstants.length, grid_row_count = Math.ceil(len/cols); i < len; i++) {
-		var index = parseInt(i%grid_row_count), hindex = parseInt(i/grid_row_count);
-		if (!headerdiv[hindex]) { headerdiv[hindex] = "| ----- "; headers[hindex] = "| "}
+	for (var i = 0, len = orderedConstants.length, grid_row_count = Math.ceil(len / cols); i < len; i++) {
+		var index = parseInt(i % grid_row_count), hindex = parseInt(i / grid_row_count);
+		if (!headerdiv[hindex]) { headerdiv[hindex] = "| ----- "; headers[hindex] = "| " }
 		grid[index] = grid[index] || "";
 		grid[index] += constants[orderedConstants[i]] + " |";
 		//readme += constants[orderedConstants[i]];
@@ -289,9 +291,9 @@ if (orderedConstants.length) {
 if (orderedHttpProps.length) {
 	readme += "<a name='markdown-header-properties'></a>\n## Properties" + ln;
 	var grid = [], headerdiv = [], headers = [], cols = 3;
-	for (var i = 0, len = orderedHttpProps.length, grid_row_count = Math.ceil(len/cols); i < len; i++) {
-		var index = parseInt(i%grid_row_count), hindex = parseInt(i/grid_row_count);
-		if (!headerdiv[hindex]) { headerdiv[hindex] = "| ----- "; headers[hindex] = "| "}
+	for (var i = 0, len = orderedHttpProps.length, grid_row_count = Math.ceil(len / cols); i < len; i++) {
+		var index = parseInt(i % grid_row_count), hindex = parseInt(i / grid_row_count);
+		if (!headerdiv[hindex]) { headerdiv[hindex] = "| ----- "; headers[hindex] = "| " }
 		grid[index] = grid[index] || "";
 		grid[index] += properties[orderedHttpProps[i]] + " |";
 	}
@@ -306,7 +308,7 @@ if (orderedFeatured.length) {
 	//	if (!featured.hasOwnProperty(prop)) { continue; }
 	for (var i = 0, len = categories.length; i < len; i++) {
 		var category = categories[i];
-		if (category in {Featured:1,Constants:1}) { continue; }
+		if (category in { Featured: 1, Constants: 1 }) { continue; }
 		if (featured[category]) {
 			readme += "### " + category + ln;
 		}
@@ -320,14 +322,13 @@ if (orderedFeatured.length) {
 // Featured end -------------------------------------------------------------------------------------------
 
 // Method -------------------------------------------------------------------------------------------------
-readme += !orderedFeatured.length ? '\n' :ln;
+readme += !orderedFeatured.length ? '\n' : ln;
 readme += "## Methods" + ln;
 //for (var prop in methods) {
 //	if (!methods.hasOwnProperty(prop)) { continue; }
-for (var i = 0, len = categories.length; i < len; i++)
-{
+for (var i = 0, len = categories.length; i < len; i++) {
 	var category = categories[i];
-	if (category in {Featured:1,Constants:1}) { continue; }
+	if (category in { Featured: 1, Constants: 1 }) { continue; }
 	if (methods[category]) {
 		readme += "<a name='markdown-header-" + category.toLowerCase().replace(/\s/g, '-') + "'></a>\n## " + category + ln;
 	}
@@ -338,18 +339,29 @@ for (var i = 0, len = categories.length; i < len; i++)
 	}
 }
 // Method end ---------------------------------------------------------------------------------------------
-
+var subPath = "";
+if (modName) {
+	subPath = mod.replace('/compiled/transformedMajor/', '/modules/').replace(root, '');
+}
 readme += '\n\n\n## Download\n\n' +
-' * [GitHub](https://github.com/craydent/node-library)\n' +
-' * [BitBucket](https://bitbucket.org/craydent/node-library)\n' +
-' * [GitLab](https://gitlab.com/craydent/node-library)\n\n' +
-'Craydent is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>';
+	' * [GitHub](https://github.com/craydent/node-library' + subPath + ')\n' +
+	' * [BitBucket](https://bitbucket.org/craydent/node-library' + subPath + ')\n' +
+	' * [GitLab](https://gitlab.com/craydent/node-library' + subPath + ')\n' +
+	'Craydent is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>';
 
-fs.writeFile(mod + "/readme.md", readme, function(err) {
-	if(err) {
-		return console.log(RED, err),process.exit(1);;
+fs.writeFile(mod + "/readme.md", readme, function (err) {
+	if (err) {
+		return console.log(RED, err), process.exit(1);;
 	}
 
-	console.log(GREEN, `saved: ${mod.replace(root,'')}/readme.md`);
-	process.exit(0);
+	console.log(GREEN, `saved: ${mod.replace(root, '')}/readme.md`);
+
+	modName && fs.writeFile(mod.replace('/compiled/transformedMajor/', '/modules/') + "/readme.md", readme, function (err) {
+		if (err) {
+			return console.log(RED, err), process.exit(1);;
+		}
+
+		console.log(GREEN, `saved: ${mod.replace('/compiled/transformedMajor/', '/modules/').replace(root, '')}/readme.md`);
+		process.exit(0);
+	});
 });

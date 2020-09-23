@@ -88,7 +88,7 @@ export default function _parseAdvanced(obj, original?, values?, base_path?, dept
                 filepath = (base_path ? "" : path) + filepath;
             }
             try {
-                let module = absolutePath(base_path + filepath, depth + 1);
+                let module = (absolutePath as any)(base_path + filepath, depth + 1);
                 clearCache(module);
                 _parents.push(obj);
                 // @ts-ignore

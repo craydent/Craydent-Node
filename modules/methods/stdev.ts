@@ -5,6 +5,18 @@ import isNumber from '../methods/isNumber';
 const _isNumber = isNumber;
 
 export default function stdev(arr: number[]): number {
+    /*|{
+        "info": "Array class extension to perform standard deviation (any value which is not a number is 0).",
+        "category": "Array",
+        "featured": true,
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.stdev",
+        "typeParameter": "<T>",
+        "returnType": "(number | NaN) returns the standard deviation of the array of numbers"
+    }|*/
     try {
         if (!arr || !arr.length) { return 0; }
         let avg = _average(arr),

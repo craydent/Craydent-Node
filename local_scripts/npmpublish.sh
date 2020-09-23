@@ -22,6 +22,6 @@ for dir in */; do
     cd ..
 done
 
-cd ..;
-rm -r node_modules;
+cd $BASEDIR/..;
+rm -rf node_modules;
 npm publish;

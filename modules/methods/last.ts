@@ -2,6 +2,17 @@ import error from '../methods/error';
 import isNull from '../methods/isNull';
 
 export default function last<T>(arr: T[]): T {
+    /*|{
+        "info": "Array class extension to retrieve the last item in the array.",
+        "category": "Array",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.last",
+        "typeParameter": "<T>",
+        "returnType": "(T) returns the last item in the array."
+    }|*/
     try {
         if (isNull(arr) || !arr.length) {
             return null;

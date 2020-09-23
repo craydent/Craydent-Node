@@ -42,6 +42,26 @@ export default function upsert<T>(arr: T[], records: T[] | T): UpsertResults<T>;
 export default function upsert<T>(arr: T[], records: T[] | T, callback: UpsertIterator<T>): UpsertResults<T>;
 export default function upsert<T>(arr: T[], records: T[] | T, prop: string, callback?: Function): UpsertResults<T>;
 export default function upsert<T>(arr, records, prop?, callback?): UpsertResults<T> {
+    /*|{
+        "info": "Array class extension to upsert records to array",
+        "category": "Array",
+        "parameters":[
+            {"records": "(Array<T>|T) Record(s) to use to insert/update array"}],
+
+        "overloads":[
+            {"parameters":[
+                {"records": "(Array<T>|T) Records to use to insert/update array"},
+                {"callback": "(UpsertIterator<T>) Method to use to determine if the records are equal"}]},
+
+            {"parameters":[
+                {"records": "(Array<T>|T) Records to use to insert/update array"},
+                {"prop": "(string) Property to use as the primary key"},
+                {"callback?": "(UpsertIterator<T>) Method to use to determine if the records are equal"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.upsert",
+        "typeParameter": "<T>",
+        "returnType": "(UpsertResult<T>) returns the information for resulting operation."
+    }|*/
     try {
         if (!isArray(records)) { records = [records]; }
         if (isFunction(prop)) {

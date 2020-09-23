@@ -6,6 +6,19 @@ import isNullOrEmpty from '../methods/isNullOrEmpty';
 import isString from '../methods/isString';
 
 export default function distinct<T>(docs: T[], fields: string | string[], condition?: string | WhereCondition): T[] {
+    /*|{
+        "info": "Array class extension to get all unique records by fields specified",
+        "category": "Array",
+        "parameters":[
+            {"fields": "(String|Array<String>) Fields to use as the projection and unique comparison (comma delimited) or array of fields"},
+            {"condition?": "(String|WhereCondition) Query following SQL where clause syntax"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.distinct",
+        "typeParameter": "<T>",
+        "returnType": "(Array<T>) returns an array with distinct values"
+    }|*/
     try {
         if (isString(fields)) { fields = (fields as string).split(","); }
 

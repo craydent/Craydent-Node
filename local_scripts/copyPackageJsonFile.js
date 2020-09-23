@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const root = require.resolve('../package.json').replace('/package.json', '');
 const fs = require('fs');
+
 function copyFile() {
     return _fsHelper.apply(this, ['copyFile', ...arguments]);
 }
@@ -40,7 +41,6 @@ async function start() {
     await Promise.all(promises);
     console.log(CONSOLE_COLORS.GREEN, 'done')
 }
-start();
 async function copyMajor() {
     let folders = await readdir(`${root}/transformedMajor/`);
     let promises = [];
@@ -61,3 +61,4 @@ async function copyMinor() {
     await Promise.all(promises);
     console.log(CONSOLE_COLORS.GREEN, 'copied minor package.json')
 }
+start();

@@ -18,6 +18,25 @@ export default function parallelEach(obj: any[], args: any[]): Promise<any[]>;
 export default function parallelEach(obj: any[], gen: Yieldables, args?: any[]): Promise<any>;
 export default function parallelEach(obj: Yieldables[]): Promise<any[]>;
 export default function parallelEach(obj, gen?, args?): Promise<any[]> {
+    /*|{
+        "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
+        "category": "Array|Control Flow",
+        "parameters":[],
+
+        "overloads":[
+            {"parameters":[
+                {"gen": "(GeneratorFunction) Generator function to apply to each item"}]},
+
+            {"parameters":[
+                {"func": "(ArrayIterator<T, TResult>) Function to apply to each item"}]},
+
+            {"parameters":[
+                {"args": "(Array<T>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.parallelEach",
+        "typeParameter": "<T, TResult>",
+        "returnType": "(Promise<Array<T>>) returns a promise of the resulting items in the array."
+    }|*/
     try {
         var _syncroit = syncroit;
         var self = obj, arr = obj;

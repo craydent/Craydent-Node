@@ -5,22 +5,22 @@ BASEDIR=$(dirname "$0")
 cd $BASEDIR;
 
 echo ">>>>>>>>>>>>>>> CREATING README <<<<<<<<<<<<<<<";
-# ./createReadme.js /submodules/array;
-# ./createReadme.js /submodules/class;
-# ./createReadme.js /submodules/cli;
-# ./createReadme.js /submodules/control-flow;
-# ./createReadme.js /submodules/date;
-# ./createReadme.js /submodules/fs;
-# ./createReadme.js /submodules/function;
-# ./createReadme.js /submodules/http;
-# ./createReadme.js /submodules/json-parser;
-# ./createReadme.js /submodules/number;
-# ./createReadme.js /submodules/object;
-# ./createReadme.js /submodules/regexp;
-# ./createReadme.js /submodules/string;
-# ./createReadme.js /submodules/template;
-# ./createReadme.js /submodules/typeof;
-# ./createReadme.js /submodules/utility;
-# ./createReadme.js /submodules/xml-to-json;
-# ./createReadme.js
+./createReadme.js /compiled/transformedMajor/array;
+./createReadme.js /compiled/transformedMajor/class;
+./createReadme.js /compiled/transformedMajor/cli;
+./createReadme.js /compiled/transformedMajor/control-flow;
+./createReadme.js /compiled/transformedMajor/date;
+./createReadme.js /compiled/transformedMajor/fs;
+./createReadme.js /compiled/transformedMajor/function;
+./createReadme.js /compiled/transformedMajor/http;
+./createReadme.js /compiled/transformedMajor/json-parser;
+./createReadme.js /compiled/transformedMajor/number;
+./createReadme.js /compiled/transformedMajor/object;
+./createReadme.js /compiled/transformedMajor/regexp;
+./createReadme.js /compiled/transformedMajor/string;
+./createReadme.js /compiled/transformedMajor/template;
+./createReadme.js /compiled/transformedMajor/typeof;
+./createReadme.js /compiled/transformedMajor/utility;
+./createReadme.js /compiled/transformedMajor/xml-to-json;
+./createReadme.js
 echo ">>>>>>>>>>>>>>> README COMPLETED <<<<<<<<<<<<<<<";

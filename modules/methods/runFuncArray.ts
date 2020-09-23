@@ -15,6 +15,18 @@ import parallelEach from '../methods/parallelEach';
 export type Executables = Array<Executable> | Executable;
 export type Executable = Function | AsyncFunction | GeneratorFunction;
 export default function runFuncArray(funcs: Executables, args: any[] = []): any[] | Promise<any[]> {
+    /*|{
+        "info": "Executes array of methods",
+        "category": "Utility",
+        "parameters":[
+            {"funcs": "(Function[]) Array of methods to execute"},
+            {"args": "(any[]) Array of arguments to be passed to each method"}],
+
+        "overloads":[]],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#runFuncArray",
+        "returnType": "(Bool)"
+    }|*/
     let self = this;
     !isArray(funcs) && (funcs = [funcs as Executable]);
     let i = 0, func,

@@ -15,6 +15,23 @@ const _isFunction = isFunction,
 export default function getValue(obj: any, dflt?: any): any;
 export default function getValue(obj: Function, args?: any[], dflt?: any): any;
 export default function getValue(obj, args?, dflt?): any {
+    /*|{
+        "info": "Object class extension to retrieve value of an object property",
+        "category": "Array|Object",
+        "parameters":[],
+
+        "overloads":[
+            {"parameters":[
+                {"default": "(any) Default value to return if context is not a function"}]},
+
+            {"parameters":[
+                {"arguments": "(any[]) An array of arguments to pass to context when it is a function"},
+                {"default": "(any) Default value to return if context is not a function"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.getValue",
+        "typeParameter": "<T>",
+        "returnType": "(any) the value of any type.  if the type is a method, it will execute the methed and use its return value."
+    }|*/
     try {
         if (!_isFunction(obj)) {
             if (args && !dflt) { dflt = args; }

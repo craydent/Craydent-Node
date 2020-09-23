@@ -3,6 +3,16 @@ import { AnyObject } from '../models/Arrays';
 import isNull from '../methods/isNull';
 
 export default function getKeys(obj: AnyObject): string[] {
+    /*|{
+        "info": "Object class extension to get the keys of the object",
+        "category": "Object",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.getKeys",
+        "returnType": "(Array<string>)"
+    }|*/
     try {
         if (isNull(obj)) {
             return null;

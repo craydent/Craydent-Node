@@ -1,0 +1,203 @@
+/*/---------------------------------------------------------/*/
+/*/ Craydent LLC node-v0.9.0                                /*/
+/*/ Copyright 2011 (http://craydent.com/about)              /*/
+/*/ Dual licensed under the MIT or GPL Version 2 licenses.  /*/
+/*/ (http://craydent.com/license)                           /*/
+/*/---------------------------------------------------------/*/
+/*/---------------------------------------------------------/*/
+///<reference path="../globalTypes/global.vars.ts" />
+//#region imports
+//@ts-ignore
+import { $c, info } from '../private/__common';
+import * as ILogModule from '../private/__logModule';
+import * as IAddObjectPrototype from '../methods/addObjectPrototype';
+import * as IIsArray from '../methods/isArray';
+import * as IIsAsync from '../methods/isAsync';
+import * as IIsBlank from '../methods/isBlank';
+import * as IIsBetween from '../methods/isBetween';
+import * as IIsBoolean from '../methods/isBoolean';
+import * as IIsCuid from '../methods/isCuid';
+import * as IIsDate from '../methods/isDate';
+import * as IIsDomElement from '../methods/isDomElement';
+import * as IIsEmpty from '../methods/isEmpty';
+import * as IIsError from '../methods/isError';
+import * as IIsEven from '../methods/isEven';
+import * as IIsFloat from '../methods/isFloat';
+import * as IIsFunction from '../methods/isFunction';
+import * as IIsGenerator from '../methods/isGenerator';
+import * as IIsGeolocation from '../methods/isGeolocation';
+import * as IIsInt from '../methods/isInt';
+import * as IIsNull from '../methods/isNull';
+import * as IIsNullOrEmpty from '../methods/isNullOrEmpty';
+import * as IIsNumber from '../methods/isNumber';
+import * as IIsObject from '../methods/isObject';
+import * as IIsOdd from '../methods/isOdd';
+import * as IIsPromise from '../methods/isPromise';
+import * as IIsRegExp from '../methods/isRegExp';
+import * as IIsString from '../methods/isString';
+import * as IIsSubset from '../methods/isSubset';
+import * as IIsValidDate from '../methods/isValidDate';
+import * as IIsValidEmail from '../methods/isValidEmail';
+import * as IPrototypes from './__prototypes';
+//#endregion
+
+declare global {
+    interface Craydent {
+        isArray: typeof IIsArray.default;
+        isAsync: typeof IIsAsync.default;
+        isBetween: typeof IIsBetween.default;
+        isBlank: typeof IIsBlank.default;
+        isBoolean: typeof IIsBoolean.default;
+        isCuid: typeof IIsCuid.default;
+        isDate: typeof IIsDate.default;
+        isDomElement: typeof IIsDomElement.default;
+        isEmpty: typeof IIsEmpty.default;
+        isError: typeof IIsError.default;
+        isEven: typeof IIsEven.default;
+        isFloat: typeof IIsFloat.default;
+        isFunction: typeof IIsFunction.default;
+        isGenerator: typeof IIsGenerator.default;
+        isGeolocation: typeof IIsGeolocation.default;
+        isInt: typeof IIsInt.default;
+        isNull: typeof IIsNull.default;
+        isNullOrEmpty: typeof IIsNullOrEmpty.default;
+        isNumber: typeof IIsNumber.default;
+        isObject: typeof IIsObject.default;
+        isOdd: typeof IIsOdd.default;
+        isPromise: typeof IIsPromise.default;
+        isRegExp: typeof IIsRegExp.default;
+        isString: typeof IIsString.default;
+        isSubset: typeof IIsSubset.default;
+        isValidDate: typeof IIsValidDate.default;
+        isValidEmail: typeof IIsValidEmail.default;
+    }
+
+    //#region global
+    module NodeJS {
+        interface Global {
+            isArray: typeof IIsArray.default;
+            isAsync: typeof IIsAsync.default;
+            isBetween: typeof IIsBetween.default;
+            isBlank: typeof IIsBlank.default;
+            isBoolean: typeof IIsBoolean.default;
+            isCuid: typeof IIsCuid.default;
+            isDate: typeof IIsDate.default;
+            isDomElement: typeof IIsDomElement.default;
+            isEmpty: typeof IIsEmpty.default;
+            isError: typeof IIsError.default;
+            isEven: typeof IIsEven.default;
+            isFloat: typeof IIsFloat.default;
+            isFunction: typeof IIsFunction.default;
+            isGenerator: typeof IIsGenerator.default;
+            isGeolocation: typeof IIsGeolocation.default;
+            isInt: typeof IIsInt.default;
+            isNull: typeof IIsNull.default;
+            isNullOrEmpty: typeof IIsNullOrEmpty.default;
+            isNumber: typeof IIsNumber.default;
+            isObject: typeof IIsObject.default;
+            isOdd: typeof IIsOdd.default;
+            isPromise: typeof IIsPromise.default;
+            isRegExp: typeof IIsRegExp.default;
+            isString: typeof IIsString.default;
+            isSubset: typeof IIsSubset.default;
+            isValidDate: typeof IIsValidDate.default;
+            isValidEmail: typeof IIsValidEmail.default;
+        }
+    }
+    interface Window {
+        isArray: typeof IIsArray.default;
+        isAsync: typeof IIsAsync.default;
+        isBetween: typeof IIsBetween.default;
+        isBlank: typeof IIsBlank.default;
+        isBoolean: typeof IIsBoolean.default;
+        isCuid: typeof IIsCuid.default;
+        isDate: typeof IIsDate.default;
+        isDomElement: typeof IIsDomElement.default;
+        isEmpty: typeof IIsEmpty.default;
+        isError: typeof IIsError.default;
+        isEven: typeof IIsEven.default;
+        isFloat: typeof IIsFloat.default;
+        isFunction: typeof IIsFunction.default;
+        isGenerator: typeof IIsGenerator.default;
+        isGeolocation: typeof IIsGeolocation.default;
+        isInt: typeof IIsInt.default;
+        isNull: typeof IIsNull.default;
+        isNullOrEmpty: typeof IIsNullOrEmpty.default;
+        isNumber: typeof IIsNumber.default;
+        isObject: typeof IIsObject.default;
+        isOdd: typeof IIsOdd.default;
+        isPromise: typeof IIsPromise.default;
+        isRegExp: typeof IIsRegExp.default;
+        isString: typeof IIsString.default;
+        isSubset: typeof IIsSubset.default;
+        isValidDate: typeof IIsValidDate.default;
+        isValidEmail: typeof IIsValidEmail.default;
+    }
+    var isArray: typeof IIsArray.default;
+    var isAsync: typeof IIsAsync.default;
+    var isBetween: typeof IIsBetween.default;
+    var isBlank: typeof IIsBlank.default;
+    var isBoolean: typeof IIsBoolean.default;
+    var isCuid: typeof IIsCuid.default;
+    var isDate: typeof IIsDate.default;
+    var isDomElement: typeof IIsDomElement.default;
+    var isEmpty: typeof IIsEmpty.default;
+    var isError: typeof IIsError.default;
+    var isEven: typeof IIsEven.default;
+    var isFloat: typeof IIsFloat.default;
+    var isFunction: typeof IIsFunction.default;
+    var isGenerator: typeof IIsGenerator.default;
+    var isGeolocation: typeof IIsGeolocation.default;
+    var isInt: typeof IIsInt.default;
+    var isNull: typeof IIsNull.default;
+    var isNullOrEmpty: typeof IIsNullOrEmpty.default;
+    var isNumber: typeof IIsNumber.default;
+    var isObject: typeof IIsObject.default;
+    var isOdd: typeof IIsOdd.default;
+    var isPromise: typeof IIsPromise.default;
+    var isRegExp: typeof IIsRegExp.default;
+    var isString: typeof IIsString.default;
+    var isSubset: typeof IIsSubset.default;
+    var isValidDate: typeof IIsValidDate.default;
+    var isValidEmail: typeof IIsValidEmail.default;
+
+    //#endregion global
+}
+if (!$c.MODULES_LOADED[info.name]) {
+    const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
+    __logModule(info.name);
+    const prototypes: typeof IPrototypes = require('./__prototypes');
+
+    $c.isArray = $c.isArray || prototypes.isArray;
+    $c.isAsync = $c.isAsync || prototypes.isAsync;
+    $c.isBetween = $c.isBetween || prototypes.isBetween;
+    $c.isBlank = $c.isBlank || prototypes.isBlank;
+    $c.isBoolean = $c.isBoolean || prototypes.isBoolean;
+    $c.isCuid = $c.isCuid || prototypes.isCuid;
+    $c.isDate = $c.isDate || prototypes.isDate;
+    $c.isDomElement = $c.isDomElement || prototypes.isDomElement;
+    $c.isEmpty = $c.isEmpty || prototypes.isEmpty;
+    $c.isError = $c.isError || prototypes.isError;
+    $c.isEven = $c.isEven || prototypes.isEven;
+    $c.isFloat = $c.isFloat || prototypes.isFloat;
+    $c.isFunction = $c.isFunction || prototypes.isFunction;
+    $c.isGenerator = $c.isGenerator || prototypes.isGenerator;
+    $c.isGeolocation = $c.isGeolocation || prototypes.isGeolocation;
+    $c.isInt = $c.isInt || prototypes.isInt;
+    $c.isNull = $c.isNull || prototypes.isNull;
+    $c.isNullOrEmpty = $c.isNullOrEmpty || prototypes.isNullOrEmpty;
+    $c.isNumber = $c.isNumber || prototypes.isNumber;
+    $c.isObject = $c.isObject || prototypes.isObject;
+    $c.isOdd = $c.isOdd || prototypes.isOdd;
+    $c.isPromise = $c.isPromise || prototypes.isPromise;
+    $c.isRegExp = $c.isRegExp || prototypes.isRegExp;
+    $c.isString = $c.isString || prototypes.isString;
+    $c.isSubset = $c.isSubset || prototypes.isSubset;
+    $c.isValidDate = $c.isValidDate || prototypes.isValidDate;
+    $c.isValidEmail = $c.isValidEmail || prototypes.isValidEmail;
+
+    //#region global
+    $c.globalize();
+    //#endregion global
+}
+export default $c as Craydent;

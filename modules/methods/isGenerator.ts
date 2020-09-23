@@ -4,6 +4,16 @@ import isAsync from '../methods/isAsync';
 import isPromise from '../methods/isPromise';
 
 export default function isGenerator(obj: any): boolean {
+    /*|{
+        "info": "Object class extension to check if object is a generator function",
+        "category": "Object|TypeOf",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.isGenerator",
+        "returnType": "(Bool)"
+    }|*/
     // return _typeCheck(obj, "GeneratorFunction", true);
     if (isNull(obj) || isAsync(obj) || isPromise(obj)) { return false; }
     const __generator = 'return __generator(this, function';

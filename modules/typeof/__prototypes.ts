@@ -202,7 +202,7 @@ export function _isNullOrEmpty(obj: any): boolean {
 
         "overloads":[],
 
-        "url": "http://www.craydent.com/library/1.9.3/docs#object.isNumber",
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.isNullOrEmpty",
         "returnType": "(Bool)"
     }|*/
     return isNullOrEmpty(obj);

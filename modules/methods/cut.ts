@@ -9,6 +9,19 @@ import error from '../methods/error';
 import isNull from '../methods/isNull';
 
 export default function cut(str: string, startIndex: number, endIndex: number, replacement?: string) {
+    /*|{
+        "info": "String class extension to remove between the provided indexes",
+        "category": "String",
+        "parameters":[
+            {"start_index": "(Integer) Start index to cut"},
+            {"end_index": "(Integer) End index to cut"},
+            {"replacement?": "(String) String to put in place of the cut"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#string.cut",
+        "returnType": "(String)"
+    }|*/
     try {
         replacement = replacement || "";
         if (isNull(startIndex)) { return str; }

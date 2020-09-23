@@ -9,6 +9,19 @@ import error from '../methods/error';
 import isNull from '../methods/isNull';
 
 export default function condense<T>(arr: T[], check_values?: any[] | boolean): T[] {
+    /*|{
+        "info": "Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls",
+        "category": "Array",
+        "parameters":[
+            {"check_values?": "(Bool) Set this flag to remove duplicates"}
+        ],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.condense",
+        "typeParameter": "<T>",
+        "returnType": "(Array<T>) returns a condensed version of the array."
+    }|*/
     try {
         let skip = [], items = [], without = false;
         if (check_values && check_values.constructor == Array) {

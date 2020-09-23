@@ -12,6 +12,20 @@ import isFunction from '../methods/isFunction';
 import isString from '../methods/isString';
 
 export default function mapReduce<T, TResult>(objs: T[], map: ArrayIterator<T>, reduce: MongoReducer<TResult>, options?: MongoMapReduceOptions<TResult>): TResult[] {
+    /*|{
+        "info": "Array class extension to run map-reduce aggregation over records",
+        "category": "Array",
+        "parameters":[
+            {"map": "(ArrayIterator<T, TResult>) Function to apply to each item"},
+            {"reduce": "(MongoReducer<T>) Function used to condense the items"},
+            {"options?": "(MongoMapReduceOptions<T, TResult>) Options specified in the Mongo Doc"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.mapReduce",
+        "typeParameter": "<T, TResult>",
+        "returnType": "(Array<TResult>) returns the map reduced array."
+    }|*/
     try {
         options = options || {};
         let obj = {}, results = where(objs, options.query, null, options.limit), rtnArr = [], final = options.finalize;

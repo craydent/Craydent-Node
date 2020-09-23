@@ -17,6 +17,25 @@ export default function count(arr: string[], option?: string | RegExp): number;
 export default function count(objs: AnyObjects, option?: WhereCondition): number;
 export default function count(str: string, option?: string | RegExp): number;
 export default function count(obj, option?): number {
+    /*|{
+          "info": "Object class extension to count the properties in the object/elements in arrays/characters in strings.",
+          "category": "Array|Object",
+          "parameters":[],
+
+          "overloads":[
+              {"parameters":[
+                  {"option": "(WhereCondition) Query used in Array.where when counting elements in an Array"}]},
+
+              {"parameters":[
+                  {"option": "(String) Word or phrase to count in the String"}]},
+
+              {"parameters":[
+                  {"option": "(RegExp) Word or phrase pattern to count in the String"}]}],
+
+          "url": "http://www.craydent.com/library/1.9.3/docs#object.count",
+          "typeParameter": "<T>",
+          "returnType": "(Int | NaN) returns the count"
+      }|*/
     try {
         if (_isObject(obj)) {
             let count = 0;

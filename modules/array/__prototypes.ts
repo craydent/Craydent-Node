@@ -265,7 +265,7 @@ export function _createIndex<T>(this: T[], indexes: string | string[]): IndexedA
             {"parameters":[
                 {"indexes": "(Array<string>) Array of properties to index"}]}],
 
-        "url": "http://www.craydent.com/library/1.9.3/docs#array.condense",
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.createIndex",
         "typeParameter": "<T>",
         "returnType": "(Array<T> | Bool) returns the Array<T> if successfull otherwise false."
     }|*/
@@ -477,6 +477,15 @@ export function _innerJoin<T, R, TResult>(this: T[], arr: R[], on: string): TRes
     return innerJoin(this, arr, on);
 }
 export function _insert(this: any[], value: any): boolean {
+    /*|{
+        "info": "Array class extension to add to the array",
+        "category": "Array",
+        "parameters":[
+            {"value": "(Mixed) value to add"}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.insert",
+        "returnType": "(Bool)"
+    }|*/
     return insert(this, value);
 }
 export function _insertAfter(this: any[], index: number, value: any): boolean {

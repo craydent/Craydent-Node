@@ -2,6 +2,17 @@ import error from '../methods/error';
 import isObject from '../methods/isObject';
 
 export default function normalize<T, TResult>(arr: T[]): TResult[] {
+    /*|{
+        "info": "Array class extension to normalize all properties in the object array",
+        "category": "Array",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.normalize",
+        "typeParameter": "<T, TResult>",
+        "returnType": "(Array<TResult>) returns a normalized version of the objects."
+    }|*/
     try {
         let allProps = {} as any, arrObj = [], len = arr.length;
         for (let i = 0; i < len; i++) {

@@ -10,6 +10,7 @@
 //@ts-ignore
 import { $c, info } from '../private/__common';
 import * as ILogModule from '../private/__logModule';
+import * as IAbsolutePath from '../methods/absolutePath';
 import * as IAjax from '../methods/ajax';
 import * as INoop from '../methods/noop';
 import * as ICatchAll from '../methods/catchAll';
@@ -32,6 +33,7 @@ import * as IParseBoolean from '../methods/parseBoolean';
 import * as IParseRaw from '../methods/parseRaw';
 import * as IRand from '../methods/rand';
 import * as IRequireDirectory from '../methods/requireDirectory';
+import * as IRunFuncArray from '../methods/runFuncArray';
 import * as ISuid from '../methods/suid';
 import * as ISyncroit from '../methods/syncroit';
 import * as ITryEval from '../methods/tryEval';
@@ -40,6 +42,7 @@ import * as IPrototypes from './__prototypes';
 //#endregion
 declare global {
     interface Craydent {
+        absolutePath: typeof IAbsolutePath.default;
         ajax: typeof IAjax.default;
         noop: typeof INoop.default;
         catchAll: typeof ICatchAll.default;
@@ -62,6 +65,7 @@ declare global {
         parseRaw: typeof IParseRaw.default;
         rand: typeof IRand.default;
         requireDirectory: typeof IRequireDirectory.default;
+        runFuncArray: typeof IRunFuncArray.default;
         suid: typeof ISuid.default;
         syncroit: typeof ISyncroit.default;
         tryEval: typeof ITryEval.default;
@@ -69,6 +73,7 @@ declare global {
     //#region global
     module NodeJS {
         interface Global {
+            absolutePath: typeof IAbsolutePath.default;
             ajax: typeof IAjax.default;
             noop: typeof INoop.default;
             catchAll: typeof ICatchAll.default;
@@ -91,12 +96,14 @@ declare global {
             parseRaw: typeof IParseRaw.default;
             rand: typeof IRand.default;
             requireDirectory: typeof IRequireDirectory.default;
+            runFuncArray: typeof IRunFuncArray.default;
             suid: typeof ISuid.default;
             syncroit: typeof ISyncroit.default;
             tryEval: typeof ITryEval.default;
         }
     }
     interface Window {
+        absolutePath: typeof IAbsolutePath.default;
         ajax: typeof IAjax.default;
         noop: typeof INoop.default;
         catchAll: typeof ICatchAll.default;
@@ -119,11 +126,13 @@ declare global {
         parseRaw: typeof IParseRaw.default;
         rand: typeof IRand.default;
         requireDirectory: typeof IRequireDirectory.default;
+        runFuncArray: typeof IRunFuncArray.default;
         suid: typeof ISuid.default;
         syncroit: typeof ISyncroit.default;
         tryEval: typeof ITryEval.default;
 
     }
+    var absolutePath: typeof IAbsolutePath.default;
     var ajax: typeof IAjax.default;
     var noop: typeof INoop.default;
     var catchAll: typeof ICatchAll.default;
@@ -146,6 +155,7 @@ declare global {
     var parseRaw: typeof IParseRaw.default;
     var rand: typeof IRand.default;
     var requireDirectory: typeof IRequireDirectory.default;
+    var runFuncArray: typeof IRunFuncArray.default;
     var suid: typeof ISuid.default;
     var syncroit: typeof ISyncroit.default;
     var tryEval: typeof ITryEval.default;
@@ -157,6 +167,7 @@ if (!$c.MODULES_LOADED[info.name]) {
     __logModule(info.name);
     const prototypes: typeof IPrototypes = require('./__prototypes');
 
+    $c.absolutePath = $c.absolutePath || prototypes.absolutePath;
     $c.ajax = $c.ajax || prototypes.ajax;
     $c.noop = $c.noop || prototypes.noop;
     $c.JSZip = $c.JSZip || prototypes.JSZip;
@@ -177,6 +188,7 @@ if (!$c.MODULES_LOADED[info.name]) {
     $c.parseRaw = $c.parseRaw || prototypes.parseRaw;
     $c.rand = $c.rand || prototypes.rand;
     $c.requireDirectory = $c.requireDirectory || prototypes.requireDirectory;
+    $c.runFuncArray = $c.runFuncArray || prototypes.runFuncArray;
     $c.suid = $c.suid || prototypes.suid;
     $c.syncroit = $c.syncroit || prototypes.syncroit;
     $c.tryEval = $c.tryEval || prototypes.tryEval;

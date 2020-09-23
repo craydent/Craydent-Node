@@ -4,6 +4,20 @@ import { TreeParentFinder, TreeChildFinder, TreeOptions } from '../models/Arrays
 import { __processStage } from '../methods/where';
 
 export default function buildTree<T, TResult>(arr: T[], parentFinder: TreeParentFinder<T>, childFinder: string | TreeChildFinder<T>, options?: TreeOptions): TResult[] {
+    /*|{
+        "info": "Array class extension to create a parent/child hierarchy",
+        "category": "Array",
+        "parameters":[
+            {"parentFinder": "(TreeParentFinder<T>) Function to determine the parent.  Should return a boolean value and is passed the current item as an argument."},
+            {"childFinder": "(String|TreeChildFinder<T>) Property name of the object to use as a grouping."},
+            {"options?":"(TreeOptions) Options to customize properties,  Valid property is:<br />childProperty"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.buildTree",
+        "typeParameter": "<T, TResult>",
+        "returnType": "(Array<TResult>) returns a hierarchical array."
+    }|*/
     try {
         options = options || {};
         let rtnArr = [];

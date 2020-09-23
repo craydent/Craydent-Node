@@ -39,7 +39,7 @@ export default function requireDirectory(path: string, options?: 'r' | 's' | 'rs
         options = options || { syncronous: false, recursive: false };
         let delimiter = "/";
 
-        path = endItWith(absolutePath(path, 1), delimiter);
+        path = endItWith((absolutePath as any)(path, 1), delimiter);
         __basepath = endItWith(__basepath, delimiter);
 
         let isSync = (options as RequireDirectoryOptions).syncronous;

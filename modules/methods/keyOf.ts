@@ -3,6 +3,17 @@ import equals from '../methods/equals';
 import isNull from '../methods/isNull';
 
 export default function keyOf<T>(obj: T, value: any): string {
+    /*|{
+        "info": "Object class extension to get the key of the give value",
+        "category": "Object",
+        "parameters":[
+            {"value": "(any) Value to compare against"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.keyOf",
+        "returnType": "(String)"
+    }|*/
     try {
         if (isNull(obj)) {
             return '';

@@ -33,6 +33,26 @@ export default function contains<T, TValue>(obj: T, val: ContainsValue, func?: C
 export default function contains<T, TValue>(str: string, val: ContainsValue): boolean;
 export default function contains<T, TValue>(num: number, val: ContainsValue): boolean;
 export default function contains(obj, val, func?) {
+    /*|{
+        "info": "Object class extension to check if value exists",
+        "category": "Array|Object",
+        "parameters":[
+            {"val": "(ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity"}],
+
+        "overloads":[
+            {"parameters":[
+                {"val": "(ContainsValue) Value to check"},
+                {"func": "(ContainsIterator<T>) Callback function used to do the comparison"}]},
+            {"parameters":[
+                {"val": "(ContainsValue) Value to check"},
+                {"func": "(ComparisonOperator) String indicating logical operator (\"$lt\"|\"$lte\"|\"$gt\"|\"$gte\"|\"$mod\"|\"$type\")" }]},
+            {"parameters":[
+                {"arr": "(Array<ContainsValue>) Array of values to return first matching value"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.contains",
+        "typeParameter": "<T, TValue>",
+        "returnType": "(Bool) returns if there was a match."
+    }|*/
     try {
         if (_isFunction(val) && !func) {
             for (let prop in obj) {

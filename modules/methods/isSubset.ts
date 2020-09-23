@@ -9,6 +9,18 @@ import isNull from '../methods/isNull';
 export default function isSubset<T, R>(arr: T[], compare: R[], sharesAny?: boolean): boolean;
 export default function isSubset<T, R>(obj: T, compare: R, sharesAny?: boolean): boolean;
 export default function isSubset(obj, compare, sharesAny?): boolean {
+    /*|{
+        "info": "Object class extension to check if item is a subset",
+        "category": "Array|Object",
+        "parameters":[
+            {"compare": "(Array<T>|Object) Superset to compare against"}],
+
+        "overloads": [],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#object.isSubset",
+        "typeParameter": "<R>",
+        "returnType": "(Bool) returns true if the array is a subset, otherwise false."
+    }|*/
     try {
         if (isNull(obj) || isNull(compare)) { return false; }
         const _isArray = isArray(obj) && isArray(compare);

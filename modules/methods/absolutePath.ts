@@ -5,10 +5,21 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import condense from '../methods/condense';
 import * as pathModule from 'path';
 
+export default function absolutePath(path: string): string;
 export default function absolutePath(path: string, depth?: number): string {
+    /*|{
+         "info": "Method to make retrieve the absolute path of the provided path",
+         "category": "Utility",
+         "parameters":[
+             {"path": "(String) Path to convert to the absolute path"}],
+
+         "overloads":[],
+
+         "url": "http://www.craydent.com/library/1.9.3/docs#absolutePath",
+         "returnType": "(String)"
+     }|*/
     let callingPath = "",
         delimiter = pathModule.sep;
     depth = depth || 0;

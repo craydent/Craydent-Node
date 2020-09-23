@@ -14,6 +14,64 @@ export type SortProps = string | string[] | { [key: string]: -1 | 1 }
 export default function sortBy<T>(arr: T[], props: SortProps, options?: SortOptions): T[];
 export default function sortBy<T>(arr: T[], props: SortProps, rev?: boolean, primer?: SortPrimer<T>, lookup?: any, options?: SortOptions): T[];
 export default function sortBy<T>(arr, props, rev?, primer?, lookup?, options?): T[] {
+    /*|{
+        "info": "Array class extension to sort the array",
+        "category": "Array",
+        "parameters":[
+            {"props": "(string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"}],
+
+        "overloads":[
+            {"parameters":[
+                {"props": "(Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed"}]},
+
+            {"parameters":[
+                {"props": "(string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
+                {"rev": "(Bool) Flag to reverse the sort"}]},
+
+            {"parameters":[
+                {"props": "(Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed"},
+                {"rev": "(Bool) Flag to reverse the sort"}]},
+
+            {"parameters":[
+                {"props": "(string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
+                {"rev": "(Bool) Flag to reverse the sort"},
+                {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."}]},
+
+            {"parameters":[
+                {"props": "(Array<String>) Properties to sort by. If the first character is '!', the sort order is reversed"},
+                {"rev": "(Bool) Flag to reverse the sort"},
+                {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."}]},
+
+            {"parameters":[
+                {"props": "(string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
+                {"rev": "(Bool) Flag to reverse the sort"},
+                {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."},
+                {"lookup": "(Object) Look up object to use as values instead of the array values."}]},
+
+            {"parameters":[
+                {"props": "(Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed"},
+                {"rev": "(Bool) Flag to reverse the sort"},
+                {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."},
+                {"lookup": "(Object) Look up object to use as values instead of the array values."}]},
+
+            {"parameters":[
+                {"props": "(string) Property/Comma delimited list of properties to sort by. If the first character is '!', the sort order is reversed"},
+                {"rev": "(Bool) Flag to reverse the sort"},
+                {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."},
+                {"lookup": "(Object) Look up object to use as values instead of the array values."},
+                {"options": "(Object) Options to pass. Valid options are:<br />i<br />ignoreCase"}]},
+
+            {"parameters":[
+                {"props": "(Array<string>) Properties to sort by. If the first character is '!', the sort order is reversed"},
+                {"rev": "(Bool) Flag to reverse the sort"},
+                {"primer": "(SortPrimer<T>|null|undefined) Function to apply to values in the array."},
+                {"lookup": "(Object) Look up object to use as values instead of the array values."},
+                {"options": "(Object) Options to pass. Valid options are:<br />i<br />ignoreCase"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.sortBy",
+        "typeParameter": "<T>",
+        "returnType": "(Array<T>)"
+    }|*/
     try {
         if (isObject(rev) || isString(rev)) {
             options = rev;

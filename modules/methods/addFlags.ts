@@ -8,6 +8,17 @@
 import error from '../methods/error';
 
 export default function addFlags(regex: RegExp, flags: string): RegExp {
+    /*|{
+        "info": "RegExp class extension to add flags to regex",
+        "category": "RegExp",
+        "parameters":[
+            {"flags": "(String) Flags to add"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#regexp.addFlag",
+        "returnType": "(RegExp)"
+    }|*/
     try {
         if (regex.global && !~flags.indexOf('g')) { flags += "g"; }
         if (regex.ignoreCase && !~flags.indexOf('i')) { flags += "i"; }

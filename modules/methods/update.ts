@@ -39,6 +39,20 @@ export interface UpdateOptions {
 }
 
 export default function update<T>(arr: T[], condition: WhereCondition | string, setClause: MongoSet, options?: UpdateOptions): T[] {
+    /*|{
+        "info": "Array class extension to update records in the array",
+        "category": "Array",
+        "parameters":[
+            {"condition": "(WhereCondition) Query following find/where clause syntax"},
+            {"setClause": "(MongoSet) Set clause used to update the records"},
+            {"options?": "(UpdateOptions) Options to specify if mulit update and/or upsert"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.update",
+        "typeParameter": "<T>",
+        "returnType": "(Array<T>)"
+    }|*/
     try {
         options = options || {};
         // if sql syntax convert to mongo object syntax

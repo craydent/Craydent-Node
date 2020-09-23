@@ -33,6 +33,19 @@ import __queryNestedProperty from '../private/__queryNestedProperty';
 import _subQuery from '../protected/_subQuery';
 
 export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps?: boolean): T[] {
+    /*|{
+        "info": "Array class extension to group records by fields",
+        "category": "Array",
+        "parameters":[
+            {"params": "(GroupOptions<T>) specs with common properties:<br />(Object) key<br />(Object | string) condition<br />(Function) reduce<br />(Object) initial<br />(Array<string> | Function) keyf<br />(Function) finalize"},
+            {"removeProps?": "(Bool) Flag to preserve property if the value is null or undefined."}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.group",
+        "typeParameter": "<T>",
+        "returnType": "(Array<T>)"
+    }|*/
     try {
         let key = params.field || params.key,
             condition = params.cond || {},

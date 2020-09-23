@@ -1,4 +1,5 @@
 
+import * as IAbsolutePath from '../methods/absolutePath';
 import * as IAjax from '../methods/ajax';
 import * as INoop from '../methods/noop';
 import * as ICatchAll from '../methods/catchAll';
@@ -21,6 +22,7 @@ import * as IParseBoolean from '../methods/parseBoolean';
 import * as IParseRaw from '../methods/parseRaw';
 import * as IRand from '../methods/rand';
 import * as IRequireDirectory from '../methods/requireDirectory';
+import * as IRunFuncArray from '../methods/runFuncArray';
 import * as ISuid from '../methods/suid';
 import * as ISyncroit from '../methods/syncroit';
 import * as ITryEval from '../methods/tryEval';
@@ -28,6 +30,7 @@ import * as ITryEval from '../methods/tryEval';
 import { scope } from '../private/__common';
 scope.eval = str => eval(str);
 //#region dependencies
+const absolutePath: typeof IAbsolutePath.default = require('../methods/absolutePath').default;
 const ajax: typeof IAjax.default = require('../methods/ajax').default;
 const noop: typeof INoop.default = require('../methods/noop').default;
 const catchAll: typeof ICatchAll.default = require('../methods/catchAll').default;
@@ -50,12 +53,14 @@ const parseBoolean: typeof IParseBoolean.default = require('../methods/parseBool
 const parseRaw: typeof IParseRaw.default = require('../methods/parseRaw').default;
 const rand: typeof IRand.default = require('../methods/rand').default;
 const requireDirectory: typeof IRequireDirectory.default = require('../methods/requireDirectory').default;
+const runFuncArray: typeof IRunFuncArray.default = require('../methods/runFuncArray').default;
 const suid: typeof ISuid.default = require('../methods/suid').default;
 const syncroit: typeof ISyncroit.default = require('../methods/syncroit').default;
 const tryEval: typeof ITryEval.default = require('../methods/tryEval').default;
 //#endregion
 
 export {
+    absolutePath,
     ajax,
     noop,
     catchAll,
@@ -78,6 +83,7 @@ export {
     parseRaw,
     rand,
     requireDirectory,
+    runFuncArray,
     suid,
     syncroit,
     tryEval

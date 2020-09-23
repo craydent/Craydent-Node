@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.9.0
+# Craydent 0.10.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -56,11 +56,10 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| CONSOLE_COLORS (Object) |MODULES_LOADED (Object) |ROUTE_LOGO_URL (String) |
-DEBUG_MODE (Boolean) |PUBLIC_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
-EXPOSE_ROUTE_API (Boolean) |RESPONSES (Object) |TEMPLATE_VARS (Array) |
-HTTP_STATUS_TEMPLATE (Array) |REST_API_TEMPLATE (String) |VERSION (String) |
-LOCAL_IP (String) |ROUTE_API_PATH (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |VERSION (String) |
+HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -89,7 +88,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Info:** Array class extension to perform mongo style aggregation
 
-**Return:** (Array<TResult>) returns an array of aggregates
+**Return:** (Documents<T>) returns an array of aggregates
 
 **Parameters:**
 
@@ -103,9 +102,9 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 #### _average_ 
 ***
 
-**Info:** Array class extension to perform average of all the values (any value which is not 0).
+**Info:** Array class extension to perform average of all the values (any value which is not a number is skipped).
 
-**Return:** (number | NaN)
+**Return:** (number)
 
 **Parameters:**
 
@@ -131,7 +130,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 >Parameters
 >* condition: (WhereCondition | string) Query following find/where clause syntax
->* projection: (Object | string) Indicate which properties to return
+>* projection: (Fields | string) Indicate which properties to return
 
 >Parameters
 >* condition: (WhereCondition | string) Query following find/where clause syntax
@@ -153,11 +152,27 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 >Parameters
 >* condition: (WhereCondition | string) Query following find/where clause syntax
->* projection: (WhereCondition | string) Indicate which properties to return
+>* projection: (Fields | string) Indicate which properties to return
 
 >Parameters
 >* condition: (WhereCondition | string) Query following find/where clause syntax
 >* useReference: (Bool) Flag to make a copy instead of using references
+
+*** 
+#### _parallelEach_ 
+***
+
+**Info:** Array class extension to perform push and update indexes if used
+
+**Return:** (Bool) Value to indicate success or failure
+
+**Parameters:**
+
+>* value: (Object) value to add
+
+**Overloads:**
+
+>None
 
 *** 
 #### _stdev_ 
@@ -248,26 +263,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >* condition: (WhereIterator<T>) The funciton invoked per iteration.
 >* useReference: (Bool) Flag to make a copy instead of using references
 >* limit: (Int) Limit the number of the results returned.
-
-### Date
-
-*** 
-#### _format_ 
-***
-
-**Info:** Date class extension to convert to formatted string
-
-**Return:** (String)
-
-**Parameters:**
-
->* format: (String) Format syntax to use to to format date
-
-**Overloads:**
-
->Parameters
->* format: (String) Format syntax to use to to format date
->* options: (DateFormatOptions) specs with optional properties:<br />(Bool) gmt<br />(Int) offset
 
 ### HTTP
 
@@ -498,7 +493,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 >* htmlTemplate: (String) Template to be used
 >* objs: (Object[]) Objects to fill the template variables
->* options: (FillTemplateOptions) Options to use: max,offset,newlineToHtml,preserve_nonmatching
+>* options?: (HelperOptions) Options to use: max,offset,newlineToHtml,preserveNonMatching,removeNewLineFromLogicalSyntax,removeWhitespaceFromLogicalSyntax
 
 **Overloads:**
 
@@ -510,23 +505,12 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >Parameters
 >* htmlTemplate: (String) Template to be used
 >* objs: (Object[]) Objects to fill the template variables
->* offset: (Int) The start index of the Object array
->* max: (Int) The maximum number of records to process
-
->Parameters
->* htmlTemplate: (String) Template to be used
->* objs: (Object[]) Objects to fill the template variables
->* offset: (Int) The start index of the Object array
->* max: (Int) The maximum number of records to process
->* newlineToHtml: (Boolean) Flag to replace all new line chars () to the HTML <br /> tag.  Default is true.
-
->Parameters
->* htmlTemplate: (String) Template to be used
->* objs: (Object[]) Objects to fill the template variables
->* offset: (Int) The start index of the Object array
->* max: (Int) The maximum number of records to process
->* newlineToHtml: (Boolean) Flag to replace all new line chars () to the HTML <br /> tag.  Default is true.
->* preserve_nonmatching: (Boolean) Flag to used to leave template variables that were not replaced.
+>* offset?: (Int) The start index of the Object array
+>* max?: (Int) The maximum number of records to process
+>* newlineToHtml?: (Boolean) Flag to replace all new line chars () to the HTML <br /> tag.  Default is true.
+>* preserveNonMatching?: (Boolean) Flag to used to leave template variables that were not replaced.
+>* removeNewLineFromLogicalSyntax?: (Boolean) Flag to used to remove new lines from logical syntax.
+>* removeWhitespaceFromLogicalSyntax?: (Boolean) Flag to used to remove whitespace caused by line formatting from logical syntax.
 
 ### Utility
 
@@ -562,7 +546,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 **Overloads:**
 
 >Parameters
->* files: (String) Name of the file
+>* filename: (String) Name of the file
 >* content: (String) contents of the file
 
 
@@ -583,15 +567,12 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 **Parameters:**
 
 >* parentFinder: (TreeParentFinder<T>) Function to determine the parent.  Should return a boolean value and is passed the current item as an argument.
->* childFinder: (String) Property name of the object to use as a grouping.
+>* childFinder: (String|TreeChildFinder<T>) Property name of the object to use as a grouping.
 >* options?: (TreeOptions) Options to customize properties,  Valid property is:<br />childProperty
 
 **Overloads:**
 
->Parameters
->* parentFinder: (TreeParentFinder<T>) Function to determine the parent.  Should return a boolean value and is passed the current item as an argument.
->* childFinder: (TreeChildFinder<T>) Function to determine the grouping.
->* options?: (TreeOptions) Options to customize properties,  Valid property is:<br />childProperty
+>None
 
 *** 
 #### _condense_ 
@@ -599,16 +580,15 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Info:** Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls
 
-**Return:** (Array<T>)
+**Return:** (Array<T>) returns a condensed version of the array.
 
 **Parameters:**
 
->None
+>* check_values?: (Bool) Set craydent_ctx flag to remove duplicates
 
 **Overloads:**
 
->Parameters
->* check_values: (Bool) Flag to remove duplicates
+>None
 
 *** 
 #### _createIndex_ 
@@ -654,14 +634,12 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Parameters:**
 
->* fields: (String) Fields to use as the projection and unique comparison (comma delimited)
+>* fields: (String|Array<String>) Fields to use as the projection and unique comparison (comma delimited) or array of fields
 >* condition?: (String|WhereCondition) Query following SQL where clause syntax
 
 **Overloads:**
 
->Parameters
->* fields: (Array<String>) Fields to use as the projection and unique comparison
->* condition?: (String|WhereCondition) Query following SQL where clause syntax
+>None
 
 *** 
 #### _emit_ 
@@ -674,7 +652,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 **Parameters:**
 
 >* event: (String) Event to trigger.
->* ...infinite: (any) any number of arguments can be passed and will be applied to listening functions.
+>* ...infinite: (any) any number of arguments can be passed and will be applied to listening functions as arguments.
 
 **Overloads:**
 
@@ -686,11 +664,11 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Info:** Array class extension to implement filter
 
-**Return:** (Array<TResult>)
+**Return:** (Array<T>)
 
 **Parameters:**
 
->* func: (ArrayIterator<T, TResult>) Callback function used to determine if value should be returned. Callback will get the current item, index, context as arguments.
+>* func: (ArrayIterator<T>) Callback function used to determine if value should be returned. Callback will get the current item, index, context as arguments.
 >* craydent_ctxs?: (any) Specify the context on callback function
 
 **Overloads:**
@@ -703,28 +681,12 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Info:** Array class extension to group records by fields
 
-**Return:** (Array<TResult>)
+**Return:** (Array<T>)
 
 **Parameters:**
 
->* params: (GroupOptions<T, TResult>) specs with common properties:<br />(Object) key<br />(Object | string) condition<br />(Function) reduce<br />(Object) initial<br />(Array<string> | Function) keyf<br />(Function) finalize
+>* params: (GroupOptions<T>) specs with common properties:<br />(Object) key<br />(Object | string) condition<br />(Function) reduce<br />(Object) initial<br />(Array<string> | Function) keyf<br />(Function) finalize
 >* removeProps?: (Bool) Flag to preserve property if the value is null or undefined.
-
-**Overloads:**
-
->None
-
-*** 
-#### _indexOf_ 
-***
-
-**Info:** Array class extension to implement indexOf
-
-**Return:** (Int)
-
-**Parameters:**
-
->* value: (any) value to find
 
 **Overloads:**
 
@@ -736,7 +698,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Info:** Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression
 
-**Return:** (Int) returns the index of the item that matches or -1. 
+**Return:** (Integer)
 
 **Parameters:**
 
@@ -761,22 +723,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 >* arr: (Array<T>) Array to be joined with
 >* on: (String) Condition to join on
-
-**Overloads:**
-
->None
-
-*** 
-#### _insert_ 
-***
-
-**Info:** Array class extension to add to the array
-
-**Return:** (Bool) returns true for success and false for failure.
-
-**Parameters:**
-
->* value: (any) value to add
 
 **Overloads:**
 
@@ -935,26 +881,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >None
 
 *** 
-#### _parallelEach_ 
-***
-
-**Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
-
-**Return:** (Promise<any[]>)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->Parameters
->* func: (Yieldables) function to apply to each item
-
->Parameters
->* args: (Array<Yieldables>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, async functions, or functions)
-
-*** 
 #### _remove_ 
 ***
 
@@ -965,7 +891,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 **Parameters:**
 
 >* value: (any) Value to remove
->* indexOf?: (IndexOf<T>) Callback function to use to find the item based on the value
+>* indexOf?: (ArrayIterator<T>) Callback function to use to find the item based on the value
 
 **Overloads:**
 
@@ -1126,13 +1052,11 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 >* condition: (WhereCondition) Query following find/where clause syntax
 >* setClause: (MongoSet) Set clause used to update the records
+>* options?: (UpdateOptions) Options to specify if mulit update and/or upsert
 
 **Overloads:**
 
->Parameters
->* condition: (WhereCondition) Query following find/where clause syntax
->* setClause: (MongoSet) Set clause used to update the records
->* options: (UpdateOptions) Options to specify if mulit update and/or upsert
+>None
 
 *** 
 #### _upsert_ 
@@ -1194,57 +1118,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >* records: (Object) Object used to create the iterator to iterate each property
 
 *** 
-#### _OrderedList_ 
-***
-
-**Info:** Collection class that filters out duplicate values and maintains an ordered list
-
-**Return:** (IOrderedList<T>)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->Parameters
->* records: (Array<T>) Array used to create the initial items in the ordered list
->* sorter?: (SortIterator<T>) Function for sorting logic
-
-*** 
-#### _Queue_ 
-***
-
-**Info:** Collection class that follows FIFO
-
-**Return:** (IQueue<T>)
-
-**Parameters:**
-
->* records: (Array<T>) Array used to create the iterator to iterate each item
-
-**Overloads:**
-
->None
-
-*** 
-#### _Set_ 
-***
-
-**Info:** Collection class that filters out duplicate values
-
-**Return:** (ISet<T, TResult>)
-
-**Parameters:**
-
->* records: (Array<T>) Array used to create the iterator to iterate each item
-
-**Overloads:**
-
->None
-
-*** 
-#### _context_ 
+#### _ServerManager_ 
 ***
 
 **Info:** Class used to create a new context for HTTP server
@@ -1260,26 +1134,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 >None
 
-<a name='markdown-header-cli'></a>
-## CLI
-
-*** 
-#### _CLI_ 
-***
-
-**Info:** CLI parser for arguments and simplem method to execute shell commands
-
-**Return:** (CLI)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->Parameters
->* options: (CLIOption[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false).
-
 <a name='markdown-header-control-flow'></a>
 ## Control Flow
 
@@ -1287,54 +1141,34 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 #### _awaitable_ 
 ***
 
-**Info:** Makes a value yieldable via a Promise.
+**Info:** Makes a value awaitable via a Promise.
 
 **Return:** (Promise<any>)
 
 **Parameters:**
 
->* value: (YieldableValue) Value to make yieldable
+>* value: (AwaitableValue) Value to make awaitable
 
 **Overloads:**
 
 >Parameters
->* func: (Function) Function to make yieldable
+>* func: (Function) Function to make awaitable
 >* context: (any) Context to use to execute func.
 
 >Parameters
->* func: (Function) Function to make yieldable
+>* func: (Function) Function to make awaitable
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
->* func: (Function) Function to make yieldable
+>* func: (Function) Function to make awaitable
 >* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
->* func: (Function) Function to make yieldable
+>* func: (Function) Function to make awaitable
 >* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 >* returnIndex: (Integer) Index of callback argument.
-
-*** 
-#### _parallelEach_ 
-***
-
-**Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
-
-**Return:** (Promise<any[]>)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->Parameters
->* func: (Yieldables) function to apply to each item
-
->Parameters
->* args: (Array<Yieldables>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, async functions, or functions)
 
 *** 
 #### _syncroit_ 
@@ -1384,57 +1218,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 >* returnIndex: (Integer) Index of callback argument.
-
-<a name='markdown-header-date'></a>
-## Date
-
-*** 
-#### _getDayOfYear_ 
-***
-
-**Info:** Date class extension to retrieve the day of the year
-
-**Return:** (Int)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->None
-
-*** 
-#### _getWeek_ 
-***
-
-**Info:** Date class extension to retrieve the week number in the year
-
-**Return:** (Int)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->None
-
-*** 
-#### _isValidDate_ 
-***
-
-**Info:** Date class extension to check if the date is valid
-
-**Return:** (Bool)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->None
 
 <a name='markdown-header-fs'></a>
 ## FS
@@ -1508,6 +1291,22 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 ***
 
 **Info:** A promisified version of close.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (any)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _copyFile_ 
+***
+
+**Info:** A promisified version of copyFile.  The arguments are the same as the native fs methods minus the callback.
 
 **Return:** (any)
 
@@ -1936,22 +1735,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >None
 
 *** 
-#### _write_ 
-***
-
-**Info:** A promisified version of write.  The arguments are the same as the native fs methods minus the callback.
-
-**Return:** (any)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->None
-
-*** 
 #### _writeFile_ 
 ***
 
@@ -1967,24 +1750,24 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 >None
 
-<a name='markdown-header-function'></a>
-## Function
-
 *** 
-#### _catch_ 
+#### _write_ 
 ***
 
-**Info:** Function listener to register the catch event
+**Info:** A promisified version of write.  The arguments are the same as the native fs methods minus the callback.
 
-**Return:** (craydent_ctx)
+**Return:** (any)
 
 **Parameters:**
 
->* func: (Function) Function to call on emit
+>None
 
 **Overloads:**
 
 >None
+
+<a name='markdown-header-function'></a>
+## Function
 
 *** 
 #### _emit_ 
@@ -1997,57 +1780,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 **Parameters:**
 
 >* event: (String) Event to trigger.
->* ...infinite: (any) any number of arguments can be passed and will be applied to listening functions.
-
-**Overloads:**
-
->None
-
-*** 
-#### _extends_ 
-***
-
-**Info:** Function class extension to extend another class
-
-**Return:** (Function)
-
-**Parameters:**
-
->* extendee: (Class) Class to extend
-
-**Overloads:**
-
->Parameters
->* extendee: (Class) Class to extend
->* inheritAsOwn: (Boolean) Flag to inherit and for values hasOwnProperty to be true.
-
-*** 
-#### _getName_ 
-***
-
-**Info:** Function class extension to get the name of the function
-
-**Return:** (String)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->None
-
-*** 
-#### _getParameters_ 
-***
-
-**Info:** Function class extension to get parameters in definition
-
-**Return:** (Array<T>)
-
-**Parameters:**
-
->None
+>* ...infinite: (any) any number of arguments can be passed and will be applied to listening functions as arguments.
 
 **Overloads:**
 
@@ -2075,40 +1808,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Info:** Function listener to register events
 
-**Return:** (String)
-
-**Parameters:**
-
->* event: (String) Event to listen on and invoked on emit
->* func: (Function) Function to call on emit
-
-**Overloads:**
-
->None
-
-*** 
-#### _then_ 
-***
-
-**Info:** Function listener to register the then event
-
-**Return:** (craydent_ctx)
-
-**Parameters:**
-
->* func: (Function) Function to call on emit
-
-**Overloads:**
-
->None
-
-*** 
-#### _toPromise_ 
-***
-
-**Info:** Function listener to register events
-
-**Return:** (String)
+**Return:** (Function)
 
 **Parameters:**
 
@@ -2740,7 +2440,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >* data: (Object) Object to send in response.
 
 *** 
-#### _var_dump_ 
+#### _varDump_ 
 ***
 
 **Info:** Dump of variables to response.
@@ -2831,6 +2531,48 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >None
 
 *** 
+#### _contains_ 
+***
+
+**Info:** Object class extension to check if value exists
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* val: (ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity
+
+**Overloads:**
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ContainsIterator<T>) Callback function used to do the comparison
+
+>Parameters
+>* val: (ContainsValue) Value to check
+>* func: (ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type")
+
+>Parameters
+>* arr: (Array<TValue>) Array of values to return first matching value
+
+*** 
+#### _equals_ 
+***
+
+**Info:** Object class extension to check if object values are equal
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* compare: (any) Object to compare against
+>* props?: (String[]) Array of property values to compare against
+
+**Overloads:**
+
+>None
+
+*** 
 #### _isEven_ 
 ***
 
@@ -2877,13 +2619,11 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 >* name: (String) name of the method to add
 >* fn: (Function) method implementation
+>* override?: (Bool) if true, override the previously defined prototype
 
 **Overloads:**
 
->Parameters
->* name: (String) name of the method to add
->* fn: (Function) method implementation
->* override: (Bool) if true, override the previously defined prototype
+>None
 
 *** 
 #### _changes_ 
@@ -2924,7 +2664,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >* func: (ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type")
 
 >Parameters
->* arr: (Array<T>) Array of values to return first matching value
+>* arr: (Array<TValue>) Array of values to return first matching value
 
 *** 
 #### _copyObject_ 
@@ -2971,7 +2711,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Info:** Object class extension to copy an object including constructor
 
-**Return:** (any)
+**Return:** (Object)
 
 **Parameters:**
 
@@ -2998,23 +2738,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >None
 
 *** 
-#### _equals_ 
-***
-
-**Info:** Object class extension to check if object values are equal
-
-**Return:** (Bool)
-
-**Parameters:**
-
->* compare: (any) Object to compare against
->* props?: (String[]) Array of property values to compare against
-
-**Overloads:**
-
->None
-
-*** 
 #### _every_ 
 ***
 
@@ -3031,6 +2754,23 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >Parameters
 >* callback: (ObjectIterator<T, TValue>) Callback to apply to each value
 >* craydent_ctxObject: (any) Context for the callback function
+
+*** 
+#### _equals_ 
+***
+
+**Info:** Object class extension to check if object values are equal
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* compare: (any) Object to compare against
+>* props?: (String[]) Array of property values to compare against
+
+**Overloads:**
+
+>None
 
 *** 
 #### _getClass_ 
@@ -3063,27 +2803,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 **Overloads:**
 
 >None
-
-*** 
-#### _getValue_ 
-***
-
-**Info:** Object class extension to retrieve value of an object property
-
-**Return:** (any)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->Parameters
->* dflt: (any) Default value to return if context is not a function
-
->Parameters
->* args: (any[]) An array of arguments to pass to context when it is a function
->* dflt: (any) Default value to return if context is not a function
 
 *** 
 #### _has_ 
@@ -3219,7 +2938,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 #### _isError_ 
 ***
 
-**Info:** Object class extension to check if object is a boolean
+**Info:** Object class extension to check if object is an error object
 
 **Return:** (Bool)
 
@@ -3300,6 +3019,22 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 ***
 
 **Info:** Object class extension to check if object is an integer
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isNullOrEmpty_ 
+***
+
+**Info:** Object class extension to check if object is a null or empty (object with no props, empty string, etc)
 
 **Return:** (Bool)
 
@@ -3402,6 +3137,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 **Parameters:**
 
 >* compare: (any) Superset to compare against
+>* sharesAny: (Boolean) Flag to check if any property is shared
 
 **Overloads:**
 
@@ -3585,37 +3321,12 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Parameters:**
 
->* pos: (Int|Int[]) Index of the string to capitalize
->* everyWord: (Bool) Flag to capital every word
+>* pos?: (Int|Int[]) Index of the string to capitalize
+>* everyWord?: (Bool) Flag to capital every word
 
 **Overloads:**
 
 >None
-
-*** 
-#### _contains_ 
-***
-
-**Info:** Object class extension to check if value exists
-
-**Return:** (Bool)
-
-**Parameters:**
-
->* val: (ContainsValue|ContainsObjectIterator<T, TValue>) Value to check or custom function to determine validity
-
-**Overloads:**
-
->Parameters
->* val: (ContainsValue) Value to check
->* func: (ContainsIterator<T>) Callback function used to do the comparison
-
->Parameters
->* val: (ContainsValue) Value to check
->* func: (ComparisonOperator) String indicating logical operator ("$lt"|"$lte"|"$gt"|"$gte"|"$mod"|"$type")
-
->Parameters
->* arr: (Array<T>) Array of values to return first matching value
 
 *** 
 #### _convertUTCDate_ 
@@ -3692,77 +3403,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >None
 
 *** 
-#### _endItWith_ 
-***
-
-**Info:** String class extension to guarantee the original string ends with the passed string
-
-**Return:** (String)
-
-**Parameters:**
-
->* ending: (String) String to end with
-
-**Overloads:**
-
->None
-
-*** 
-#### _endsWith_ 
-***
-
-**Info:** String class extension to check if the string ends with the given string
-
-**Return:** (Bool|String)
-
-**Parameters:**
-
->* ...infinite: (String[]) any number of arguments can be passed
-
-**Overloads:**
-
->Parameters
->* arr: (String[]) An array of strings to check
-
-*** 
-#### _endsWithAny_ 
-***
-
-**Info:** String class extension to check if the string ends with the given string
-
-**Return:** (Bool|String)
-
-**Parameters:**
-
->* ...infinite: (String[]) any number of arguments can be passed
-
-**Overloads:**
-
->Parameters
->* arr: (String[]) An array of strings to check
-
-*** 
-#### _getValue_ 
-***
-
-**Info:** Object class extension to retrieve value of an object property
-
-**Return:** (any)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->Parameters
->* dflt: (any) Default value to return if context is not a function
-
->Parameters
->* args: (any[]) An array of arguments to pass to context when it is a function
->* dflt: (any) Default value to return if context is not a function
-
-*** 
 #### _highlight_ 
 ***
 
@@ -3775,6 +3415,42 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >* search: (String|RegExp) String or Regular expression to search
 >* cssClass?: (String) Class to add for highlighting
 >* tag?: (String) Tag to use to surround the search
+
+**Overloads:**
+
+>None
+
+*** 
+#### _indexOfAlt_ 
+***
+
+**Info:** Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression
+
+**Return:** (Integer)
+
+**Parameters:**
+
+>* value: (any) value to find
+>* func: (ArrayIterator<T, TResult>) Callback function used to do the comparison
+
+**Overloads:**
+
+>Parameters
+>* regex: (RegExp) Regular expression to check value against
+>* pos?: (Int) Index offset to start
+
+*** 
+#### _ireplaceAll_ 
+***
+
+**Info:** String class extension to replace all substrings ignoring case
+
+**Return:** (String)
+
+**Parameters:**
+
+>* replace: (String|String[]) String or Array of strings to replace
+>* subject: (String|String[]) String or Array of strings to replace with
 
 **Overloads:**
 
@@ -3895,6 +3571,23 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >None
 
 *** 
+#### _replaceAll_ 
+***
+
+**Info:** String class extension to replace all substrings (case sensitive)
+
+**Return:** (String)
+
+**Parameters:**
+
+>* replace: (String|String[]) String or Array of strings to replace
+>* subject: (String|String[]) String or Array of strings to replace with
+
+**Overloads:**
+
+>None
+
+*** 
 #### _replace_all_ 
 ***
 
@@ -3992,40 +3685,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >None
 
 *** 
-#### _startsWith_ 
-***
-
-**Info:** String class extension to check if the string starts with the given string
-
-**Return:** (Bool|String)
-
-**Parameters:**
-
->* ...infinite: (String[]) any number of String arguments can be passed
-
-**Overloads:**
-
->Parameters
->* arr: (String[]) An array of strings to check
-
-*** 
-#### _startsWithAny_ 
-***
-
-**Info:** String class extension to check if the string starts with the given string
-
-**Return:** (Bool|String)
-
-**Parameters:**
-
->* ...infinite: (String[]) any number of String arguments can be passed
-
-**Overloads:**
-
->Parameters
->* arr: (String[]) An array of strings to check
-
-*** 
 #### _strip_ 
 ***
 
@@ -4035,7 +3694,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Parameters:**
 
->* character: (Char[]) Character to remove
+>* character?: (Char[]) Character to remove
 
 **Overloads:**
 
@@ -4155,6 +3814,333 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 >None
 
+<a name='markdown-header-typeof'></a>
+## TypeOf
+
+*** 
+#### _isArray_ 
+***
+
+**Info:** Object class extension to check if object is an array
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isAsync_ 
+***
+
+**Info:** Object class extension to check if object is a async function
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isBetween_ 
+***
+
+**Info:** Object class extension to check if object is between lower and upper bounds
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* lowerBound: (any) Lower bound comparison
+>* upperBound: (any) Upper bound comparison
+>* inclusive?: (Bool) Flag to include give bounds
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isBoolean_ 
+***
+
+**Info:** Object class extension to check if object is a boolean
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isDate_ 
+***
+
+**Info:** Object class extension to check if object is a date
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isDomElement_ 
+***
+
+**Info:** Object class extension to check if object is a DOM element
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isEmpty_ 
+***
+
+**Info:** Object class extension to check if it is empty
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isError_ 
+***
+
+**Info:** Object class extension to check if object is an error object
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isFloat_ 
+***
+
+**Info:** Object class extension to check if object is a float
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isFunction_ 
+***
+
+**Info:** Object class extension to check if object is a function
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isGenerator_ 
+***
+
+**Info:** Object class extension to check if object is a generator function
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isGeolocation_ 
+***
+
+**Info:** Object class extension to check if object is a geolocation
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isInt_ 
+***
+
+**Info:** Object class extension to check if object is an integer
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isNull_ 
+***
+
+**Info:** Check if a value is Null
+
+**Return:** (Bool|any)
+
+**Parameters:**
+
+>* value: (any) Value to check
+
+**Overloads:**
+
+>Parameters
+>* value: (any) Value to check
+>* defaultValue: (any) Value to return if null
+
+*** 
+#### _isNullOrEmpty_ 
+***
+
+**Info:** Object class extension to check if object is a null or empty (object with no props, empty string, etc)
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isNumber_ 
+***
+
+**Info:** Object class extension to check if object is a number
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isObject_ 
+***
+
+**Info:** Object class extension to check if object is an object
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isPromise_ 
+***
+
+**Info:** Object class extension to check if object is a promise object
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isRegExp_ 
+***
+
+**Info:** Object class extension to check if object is a RegExp
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isString_ 
+***
+
+**Info:** Object class extension to check if object is a string
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
 <a name='markdown-header-utility'></a>
 ## Utility
 
@@ -4170,13 +4156,11 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 >* name: (String) name of the method to add
 >* fn: (Function) method implementation
+>* override?: (Bool) if true, override the previously defined prototype
 
 **Overloads:**
 
->Parameters
->* name: (String) name of the method to add
->* fn: (Function) method implementation
->* override: (Bool) if true, override the previously defined prototype
+>None
 
 *** 
 #### _ajax_ 
@@ -4201,31 +4185,31 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 #### _awaitable_ 
 ***
 
-**Info:** Makes a value yieldable via a Promise.
+**Info:** Makes a value awaitable via a Promise.
 
 **Return:** (Promise<any>)
 
 **Parameters:**
 
->* value: (YieldableValue) Value to make yieldable
+>* value: (AwaitableValue) Value to make awaitable
 
 **Overloads:**
 
 >Parameters
->* func: (Function) Function to make yieldable
+>* func: (Function) Function to make awaitable
 >* context: (any) Context to use to execute func.
 
 >Parameters
->* func: (Function) Function to make yieldable
+>* func: (Function) Function to make awaitable
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
->* func: (Function) Function to make yieldable
+>* func: (Function) Function to make awaitable
 >* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 
 >Parameters
->* func: (Function) Function to make yieldable
+>* func: (Function) Function to make awaitable
 >* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 >* returnIndex: (Integer) Index of callback argument.
@@ -4295,23 +4279,6 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 >None
 
 *** 
-#### _error_ 
-***
-
-**Info:** User implemented place holder function to handle errors
-
-**Return:** (void)
-
-**Parameters:**
-
->* fname: (String) The function name the error was thrown
->* e: (Error) Exception object thrown
-
-**Overloads:**
-
->None
-
-*** 
 #### _exclude_ 
 ***
 
@@ -4358,9 +4325,25 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Overloads:**
 
+>None
+
+*** 
+#### _isNull_ 
+***
+
+**Info:** Check if a value is Null
+
+**Return:** (Bool|any)
+
+**Parameters:**
+
+>* value: (any) Value to check
+
+**Overloads:**
+
 >Parameters
->* path: (String) Module or Path to module.
->* refresh: (Boolean) Flag to clear cache for the specific include.
+>* value: (any) Value to check
+>* defaultValue: (any) Value to return if null
 
 *** 
 #### _logit_ 
@@ -4506,8 +4489,8 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Parameters:**
 
->* num1: (Number) Lower bound
->* num2: (Number) Upper bound
+>* num?1: (Number) Lower bound
+>* num2?: (Number) Upper bound
 >* inclusive?: (Bool) Flag to include the given numbers
 
 **Overloads:**
@@ -4642,7 +4625,7 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
 
 **Parameters:**
 
->* xml: (String|XMLDOM) XML string or XML DOM
+>* xml: (String|XMLDocument) XML string or XML DOM
 >* ignoreAttributes?: (Bool) Flag to ignore attributes
 
 **Overloads:**
@@ -4657,5 +4640,4 @@ LOCAL_IP (String) |ROUTE_API_PATH (String) |
  * [GitHub](https://github.com/craydent/node-library)
  * [BitBucket](https://bitbucket.org/craydent/node-library)
  * [GitLab](https://gitlab.com/craydent/node-library)
-
 Craydent is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>

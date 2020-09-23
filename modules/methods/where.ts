@@ -496,6 +496,63 @@ export default function where<T>(objs: AnyObjects, condition?: MongoQuery, limit
 export default function where<T>(objs: AnyObjects, condition?: MongoQuery, useReference?: boolean, limit?: number): T[];
 export default function where<T>(objs: AnyObjects, condition?: MongoQuery, projection?: WhereProjection, limit?: number): T[];
 export default function where<T>(objs, condition?, projection?, limit?): T[] {
+    /*|{
+        "info": "Array class extension to use mongo or sql queries",
+        "category": "Array",
+        "featured": true,
+        "parameters":[
+            {"condition": "(WhereCondition) Query following mongo find/where clause syntax"}],
+
+        "overloads":[
+            {"parameters":[
+                {"condition": "(WhereCondition) Query following mongo find/where clause syntax"},
+                {"limit": "(number) Limit the number of the results returned."}]},
+
+            {"parameters":[
+                {"condition": "(WhereCondition) Query following mongo find/where clause syntax"},
+                {"projection": "(Object) Indicate which properties to return"}]},
+
+            {"parameters":[
+                {"condition": "(WhereCondition) Query following mongo find/where clause syntax"},
+                {"useReference": "(Bool) Flag to make a copy instead of using references"}]},
+
+            {"parameters":[
+                {"condition": "(WhereCondition) Query following mongo find/where clause syntax"},
+                {"projection": "(Object) Indicate which properties to return"},
+                {"limit": "(Int) Limit the number of the results returned."}]},
+
+            {"parameters":[
+                {"condition": "(WhereCondition) Query following mongo find/where clause syntax"},
+                {"useReference": "(Bool) Flag to make a copy instead of using references"},
+                {"limit": "(Int) Limit the number of the results returned."}]},
+
+
+            {"parameters":[
+                {"condition": "(WhereIterator<T>) The funciton invoked per iteration."},
+                {"limit": "(number) Limit the number of the results returned."}]},
+
+            {"parameters":[
+                {"condition": "(WhereIterator<T>) The funciton invoked per iteration."},
+                {"projection": "(Object) Indicate which properties to return"}]},
+
+            {"parameters":[
+                {"condition": "(WhereIterator<T>) The funciton invoked per iteration."},
+                {"useReference": "(Bool) Flag to make a copy instead of using references"}]},
+
+            {"parameters":[
+                {"condition": "(WhereIterator<T>) The funciton invoked per iteration."},
+                {"projection": "(Object) Indicate which properties to return"},
+                {"limit": "(Int) Limit the number of the results returned."}]},
+
+            {"parameters":[
+                {"condition": "(WhereIterator<T>) The funciton invoked per iteration."},
+                {"useReference": "(Bool) Flag to make a copy instead of using references"},
+                {"limit": "(Int) Limit the number of the results returned."}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.where",
+        "typeParameter": "<T>",
+        "returnType": "(Array<T>) returns a filtered subset of the array."
+    }|*/
     try {
         let records = objs as IndexedArray<T>;
         if (!records || !records.length) { return []; }

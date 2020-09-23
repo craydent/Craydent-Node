@@ -5,6 +5,20 @@ import { IndexedArray, IndexedBucket } from '../models/Arrays';
 import isNull from '../methods/isNull';
 
 export default function createIndex<T>(objs: T[], indexes: string | string[]): IndexedArray<T> {
+    /*|{
+        "info": "Array class extension to create indexes for faster searches during where",
+        "category": "Array",
+        "parameters":[
+            {"properties": "(string) Property or comma delimited property list to index."}],
+
+        "overloads":[
+            {"parameters":[
+                {"indexes": "(Array<string>) Array of properties to index"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.createIndex",
+        "typeParameter": "<T>",
+        "returnType": "(Array<T> | Bool) returns the Array<T> if successfull otherwise false."
+    }|*/
     try {
         let arr = objs as IndexedArray<T>;
         arr.__indexed_buckets = arr.__indexed_buckets || {};

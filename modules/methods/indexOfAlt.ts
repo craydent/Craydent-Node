@@ -13,6 +13,22 @@ export default function indexOfAlt(obj: any[], regex: RegExp, pos?: number): num
 export default function indexOfAlt<T>(obj: string, value: string, pos?: number): number;
 export default function indexOfAlt(obj: string, regex: RegExp, pos?: number): number;
 export default function indexOfAlt(obj, value, func, pos?): number {
+    /*|{
+        "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
+        "category": "Array",
+        "parameters":[
+            {"value": "(any) value to find"},
+            {"func": "(ArrayIterator<T, TResult>) Callback function used to do the comparison"}],
+
+        "overloads":[
+            {"parameters":[
+                {"regex": "(RegExp) Regular expression to check value against"},
+                {"pos?": "(Int) Index offset to start"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.indexOfAlt",
+        "typeParameter": "<T, TResult>",
+        "returnType": "(Int) returns the index of the item that matches or -1. "
+    }|*/
     try {
         if (isNumber(func)) {
             pos = func;
