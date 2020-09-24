@@ -6,7 +6,40 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-
+/*
+TEMPLATE DATA for readme
+{
+    version
+    prefix
+    suffix
+    categories:[
+        'Constant'
+    ]
+    constants:[{
+      name,
+      type
+    }]
+    featured:[{
+        category
+        features:[{
+            name
+            info
+            return
+            parameters:['']
+        }]
+    }]
+    methods:[{
+        name
+        functions:[{
+            name
+            info
+            return
+            parameters:['']
+            overloads:['']
+        }]
+    }]
+}
+*/
 var root = require.resolve('../package.json').replace('/package.json', '');
 var version = require(`${root}/package.json`, "utf8").version;
 var mod = root;
