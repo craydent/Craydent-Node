@@ -18,7 +18,7 @@ describe('copyFile', () => {
     })
     it('should return error when there are errors', async () => {
         _copyFile = jest.fn().mockImplementationOnce((...args) => { args[args.length - 1]({}); });
-        expect(await copyFile('/the/path.js', '', 1)).toEqual({});
+        expect(await copyFile('/the/path.js', 'dest', 1)).toEqual({});
         expect(_copyFile).toHaveBeenLastCalledWith('/the/path.js', 'dest', 1, expect.any(Function));
     })
 });
