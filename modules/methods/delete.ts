@@ -18,23 +18,23 @@ import _subQuery from '../protected/_subQuery';
 
 export default function deleteIt<T>(objs: T[], condition?: WhereCondition, justOne?: boolean): T[];
 export default function deleteIt<T>(objs: T[], condition?: WhereCondition, options?: DeleteOptions): T[];
-/*|{
-    "info": "Array class extension to delete records",
-    "category": "Array",
-    "defaults": {
-        "justOne": true
-    },
-    "parameters":[
-        {"condition": "(WhereCondition) Query following find/where clause syntax"},
-        {"justOne?": "(Bool) Flag for deleting just one records [Default is: true]"}],
-
-    "overloads":[],
-
-    "url": "http://www.craydent.com/library/1.9.3/docs#array.delete",
-    "typeParameter": "<T>",
-    "returnType": "(Array<T>) returns a list of the deleted objects."
-}|*/
 export default function deleteIt<T>(objs, condition?, justOne?): T[] {
+    /*|{
+        "info": "Array class extension to delete records",
+        "category": "Array",
+        "defaults": {
+            "justOne": true
+        },
+        "parameters":[
+            {"condition": "(WhereCondition) Query following find/where clause syntax"},
+            {"justOne?": "(Bool) Flag for deleting just one records [Default is: true]"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.delete",
+        "typeParameter": "<T>",
+        "returnType": "(Array<T>) returns a list of the deleted objects."
+    }|*/
     try {
         let docs = objs as IndexedArray<T>;
         const _equals = equals,

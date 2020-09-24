@@ -29,30 +29,30 @@ export function _orderListHelper<T>(value: T, sorter: SortIterator<T>, arr: T[])
 function iterator(a, b) { if (a < b) { return -1; } if (a > b) { return 1; } return 0; };
 
 class OrderedList<T> extends Array<T> {
-    /*|{
-        "info": "Collection class that filters out duplicate values and maintains an ordered list",
-        "category": "Class",
-        "parameters":[],
-
-        "overloads":[
-            {"parameters":[
-                {"records?": "(Array<T>) Array used to create the initial items in the ordered list"},
-                {"sorter?": "(SortIterator<T>) Function for sorting logic"}]}],
-
-        "instanceProperties":[
-            {"name":"add", "type":"(value:T) => boolean"},
-            {"name":"hasNext", "type":"() => boolean"},
-            {"name":"next", "type":"() => {value:T, done:boolean}"},
-            {"name":"size", "type":"() => number"}
-        ],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#OrderedList",
-        "typeParameter": "<T>",
-        "returnType": "(IOrderedList<T>)"
-    }|*/
     private sorter: SortIterator<T>;
     /* istanbul ignore next */
     constructor(records: T[] = [], sorter: SortIterator<T> = iterator) {
+        /*|{
+            "info": "Collection class that filters out duplicate values and maintains an ordered list",
+            "category": "Class",
+            "parameters":[],
+
+            "overloads":[
+                {"parameters":[
+                    {"records?": "(Array<T>) Array used to create the initial items in the ordered list"},
+                    {"sorter?": "(SortIterator<T>) Function for sorting logic"}]}],
+
+            "instanceProperties":[
+                {"name":"add", "type":"(value:T) => boolean"},
+                {"name":"hasNext", "type":"() => boolean"},
+                {"name":"next", "type":"() => {value:T, done:boolean}"},
+                {"name":"size", "type":"() => number"}
+            ],
+
+            "url": "http://www.craydent.com/library/1.9.3/docs#OrderedList",
+            "typeParameter": "<T>",
+            "returnType": "(IOrderedList<T>)"
+        }|*/
         super();
         Object.setPrototypeOf(this, Object.create(OrderedList.prototype))
         let items = duplicate(records || [], true);

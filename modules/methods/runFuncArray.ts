@@ -22,7 +22,7 @@ export default function runFuncArray(funcs: Executables, args: any[] = []): any[
             {"funcs": "(Function[]) Array of methods to execute"},
             {"args": "(any[]) Array of arguments to be passed to each method"}],
 
-        "overloads":[]],
+        "overloads":[],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#runFuncArray",
         "returnType": "(Bool)"

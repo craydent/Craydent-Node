@@ -93,6 +93,22 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 ## Utility
 
 *** 
+#### _absolutePath_ 
+***
+
+**Info:** Method to make retrieve the absolute path of the provided path
+
+**Return:** (String)
+
+**Parameters:**
+
+>* path: (String) Path to convert to the absolute path
+
+**Overloads:**
+
+>None
+
+*** 
 #### _ajax_ 
 ***
 
@@ -208,22 +224,6 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
-#### _logit_ 
-***
-
-**Info:** Log to console when DEBUG_MODE is true and when the console is available
-
-**Return:** (void)
-
-**Parameters:**
-
->* ...infinite: (any) any number of arguments can be passed.
-
-**Overloads:**
-
->None
-
-*** 
 #### _include_ 
 ***
 
@@ -257,6 +257,22 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >Parameters
 >* value: (any) Value to check
 >* defaultValue: (any) Value to return if null
+
+*** 
+#### _logit_ 
+***
+
+**Info:** Log to console when DEBUG_MODE is true and when the console is available
+
+**Return:** (void)
+
+**Parameters:**
+
+>* ...infinite: (any) any number of arguments can be passed.
+
+**Overloads:**
+
+>None
 
 *** 
 #### _md5_ 
@@ -406,6 +422,23 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 
 >* path: (String) Path to directory.
 >* options?: (Char) 'r' Flag to use to indicate recursively require, (Char) 's' Flag to indicate use syncronous instead of Promise Pattern
+
+**Overloads:**
+
+>None
+
+*** 
+#### _runFuncArray_ 
+***
+
+**Info:** Executes array of methods
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* funcs: (Function[]) Array of methods to execute
+>* args: (any[]) Array of arguments to be passed to each method
 
 **Overloads:**
 

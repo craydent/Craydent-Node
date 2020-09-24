@@ -47,6 +47,26 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |VERSION (String) |
 
 ## Methods
 
+<a name='markdown-header-cli'></a>
+## CLI
+
+*** 
+#### _CLI_ 
+***
+
+**Info:** CLI parser for arguments and simplem method to execute shell commands
+
+**Return:** (CLI)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>Parameters
+>* options: (CLIOption[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false).
+
 
 
 

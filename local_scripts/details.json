@@ -62,6 +62,10 @@
             "swagger"
         ]
     },
+    "is": {
+        "description": "Node module for 'is' method checks",
+        "keywords": []
+    },
     "json-parser": {
         "description": "Node module to parse complex json including circular references",
         "keywords": [

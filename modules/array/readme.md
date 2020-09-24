@@ -429,6 +429,22 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
+#### _insert_ 
+***
+
+**Info:** Array class extension to add to the array
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* value: (Mixed) value to add
+
+**Overloads:**
+
+>None
+
+*** 
 #### _insertAfter_ 
 ***
 

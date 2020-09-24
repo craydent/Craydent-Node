@@ -5,4 +5,4 @@ BASEDIR=$(dirname "$0")
 cd $BASEDIR/..;
 npm run buildDev
 cd $BASEDIR
-./populateReadmes.sh && ./npmpublish.sh;
+./npmpublish.sh;

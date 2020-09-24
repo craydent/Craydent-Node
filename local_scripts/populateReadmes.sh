@@ -23,4 +23,5 @@ echo ">>>>>>>>>>>>>>> CREATING README <<<<<<<<<<<<<<<";
 ./createReadmeMajor.js /compiled/transformedMajor/utility;
 ./createReadmeMajor.js /compiled/transformedMajor/xml-to-json;
 ./createReadmeMajor.js
+./createReadmeMinor.js
 echo ">>>>>>>>>>>>>>> README COMPLETED <<<<<<<<<<<<<<<";

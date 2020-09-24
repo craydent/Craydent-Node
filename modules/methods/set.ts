@@ -5,29 +5,29 @@ import toSet from '../methods/toSet';
 import { ArrayIterator } from '../models/Arrays';
 
 class Set<T> extends Array<T> {
-    /*|{
-        "info": "Collection class that filters out duplicate values",
-        "category": "Class",
-        "parameters":[
-            {"records": "(Array<T>) Array used to create the iterator to iterate each item"}],
-
-        "overloads":[],
-
-        "instanceProperties":[
-            {"name":"add", "type":"(value:T) => boolean"},
-            {"name":"clean", "type":"() => void"},
-            {"name":"clear", "type":"(value?:T, indexOf?:ArrayIterator<T, TResult>) => void"},
-            {"name":"hasNext", "type":"() => boolean"},
-            {"name":"next", "type":"() => {value:T, done:boolean}"},
-            {"name":"size", "type":"() => number"}
-        ],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#Set",
-        "typeParameter": "<T, TResult>",
-        "returnType": "(ISet<T, TResult>)"
-    }|*/
     /* istanbul ignore next */
     constructor(records: T[] = []) {
+        /*|{
+            "info": "Collection class that filters out duplicate values",
+            "category": "Class",
+            "parameters":[
+                {"records": "(Array<T>) Array used to create the iterator to iterate each item"}],
+
+            "overloads":[],
+
+            "instanceProperties":[
+                {"name":"add", "type":"(value:T) => boolean"},
+                {"name":"clean", "type":"() => void"},
+                {"name":"clear", "type":"(value?:T, indexOf?:ArrayIterator<T, TResult>) => void"},
+                {"name":"hasNext", "type":"() => boolean"},
+                {"name":"next", "type":"() => {value:T, done:boolean}"},
+                {"name":"size", "type":"() => number"}
+            ],
+
+            "url": "http://www.craydent.com/library/1.9.3/docs#Set",
+            "typeParameter": "<T, TResult>",
+            "returnType": "(ISet<T, TResult>)"
+        }|*/
         super();
         const copy = duplicate(records, true);
         Object.setPrototypeOf(this, Object.create(Set.prototype))

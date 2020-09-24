@@ -207,18 +207,6 @@ function validate(self: CLI): void {
     }
 }
 class CLI {
-    /*|{
-        "info": "CLI parser for arguments and simplem method to execute shell commands",
-        "category": "CLI",
-        "parameters":[],
-
-        "overloads":[
-            {"parameters":[
-                {"options": "(CLIOption[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false)."}]}],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#CLI",
-        "returnType": "(CLI)"
-    }|*/
     public Interpreter: string;
     public ScriptPath: string;
     public ScriptName: string;
@@ -244,6 +232,18 @@ class CLI {
     public waitForPending: Promise<any>[];
 
     constructor(params?: CLIOptions) {
+        /*|{
+            "info": "CLI parser for arguments and simplem method to execute shell commands",
+            "category": "CLI",
+            "parameters":[],
+
+            "overloads":[
+                {"parameters":[
+                    {"options": "(CLIOption[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false)."}]}],
+
+            "url": "http://www.craydent.com/library/1.9.3/docs#CLI",
+            "returnType": "(CLI)"
+        }|*/
         params = params || {};
         let args = process.argv,
             self = this,

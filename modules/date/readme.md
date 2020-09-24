@@ -33,6 +33,7 @@ arr.prototypedMethod(args);
 ## Categories
 
 * [Constants](#markdown-header-constants)
+* [Featured](#markdown-header-featured)
 * [Date](#markdown-header-date)
 
 <a name='markdown-header-constants'></a>
@@ -44,8 +45,83 @@ arr.prototypedMethod(args);
 DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |
 ERROR_TYPES (Array) |PUBLIC_IP (String) |
 
+<a name='markdown-header-featured'></a>
+## Featured
+
+### Date
+
+*** 
+#### _format_ 
+***
+
+**Info:** Date class extension to convert to formatted string
+
+**Return:** (String)
+
+**Parameters:**
+
+>* format: (String) Format syntax to use to to format date
+
+**Overloads:**
+
+>Parameters
+>* format: (String) Format syntax to use to to format date
+>* options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset
+
+
 
 ## Methods
+
+<a name='markdown-header-date'></a>
+## Date
+
+*** 
+#### _getDayOfYear_ 
+***
+
+**Info:** Date class extension to retrieve the day of the year
+
+**Return:** (Int)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _getWeek_ 
+***
+
+**Info:** Date class extension to retrieve the week number in the year
+
+**Return:** (Int)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isValidDate_ 
+***
+
+**Info:** Date class extension to check if the date is valid
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
 
 
 

@@ -83,6 +83,56 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >Parameters
 >* records: (Object) Object used to create the iterator to iterate each property
 
+*** 
+#### _OrderedList_ 
+***
+
+**Info:** Collection class that filters out duplicate values and maintains an ordered list
+
+**Return:** (IOrderedList<T>)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>Parameters
+>* records?: (Array<T>) Array used to create the initial items in the ordered list
+>* sorter?: (SortIterator<T>) Function for sorting logic
+
+*** 
+#### _Queue_ 
+***
+
+**Info:** Collection class that follows FIFO
+
+**Return:** (IQueue<T>)
+
+**Parameters:**
+
+>* records: (Array<T>) Array used to create the iterator to iterate each item
+
+**Overloads:**
+
+>None
+
+*** 
+#### _Set_ 
+***
+
+**Info:** Collection class that filters out duplicate values
+
+**Return:** (ISet<T, TResult>)
+
+**Parameters:**
+
+>* records: (Array<T>) Array used to create the iterator to iterate each item
+
+**Overloads:**
+
+>None
+
 
 
 

@@ -264,6 +264,26 @@ HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 >* useReference: (Bool) Flag to make a copy instead of using references
 >* limit: (Int) Limit the number of the results returned.
 
+### Date
+
+*** 
+#### _format_ 
+***
+
+**Info:** Date class extension to convert to formatted string
+
+**Return:** (String)
+
+**Parameters:**
+
+>* format: (String) Format syntax to use to to format date
+
+**Overloads:**
+
+>Parameters
+>* format: (String) Format syntax to use to to format date
+>* options: (Object) specs with optional properties:<br />(Bool) gmt<br />(Int) offset
+
 ### HTTP
 
 *** 
@@ -729,6 +749,22 @@ HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 >None
 
 *** 
+#### _insert_ 
+***
+
+**Info:** Array class extension to add to the array
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* value: (Mixed) value to add
+
+**Overloads:**
+
+>None
+
+*** 
 #### _insertAfter_ 
 ***
 
@@ -1118,6 +1154,40 @@ HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 >* records: (Object) Object used to create the iterator to iterate each property
 
 *** 
+#### _OrderedList_ 
+***
+
+**Info:** Collection class that filters out duplicate values and maintains an ordered list
+
+**Return:** (IOrderedList<T>)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>Parameters
+>* records?: (Array<T>) Array used to create the initial items in the ordered list
+>* sorter?: (SortIterator<T>) Function for sorting logic
+
+*** 
+#### _Queue_ 
+***
+
+**Info:** Collection class that follows FIFO
+
+**Return:** (IQueue<T>)
+
+**Parameters:**
+
+>* records: (Array<T>) Array used to create the iterator to iterate each item
+
+**Overloads:**
+
+>None
+
+*** 
 #### _ServerManager_ 
 ***
 
@@ -1133,6 +1203,42 @@ HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 **Overloads:**
 
 >None
+
+*** 
+#### _Set_ 
+***
+
+**Info:** Collection class that filters out duplicate values
+
+**Return:** (ISet<T, TResult>)
+
+**Parameters:**
+
+>* records: (Array<T>) Array used to create the iterator to iterate each item
+
+**Overloads:**
+
+>None
+
+<a name='markdown-header-cli'></a>
+## CLI
+
+*** 
+#### _CLI_ 
+***
+
+**Info:** CLI parser for arguments and simplem method to execute shell commands
+
+**Return:** (CLI)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>Parameters
+>* options: (CLIOption[]) Array of options having properties option(required:command option ex: -c), type(data type returned using typeof, ex:string), description, required(default:false).
 
 <a name='markdown-header-control-flow'></a>
 ## Control Flow
@@ -1218,6 +1324,57 @@ HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 >* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 >* returnIndex: (Integer) Index of callback argument.
+
+<a name='markdown-header-date'></a>
+## Date
+
+*** 
+#### _getDayOfYear_ 
+***
+
+**Info:** Date class extension to retrieve the day of the year
+
+**Return:** (Int)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _getWeek_ 
+***
+
+**Info:** Date class extension to retrieve the week number in the year
+
+**Return:** (Int)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _isValidDate_ 
+***
+
+**Info:** Date class extension to check if the date is valid
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
 
 <a name='markdown-header-fs'></a>
 ## FS
@@ -4145,6 +4302,22 @@ HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 ## Utility
 
 *** 
+#### _absolutePath_ 
+***
+
+**Info:** Method to make retrieve the absolute path of the provided path
+
+**Return:** (String)
+
+**Parameters:**
+
+>* path: (String) Path to convert to the absolute path
+
+**Overloads:**
+
+>None
+
+*** 
 #### _addObjectPrototype_ 
 ***
 
@@ -4509,6 +4682,23 @@ HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 
 >* path: (String) Path to directory.
 >* options?: (Char) 'r' Flag to use to indicate recursively require, (Char) 's' Flag to indicate use syncronous instead of Promise Pattern
+
+**Overloads:**
+
+>None
+
+*** 
+#### _runFuncArray_ 
+***
+
+**Info:** Executes array of methods
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* funcs: (Function[]) Array of methods to execute
+>* args: (any[]) Array of arguments to be passed to each method
 
 **Overloads:**
 
