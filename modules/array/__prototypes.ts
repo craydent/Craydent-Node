@@ -271,7 +271,9 @@ export function _createIndex<T>(this: T[], indexes: string | string[]): IndexedA
     }|*/
     return createIndex(this, indexes);
 }
-export function _delete<T>(this: T[], condition, justOne?: DeleteOptions): T[] {
+export function _delete<T>(this: T[], condition?: WhereCondition, justOne?: boolean): T[];
+export function _delete<T>(this: T[], condition?: WhereCondition, options?: DeleteOptions): T[];
+export function _delete<T>(this: T[], condition, justOne?): T[] {
     /*|{
         "info": "Array class extension to delete records",
         "category": "Array",

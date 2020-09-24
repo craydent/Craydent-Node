@@ -6,6 +6,7 @@
     "scripts": {
         "clean": "./local_scripts/clean.sh",
         "buildDev": "./local_scripts/buildDev.sh",
+        "buildPrivate": "./local_scripts/buildPrivate.sh",
         "build": "./local_scripts/build.sh",
         "gitResolve": "./local_scripts/gitResolve.sh",
         "pushPublic": "git push public;",
