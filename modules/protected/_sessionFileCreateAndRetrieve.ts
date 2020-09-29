@@ -1,11 +1,12 @@
-import * as fs from 'fs';
 import * as path from 'path';
 import error from '../methods/error';
 import tryEval from '../methods/tryEval';
 import mkdirRecursive from '../methods/mkdirRecursive';
 import { AnyObject } from '../models/Arrays';
+import include from '../methods/include';
 
 export default function _sessionFileCreateAndRetrieve(filepath: string, sync?: boolean, callback?: (data: AnyObject) => void): AnyObject | Promise<AnyObject> {
+    const fs = include('fs');
     try {
         const directory = path.dirname(filepath);
         if (sync) {

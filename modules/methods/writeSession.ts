@@ -1,8 +1,8 @@
 import getProperty from '../methods/getProperty';
-import * as fs from 'fs';
 import foo from '../methods/foo';
 import error from '../methods/error';
 import { $c } from '../private/__common';
+import include from '../methods/include';
 
 export default function writeSession() {
     /*|{
@@ -16,6 +16,7 @@ export default function writeSession() {
         "returnType": "(void)"
     }|*/
     try {
+        const fs = include('fs');
         let sessionid = this.sessionid, session = this.session;
         /* istanbul ignore else */
         if (sessionid) {

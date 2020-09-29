@@ -1,5 +1,6 @@
 import error from '../methods/error';
 import _parseAdvanced from '../protected/_parseAdvanced';
+import duplicate from '../methods/duplicate';
 import include from '../methods/include';
 import isObject from '../methods/isObject';
 import isString from '../methods/isString';
@@ -45,7 +46,7 @@ export default function parseAdvanced(text: string | AnyObject, reviver?: Revive
         if (base_path && base_path.slice(-1) != "/") {
             base_path += "/";
         }
-        return _parseAdvanced(parsedObject, null, values, base_path, 1);
+        return _parseAdvanced(duplicate(parsedObject, true), null, values, base_path, 1);
     } catch (e) /* istanbul ignore next */ {
         error && error('JSON.parseAdvanced', e);
     }

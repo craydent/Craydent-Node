@@ -32,10 +32,11 @@ export default function requireDirectory(path: string, options?: 'r' | 's' | 'rs
         "url": "http://www.craydent.com/library/1.9.3/docs#requireDirectory",
         "returnType": "(Promise<any>|any)"
     }|*/
+    const fs = include('fs');
     try {
         let __basepath = arguments[2] || '',
             __objs = arguments[3] || {},
-            __fs = arguments[4] || require('fs');
+            __fs = arguments[4] || fs;
         options = options || { syncronous: false, recursive: false };
         let delimiter = "/";
 

@@ -10,7 +10,6 @@
 //@ts-ignore
 import { $c, info } from '../private/__common';
 import * as ILogModule from '../private/__logModule';
-import * as IAddObjectPrototype from '../methods/addObjectPrototype';
 import * as IIsArray from '../methods/isArray';
 import * as IIsAsync from '../methods/isAsync';
 import * as IIsBlank from '../methods/isBlank';

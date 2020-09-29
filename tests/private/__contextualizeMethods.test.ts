@@ -1,3 +1,5 @@
+const win = (global as any).window;
+delete (global as any).window;
 import __contextualizeMethods from '../../modules/private/__contextualizeMethods';
 import * as Common from '../../modules/private/__common';
 
@@ -95,6 +97,7 @@ describe('__contextualizeMethods', () => {
     });
     afterAll(() => {
         if (c) { (Common as any).$c = c; }
+        if (win) { (global as any).window = win; }
     });
     it('should add properties to the context', () => {
         let context = { temp: 0 };

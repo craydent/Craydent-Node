@@ -5,4 +5,5 @@ tsc &&
 ./local_scripts/updateMainPackageDependenciesDev.js &&
 ./local_scripts/updateIndexDev.js &&
 npm install &&
+./local_scripts/updateMainPackageDependenciesPrivate.js &&
 ./local_scripts/populateReadmes.sh

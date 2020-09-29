@@ -7,8 +7,8 @@
 /*/---------------------------------------------------------/*/
 import error from '../methods/error';
 import foo from '../methods/foo';
-import * as fs from 'fs';
 import startsWithAny from '../methods/startsWithAny';
+import include from '../methods/include';
 
 export default function mkdirRecursive(path: string, callback?: (err: NodeJS.ErrnoException, processedPath?: string) => void): Promise<any> {
     /*|{
@@ -23,6 +23,7 @@ export default function mkdirRecursive(path: string, callback?: (err: NodeJS.Err
         "url": "http://www.craydent.com/library/1.9.3/docs#mkdirRecursive",
         "returnType": "(void)"
     }|*/
+    const fs = include('fs');
     try {
         callback = callback || foo;
         let _processedPath = arguments[2] || process.cwd();

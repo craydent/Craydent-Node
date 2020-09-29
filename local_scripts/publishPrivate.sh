@@ -3,6 +3,7 @@
 BASEDIR=$(dirname "$0")
 
 cd $BASEDIR/..;
-npm run buildDev
+npm run buildPrivate
 cd $BASEDIR
-./npmpublish.sh;
+./npmpublishMajor.sh;
+./npmpublishMinor.sh;

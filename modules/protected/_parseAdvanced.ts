@@ -15,13 +15,16 @@ const $g: any = global;
 
 export default function _parseAdvanced(obj: any): any;
 export default function _parseAdvanced(obj: any, original: any, values: AnyObject | AnyObjects, base_path?: string, depth?: number): any;
-export default function _parseAdvanced(obj, original?, values?, base_path?, depth?, _parents?, _current_path?): any {
+export default function _parseAdvanced(obj, original?, values?, base_path?, depth?, _parents?, _current_path?, _processedObjects?): any {
     values = values || [];
     base_path = base_path || "";
     depth = depth || 0;
     _parents = _parents || [];
     _current_path = _current_path || base_path || "";
+    _processedObjects = _processedObjects || [];
     if (!obj) { return; }
+    if (~_processedObjects.indexOf(obj)) { return obj; }
+    _processedObjects.push(obj);
     original = original || obj;
     for (let prop in obj) {
         /* istanbul ignore if */
@@ -46,7 +49,7 @@ export default function _parseAdvanced(obj, original?, values?, base_path?, dept
                 if (isObject(value) || isArray(obj[prop])) {
                     _parents.push(obj);
                     // @ts-ignore
-                    value = _parseAdvanced(value, original, values, base_path, depth + 1, _parents, `${_current_path}/${prop}`);
+                    value = _parseAdvanced(value, original, values, base_path, depth + 1, _parents, `${_current_path}/${prop}`, _processedObjects);
                     _parents.pop();
                 }
             }
@@ -92,7 +95,7 @@ export default function _parseAdvanced(obj, original?, values?, base_path?, dept
                 clearCache(module);
                 _parents.push(obj);
                 // @ts-ignore
-                refobj = _parseAdvanced(require(module), null, values, base_path, depth + 1, _parents, `${_current_path}/${prop}`);
+                refobj = _parseAdvanced(require(module), null, values, base_path, depth + 1, _parents, `${_current_path}/${prop}`, _processedObjects);
                 _parents.pop();
             } catch (e) {
                 /* istanbul ignore next */
@@ -105,7 +108,7 @@ export default function _parseAdvanced(obj, original?, values?, base_path?, dept
         } else if (isObject(obj[prop]) || isArray(obj[prop])) {
             _parents.push(obj);
             // @ts-ignore
-            obj[nprop] = _parseAdvanced(obj[prop], original, values, base_path, depth + 1, _parents, `${_current_path}/${prop}`);
+            obj[nprop] = _parseAdvanced(obj[prop], original, values, base_path, depth + 1, _parents, `${_current_path}/${prop}`, _processedObjects);
             _parents.pop();
             /* istanbul ignore next */
             nprop != prop && delete obj[prop];

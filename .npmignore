@@ -1,6 +1,7 @@
 .*
 _*
 test
+tests
 node_modules
 submodules
 local_scripts
@@ -23,3 +24,4 @@ transformedMinor
 modules
 compiled
 index.template.js
+base.js

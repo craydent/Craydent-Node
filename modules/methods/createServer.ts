@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import error from '../methods/error';
 import foo from '../methods/foo';
 import isObject from '../methods/isObject';
@@ -59,6 +58,7 @@ export default function createServer(callback, options?): CraydentHttp {
         "url": "http://www.craydent.com/library/1.9.3/docs#createServer",
         "returnType": "(HTTP)"
     }|*/
+    const fs = include('fs');
     if (!callback || isObject(callback)) {
         options = callback;
         callback = options.callback || foo;

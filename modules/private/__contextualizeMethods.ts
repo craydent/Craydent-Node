@@ -15,7 +15,7 @@ export default function __contextualizeMethods<T>(ctx?: T): T {
         error && error('__contextualizeMethods', e);
     }
 }
-const fsmethods = [
+let fsmethods = [
     "access",
     "appendFile",
     "chmod",
@@ -50,7 +50,57 @@ const fsmethods = [
     "write",
     "writeFile"
 ],
+    nodeMethods = [
+        'ServerManager'
+    ],
+    jsMethods = [
+        '$COMMIT',
+        '$COOKIE',
+        '$DELETE',
+        '$DEL',
+        '$GET',
+        '$ROLLBACK',
+        '$SET',
+
+        'ChromeVersion',
+        'FirefoxVersion',
+        'IEVersion',
+        'OperaVersion',
+        'SafariVersion',
+        'isAmaya',
+        'isAndroid',
+        'isBlackBerry',
+        'isChrome',
+        'isFirefox',
+        'isGecko',
+        'isIE6',
+        'isIE',
+        'isIPad',
+        'isIPhone',
+        'isIPod',
+        'isKHTML',
+        'isLinux',
+        'isMac',
+        'isMobile',
+        'isOpera',
+        'isPalmOS',
+        'isPresto',
+        'isPrince',
+        'isSafari',
+        'isSymbian',
+        'isTrident',
+        'isWebkit',
+        'isWindows',
+        'isWindowsMobile'
+    ],
     globalizables = [
+        '$COMMIT',
+        '$COOKIE',
+        '$DEL',
+        '$DELETE',
+        '$GET',
+        '$ROLLBACK',
+        '$SET',
         'Benchmarker',
         'CLI',
         'Cursor',
@@ -113,4 +163,9 @@ const fsmethods = [
         'xmlToJson',
         'yieldable',
         'zipit'
-    ].concat(fsmethods);
+    ];
+if (typeof window == 'undefined') {
+    globalizables = globalizables.concat(fsmethods).concat(nodeMethods);
+} else {
+    globalizables = globalizables.concat(jsMethods);
+}
