@@ -67,10 +67,10 @@ describe('requireDirectory', () => {
 
             expect(requireDirectory('./path', 's')).toEqual({
                 "/thefile": {
-                    "readdirSync": (...args) => readdirSync.apply(this, args),
-                    "statSync": (...args) => statSync.apply(this, args),
-                    "readdir": (...args) => readdir.apply(this, args),
-                    "stat": (...args) => stat.apply(this, args)
+                    "readdirSync": expect.any(Function),
+                    "statSync": expect.any(Function),
+                    "readdir": expect.any(Function),
+                    "stat": expect.any(Function)
                 }
             });
         });
@@ -113,10 +113,10 @@ describe('requireDirectory', () => {
 
             expect(requireDirectory('./path', 'sr')).toEqual({
                 "/directory/thefile": {
-                    "readdirSync": (...args) => readdirSync.apply(this, args),
-                    "statSync": (...args) => statSync.apply(this, args),
-                    "readdir": (...args) => readdir.apply(this, args),
-                    "stat": (...args) => stat.apply(this, args)
+                    "readdirSync": expect.any(Function),
+                    "statSync": expect.any(Function),
+                    "readdir": expect.any(Function),
+                    "stat": expect.any(Function)
                 }
             });
         });
@@ -135,10 +135,10 @@ describe('requireDirectory', () => {
 
             expect(await requireDirectory('./path')).toEqual({
                 "/thefile": {
-                    "readdirSync": (...args) => readdirSync.apply(this, args),
-                    "statSync": (...args) => statSync.apply(this, args),
-                    "readdir": (...args) => readdir.apply(this, args),
-                    "stat": (...args) => stat.apply(this, args)
+                    "readdirSync": expect.any(Function),
+                    "statSync": expect.any(Function),
+                    "readdir": expect.any(Function),
+                    "stat": expect.any(Function)
                 }
             });
         });
@@ -181,10 +181,10 @@ describe('requireDirectory', () => {
 
             expect(await requireDirectory('./path', 'r')).toEqual({
                 "/directory/thefile": {
-                    "readdirSync": (...args) => readdirSync.apply(this, args),
-                    "statSync": (...args) => statSync.apply(this, args),
-                    "readdir": (...args) => readdir.apply(this, args),
-                    "stat": (...args) => stat.apply(this, args)
+                    "readdirSync": expect.any(Function),
+                    "statSync": expect.any(Function),
+                    "readdir": expect.any(Function),
+                    "stat": expect.any(Function)
                 }
             });
         });
