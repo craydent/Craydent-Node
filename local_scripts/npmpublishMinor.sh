@@ -6,8 +6,11 @@ BASEDIR=$(dirname "$0")
 cd $BASEDIR/../compiled/transformedMinor;
 
 for dir2 in */; do
-    cd $dir2
-    rm -rf node_modules;
-    npm publish;
-    cd ..
+    if [ "$dir" != "." ] && [ "$dir" != ".." ]
+    then
+        cd $dir2
+        rm -rf node_modules;
+        npm publish;
+        cd ..
+    fi
 done

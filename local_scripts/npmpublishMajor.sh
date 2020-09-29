@@ -6,7 +6,7 @@ BASEDIR=$(dirname "$0")
 cd $BASEDIR/../compiled/transformedMajor;
 
 for dir in */; do
-    if [ "$dir" -nq "." ] && [ "$dir" -nq ".." ]
+    if [ "$dir" != "." ] && [ "$dir" != ".." ]
     then
         cd $dir
         rm -rf node_modules;
