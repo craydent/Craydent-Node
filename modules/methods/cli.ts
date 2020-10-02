@@ -16,6 +16,7 @@ import { AsyncFunction } from '../models/AsyncFunction';
 import { AnyObject } from '../models/Generics';
 import { Option, CLIOptions, ExecOptions, ExecCallback } from '../models/CLI';
 import _getFuncName from '../protected/_getFuncName';
+import include from '../methods/include';
 
 const syncro = syncroit;
 export type ActionCallback = (this: CLI, arg: string) => any;
@@ -23,7 +24,7 @@ export type ActionCallback = (this: CLI, arg: string) => any;
 function _cli_exec(command: string, callback: ExecCallback);
 function _cli_exec(command: string, options?: ExecOptions, callback?: ExecCallback);
 function _cli_exec(command, options?, callback?) {
-    let child: typeof IChildProcess = require('child_process');
+    let child: typeof IChildProcess = include('child_process');
     if (isFunction(options)) {
         callback = options;
         options = undefined;

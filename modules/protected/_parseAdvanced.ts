@@ -10,6 +10,7 @@ import startsWithAny from '../methods/startsWithAny';
 import strip from '../methods/strip';
 import tryEval from '../methods/tryEval';
 import { AnyObjects, AnyObject } from '../models/Arrays';
+import include from '../methods/include';
 
 const $g: any = global;
 
@@ -86,7 +87,7 @@ export default function _parseAdvanced(obj, original?, values?, base_path?, dept
                 return getProperty(refobj, value, '/');
             }
             if (startsWithAny(filepath, '/')) {
-                let path = require('path').resolve('./');
+                let path = include('path').resolve('./');
                 /* istanbul ignore next */
                 filepath = (base_path ? "" : path) + filepath;
             }

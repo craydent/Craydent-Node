@@ -255,7 +255,7 @@ export default function createServer(callback, options?): CraydentHttp {
                             app.port = app.port || parseInt(port);
                             let query = request.url.split('?')[1] || "";
                             query && (query = `?${query}`);
-                            return require('http').get(`http://localhost:${app.port}/${path}${query}`).on('response', function (response) {
+                            return include('http').get(`http://localhost:${app.port}/${path}${query}`).on('response', function (response) {
                                 let body = '';
                                 response.on('data', function (chunk) { body += chunk; });
                                 response.on('end', function () { cray.end(body); });

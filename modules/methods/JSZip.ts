@@ -4,7 +4,8 @@ import foo from '../methods/foo';
 let JSZip: any = foo as any;
 try {
     // load node jszip module if available;
-    JSZip = require('jszip');
+    const JSZIP = 'jszip';
+    JSZip = require(JSZIP);
 } catch (e) {
     /**
 

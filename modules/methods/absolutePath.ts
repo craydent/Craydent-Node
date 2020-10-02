@@ -5,7 +5,6 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import * as pathModule from 'path';
 
 export default function absolutePath(path: string): string;
 export default function absolutePath(path: string, depth?: number): string {
@@ -20,6 +19,8 @@ export default function absolutePath(path: string, depth?: number): string {
          "url": "http://www.craydent.com/library/1.9.3/docs#absolutePath",
          "returnType": "(String)"
      }|*/
+    const PATH = 'path'
+    const pathModule = require(PATH);
     let callingPath = "",
         delimiter = pathModule.sep;
     depth = depth || 0;

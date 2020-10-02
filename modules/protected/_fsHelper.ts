@@ -1,8 +1,9 @@
 import error from '../methods/error';
-import * as fs from 'fs';
 import { FSByteData } from '../models/FSByteData';
+import include from '../methods/include';
 
 export default function _fsHelper<TBuffer>(name: string, ...args): Promise<NodeJS.ErrnoException | FSByteData<TBuffer | string> | void> {
+    const fs = include('fs');
     return new Promise(function (res) {
         try {
             args.push(function (err, data, buffer) {

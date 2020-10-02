@@ -17,6 +17,7 @@ import { AnyObject } from '../models/Arrays';
 import { Reviver } from '../models/Reviver';
 import getProperty from '../methods/getProperty';
 import rand from '../methods/rand';
+import include from '../methods/include';
 
 export type AjaxReturnType = "response" | "res" | "request" | "req";
 export type AjaxOptions = {
@@ -178,8 +179,8 @@ function _ajaxNode(params, returnData): Promise<any> {
         //     alwaysResolve = params.alwaysResolve || false;
         // }
 
-        let httpRequest: typeof IHTTP = require('http');
-        if (params.protocol == 'https:') { httpRequest = require('https'); }
+        let httpRequest: typeof IHTTP = include('http');
+        if (params.protocol == 'https:') { httpRequest = include('https'); }
 
         runFuncArray.call(params.context, params.onbefore, [httpRequest, params.hitch, this]);
 

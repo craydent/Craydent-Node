@@ -7,8 +7,12 @@
 /*/---------------------------------------------------------/*/
 ///<reference path="../globalTypes/global.base.ts" />
 import globalize from '../methods/globalize';
+import include from '../methods/include';
 import __isNewer from '../private/__isNewer';
 declare var $g: any;
+if (typeof (global as any) == 'undefined'){
+    (window as any).global = window;
+}
 (global as any).$g = global;
 
 let info = require('../package.json'),
@@ -38,7 +42,7 @@ if (!$g.$c || __isNewer($g.$c.VERSION.split('.'), _craydent_version.split('.')))
 
     try {
         // retrieve public and local IP Addresses
-        const nics = require('os').networkInterfaces();
+        const nics = include('os').networkInterfaces();
         for (let nic in nics) {
             if (!nics.hasOwnProperty(nic)) {
                 /* istanbul ignore next */

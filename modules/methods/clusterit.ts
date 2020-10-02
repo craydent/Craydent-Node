@@ -1,16 +1,17 @@
 import error from '../methods/error';
-import * as cluster from 'cluster';
+import * as ICluster from 'cluster';
 import * as os from 'os';
 import isFunction from '../methods/isFunction';
 import isNull from '../methods/isNull';
 import foo from '../methods/foo';
 import { AnyObject } from '../models/Arrays';
+import include from '../methods/include';
 
 export interface ClusterOptions {
     max_cpu?: number;
-    onfork?: (worker: cluster.Worker) => void;
+    onfork?: (worker: ICluster.Worker) => void;
     auto_spawn?: boolean;
-    onexit?: (worker: cluster.Worker, code?: number, signal?: string) => void;
+    onexit?: (worker: ICluster.Worker, code?: number, signal?: string) => void;
 }
 export interface ClusterReturnType {
     isMaster: boolean,
@@ -25,8 +26,8 @@ export interface ClusterReturnType {
     on: Function
 }
 
-export default function clusterit(callback: (data: typeof cluster | cluster.Worker) => void): ClusterReturnType | typeof cluster;
-export default function clusterit(options: ClusterOptions, callback?: (data: typeof cluster | cluster.Worker) => void): ClusterReturnType | typeof cluster;
+export default function clusterit(callback: (data: typeof ICluster | ICluster.Worker) => void): ClusterReturnType | typeof ICluster;
+export default function clusterit(options: ClusterOptions, callback?: (data: typeof ICluster | ICluster.Worker) => void): ClusterReturnType | typeof ICluster;
 export default function clusterit(options, callback?) {
     /*|{
         "info": "Enable clustering",
@@ -40,6 +41,7 @@ export default function clusterit(options, callback?) {
         "returnType": "(void)"
     }|*/
     try {
+        const cluster = include('cluster');
         if (!callback && isFunction(options)) {
             callback = options;
             options = {};
