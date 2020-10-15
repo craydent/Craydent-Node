@@ -1,5 +1,10 @@
 import * as IXmlToJson from '../methods/xmlToJson';
+import { scope } from '../private/__common';
 
+if (typeof (global as any) == 'undefined') {
+    (window as any).global = window;
+}
+scope.eval = str => eval(str);
 //#region dependencies
 const xmlToJson: typeof IXmlToJson.default = require('../methods/xmlToJson').default;
 //#endregion

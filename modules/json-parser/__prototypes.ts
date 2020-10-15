@@ -2,6 +2,10 @@ import * as IParseAdvanced from '../methods/parseAdvanced';
 import * as IStringifyAdvanced from '../methods/stringifyAdvanced';
 
 import { scope } from '../private/__common';
+
+if (typeof (global as any) == 'undefined'){
+    (window as any).global = window;
+}
 scope.eval = str => eval(str);
 //#region dependencies
 const parseAdvanced: typeof IParseAdvanced.default = require('../methods/parseAdvanced').default;

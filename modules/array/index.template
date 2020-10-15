@@ -156,6 +156,15 @@ declare global {
         upsert: typeof IPrototypes._upsert;
         where: typeof IPrototypes._where;
     }
+    module NodeJS {
+        interface Global {
+            $c: Craydent;
+        }
+    }
+    interface Window {
+        $c: Craydent;
+    }
+    var $c: Craydent;
     //#endregion proto
     //#region global
     module NodeJS {

@@ -34,6 +34,10 @@ import * as IWrite from '../methods/write';
 import * as IWriteFile from '../methods/writeFile';
 
 import { scope } from '../private/__common';
+
+if (typeof (global as any) == 'undefined'){
+    (window as any).global = window;
+}
 scope.eval = str => eval(str);
 //#region dependencies
 const access: typeof IAccess.default = require('../methods/access').default;

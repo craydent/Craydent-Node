@@ -28,6 +28,10 @@ import * as ISyncroit from '../methods/syncroit';
 import * as ITryEval from '../methods/tryEval';
 
 import { scope } from '../private/__common';
+
+if (typeof (global as any) == 'undefined'){
+    (window as any).global = window;
+}
 scope.eval = str => eval(str);
 //#region dependencies
 const absolutePath: typeof IAbsolutePath.default = require('../methods/absolutePath').default;

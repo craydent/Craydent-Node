@@ -18,6 +18,17 @@ declare global {
     interface Craydent {
         CLI: typeof ICLI.default;
     }
+    //#region proto
+    module NodeJS {
+        interface Global {
+            $c: Craydent;
+        }
+    }
+    interface Window {
+        $c: Craydent;
+    }
+    var $c: Craydent;
+    //#endregion proto
     //#region global
     module NodeJS {
         interface Global {

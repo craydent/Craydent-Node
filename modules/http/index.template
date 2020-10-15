@@ -242,6 +242,17 @@ declare global {
         ServerManager: typeof IServerManager.default;
         GarbageCollector: any[];
     }
+    //#region proto
+    module NodeJS {
+        interface Global {
+            $c: Craydent;
+        }
+    }
+    interface Window {
+        $c: Craydent;
+    }
+    var $c: Craydent;
+    //#endregion proto
     //#region global
     module NodeJS {
         interface Global {

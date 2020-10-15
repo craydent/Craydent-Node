@@ -27,6 +27,10 @@ import * as IIsValidDate from '../methods/isValidDate';
 import * as IIsValidEmail from '../methods/isValidEmail';
 
 import { scope } from '../private/__common';
+
+if (typeof (global as any) == 'undefined'){
+    (window as any).global = window;
+}
 scope.eval = str => eval(str);
 //#region dependencies
 const isArray: typeof IIsArray.default = require('../methods/isArray').default;

@@ -84,6 +84,17 @@ declare global {
         write: typeof IWrite.default;
         writeFile: typeof IWriteFile.default;
     }
+    //#region proto
+    module NodeJS {
+        interface Global {
+            $c: Craydent;
+        }
+    }
+    interface Window {
+        $c: Craydent;
+    }
+    var $c: Craydent;
+    //#endregion proto
     //#region global
     module NodeJS {
         interface Global {

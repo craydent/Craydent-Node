@@ -2,6 +2,10 @@
 import * as IFillTemplate from '../methods/fillTemplate';
 
 import { scope } from '../private/__common';
+
+if (typeof (global as any) == 'undefined'){
+    (window as any).global = window;
+}
 scope.eval = str => eval(str);
 //#region dependencies
 const module = require('../methods/fillTemplate');

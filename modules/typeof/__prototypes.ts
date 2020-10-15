@@ -20,6 +20,10 @@ import isRegExp from '../methods/isRegExp';
 import isString from '../methods/isString';
 
 import { scope } from '../private/__common';
+
+if (typeof (global as any) == 'undefined'){
+    (window as any).global = window;
+}
 scope.eval = str => eval(str);
 
 export function _isArray(this: any): boolean {

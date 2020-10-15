@@ -8,6 +8,10 @@ import * as IIsValidDate from '../methods/isValidDate';
 import * as INow from '../methods/now';
 
 import { scope } from '../private/__common';
+
+if (typeof (global as any) == 'undefined'){
+    (window as any).global = window;
+}
 scope.eval = str => eval(str);
 //#region dependencies
 const equals: typeof IEquals.default = require('../methods/equals').default;

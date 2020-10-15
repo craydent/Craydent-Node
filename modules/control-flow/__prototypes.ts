@@ -5,6 +5,10 @@ import * as ISyncroit from '../methods/syncroit';
 import { Yieldables } from '../models/Arrays';
 
 import { scope } from '../private/__common';
+
+if (typeof (global as any) == 'undefined'){
+    (window as any).global = window;
+}
 scope.eval = str => eval(str);
 //#region dependencies
 const parallelEach: typeof IParallelEach.default = require('../methods/parallelEach').default;
