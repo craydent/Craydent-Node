@@ -76,7 +76,6 @@ export default function parallelEach(obj, gen?, args?): Promise<any[]> {
                         results[i] = result;
                         if (++completed == len) { res(results); }
                     })
-                    // eval(`_syncroit(function*(){ yield arr[${i}];}).then(function(result){ results[${i}] = result; if (++completed == len) { res(results); }});`);
                 } else if (_isFunction(arr[i])) {
                     setTimeout(function () { results[i] = arr[i].apply(self, args); if (++completed == len) { res(results); } }, 0);;
                 } else {

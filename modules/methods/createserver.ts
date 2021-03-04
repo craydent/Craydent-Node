@@ -293,7 +293,6 @@ export default function createServer(callback, options?): CraydentHttp {
                     var setUpNext = (exec, i) => {
                         i++;
                         if (isGenerator(exec[0])) {
-                            // return eval(`(function(){return _syncroit(function* () { if (exec[0]){ return yield* exec[0].call(cray, request, response, execute['v${i}'], setUpNext(exec.slice(1), ${i}));}})})`);
                             return eval(`(function () {
                                 return _syncroit(function* () {
                                     if (exec[0]) {
@@ -305,7 +304,6 @@ export default function createServer(callback, options?): CraydentHttp {
                             })`);
                         }
                         if (isAsync(exec[0])) {
-                            // return eval(`(async function () {exec[0] && (await exec[0].call(cray, request, response, execute['v${i}'], setUpNext(exec.slice(1), ${i})));})`);
                             return eval(`(async function () {
                                 if (exec[0]) {
                                     var e = exec[0].bind(cray);
