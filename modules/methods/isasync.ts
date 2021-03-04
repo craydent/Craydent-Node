@@ -16,6 +16,7 @@ export default function isAsync(obj: any): boolean {
         if (isNull(obj)) { return false; }
         const __awaiterSyntax = '__awaiter(this, void 0, void 0';
         const __awaiterSyntax2 = '__awaiter(_this, void 0, void 0';
+        const __awaiterSyntax3 = '__awaiter(void 0, void 0, void 0';
         const fConstruct = obj.prototype ? obj.prototype.constructor : obj.constructor
         const fString = obj.toString();
         const fConstructString = fConstruct.toString();
@@ -23,7 +24,9 @@ export default function isAsync(obj: any): boolean {
         if (~fString.indexOf(__awaiterSyntax)
             || ~fConstructString.indexOf(__awaiterSyntax)
             || ~fString.indexOf(__awaiterSyntax2)
-            || ~fConstructString.indexOf(__awaiterSyntax2)) {
+            || ~fConstructString.indexOf(__awaiterSyntax2)
+            || ~fString.indexOf(__awaiterSyntax3)
+            || ~fConstructString.indexOf(__awaiterSyntax3)) {
             return true;
         }
         return fConstruct.name == 'async' || fConstruct.name == 'AsyncFunction';
