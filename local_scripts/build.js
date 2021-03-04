@@ -115,9 +115,9 @@ async function processModule(name, pkgPrefix) {
 
     await getDependencies(pkgPrefix, `${root}/modules/${name}/index.template`, files, alterFiles, modules)
     await getDependencies(pkgPrefix, `${root}/modules/${name}/__prototypes.ts`, files, alterFiles, modules);
-    files = condense(files, true);
-    alterFiles = condense(alterFiles, true);
-    modules = condense(modules, true);
+    files = condense(files, true).sort();
+    alterFiles = condense(alterFiles, true).sort();
+    modules = condense(modules, true).sort();
 
     let dependencies = {};
     for (let i = 0, len = modules.length; i < len; i++) {
@@ -177,7 +177,7 @@ async function getDependencies(pkgPrefix, filePath, results = [], alterFiles = [
             }
             let absolutePath = !!~dependencyPath.indexOf('/models/') ? path.resolve(`${dir}/${dependencyPath}.d.ts`) : path.resolve(`${dir}/${dependencyPath}.ts`);
             if (/__prototypes\.ts$/.test(absolutePath)) { continue; }
-            await getDependencies(pkgPrefix, absolutePath, results, alterFiles);
+            await getDependencies(pkgPrefix, absolutePath, results, alterFiles, modules);
             results.push(absolutePath);
         }
 
