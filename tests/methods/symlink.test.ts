@@ -1,4 +1,4 @@
-import symlink from '../../modules/methods/symlink';
+import symlink from '../../compiled/transformedMinor/craydent.symlink';
 jest.mock('fs', () => {
     return {
         "symlink": (...args) => {

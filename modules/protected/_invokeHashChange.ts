@@ -1,5 +1,5 @@
 import error from '../methods/error';
-import isFunction from '../methods/isFunction';
+import isFunction from '../methods/isfunction';
 import { $c } from '../private/__common';
 
 export default function _invokeHashChange(): void | false {

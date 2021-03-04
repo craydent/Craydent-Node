@@ -1,4 +1,4 @@
-import startsWith from '../../modules/methods/startsWith';
+import startsWith from '../../compiled/transformedMinor/craydent.startswith';
 describe('startsWith', () => {
     it.each`
     str         | searchString  | length    | result

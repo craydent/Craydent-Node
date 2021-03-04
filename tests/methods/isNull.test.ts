@@ -1,4 +1,4 @@
-import isNull from '../../modules/methods/isNull';
+import isNull from '../../compiled/transformedMinor/craydent.isnull';
 describe('isNull', () => {
     it('should check if value is null', () => {
         expect(isNull({})).toBe(false);

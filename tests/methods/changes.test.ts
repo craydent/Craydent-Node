@@ -1,4 +1,4 @@
-import changes from '../../modules/methods/changes';
+import changes from '../../compiled/transformedMinor/craydent.changes';
 describe('capitalize', () => {
     it('should throw error type error and return null', () => {
         expect(changes({}, "" as any)).toBe(null);

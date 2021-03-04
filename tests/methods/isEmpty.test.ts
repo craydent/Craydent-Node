@@ -1,4 +1,4 @@
-import isEmpty from '../../modules/methods/isEmpty';
+import isEmpty from '../../compiled/transformedMinor/craydent.isempty';
 describe('isEmpty', () => {
     it('should check if value is empty', () => {
         expect(isEmpty(null)).toBe(false);

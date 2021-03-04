@@ -1,12 +1,12 @@
 import { VerbOptions } from '../models/VerbOptions';
-import { AnyObject } from '../models/Arrays';
+import { AnyObject } from '../models/Generics';
 import merge from '../methods/merge';
 
 export type Verbs = 'get' | 'delete' | 'post' | 'put' | 'payload';
 export default function _verbPayloadHelper(context: Craydent): boolean | AnyObject;
 export default function _verbPayloadHelper(context: Craydent, variable: string, method: Verbs, options?: VerbOptions): boolean | AnyObject;
 export default function _verbPayloadHelper(context: Craydent, variable?: string, method?: Verbs, options?: VerbOptions): boolean | AnyObject {
-    let { rawData } = context;
+    let { rawData } = context as any;
     let defaultData = { get: null, post: null, delete: null, put: null };
     let data = (rawData || defaultData)[method] || {};
     let theRawData = rawData || {} as any;

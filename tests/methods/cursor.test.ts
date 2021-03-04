@@ -1,4 +1,4 @@
-import Cursor from '../../modules/methods/cursor';
+import Cursor from '../../compiled/transformedMinor/craydent.cursor';
 describe('Cursor', () => {
     it('should create a new cursor', () => {
         let cur = new Cursor();

@@ -5,41 +5,42 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-///<reference path="../globalTypes/global.vars.ts" />
+///<reference path="../globalTypes/global.vars.d.ts" />
 //#region imports
 //@ts-ignore
 import { $c, info } from '../private/__common';
 import * as ILogModule from '../private/__logModule';
-import * as IIsArray from '../methods/isArray';
-import * as IIsAsync from '../methods/isAsync';
-import * as IIsBlank from '../methods/isBlank';
-import * as IIsBetween from '../methods/isBetween';
-import * as IIsBoolean from '../methods/isBoolean';
-import * as IIsCuid from '../methods/isCuid';
-import * as IIsDate from '../methods/isDate';
-import * as IIsDomElement from '../methods/isDomElement';
-import * as IIsEmpty from '../methods/isEmpty';
-import * as IIsError from '../methods/isError';
-import * as IIsEven from '../methods/isEven';
-import * as IIsFloat from '../methods/isFloat';
-import * as IIsFunction from '../methods/isFunction';
-import * as IIsGenerator from '../methods/isGenerator';
-import * as IIsGeolocation from '../methods/isGeolocation';
-import * as IIsInt from '../methods/isInt';
-import * as IIsNull from '../methods/isNull';
-import * as IIsNullOrEmpty from '../methods/isNullOrEmpty';
-import * as IIsNumber from '../methods/isNumber';
-import * as IIsObject from '../methods/isObject';
-import * as IIsOdd from '../methods/isOdd';
-import * as IIsPromise from '../methods/isPromise';
-import * as IIsRegExp from '../methods/isRegExp';
-import * as IIsString from '../methods/isString';
-import * as IIsSubset from '../methods/isSubset';
-import * as IIsValidDate from '../methods/isValidDate';
-import * as IIsValidEmail from '../methods/isValidEmail';
+import * as IIsArray from '../methods/isarray';
+import * as IIsAsync from '../methods/isasync';
+import * as IIsBlank from '../methods/isblank';
+import * as IIsBetween from '../methods/isbetween';
+import * as IIsBoolean from '../methods/isboolean';
+import * as IIsCuid from '../methods/iscuid';
+import * as IIsDate from '../methods/isdate';
+import * as IIsDomElement from '../methods/isdomelement';
+import * as IIsEmpty from '../methods/isempty';
+import * as IIsError from '../methods/iserror';
+import * as IIsEven from '../methods/iseven';
+import * as IIsFloat from '../methods/isfloat';
+import * as IIsFunction from '../methods/isfunction';
+import * as IIsGenerator from '../methods/isgenerator';
+import * as IIsGeolocation from '../methods/isgeolocation';
+import * as IIsInt from '../methods/isint';
+import * as IIsNull from '../methods/isnull';
+import * as IIsNullOrEmpty from '../methods/isnullorempty';
+import * as IIsNumber from '../methods/isnumber';
+import * as IIsObject from '../methods/isobject';
+import * as IIsOdd from '../methods/isodd';
+import * as IIsPromise from '../methods/ispromise';
+import * as IIsRegExp from '../methods/isregexp';
+import * as IIsString from '../methods/isstring';
+import * as IIsSubset from '../methods/issubset';
+import * as IIsValidDate from '../methods/isvaliddate';
+import * as IIsValidEmail from '../methods/isvalidemail';
 import * as IPrototypes from './__prototypes';
 //#endregion
 
+//#region typeDefs
 declare global {
     interface Craydent {
         isArray: typeof IIsArray.default;
@@ -172,6 +173,7 @@ declare global {
 
     //#endregion global
 }
+//#endregion typeDefs
 if (!$c.MODULES_LOADED[info.name]) {
     const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);

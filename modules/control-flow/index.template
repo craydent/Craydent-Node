@@ -5,7 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-///<reference path="../globalTypes/global.vars.ts" />
+///<reference path="../globalTypes/global.vars.d.ts" />
 //#region imports
 //@ts-ignore
 import { $c, info } from '../private/__common';
@@ -14,10 +14,11 @@ import * as IAwaitable from '../methods/awaitable';
 import * as IExt from '../protected/_ext';
 import * as IYieldable from '../methods/yieldable';
 import * as ISyncroit from '../methods/syncroit';
-import * as IParallelEach from '../methods/parallelEach';
+import * as IParallelEach from '../methods/paralleleach';
 import * as IPrototypes from './__prototypes';
 //#endregion
 
+//#region typeDefs
 declare global {
     interface Craydent {
         parallelEach: typeof IParallelEach.default;
@@ -57,6 +58,7 @@ declare global {
     var yieldable: typeof IYieldable.default;
     //#endregion global
 }
+//#endregion typeDefs
 if (!$c.MODULES_LOADED[info.name]) {
     const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);

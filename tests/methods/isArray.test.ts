@@ -1,4 +1,4 @@
-import isArray from '../../modules/methods/isArray';
+import isArray from '../../compiled/transformedMinor/craydent.isarray';
 describe('isArray', () => {
     it('should check if variable is an array when Array.isArray is not defined', () => {
         const _isArray = Array.isArray;

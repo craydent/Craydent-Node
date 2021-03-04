@@ -1,4 +1,4 @@
-import isObject from '../../modules/methods/isObject';
+import isObject from '../../compiled/transformedMinor/craydent.isobject';
 
 describe('isObject', () => {
     it('should check if value is an Object', () => {

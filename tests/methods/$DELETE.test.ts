@@ -1,16 +1,16 @@
-import $DELETE from '../../modules/methods/$DELETE';
-import * as $COMMIT from '../../modules/methods/$COMMIT';
-jest.mock('../../modules/methods/$COMMIT', () => {
+import $DELETE from '../../compiled/transformedMinor/craydent.http.delete';
+import * as $COMMIT from '../../compiled/transformedMinor/craydent.http.commit';
+jest.mock('../../compiled/transformedMinor/craydent.http.commit', () => {
     return {
         "default": {}
     }
 });
-jest.mock('../../modules/protected/_invokeHashChange', () => {
+jest.mock('../../compiled/transformedMinor/craydent.http.delete/protected/_invokeHashChange', () => {
     return {
         "default": () => { _invokeHashChange(); }
     }
 });
-jest.mock('../../modules/protected/_verbPayloadHelper', () => {
+jest.mock('../../compiled/transformedMinor/craydent.http.delete/protected/_verbPayloadHelper', () => {
     return {
         "default": (dis, variable, method, options) => { _verbPayloadHelper(dis, variable, method, options); }
     }

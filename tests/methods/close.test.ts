@@ -1,4 +1,4 @@
-import close from '../../modules/methods/close';
+import close from '../../compiled/transformedMinor/craydent.close';
 jest.mock('fs', () => {
     return {
         "close": (...args) => {

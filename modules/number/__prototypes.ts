@@ -1,35 +1,32 @@
-import * as IAboutEqualTo from '../methods/aboutEqualTo';
+import * as IAboutEqualTo from '../methods/aboutequalto';
 import * as IContains from '../methods/contains';
 import * as IEquals from '../methods/equals';
-import * as IGetValue from '../methods/getValue';
-import * as IIsBetween from '../methods/isBetween';
-import * as IIsEven from '../methods/isEven';
-import * as IIsOdd from '../methods/isOdd';
+import * as IGetValue from '../methods/getvalue';
+import * as IIsBetween from '../methods/isbetween';
+import * as IIsEven from '../methods/iseven';
+import * as IIsOdd from '../methods/isodd';
 import * as IRand from '../methods/rand';
-import * as IToCurrencyNotation from '../methods/toCurrencyNotation';
-import {
-    ContainsObjectIterator,
-    ContainsValue,
-    ComparisonOperator,
-    AnyObject
-} from '../models/Arrays';
+import * as IToCurrencyNotation from '../methods/tocurrencynotation';
+import { AnyObject } from '../models/Generics';
+import { ContainsObjectIterator, ContainsValue } from '../models/Contains';
+import { ComparisonOperator } from '../models/ComparisonOperator'
 
 import { scope } from '../private/__common';
 
-if (typeof (global as any) == 'undefined'){
+if (typeof (global as any) == 'undefined') {
     (window as any).global = window;
 }
 scope.eval = str => eval(str);
 //#region dependencies
-const aboutEqualTo: typeof IAboutEqualTo.default = require('../methods/aboutEqualTo').default;
+const aboutEqualTo: typeof IAboutEqualTo.default = require('../methods/aboutequalto').default;
 const contains: typeof IContains.default = require('../methods/contains').default;
 const equals: typeof IEquals.default = require('../methods/equals').default;
-const getValue: typeof IGetValue.default = require('../methods/getValue').default;
-const isBetween: typeof IIsBetween.default = require('../methods/isBetween').default;
-const isEven: typeof IIsEven.default = require('../methods/isEven').default;
-const isOdd: typeof IIsOdd.default = require('../methods/isOdd').default;
+const getValue: typeof IGetValue.default = require('../methods/getvalue').default;
+const isBetween: typeof IIsBetween.default = require('../methods/isbetween').default;
+const isEven: typeof IIsEven.default = require('../methods/iseven').default;
+const isOdd: typeof IIsOdd.default = require('../methods/isodd').default;
 const rand: typeof IRand.default = require('../methods/rand').default;
-const toCurrencyNotation: typeof IToCurrencyNotation.default = require('../methods/toCurrencyNotation').default;
+const toCurrencyNotation: typeof IToCurrencyNotation.default = require('../methods/tocurrencynotation').default;
 //#endregion
 
 export function _contains<T, TValue>(this: T[], func: ContainsObjectIterator<T, TValue>): boolean;

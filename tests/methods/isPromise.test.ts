@@ -1,5 +1,5 @@
-import isPromise from '../../modules/methods/isPromise';
-jest.mock('../../modules/protected/_typeCheck', () => {
+import isPromise from '../../compiled/transformedMinor/craydent.ispromise';
+jest.mock('../../compiled/transformedMinor/craydent.ispromise/protected/_typeCheck', () => {
     return {
         "default": (...args) => _typeCheck.apply(this, args)
     }

@@ -1,4 +1,4 @@
-import $c from '../../transformedMajor/typeof';
+import $c from '../../compiled/transformedMajor/typeof';
 
 describe('No Conflict Object', function () {
 	it('isArray', function () {

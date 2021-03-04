@@ -1,4 +1,4 @@
-import $c from '../../transformedMajor/xml-to-json/noConflict';
+import $c from '../../compiled/transformedMajor/xml-to-json/noConflict';
 
 describe('No Conflict Global methods', function () {
     it('xmlToJson', function () {

@@ -1,5 +1,5 @@
-import $PUT from '../../modules/methods/$PUT';
-jest.mock('../../modules/protected/_verbPayloadHelper', () => {
+import $PUT from '../../compiled/transformedMinor/craydent.http.put';
+jest.mock('../../compiled/transformedMinor/craydent.http.put/protected/_verbPayloadHelper', () => {
     return {
         "default": (dis, variable, method, options) => { _verbPayloadHelper(dis, variable, method, options); }
     }

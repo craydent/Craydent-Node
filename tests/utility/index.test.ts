@@ -1,6 +1,6 @@
-import $c from '../../transformedMajor/utility';
+import $c from '../../compiled/transformedMajor/utility';
 import _getFuncName from '../../modules/protected/_getFuncName';
-import isBetween from '../../modules/methods/isBetween';
+import isBetween from '../../compiled/transformedMinor/craydent.isbetween';
 
 describe('No Conflict Global methods', function () {
     let win = (global as any).window;
@@ -174,13 +174,13 @@ describe('No Conflict Global methods', function () {
         var result = [];
 
         beforeEach(function (done) {
-            $c.syncroit(function *() {
+            $c.syncroit(function* () {
                 var resolve = true;
 
                 function testPromise() {
                     return new Promise(function (res, rej) {
-                        if (resolve) { return res({resolve:resolve}); }
-                        return rej({resolve: resolve});
+                        if (resolve) { return res({ resolve: resolve }); }
+                        return rej({ resolve: resolve });
                     });
                 }
                 result.push(yield testPromise());

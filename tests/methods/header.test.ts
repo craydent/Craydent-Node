@@ -1,4 +1,4 @@
-import header from '../../modules/methods/header';
+import header from '../../compiled/transformedMinor/craydent.set-header';
 describe('header', () => {
     beforeEach(() => {
         delete (header as any).headers;

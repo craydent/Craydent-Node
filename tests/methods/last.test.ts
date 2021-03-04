@@ -1,4 +1,4 @@
-import last from '../../modules/methods/last';
+import last from '../../compiled/transformedMinor/craydent.last';
 describe('last', () => {
     it('should retrieve the last item in the array', () => {
         expect(last(null)).toBe(null);

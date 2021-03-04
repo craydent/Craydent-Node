@@ -1,5 +1,5 @@
-import $SET from '../../modules/methods/$SET';
-jest.mock('../../modules/protected/_set', () => {
+import $SET from '../../compiled/transformedMinor/craydent.http.set';
+jest.mock('../../compiled/transformedMinor/craydent.http.set/protected/_set', () => {
     return {
         "default": (variable, value, defer, options, loc) => _set(variable, value, defer, options, loc)
     }

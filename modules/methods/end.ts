@@ -1,10 +1,10 @@
-import isInt from '../methods/isInt';
-import isString from '../methods/isString';
+import isInt from '../methods/isint';
+import isString from '../methods/isstring';
 import echo from '../methods/echo';
 import logit from '../methods/logit';
 import merge from '../methods/merge';
 import { $c } from '../private/__common';
-import isNull from '../methods/isNull';
+import isNull from '../methods/isnull';
 
 export default function end(status?: number, output?: string, encoding?: string);
 export default function end(output?: string, encoding?: string);

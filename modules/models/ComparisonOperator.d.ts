@@ -1,0 +1,1 @@
+export declare type ComparisonOperator = "$lt" | "$lte" | "$gt" | "$gte" | "$mod" | "$type";

@@ -1,4 +1,4 @@
-import update from '../../modules/methods/update';
+import update from '../../compiled/transformedMinor/craydent.update';
 
 describe('update', () => {
 

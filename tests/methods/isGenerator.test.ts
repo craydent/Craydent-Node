@@ -1,4 +1,4 @@
-import isGenerator from '../../modules/methods/isGenerator';
+import isGenerator from '../../compiled/transformedMinor/craydent.isgenerator';
 
 describe('isGenerator', () => {
     it('should check if variable is async', () => {

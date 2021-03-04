@@ -1,5 +1,5 @@
-import $c from '../../transformedMajor/control-flow';
-import ajax from '../../modules/methods/ajax';
+import $c from '../../compiled/transformedMajor/control-flow';
+import ajax from '../../compiled/transformedMinor/craydent.ajax';
 
 describe('Global methods', function () {
     describe("syncroit async test", function () {

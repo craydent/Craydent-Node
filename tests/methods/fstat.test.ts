@@ -1,4 +1,4 @@
-import fstat from '../../modules/methods/fstat';
+import fstat from '../../compiled/transformedMinor/craydent.fstat';
 jest.mock('fs', () => {
     return {
         "fstat": (...args) => {

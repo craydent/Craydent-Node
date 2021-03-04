@@ -1,4 +1,4 @@
-import isIPad from '../../modules/methods/isIPad';
+import isIPad from '../../compiled/transformedMinor/craydent.isipad';
 describe('isIPad', () => {
     it('should check if device is an iPad', () => {
         expect(isIPad.call({ navigator: { userAgent: 'iPad' } })).toBe(true);

@@ -1,5 +1,5 @@
-import insert from '../../modules/methods/insert';
-jest.mock('../../modules/methods/add', () => {
+import insert from '../../compiled/transformedMinor/craydent.insert';
+jest.mock('../../compiled/transformedMinor/craydent.add', () => {
     return {
         "default": (...args) => add.apply(this, args)
     }

@@ -1,22 +1,22 @@
-import * as CC from '../../modules/methods/clearCache';
-import indexOfAlt from '../../modules/methods/indexOfAlt';
+import * as CC from '../../compiled/transformedMinor/craydent.clearcache';
+import indexOfAlt from '../../compiled/transformedMinor/craydent.indexofalt';
 
 describe('clearCache', () => {
     it('should remove specific module', () => {
         const spy = jest.spyOn(CC, '_clearCacheHelper');
-        require('../../modules/methods/isNull');
-        require('../../modules/methods/isNullOrEmpty');
-        expect(CC.default("../../modules/methods/isNull")).toBe(true);
+        require('../../compiled/transformedMinor/craydent.isnull');
+        require('../../compiled/transformedMinor/craydent.isnullorempty');
+        expect(CC.default("../../compiled/transformedMinor/craydent.isnull")).toBe(true);
         expect(spy).toHaveBeenCalledTimes(1);
-        expect(spy).toHaveBeenCalledWith(require.resolve('../../modules/methods/isNull'));
+        expect(spy).toHaveBeenCalledWith(require.resolve('../../compiled/transformedMinor/craydent.isnull'));
     })
     it('should remove modules', () => {
         const spy = jest.spyOn(CC, '_clearCacheHelper');
         const finder = (call, value) => { return call[0] == value };
-        const isNullPath = require.resolve('../../modules/methods/isNull');
-        const isNullOrEmpty = require.resolve('../../modules/methods/isNullOrEmpty');
-        require('../../modules/methods/isNull');
-        require('../../modules/methods/isNullOrEmpty');
+        const isNullPath = require.resolve('../../compiled/transformedMinor/craydent.isnull');
+        const isNullOrEmpty = require.resolve('../../compiled/transformedMinor/craydent.isnullorempty');
+        require('../../compiled/transformedMinor/craydent.isnull');
+        require('../../compiled/transformedMinor/craydent.isnullorempty');
         expect(CC.default()).toBe(true);
         expect(spy.mock.calls.length).toBeGreaterThanOrEqual(2);
         expect(spy).toHaveBeenNthCalledWith(indexOfAlt(spy.mock.calls, isNullPath, finder) + 1, isNullPath);

@@ -1,5 +1,5 @@
-import innerJoin from '../../modules/methods/innerJoin';
-jest.mock('../../modules/methods/where', () => {
+import innerJoin from '../../compiled/transformedMinor/craydent.innerjoin';
+jest.mock('../../compiled/transformedMinor/craydent.where', () => {
     return {
         "_joinHelper": (...args) => _joinHelper.apply(this, args)
     }

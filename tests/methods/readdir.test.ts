@@ -1,4 +1,4 @@
-import readdir from '../../modules/methods/readdir';
+import readdir from '../../compiled/transformedMinor/craydent.readdir';
 jest.mock('fs', () => {
     return {
         "readdir": (...args) => {

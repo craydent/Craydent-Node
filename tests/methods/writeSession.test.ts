@@ -1,5 +1,5 @@
-import writeSession from '../../modules/methods/writeSession';
-import { $c } from '../../modules/private/__common';
+import writeSession from '../../compiled/transformedMinor/craydent.writesession';
+import { $c } from '../../compiled/transformedMinor/craydent.writesession/private/__common';
 
 jest.mock('fs', () => {
     return {

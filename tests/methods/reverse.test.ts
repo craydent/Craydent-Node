@@ -1,4 +1,4 @@
-import reverse from '../../modules/methods/reverse';
+import reverse from '../../compiled/transformedMinor/craydent.reverse';
 describe('reverse', () => {
     it('should reverse the string', () => {
         expect(reverse('abcd')).toBe('dcba');

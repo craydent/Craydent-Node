@@ -1,5 +1,5 @@
-import isIE from '../../modules/methods/isIE';
-jest.mock('../../modules/methods/IEVersion', () => {
+import isIE from '../../compiled/transformedMinor/craydent.isie';
+jest.mock('../../compiled/transformedMinor/craydent.ieversion', () => {
     return {
         "default": (...args) => IEVersion.apply(this, args)
     }

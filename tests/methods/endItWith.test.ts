@@ -1,4 +1,4 @@
-import endItWith from '../../modules/methods/endItWith';
+import endItWith from '../../compiled/transformedMinor/craydent.enditwith';
 describe('endItWith', () => {
     it('should add ending if not present', () => {
         expect(endItWith('path', '/')).toBe('path/');

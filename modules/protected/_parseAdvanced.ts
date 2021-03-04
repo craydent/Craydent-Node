@@ -1,15 +1,15 @@
 import error from '../methods/error';
-import clearCache from '../methods/clearCache';
-import fillTemplate from '../methods/fillTemplate';
-import getProperty from '../methods/getProperty';
-import isArray from '../methods/isArray';
-import isObject from '../methods/isObject';
-import isString from '../methods/isString';
-import absolutePath from '../methods/absolutePath';
-import startsWithAny from '../methods/startsWithAny';
+import clearCache from '../methods/clearcache';
+import fillTemplate from '../methods/filltemplate';
+import getProperty from '../methods/getproperty';
+import isArray from '../methods/isarray';
+import isObject from '../methods/isobject';
+import isString from '../methods/isstring';
+import absolutePath from '../methods/absolutepath';
+import startsWithAny from '../methods/startswithany';
 import strip from '../methods/strip';
-import tryEval from '../methods/tryEval';
-import { AnyObjects, AnyObject } from '../models/Arrays';
+import tryEval from '../methods/tryeval';
+import { AnyObjects, AnyObject } from '../models/Generics';
 import include from '../methods/include';
 
 const $g: any = global;

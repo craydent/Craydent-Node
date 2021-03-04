@@ -1,4 +1,4 @@
-import isDomElement from '../../modules/methods/isDomElement';
+import isDomElement from '../../compiled/transformedMinor/craydent.isdomelement';
 describe('isDomElement', () => {
     it('should check if value is a dom element', () => {
         expect(isDomElement(null)).toBe(false);

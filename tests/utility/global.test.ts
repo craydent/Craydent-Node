@@ -1,6 +1,6 @@
-import $c from '../../transformedMajor/utility/global';
+import $c from '../../compiled/transformedMajor/utility/global';
 import _getFuncName from '../../modules/protected/_getFuncName';
-import isBetween from '../../modules/methods/isBetween';
+import isBetween from '../../compiled/transformedMinor/craydent.isbetween';
 $c;
 describe('No Conflict Global methods', function () {
     let win = (global as any).window;

@@ -1,8 +1,8 @@
 import * as path from 'path';
 import error from '../methods/error';
-import tryEval from '../methods/tryEval';
-import mkdirRecursive from '../methods/mkdirRecursive';
-import { AnyObject } from '../models/Arrays';
+import tryEval from '../methods/tryeval';
+import mkdirRecursive from '../methods/mkdirrecursive';
+import { AnyObject } from '../models/Generics';
 import include from '../methods/include';
 
 export default function _sessionFileCreateAndRetrieve(filepath: string, sync?: boolean, callback?: (data: AnyObject) => void): AnyObject | Promise<AnyObject> {

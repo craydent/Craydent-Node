@@ -1,4 +1,4 @@
-import stdev from '../../modules/methods/stdev';
+import stdev from '../../compiled/transformedMinor/craydent.stdev';
 describe('stdev', () => {
     it('should get standar deviation', () => {
         let arr = [1, 2, 3, null, 2];

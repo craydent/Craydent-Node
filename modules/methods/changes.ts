@@ -1,6 +1,6 @@
 import error from '../methods/error';
 import equals from '../methods/equals';
-import { AnyObject } from '../models/Arrays';
+import { AnyObject } from '../models/Generics';
 
 export interface CompareResults {
     $length: number;

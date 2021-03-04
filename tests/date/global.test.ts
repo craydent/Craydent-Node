@@ -1,4 +1,4 @@
-import $c from '../../transformedMajor/date/global';
+import $c from '../../compiled/transformedMajor/date/global';
 $c;
 describe('No Conflict Date', function () {
     var date = new Date('1/8/2016 13:00:00');

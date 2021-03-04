@@ -1,4 +1,4 @@
-import utimes from '../../modules/methods/utimes';
+import utimes from '../../compiled/transformedMinor/craydent.utimes';
 jest.mock('fs', () => {
     return {
         "utimes": (...args) => {

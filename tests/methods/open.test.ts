@@ -1,4 +1,4 @@
-import open from '../../modules/methods/open';
+import open from '../../compiled/transformedMinor/craydent.open';
 jest.mock('fs', () => {
     return {
         "open": (...args) => {

@@ -1,4 +1,4 @@
-import isBlackBerry from '../../modules/methods/isBlackBerry';
+import isBlackBerry from '../../compiled/transformedMinor/craydent.isblackberry';
 describe('isBlackBerry', () => {
     it('should check if browser is BlackBerry', () => {
         const dis = { navigator: { userAgent: 'blackberry' } };

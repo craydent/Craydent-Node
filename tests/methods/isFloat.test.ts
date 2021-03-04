@@ -1,4 +1,4 @@
-import isFloat from '../../modules/methods/isFloat';
+import isFloat from '../../compiled/transformedMinor/craydent.isfloat';
 describe('isFloat', () => {
     it('should check if value is a float', () => {
         expect(isFloat(null)).toBe(false);

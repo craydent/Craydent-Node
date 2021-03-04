@@ -1,27 +1,27 @@
-import isArray from '../methods/isArray';
-import isAsync from '../methods/isAsync';
-import isBetween from '../methods/isBetween';
-import isBoolean from '../methods/isBoolean';
-import isDate from '../methods/isDate';
-import isDomElement from '../methods/isDomElement';
-import isEmpty from '../methods/isEmpty';
-import isError from '../methods/isError';
-import isFloat from '../methods/isFloat';
-import isFunction from '../methods/isFunction';
-import isGenerator from '../methods/isGenerator';
-import isGeolocation from '../methods/isGeolocation';
-import isInt from '../methods/isInt';
-import _isNull from '../methods/isNull';
-import isNullOrEmpty from '../methods/isNullOrEmpty';
-import isNumber from '../methods/isNumber';
-import isObject from '../methods/isObject';
-import isPromise from '../methods/isPromise';
-import isRegExp from '../methods/isRegExp';
-import isString from '../methods/isString';
+import isArray from '../methods/isarray';
+import isAsync from '../methods/isasync';
+import isBetween from '../methods/isbetween';
+import isBoolean from '../methods/isboolean';
+import isDate from '../methods/isdate';
+import isDomElement from '../methods/isdomelement';
+import isEmpty from '../methods/isempty';
+import isError from '../methods/iserror';
+import isFloat from '../methods/isfloat';
+import isFunction from '../methods/isfunction';
+import isGenerator from '../methods/isgenerator';
+import isGeolocation from '../methods/isgeolocation';
+import isInt from '../methods/isint';
+import _isNull from '../methods/isnull';
+import isNullOrEmpty from '../methods/isnullorempty';
+import isNumber from '../methods/isnumber';
+import isObject from '../methods/isobject';
+import isPromise from '../methods/ispromise';
+import isRegExp from '../methods/isregexp';
+import isString from '../methods/isstring';
 
 import { scope } from '../private/__common';
 
-if (typeof (global as any) == 'undefined'){
+if (typeof (global as any) == 'undefined') {
     (window as any).global = window;
 }
 scope.eval = str => eval(str);

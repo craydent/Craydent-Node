@@ -1,9 +1,9 @@
 import error from '../methods/error';
-import isString from '../methods/isString';
-import isObject from '../methods/isObject';
-import isArray from '../methods/isArray';
+import isString from '../methods/isstring';
+import isObject from '../methods/isobject';
+import isArray from '../methods/isarray';
 import JSZip from '../methods/JSZip';
-import { AnyObject } from '../models/Arrays';
+import { AnyObject } from '../models/Generics';
 
 export default function zipit(files: Array<{ name: string, content: string | AnyObject }>);
 export default function zipit(file: { name: string, content: string | AnyObject });

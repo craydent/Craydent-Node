@@ -7,8 +7,8 @@
 /*/---------------------------------------------------------/*/
 import error from '../methods/error';
 import __convertRegexSafe from '../private/__convertRegexSafe';
-import isArray from '../methods/isArray';
-import isString from '../methods/isString';
+import isArray from '../methods/isarray';
+import isString from '../methods/isstring';
 
 export default function _generalTrim(str: string, side?: string, characters?: string | string[]): string {
     try {

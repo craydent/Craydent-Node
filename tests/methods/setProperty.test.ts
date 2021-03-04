@@ -1,4 +1,4 @@
-import setProperty from '../../modules/methods/setProperty';
+import setProperty from '../../compiled/transformedMinor/craydent.setproperty';
 describe('setProperty', () => {
     it('should set the property', () => {
         let obj = { a: 1 };

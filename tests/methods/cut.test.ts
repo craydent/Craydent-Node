@@ -1,4 +1,4 @@
-import cut from '../../modules/methods/cut';
+import cut from '../../compiled/transformedMinor/craydent.cut';
 describe('cut', () => {
     it('should cut a section of the string', () => {
         expect(cut("0123456", 1, 4)).toBe("056");

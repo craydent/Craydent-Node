@@ -1,4 +1,4 @@
-import Set from '../../modules/methods/set';
+import Set from '../../compiled/transformedMinor/craydent.set';
 describe('Set', () => {
     it('should create a set', () => {
         const arr = [1, 2, 2, 3, 4, 5];

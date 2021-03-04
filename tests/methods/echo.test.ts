@@ -1,4 +1,4 @@
-import echo from '../../modules/methods/echo';
+import echo from '../../compiled/transformedMinor/craydent.echo';
 describe('echo', () => {
     afterAll(() => {
         delete (echo as any).out;

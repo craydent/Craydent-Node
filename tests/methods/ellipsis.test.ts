@@ -1,4 +1,4 @@
-import ellipsis from '../../modules/methods/ellipsis';
+import ellipsis from '../../compiled/transformedMinor/craydent.ellipsis';
 describe('ellipsis', () => {
     it('should not add ellipsis', () => {
         expect(ellipsis('the sentence', 15)).toBe('the sentence');

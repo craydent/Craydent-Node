@@ -1,11 +1,11 @@
 import error from '../methods/error';
-import getGMTOffset from '../methods/getGMTOffset';
-import getWeek from '../methods/getWeek';
-import getDayOfYear from '../methods/getDayOfYear';
-import isValidDate from '../methods/isValidDate';
-import isInt from '../methods/isInt';
-import keyOf from '../methods/keyOf';
-import isNull from '../methods/isNull';
+import getGMTOffset from '../methods/getgmtoffset';
+import getWeek from '../methods/getweek';
+import getDayOfYear from '../methods/getdayofyear';
+import isValidDate from '../methods/isvaliddate';
+import isInt from '../methods/isint';
+import keyOf from '../methods/keyof';
+import isNull from '../methods/isnull';
 
 /*
  *  options properties:

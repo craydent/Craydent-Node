@@ -1,4 +1,4 @@
-import readlink from '../../modules/methods/readlink';
+import readlink from '../../compiled/transformedMinor/craydent.readlink';
 jest.mock('fs', () => {
     return {
         "readlink": (...args) => {

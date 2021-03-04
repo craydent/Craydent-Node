@@ -5,18 +5,18 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-///<reference path="../globalTypes/global.vars.ts" />
+///<reference path="../globalTypes/global.vars.d.ts" />
 //#region imports
 //@ts-ignore
 import { $c, info } from '../private/__common';
 import * as IAdd from '../methods/add';
 import * as IAggregate from '../methods/aggregate';
 import * as IAverage from '../methods/average';
-import * as IBuildTree from '../methods/buildTree';
+import * as IBuildTree from '../methods/buildtree';
 import * as ICondense from '../methods/condense';
 import * as IContains from '../methods/contains';
 import * as ICount from '../methods/count';
-import * as ICreateIndex from '../methods/createIndex';
+import * as ICreateIndex from '../methods/createindex';
 import * as IDeleteIt from '../methods/delete';
 import * as IDistinct from '../methods/distinct';
 import * as IEmit from '../methods/emit';
@@ -25,42 +25,43 @@ import * as IEvery from '../methods/every';
 import * as IExt from '../protected/_ext';
 import * as IFilter from '../methods/filter';
 import * as IFind from '../methods/find';
-import * as IFindOne from '../methods/findOne';
-import * as IGetValue from '../methods/getValue';
+import * as IFindOne from '../methods/findone';
+import * as IGetValue from '../methods/getvalue';
 import * as IGroup from '../methods/group';
-import * as IIndexOfAlt from '../methods/indexOfAlt';
-import * as IInnerJoin from '../methods/innerJoin';
+import * as IIndexOfAlt from '../methods/indexofalt';
+import * as IInnerJoin from '../methods/innerjoin';
 import * as IInsert from '../methods/insert';
-import * as IInsertAfter from '../methods/insertAfter';
-import * as IInsertAt from '../methods/insertAt';
-import * as IInsertBefore from '../methods/insertBefore';
-import * as IIsEmpty from '../methods/isEmpty';
-import * as IIsSubset from '../methods/isSubset';
-import * as IJoinLeft from '../methods/joinLeft';
-import * as IJoinRight from '../methods/joinRight';
+import * as IInsertAfter from '../methods/insertafter';
+import * as IInsertAt from '../methods/insertat';
+import * as IInsertBefore from '../methods/insertbefore';
+import * as IIsEmpty from '../methods/isempty';
+import * as IIsSubset from '../methods/issubset';
+import * as IJoinLeft from '../methods/joinleft';
+import * as IJoinRight from '../methods/joinright';
 import * as ILast from '../methods/last';
 import * as ILimit from '../methods/limit';
 import * as ILogModule from '../private/__logModule';
 import * as IMap from '../methods/map';
-import * as IMapReduce from '../methods/mapReduce';
+import * as IMapReduce from '../methods/mapreduce';
 import * as INormalize from '../methods/normalize';
-import * as IParallelEach from '../methods/parallelEach';
+import * as IParallelEach from '../methods/paralleleach';
 import * as IRemove from '../methods/remove';
-import * as IRemoveAll from '../methods/removeAll';
-import * as IRemoveAt from '../methods/removeAt';
-import * as IReplaceAt from '../methods/replaceAt';
+import * as IRemoveAll from '../methods/removeall';
+import * as IRemoveAt from '../methods/removeat';
+import * as IReplaceAt from '../methods/replaceat';
 import * as IScramble from '../methods/scramble';
-import * as ISortBy from '../methods/sortBy';
+import * as ISortBy from '../methods/sortby';
 import * as IStdev from '../methods/stdev';
 import * as ISum from '../methods/sum';
-import * as IToSet from '../methods/toSet';
-import * as IUniversalTrim from '../methods/universalTrim';
+import * as IToSet from '../methods/toset';
+import * as IUniversalTrim from '../methods/universaltrim';
 import * as IUpdate from '../methods/update';
 import * as IUpsert from '../methods/upsert';
 import * as IWhere from '../methods/where';
 import * as IPrototypes from './__prototypes';
 //#endregion
 
+//#region typeDefs
 declare global {
     interface Craydent {
         add: typeof IAdd.default;
@@ -181,6 +182,7 @@ declare global {
 
     //#endregion global
 }
+//#endregion typeDefs
 if (!$c.MODULES_LOADED[info.name]) {
     const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);
@@ -200,7 +202,7 @@ if (!$c.MODULES_LOADED[info.name]) {
     ext(Array, 'distinct', prototypes._distinct);
     ext(Array, "equals", prototypes._equals, true);
     ext(Array, 'every', prototypes._every, true);
-    ext(Array, 'filter', prototypes._filter, true);
+    ext(Array, 'filter', prototypes._filter);
     ext(Array, 'find', prototypes._find);
     ext(Array, 'findOne', prototypes._findOne);
     ext(Array, "getValue", prototypes._getValue, true);
@@ -217,7 +219,7 @@ if (!$c.MODULES_LOADED[info.name]) {
     ext(Array, "joinRight", prototypes._joinRight);
     ext(Array, "last", prototypes._last, true);
     ext(Array, 'limit', prototypes._limit, true);
-    ext(Array, 'map', prototypes._map, true);
+    ext(Array, 'map', prototypes._map);
     ext(Array, 'mapReduce', prototypes._mapReduce);
     ext(Array, 'normalize', prototypes._normalize, true);
     ext(Array, 'parallelEach', prototypes._parallelEach, true);

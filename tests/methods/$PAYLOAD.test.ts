@@ -1,5 +1,5 @@
-import $PAYLOAD from '../../modules/methods/$PAYLOAD';
-jest.mock('../../modules/protected/_verbPayloadHelper', () => {
+import $PAYLOAD from '../../compiled/transformedMinor/craydent.http.payload';
+jest.mock('../../compiled/transformedMinor/craydent.http.payload/protected/_verbPayloadHelper', () => {
     return {
         "default": (dis, variable, method, options) => { _verbPayloadHelper(dis, variable, method, options); }
     }

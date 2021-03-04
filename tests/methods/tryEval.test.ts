@@ -1,4 +1,4 @@
-import tryEval from '../../modules/methods/tryEval';
+import tryEval from '../../compiled/transformedMinor/craydent.tryeval';
 describe('tryEval', () => {
     it('should evaluate without throwing an error', () => {
         expect(tryEval('{')).toBe(null);

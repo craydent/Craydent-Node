@@ -1,8 +1,8 @@
 import error from '../methods/error';
-import isArray from '../methods/isArray';
-import isObject from '../methods/isObject';
-import isRegExp from '../methods/isRegExp';
-import { AnyObject } from '../models/Arrays';
+import isArray from '../methods/isarray';
+import isObject from '../methods/isobject';
+import isRegExp from '../methods/isregexp';
+import { AnyObject } from '../models/Generics';
 
 export default function equals(obj: AnyObject, compare: AnyObject, props?: string[]): boolean;
 export default function equals(item: any, compare: any): boolean;

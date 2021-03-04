@@ -1,4 +1,4 @@
-import substringBetween from '../../modules/methods/substringBetween';
+import substringBetween from '../../compiled/transformedMinor/craydent.substringbetween';
 describe('substringBetween', () => {
     it('should get substring between specified strings', () => {
         expect(substringBetween('abcde', 'a', 'e')).toBe('bcd');

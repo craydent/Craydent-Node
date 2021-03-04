@@ -1,4 +1,4 @@
-import isValidEmail from '../../modules/methods/isValidEmail';
+import isValidEmail from '../../compiled/transformedMinor/craydent.isvalidemail';
 describe('isValidEmail', () => {
     it('should check if the value is a valid email', () => {
         expect(isValidEmail('clark@craydent.com')).toBe(true);

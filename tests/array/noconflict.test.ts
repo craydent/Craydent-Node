@@ -1,8 +1,8 @@
-import $c from '../../transformedMajor/array/noConflict';
-import isNull from '../../modules/methods/isNull';
-import syncroit from '../../modules/methods/syncroit';
-import duplicate from '../../modules/methods/duplicate';
-import ajax from '../../modules/methods/ajax';
+import $c from '../../compiled/transformedMajor/array/noConflict';
+import isNull from '../../compiled/transformedMinor/craydent.isnull';
+import syncroit from '../../compiled/transformedMinor/craydent.syncroit';
+import duplicate from '../../compiled/transformedMinor/craydent.duplicate';
+import ajax from '../../compiled/transformedMinor/craydent.ajax';
 
 describe('No Conflict Array', function () {
     describe('aggregate', function () {

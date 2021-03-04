@@ -1,5 +1,5 @@
-import now from '../../modules/methods/now';
-jest.mock('../../modules/methods/format', () => {
+import now from '../../compiled/transformedMinor/craydent.now';
+jest.mock('../../compiled/transformedMinor/craydent.format', () => {
     return {
         "default": (...args) => format.apply(this, args)
     }

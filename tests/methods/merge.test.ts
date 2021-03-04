@@ -1,4 +1,4 @@
-import merge from '../../modules/methods/merge';
+import merge from '../../compiled/transformedMinor/craydent.merge';
 describe('merge', () => {
     it('should merge objects', () => {
         let original = {};

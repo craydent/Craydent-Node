@@ -1,5 +1,5 @@
-import CLI from '../../modules/methods/cli';
-import { _searchRange } from '../../modules/methods/where';
+import CLI from '../../compiled/transformedMinor/craydent.cli';
+import { _searchRange } from '../../compiled/transformedMinor/craydent.where';
 jest.mock('child_process', () => {
     return {
         "exec": (...args) => {

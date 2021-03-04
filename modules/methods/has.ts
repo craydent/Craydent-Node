@@ -1,5 +1,5 @@
 import error from '../methods/error';
-import { AnyObject } from '../models/Arrays';
+import { AnyObject } from '../models/Generics';
 
 export default function has(obj: AnyObject, property: string): boolean {
     /*|{

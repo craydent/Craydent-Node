@@ -1,5 +1,5 @@
-import $c from '../../transformedMajor/function';
-import foo from '../../modules/methods/foo'
+import $c from '../../compiled/transformedMajor/function';
+import foo from '../../compiled/transformedMinor/craydent.foo'
 
 describe('No Conflict Function', function () {
 	function temp(par1, par2) {

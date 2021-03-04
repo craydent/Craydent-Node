@@ -1,4 +1,4 @@
-import cuid from '../../modules/methods/cuid';
+import cuid from '../../compiled/transformedMinor/craydent.cuid';
 describe('cuid', () => {
     it('should generate a cuid', () => {
         const uidRegex = /[a-z0-9]{8}-[a-z0-9]{4}-4[a-z0-9]{3}-[a-z0-9]{4}-[a-z0-9]{12}/;

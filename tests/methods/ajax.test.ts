@@ -1,5 +1,5 @@
-import * as ctx from '../../modules/methods/ajax';
-import ajax, { __ajaxServerResponse } from '../../modules/methods/ajax';
+import * as ctx from '../../compiled/transformedMinor/craydent.ajax';
+import ajax, { __ajaxServerResponse } from '../../compiled/transformedMinor/craydent.ajax';
 jest.mock('http', () => {
     return {
         "request": (...args) => _nodeRequest.apply(this, args)
@@ -10,22 +10,22 @@ jest.mock('https', () => {
         "request": (...args) => _nodeRequest.apply(this, args)
     }
 });
-jest.mock('../../modules/methods/Request', () => {
+jest.mock('../../compiled/transformedMinor/craydent.request', () => {
     return {
         "default": (...args) => _jsRequest.apply(this, args)
     }
 });
-jest.mock('../../modules/methods/isFunction', () => {
+jest.mock('../../compiled/transformedMinor/craydent.isfunction', () => {
     return {
         "default": (obj) => !!obj && obj.constructor.name == 'Function'
     }
 });
-jest.mock('../../modules/methods/IEVersion', () => {
+jest.mock('../../compiled/transformedMinor/craydent.ieversion', () => {
     return {
         "default": () => -1
     }
 });
-jest.mock('../../modules/methods/rand', () => {
+jest.mock('../../compiled/transformedMinor/craydent.rand', () => {
     return {
         "default": () => _rand()
     }
@@ -34,7 +34,7 @@ let _nodeRequest = () => { };
 let _jsRequest = () => { };
 let _rand = () => { }
 
-describe('addObjectPrototype', () => {
+describe('ajax', () => {
     describe('NodeJS', () => {
         const win = window;
         let res, req;

@@ -1,5 +1,5 @@
-import joinRight from '../../modules/methods/joinRight';
-jest.mock('../../modules/methods/where', () => {
+import joinRight from '../../compiled/transformedMinor/craydent.joinright';
+jest.mock('../../compiled/transformedMinor/craydent.where', () => {
     return {
         "_joinHelper": (...args) => _joinHelper.apply(this, args)
     }

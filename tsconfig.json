@@ -7,22 +7,35 @@
         "target": "es5",
         "sourceMap": false,
         "module": "commonjs",
+        "skipLibCheck": false,
+        "paths": {
+            "@craydent/craydent-*": [
+                "compiled/transformedMajor/*"
+            ],
+            "@craydent/craydent.*": [
+                "compiled/transformedMinor/craydent.*"
+            ],
+            "craydent-*": [
+                "compiled/transformedMajor/*"
+            ],
+            "craydent.*": [
+                "compiled/transformedMinor/craydent.*"
+            ],
+        },
         "lib": [
             "es2017",
             "dom"
         ]
     },
     "include": [
-        "**/*.ts"
+        "compiled/**/*.ts"
     ],
     "exclude": [
         "node_modules",
-        "compiled",
         "local_scripts",
         "submodules",
         "test",
         "tests",
-        "@types",
         "modules",
         "modules.bk"
     ]

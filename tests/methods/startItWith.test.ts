@@ -1,4 +1,4 @@
-import startItWith from '../../modules/methods/startItWith';
+import startItWith from '../../compiled/transformedMinor/craydent.startitwith';
 describe('startItWith', () => {
     it('should add prefix if not present', () => {
         expect(startItWith('path', '/')).toBe('/path');

@@ -1,6 +1,6 @@
 import error from '../methods/error';
 import _irregularNouns from '../protected/_irregularNouns';
-import keyOf from '../methods/keyOf';
+import keyOf from '../methods/keyof';
 
 export default function singularize(str: string): string {
     /*|{

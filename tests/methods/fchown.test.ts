@@ -1,4 +1,4 @@
-import fchown from '../../modules/methods/fchown';
+import fchown from '../../compiled/transformedMinor/craydent.fchown';
 jest.mock('fs', () => {
     return {
         "fchown": (...args) => {

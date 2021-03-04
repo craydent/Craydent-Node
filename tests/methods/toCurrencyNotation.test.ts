@@ -1,4 +1,4 @@
-import toCurrencyNotation from '../../modules/methods/toCurrencyNotation';
+import toCurrencyNotation from '../../compiled/transformedMinor/craydent.tocurrencynotation';
 describe('toCurrencyNotation', () => {
     it('should convert string to currency notation', () => {
         expect(toCurrencyNotation('1000000')).toBe('1,000,000');

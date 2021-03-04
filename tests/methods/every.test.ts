@@ -1,4 +1,4 @@
-import every from '../../modules/methods/every';
+import every from '../../compiled/transformedMinor/craydent.every';
 describe('every', () => {
     it('should check all values in the array', () => {
         const arr = [{ id: 1 }, { id: 2 }, { id: 3 }];

@@ -1,4 +1,4 @@
-import singularize from '../../modules/methods/singularize';
+import singularize from '../../compiled/transformedMinor/craydent.singularize';
 describe('singularize', () => {
     it('should singularize string', () => {
         expect(singularize("addenda")).toBe("addendum");

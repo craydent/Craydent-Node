@@ -1,4 +1,4 @@
-import itemCount from '../../modules/methods/itemCount';
+import itemCount from '../../compiled/transformedMinor/craydent.itemcount';
 describe('itemCount', () => {
     it('should count the properties', () => {
         expect(itemCount(null)).toBe(null);

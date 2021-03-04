@@ -1,7 +1,7 @@
-import varDump from '../../modules/methods/varDump';
+import varDump from '../../compiled/transformedMinor/craydent.vardump';
 
 function echo() { }
-jest.mock('../../modules/methods/echo', () => {
+jest.mock('../../compiled/transformedMinor/craydent.echo', () => {
     return {
         "default": echo
     }

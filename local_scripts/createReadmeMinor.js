@@ -49,8 +49,8 @@ var YELLOW = '\x1b[33m%s\x1b[0m';
 
 
 var fs = require('fs');
-var fillTemplate = require(`${root}/compiled/transformedMinor/craydent.fillTemplate`).default;
-var fconfig = require(`${root}/compiled/transformedMinor/craydent.fillTemplate`).TEMPLATE_TAG_CONFIG;
+var fillTemplate = require(`${root}/compiled/transformedMinor/craydent.filltemplate`).default;
+var fconfig = require(`${root}/compiled/transformedMinor/craydent.filltemplate`).TEMPLATE_TAG_CONFIG;
 fconfig.IGNORE_CHARS = [];
 var readmeTemplate = fs.readFileSync(`${root}/local_scripts/readme.template.md`, 'utf-8');
 var dirs = fs.readdirSync(`${root}/compiled/transformedMinor`);

@@ -1,4 +1,4 @@
-import fsync from '../../modules/methods/fsync';
+import fsync from '../../compiled/transformedMinor/craydent.fsync';
 jest.mock('fs', () => {
     return {
         "fsync": (...args) => {

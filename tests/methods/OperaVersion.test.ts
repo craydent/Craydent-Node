@@ -1,5 +1,5 @@
-import OperaVersion from '../../modules/methods/OperaVersion';
-jest.mock('../../modules/protected/_getBrowserVersion', () => {
+import OperaVersion from '../../compiled/transformedMinor/craydent.operaversion';
+jest.mock('../../compiled/transformedMinor/craydent.operaversion/protected/_getBrowserVersion', () => {
     return {
         "default": (...args) => {
             return _getBrowserVersion.apply(this, args);

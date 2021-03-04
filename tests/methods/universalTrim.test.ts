@@ -1,4 +1,4 @@
-import universalTrim from '../../modules/methods/universalTrim';
+import universalTrim from '../../compiled/transformedMinor/craydent.universaltrim';
 describe('universalTrim', () => {
     it('should do a trim', () => {
         expect(universalTrim(null)).toBe('');

@@ -1,4 +1,4 @@
-import $HEADER from '../../modules/methods/$HEADER';
+import $HEADER from '../../compiled/transformedMinor/craydent.http.header';
 
 describe('$HEADER', () => {
     describe('NodeJS', () => {

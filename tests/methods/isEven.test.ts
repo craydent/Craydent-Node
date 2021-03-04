@@ -1,5 +1,5 @@
-import isEven from '../../modules/methods/isEven';
-jest.mock('../../modules/protected/_even', () => {
+import isEven from '../../compiled/transformedMinor/craydent.iseven';
+jest.mock('../../compiled/transformedMinor/craydent.iseven/protected/_even', () => {
     return {
         "default": (...args) => _even.apply(this, args)
     }

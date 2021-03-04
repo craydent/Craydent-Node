@@ -1,4 +1,4 @@
-import isMobile from '../../modules/methods/isMobile';
+import isMobile from '../../compiled/transformedMinor/craydent.ismobile';
 describe('isMobile', () => {
     it('should check if browser is Mobile', () => {
         // expect(isMobile.call({ navigator: { userAgent: 'android' } })).toBe(true);

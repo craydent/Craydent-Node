@@ -1,5 +1,5 @@
-import catchIt from '../../modules/methods/catch';
-jest.mock('../../modules/methods/on', () => {
+import catchIt from '../../compiled/transformedMinor/craydent.catch';
+jest.mock('../../compiled/transformedMinor/craydent.on', () => {
     return {
         "default": (...args) => _on.apply(this, args)
     }

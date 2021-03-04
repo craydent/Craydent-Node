@@ -1,4 +1,4 @@
-import toSet from '../../modules/methods/toSet';
+import toSet from '../../compiled/transformedMinor/craydent.toset';
 describe('toSet', () => {
     it('should array to a set', () => {
         let arr = [{}, {}, {}, 1, 2];

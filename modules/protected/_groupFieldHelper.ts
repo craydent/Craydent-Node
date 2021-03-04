@@ -1,4 +1,4 @@
-import getProperty from '../methods/getProperty';
+import getProperty from '../methods/getproperty';
 
 export default function _groupFieldHelper(obj: any, fields: string[]): string {
     let prop = "", j = 0, field;

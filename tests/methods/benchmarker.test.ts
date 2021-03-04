@@ -1,4 +1,4 @@
-import Benchmarker from '../../modules/methods/benchmarker';
+import Benchmarker from '../../compiled/transformedMinor/craydent.benchmarker';
 describe('benchmarker', () => {
     const RealDate = Date;
     beforeEach(() => {

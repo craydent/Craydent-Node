@@ -5,17 +5,17 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-///<reference path="../globalTypes/global.vars.ts" />
+///<reference path="../globalTypes/global.vars.d.ts" />
 //#region imports
 //@ts-ignore
 import { $c, info } from '../private/__common';
 import * as ILogModule from '../private/__logModule';
 import * as IAccess from '../methods/access';
-import * as IAppendFile from '../methods/appendFile';
+import * as IAppendFile from '../methods/appendfile';
 import * as IChmod from '../methods/chmod';
 import * as IChown from '../methods/chown';
 import * as IClose from '../methods/close';
-import * as ICopyFile from '../methods/copyFile';
+import * as ICopyFile from '../methods/copyfile';
 import * as IFchmod from '../methods/fchmod';
 import * as IFchown from '../methods/fchown';
 import * as IFdatasync from '../methods/fdatasync';
@@ -32,7 +32,7 @@ import * as IMkdtemp from '../methods/mkdtemp';
 import * as IOpen from '../methods/open';
 import * as IRead from '../methods/read';
 import * as IReaddir from '../methods/readdir';
-import * as IReadFile from '../methods/readFile';
+import * as IReadFile from '../methods/readfile';
 import * as IReadlink from '../methods/readlink';
 import * as IRealpath from '../methods/realpath';
 import * as IRename from '../methods/rename';
@@ -43,10 +43,11 @@ import * as ITruncate from '../methods/truncate';
 import * as IUnlink from '../methods/unlink';
 import * as IUtimes from '../methods/utimes';
 import * as IWrite from '../methods/write';
-import * as IWriteFile from '../methods/writeFile';
+import * as IWriteFile from '../methods/writefile';
 import * as IPrototypes from './__prototypes';
 //#endregion
 
+//#region typeDefs
 declare global {
     interface Craydent {
         access: typeof IAccess.default;
@@ -171,6 +172,7 @@ declare global {
     var writeFile: typeof IWriteFile.default;
     //#endregion global
 }
+//#endregion typeDefs
 if (!$c.MODULES_LOADED[info.name]) {
     const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);

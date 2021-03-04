@@ -1,6 +1,6 @@
-import $ROLLBACK from '../../modules/methods/$ROLLBACK';
-import * as $COMMIT from '../../modules/methods/$COMMIT';
-// jest.mock('../../modules/methods/$COMMIT', () => {
+import $ROLLBACK from '../../compiled/transformedMinor/craydent.http.rollback';
+import * as $COMMIT from '../../compiled/transformedMinor/craydent.http.commit';
+// jest.mock('../../compiled/transformedMinor/craydent.$COMMIT', () => {
 //     return {
 //         "default": {}
 //     }

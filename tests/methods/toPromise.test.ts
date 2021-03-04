@@ -1,6 +1,6 @@
-import toPromise from '../../modules/methods/toPromise';
+import toPromise from '../../compiled/transformedMinor/craydent.topromise';
 
-jest.mock('../../modules/methods/syncroit', () => {
+jest.mock('../../compiled/transformedMinor/craydent.syncroit', () => {
     return {
         "default": (...args) => syncroit.apply(this, args)
     }

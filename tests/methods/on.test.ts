@@ -1,4 +1,4 @@
-import on from '../../modules/methods/on';
+import on from '../../compiled/transformedMinor/craydent.on';
 describe('on', () => {
     let func = () => { };
     beforeEach(() => {

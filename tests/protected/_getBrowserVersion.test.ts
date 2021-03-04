@@ -1,8 +1,8 @@
 import _getBrowserVersion from '../../modules/protected/_getBrowserVersion';
-import isChrome from '../../modules/methods/isChrome';
-import isFirefox from '../../modules/methods/isFirefox';
-import isSafari from '../../modules/methods/isSafari';
-import isOpera from '../../modules/methods/isOpera';
+import isChrome from '../../compiled/transformedMinor/craydent.ischrome';
+import isFirefox from '../../compiled/transformedMinor/craydent.isfirefox';
+import isSafari from '../../compiled/transformedMinor/craydent.issafari';
+import isOpera from '../../compiled/transformedMinor/craydent.isopera';
 
 describe('_getBrowserVersion', () => {
     const win = {

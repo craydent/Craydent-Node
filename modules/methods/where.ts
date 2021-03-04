@@ -17,25 +17,25 @@ import {
 } from '../protected/_containsComparisons';
 import _getFuncName from '../protected/_getFuncName';
 import duplicate from '../methods/duplicate';
-import getProperty from '../methods/getProperty';
-import setProperty from '../methods/setProperty';
-import isNull from '../methods/isNull';
-import isArray from '../methods/isArray';
-import isFunction from '../methods/isFunction';
-import isInt from '../methods/isInt';
-import isObject from '../methods/isObject';
-import isRegExp from '../methods/isRegExp';
-import isString from '../methods/isString';
-import parseBoolean from '../methods/parseBoolean';
+import getProperty from '../methods/getproperty';
+import setProperty from '../methods/setproperty';
+import isNull from '../methods/isnull';
+import isArray from '../methods/isarray';
+import isFunction from '../methods/isfunction';
+import isInt from '../methods/isint';
+import isObject from '../methods/isobject';
+import isRegExp from '../methods/isregexp';
+import isString from '../methods/isstring';
+import parseBoolean from '../methods/parseboolean';
 import contains from '../methods/contains';
-import removeAt from '../methods/removeAt';
+import removeAt from '../methods/removeat';
 import equals from '../methods/equals';
-import tryEval from '../methods/tryEval';
-import sortBy from '../methods/sortBy';
-import removeAll from '../methods/removeAll';
+import tryEval from '../methods/tryeval';
+import sortBy from '../methods/sortby';
+import removeAll from '../methods/removeall';
 import rand from '../methods/rand';
 import merge from '../methods/merge';
-import universalTrim from '../methods/universalTrim';
+import universalTrim from '../methods/universaltrim';
 import _generalTrim from '../protected/_generalTrim';
 import __pullHelper from '../private/__pullHelper';
 import _groupFieldHelper from '../protected/_groupFieldHelper';
@@ -49,10 +49,9 @@ import {
     CreateFuncOptions,
     SearchRangeOptions,
     ExtendedArray,
-    AnyObjects,
-    AnyObject,
     Fields
 } from '../models/Arrays';
+import { AnyObject, AnyObjects } from '../models/Generics';
 import _whereFunction from '../protected/_whereFunction';
 import _redact from '../protected/_redact';
 import _unwind from '../protected/_unwind';

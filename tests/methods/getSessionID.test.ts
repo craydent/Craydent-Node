@@ -1,4 +1,4 @@
-import getSessionID from '../../modules/methods/getSessionID';
+import getSessionID from '../../compiled/transformedMinor/craydent.getsessionid';
 describe('getSessionID', () => {
     it('should retrieve the session id on this', () => {
         const context = { sessionid: "12345" };

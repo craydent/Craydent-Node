@@ -1,8 +1,8 @@
-import lastIndexOfAlt from '../../modules/methods/lastIndexOfAlt';
+import lastIndexOfAlt from '../../compiled/transformedMinor/craydent.lastindexofalt';
 describe('lastIndexOfAlt', () => {
     const arr = ['ac', 'ab', 'ab', 'ac'];
     const str = 'acababac';
-                '01234567'
+    '01234567'
     it('should return -1 when not found or invalid', () => {
         expect(lastIndexOfAlt(arr, null)).toBe(-1);
         expect(lastIndexOfAlt(arr, null, () => null)).toBe(-1);

@@ -1,5 +1,5 @@
 import __pullHelper from '../../modules/private/__pullHelper';
-jest.mock('../../modules/methods/removeAt', () => {
+jest.mock('../../modules/methods/removeat', () => {
     return {
         "default": (...args) => removeAt.apply(this, args)
     }

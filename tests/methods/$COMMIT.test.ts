@@ -1,11 +1,11 @@
-import $COMMIT from '../../modules/methods/$COMMIT';
-import * as $COOKIE from '../../modules/methods/$COOKIE';
-jest.mock('../../modules/methods/$COOKIE', () => {
+import $COMMIT from '../../compiled/transformedMinor/craydent.http.commit';
+import * as $COOKIE from '../../compiled/transformedMinor/craydent.http.cookie';
+jest.mock('../../compiled/transformedMinor/craydent.http.cookie', () => {
     return {
         "default": jest.fn()
     }
 });
-jest.mock('../../modules/protected/_invokeHashChange', () => {
+jest.mock('../../compiled/transformedMinor/craydent.http.commit/protected/_invokeHashChange', () => {
     return {
         "default": () => { _invokeHashChange(); }
     }

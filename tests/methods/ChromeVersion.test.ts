@@ -1,5 +1,5 @@
-import ChromeVersion from '../../modules/methods/ChromeVersion';
-jest.mock('../../modules/protected/_getBrowserVersion', () => {
+import ChromeVersion from '../../compiled/transformedMinor/craydent.chromeversion';
+jest.mock('../../compiled/transformedMinor/craydent.chromeversion/protected/_getBrowserVersion', () => {
     return {
         "default": (...args) => {
             return _getBrowserVersion.apply(this, args);

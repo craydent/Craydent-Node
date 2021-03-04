@@ -15,13 +15,13 @@ import fillTemplate, {
     __processDeclarations,
     __processVariables,
     __processLeftoverRunners
-} from '../../modules/methods/fillTemplate';
-import { $c } from '../../modules/private/__common';
+} from '../../compiled/transformedMinor/craydent.filltemplate';
+import { $c } from '../../compiled/transformedMinor/craydent.filltemplate/private/__common';
 const uid = 'c6U5b9TqA1';
 let genSuid = () => {
     return uid;
 };
-jest.mock('../../modules/methods/suid', () => {
+jest.mock('../../compiled/transformedMinor/craydent.suid', () => {
     return {
         "default": () => {
             return genSuid();
@@ -87,8 +87,7 @@ describe('fillTemplate', function () {
         });
         it.each`
     method                  | template                                                                  | values                            | expected
-    ${'COUNT'}              | ${"<div>${COUNT[${arr}]}<div>"}                                           | ${
-            [{
+    ${'COUNT'}              | ${"<div>${COUNT[${arr}]}<div>"}                                           | ${[{
                 arr: [
                     { hi: "b" },
                     { hi: "c" }

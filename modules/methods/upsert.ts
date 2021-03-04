@@ -9,18 +9,18 @@ import {
 } from '../protected/_containsComparisons';
 import contains from '../methods/contains';
 import equals from '../methods/equals';
-import isNull from '../methods/isNull';
-import isArray from '../methods/isArray';
-import isFunction from '../methods/isFunction';
-import isInt from '../methods/isInt';
-import isObject from '../methods/isObject';
-import isRegExp from '../methods/isRegExp';
-import isString from '../methods/isString';
+import isNull from '../methods/isnull';
+import isArray from '../methods/isarray';
+import isFunction from '../methods/isfunction';
+import isInt from '../methods/isint';
+import isObject from '../methods/isobject';
+import isRegExp from '../methods/isregexp';
+import isString from '../methods/isstring';
 import add from '../methods/add';
 import duplicate from '../methods/duplicate';
 import merge from '../methods/merge';
-import getProperty from '../methods/getProperty';
-import parseBoolean from '../methods/parseBoolean';
+import getProperty from '../methods/getproperty';
+import parseBoolean from '../methods/parseboolean';
 import __queryNestedProperty from '../private/__queryNestedProperty';
 import _subQuery from '../protected/_subQuery';
 

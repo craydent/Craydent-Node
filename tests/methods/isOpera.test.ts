@@ -1,4 +1,4 @@
-import isOpera from '../../modules/methods/isOpera';
+import isOpera from '../../compiled/transformedMinor/craydent.isopera';
 describe('isOpera', () => {
     it('should check if browser is Opera', () => {
         expect(isOpera.call({ navigator: { userAgent: 'chrome apple opera' } })).toBe(true);

@@ -1,5 +1,5 @@
-import isRegExp from '../../modules/methods/isRegExp';
-jest.mock('../../modules/protected/_typeCheck', () => {
+import isRegExp from '../../compiled/transformedMinor/craydent.isregexp';
+jest.mock('../../compiled/transformedMinor/craydent.isregexp/protected/_typeCheck', () => {
     return {
         "default": (...args) => _typeCheck.apply(this, args)
     }

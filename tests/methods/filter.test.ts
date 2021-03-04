@@ -1,4 +1,4 @@
-import filter from '../../modules/methods/filter';
+import filter from '../../compiled/transformedMinor/craydent.filter';
 describe('filter', () => {
     it('should filter array', () => {
         let arr = [{ id: 1 }, { id: 2 }];

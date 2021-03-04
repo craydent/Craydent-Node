@@ -1,4 +1,4 @@
-import toStringAlt from '../../modules/methods/toStringAlt';
+import toStringAlt from '../../compiled/transformedMinor/craydent.tostringalt';
 describe('toStringAlt', () => {
     it('should convert the object to a string', () => {
         expect(toStringAlt({ a: {}, b: 2 })).toEqual('&a={}&b=2');

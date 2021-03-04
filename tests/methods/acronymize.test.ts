@@ -1,4 +1,4 @@
-import acronymize from '../../modules/methods/acronymize';
+import acronymize from '../../compiled/transformedMinor/craydent.acronymize';
 
 describe('acronymize', () => {
     it('should create an acronym using default values', () => {

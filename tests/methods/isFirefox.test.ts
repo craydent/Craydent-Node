@@ -1,4 +1,4 @@
-import isFirefox from '../../modules/methods/isFirefox';
+import isFirefox from '../../compiled/transformedMinor/craydent.isfirefox';
 describe('isFirefox', () => {
     it('should check if browser is Firefox', () => {
         expect(isFirefox.call({ navigator: { userAgent: 'firefox' } })).toBe(true);

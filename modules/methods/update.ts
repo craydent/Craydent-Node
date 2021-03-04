@@ -12,21 +12,21 @@ import {
 } from '../protected/_containsComparisons';
 import contains from '../methods/contains';
 import equals from '../methods/equals';
-import isNull from '../methods/isNull';
-import isArray from '../methods/isArray';
-import isFunction from '../methods/isFunction';
-import isInt from '../methods/isInt';
-import isObject from '../methods/isObject';
-import isRegExp from '../methods/isRegExp';
-import isString from '../methods/isString';
-import setProperty from '../methods/setProperty';
-import getProperty from '../methods/getProperty';
-import toSet from '../methods/toSet';
+import isNull from '../methods/isnull';
+import isArray from '../methods/isarray';
+import isFunction from '../methods/isfunction';
+import isInt from '../methods/isint';
+import isObject from '../methods/isobject';
+import isRegExp from '../methods/isregexp';
+import isString from '../methods/isstring';
+import setProperty from '../methods/setproperty';
+import getProperty from '../methods/getproperty';
+import toSet from '../methods/toset';
 import deleteIt from '../methods/delete';
-import insertBefore from '../methods/insertBefore';
-import sortBy from '../methods/sortBy';
-import tryEval from '../methods/tryEval';
-import parseBoolean from '../methods/parseBoolean';
+import insertBefore from '../methods/insertbefore';
+import sortBy from '../methods/sortby';
+import tryEval from '../methods/tryeval';
+import parseBoolean from '../methods/parseboolean';
 import _processClause from '../protected/_processClause';
 import __queryNestedProperty from '../private/__queryNestedProperty';
 import _subQuery from '../protected/_subQuery';
@@ -219,6 +219,7 @@ export default function update<T>(arr: T[], condition: WhereCondition | string, 
                     if (!_isObject(values)) {
                         __pullHelper(arr, values);
                     } else {
+                        // @ts-ignore
                         deleteIt(arr, values, false);
                     }
                 }

@@ -1,4 +1,4 @@
-import $c from '../../transformedMajor/template/global';
+import $c from '../../compiled/transformedMajor/template/global';
 
 describe('No Conflict Global methods', function () {
     $c.TEMPLATE_VARS.push({ variable: "TNAME", value: "this template var" });

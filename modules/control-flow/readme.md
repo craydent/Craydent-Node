@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.10.4
+# Craydent 0.10.8
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -40,9 +40,10 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| CONSOLE_COLORS (Object) |LOCAL_IP (String) |VERSION (String) |
-DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |
-ERROR_TYPES (Array) |PUBLIC_IP (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |VERSION (String) |
+HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 
 
 ## Methods
@@ -82,29 +83,6 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >* context: (any) Context to use to execute func.
 >* callbackIndex: (Integer) Index of callback argument.
 >* returnIndex: (Integer) Index of callback argument.
-
-*** 
-#### _parallelEach_ 
-***
-
-**Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
-
-**Return:** (Promise<Array<T>>) returns a promise of the resulting items in the array.
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->Parameters
->* gen: (GeneratorFunction) Generator function to apply to each item
-
->Parameters
->* func: (ArrayIterator<T, TResult>) Function to apply to each item
-
->Parameters
->* args: (Array<T>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
 
 *** 
 #### _syncroit_ 

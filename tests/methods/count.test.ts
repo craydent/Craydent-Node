@@ -1,4 +1,4 @@
-import count from '../../modules/methods/count';
+import count from '../../compiled/transformedMinor/craydent.count';
 describe('count', () => {
     it('should props in an object', () => {
         expect(count({ key: 'value' })).toBe(1);

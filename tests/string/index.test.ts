@@ -1,5 +1,5 @@
-import $c from '../../transformedMajor/string';
-import cuid from '../../modules/methods/cuid';
+import $c from '../../compiled/transformedMajor/string';
+import cuid from '../../compiled/transformedMinor/craydent.cuid';
 $c;
 describe('No Conflict String', function () {
   it('capitalize', function () {

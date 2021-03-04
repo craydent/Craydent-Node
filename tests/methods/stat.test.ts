@@ -1,4 +1,4 @@
-import stat from '../../modules/methods/stat';
+import stat from '../../compiled/transformedMinor/craydent.stat';
 jest.mock('fs', () => {
     return {
         "stat": (...args) => {

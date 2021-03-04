@@ -1,5 +1,5 @@
-import find from '../../modules/methods/find';
-jest.mock('../../modules/methods/where', () => {
+import find from '../../compiled/transformedMinor/craydent.find';
+jest.mock('../../compiled/transformedMinor/craydent.where', () => {
     return {
         "default": (...args) => _where.apply(this, args)
     }

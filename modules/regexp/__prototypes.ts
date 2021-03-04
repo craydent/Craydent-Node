@@ -1,20 +1,18 @@
-import * as IAddFlags from '../methods/addFlags';
+import * as IAddFlags from '../methods/addflags';
 import * as IEquals from '../methods/equals';
-import * as IGetValue from '../methods/getValue';
-import {
-    AnyObject
-} from '../models/Arrays';
+import * as IGetValue from '../methods/getvalue';
+import { AnyObject } from '../models/Generics';
 
 import { scope } from '../private/__common';
 
-if (typeof (global as any) == 'undefined'){
+if (typeof (global as any) == 'undefined') {
     (window as any).global = window;
 }
 scope.eval = str => eval(str);
 //#region dependencies
-const addFlags: typeof IAddFlags.default = require('../methods/addFlags').default;
+const addFlags: typeof IAddFlags.default = require('../methods/addflags').default;
 const equals: typeof IEquals.default = require('../methods/equals').default;
-const getValue: typeof IGetValue.default = require('../methods/getValue').default;
+const getValue: typeof IGetValue.default = require('../methods/getvalue').default;
 //#endregion
 
 export function _addFlags(this: RegExp, flags: string): RegExp {

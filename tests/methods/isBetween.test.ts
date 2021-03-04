@@ -1,4 +1,4 @@
-import isBetween from '../../modules/methods/isBetween';
+import isBetween from '../../compiled/transformedMinor/craydent.isbetween';
 describe('isBetween', () => {
     it('should value is Between', () => {
         expect(isBetween(null, '', '')).toBe(false);

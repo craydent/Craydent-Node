@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.10.4
+# Craydent 0.10.8
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -40,9 +40,10 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| CONSOLE_COLORS (Object) |LOCAL_IP (String) |VERSION (String) |
-DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |
-ERROR_TYPES (Array) |PUBLIC_IP (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |VERSION (String) |
+HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 
 
 ## Methods
@@ -163,10 +164,10 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
-#### _fdatasync_ 
+#### _fchown_ 
 ***
 
-**Info:** A promisified version of fdatasync.  The arguments are the same as the native fs methods minus the callback.
+**Info:** A promisified version of fchown.  The arguments are the same as the native fs methods minus the callback.
 
 **Return:** (any)
 
@@ -179,10 +180,10 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
-#### _fchown_ 
+#### _fdatasync_ 
 ***
 
-**Info:** A promisified version of fchown.  The arguments are the same as the native fs methods minus the callback.
+**Info:** A promisified version of fdatasync.  The arguments are the same as the native fs methods minus the callback.
 
 **Return:** (any)
 
@@ -563,10 +564,10 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
-#### _write_ 
+#### _writeFile_ 
 ***
 
-**Info:** A promisified version of write.  The arguments are the same as the native fs methods minus the callback.
+**Info:** A promisified version of writeFile.  The arguments are the same as the native fs methods minus the callback.
 
 **Return:** (any)
 
@@ -579,10 +580,10 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
-#### _writeFile_ 
+#### _write_ 
 ***
 
-**Info:** A promisified version of writeFile.  The arguments are the same as the native fs methods minus the callback.
+**Info:** A promisified version of write.  The arguments are the same as the native fs methods minus the callback.
 
 **Return:** (any)
 

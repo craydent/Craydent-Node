@@ -1,4 +1,4 @@
-import group from '../../modules/methods/group';
+import group from '../../compiled/transformedMinor/craydent.group';
 describe('group', () => {
     it('should retrieve grouped list using field', () => {
         const arr = [{ id: 1 }, { id: 1 }, { id: 2 }, { id: [1, 3] }];

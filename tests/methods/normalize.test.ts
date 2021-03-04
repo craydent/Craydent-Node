@@ -1,4 +1,4 @@
-import normalize from '../../modules/methods/normalize';
+import normalize from '../../compiled/transformedMinor/craydent.normalize';
 describe('normalize', () => {
     it('should normalize the array of objects', () => {
         const arr = [{ a: 1 }, null, { b: 1 }];

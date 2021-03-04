@@ -1,26 +1,26 @@
 import * as IEquals from '../methods/equals';
 import * as IFormat from '../methods/format';
-import * as IGetDayOfYear from '../methods/getDayOfYear';
-import * as IGetGMTOffset from '../methods/getGMTOffset';
-import * as IGetValue from '../methods/getValue';
-import * as IGetWeek from '../methods/getWeek';
-import * as IIsValidDate from '../methods/isValidDate';
+import * as IGetDayOfYear from '../methods/getdayofyear';
+import * as IGetGMTOffset from '../methods/getgmtoffset';
+import * as IGetValue from '../methods/getvalue';
+import * as IGetWeek from '../methods/getweek';
+import * as IIsValidDate from '../methods/isvaliddate';
 import * as INow from '../methods/now';
 
 import { scope } from '../private/__common';
 
-if (typeof (global as any) == 'undefined'){
+if (typeof (global as any) == 'undefined') {
     (window as any).global = window;
 }
 scope.eval = str => eval(str);
 //#region dependencies
 const equals: typeof IEquals.default = require('../methods/equals').default;
 const format: typeof IFormat.default = require('../methods/format').default;
-const getDayOfYear: typeof IGetDayOfYear.default = require('../methods/getDayOfYear').default;
-const getGMTOffset: typeof IGetGMTOffset.default = require('../methods/getGMTOffset').default;
-const getValue: typeof IGetValue.default = require('../methods/getValue').default;
-const getWeek: typeof IGetWeek.default = require('../methods/getWeek').default;
-const isValidDate: typeof IIsValidDate.default = require('../methods/isValidDate').default;
+const getDayOfYear: typeof IGetDayOfYear.default = require('../methods/getdayofyear').default;
+const getGMTOffset: typeof IGetGMTOffset.default = require('../methods/getgmtoffset').default;
+const getValue: typeof IGetValue.default = require('../methods/getvalue').default;
+const getWeek: typeof IGetWeek.default = require('../methods/getweek').default;
+const isValidDate: typeof IIsValidDate.default = require('../methods/isvaliddate').default;
 const now: typeof INow.default = require('../methods/now').default;
 //#endregion
 

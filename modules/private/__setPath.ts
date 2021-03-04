@@ -1,10 +1,10 @@
 
 import error from '../methods/error';
-import isArray from '../methods/isArray';
-import isAsync from '../methods/isAsync';
-import isFunction from '../methods/isFunction';
-import isGenerator from '../methods/isGenerator';
-import isString from '../methods/isString';
+import isArray from '../methods/isarray';
+import isAsync from '../methods/isasync';
+import isFunction from '../methods/isfunction';
+import isGenerator from '../methods/isgenerator';
+import isString from '../methods/isstring';
 import { Route, CraydentHttp } from '../models/CraydentHttp';
 
 

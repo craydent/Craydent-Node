@@ -1,4 +1,4 @@
-import suid from '../../modules/methods/suid';
+import suid from '../../compiled/transformedMinor/craydent.suid';
 describe('suid', () => {
     it('should generate a short unique id', () => {
         const id = suid();

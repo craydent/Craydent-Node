@@ -1,1 +1,0 @@
-export type AsyncFunction = (...args) => Promise<any>;

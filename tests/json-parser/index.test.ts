@@ -1,4 +1,4 @@
-import $c from '../../transformedMajor/json-parser';
+import $c from '../../compiled/transformedMajor/json-parser';
 
 describe('No Conflict Global methods', function () {
     it('JSON.parseAdvanced', function () {

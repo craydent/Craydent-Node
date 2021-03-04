@@ -1,4 +1,4 @@
-import $COOKIE from '../../modules/methods/$COOKIE';
+import $COOKIE from '../../compiled/transformedMinor/craydent.http.cookie';
 
 describe('$COOKIE', () => {
     const RealDate = Date;

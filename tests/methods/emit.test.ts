@@ -1,4 +1,4 @@
-import emit from '../../modules/methods/emit';
+import emit from '../../compiled/transformedMinor/craydent.emit';
 describe('emit', () => {
     it('should not invoke events when there are no listeners', () => {
         function a() {

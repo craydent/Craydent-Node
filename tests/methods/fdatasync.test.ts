@@ -1,4 +1,4 @@
-import fdatasync from '../../modules/methods/fdatasync';
+import fdatasync from '../../compiled/transformedMinor/craydent.fdatasync';
 jest.mock('fs', () => {
     return {
         "fdatasync": (...args) => {

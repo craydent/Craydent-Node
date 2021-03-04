@@ -1,4 +1,4 @@
-import appendFile from '../../modules/methods/appendFile';
+import appendFile from '../../compiled/transformedMinor/craydent.appendfile';
 jest.mock('fs', () => {
     return {
         "appendFile": (...args) => {

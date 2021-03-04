@@ -1,4 +1,4 @@
-import isSubset from '../../modules/methods/isSubset';
+import isSubset from '../../compiled/transformedMinor/craydent.issubset';
 describe('isSubset', () => {
     it('should check if the value is a subset of another object', () => {
         expect(isSubset({ a: 1 }, null)).toEqual(false);

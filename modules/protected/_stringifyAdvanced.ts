@@ -1,6 +1,6 @@
-import isArray from '../methods/isArray';
-import isObject from '../methods/isObject';
-import setProperty from '../methods/setProperty';
+import isArray from '../methods/isarray';
+import isObject from '../methods/isobject';
+import setProperty from '../methods/setproperty';
 
 export default function _stringifyAdvanced(obj: any): string;
 export default function _stringifyAdvanced(obj: any, _nobj?, _objs?, _paths?, _cpath?): string {

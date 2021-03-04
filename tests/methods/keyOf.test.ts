@@ -1,4 +1,4 @@
-import keyOf from '../../modules/methods/keyOf';
+import keyOf from '../../compiled/transformedMinor/craydent.keyof';
 describe('keyOf', () => {
     it('should get the key at the specified value', () => {
         expect(keyOf(null, 1)).toBe('');

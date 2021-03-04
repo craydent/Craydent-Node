@@ -1,4 +1,4 @@
-import { __processChildren, __processSiblings, default as xmlToJson } from '../../modules/methods/xmlToJson';
+import { __processChildren, __processSiblings, default as xmlToJson } from '../../compiled/transformedMajor/xml-to-json/protected/_xmltojson';
 
 describe('xmlToJson', () => {
     describe('main', () => {

@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.10.4
+# Craydent 0.10.8
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -41,9 +41,10 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| CONSOLE_COLORS (Object) |LOCAL_IP (String) |VERSION (String) |
-DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |
-ERROR_TYPES (Array) |PUBLIC_IP (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |VERSION (String) |
+HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -247,6 +248,24 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 **Overloads:**
 
 >None
+
+*** 
+#### _every_ 
+***
+
+**Info:** Object class extension to check property values against a function
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* callback: (ObjectIterator<T, TValue>) Callback to apply to each value
+
+**Overloads:**
+
+>Parameters
+>* callback: (ObjectIterator<T, TValue>) Callback to apply to each value
+>* craydent_ctxObject: (any) Context for the callback function
 
 *** 
 #### _equals_ 
@@ -625,11 +644,12 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 
 **Info:** Object class extension to check if item is a subset
 
-**Return:** (Bool) returns true if the array is a subset, otherwise false.
+**Return:** (Bool)
 
 **Parameters:**
 
->* compare: (Array<T>|Object) Superset to compare against
+>* compare: (any) Superset to compare against
+>* sharesAny: (Boolean) Flag to check if any property is shared
 
 **Overloads:**
 
@@ -662,6 +682,23 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 **Parameters:**
 
 >* value: (any) Value to compare against
+
+**Overloads:**
+
+>None
+
+*** 
+#### _map_ 
+***
+
+**Info:** Object class extension to apply method to every value
+
+**Return:** (void)
+
+**Parameters:**
+
+>* callback: (ObjectIterator<T, TValue>) Callback to apply to each value
+>* craydent_ctxObject?: (any) Context for the callback function
 
 **Overloads:**
 

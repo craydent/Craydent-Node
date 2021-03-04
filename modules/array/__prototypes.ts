@@ -7,70 +7,68 @@ import {
     ArrayIterator,
     MongoReducer,
     MongoMapReduceOptions,
-    ContainsObjectIterator,
-    ContainsValue,
-    ComparisonOperator,
     WhereCondition,
     DeleteOptions,
     Fields,
-    AnyObject,
     Documents,
     MongoPipelines,
-    AnyObjects,
-    MongoSet,
-    Yieldables,
+    MongoSet
 } from '../models/Arrays';
+import { ContainsObjectIterator, ContainsValue } from '../models/Contains';
+import { ComparisonOperator } from '../models/ComparisonOperator';
+import { AnyObject, AnyObjects } from '../models/Generics';
+import { Yieldables } from '../models/Yieldables';
 import * as IAdd from '../methods/add';
 import * as IAggregate from '../methods/aggregate';
 import * as IAverage from '../methods/average';
-import * as IBuildTree from '../methods/buildTree';
+import * as IBuildTree from '../methods/buildtree';
 import * as IDeleteIt from '../methods/delete';
 import * as IDistinct from '../methods/distinct';
 import * as ICondense from '../methods/condense';
 import * as IContains from '../methods/contains';
 import * as ICount from '../methods/count';
-import * as ICreateIndex from '../methods/createIndex';
+import * as ICreateIndex from '../methods/createindex';
 import * as IEquals from '../methods/equals';
 import * as IEvery from '../methods/every';
 import * as IFilter from '../methods/filter';
 import * as IFind from '../methods/find';
-import * as IFindOne from '../methods/findOne';
-import * as IGetValue from '../methods/getValue';
+import * as IFindOne from '../methods/findone';
+import * as IGetValue from '../methods/getvalue';
 import * as IGroup from '../methods/group';
-import * as IIndexOfAlt from '../methods/indexOfAlt';
-import * as IInnerJoin from '../methods/innerJoin';
+import * as IIndexOfAlt from '../methods/indexofalt';
+import * as IInnerJoin from '../methods/innerjoin';
 import * as IInsert from '../methods/insert';
-import * as IInsertAfter from '../methods/insertAfter';
-import * as IInsertAt from '../methods/insertAt';
-import * as IInsertBefore from '../methods/insertBefore';
-import * as IIsEmpty from '../methods/isEmpty';
-import * as IIsSubset from '../methods/isSubset';
-import * as IJoinLeft from '../methods/joinLeft';
-import * as IJoinRight from '../methods/joinRight';
+import * as IInsertAfter from '../methods/insertafter';
+import * as IInsertAt from '../methods/insertat';
+import * as IInsertBefore from '../methods/insertbefore';
+import * as IIsEmpty from '../methods/isempty';
+import * as IIsSubset from '../methods/issubset';
+import * as IJoinLeft from '../methods/joinleft';
+import * as IJoinRight from '../methods/joinright';
 import * as ILast from '../methods/last';
 import * as ILimit from '../methods/limit';
 import * as IMap from '../methods/map';
-import * as IMapReduce from '../methods/mapReduce';
+import * as IMapReduce from '../methods/mapreduce';
 import * as INormalize from '../methods/normalize';
-import * as IParallelEach from '../methods/parallelEach';
+import * as IParallelEach from '../methods/paralleleach';
 import * as IRemove from '../methods/remove';
-import * as IRemoveAll from '../methods/removeAll';
-import * as IRemoveAt from '../methods/removeAt';
-import * as IReplaceAt from '../methods/replaceAt';
+import * as IRemoveAll from '../methods/removeall';
+import * as IRemoveAt from '../methods/removeat';
+import * as IReplaceAt from '../methods/replaceat';
 import * as IScramble from '../methods/scramble';
-import * as ISortBy from '../methods/sortBy';
+import * as ISortBy from '../methods/sortby';
 import * as IStdev from '../methods/stdev';
 import * as ISum from '../methods/sum';
-import * as IToSet from '../methods/toSet';
+import * as IToSet from '../methods/toset';
 import * as IUpdate from '../methods/update';
-import * as IUniversalTrim from '../methods/universalTrim';
+import * as IUniversalTrim from '../methods/universaltrim';
 import * as IUpsert from '../methods/upsert';
 import * as IWhere from '../methods/where';
 import { _containsMod, _containsType } from '../protected/_containsComparisons';
 
 import { scope } from '../private/__common';
 
-if (typeof (global as any) == 'undefined'){
+if (typeof (global as any) == 'undefined') {
     (window as any).global = window;
 }
 scope.eval = str => eval(str);
@@ -78,46 +76,46 @@ scope.eval = str => eval(str);
 const add: typeof IAdd.default = require('../methods/add').default;
 const aggregate: typeof IAggregate.default = require('../methods/aggregate').default;
 const average: typeof IAverage.default = require('../methods/average').default;
-const buildTree: typeof IBuildTree.default = require('../methods/buildTree').default;
+const buildTree: typeof IBuildTree.default = require('../methods/buildtree').default;
 const condense: typeof ICondense.default = require('../methods/condense').default;
 const contains: typeof IContains.default = require('../methods/contains').default;
 const count: typeof ICount.default = require('../methods/count').default;
-const createIndex: typeof ICreateIndex.default = require('../methods/createIndex').default;
+const createIndex: typeof ICreateIndex.default = require('../methods/createindex').default;
 const deleteIt: typeof IDeleteIt.default = require('../methods/delete').default;
 const distinct: typeof IDistinct.default = require('../methods/distinct').default;
 const equals: typeof IEquals.default = require('../methods/equals').default;
 const filter: typeof IFilter.default = require('../methods/filter').default;
 const find: typeof IFind.default = require('../methods/find').default;
-const findOne: typeof IFindOne.default = require('../methods/findOne').default;
+const findOne: typeof IFindOne.default = require('../methods/findone').default;
 const every: typeof IEvery.default = require('../methods/every').default;
-const getValue: typeof IGetValue.default = require('../methods/getValue').default;
+const getValue: typeof IGetValue.default = require('../methods/getvalue').default;
 const group: typeof IGroup.default = require('../methods/group').default;
-const indexOfAlt: typeof IIndexOfAlt.default = require('../methods/indexOfAlt').default;
-const innerJoin: typeof IInnerJoin.default = require('../methods/innerJoin').default;
+const indexOfAlt: typeof IIndexOfAlt.default = require('../methods/indexofalt').default;
+const innerJoin: typeof IInnerJoin.default = require('../methods/innerjoin').default;
 const insert: typeof IInsert.default = require('../methods/insert').default;
-const insertAfter: typeof IInsertAfter.default = require('../methods/insertAfter').default;
-const insertAt: typeof IInsertAt.default = require('../methods/insertAt').default;
-const insertBefore: typeof IInsertBefore.default = require('../methods/insertBefore').default;
-const isEmpty: typeof IIsEmpty.default = require('../methods/isEmpty').default;
-const isSubset: typeof IIsSubset.default = require('../methods/isSubset').default;
-const joinLeft: typeof IJoinLeft.default = require('../methods/joinLeft').default;
-const joinRight: typeof IJoinRight.default = require('../methods/joinRight').default;
+const insertAfter: typeof IInsertAfter.default = require('../methods/insertafter').default;
+const insertAt: typeof IInsertAt.default = require('../methods/insertat').default;
+const insertBefore: typeof IInsertBefore.default = require('../methods/insertbefore').default;
+const isEmpty: typeof IIsEmpty.default = require('../methods/isempty').default;
+const isSubset: typeof IIsSubset.default = require('../methods/issubset').default;
+const joinLeft: typeof IJoinLeft.default = require('../methods/joinleft').default;
+const joinRight: typeof IJoinRight.default = require('../methods/joinright').default;
 const last: typeof ILast.default = require('../methods/last').default;
 const limit: typeof ILimit.default = require('../methods/limit').default;
 const map: typeof IMap.default = require('../methods/map').default;
-const mapReduce: typeof IMapReduce.default = require('../methods/mapReduce').default;
+const mapReduce: typeof IMapReduce.default = require('../methods/mapreduce').default;
 const normalize: typeof INormalize.default = require('../methods/normalize').default;
-const parallelEach: typeof IParallelEach.default = require('../methods/parallelEach').default;
+const parallelEach: typeof IParallelEach.default = require('../methods/paralleleach').default;
 const remove: typeof IRemove.default = require('../methods/remove').default;
-const removeAll: typeof IRemoveAll.default = require('../methods/removeAll').default;
-const removeAt: typeof IRemoveAt.default = require('../methods/removeAt').default;
-const replaceAt: typeof IReplaceAt.default = require('../methods/replaceAt').default;
+const removeAll: typeof IRemoveAll.default = require('../methods/removeall').default;
+const removeAt: typeof IRemoveAt.default = require('../methods/removeat').default;
+const replaceAt: typeof IReplaceAt.default = require('../methods/replaceat').default;
 const scramble: typeof IScramble.default = require('../methods/scramble').default;
-const sortBy: typeof ISortBy.default = require('../methods/sortBy').default;
+const sortBy: typeof ISortBy.default = require('../methods/sortby').default;
 const stdev: typeof IStdev.default = require('../methods/stdev').default;
 const sum: typeof ISum.default = require('../methods/sum').default;
-const toSet: typeof IToSet.default = require('../methods/toSet').default;
-const universalTrim: typeof IUniversalTrim.default = require('../methods/universalTrim').default;
+const toSet: typeof IToSet.default = require('../methods/toset').default;
+const universalTrim: typeof IUniversalTrim.default = require('../methods/universaltrim').default;
 const update: typeof IUpdate.default = require('../methods/update').default;
 const upsert: typeof IUpsert.default = require('../methods/upsert').default;
 const where: typeof IWhere.default = require('../methods/where').default;
@@ -294,6 +292,7 @@ export function _delete<T>(this: T[], condition, justOne?): T[] {
         "typeParameter": "<T>",
         "returnType": "(Array<T>) returns a list of the deleted objects."
     }|*/
+    // @ts-ignore
     return deleteIt(this, condition, justOne);
 }
 export function _distinct<T>(this: T[], fields: string | string[], condition?: WhereCondition | string): T[] {
@@ -651,7 +650,7 @@ export function _map<T>(this: any[], callback: ArrayIterator<T>, context: any): 
         "typeParameter": "<T, TResult>",
         "returnType": "(Array<TResult>) returns the resulting array."
     }|*/
-    return map(this, callback, context);
+    return map(this, callback, context) as any;
 }
 export function _mapReduce<T, TResult>(this: T[], map: ArrayIterator<T>, reduce: MongoReducer<TResult>, options?: MongoMapReduceOptions<TResult>): TResult[] {
     /*|{

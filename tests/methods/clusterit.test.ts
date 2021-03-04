@@ -1,4 +1,4 @@
-import clusterit from '../../modules/methods/clusterit';
+import clusterit from '../../compiled/transformedMinor/craydent.clusterit';
 import * as cluster from 'cluster';
 jest.mock('cluster', () => {
     return {

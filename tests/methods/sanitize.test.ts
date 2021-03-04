@@ -1,4 +1,4 @@
-import sanitize from '../../modules/methods/sanitize';
+import sanitize from '../../compiled/transformedMinor/craydent.sanitize';
 describe('sanitize', () => {
     it('should encode special chars', () => {
         expect(sanitize('&')).toBe('&#38;');

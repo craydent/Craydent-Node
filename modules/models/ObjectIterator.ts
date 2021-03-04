@@ -1,1 +1,0 @@
-export type ObjectIterator<T> = (value: any, prop?: string, obj?: T) => any

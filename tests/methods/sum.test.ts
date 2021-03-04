@@ -1,4 +1,4 @@
-import sum from '../../modules/methods/sum';
+import sum from '../../compiled/transformedMinor/craydent.sum';
 describe('sum', () => {
     it('should sum items in the array', () => {
         const arr = [1, 2, 3, null, 6];

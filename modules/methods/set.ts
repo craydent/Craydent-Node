@@ -1,7 +1,7 @@
 import duplicate from '../methods/duplicate';
-import removeAll from '../methods/removeAll';
+import removeAll from '../methods/removeall';
 import equals from '../methods/equals';
-import toSet from '../methods/toSet';
+import toSet from '../methods/toset';
 import { ArrayIterator } from '../models/Arrays';
 
 class Set<T> extends Array<T> {

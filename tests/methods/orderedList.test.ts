@@ -1,4 +1,4 @@
-import OrderedList, { _orderListHelper } from '../../modules/methods/orderedList';
+import OrderedList, { _orderListHelper } from '../../compiled/transformedMinor/craydent.orderedlist';
 
 describe('OrderedList', () => {
     const sorter = (a, b) => {

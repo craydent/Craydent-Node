@@ -1,15 +1,15 @@
-import parseAdvanced from '../../modules/methods/parseAdvanced';
-jest.mock('../../modules/protected/_parseAdvanced', () => {
+import parseAdvanced from '../../compiled/transformedMinor/craydent.parseadvanced';
+jest.mock('../../compiled/transformedMinor/craydent.parseadvanced/protected/_parseAdvanced', () => {
     return {
         "default": (...args) => _parseAdvanced.apply(this, args)
     }
 });
-jest.mock('../../modules/methods/absolutePath', () => {
+jest.mock('../../compiled/transformedMinor/craydent.absolutepath', () => {
     return {
         "default": (...args) => absolutePath.apply(this, args)
     }
 });
-jest.mock('../../modules/methods/include', () => {
+jest.mock('../../compiled/transformedMinor/craydent.include', () => {
     return {
         "default": (...args) => include.apply(this, args)
     }

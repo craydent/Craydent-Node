@@ -1,5 +1,5 @@
 import _runFuncArray from '../protected/_runFuncArray';
-import isArray from '../methods/isArray';
+import isArray from '../methods/isarray';
 const _isArray = isArray;
 
 export default function emit(ev?: string, ...arg: any): any[] {

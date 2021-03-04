@@ -1,5 +1,5 @@
-import aggregate from '../../modules/methods/aggregate';
-jest.mock('../../modules/methods/where', () => {
+import aggregate from '../../compiled/transformedMinor/craydent.aggregate';
+jest.mock('../../compiled/transformedMinor/craydent.where', () => {
     return {
         "__processStage": (...args) => __processStage.apply(this, args)
     }

@@ -1,6 +1,6 @@
 import error from '../methods/error';
-import $COMMIT from '../methods/$COMMIT';
-import $COOKIE from '../methods/$COOKIE';
+import $COMMIT from '../methods/http.commit';
+import $COOKIE from '../methods/http.cookie';
 import _invokeHashChange from '../protected/_invokeHashChange';
 import { VerbOptions } from '../models/VerbOptions';
 

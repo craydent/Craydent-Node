@@ -1,12 +1,12 @@
 import { Documents, UnwindOptions } from '../models/Arrays';
 import capitalize from '../methods/capitalize';
-import isObject from '../methods/isObject';
-import isNull from '../methods/isNull';
-import isArray from '../methods/isArray';
-import isEmpty from '../methods/isEmpty';
+import isObject from '../methods/isobject';
+import isNull from '../methods/isnull';
+import isArray from '../methods/isarray';
+import isEmpty from '../methods/isempty';
 import duplicate from '../methods/duplicate';
 import error from '../methods/error';
-import setProperty from '../methods/setProperty';
+import setProperty from '../methods/setproperty';
 import { __processExpression } from '../private/__whereParsers';
 
 export default function _unwind<T>(docs: Documents<T>, path: string | UnwindOptions): any[] {

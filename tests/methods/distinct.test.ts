@@ -1,4 +1,4 @@
-import distinct from '../../modules/methods/distinct';
+import distinct from '../../compiled/transformedMinor/craydent.distinct';
 describe('distinct', () => {
     it('should retrieve distinct list', () => {
         const arr = [{ id: 1 }, { id: 1 }, { id: 2 }];

@@ -1,6 +1,6 @@
 import error from '../methods/error';
 import __convertRegexSafe from '../private/__convertRegexSafe'
-import isArray from '../methods/isArray';
+import isArray from '../methods/isarray';
 
 export default function _replaceAll(str: string, replace: string, subject: string, flag?: string): string;
 export default function _replaceAll(str: string, replace: string[], subject: string[], flag?: string): string;

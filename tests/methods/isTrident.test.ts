@@ -1,4 +1,4 @@
-import isTrident from '../../modules/methods/isTrident';
+import isTrident from '../../compiled/transformedMinor/craydent.istrident';
 describe('isTrident', () => {
     it('should check if browser is Trident', () => {
         expect(isTrident.call({ navigator: { userAgent: 'webkit trident' } })).toBe(true);

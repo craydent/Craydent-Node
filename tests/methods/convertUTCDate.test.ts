@@ -1,4 +1,4 @@
-import convertUTCDate from '../../modules/methods/convertUTCDate';
+import convertUTCDate from '../../compiled/transformedMinor/craydent.convertutcdate';
 describe('convertUTCDate', () => {
     it('should convertUTCDate', () => {
         expect(convertUTCDate("2020-07-23 03:11:17.585Z", '/')).toBe('2020-07-23 03:11:17.585Z');

@@ -1,4 +1,4 @@
-import fchmod from '../../modules/methods/fchmod';
+import fchmod from '../../compiled/transformedMinor/craydent.fchmod';
 jest.mock('fs', () => {
     return {
         "fchmod": (...args) => {

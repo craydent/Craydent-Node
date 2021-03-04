@@ -1,7 +1,7 @@
-import zipit from '../../modules/methods/zipit';
-import JSZip from '../../modules/methods/JSZip';
+import zipit from '../../compiled/transformedMinor/craydent.zipit';
+import JSZip from '../../compiled/transformedMinor/craydent.jszip';
 
-jest.mock('../../modules/methods/JSZip');
+jest.mock('../../compiled/transformedMinor/craydent.jszip');
 describe('zipit', () => {
     let mockInstance = 0;
     it('should generate zip with one file', () => {

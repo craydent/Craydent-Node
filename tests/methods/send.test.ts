@@ -1,4 +1,4 @@
-import send from '../../modules/methods/send';
+import send from '../../compiled/transformedMinor/craydent.send';
 describe('send', () => {
     it('should send response when no status is provided', () => {
         const dis = {

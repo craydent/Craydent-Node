@@ -1,4 +1,4 @@
-import mkdtemp from '../../modules/methods/mkdtemp';
+import mkdtemp from '../../compiled/transformedMinor/craydent.mkdtemp';
 jest.mock('fs', () => {
     return {
         "mkdtemp": (...args) => {

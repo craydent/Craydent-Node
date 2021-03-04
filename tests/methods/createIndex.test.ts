@@ -1,5 +1,5 @@
-import createIndex from '../../modules/methods/createIndex';
-import { IndexedArray } from '../../modules/models/Arrays';
+import createIndex from '../../compiled/transformedMinor/craydent.createindex';
+import { IndexedArray } from '../../compiled/transformedMinor/craydent.createindex/models/Arrays';
 describe('createIndex', () => {
     it('should not create index when no indexes are given', () => {
         const items = [{ id: 1, value: 'value' }]

@@ -1,4 +1,4 @@
-import pluralize from '../../modules/methods/pluralize';
+import pluralize from '../../compiled/transformedMinor/craydent.pluralize';
 describe('pluralize', () => {
     it('should pluralize string', () => {
         expect(pluralize("addendum")).toBe("addenda");

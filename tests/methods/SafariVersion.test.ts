@@ -1,5 +1,5 @@
-import SafariVersion from '../../modules/methods/SafariVersion';
-jest.mock('../../modules/protected/_getBrowserVersion', () => {
+import SafariVersion from '../../compiled/transformedMinor/craydent.safariversion';
+jest.mock('../../compiled/transformedMinor/craydent.safariversion/protected/_getBrowserVersion', () => {
     return {
         "default": (...args) => {
             return _getBrowserVersion.apply(this, args);

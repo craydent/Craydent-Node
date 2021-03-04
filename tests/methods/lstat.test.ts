@@ -1,4 +1,4 @@
-import lstat from '../../modules/methods/lstat';
+import lstat from '../../compiled/transformedMinor/craydent.lstat';
 jest.mock('fs', () => {
     return {
         "lstat": (...args) => {

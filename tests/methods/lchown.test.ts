@@ -1,4 +1,4 @@
-import lchown from '../../modules/methods/lchown';
+import lchown from '../../compiled/transformedMinor/craydent.lchown';
 jest.mock('fs', () => {
     return {
         "lchown": (...args) => {

@@ -1,8 +1,8 @@
-import end from '../../modules/methods/end';
-import echo from '../../modules/methods/echo';
-import { $c } from '../../modules/private/__common';
-import logit from '../../modules/methods/logit';
-jest.mock('../../modules/methods/logit', () => {
+import end from '../../compiled/transformedMinor/craydent.end';
+import echo from '../../compiled/transformedMinor/craydent.echo';
+import { $c } from '../../compiled/transformedMinor/craydent.end/private/__common';
+import logit from '../../compiled/transformedMinor/craydent.logit';
+jest.mock('../../compiled/transformedMinor/craydent.logit', () => {
     return {
         "default": (...args) => _logit.apply(this, args)
     }

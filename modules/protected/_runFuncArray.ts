@@ -1,9 +1,9 @@
-import tryEval from '../methods/tryEval';
+import tryEval from '../methods/tryeval';
 import syncroit from '../methods/syncroit';
-import isArray from '../methods/isArray';
-import isFunction from '../methods/isFunction';
-import isAsync from '../methods/isAsync';
-import isGenerator from '../methods/isGenerator';
+import isArray from '../methods/isarray';
+import isFunction from '../methods/isfunction';
+import isAsync from '../methods/isasync';
+import isGenerator from '../methods/isgenerator';
 
 const _isArray = isArray,
     _isFunction = isFunction,

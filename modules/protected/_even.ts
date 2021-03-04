@@ -1,5 +1,5 @@
 import error from '../methods/error';
-import isInt from '../methods/isInt';
+import isInt from '../methods/isint';
 
 export default function _even(num: number): boolean {
     try {

@@ -1,4 +1,4 @@
-import isCuid from '../../modules/methods/isCuid';
+import isCuid from '../../compiled/transformedMinor/craydent.iscuid';
 describe('isCuid', () => {
     it('should check if string is a cuid', () => {
         expect(isCuid(null)).toBe(false);

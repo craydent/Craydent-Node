@@ -5,9 +5,9 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-import clearCache from '../methods/clearCache';
-import absolutePath from '../methods/absolutePath';
-import startsWithAny from '../methods/startsWithAny';
+import clearCache from '../methods/clearcache';
+import absolutePath from '../methods/absolutepath';
+import startsWithAny from '../methods/startswithany';
 
 export default function include(path?: string, refresh?: boolean): any {
     /*|{

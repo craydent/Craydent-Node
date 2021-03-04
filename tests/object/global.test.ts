@@ -1,5 +1,5 @@
-import $c from '../../transformedMajor/object/global';
-import foo from '../../modules/methods/foo';
+import $c from '../../compiled/transformedMajor/object/global';
+import foo from '../../compiled/transformedMinor/craydent.foo';
 
 describe('No Conflict Object', function () {
     it('changes', function () {

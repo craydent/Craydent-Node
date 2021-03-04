@@ -1,4 +1,4 @@
-import readFile from '../../modules/methods/readFile';
+import readFile from '../../compiled/transformedMinor/craydent.readfile';
 jest.mock('fs', () => {
     return {
         "readFile": (...args) => {

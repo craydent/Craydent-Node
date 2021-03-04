@@ -1,4 +1,4 @@
-import unlink from '../../modules/methods/unlink';
+import unlink from '../../compiled/transformedMinor/craydent.unlink';
 jest.mock('fs', () => {
     return {
         "unlink": (...args) => {

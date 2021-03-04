@@ -67,13 +67,13 @@ if (process.argv[2]) {
 }
 // console.log(require(mod),mod);
 var $c;
-$c = require(mod + '/noConflict').default || require(mod + '/noConflict');
+$c = require(`${root}/compiled/noConflict`).default || require(`${root}/compiled/noConflict`);
 var $arr = require(root + '/compiled/transformedMajor/array/noConflict').default;
 var $cls = require(root + '/compiled/transformedMajor/class/noConflict').default;
 var $str = require(root + '/compiled/transformedMajor/string/noConflict').default;
 var $typ = require(root + '/compiled/transformedMajor/typeof/noConflict').default;
 var $utl = require(root + '/compiled/transformedMajor/utility/noConflict').default;
-var getProperty = require(root + '/compiled/transformedMinor/craydent.getProperty').default;
+var getProperty = require(root + '/compiled/transformedMinor/craydent.getproperty').default;
 var fs = require('fs'),
 	// Craydent = require(mod),
 	instC,
@@ -348,7 +348,9 @@ readme += '\n\n\n## Download\n\n' +
 	' * [BitBucket](https://bitbucket.org/craydent/node-library' + subPath + ')\n' +
 	' * [GitLab](https://gitlab.com/craydent/node-library' + subPath + ')\n' +
 	'Craydent is released under the [Dual licensed under the MIT or GPL Version 2 licenses](http://craydent.com/license).<br>';
-
+if (mod == root) {
+	mod += "/compiled";
+}
 fs.writeFile(mod + "/readme.md", readme, function (err) {
 	if (err) {
 		return console.log(RED, err), process.exit(1);;

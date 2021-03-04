@@ -1,4 +1,4 @@
-import realpath from '../../modules/methods/realpath';
+import realpath from '../../compiled/transformedMinor/craydent.realpath';
 jest.mock('fs', () => {
     return {
         "realpath": (...args) => {

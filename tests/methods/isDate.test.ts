@@ -1,5 +1,5 @@
-import isDate from '../../modules/methods/isDate';
-jest.mock('../../modules/protected/_typeCheck', () => {
+import isDate from '../../compiled/transformedMinor/craydent.isdate';
+jest.mock('../../compiled/transformedMinor/craydent.isdate/protected/_typeCheck', () => {
     return {
         "default": (...args) => _typeCheck.apply(this, args)
     }

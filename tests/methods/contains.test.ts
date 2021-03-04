@@ -1,4 +1,4 @@
-import contains from '../../modules/methods/contains';
+import contains from '../../compiled/transformedMinor/craydent.contains';
 describe('contains', () => {
     it('should check if array contains item', () => {
         expect(contains(["a", "b"], "b")).toBe(true);

@@ -1,4 +1,4 @@
-import $c from '../../transformedMajor/regexp/noConflict';
+import $c from '../../compiled/transformedMajor/regexp/noConflict';
 
 describe('No Conflict RegExp', function () {
 	it('addFlags', function () {

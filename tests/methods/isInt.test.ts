@@ -1,4 +1,4 @@
-import isInt from '../../modules/methods/isInt';
+import isInt from '../../compiled/transformedMinor/craydent.isint';
 describe('isInt', () => {
     it('should check if value is an integer', () => {
         expect(isInt(null)).toBe(false);

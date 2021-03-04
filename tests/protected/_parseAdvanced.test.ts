@@ -3,8 +3,8 @@ import _parseAdvanced from '../../modules/protected/_parseAdvanced';
 declare var $g: any;
 describe('_parseAdvanced', () => {
     it('should parse object with refs from different file using current path', () => {
-        const relativePathType = { routes: { hi: "hello", oha: { "ref": "routes/hi" }, obj: { "$ref": "./test.json" } } };
-        const expected = { routes: { hi: "hello", oha: { ref: "routes/hi" }, obj: { test: "testing" } } };
+        const relativePathType = { routes: { hi: "hello", oha: { "ref": "routes/hi" }, obj: { "$ref": "./test.json" }, obj2: { "$ref": "./test.json" } } };
+        const expected = { routes: { hi: "hello", oha: { ref: "routes/hi" }, obj: { test: "testing" }, obj2: { test: "testing" } } };
         expect(_parseAdvanced(relativePathType)).toEqual(expected);
     });
     it('should parse object with refs from different file using relative path', () => {

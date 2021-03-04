@@ -1,4 +1,4 @@
-import $c from '../../transformedMajor/cli/noConflict';
+import $c from '../../compiled/transformedMajor/cli/noConflict';
 
 describe('No Conflict Global http methods', function () {
 	// TODO $COOKIE

@@ -1,4 +1,4 @@
-import runFuncArray from '../../modules/methods/runFuncArray';
+import runFuncArray from '../../compiled/transformedMinor/craydent.runfuncarray';
 describe('runFuncArray', () => {
     it('should execute a single function', () => {
         expect(runFuncArray(function () { return 1 })).toEqual([1]);

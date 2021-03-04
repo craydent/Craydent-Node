@@ -1,4 +1,4 @@
-import link from '../../modules/methods/link';
+import link from '../../compiled/transformedMinor/craydent.link';
 jest.mock('fs', () => {
     return {
         "link": (...args) => {

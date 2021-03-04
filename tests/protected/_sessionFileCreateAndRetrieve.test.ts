@@ -47,7 +47,7 @@ let fsMocks = {
 
     }
 }
-jest.mock('../../modules/methods/mkdirRecursive', () => {
+jest.mock('../../modules/methods/mkdirrecursive', () => {
     return {
         "default": (directory, cb) => {
             return cb({});

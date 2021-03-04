@@ -1,6 +1,6 @@
-import extend from '../../modules/methods/extend';
-import foo from '../../modules/methods/foo';
-jest.mock('../../modules/methods/namespace', () => {
+import extend from '../../compiled/transformedMinor/craydent.extend';
+import foo from '../../compiled/transformedMinor/craydent.foo';
+jest.mock('../../compiled/transformedMinor/craydent.namespace', () => {
     return {
         "default": (...args) => _namespace.apply(this, args)
     }

@@ -8,25 +8,25 @@ import {
     _containsMod,
     _containsType
 } from '../protected/_containsComparisons';
-import { _copyWithProjection } from '../methods/where'
+import { _copyWithProjection } from '../methods/where';
 import foo from '../methods/foo';
-import getKeys from '../methods/getKeys';
+import getKeys from '../methods/getkeys';
 import suid from '../methods/suid';
 import equals from '../methods/equals';
 import contains from '../methods/contains';
-import isNull from '../methods/isNull';
-import isArray from '../methods/isArray';
-import isFunction from '../methods/isFunction';
-import isInt from '../methods/isInt';
-import isObject from '../methods/isObject';
-import isRegExp from '../methods/isRegExp';
-import isString from '../methods/isString';
+import isNull from '../methods/isnull';
+import isArray from '../methods/isarray';
+import isFunction from '../methods/isfunction';
+import isInt from '../methods/isint';
+import isObject from '../methods/isobject';
+import isRegExp from '../methods/isregexp';
+import isString from '../methods/isstring';
 import duplicate from '../methods/duplicate';
-import setProperty from '../methods/setProperty';
+import setProperty from '../methods/setproperty';
 import merge from '../methods/merge';
-import getProperty from '../methods/getProperty';
-import getValue from '../methods/getValue';
-import parseBoolean from '../methods/parseBoolean';
+import getProperty from '../methods/getproperty';
+import getValue from '../methods/getvalue';
+import parseBoolean from '../methods/parseboolean';
 import _unwind from '../protected/_unwind';
 import _groupFieldHelper from '../protected/_groupFieldHelper';
 import __queryNestedProperty from '../private/__queryNestedProperty';

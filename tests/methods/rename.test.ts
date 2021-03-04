@@ -1,4 +1,4 @@
-import rename from '../../modules/methods/rename';
+import rename from '../../compiled/transformedMinor/craydent.rename';
 jest.mock('fs', () => {
     return {
         "rename": (...args) => {

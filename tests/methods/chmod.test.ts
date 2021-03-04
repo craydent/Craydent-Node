@@ -1,4 +1,4 @@
-import chmod from '../../modules/methods/chmod';
+import chmod from '../../compiled/transformedMinor/craydent.chmod';
 jest.mock('fs', () => {
     return {
         "chmod": (...args) => {

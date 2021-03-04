@@ -1,5 +1,5 @@
-import replaceAll from '../../modules/methods/replaceAll';
-jest.mock('../../modules/protected/_replaceAll', () => {
+import replaceAll from '../../compiled/transformedMinor/craydent.replaceall';
+jest.mock('../../compiled/transformedMinor/craydent.replaceall/protected/_replaceAll', () => {
     return {
         "default": (...args) => _replaceAll.apply(this, args)
     }

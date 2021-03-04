@@ -1,4 +1,4 @@
-import getProperty from '../../modules/methods/getProperty';
+import getProperty from '../../compiled/transformedMinor/craydent.getproperty';
 describe('getProperty', () => {
     const obj = {
         prop: {

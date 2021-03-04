@@ -1,4 +1,4 @@
-import getName from '../../modules/methods/getName';
+import getName from '../../compiled/transformedMinor/craydent.getname';
 describe('getName', () => {
 
     it('should get function name when .name is not defined', () => {

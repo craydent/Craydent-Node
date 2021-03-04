@@ -1,13 +1,13 @@
 import error from '../methods/error';
-import insertAt from '../methods/insertAt';
-import isAsync from '../methods/isAsync';
-import isBoolean from '../methods/isBoolean';
-import isFunction from '../methods/isFunction';
-import isGenerator from '../methods/isGenerator';
-import isNull from '../methods/isNull';
-import isNumber from '../methods/isNumber';
-import isObject from '../methods/isObject';
-import isPromise from '../methods/isPromise';
+import insertAt from '../methods/insertat';
+import isAsync from '../methods/isasync';
+import isBoolean from '../methods/isboolean';
+import isFunction from '../methods/isfunction';
+import isGenerator from '../methods/isgenerator';
+import isNull from '../methods/isnull';
+import isNumber from '../methods/isnumber';
+import isObject from '../methods/isobject';
+import isPromise from '../methods/ispromise';
 import syncroit from '../methods/syncroit';
 import { AsyncFunction } from '../models/AsyncFunction';
 

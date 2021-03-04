@@ -1,5 +1,5 @@
-import remove from '../../modules/methods/remove';
-jest.mock('../../modules/protected/_removeFromIndex', () => {
+import remove from '../../compiled/transformedMinor/craydent.remove';
+jest.mock('../../compiled/transformedMinor/craydent.remove/protected/_removeFromIndex', () => {
     return {
         "default": (...args) => _removeFromIndex.apply(this, args)
     }

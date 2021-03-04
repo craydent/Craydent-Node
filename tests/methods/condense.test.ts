@@ -1,4 +1,4 @@
-import condense from '../../modules/methods/condense';
+import condense from '../../compiled/transformedMinor/craydent.condense';
 describe('condense', () => {
     it('should condense array', () => {
         expect(condense([null, false, undefined, 1])).toEqual([false, 1]);

@@ -1,53 +1,49 @@
 import * as IAcronymize from '../methods/acronymize';
 import * as IContains from '../methods/contains';
 import * as ICapitalize from '../methods/capitalize';
-import * as IConvertUTCDate from '../methods/convertUTCDate';
+import * as IConvertUTCDate from '../methods/convertutcdate';
 import * as ICount from '../methods/count';
 import * as ICut from '../methods/cut';
 import * as IEllipsis from '../methods/ellipsis';
-import * as IEndItWith from '../methods/endItWith';
-import * as IEndsWith from '../methods/endsWith';
-import * as IEndsWithAny from '../methods/endsWithAny';
+import * as IEndItWith from '../methods/enditwith';
+import * as IEndsWith from '../methods/endswith';
+import * as IEndsWithAny from '../methods/endswithany';
 import * as IEquals from '../methods/equals';
-import * as IGetValue from '../methods/getValue';
+import * as IGetValue from '../methods/getvalue';
 import * as IHighlight from '../methods/highlight';
-import * as IIndexOfAlt from '../methods/indexOfAlt';
-import * as IIreplaceAll from '../methods/ireplaceAll';
-import * as IIsBlank from '../methods/isBlank';
-import * as IIsCuid from '../methods/isCuid';
-import * as IIsValidEmail from '../methods/isValidEmail';
-import * as ILastIndexOfAlt from '../methods/lastIndexOfAlt';
+import * as IIndexOfAlt from '../methods/indexofalt';
+import * as IIreplaceAll from '../methods/ireplaceall';
+import * as IIsBlank from '../methods/isblank';
+import * as IIsCuid from '../methods/iscuid';
+import * as IIsValidEmail from '../methods/isvalidemail';
+import * as ILastIndexOfAlt from '../methods/lastindexofalt';
 import * as ILtrim from '../methods/ltrim';
 import * as IPluralize from '../methods/pluralize';
-import * as IReplaceAll from '../methods/replaceAll';
+import * as IReplaceAll from '../methods/replaceall';
 import * as IReverse from '../methods/reverse';
 import * as IRtrim from '../methods/rtrim';
 import * as ISanitize from '../methods/sanitize';
 import * as ISingularize from '../methods/singularize';
-import * as IStartItWith from '../methods/startItWith';
-import * as IStartsWith from '../methods/startsWith';
-import * as IStartsWithAny from '../methods/startsWithAny';
+import * as IStartItWith from '../methods/startitwith';
+import * as IStartsWith from '../methods/startswith';
+import * as IStartsWithAny from '../methods/startswithany';
 import * as IStrip from '../methods/strip';
-import * as ISubstringBetween from '../methods/substringBetween';
-import * as ISubstringStartFrom from '../methods/substringStartFrom';
-import * as ISubstringEndAt from '../methods/substringEndAt';
-import * as IToCurrencyNotation from '../methods/toCurrencyNotation';
-import * as IToDateTime from '../methods/toDateTime';
-import * as IToObject from '../methods/toObject';
-import * as IUniversalTrim from '../methods/universalTrim';
-import {
-    ContainsObjectIterator,
-    ContainsValue,
-    ComparisonOperator,
-    AnyObject,
-    WhereCondition,
-    ArrayIterator
-} from '../models/Arrays';
+import * as ISubstringBetween from '../methods/substringbetween';
+import * as ISubstringStartFrom from '../methods/substringstartfrom';
+import * as ISubstringEndAt from '../methods/substringendat';
+import * as IToCurrencyNotation from '../methods/tocurrencynotation';
+import * as IToDateTime from '../methods/todatetime';
+import * as IToObject from '../methods/toobject';
+import * as IUniversalTrim from '../methods/universaltrim';
+import { WhereCondition, ArrayIterator } from '../models/Arrays';
+import { ContainsObjectIterator, ContainsValue } from '../models/Contains';
+import { ComparisonOperator } from '../models/ComparisonOperator';
+import { AnyObject } from '../models/Generics';
 import { DateTimeOptions } from '../models/DateTimeOptions';
 
 import { scope } from '../private/__common';
 
-if (typeof (global as any) == 'undefined'){
+if (typeof (global as any) == 'undefined') {
     (window as any).global = window;
 }
 scope.eval = str => eval(str);
@@ -55,40 +51,40 @@ scope.eval = str => eval(str);
 const acronymize: typeof IAcronymize.default = require('../methods/acronymize').default;
 const contains: typeof IContains.default = require('../methods/contains').default;
 const capitalize: typeof ICapitalize.default = require('../methods/capitalize').default;
-const convertUTCDate: typeof IConvertUTCDate.default = require('../methods/convertUTCDate').default;
+const convertUTCDate: typeof IConvertUTCDate.default = require('../methods/convertutcdate').default;
 const count: typeof ICount.default = require('../methods/count').default;
 const cut: typeof ICut.default = require('../methods/cut').default;
 const ellipsis: typeof IEllipsis.default = require('../methods/ellipsis').default;
-const endItWith: typeof IEndItWith.default = require('../methods/endItWith').default;
-const endsWith: typeof IEndsWith.default = require('../methods/endsWith').default;
-const endsWithAny: typeof IEndsWithAny.default = require('../methods/endsWithAny').default;
+const endItWith: typeof IEndItWith.default = require('../methods/enditwith').default;
+const endsWith: typeof IEndsWith.default = require('../methods/endswith').default;
+const endsWithAny: typeof IEndsWithAny.default = require('../methods/endswithany').default;
 const equals: typeof IEquals.default = require('../methods/equals').default;
-const getValue: typeof IGetValue.default = require('../methods/getValue').default;
+const getValue: typeof IGetValue.default = require('../methods/getvalue').default;
 const highlight: typeof IHighlight.default = require('../methods/highlight').default;
-const indexOfAlt: typeof IIndexOfAlt.default = require('../methods/indexOfAlt').default;
-const ireplaceAll: typeof IIreplaceAll.default = require('../methods/ireplaceAll').default;
-const isBlank: typeof IIsBlank.default = require('../methods/isBlank').default;
-const isCuid: typeof IIsCuid.default = require('../methods/isCuid').default;
-const isValidEmail: typeof IIsValidEmail.default = require('../methods/isValidEmail').default;
-const lastIndexOfAlt: typeof ILastIndexOfAlt.default = require('../methods/lastIndexOfAlt').default;
+const indexOfAlt: typeof IIndexOfAlt.default = require('../methods/indexofalt').default;
+const ireplaceAll: typeof IIreplaceAll.default = require('../methods/ireplaceall').default;
+const isBlank: typeof IIsBlank.default = require('../methods/isblank').default;
+const isCuid: typeof IIsCuid.default = require('../methods/iscuid').default;
+const isValidEmail: typeof IIsValidEmail.default = require('../methods/isvalidemail').default;
+const lastIndexOfAlt: typeof ILastIndexOfAlt.default = require('../methods/lastindexofalt').default;
 const ltrim: typeof ILtrim.default = require('../methods/ltrim').default;
 const pluralize: typeof IPluralize.default = require('../methods/pluralize').default;
-const replaceAll: typeof IReplaceAll.default = require('../methods/replaceAll').default;
+const replaceAll: typeof IReplaceAll.default = require('../methods/replaceall').default;
 const reverse: typeof IReverse.default = require('../methods/reverse').default;
 const rtrim: typeof IRtrim.default = require('../methods/rtrim').default;
 const sanitize: typeof ISanitize.default = require('../methods/sanitize').default;
 const singularize: typeof ISingularize.default = require('../methods/singularize').default;
-const startItWith: typeof IStartItWith.default = require('../methods/startItWith').default;
-const startsWith: typeof IStartsWith.default = require('../methods/startsWith').default;
-const startsWithAny: typeof IStartsWithAny.default = require('../methods/startsWithAny').default;
+const startItWith: typeof IStartItWith.default = require('../methods/startitwith').default;
+const startsWith: typeof IStartsWith.default = require('../methods/startswith').default;
+const startsWithAny: typeof IStartsWithAny.default = require('../methods/startswithany').default;
 const strip: typeof IStrip.default = require('../methods/strip').default;
-const substringBetween: typeof ISubstringBetween.default = require('../methods/substringBetween').default;
-const substringStartFrom: typeof ISubstringStartFrom.default = require('../methods/substringStartFrom').default;
-const substringEndAt: typeof ISubstringEndAt.default = require('../methods/substringEndAt').default;
-const toCurrencyNotation: typeof IToCurrencyNotation.default = require('../methods/toCurrencyNotation').default;
-const toDateTime: typeof IToDateTime.default = require('../methods/toDateTime').default;
-const toObject: typeof IToObject.default = require('../methods/toObject').default;
-const universalTrim: typeof IUniversalTrim.default = require('../methods/universalTrim').default;
+const substringBetween: typeof ISubstringBetween.default = require('../methods/substringbetween').default;
+const substringStartFrom: typeof ISubstringStartFrom.default = require('../methods/substringstartfrom').default;
+const substringEndAt: typeof ISubstringEndAt.default = require('../methods/substringendat').default;
+const toCurrencyNotation: typeof IToCurrencyNotation.default = require('../methods/tocurrencynotation').default;
+const toDateTime: typeof IToDateTime.default = require('../methods/todatetime').default;
+const toObject: typeof IToObject.default = require('../methods/toobject').default;
+const universalTrim: typeof IUniversalTrim.default = require('../methods/universaltrim').default;
 //#endregion
 export function _acronymize(capsOnly?: boolean, delimiter?: string | RegExp): string;
 export function _acronymize(match?: RegExp): string;

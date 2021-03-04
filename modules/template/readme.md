@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.10.4
+# Craydent 0.10.8
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -44,6 +44,7 @@ arr.prototypedMethod(args);
 | CONSOLE_COLORS (Object) |LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
 DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
 ERROR_TYPES (Array) |PUBLIC_IP (String) |VERSION (String) |
+HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 
 <a name='markdown-header-featured'></a>
 ## Featured

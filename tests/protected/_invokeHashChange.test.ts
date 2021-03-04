@@ -1,7 +1,7 @@
 import _invokeHashChange from '../../modules/protected/_invokeHashChange';
 import { $c } from '../../modules/private/__common';
-import isNull from '../../modules/methods/isNull';
-jest.mock('../../modules/methods/isFunction', () => {
+import isNull from '../../compiled/transformedMinor/craydent.isnull';
+jest.mock('../../modules/methods/isfunction', () => {
     return {
         "default": (obj: any) => {
             if (isNull(obj)) { return false; }

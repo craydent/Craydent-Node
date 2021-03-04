@@ -1,4 +1,4 @@
-import map from '../../modules/methods/map';
+import map from '../../compiled/transformedMinor/craydent.map';
 describe('map', () => {
     it('should map the array', () => {
         expect(map([1, 2, 3, 4], (value, i, objs) => value + i)).toEqual([1, 3, 5, 7]);

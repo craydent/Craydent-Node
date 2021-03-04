@@ -1,4 +1,4 @@
-import upsert from '../../modules/methods/upsert';
+import upsert from '../../compiled/transformedMinor/craydent.upsert';
 describe('upsert', () => {
     it('should upsert a single item', () => {
         let arr = [{ _id: 1 }, { _id: 2 }]

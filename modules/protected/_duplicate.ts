@@ -1,14 +1,14 @@
-import indexOfAlt from '../methods/indexOfAlt';
-import isArray from '../methods/isArray';
-import isFloat from '../methods/isFloat';
-import isInt from '../methods/isInt';
-import isNull from '../methods/isNull';
-import isNumber from '../methods/isNumber';
-import isString from '../methods/isString';
+import indexOfAlt from '../methods/indexofalt';
+import isArray from '../methods/isarray';
+import isFloat from '../methods/isfloat';
+import isInt from '../methods/isint';
+import isNull from '../methods/isnull';
+import isNumber from '../methods/isnumber';
+import isString from '../methods/isstring';
 
 import error from '../methods/error';
-import parseRaw from '../methods/parseRaw';
-import tryEval from '../methods/tryEval';
+import parseRaw from '../methods/parseraw';
+import tryEval from '../methods/tryeval';
 
 interface Ref {
     objects: Array<{ obj: any, path: string }>;

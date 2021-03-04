@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.10.4
+# Craydent 0.10.8
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -41,9 +41,10 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| CONSOLE_COLORS (Object) |LOCAL_IP (String) |VERSION (String) |
-DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |
-ERROR_TYPES (Array) |PUBLIC_IP (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |VERSION (String) |
+HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -141,6 +142,22 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >Parameters
 >* condition: (WhereCondition | string) Query following find/where clause syntax
 >* useReference: (Bool) Flag to make a copy instead of using references
+
+*** 
+#### _parallelEach_ 
+***
+
+**Info:** Array class extension to perform push and update indexes if used
+
+**Return:** (Bool) Value to indicate success or failure
+
+**Parameters:**
+
+>* value: (Object) value to add
+
+**Overloads:**
+
+>None
 
 *** 
 #### _stdev_ 
@@ -342,23 +359,6 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
-#### _every_ 
-***
-
-**Info:** Array class extension to implement .every method
-
-**Return:** (Bool)
-
-**Parameters:**
-
->* callback: (ArrayIterator<T>) Callback to test for each element. Callback will get the current item, index, context as arguments.
->* craydent_ctxObject?: (any) Context for the callback function
-
-**Overloads:**
-
->None
-
-*** 
 #### _filter_ 
 ***
 
@@ -496,22 +496,6 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
-#### _isSubset_ 
-***
-
-**Info:** Object class extension to check if item is a subset
-
-**Return:** (Bool) returns true if the array is a subset, otherwise false.
-
-**Parameters:**
-
->* compare: (Array<T>|Object) Superset to compare against
-
-**Overloads:**
-
->None
-
-*** 
 #### _joinLeft_ 
 ***
 
@@ -579,23 +563,6 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
-#### _map_ 
-***
-
-**Info:** Array class extension to implement map
-
-**Return:** (Array<TResult>) returns the resulting array.
-
-**Parameters:**
-
->* callback: (ArrayIterator<T, TResult>) Callback function used to apply changes
->* craydent_ctxObject?: (any) Specify the context on callback function
-
-**Overloads:**
-
->None
-
-*** 
 #### _mapReduce_ 
 ***
 
@@ -628,29 +595,6 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 **Overloads:**
 
 >None
-
-*** 
-#### _parallelEach_ 
-***
-
-**Info:** Array class extension to execute each array item in parallel or run each item against a generator/function in parallel
-
-**Return:** (Promise<Array<T>>) returns a promise of the resulting items in the array.
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->Parameters
->* gen: (GeneratorFunction) Generator function to apply to each item
-
->Parameters
->* func: (ArrayIterator<T, TResult>) Function to apply to each item
-
->Parameters
->* args: (Array<T>) Argument array to apply to pass to generator or function (only should be used when the array contains generators, promises, or functions)
 
 *** 
 #### _remove_ 

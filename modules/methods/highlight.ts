@@ -1,7 +1,7 @@
 import error from '../methods/error';
-import addFlags from '../methods/addFlags';
-import isRegExp from '../methods/isRegExp';
-import replaceAll from '../methods/replaceAll';
+import addFlags from '../methods/addflags';
+import isRegExp from '../methods/isregexp';
+import replaceAll from '../methods/replaceall';
 import { isString } from 'util';
 
 export default function highlight(str: string, search: string | RegExp, cssClass?: string, tag?: string): string {

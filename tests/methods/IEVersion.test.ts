@@ -1,4 +1,4 @@
-import IEVersion from '../../modules/methods/IEVersion';
+import IEVersion from '../../compiled/transformedMinor/craydent.ieversion';
 describe('IEVersion', () => {
     it('should retrieve the IE vsersion', () => {
         const dis = {

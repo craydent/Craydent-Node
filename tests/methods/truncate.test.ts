@@ -1,4 +1,4 @@
-import truncate from '../../modules/methods/truncate';
+import truncate from '../../compiled/transformedMinor/craydent.truncate';
 jest.mock('fs', () => {
     return {
         "truncate": (...args) => {

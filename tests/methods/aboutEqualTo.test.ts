@@ -1,4 +1,4 @@
-import aboutEqualTo from '../../modules/methods/aboutEqualTo';
+import aboutEqualTo from '../../compiled/transformedMinor/craydent.aboutequalto';
 
 describe('aboutEqualTo', () => {
     it('should be false when out of range', () => {

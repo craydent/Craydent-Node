@@ -1,4 +1,4 @@
-import Request from '../../modules/methods/Request';
+import Request from '../../compiled/transformedMinor/craydent.request';
 describe('Request', () => {
     let _XMLHttpRequest = (global as any).XMLHttpRequest;
     let _ActiveXObject = (global as any).ActiveXObject;

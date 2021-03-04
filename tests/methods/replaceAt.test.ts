@@ -1,11 +1,11 @@
-import replaceAt from '../../modules/methods/replaceAt';
+import replaceAt from '../../compiled/transformedMinor/craydent.replaceat';
 
-jest.mock('../../modules/protected/_removeFromIndex', () => {
+jest.mock('../../compiled/transformedMinor/craydent.replaceat/protected/_removeFromIndex', () => {
     return {
         "default": (...args) => _removeFromIndex.apply(this, args)
     }
 });
-jest.mock('../../modules/protected/_addToIndex', () => {
+jest.mock('../../compiled/transformedMinor/craydent.replaceat/protected/_addToIndex', () => {
     return {
         "default": (...args) => _addToIndex.apply(this, args)
     }

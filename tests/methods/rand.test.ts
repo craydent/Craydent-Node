@@ -1,4 +1,4 @@
-import rand from '../../modules/methods/rand';
+import rand from '../../compiled/transformedMinor/craydent.rand';
 
 describe('rand', () => {
     const random = Math.random;

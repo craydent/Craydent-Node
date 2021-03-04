@@ -1,7 +1,7 @@
 import duplicate from '../methods/duplicate';
-import isArray from '../methods/isArray';
-import isObject from '../methods/isObject';
-import { AnyObject } from '../models/Arrays';
+import isArray from '../methods/isarray';
+import isObject from '../methods/isobject';
+import { AnyObject } from '../models/Generics';
 import { IteratorItem } from '../models/IteratorItem';
 
 function Cursor(records?: AnyObject | any[]) {

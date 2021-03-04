@@ -1,17 +1,17 @@
-import where, { __processStage, _joinHelper, _copyWithProjection, _createFuncAndFilter, _recordRange, _reverseRange, _searchRange } from '../../modules/methods/where';
+import where, { __processStage, _joinHelper, _copyWithProjection, _createFuncAndFilter, _recordRange, _reverseRange, _searchRange } from '../../compiled/transformedMinor/craydent.where';
 
-import { IndexedBucket, IndexedArray } from '../../modules/models/Arrays';
-jest.mock('../../modules/protected/_redact', () => {
+import { IndexedBucket, IndexedArray } from '../../compiled/transformedMinor/craydent.where/models/Arrays';
+jest.mock('../../compiled/transformedMinor/craydent.where/protected/_redact', () => {
     return {
         "default": (...args) => _redact.apply(this, args)
     }
 });
-jest.mock('../../modules/protected/_unwind', () => {
+jest.mock('../../compiled/transformedMinor/craydent.where/protected/_unwind', () => {
     return {
         "default": (...args) => _unwind.apply(this, args)
     }
 });
-jest.mock('../../modules/private/__whereParsers', () => {
+jest.mock('../../compiled/transformedMinor/craydent.where/private/__whereParsers', () => {
     return {
         "__processGroup": (...args) => __processGroup.apply(this, args),
         "__processExpression": (...args) => __processExpression.apply(this, args)

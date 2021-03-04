@@ -23,5 +23,6 @@ transformedMajor
 transformedMinor
 modules
 compiled
-index.template.js
+index.template.ts
 base.js
+craydent-*.js

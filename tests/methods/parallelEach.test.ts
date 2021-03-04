@@ -1,4 +1,4 @@
-import parallelEach from '../../modules/methods/parallelEach';
+import parallelEach from '../../compiled/transformedMinor/craydent.paralleleach';
 describe('parallelEach', () => {
     it('should run async', async () => {
         expect(await parallelEach([])).toEqual([]);

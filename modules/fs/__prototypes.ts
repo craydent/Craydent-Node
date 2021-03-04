@@ -1,9 +1,9 @@
 import * as IAccess from '../methods/access';
-import * as IAppendFile from '../methods/appendFile';
+import * as IAppendFile from '../methods/appendfile';
 import * as IChmod from '../methods/chmod';
 import * as IChown from '../methods/chown';
 import * as IClose from '../methods/close';
-import * as ICopyFile from '../methods/copyFile';
+import * as ICopyFile from '../methods/copyfile';
 import * as IFchmod from '../methods/fchmod';
 import * as IFchown from '../methods/fchown';
 import * as IFdatasync from '../methods/fdatasync';
@@ -20,7 +20,7 @@ import * as IMkdtemp from '../methods/mkdtemp';
 import * as IOpen from '../methods/open';
 import * as IRead from '../methods/read';
 import * as IReaddir from '../methods/readdir';
-import * as IReadFile from '../methods/readFile';
+import * as IReadFile from '../methods/readfile';
 import * as IReadlink from '../methods/readlink';
 import * as IRealpath from '../methods/realpath';
 import * as IRename from '../methods/rename';
@@ -31,21 +31,21 @@ import * as ITruncate from '../methods/truncate';
 import * as IUnlink from '../methods/unlink';
 import * as IUtimes from '../methods/utimes';
 import * as IWrite from '../methods/write';
-import * as IWriteFile from '../methods/writeFile';
+import * as IWriteFile from '../methods/writefile';
 
 import { scope } from '../private/__common';
 
-if (typeof (global as any) == 'undefined'){
+if (typeof (global as any) == 'undefined') {
     (window as any).global = window;
 }
 scope.eval = str => eval(str);
 //#region dependencies
 const access: typeof IAccess.default = require('../methods/access').default;
-const appendFile: typeof IAppendFile.default = require('../methods/appendFile').default;
+const appendFile: typeof IAppendFile.default = require('../methods/appendfile').default;
 const chmod: typeof IChmod.default = require('../methods/chmod').default;
 const chown: typeof IChown.default = require('../methods/chown').default;
 const close: typeof IClose.default = require('../methods/close').default;
-const copyFile: typeof ICopyFile.default = require('../methods/copyFile').default;
+const copyFile: typeof ICopyFile.default = require('../methods/copyfile').default;
 const fchmod: typeof IFchmod.default = require('../methods/fchmod').default;
 const fchown: typeof IFchown.default = require('../methods/fchown').default;
 const fdatasync: typeof IFdatasync.default = require('../methods/fdatasync').default;
@@ -62,7 +62,7 @@ const mkdtemp: typeof IMkdtemp.default = require('../methods/mkdtemp').default;
 const open: typeof IOpen.default = require('../methods/open').default;
 const read: typeof IRead.default = require('../methods/read').default;
 const readdir: typeof IReaddir.default = require('../methods/readdir').default;
-const readFile: typeof IReadFile.default = require('../methods/readFile').default;
+const readFile: typeof IReadFile.default = require('../methods/readfile').default;
 const readlink: typeof IReadlink.default = require('../methods/readlink').default;
 const realpath: typeof IRealpath.default = require('../methods/realpath').default;
 const rename: typeof IRename.default = require('../methods/rename').default;
@@ -73,7 +73,7 @@ const truncate: typeof ITruncate.default = require('../methods/truncate').defaul
 const unlink: typeof IUnlink.default = require('../methods/unlink').default;
 const utimes: typeof IUtimes.default = require('../methods/utimes').default;
 const write: typeof IWrite.default = require('../methods/write').default;
-const writeFile: typeof IWriteFile.default = require('../methods/writeFile').default;
+const writeFile: typeof IWriteFile.default = require('../methods/writefile').default;
 //#endregion
 
 export {

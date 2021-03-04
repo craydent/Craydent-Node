@@ -1,7 +1,7 @@
 
 import error from '../methods/error';
 import cuid from '../methods/cuid';
-import getProperty from '../methods/getProperty';
+import getProperty from '../methods/getproperty';
 import _sessionFileCreateAndRetrieve from '../protected/_sessionFileCreateAndRetrieve';
 
 declare var __GLOBALSESSION: any;

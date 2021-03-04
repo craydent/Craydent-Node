@@ -1,7 +1,7 @@
-import createServer from '../../modules/methods/createServer';
-import { $c } from '../../modules/private/__common';
+import createServer from '../../compiled/transformedMinor/craydent.createserver';
+import { $c } from '../../compiled/transformedMinor/craydent.createserver/private/__common';
 
-jest.mock('../../modules/private/__setPath', () => {
+jest.mock('../../compiled/transformedMinor/craydent.createserver/private/__setPath', () => {
     return {
         "default": (...args) => __setPath.apply(this, args)
     }

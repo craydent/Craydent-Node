@@ -1,5 +1,5 @@
 import _subQuery from '../../modules/protected/_subQuery';
-import average from '../../modules/methods/average';
+import average from '../../compiled/transformedMinor/craydent.average';
 describe('_subQuery', () => {
     it('should generate condition when query is not an object', () => {
         expect(_subQuery('' as any, 'name.first', 0)).toBe('_equals(_getProperty(record,\'name.first\'), "")');

@@ -1,4 +1,4 @@
-import isAmaya from '../../modules/methods/isAmaya';
+import isAmaya from '../../compiled/transformedMinor/craydent.isamaya';
 describe('isAmaya', () => {
     it('should check if browser is Amaya', () => {
         const dis = { navigator: { userAgent: 'amaya' } };

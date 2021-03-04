@@ -1,4 +1,4 @@
-import capitalize from '../../modules/methods/capitalize';
+import capitalize from '../../compiled/transformedMinor/craydent.capitalize';
 describe('capitalize', () => {
     it('should capitalize based on options', () => {
         expect(capitalize("word of the day")).toBe("Word of the day");

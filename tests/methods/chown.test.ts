@@ -1,4 +1,4 @@
-import chown from '../../modules/methods/chown';
+import chown from '../../compiled/transformedMinor/craydent.chown';
 jest.mock('fs', () => {
     return {
         "chown": (...args) => {

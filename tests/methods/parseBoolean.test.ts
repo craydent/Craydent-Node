@@ -1,4 +1,4 @@
-import parseBoolean from '../../modules/methods/parseBoolean';
+import parseBoolean from '../../compiled/transformedMinor/craydent.parseboolean';
 describe('parseBoolean', () => {
     it('should parse boolean', () => {
         expect(parseBoolean('true')).toBe(true);

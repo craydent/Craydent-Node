@@ -1,4 +1,4 @@
-import $c from '../../transformedMajor/number/global';
+import $c from '../../compiled/transformedMajor/number/global';
 $c;
 describe('No Conflict Number', function () {
     const ten = 10, nine = 9, eight = 8, seven = 7;

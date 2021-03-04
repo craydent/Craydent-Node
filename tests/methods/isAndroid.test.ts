@@ -1,4 +1,4 @@
-import isAndroid from '../../modules/methods/isAndroid';
+import isAndroid from '../../compiled/transformedMinor/craydent.isandroid';
 describe('isAndroid', () => {
     it('should check if browser is Android', () => {
         const dis = { navigator: { userAgent: 'android' } };

@@ -1,4 +1,4 @@
-import toObject from '../../modules/methods/toObject';
+import toObject from '../../compiled/transformedMinor/craydent.toobject';
 describe('toObject', () => {
     it('should url query string to object', () => {
         expect(toObject('?q=1&r=string')).toEqual({ q: '1', r: 'string' });

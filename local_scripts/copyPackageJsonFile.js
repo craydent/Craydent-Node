@@ -37,28 +37,8 @@ const CONSOLE_COLORS = {
     YELLOW: '\x1b[33m%s\x1b[0m'
 };
 async function start() {
-    let promises = [copyMajor(), copyMinor()];
-    await Promise.all(promises);
-    console.log(CONSOLE_COLORS.GREEN, 'done')
-}
-async function copyMajor() {
-    let folders = await readdir(`${root}/transformedMajor/`);
-    let promises = [];
-    for (let i = 0, len = folders.length; i < len; i++) {
-        let folder = folders[i];
-        promises.push(copyFile(`${root}/transformedMajor/${folder}/package.json`, `${root}/compiled/transformedMajor/${folder}/package.json`));
-    }
-    await Promise.all(promises);
-    console.log(CONSOLE_COLORS.GREEN, 'copied major package.json')
-}
-async function copyMinor() {
-    let folders = await readdir(`${root}/transformedMinor/`);
-    let promises = [];
-    for (let i = 0, len = folders.length; i < len; i++) {
-        let folder = folders[i];
-        promises.push(copyFile(`${root}/transformedMinor/${folder}/package.json`, `${root}/compiled/transformedMinor/${folder}/package.json`));
-    }
-    await Promise.all(promises);
-    console.log(CONSOLE_COLORS.GREEN, 'copied minor package.json')
+    console.log(CONSOLE_COLORS.GREEN, 'copying package.json')
+    await copyFile(`${root}/package.json`, `${root}/compiled/package.json`)
+    console.log(CONSOLE_COLORS.GREEN, 'finished copying package.json')
 }
 start();

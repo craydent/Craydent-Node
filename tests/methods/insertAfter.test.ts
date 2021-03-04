@@ -1,5 +1,5 @@
-import insertAfter from '../../modules/methods/insertAfter';
-jest.mock('../../modules/protected/_addToIndex', () => {
+import insertAfter from '../../compiled/transformedMinor/craydent.insertafter';
+jest.mock('../../compiled/transformedMinor/craydent.insertafter/protected/_addToIndex', () => {
     return {
         "default": (...args) => __addToIndex.apply(this, args)
     }

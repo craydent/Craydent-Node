@@ -1,4 +1,4 @@
-import sortBy from '../../modules/methods/sortBy';
+import sortBy from '../../compiled/transformedMinor/craydent.sortby';
 describe('sortBy', () => {
     it('should sort the array by the field', () => {
         let arr = [{ _id: 2 }, { _id: 1 }];

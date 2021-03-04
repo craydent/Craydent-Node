@@ -5,16 +5,17 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-///<reference path="../globalTypes/global.vars.ts" />
+///<reference path="../globalTypes/global.vars.d.ts" />
 //#region imports
 //@ts-ignore
 import { $c, info } from '../private/__common';
 import * as ILogModule from '../private/__logModule';
-import * as IParseAdvanced from '../methods/parseAdvanced';
-import * as IStringifyAdvanced from '../methods/stringifyAdvanced';
+import * as IParseAdvanced from '../methods/parseadvanced';
+import * as IStringifyAdvanced from '../methods/stringifyadvanced';
 import * as IPrototypes from './__prototypes';
 //#endregion
 
+//#region typeDefs
 declare global {
     interface Craydent {
         parseAdvanced: typeof IParseAdvanced.default;
@@ -50,6 +51,7 @@ declare global {
     var stringifyAdvanced: typeof IStringifyAdvanced.default;
     //#endregion global
 }
+//#endregion typeDefs
 if (!$c.MODULES_LOADED[info.name]) {
     const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);

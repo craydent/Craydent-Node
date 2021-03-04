@@ -1,5 +1,5 @@
-import getParameters from '../../modules/methods/getParameters';
-jest.mock('../../modules/protected/_getFuncArgs', () => {
+import getParameters from '../../compiled/transformedMinor/craydent.getparameters';
+jest.mock('../../compiled/transformedMinor/craydent.getparameters/protected/_getFuncArgs', () => {
     return {
         "default": (...args) => _getFuncArgs.apply(this, args)
     }

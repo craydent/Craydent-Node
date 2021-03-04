@@ -1,11 +1,11 @@
-import include from '../../modules/methods/include';
-jest.mock('../../modules/methods/clearCache', () => {
+import include from '../../compiled/transformedMinor/craydent.include';
+jest.mock('../../compiled/transformedMinor/craydent.clearcache', () => {
     return {
         "default": (...args) => clearCache.apply(this, args)
     }
 });
 let clearCache = () => { }
-jest.mock('../../modules/methods/absolutePath', () => {
+jest.mock('../../compiled/transformedMinor/craydent.absolutepath', () => {
     return {
         "default": (...args) => absolutePath.apply(this, args)
     }
@@ -20,7 +20,7 @@ describe('include', () => {
         absolutePath = jest.fn().mockImplementationOnce(() => 'fakeModule');
         expect(include('fakeModule', true)).toEqual(null);
         expect(clearCache).toHaveBeenCalledWith('fakeModule');
-        expect(absolutePath).toHaveBeenCalledWith('fakeModule',1);
+        expect(absolutePath).toHaveBeenCalledWith('fakeModule', 1);
     })
     it('should find jest', () => {
         expect(include('jest')).toBeTruthy();

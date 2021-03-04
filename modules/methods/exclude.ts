@@ -1,3 +1,4 @@
+///<reference path="../globalTypes/global.vars.d.ts" />
 import error from '../methods/error';
 import capitalize from '../methods/capitalize';
 

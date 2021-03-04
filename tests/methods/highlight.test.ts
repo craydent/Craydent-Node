@@ -1,4 +1,4 @@
-import highlight from '../../modules/methods/highlight';
+import highlight from '../../compiled/transformedMinor/craydent.highlight';
 describe('highlight', () => {
     it('should highlight html with default values', () => {
         expect(highlight('word of the day', 'the')).toBe('word of <span class="chighlight">the</span> day');

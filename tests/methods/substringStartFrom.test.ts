@@ -1,4 +1,4 @@
-import substringStartFrom from '../../modules/methods/substringStartFrom';
+import substringStartFrom from '../../compiled/transformedMinor/craydent.substringstartfrom';
 describe('substringStartFrom', () => {
     it('should get substring starting in the specified strings', () => {
         expect(substringStartFrom('abcde', 'b')).toBe('bcde');

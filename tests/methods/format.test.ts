@@ -1,4 +1,4 @@
-import format from '../../modules/methods/format';
+import format from '../../compiled/transformedMinor/craydent.format';
 describe('format', () => {
     let date = new Date('1/1/2020 00:00:00');
     let dateWith0 = new Date('2/2/2020 01:01:02');

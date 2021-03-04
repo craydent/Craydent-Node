@@ -1,6 +1,6 @@
-import isError from '../../modules/methods/isError';
-import { $c } from '../../modules/private/__common';
-jest.mock('../../modules/protected/_typeCheck', () => {
+import isError from '../../compiled/transformedMinor/craydent.iserror';
+import { $c } from '../../compiled/transformedMinor/craydent.iserror/private/__common';
+jest.mock('../../compiled/transformedMinor/craydent.iserror/protected/_typeCheck', () => {
     return {
         "default": (...args) => _typeCheck.apply(this, args)
     }

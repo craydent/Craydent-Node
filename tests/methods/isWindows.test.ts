@@ -1,4 +1,4 @@
-import isWindows from '../../modules/methods/isWindows';
+import isWindows from '../../compiled/transformedMinor/craydent.iswindows';
 describe('isWindows', () => {
     it('should check if machine is Windows', () => {
         expect(isWindows.call({ navigator: { platform: 'win' } })).toBe(true);

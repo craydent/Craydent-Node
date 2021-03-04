@@ -1,4 +1,4 @@
-import namespace from '../../modules/methods/namespace';
+import namespace from '../../compiled/transformedMinor/craydent.namespace';
 describe('namespace', () => {
     beforeEach(() => {
         delete namespace['TheNamespace'];

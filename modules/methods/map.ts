@@ -1,6 +1,6 @@
 import error from '../methods/error';
 import { ArrayIterator } from '../models/Arrays';
-import isArray from '../methods/isArray';
+import isArray from '../methods/isarray';
 import duplicate from '../methods/duplicate';
 import { ObjectIterator } from '../models/ObjectIterator';
 
@@ -20,7 +20,7 @@ export default function map<T>(objs: T[] | T, callback: ArrayIterator<T> | Objec
         "returnType": "(Array<TResult>) returns the resulting array."
     }|*/
     try {
-        context = context || objs;
+        context = context || global;
         if (isArray(objs)) {
             //@ts-ignore
             let other = new Array(objs.length);

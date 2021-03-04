@@ -1,5 +1,5 @@
-import cout from '../../modules/methods/cout';
-import { $c } from '../../modules/private/__common';
+import cout from '../../compiled/transformedMinor/craydent.cout';
+import { $c } from '../../compiled/transformedMinor/craydent.cout/private/__common';
 describe('cout', () => {
     let _log = console.log;
     let DMODE = $c.DEBUG_MODE

@@ -1,4 +1,4 @@
-import eachProperty from '../../modules/methods/eachProperty';
+import eachProperty from '../../compiled/transformedMinor/craydent.eachproperty';
 describe('eachProperty', () => {
     it('should loop through each property', () => {
         const cb = jest.fn();

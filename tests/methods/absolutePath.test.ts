@@ -1,4 +1,4 @@
-import absolutePath from '../../modules/methods/absolutePath';
+import absolutePath from '../../compiled/transformedMinor/craydent.absolutepath';
 describe('absolutePath', () => {
     it('should get the relative path', () => {
         process.cwd()

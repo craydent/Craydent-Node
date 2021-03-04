@@ -1,10 +1,10 @@
 import error from '../methods/error';
 import * as ICluster from 'cluster';
 import * as os from 'os';
-import isFunction from '../methods/isFunction';
-import isNull from '../methods/isNull';
+import isFunction from '../methods/isfunction';
+import isNull from '../methods/isnull';
 import foo from '../methods/foo';
-import { AnyObject } from '../models/Arrays';
+import { AnyObject } from '../models/Generics';
 import include from '../methods/include';
 
 export interface ClusterOptions {

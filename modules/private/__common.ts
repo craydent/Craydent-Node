@@ -5,11 +5,12 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-///<reference path="../globalTypes/global.base.ts" />
+///<reference path="../globalTypes/global.base.d.ts" />
 import globalize from '../methods/globalize';
 import include from '../methods/include';
 import __isNewer from '../private/__isNewer';
 declare var $g: any;
+/* istanbul ignore next */
 if (typeof (global as any) == 'undefined'){
     (window as any).global = window;
 }

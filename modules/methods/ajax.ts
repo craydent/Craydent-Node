@@ -1,146 +1,25 @@
 import * as IHTTP from 'http';
 import error from '../methods/error';
 import foo from '../methods/foo';
-import IEVersion from '../methods/IEVersion';
-import isArray from '../methods/isArray';
-import isBetween from '../methods/isBetween';
-import isObject from '../methods/isObject';
-import isString from '../methods/isString';
+import IEVersion from '../methods/ieversion';
+import isArray from '../methods/isarray';
+import isBetween from '../methods/isbetween';
+import isObject from '../methods/isobject';
+import isString from '../methods/isstring';
 import logit from '../methods/logit';
 import merge from '../methods/merge';
-import toStringAlt from '../methods/toStringAlt';
-import runFuncArray from '../methods/runFuncArray';
-import tryEval from '../methods/tryEval';
-import isNull from '../methods/isNull';
+import toStringAlt from '../methods/tostringalt';
+import runFuncArray from '../methods/runfuncarray';
+import tryEval from '../methods/tryeval';
+import isNull from '../methods/isnull';
 import Request from '../methods/Request';
-import { AnyObject } from '../models/Arrays';
+import { AnyObject } from '../models/Generics';
 import { Reviver } from '../models/Reviver';
-import getProperty from '../methods/getProperty';
+import getProperty from '../methods/getproperty';
 import rand from '../methods/rand';
 import include from '../methods/include';
 
-export type AjaxReturnType = "response" | "res" | "request" | "req";
-export type AjaxOptions = {
-    url?: string;
-    alwaysResolve?: boolean;
-    dataType?: string;
-    hitch?: any;
-    query?: AnyObject | string;
-    data?: any | string;
-    timeout?: number;
-    context?: any;
-    header?: AnyObject;
-    method?: string;
-    contentType?: string;
-    run?: string;
-    protocol?: string;
-    host?: string;
-    hostname?: string;
-    family?: string;
-    port?: number;
-    localAddress?: string;
-    socketPath?: string;
-    path?: string;
-    auth?: string;
-    agent?: string;
-    createConnection?: string;
 
-    onstatechange?: () => void;
-    onfileload?: () => void;
-    onprogress?: () => void;
-    onabort?: () => void;
-    onresponse?: () => void;
-    onloadstart?: () => void;
-    onbefore?: (request?: IHTTP.IncomingMessage, hitch?: any, context?: any) => void;
-    oncomplete?: (data?: any, hitch?: any, context?: any, statusCode?: number) => void;
-    ondata?: (chunk?: string, body?: string, request?: IHTTP.IncomingMessage, hitch?: any, context?: any) => void;
-    onerror?: (data?: any, hitch?: any, context?: any, statusCode?: number) => void;
-    onsuccess?: (data?: any, hitch?: any, context?: any, statusCode?: number) => void;
-    json_parser?: (text?: string, reviver?: Reviver, spaces?: string) => void;
-};
-export default function ajax(url: string, returnData?: AjaxReturnType): Promise<any>;
-export default function ajax(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-export default function ajax(params, returnData?): Promise<any> {
-    /*|{
-        "info": "Method to make ajax calls",
-        "category": "Utility",
-        "parameters":[
-            {"url": "(String) End point url"},
-            {"returnData?": "(AjaxReturnType) Specifies which data to return when using Promise pattern"}],
-
-        "overloads":[
-            {"parameters":[
-                {"params": "(AjaxOptions) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"},
-                {"returnData?": "(AjaxReturnType) Specifies which data to return when using Promise pattern"}]}],
-
-        "url": "http://www.craydent.com/library/1.9.3/docs#ajax",
-        "returnType": "(Promise<any>)"
-    }|*/
-    if (isString(params)) {
-        params = { url: params };
-    } else {
-        params = { ...params }
-    }
-    /* istanbul ignore next */
-    params.alwaysResolve = params.alwaysResolve === false ? false : true;
-    params.thiss = this;
-    params.url = params.url || "";
-    params.context = params.context || this;
-    params.dataType = params.dataType || 'json';
-    params.hitch = params.hitch || "";
-    params.query = params.data || params.query || "";
-    params.timeout = params.timeout || 120000;
-    params.onbefore = params.onbefore || [foo];
-    params.oncomplete = params.oncomplete || [foo];
-    params.ondata = params.ondata || params.onstatechange || [foo];
-    params.onresponse = params.onresponse || [foo]
-    params.onerror = params.onerror || params.onresponse;
-    params.onsuccess = params.onsuccess || params.onresponse;
-    params.json_parser = params.json_parser || JSON.parse;
-
-    if (!isArray(params.onbefore)) {
-        params.onbefore = [params.onbefore];
-    }
-    if (!isArray(params.oncomplete)) {
-        params.oncomplete = [params.oncomplete];
-    }
-    if (!isArray(params.ondata)) {
-        params.ondata = [params.ondata];
-    }
-    if (!isArray(params.onerror)) {
-        params.onerror = [params.onerror];
-    }
-    if (!isArray(params.onresponse)) {
-        params.onresponse = [params.onresponse];
-    }
-    if (!isArray(params.onsuccess)) {
-        params.onsuccess = [params.onsuccess];
-    }
-
-    // if (params.onsuccess.length > 1 || params.onsuccess[0] == foo) {
-    //     alwaysResolve = params.alwaysResolve || false;
-    // }
-    params.method = params.method || "GET";
-    params.headers = params.headers || {};
-
-    if (params.query && isObject(params.query)) {
-        params.query = toStringAlt(params.query, '=', '&', true);
-    }
-    params.query = (params.run ? `run=${params.run}` : "") + (params.query || "");
-    params.contentType = params.contentType || "application/json";
-    params.onstatechange = params.onstatechange || foo;
-
-    if (params.method.toLowerCase() == "get") {
-        params.data = params.query;
-        params.url += params.query ? `?${params.query}` : "";
-        params.query = undefined;
-    }
-    params.data = params.data || params.query;
-    if (typeof window != 'undefined') {
-        return _ajaxJS.call(this, params, returnData);
-    }
-    return _ajaxNode.call(this, params, returnData);
-}
 function _get(url: string, returnData?: AjaxReturnType): Promise<any>;
 function _get(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
 function _get(params, returnData?) {
@@ -165,10 +44,6 @@ function _put(params, returnData?) {
     params.method = "PUT";
     return ajax.apply(this, arguments);
 };
-ajax.get = _get;
-ajax.delete = _delete;
-ajax.post = _post;
-ajax.put = _put;
 function _ajaxNode(url: string, returnData?: AjaxReturnType): Promise<any>;
 function _ajaxNode(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
 function _ajaxNode(params, returnData): Promise<any> {
@@ -510,7 +385,45 @@ function __isTSTranspiledPromise(args) {
     const arg = isNull(getProperty(args, 'callee.caller.arguments[0]'), {});
     return caller && /step/.test(caller.name) && arg.value == this && arg.hasOwnProperty('done');
 }
+export type AjaxReturnType = "response" | "res" | "request" | "req";
+export type AjaxOptions = {
+    url?: string;
+    alwaysResolve?: boolean;
+    dataType?: string;
+    hitch?: any;
+    query?: AnyObject | string;
+    data?: any | string;
+    timeout?: number;
+    context?: any;
+    header?: AnyObject;
+    method?: string;
+    contentType?: string;
+    run?: string;
+    protocol?: string;
+    host?: string;
+    hostname?: string;
+    family?: string;
+    port?: number;
+    localAddress?: string;
+    socketPath?: string;
+    path?: string;
+    auth?: string;
+    agent?: string;
+    createConnection?: string;
 
+    onstatechange?: () => void;
+    onfileload?: () => void;
+    onprogress?: () => void;
+    onabort?: () => void;
+    onresponse?: () => void;
+    onloadstart?: () => void;
+    onbefore?: (request?: IHTTP.IncomingMessage, hitch?: any, context?: any) => void;
+    oncomplete?: (data?: any, hitch?: any, context?: any, statusCode?: number) => void;
+    ondata?: (chunk?: string, body?: string, request?: IHTTP.IncomingMessage, hitch?: any, context?: any) => void;
+    onerror?: (data?: any, hitch?: any, context?: any, statusCode?: number) => void;
+    onsuccess?: (data?: any, hitch?: any, context?: any, statusCode?: number) => void;
+    json_parser?: (text?: string, reviver?: Reviver, spaces?: string) => void;
+};
 export function __ajaxServerResponse(response, json_parser?) {
     try {
         if (response.readyState == 4) {
@@ -526,3 +439,102 @@ export function __ajaxServerResponse(response, json_parser?) {
         return false;
     }
 }
+function ajax(url: string, returnData?: AjaxReturnType): Promise<any>;
+function ajax(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
+function ajax(params, returnData?): Promise<any> {
+    /*|{
+        "info": "Method to make ajax calls",
+        "category": "Utility",
+        "parameters":[
+            {"url": "(String) End point url"},
+            {"returnData?": "(AjaxReturnType) Specifies which data to return when using Promise pattern"}],
+
+        "overloads":[
+            {"parameters":[
+                {"params": "(AjaxOptions) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess"},
+                {"returnData?": "(AjaxReturnType) Specifies which data to return when using Promise pattern"}]}],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#ajax",
+        "returnType": "(Promise<any>)"
+    }|*/
+    if (isString(params)) {
+        params = { url: params };
+    } else {
+        params = { ...params }
+    }
+    /* istanbul ignore next */
+    params.alwaysResolve = params.alwaysResolve === false ? false : true;
+    params.thiss = this;
+    params.url = params.url || "";
+    params.context = params.context || this;
+    params.dataType = params.dataType || 'json';
+    params.hitch = params.hitch || "";
+    params.query = params.data || params.query || "";
+    params.timeout = params.timeout || 120000;
+    params.onbefore = params.onbefore || [foo];
+    params.oncomplete = params.oncomplete || [foo];
+    params.ondata = params.ondata || params.onstatechange || [foo];
+    params.onresponse = params.onresponse || [foo]
+    params.onerror = params.onerror || params.onresponse;
+    params.onsuccess = params.onsuccess || params.onresponse;
+    params.json_parser = params.json_parser || JSON.parse;
+
+    if (!isArray(params.onbefore)) {
+        params.onbefore = [params.onbefore];
+    }
+    if (!isArray(params.oncomplete)) {
+        params.oncomplete = [params.oncomplete];
+    }
+    if (!isArray(params.ondata)) {
+        params.ondata = [params.ondata];
+    }
+    if (!isArray(params.onerror)) {
+        params.onerror = [params.onerror];
+    }
+    if (!isArray(params.onresponse)) {
+        params.onresponse = [params.onresponse];
+    }
+    if (!isArray(params.onsuccess)) {
+        params.onsuccess = [params.onsuccess];
+    }
+
+    // if (params.onsuccess.length > 1 || params.onsuccess[0] == foo) {
+    //     alwaysResolve = params.alwaysResolve || false;
+    // }
+    params.method = params.method || "GET";
+    params.headers = params.headers || {};
+
+    if (params.query && isObject(params.query)) {
+        params.query = toStringAlt(params.query, '=', '&', true);
+    }
+    params.query = (params.run ? `run=${params.run}` : "") + (params.query || "");
+    params.contentType = params.contentType || "application/json";
+    params.onstatechange = params.onstatechange || foo;
+
+    if (params.method.toLowerCase() == "get") {
+        params.data = params.query;
+        params.url += params.query ? `?${params.query}` : "";
+        params.query = undefined;
+    }
+    params.data = params.data || params.query;
+    if (typeof window != 'undefined') {
+        return _ajaxJS.call(this, params, returnData);
+    }
+    return _ajaxNode.call(this, params, returnData);
+}
+
+ajax['get'] = _get;
+ajax['delete'] = _delete;
+ajax['post'] = _post;
+ajax['put'] = _put;
+declare namespace ajax {
+    // @ts-ignore
+    export { _get as get };
+    // @ts-ignore
+    export { _post as post };
+    // @ts-ignore
+    export { _put as put };
+    // @ts-ignore
+    export { _delete as delete };
+}
+export default ajax;

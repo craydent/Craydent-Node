@@ -1,0 +1,1 @@
+export declare type FSByteData<T> = { bytes: number; buffer: T; };

@@ -1,4 +1,4 @@
-import limit from '../../modules/methods/limit';
+import limit from '../../compiled/transformedMinor/craydent.limit';
 describe('limit', () => {
     it('should limit the array size', () => {
         const arr = [0, 1, 2, 3, 4];

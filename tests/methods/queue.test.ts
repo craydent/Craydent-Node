@@ -1,4 +1,4 @@
-import Queue from '../../modules/methods/queue';
+import Queue from '../../compiled/transformedMinor/craydent.queue';
 
 describe('Queue', () => {
     const sorter = (a, b) => {

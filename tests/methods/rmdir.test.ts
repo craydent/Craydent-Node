@@ -1,4 +1,4 @@
-import rmdir from '../../modules/methods/rmdir';
+import rmdir from '../../compiled/transformedMinor/craydent.rmdir';
 jest.mock('fs', () => {
     return {
         "rmdir": (...args) => {

@@ -1,4 +1,4 @@
-import access from '../../modules/methods/access';
+import access from '../../compiled/transformedMinor/craydent.access';
 jest.mock('fs', () => {
     return {
         "access": (...args) => {

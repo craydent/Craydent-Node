@@ -1,6 +1,6 @@
-import add from '../../modules/methods/add';
+import add from '../../compiled/transformedMinor/craydent.add';
 
-jest.mock('../../modules/protected/_addToIndex', () => {
+jest.mock('../../compiled/transformedMinor/craydent.add/protected/_addToIndex', () => {
     return {
         "default": (...args) => __addToIndex.apply(this, args)
     }

@@ -1,4 +1,4 @@
-import getKeys from '../../modules/methods/getKeys';
+import getKeys from '../../compiled/transformedMinor/craydent.getkeys';
 describe('getKeys', () => {
     const _keys = Object.keys;
 

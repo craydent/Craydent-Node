@@ -1,4 +1,4 @@
-import indexOfAlt from '../../modules/methods/indexOfAlt';
+import indexOfAlt from '../../compiled/transformedMinor/craydent.indexofalt';
 describe('indexOfAlt', () => {
     const arr = ['ac', 'ab', 'ab', 'ac'];
     const str = 'acababac';

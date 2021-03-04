@@ -1,4 +1,4 @@
-import isNull from '../methods/isNull';
+import isNull from '../methods/isnull';
 
 export default function send(status: number, data: any): void;
 export default function send(data: any): void;

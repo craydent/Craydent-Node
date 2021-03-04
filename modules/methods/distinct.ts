@@ -1,9 +1,9 @@
 import error from '../methods/error';
 import { WhereCondition } from '../models/Arrays';
 import group from '../methods/group';
-import getProperty from '../methods/getProperty';
-import isNullOrEmpty from '../methods/isNullOrEmpty';
-import isString from '../methods/isString';
+import getProperty from '../methods/getproperty';
+import isNullOrEmpty from '../methods/isnullorempty';
+import isString from '../methods/isstring';
 
 export default function distinct<T>(docs: T[], fields: string | string[], condition?: string | WhereCondition): T[] {
     /*|{

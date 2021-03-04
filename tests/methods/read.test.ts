@@ -1,4 +1,4 @@
-import read from '../../modules/methods/read';
+import read from '../../compiled/transformedMinor/craydent.read';
 jest.mock('fs', () => {
     return {
         "read": (...args) => {

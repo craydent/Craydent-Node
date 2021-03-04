@@ -1,6 +1,6 @@
 {
     "name": "craydent",
-    "version": "0.10.4",
+    "version": "0.10.8",
     "description": "node library based on craydent-1.9.3",
     "main": "index.js",
     "scripts": {
@@ -59,30 +59,30 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library#readme",
     "dependencies": {
-        "craydent-array": "0.10.4",
-        "craydent-class": "0.10.4",
-        "craydent-cli": "0.10.4",
-        "craydent-control-flow": "0.10.4",
-        "craydent-date": "0.10.4",
-        "craydent-fs": "0.10.4",
-        "craydent-function": "0.10.4",
-        "craydent-http": "0.10.4",
-        "craydent-json-parser": "0.10.4",
-        "craydent-number": "0.10.4",
-        "craydent-object": "0.10.4",
-        "craydent-regexp": "0.10.4",
-        "craydent-string": "0.10.4",
-        "craydent-template": "0.10.4",
-        "craydent-typeof": "0.10.4",
-        "craydent-utility": "0.10.4",
-        "craydent-xml-to-json": "0.10.4"
+        "craydent-array": "0.10.8",
+        "craydent-class": "0.10.8",
+        "craydent-cli": "0.10.8",
+        "craydent-control-flow": "0.10.8",
+        "craydent-date": "0.10.8",
+        "craydent-fs": "0.10.8",
+        "craydent-function": "0.10.8",
+        "craydent-http": "0.10.8",
+        "craydent-json-parser": "0.10.8",
+        "craydent-number": "0.10.8",
+        "craydent-object": "0.10.8",
+        "craydent-regexp": "0.10.8",
+        "craydent-string": "0.10.8",
+        "craydent-template": "0.10.8",
+        "craydent-typeof": "0.10.8",
+        "craydent-utility": "0.10.8",
+        "craydent-xml-to-json": "0.10.8"
     },
     "devDependencies": {
         "@types/jest": "^26.0.3",
         "@types/node": "^11.9.4",
         "jest": "^26.1.0",
         "ts-jest": "^26.1.1",
-        "typescript": "^3.9.6"
+        "typescript": "^4.1.5"
     },
     "jest": {
         "transform": {
@@ -109,6 +109,7 @@
             "ts"
         ],
         "moduleNameMapper": {
+            ".*?compiled(.*)$": "<rootDir>/compiled$1",
             "^protected(.*)$": "<rootDir>/modules/protected$1",
             "^private(.*)$": "<rootDir>/modules/private$1",
             "^methods(.*)$": "<rootDir>/modules/methods$1",

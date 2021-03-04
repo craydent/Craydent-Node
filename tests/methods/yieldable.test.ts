@@ -1,6 +1,6 @@
-import yieldable from '../../modules/methods/yieldable';
+import yieldable from '../../compiled/transformedMinor/craydent.yieldable';
 
-// jest.mock('../../modules/methods/syncroit', () => {
+// jest.mock('../../compiled/transformedMinor/craydent.syncroit', () => {
 //     return {
 //         "default": (...args) => syncroit.apply(this, args)
 //     }
@@ -15,7 +15,7 @@ describe('yieldable', () => {
         // syncroit = jest.fn();
         expect(yieldable(function* () { })()).toEqual(expect.any(Promise));
         expect(yieldable(async function () { })()).toEqual(expect.any(Promise));
-        expect(yieldable(new Promise((res) => { res() }))()).toEqual(expect.any(Promise));
+        expect(yieldable(new Promise((res) => { res(undefined) }))()).toEqual(expect.any(Promise));
         expect(yieldable(function () { })()).toEqual(expect.any(Promise));
         expect(yieldable(function (a, b) { })()).toEqual(expect.any(Promise));
         expect(yieldable(1 as any)()).toEqual(expect.any(Promise));

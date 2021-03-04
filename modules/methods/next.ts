@@ -1,5 +1,5 @@
-import isArray from '../methods/isArray';
-import runFuncArray from '../methods/runFuncArray';
+import isArray from '../methods/isarray';
+import runFuncArray from '../methods/runfuncarray';
 
 export default function next(...arg: any): void {
     /*|{

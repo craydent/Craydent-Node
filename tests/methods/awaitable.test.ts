@@ -1,5 +1,5 @@
-import awaitable from '../../modules/methods/awaitable';
-jest.mock('../../modules/methods/yieldable', () => {
+import awaitable from '../../compiled/transformedMinor/craydent.awaitable';
+jest.mock('../../compiled/transformedMinor/craydent.yieldable', () => {
     return {
         "default": (...args) => _yieldable.apply(this, args)
     }

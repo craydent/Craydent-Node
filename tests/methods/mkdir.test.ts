@@ -1,4 +1,4 @@
-import mkdir from '../../modules/methods/mkdir';
+import mkdir from '../../compiled/transformedMinor/craydent.mkdir';
 jest.mock('fs', () => {
     return {
         "mkdir": (...args) => {

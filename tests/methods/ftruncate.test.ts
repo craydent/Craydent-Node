@@ -1,4 +1,4 @@
-import ftruncate from '../../modules/methods/ftruncate';
+import ftruncate from '../../compiled/transformedMinor/craydent.ftruncate';
 jest.mock('fs', () => {
     return {
         "ftruncate": (...args) => {

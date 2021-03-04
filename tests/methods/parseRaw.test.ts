@@ -1,5 +1,5 @@
-import parseRaw from '../../modules/methods/parseRaw';
-jest.mock('../../modules/methods/suid', () => {
+import parseRaw from '../../compiled/transformedMinor/craydent.parseraw';
+jest.mock('../../compiled/transformedMinor/craydent.suid', () => {
     return {
         "default": (...args) => suid.apply(this, args)
     }

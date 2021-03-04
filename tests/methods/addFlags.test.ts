@@ -1,4 +1,4 @@
-import addFlags from '../../modules/methods/addFlags';
+import addFlags from '../../compiled/transformedMinor/craydent.addflags';
 describe('addFlags', () => {
     it('should add flags to the RegExp when it does not exist', () => {
         const regex = /a/, expected = /a/gim;

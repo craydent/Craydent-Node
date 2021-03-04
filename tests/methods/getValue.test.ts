@@ -1,4 +1,4 @@
-import getValue from '../../modules/methods/getValue';
+import getValue from '../../compiled/transformedMinor/craydent.getvalue';
 describe('getValue', () => {
     it('should get the value when given a function', () => {
         expect(getValue((p1, p2) => ({ p1, p2 }), [1, 2])).toEqual({ p1: 1, p2: 2 });

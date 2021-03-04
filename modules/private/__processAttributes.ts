@@ -1,7 +1,7 @@
-import { AnyObject } from '../models/Arrays';
+import { AnyObject } from '../models/Generics';
 import _generalTrim from '../protected/_generalTrim';
-import fillTemplate from '../methods/fillTemplate';
-import tryEval from '../methods/tryEval';
+import fillTemplate from '../methods/filltemplate';
+import tryEval from '../methods/tryeval';
 
 
 export default function __processAttributes(node: string, refs: any): AnyObject {

@@ -1,5 +1,5 @@
-import add from '../../modules/methods/add';
-import md5 from '../../modules/methods/md5';
+import add from '../../compiled/transformedMinor/craydent.add';
+import md5 from '../../compiled/transformedMinor/craydent.md5';
 import { create } from 'domain';
 jest.mock('crypto', () => {
     return {

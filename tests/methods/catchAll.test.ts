@@ -1,4 +1,4 @@
-import catchAll from '../../modules/methods/catchAll';
+import catchAll from '../../compiled/transformedMinor/craydent.catchall';
 describe('catchAll', () => {
     const _process = process;
     beforeEach(() => {

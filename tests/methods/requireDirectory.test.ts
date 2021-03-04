@@ -1,6 +1,6 @@
 const win = (global as any).window;
 delete (global as any).window;
-import requireDirectory from '../../modules/methods/requireDirectory';
+import requireDirectory from '../../compiled/transformedMinor/craydent.requiredirectory';
 
 jest.mock('fs', () => {
     return {
@@ -10,12 +10,12 @@ jest.mock('fs', () => {
         "stat": (...args) => stat.apply(this, args)
     }
 });
-jest.mock('../../modules/methods/absolutePath', () => {
+jest.mock('../../compiled/transformedMinor/craydent.absolutepath', () => {
     return {
         "default": (...args) => absolutePath.apply(this, args)
     }
 });
-jest.mock('../../modules/methods/include', () => {
+jest.mock('../../compiled/transformedMinor/craydent.include', () => {
     return {
         "default": (...args) => include.apply(this, args)
     }

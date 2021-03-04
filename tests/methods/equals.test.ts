@@ -1,4 +1,4 @@
-import equals from '../../modules/methods/equals';
+import equals from '../../compiled/transformedMinor/craydent.equals';
 describe('equals', () => {
     it('should test equality ', () => {
         expect(equals(0, 0)).toBe(true);

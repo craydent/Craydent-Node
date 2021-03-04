@@ -1,4 +1,4 @@
-import * as IXmlToJson from '../methods/xmlToJson';
+import * as IXmlToJson from '../protected/_xmltojson';
 import { scope } from '../private/__common';
 
 if (typeof (global as any) == 'undefined') {
@@ -6,7 +6,7 @@ if (typeof (global as any) == 'undefined') {
 }
 scope.eval = str => eval(str);
 //#region dependencies
-const xmlToJson: typeof IXmlToJson.default = require('../methods/xmlToJson').default;
+const xmlToJson: typeof IXmlToJson.default = require('../protected/_xmltojson').default;
 //#endregion
 
 export function _xmlToJson(this: string | XMLDocument, ignoreAttributes?: boolean) {

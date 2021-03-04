@@ -1,5 +1,5 @@
-import copyObject from '../../modules/methods/copyObject';
-jest.mock('../../modules/protected/_duplicate', () => {
+import copyObject from '../../compiled/transformedMinor/craydent.copyobject';
+jest.mock('../../compiled/transformedMinor/craydent.copyobject/protected/_duplicate', () => {
     return {
         "default": (...args) => _duplicate.apply(this, args)
     }

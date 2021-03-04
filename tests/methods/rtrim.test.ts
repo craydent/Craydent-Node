@@ -1,5 +1,5 @@
-import rtrim from '../../modules/methods/rtrim';
-jest.mock('../../modules/protected/_generalTrim', () => {
+import rtrim from '../../compiled/transformedMinor/craydent.rtrim';
+jest.mock('../../compiled/transformedMinor/craydent.rtrim/protected/_generalTrim', () => {
     return {
         "default": (...args) => _generalTrim.apply(this, args)
     }

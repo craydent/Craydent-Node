@@ -1,5 +1,5 @@
-import buildTree from '../../modules/methods/buildTree';
-import isNull from '../../modules/methods/isNull';
+import buildTree from '../../compiled/transformedMinor/craydent.buildtree';
+import isNull from '../../compiled/transformedMinor/craydent.isnull';
 describe('buildTree', function () {
     it('childFinder:string', function () {
         expect(buildTree([

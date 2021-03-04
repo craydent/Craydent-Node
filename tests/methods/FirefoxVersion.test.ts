@@ -1,5 +1,5 @@
-import FirefoxVersion from '../../modules/methods/FirefoxVersion';
-jest.mock('../../modules/protected/_getBrowserVersion', () => {
+import FirefoxVersion from '../../compiled/transformedMinor/craydent.firefoxversion';
+jest.mock('../../compiled/transformedMinor/craydent.firefoxversion/protected/_getBrowserVersion', () => {
     return {
         "default": (...args) => {
             return _getBrowserVersion.apply(this, args);

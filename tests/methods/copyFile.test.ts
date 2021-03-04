@@ -1,4 +1,4 @@
-import copyFile from '../../modules/methods/copyFile';
+import copyFile from '../../compiled/transformedMinor/craydent.copyfile';
 jest.mock('fs', () => {
     return {
         "copyFile": (...args) => {

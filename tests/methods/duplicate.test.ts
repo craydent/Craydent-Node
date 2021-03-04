@@ -1,5 +1,5 @@
-import duplicate from '../../modules/methods/duplicate';
-jest.mock('../../modules/protected/_duplicate', () => {
+import duplicate from '../../compiled/transformedMinor/craydent.duplicate';
+jest.mock('../../compiled/transformedMinor/craydent.duplicate/protected/_duplicate', () => {
     return {
         "default": (...args) => _duplicate.apply(this, args)
     }

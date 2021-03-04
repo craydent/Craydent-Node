@@ -1,6 +1,6 @@
-import scramble from '../../modules/methods/scramble';
+import scramble from '../../compiled/transformedMinor/craydent.scramble';
 
-jest.mock('../../modules/methods/rand', () => {
+jest.mock('../../compiled/transformedMinor/craydent.rand', () => {
     return {
         "default": (...args) => rand.apply(this, args)
     }

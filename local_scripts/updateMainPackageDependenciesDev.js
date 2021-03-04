@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('./updateMainPackageDependencies').start('@craydent/')
+require('./updateMainPackageDependencies').start('')

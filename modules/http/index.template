@@ -5,68 +5,69 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-///<reference path="../globalTypes/global.vars.ts" />
+///<reference path="../globalTypes/global.vars.d.ts" />
 //#region imports
 //@ts-ignore
 import * as IHttp from 'http';
 import { $c, info } from '../private/__common';
 import * as ILogModule from '../private/__logModule';
-import * as IServerManager from '../methods/ServerManager';
-import * as I$COOKIE from '../methods/$COOKIE';
-import * as I$COMMIT from '../methods/$COMMIT';
-import * as I$DELETE from '../methods/$DELETE';
-import * as I$DEL from '../methods/$DEL';
-import * as I$GET from '../methods/$GET';
-import * as I$HEADER from '../methods/$HEADER';
-import * as I$PAYLOAD from '../methods/$PAYLOAD';
-import * as I$POST from '../methods/$POST';
-import * as I$PUT from '../methods/$PUT';
-import * as I$ROLLBACK from '../methods/$ROLLBACK';
-import * as I$SET from '../methods/$SET';
-import * as IChromeVersion from '../methods/ChromeVersion';
-import * as IFirefoxVersion from '../methods/FirefoxVersion';
-import * as IIEVersion from '../methods/IEVersion';
-import * as IOperaVersion from '../methods/OperaVersion';
-import * as ISafariVersion from '../methods/SafariVersion';
-import * as IIsAmaya from '../methods/isAmaya';
-import * as IIsAndroid from '../methods/isAndroid';
-import * as IIsBlackBerry from '../methods/isBlackBerry';
-import * as IIsChrome from '../methods/isChrome';
-import * as IIsFirefox from '../methods/isFirefox';
-import * as IIsGecko from '../methods/isGecko';
-import * as IIsIE6 from '../methods/isIE6';
-import * as IIsIE from '../methods/isIE';
-import * as IIsIPad from '../methods/isIPad';
-import * as IIsIPhone from '../methods/isIPhone';
-import * as IIsIPod from '../methods/isIPod';
-import * as IIsKHTML from '../methods/isKHTML';
-import * as IIsLinux from '../methods/isLinux';
-import * as IIsMac from '../methods/isMac';
-import * as IIsMobile from '../methods/isMobile';
-import * as IIsOpera from '../methods/isOpera';
-import * as IIsPalmOS from '../methods/isPalmOS';
-import * as IIsPresto from '../methods/isPresto';
-import * as IIsPrince from '../methods/isPrince';
-import * as IIsSafari from '../methods/isSafari';
-import * as IIsSymbian from '../methods/isSymbian';
-import * as IIsTrident from '../methods/isTrident';
-import * as IIsWebkit from '../methods/isWebkit';
-import * as IIsWindows from '../methods/isWindows';
-import * as IIsWindowsMobile from '../methods/isWindowsMobile';
-import * as ICreateServer from '../methods/createServer';
+import * as IServerManager from '../methods/servermanager';
+import * as I$COMMIT from '../methods/http.cookie';
+import * as I$COOKIE from '../methods/http.cookie';
+import * as I$DELETE from '../methods/http.delete';
+import * as I$DEL from '../methods/http.del';
+import * as I$GET from '../methods/http.get';
+import * as I$HEADER from '../methods/http.header';
+import * as I$PAYLOAD from '../methods/http.payload';
+import * as I$POST from '../methods/http.post';
+import * as I$PUT from '../methods/http.put';
+import * as I$ROLLBACK from '../methods/http.rollback';
+import * as I$SET from '../methods/http.set';
+import * as IChromeVersion from '../methods/chromeversion';
+import * as IFirefoxVersion from '../methods/firefoxversion';
+import * as IIEVersion from '../methods/ieversion';
+import * as IOperaVersion from '../methods/operaversion';
+import * as ISafariVersion from '../methods/safariversion';
+import * as IIsAmaya from '../methods/isamaya';
+import * as IIsAndroid from '../methods/isandroid';
+import * as IIsBlackBerry from '../methods/isblackberry';
+import * as IIsChrome from '../methods/ischrome';
+import * as IIsFirefox from '../methods/isfirefox';
+import * as IIsGecko from '../methods/isgecko';
+import * as IIsIE6 from '../methods/isie6';
+import * as IIsIE from '../methods/isie';
+import * as IIsIPad from '../methods/isipad';
+import * as IIsIPhone from '../methods/isiphone';
+import * as IIsIPod from '../methods/isipod';
+import * as IIsKHTML from '../methods/iskhtml';
+import * as IIsLinux from '../methods/islinux';
+import * as IIsMac from '../methods/ismac';
+import * as IIsMobile from '../methods/ismobile';
+import * as IIsOpera from '../methods/isopera';
+import * as IIsPalmOS from '../methods/ispalmos';
+import * as IIsPresto from '../methods/ispresto';
+import * as IIsPrince from '../methods/isprince';
+import * as IIsSafari from '../methods/issafari';
+import * as IIsSymbian from '../methods/issymbian';
+import * as IIsTrident from '../methods/istrident';
+import * as IIsWebkit from '../methods/iswebkit';
+import * as IIsWindows from '../methods/iswindows';
+import * as IIsWindowsMobile from '../methods/iswindowsmobile';
+import * as ICreateServer from '../methods/createserver';
 import * as IEcho from '../methods/echo';
 import * as IEnd from '../methods/end';
-import * as IGetSessionID from '../methods/getSessionID';
-import * as IGetSession from '../methods/getSession';
-import * as IGetSessionSync from '../methods/getSessionSync';
-import * as IHeader from '../methods/header';
+import * as IGetSessionID from '../methods/getsessionid';
+import * as IGetSession from '../methods/getsession';
+import * as IGetSessionSync from '../methods/getsessionsync';
+import * as ISetHeader from '../methods/set-header';
 import * as ISend from '../methods/send';
-import * as IVarDump from '../methods/varDump';
-import * as IWriteSession from '../methods/writeSession';
+import * as IVarDump from '../methods/vardump';
+import * as IWriteSession from '../methods/writesession';
 import * as IPrototypes from './__prototypes';
-import { AnyObject } from '../models/Arrays';
+import * as IGeneric from '../models/Generics';
 //#endregion
 
+//#region typeDefs
 declare global {
     interface Craydent {
         onhashchange: Function;
@@ -175,13 +176,13 @@ declare global {
         SYMBIAN: boolean;
         TRIDENT: boolean;
         VERBOSE_LOGS: boolean;
-        VERSION: string
+        VERSION: string;
         WEBKIT: boolean;
         WINDOWS: boolean;
         WINDOWS_MOBILE: boolean;
 
         sessionid: string;
-        session: AnyObject;
+        session: IGeneric.AnyObject;
         request: IHttp.IncomingMessage;
         response: IHttp.ServerResponse;
         $l: Location;
@@ -232,7 +233,7 @@ declare global {
         getSessionID: typeof IGetSessionID.default;
         getSession: typeof IGetSession.default;
         getSessionSync: typeof IGetSessionSync.default;
-        header: typeof IHeader.default;
+        header: typeof ISetHeader.default;
         raw: string;
         rawData: any;
         send: typeof ISend.default;
@@ -257,7 +258,7 @@ declare global {
     module NodeJS {
         interface Global {
             ServerManager: typeof IServerManager.default;
-            __GLOBALSESSION: AnyObject
+            __GLOBALSESSION: IGeneric.AnyObject
         }
     }
     interface Window {
@@ -301,7 +302,7 @@ declare global {
         isWindowsMobile: typeof IIsWindowsMobile.default;
     }
     const ServerManager: typeof IServerManager.default;
-    const __GLOBALSESSION: AnyObject
+    const __GLOBALSESSION: IGeneric.AnyObject
     var $COMMIT: typeof I$COMMIT.default;
     var $COOKIE: typeof I$COOKIE.default;
     var $DELETE: typeof I$DELETE.default;
@@ -342,6 +343,7 @@ declare global {
     var isWindowsMobile: typeof IIsWindowsMobile.default;
     //#endregion global
 }
+//#endregion typeDefs
 if (!$c.MODULES_LOADED[info.name]) {
     const __logModule: typeof ILogModule.default = require('../private/__logModule').default;
     __logModule(info.name);

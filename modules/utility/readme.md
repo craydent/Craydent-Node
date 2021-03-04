@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.10.4
+# Craydent 0.10.8
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -41,9 +41,10 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| CONSOLE_COLORS (Object) |LOCAL_IP (String) |VERSION (String) |
-DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |
-ERROR_TYPES (Array) |PUBLIC_IP (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |VERSION (String) |
+HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 
 <a name='markdown-header-featured'></a>
 ## Featured
@@ -109,6 +110,24 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
+#### _addObjectPrototype_ 
+***
+
+**Info:** Method to extend the Object Class
+
+**Return:** (void)
+
+**Parameters:**
+
+>* name: (String) name of the method to add
+>* fn: (Function) method implementation
+>* override?: (Bool) if true, override the previously defined prototype
+
+**Overloads:**
+
+>None
+
+*** 
 #### _ajax_ 
 ***
 
@@ -126,6 +145,39 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >Parameters
 >* params: (AjaxOptions) specs with common properties:<br />(String) url<br />(String) dataType<br />(Mixed) hitch<br />(Function[]) onerror<br />(Function[])onsuccess
 >* returnData?: (AjaxReturnType) Specifies which data to return when using Promise pattern
+
+*** 
+#### _awaitable_ 
+***
+
+**Info:** Makes a value awaitable via a Promise.
+
+**Return:** (Promise<any>)
+
+**Parameters:**
+
+>* value: (AwaitableValue) Value to make awaitable
+
+**Overloads:**
+
+>Parameters
+>* func: (Function) Function to make awaitable
+>* context: (any) Context to use to execute func.
+
+>Parameters
+>* func: (Function) Function to make awaitable
+>* callbackIndex: (Integer) Index of callback argument.
+
+>Parameters
+>* func: (Function) Function to make awaitable
+>* context: (any) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
+
+>Parameters
+>* func: (Function) Function to make awaitable
+>* context: (any) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
+>* returnIndex: (Integer) Index of callback argument.
 
 *** 
 #### _clearCache_ 
@@ -508,6 +560,39 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 **Overloads:**
 
 >None
+
+*** 
+#### _yieldable_ 
+***
+
+**Info:** Makes a value yieldable via a Promise.
+
+**Return:** (Promise<any>)
+
+**Parameters:**
+
+>* value: (YieldableValue) Value to make yieldable
+
+**Overloads:**
+
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (any) Context to use to execute func.
+
+>Parameters
+>* func: (Function) Function to make yieldable
+>* callbackIndex: (Integer) Index of callback argument.
+
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (any) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
+
+>Parameters
+>* func: (Function) Function to make yieldable
+>* context: (any) Context to use to execute func.
+>* callbackIndex: (Integer) Index of callback argument.
+>* returnIndex: (Integer) Index of callback argument.
 
 
 

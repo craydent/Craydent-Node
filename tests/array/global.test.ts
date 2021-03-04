@@ -1,8 +1,8 @@
-import $c from '../../transformedMajor/array/global';
-import isNull from '../../modules/methods/isNull';
-import duplicate from '../../modules/methods/duplicate';
-import ajax from '../../modules/methods/ajax';
-import indexOfAlt from '../../modules/methods/indexOfAlt';
+import $c from '../../compiled/transformedMajor/array/global';
+import isNull from '../../compiled/transformedMinor/craydent.isnull';
+import duplicate from '../../compiled/transformedMinor/craydent.duplicate';
+import ajax from '../../compiled/transformedMinor/craydent.ajax';
+import indexOfAlt from '../../compiled/transformedMinor/craydent.indexofalt';
 $c;
 describe('Array', function () {
     var arrObjs = [

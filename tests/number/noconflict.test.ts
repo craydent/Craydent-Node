@@ -1,4 +1,4 @@
-import $c from '../../transformedMajor/number/noConflict';
+import $c from '../../compiled/transformedMajor/number/noConflict';
 
 describe('No Conflict Number', function () {
     it('aboutEqualTo', function () {

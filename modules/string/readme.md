@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.10.4
+# Craydent 0.10.8
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -40,9 +40,10 @@ arr.prototypedMethod(args);
 
 | | | |
 | ----- | ----- | ----- |
-| CONSOLE_COLORS (Object) |LOCAL_IP (String) |VERSION (String) |
-DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |
-ERROR_TYPES (Array) |PUBLIC_IP (String) |
+| CONSOLE_COLORS (Object) |LOCAL_IP (String) |TEMPLATE_TAG_CONFIG (Object) |
+DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |TEMPLATE_VARS (Array) |
+ERROR_TYPES (Array) |PUBLIC_IP (String) |VERSION (String) |
+HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 
 
 ## Methods
@@ -109,6 +110,29 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
+#### _count_ 
+***
+
+**Info:** Object class extension to count the properties in the object/elements in arrays/characters in strings.
+
+**Return:** (Int)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>Parameters
+>* option: (WhereCondition) Query used in Array.where when counting elements in an Array
+
+>Parameters
+>* option: (String) Word or phrase to count in the String
+
+>Parameters
+>* option: (RegExp) Word or phrase pattern to count in the String
+
+*** 
 #### _cut_ 
 ***
 
@@ -160,6 +184,25 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 **Overloads:**
 
 >None
+
+*** 
+#### _indexOfAlt_ 
+***
+
+**Info:** Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression
+
+**Return:** (Integer)
+
+**Parameters:**
+
+>* value: (any) value to find
+>* func: (ArrayIterator<T, TResult>) Callback function used to do the comparison
+
+**Overloads:**
+
+>Parameters
+>* regex: (RegExp) Regular expression to check value against
+>* pos?: (Int) Index offset to start
 
 *** 
 #### _ireplaceAll_ 
@@ -277,6 +320,22 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 >None
 
 *** 
+#### _pluralize_ 
+***
+
+**Info:** String class extension to do a best guess pluralization of the string
+
+**Return:** (String)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
 #### _replaceAll_ 
 ***
 
@@ -288,22 +347,6 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 
 >* replace: (String|String[]) String or Array of strings to replace
 >* subject: (String|String[]) String or Array of strings to replace with
-
-**Overloads:**
-
->None
-
-*** 
-#### _pluralize_ 
-***
-
-**Info:** String class extension to do a best guess pluralization of the string
-
-**Return:** (String)
-
-**Parameters:**
-
->None
 
 **Overloads:**
 
@@ -515,6 +558,22 @@ ERROR_TYPES (Array) |PUBLIC_IP (String) |
 
 >* assignmentChar?: (Char) Character to use as assignment delimiter. Defaults to '&'.
 >* delimiter?: (Char) Character to use as pair delimiter
+
+**Overloads:**
+
+>None
+
+*** 
+#### _trim_ 
+***
+
+**Info:** String class extension to remove characters from the beginning and end of the string.
+
+**Return:** (Bool)
+
+**Parameters:**
+
+>* character?: (Char[]) Character to remove in the String
 
 **Overloads:**
 

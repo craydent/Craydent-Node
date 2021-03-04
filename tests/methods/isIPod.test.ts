@@ -1,4 +1,4 @@
-import isIPod from '../../modules/methods/isIPod';
+import isIPod from '../../compiled/transformedMinor/craydent.isipod';
 describe('iPod', () => {
     it('should check if device is an iPod', () => {
         expect(isIPod.call({ navigator: { userAgent: 'ipod' } })).toBe(true);

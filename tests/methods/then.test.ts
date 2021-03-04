@@ -1,6 +1,6 @@
-import then from '../../modules/methods/then';
+import then from '../../compiled/transformedMinor/craydent.then';
 
-jest.mock('../../modules/methods/on', () => {
+jest.mock('../../compiled/transformedMinor/craydent.on', () => {
     return {
         "default": (...args) => on.apply(this, args)
     }

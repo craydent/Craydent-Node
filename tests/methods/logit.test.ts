@@ -1,6 +1,6 @@
-import logit from '../../modules/methods/logit';
-import { $c } from '../../modules/private/__common';
-jest.mock('../../modules/methods/cout', () => {
+import logit from '../../compiled/transformedMinor/craydent.logit';
+import { $c } from '../../compiled/transformedMinor/craydent.logit/private/__common';
+jest.mock('../../compiled/transformedMinor/craydent.cout', () => {
     return {
         "default": (...args) => cout.apply(this, args)
     }

@@ -1,5 +1,5 @@
-import isFunction from '../../modules/methods/isFunction';
-jest.mock('../../modules/protected/_typeCheck', () => {
+import isFunction from '../../compiled/transformedMinor/craydent.isfunction';
+jest.mock('../../compiled/transformedMinor/craydent.isfunction/protected/_typeCheck', () => {
     return {
         "default": (...args) => _typeCheck.apply(this, args)
     }

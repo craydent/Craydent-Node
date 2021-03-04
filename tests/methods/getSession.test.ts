@@ -1,5 +1,5 @@
-import getSession from '../../modules/methods/getSession';
-jest.mock('../../modules/protected/_getSession', () => {
+import getSession from '../../compiled/transformedMinor/craydent.getsession';
+jest.mock('../../compiled/transformedMinor/craydent.getsession/protected/_getSession', () => {
     return {
         "default": (...args) => _getSession.apply(this, args)
     }

@@ -1,4 +1,4 @@
-import removeAll from '../../modules/methods/removeAll';
+import removeAll from '../../compiled/transformedMinor/craydent.removeall';
 describe('removeAll', () => {
     it('should should not fail when array does not contain item', () => {
         let arr = [1, 2, 3, 4, 5];

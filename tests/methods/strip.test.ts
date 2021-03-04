@@ -1,6 +1,6 @@
-import strip from '../../modules/methods/strip';
+import strip from '../../compiled/transformedMinor/craydent.strip';
 
-jest.mock('../../modules/protected/_generalTrim', () => {
+jest.mock('../../compiled/transformedMinor/craydent.strip/protected/_generalTrim', () => {
     return {
         "default": (...args) => _generalTrim.apply(this, args)
     }

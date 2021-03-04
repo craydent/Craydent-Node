@@ -1,4 +1,4 @@
-import writeFile from '../../modules/methods/writeFile';
+import writeFile from '../../compiled/transformedMinor/craydent.writefile';
 jest.mock('fs', () => {
     return {
         "writeFile": (...args) => {

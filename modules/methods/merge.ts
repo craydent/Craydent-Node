@@ -1,10 +1,10 @@
 import error from '../methods/error';
 import duplicate from '../methods/duplicate';
-import { AnyObject } from '../models/Arrays';
-import isArray from '../methods/isArray';
-import isFunction from '../methods/isFunction';
-import isObject from '../methods/isObject';
-import isNullOrEmpty from '../methods/isNullOrEmpty';
+import { AnyObject } from '../models/Generics';
+import isArray from '../methods/isarray';
+import isFunction from '../methods/isfunction';
+import isObject from '../methods/isobject';
+import isNullOrEmpty from '../methods/isnullorempty';
 
 export type MergeEnums = "recurse" | "onlyShared" | "intersect" | "clone";
 

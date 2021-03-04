@@ -1,17 +1,17 @@
-import * as IParallelEach from '../methods/parallelEach';
+import * as IParallelEach from '../methods/paralleleach';
 import * as IAwaitable from '../methods/awaitable';
 import * as IYieldable from '../methods/yieldable';
 import * as ISyncroit from '../methods/syncroit';
-import { Yieldables } from '../models/Arrays';
+import { Yieldables } from '../models/Yieldables';
 
 import { scope } from '../private/__common';
 
-if (typeof (global as any) == 'undefined'){
+if (typeof (global as any) == 'undefined') {
     (window as any).global = window;
 }
 scope.eval = str => eval(str);
 //#region dependencies
-const parallelEach: typeof IParallelEach.default = require('../methods/parallelEach').default;
+const parallelEach: typeof IParallelEach.default = require('../methods/paralleleach').default;
 const awaitable: typeof IAwaitable.default = require('../methods/awaitable').default;
 const yieldable: typeof IYieldable.default = require('../methods/yieldable').default;
 const syncroit: typeof ISyncroit.default = require('../methods/syncroit').default;

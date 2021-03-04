@@ -1,9 +1,9 @@
 import { Documents } from '../models/Arrays';
-import isArray from '../methods/isArray';
-import isObject from '../methods/isObject';
+import isArray from '../methods/isarray';
+import isObject from '../methods/isobject';
 import error from '../methods/error';
 import { __parseCond } from '../private/__whereParsers';
-import parseRaw from '../methods/parseRaw';
+import parseRaw from '../methods/parseraw';
 
 export default function _redact<T>(docs: Documents<T>, expr: any): Documents<T> {
     try {

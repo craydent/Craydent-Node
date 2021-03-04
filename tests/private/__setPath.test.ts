@@ -1,6 +1,6 @@
 
 import __setPath from '../../modules/private/__setPath';
-import { CraydentHttp } from 'modules/models/CraydentHttp';
+import { CraydentHttp } from '../../modules/models/CraydentHttp';
 
 describe('__setPath', () => {
     let http: CraydentHttp;

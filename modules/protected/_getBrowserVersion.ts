@@ -1,4 +1,4 @@
-///<reference path="../globalTypes/global.base.ts" />
+///<reference path="../globalTypes/global.base.d.ts" />
 import error from '../methods/error';
 
 export default function _getBrowserVersion(win: Window | Craydent, browser: string) {

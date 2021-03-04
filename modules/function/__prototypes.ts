@@ -2,19 +2,19 @@ import * as IEquals from '../methods/equals';
 import * as INext from '../methods/next';
 import * as IEmit from '../methods/emit';
 import * as IExtend from '../methods/extend';
-import * as IGetParameters from '../methods/getParameters';
-import * as IGetName from '../methods/getName';
-import * as IGetValue from '../methods/getValue';
-import * as IToPromise from '../methods/toPromise';
+import * as IGetParameters from '../methods/getparameters';
+import * as IGetName from '../methods/getname';
+import * as IGetValue from '../methods/getvalue';
+import * as IToPromise from '../methods/topromise';
 import * as INamespace from '../methods/namespace';
 import * as IThen from '../methods/then';
 import * as ICatch from '../methods/catch';
 import * as IOn from '../methods/on';
-import { AnyObject } from '../models/Arrays';
+import { AnyObject } from '../models/Generics';
 
 import { scope } from '../private/__common';
 
-if (typeof (global as any) == 'undefined'){
+if (typeof (global as any) == 'undefined') {
     (window as any).global = window;
 }
 scope.eval = str => eval(str);
@@ -23,10 +23,10 @@ const equals: typeof IEquals.default = require('../methods/equals').default;
 const next: typeof INext.default = require('../methods/next').default;
 const emit: typeof IEmit.default = require('../methods/emit').default;
 const extend: typeof IExtend.default = require('../methods/extend').default;
-const getName: typeof IGetName.default = require('../methods/getName').default;
-const getParameters: typeof IGetParameters.default = require('../methods/getParameters').default;
-const getValue: typeof IGetValue.default = require('../methods/getValue').default;
-const toPromise: typeof IToPromise.default = require('../methods/toPromise').default;
+const getName: typeof IGetName.default = require('../methods/getname').default;
+const getParameters: typeof IGetParameters.default = require('../methods/getparameters').default;
+const getValue: typeof IGetValue.default = require('../methods/getvalue').default;
+const toPromise: typeof IToPromise.default = require('../methods/topromise').default;
 const then: typeof IThen.default = require('../methods/then').default;
 const catchit: typeof ICatch.default = require('../methods/catch').default;
 const on: typeof IOn.default = require('../methods/on').default;

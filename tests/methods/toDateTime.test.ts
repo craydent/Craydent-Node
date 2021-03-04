@@ -1,6 +1,6 @@
-import toDateTime from '../../modules/methods/toDateTime';
+import toDateTime from '../../compiled/transformedMinor/craydent.todatetime';
 
-jest.mock('../../modules/methods/format', () => {
+jest.mock('../../compiled/transformedMinor/craydent.format', () => {
     return {
         "default": (...args) => format.apply(this, args)
     }

@@ -1,4 +1,4 @@
-import isGecko from '../../modules/methods/isGecko';
+import isGecko from '../../compiled/transformedMinor/craydent.isgecko';
 describe('isGecko', () => {
     it('should check if browser is Gecko', () => {
         expect(isGecko.call({ navigator: { userAgent: 'gecko' } })).toBe(true);

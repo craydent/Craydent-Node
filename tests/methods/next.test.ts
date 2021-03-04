@@ -1,4 +1,4 @@
-import next from '../../modules/methods/next';
+import next from '../../compiled/transformedMinor/craydent.next';
 describe('next', () => {
     it('should not invoke next when there are no listeners', () => {
         function a() {

@@ -1,4 +1,4 @@
-import endsWith from '../../modules/methods/endsWith';
+import endsWith from '../../compiled/transformedMinor/craydent.endswith';
 describe('endsWith', () => {
     it.each`
     str         | searchString  | length    | result

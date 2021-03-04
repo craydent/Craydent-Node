@@ -1,4 +1,4 @@
-import isPresto from '../../modules/methods/isPresto';
+import isPresto from '../../compiled/transformedMinor/craydent.ispresto';
 describe('isPresto', () => {
     it('should check if device is Presto', () => {
         expect(isPresto.call({ navigator: { userAgent: 'presto' } })).toBe(true);

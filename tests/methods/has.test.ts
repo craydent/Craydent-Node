@@ -1,4 +1,4 @@
-import has from '../../modules/methods/has';
+import has from '../../compiled/transformedMinor/craydent.has';
 describe('has', () => {
     it('should be an alias for hasOwnProperty', () => {
         expect(has({}, 'prop')).toBe(false);

@@ -1,6 +1,6 @@
-import stringifyAdvanced from '../../modules/methods/stringifyAdvanced';
+import stringifyAdvanced from '../../compiled/transformedMinor/craydent.stringifyadvanced';
 
-jest.mock('../../modules/protected/_stringifyAdvanced', () => {
+jest.mock('../../compiled/transformedMinor/craydent.stringifyadvanced/protected/_stringifyAdvanced', () => {
     return {
         "default": (...args) => _stringifyAdvanced.apply(this, args)
     }

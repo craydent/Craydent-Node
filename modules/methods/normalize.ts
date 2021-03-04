@@ -1,5 +1,5 @@
 import error from '../methods/error';
-import isObject from '../methods/isObject';
+import isObject from '../methods/isobject';
 
 export default function normalize<T, TResult>(arr: T[]): TResult[] {
     /*|{

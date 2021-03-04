@@ -1,4 +1,4 @@
-import futimes from '../../modules/methods/futimes';
+import futimes from '../../compiled/transformedMinor/craydent.futimes';
 jest.mock('fs', () => {
     return {
         "futimes": (...args) => {

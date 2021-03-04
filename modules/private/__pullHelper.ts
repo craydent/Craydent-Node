@@ -1,6 +1,6 @@
-import isArray from '../methods/isArray';
+import isArray from '../methods/isarray';
 import equals from '../methods/equals';
-import removeAt from '../methods/removeAt';
+import removeAt from '../methods/removeat';
 
 export default function __pullHelper(target: any[], lookup: any[]): void {
     if (!isArray(lookup)) { lookup = [lookup]; }

@@ -1,23 +1,23 @@
-import ServerManager from "../../modules/methods/ServerManager";
-import { $c } from '../../modules/private/__common';
+import ServerManager from "../../compiled/transformedMinor/craydent.servermanager";
+import { $c } from '../../compiled/transformedMinor/craydent.servermanager/private/__common';
 //#region imports
-import echo from '../../modules/methods/echo';
-import end from '../../modules/methods/end';
-import getSessionID from '../../modules/methods/getSessionID';
-import getSession from '../../modules/methods/getSession';
-import getSessionSync from '../../modules/methods/getSessionSync';
-import header from '../../modules/methods/header';
-import send from '../../modules/methods/send';
-import writeSession from '../../modules/methods/writeSession';
-import _getSession from '../../modules/protected/_getSession';
-import varDump from '../../modules/methods/varDump';
-import $COOKIE from '../../modules/methods/$COOKIE';
-import $DELETE from '../../modules/methods/$DELETE';
-import $GET from '../../modules/methods/$GET';
-import $HEADER from '../../modules/methods/$HEADER';
-import $PAYLOAD from '../../modules/methods/$PAYLOAD';
-import $POST from '../../modules/methods/$POST';
-import $PUT from '../../modules/methods/$PUT';
+import echo from '../../compiled/transformedMinor/craydent.echo';
+import end from '../../compiled/transformedMinor/craydent.end';
+import getSessionID from '../../compiled/transformedMinor/craydent.getsessionid';
+import getSession from '../../compiled/transformedMinor/craydent.getsession';
+import getSessionSync from '../../compiled/transformedMinor/craydent.getsessionsync';
+import header from '../../compiled/transformedMinor/craydent.set-header';
+import send from '../../compiled/transformedMinor/craydent.send';
+import writeSession from '../../compiled/transformedMinor/craydent.writesession';
+import _getSession from '../../compiled/transformedMinor/craydent.servermanager/protected/_getSession';
+import varDump from '../../compiled/transformedMinor/craydent.vardump';
+import $COOKIE from '../../compiled/transformedMinor/craydent.http.cookie';
+import $DELETE from '../../compiled/transformedMinor/craydent.http.delete';
+import $GET from '../../compiled/transformedMinor/craydent.http.get';
+import $HEADER from '../../compiled/transformedMinor/craydent.http.header';
+import $PAYLOAD from '../../compiled/transformedMinor/craydent.http.payload';
+import $POST from '../../compiled/transformedMinor/craydent.http.post';
+import $PUT from '../../compiled/transformedMinor/craydent.http.put';
 //#endregion
 describe('ServerManager', () => {
     it('should create server manager instance', () => {

@@ -1,5 +1,5 @@
-import addObjectPrototype from '../../modules/methods/addObjectPrototype';
-jest.mock('../../modules/private/__defineFunction', () => {
+import addObjectPrototype from '../../compiled/transformedMinor/craydent.addobjectprototype';
+jest.mock('../../compiled/transformedMinor/craydent.addobjectprototype/private/__defineFunction', () => {
     return {
         "default": (...args) => __defineFunction.apply(this, args)
     }
