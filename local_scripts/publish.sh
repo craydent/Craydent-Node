@@ -5,5 +5,6 @@ BASEDIR=$(dirname "$0")
 cd $BASEDIR/..;
 npm run build
 cd $BASEDIR;
+./minify.sh;
 ./npmpublishMajor.sh;
 ./npmpublishMinor.sh;
