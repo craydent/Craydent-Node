@@ -11,6 +11,7 @@
 import { $c, scope, info } from '../private/__common';
 import * as ILogModule from '../private/__logModule';
 import * as IXmlToJson from '../models/XmlToJson';
+import * as XmlToJson from '../protected/_xmltojson';
 import * as IExt from '../protected/_ext';
 import * as IPrototypes from './__prototypes';
 //#endregion
@@ -63,7 +64,7 @@ if (!$c.MODULES_LOADED[info.name]) {
 
     ext(String, 'xmlToJson', prototypes._xmlToJson, true);
     typeof XMLDocument != 'undefined' && ext(XMLDocument, "xmlToJson", prototypes._xmlToJson, true);
-    $c.xmlToJson = IXmlToJson.default;
+    $c.xmlToJson = XmlToJson.default;
 
     //#region global
     $c.globalize();
