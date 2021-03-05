@@ -4,7 +4,7 @@ BASEDIR=$(dirname "$0")
 
 cd $BASEDIR/..;
 npm run buildPrivate
+npm run minify
 cd $BASEDIR
-./minify.sh;
 ./npmpublishMajor.sh;
 ./npmpublishMinor.sh;

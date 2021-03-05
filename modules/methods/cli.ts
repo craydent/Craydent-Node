@@ -20,9 +20,9 @@ import include from '../methods/include';
 
 const syncro = syncroit;
 export type ActionCallback = (this: CLI, arg: string) => any;
-
-function _cli_exec(command: string, callback: ExecCallback);
-function _cli_exec(command: string, options?: ExecOptions, callback?: ExecCallback);
+export type Output = { output: string, code: number } | string | false | undefined;
+function _cli_exec(command: string, callback: ExecCallback): Promise<Output>;
+function _cli_exec(command: string, options?: ExecOptions, callback?: ExecCallback): Promise<Output>;
 function _cli_exec(command, options?, callback?) {
     let child: typeof IChildProcess = include('child_process');
     if (isFunction(options)) {
@@ -339,16 +339,16 @@ class CLI {
         try { this.validate(); return true; }
         catch (e) { logit(e); return false; }
     }
-    public validate() {
+    public validate(): void {
         validate(this);
     }
-    public add(opt: Option) {
+    public add(opt: Option): void {
         add(opt, this);
     }
-    public option(opt: Option) {
+    public option(opt: Option): void {
         add(opt, this);
     }
-    public command(cmd: string, opts: Option | Option[]) {
+    public command(cmd: string, opts: Option | Option[]): this {
         try {
             /* istanbul ignore next */
             opts = opts || [];
@@ -378,9 +378,9 @@ class CLI {
             throw e;
         }
     }
-    public action(cb: ActionCallback | GeneratorFunction | AsyncFunction);
-    public action(name: string, cb?: ActionCallback);
-    public action(name, cb?) {
+    public action(cb: ActionCallback | GeneratorFunction | AsyncFunction): this;
+    public action(name: string, cb?: ActionCallback): this;
+    public action(name, cb?): this {
         let args = process.argv,
             self = this;
         /* istanbul ignore else */
@@ -400,7 +400,7 @@ class CLI {
         }
         return self;
     };
-    public renderMan() {
+    public renderMan(): string {
         try {
             let nlinetab = "\n\t", dline = "\n\n";
             let commands = "", self = this;
@@ -423,7 +423,7 @@ class CLI {
             error('CLI.renderMan', e);
         }
     }
-    public renderHelp() {
+    public renderHelp(): string {
         try {
             let nlinetab = "\n\t", dline = "\n\n", self = this;
 
@@ -445,10 +445,10 @@ class CLI {
         }
 
     }
-    public static exec(command, options?, callback?) {
+    public static exec(command, options?, callback?): Promise<Output> {
         return _cli_exec(command, options, callback);
     }
-    public exec(command, options?, callback?) {
+    public exec(command, options?, callback?): Promise<Output> {
         return CLI.exec(command, options, callback);
     }
 }

@@ -10,7 +10,7 @@
 //@ts-ignore
 import { $c, scope, info } from '../private/__common';
 import * as ILogModule from '../private/__logModule';
-import * as IXmlToJson from '../protected/_xmltojson';
+import * as IXmlToJson from '../models/XmlToJson';
 import * as IExt from '../protected/_ext';
 import * as IPrototypes from './__prototypes';
 //#endregion

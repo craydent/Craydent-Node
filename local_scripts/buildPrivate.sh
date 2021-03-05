@@ -9,6 +9,7 @@ tsc &&
 ./local_scripts/copyIgnoreFile.js &&
 
 tsc --lib es2017,dom --emitDeclarationOnly --declaration --outDir ./compiled ./modules/methods/* &&
+./local_scripts/updateMethodDeclarations.js &&
 
 ./local_scripts/updateMainPackageDependenciesDevPrivate.js &&
 npm install &&

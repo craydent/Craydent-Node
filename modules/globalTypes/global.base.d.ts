@@ -80,7 +80,11 @@ interface Craydent {
     DEBUG_MODE: boolean;
     ERROR_TYPES: any[]
     MODULES_LOADED: Object;
-    CONSOLE_COLORS: Object;
+    CONSOLE_COLORS: {
+        RED: string;
+        GREEN: string;
+        YELLOW: string;
+    };
     LOCAL_IP: string;
     PUBLIC_IP: string;
     // TEMPLATE_VARS: Array<TemplateVar>

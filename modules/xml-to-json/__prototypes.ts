@@ -1,4 +1,4 @@
-import * as IXmlToJson from '../protected/_xmltojson';
+import * as IXmlToJson from '../models/XmlToJson';
 import { scope } from '../private/__common';
 
 if (typeof (global as any) == 'undefined') {

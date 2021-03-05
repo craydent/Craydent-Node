@@ -42,7 +42,7 @@ async function start(prefix) {
     let results = await Promise.all(promises);
     let protos = await Promise.all(protoPromises);
     let imports = condense(results.join('\n').match(/import\s\* as I[a-zA-Z0-9$]*?\sfrom ['"](.*?)['"]/g), true)
-        .filter(x => !!~x.indexOf('./methods') || !!~x.indexOf('IHttp') || !!~x.indexOf('IGeneric'))
+        .filter(x => !!~x.indexOf('./methods') || !!~x.indexOf('IHttp') || !!~x.indexOf('IGeneric') || !!~x.indexOf('IXmlToJson'))
         .map(x => x.replace('../', './'))
         .sort();
     if (!~imports.indexOf("import * as IPrototypes from './__prototypes';")) {
