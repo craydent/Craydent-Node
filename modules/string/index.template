@@ -31,6 +31,7 @@ import * as IIsValidEmail from '../methods/isvalidemail';
 import * as ILastIndexOfAlt from '../methods/lastindexofalt';
 import * as ILtrim from '../methods/ltrim';
 import * as IPluralize from '../methods/pluralize';
+import * as IRandIndex from '../methods/rand-index';
 import * as IReplaceAll from '../methods/replaceall';
 import * as IReverse from '../methods/reverse';
 import * as IRtrim from '../methods/rtrim';
@@ -76,6 +77,7 @@ declare global {
         lastIndexOfAlt: typeof ILastIndexOfAlt.default;
         ltrim: typeof ILtrim.default;
         pluralize: typeof IPluralize.default;
+        randomIndex: typeof IRandIndex.default;
         replace_all: typeof IReplaceAll.default;
         replaceAll: typeof IReplaceAll.default;
         reverse: typeof IReverse.default;
@@ -117,6 +119,7 @@ declare global {
         lastIndexOfAlt: typeof IPrototypes._lastIndexOfAlt;
         ltrim: typeof IPrototypes._ltrim;
         pluralize: typeof IPrototypes._pluralize;
+        randomIndex: typeof IPrototypes._randIndex;
         replace_all: typeof IPrototypes._replaceAll;
         replaceAll: typeof IPrototypes._replaceAll;
         reverse: typeof IPrototypes._reverse;
@@ -181,6 +184,7 @@ if (!$c.MODULES_LOADED[info.name]) {
     ext(String, 'lastIndexOfAlt', prototypes._lastIndexOfAlt, true);
     ext(String, 'ltrim', prototypes._ltrim, true);
     ext(String, 'pluralize', prototypes._pluralize);
+    ext(String, 'randIndex', prototypes._randIndex, true);
     ext(String, 'replace_all', prototypes._replaceAll, true);
     ext(String, 'replaceAll', prototypes._replaceAll, true);
     ext(String, 'reverse', prototypes._reverse, true);

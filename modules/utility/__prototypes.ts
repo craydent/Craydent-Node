@@ -21,6 +21,7 @@ import * as INow from '../methods/now';
 import * as IParseBoolean from '../methods/parseboolean';
 import * as IParseRaw from '../methods/parseraw';
 import * as IRand from '../methods/rand';
+import * as IRandIndex from '../methods/rand-index';
 import * as IRequireDirectory from '../methods/requiredirectory';
 import * as IRunFuncArray from '../methods/runfuncarray';
 import * as ISuid from '../methods/suid';
@@ -56,6 +57,7 @@ const now: typeof INow.default = require('../methods/now').default;
 const parseBoolean: typeof IParseBoolean.default = require('../methods/parseboolean').default;
 const parseRaw: typeof IParseRaw.default = require('../methods/parseraw').default;
 const rand: typeof IRand.default = require('../methods/rand').default;
+const randIndex: typeof IRandIndex.default = require('../methods/rand-index').default;
 const requireDirectory: typeof IRequireDirectory.default = require('../methods/requiredirectory').default;
 const runFuncArray: typeof IRunFuncArray.default = require('../methods/runfuncarray').default;
 const suid: typeof ISuid.default = require('../methods/suid').default;
@@ -86,6 +88,7 @@ export {
     parseBoolean,
     parseRaw,
     rand,
+    randIndex,
     requireDirectory,
     runFuncArray,
     suid,

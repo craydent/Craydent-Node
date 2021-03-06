@@ -51,6 +51,7 @@ import * as IMap from '../methods/map';
 import * as IMapReduce from '../methods/mapreduce';
 import * as INormalize from '../methods/normalize';
 import * as IParallelEach from '../methods/paralleleach';
+import * as IRandIndex from '../methods/rand-index';
 import * as IRemove from '../methods/remove';
 import * as IRemoveAll from '../methods/removeall';
 import * as IRemoveAt from '../methods/removeat';
@@ -106,6 +107,7 @@ const map: typeof IMap.default = require('../methods/map').default;
 const mapReduce: typeof IMapReduce.default = require('../methods/mapreduce').default;
 const normalize: typeof INormalize.default = require('../methods/normalize').default;
 const parallelEach: typeof IParallelEach.default = require('../methods/paralleleach').default;
+const randIndex: typeof IRandIndex.default = require('../methods/rand-index').default;
 const remove: typeof IRemove.default = require('../methods/remove').default;
 const removeAll: typeof IRemoveAll.default = require('../methods/removeall').default;
 const removeAt: typeof IRemoveAt.default = require('../methods/removeat').default;
@@ -707,6 +709,20 @@ export function _parallelEach(gen?, args?): Promise<any[]> {
         "returnType": "(Promise<Array<T>>) returns a promise of the resulting items in the array."
     }|*/
     return parallelEach(this, gen, args);
+}
+export function _randIndex<T>(this: T[]): number {
+    /*|{
+        "info": "Return a random index without the bounds",
+        "category": "Array",
+        "parameters":[
+            {"subject?": "(Array) Array to get valid random index"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#randIndex",
+        "returnType": "(Number)"
+    }|*/
+    return randIndex(this);
 }
 export function _remove<T>(this: T[], value: any, indexOf?: ArrayIterator<T>): T | boolean {
     /*|{

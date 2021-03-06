@@ -31,6 +31,7 @@ import * as INamespace from '../methods/namespace';
 import * as INow from '../methods/now';
 import * as IParseBoolean from '../methods/parseboolean';
 import * as IParseRaw from '../methods/parseraw';
+import * as IRandIndex from '../methods/rand-index';
 import * as IRand from '../methods/rand';
 import * as IRequireDirectory from '../methods/requiredirectory';
 import * as IRunFuncArray from '../methods/runfuncarray';
@@ -65,6 +66,7 @@ declare global {
         parseBoolean: typeof IParseBoolean.default;
         parseRaw: typeof IParseRaw.default;
         rand: typeof IRand.default;
+        randomIndex: typeof IRandIndex.default;
         requireDirectory: typeof IRequireDirectory.default;
         runFuncArray: typeof IRunFuncArray.default;
         suid: typeof ISuid.default;
@@ -107,6 +109,7 @@ declare global {
             parseBoolean: typeof IParseBoolean.default;
             parseRaw: typeof IParseRaw.default;
             rand: typeof IRand.default;
+            randomIndex: typeof IRandIndex.default;
             requireDirectory: typeof IRequireDirectory.default;
             runFuncArray: typeof IRunFuncArray.default;
             suid: typeof ISuid.default;
@@ -137,6 +140,7 @@ declare global {
         parseBoolean: typeof IParseBoolean.default;
         parseRaw: typeof IParseRaw.default;
         rand: typeof IRand.default;
+        randomIndex: typeof IRandIndex.default;
         requireDirectory: typeof IRequireDirectory.default;
         runFuncArray: typeof IRunFuncArray.default;
         suid: typeof ISuid.default;
@@ -166,6 +170,7 @@ declare global {
     var parseBoolean: typeof IParseBoolean.default;
     var parseRaw: typeof IParseRaw.default;
     var rand: typeof IRand.default;
+    var randomIndex: typeof IRandIndex.default;
     var requireDirectory: typeof IRequireDirectory.default;
     var runFuncArray: typeof IRunFuncArray.default;
     var suid: typeof ISuid.default;
@@ -200,6 +205,7 @@ if (!$c.MODULES_LOADED[info.name]) {
     $c.parseBoolean = $c.parseBoolean || prototypes.parseBoolean;
     $c.parseRaw = $c.parseRaw || prototypes.parseRaw;
     $c.rand = $c.rand || prototypes.rand;
+    $c.randIndex = $c.randIndex || prototypes.randIndex;
     $c.requireDirectory = $c.requireDirectory || prototypes.requireDirectory;
     $c.runFuncArray = $c.runFuncArray || prototypes.runFuncArray;
     $c.suid = $c.suid || prototypes.suid;

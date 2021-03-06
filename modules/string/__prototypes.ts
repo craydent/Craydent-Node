@@ -19,6 +19,7 @@ import * as IIsValidEmail from '../methods/isvalidemail';
 import * as ILastIndexOfAlt from '../methods/lastindexofalt';
 import * as ILtrim from '../methods/ltrim';
 import * as IPluralize from '../methods/pluralize';
+import * as IRandIndex from '../methods/rand-index';
 import * as IReplaceAll from '../methods/replaceall';
 import * as IReverse from '../methods/reverse';
 import * as IRtrim from '../methods/rtrim';
@@ -69,6 +70,7 @@ const isValidEmail: typeof IIsValidEmail.default = require('../methods/isvalidem
 const lastIndexOfAlt: typeof ILastIndexOfAlt.default = require('../methods/lastindexofalt').default;
 const ltrim: typeof ILtrim.default = require('../methods/ltrim').default;
 const pluralize: typeof IPluralize.default = require('../methods/pluralize').default;
+const randIndex: typeof IRandIndex.default = require('../methods/rand-index').default;
 const replaceAll: typeof IReplaceAll.default = require('../methods/replaceall').default;
 const reverse: typeof IReverse.default = require('../methods/reverse').default;
 const rtrim: typeof IRtrim.default = require('../methods/rtrim').default;
@@ -400,6 +402,20 @@ export function _pluralize(): string {
         "returnType": "(String)"
     }|*/
     return pluralize(this);
+}
+export function _randIndex(this: string): number {
+    /*|{
+        "info": "Return a random index without the bounds",
+        "category": "String",
+        "parameters":[
+            {"subject?": "(String) String to get valid random index"}],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#randIndex",
+        "returnType": "(Number)"
+    }|*/
+    return randIndex(this);
 }
 export default function _replaceAll(replace: string, subject: string): string;
 export default function _replaceAll(replace: string[], subject: string[]): string;

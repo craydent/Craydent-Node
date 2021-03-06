@@ -8,11 +8,11 @@ export default function randIndex(subject): number {
         "info": "Return a random index without the bounds",
         "category": "Utility",
         "parameters":[
-            {"subject?": "(Number|String) String or Array to get valid random index"}],
+            {"subject?": "(Array|String) String or Array to get valid random index"}],
 
         "overloads":[],
 
-        "url": "http://www.craydent.com/library/1.9.3/docs#rand",
+        "url": "http://www.craydent.com/library/1.9.3/docs#randIndex",
         "returnType": "(Number)"
     }|*/
     try {

@@ -45,6 +45,7 @@ import * as IMap from '../methods/map';
 import * as IMapReduce from '../methods/mapreduce';
 import * as INormalize from '../methods/normalize';
 import * as IParallelEach from '../methods/paralleleach';
+import * as IRandIndex from '../methods/rand-index';
 import * as IRemove from '../methods/remove';
 import * as IRemoveAll from '../methods/removeall';
 import * as IRemoveAt from '../methods/removeat';
@@ -98,6 +99,7 @@ declare global {
         mapReduce: typeof IMapReduce.default;
         normalize: typeof INormalize.default;
         parallelEach: typeof IParallelEach.default;
+        randomIndex: typeof IRandIndex.default;
         remove: typeof IRemove.default;
         removeAll: typeof IRemoveAll.default;
         removeAt: typeof IRemoveAt.default;
@@ -143,6 +145,7 @@ declare global {
         mapReduce: typeof IPrototypes._mapReduce;
         normalize: typeof IPrototypes._normalize;
         parallelEach: typeof IPrototypes._parallelEach;
+        randomIndex: typeof IPrototypes._randIndex;
         remove: typeof IPrototypes._remove;
         removeAll: typeof IPrototypes._removeAll;
         removeAt: typeof IPrototypes._removeAt;
@@ -223,6 +226,7 @@ if (!$c.MODULES_LOADED[info.name]) {
     ext(Array, 'mapReduce', prototypes._mapReduce);
     ext(Array, 'normalize', prototypes._normalize, true);
     ext(Array, 'parallelEach', prototypes._parallelEach, true);
+    ext(Array, 'randIndex', prototypes._randIndex, true);
     ext(Array, 'remove', prototypes._remove, true);
     ext(Array, 'removeAll', prototypes._removeAll, true);
     ext(Array, 'removeAt', prototypes._removeAt, true);

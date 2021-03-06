@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.10.11
+# Craydent 0.11.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -548,6 +548,22 @@ HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 >None
 
 *** 
+#### _write_ 
+***
+
+**Info:** A promisified version of write.  The arguments are the same as the native fs methods minus the callback.
+
+**Return:** (any)
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
+
+*** 
 #### _utimes_ 
 ***
 
@@ -568,22 +584,6 @@ HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 ***
 
 **Info:** A promisified version of writeFile.  The arguments are the same as the native fs methods minus the callback.
-
-**Return:** (any)
-
-**Parameters:**
-
->None
-
-**Overloads:**
-
->None
-
-*** 
-#### _write_ 
-***
-
-**Info:** A promisified version of write.  The arguments are the same as the native fs methods minus the callback.
 
 **Return:** (any)
 

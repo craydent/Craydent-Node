@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.10.11
+# Craydent 0.11.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -330,6 +330,22 @@ HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 **Parameters:**
 
 >None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _randIndex_ 
+***
+
+**Info:** Return a random index without the bounds
+
+**Return:** (Number)
+
+**Parameters:**
+
+>* subject?: (String) String to get valid random index
 
 **Overloads:**
 
