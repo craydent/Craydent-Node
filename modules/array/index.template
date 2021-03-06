@@ -99,7 +99,7 @@ declare global {
         mapReduce: typeof IMapReduce.default;
         normalize: typeof INormalize.default;
         parallelEach: typeof IParallelEach.default;
-        randomIndex: typeof IRandIndex.default;
+        randIndex: typeof IRandIndex.default;
         remove: typeof IRemove.default;
         removeAll: typeof IRemoveAll.default;
         removeAt: typeof IRemoveAt.default;
@@ -145,7 +145,7 @@ declare global {
         mapReduce: typeof IPrototypes._mapReduce;
         normalize: typeof IPrototypes._normalize;
         parallelEach: typeof IPrototypes._parallelEach;
-        randomIndex: typeof IPrototypes._randIndex;
+        randIndex: typeof IPrototypes._randIndex;
         remove: typeof IPrototypes._remove;
         removeAll: typeof IPrototypes._removeAll;
         removeAt: typeof IPrototypes._removeAt;

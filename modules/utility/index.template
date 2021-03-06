@@ -66,7 +66,7 @@ declare global {
         parseBoolean: typeof IParseBoolean.default;
         parseRaw: typeof IParseRaw.default;
         rand: typeof IRand.default;
-        randomIndex: typeof IRandIndex.default;
+        randIndex: typeof IRandIndex.default;
         requireDirectory: typeof IRequireDirectory.default;
         runFuncArray: typeof IRunFuncArray.default;
         suid: typeof ISuid.default;
@@ -109,7 +109,7 @@ declare global {
             parseBoolean: typeof IParseBoolean.default;
             parseRaw: typeof IParseRaw.default;
             rand: typeof IRand.default;
-            randomIndex: typeof IRandIndex.default;
+            randIndex: typeof IRandIndex.default;
             requireDirectory: typeof IRequireDirectory.default;
             runFuncArray: typeof IRunFuncArray.default;
             suid: typeof ISuid.default;
@@ -140,7 +140,7 @@ declare global {
         parseBoolean: typeof IParseBoolean.default;
         parseRaw: typeof IParseRaw.default;
         rand: typeof IRand.default;
-        randomIndex: typeof IRandIndex.default;
+        randIndex: typeof IRandIndex.default;
         requireDirectory: typeof IRequireDirectory.default;
         runFuncArray: typeof IRunFuncArray.default;
         suid: typeof ISuid.default;
@@ -170,7 +170,7 @@ declare global {
     var parseBoolean: typeof IParseBoolean.default;
     var parseRaw: typeof IParseRaw.default;
     var rand: typeof IRand.default;
-    var randomIndex: typeof IRandIndex.default;
+    var randIndex: typeof IRandIndex.default;
     var requireDirectory: typeof IRequireDirectory.default;
     var runFuncArray: typeof IRunFuncArray.default;
     var suid: typeof ISuid.default;
