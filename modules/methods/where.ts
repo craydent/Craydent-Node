@@ -67,7 +67,7 @@ const _isObject = isObject,
     _isFunction = isFunction,
     _isString = isString;
 
-export function __processStage<T>(docs: Documents<T>, stage: Stage): Documents<T> {
+export function __processStage<T>(docs: Documents<T>, stage: Stage): Documents<T> | undefined {
     try {
         let operator = "", value: any = {};
         for (let opts in stage) {
@@ -78,9 +78,9 @@ export function __processStage<T>(docs: Documents<T>, stage: Stage): Documents<T
                 throw "Exception: A pipeline stage specification object must contain exactly one field.";
             }
             operator = opts;
-            value = stage[opts];
+            value = (stage as any)[opts];
         }
-        let arr = [], i = 0;
+        let arr: any[] = [], i = 0;
         switch (operator) {
             case "$project":
                 return where(docs, {}, value);
@@ -127,9 +127,9 @@ export function __processStage<T>(docs: Documents<T>, stage: Stage): Documents<T
                 return docs;
             case "$lookup":
                 arr = value.from;
-                let doc, key = value.localField, fkey = value.foreignField, prop = value.as;
+                let doc: any, key: string = value.localField, fkey = value.foreignField, prop = value.as;
                 while (doc = docs[i++]) {
-                    let query = {};
+                    let query: any = {};
                     query[fkey] = doc[key] || { $exists: false };
                     doc[prop] = where(arr, query);
                 }
@@ -137,12 +137,12 @@ export function __processStage<T>(docs: Documents<T>, stage: Stage): Documents<T
         return docs;
     } catch (e) /* istanbul ignore next */ {
         error && error('aggregate.__processStage', e);
-        return null;
+        return null as any;
     }
 }
 
 export function _joinHelper<T, R, TResult>(objs: T[], arr: R[], on: string | string[], exclusive?: boolean): TResult[] {
-    let records = [], propRef = [], objRef = arr[0] || /* istanbul ignore next */ {};
+    let records: any[] = [], propRef: any[] = [], objRef: any = arr[0] || /* istanbul ignore next */ {};
     /* istanbul ignore else */
     if (isString(on)) {
         // @ts-ignore
@@ -162,7 +162,7 @@ export function _joinHelper<T, R, TResult>(objs: T[], arr: R[], on: string | str
         }
     }
     for (let i = 0, len = objs.length; i < len; i++) {
-        let record = duplicate(objs[i], true), query = {}, results;
+        let record: any = duplicate(objs[i], true), query: any = {}, results: any[];
         query[on[1]] = record[on[0]];
         results = where(arr, query);
         /* istanbul ignore else */
@@ -181,7 +181,7 @@ export function _copyWithProjection(record: any, projection_arg?: string | strin
     if (projection_arg === true) {
         return record;
     }
-    let copy = {}, len = 0,
+    let copy: any = {}, len = 0,
         projection: any = projection_arg || '*';
     if (_isString(projection)) {
         projection = (projection as string).split(',');
@@ -262,14 +262,14 @@ export function _createFuncAndFilter<T>(args: CreateFuncOptions): T[] {
         _contains = contains,
         condition = args.condition,
         projection = args.projection,
-        projected = [],
+        projected: any = [],
         ifblock = args.ifblock || 'true',
         _refs = args._refs || [];
 
-    let func, arr = args.arr, limit = args.limit;
+    let func: any, arr: any[] = args.arr, limit = args.limit;
     if (!args.ifblock) {
         if (!projection) {
-            func = function (record, the_current_index, farr) {
+            func = function (record: any, the_current_index: number, farr: any[]) {
                 for (let prop in condition) {
                     if (~prop.indexOf('.')) {
                         if (!contains(_qnp(record, prop), condition[prop])) {
@@ -282,7 +282,7 @@ export function _createFuncAndFilter<T>(args: CreateFuncOptions): T[] {
                 return true;
             };
         } else {
-            func = function (record, the_current_index, farr) {
+            func = function (record: any) {
                 for (let prop in condition) {
                     if (~prop.indexOf('.')) {
                         if (!contains(_qnp(record, prop), condition[prop])) {
@@ -307,7 +307,7 @@ export function _createFuncAndFilter<T>(args: CreateFuncOptions): T[] {
         if (projection) {
             projection_code = "projected.push(_copyWithProjection(record, projection));";
         }
-        eval(`${varStrings}func = function (record,the_current_index,farr) {var values;${projection_code}return ${ifblock};}`);
+        eval(`${varStrings}func = function (record,the_current_index,farr) {var values,all,finished;${projection_code}return ${ifblock};}`);
     }
     let filtered = arr.filter(func);
     if (limit != 0) {
@@ -408,7 +408,7 @@ export function _searchRange<T>(sarr_arg: IndexedBucket<T>, options: SearchRange
 
     if (_isObject(value)) {
         const condition = value;
-        let tmp_arr = [], ranges = [];
+        let tmp_arr: any[] = [], ranges: any[] = [];
 
         for (let cprop in condition) {
             /* istanbul ignore else */
@@ -494,7 +494,7 @@ export type WhereProjection = string | string[] | boolean | Fields;
 export default function where<T>(objs: AnyObjects, condition?: MongoQuery, limit?: number): T[];
 export default function where<T>(objs: AnyObjects, condition?: MongoQuery, useReference?: boolean, limit?: number): T[];
 export default function where<T>(objs: AnyObjects, condition?: MongoQuery, projection?: WhereProjection, limit?: number): T[];
-export default function where<T>(objs, condition?, projection?, limit?): T[] {
+export default function where<T>(objs: any, condition?: any, projection?: any, limit?: any): T[] {
     /*|{
         "info": "Array class extension to use mongo or sql queries",
         "category": "Array",
@@ -602,12 +602,12 @@ export default function where<T>(objs, condition?, projection?, limit?): T[] {
 
             let orderedLists = [], fi = 0, len = arr.length, oli = 0;
             while (prop = indexProps[i++]) {
-                let ordered = _searchRange(arr.__indexed_buckets[prop], {
+                let ordered = _searchRange((arr.__indexed_buckets as any)[prop], {
                     // prop: prop,
                     condition: condition[prop],
                     // startIndex: null,
                     // endIndex: null,
-                    findIndex: null
+                    findIndex: undefined
                 }) as any[];
 
                 if (len > ordered.length) {
@@ -664,8 +664,8 @@ export default function where<T>(objs, condition?, projection?, limit?): T[] {
         }
 
 
-        let _refs = [],
-            ifblock = _subQuery(condition, null, null, _refs);
+        let _refs: any[] = [],
+            ifblock = _subQuery(condition, null as any, null as any, _refs);
 
         return _createFuncAndFilter<T>({
             ifblock: ifblock,

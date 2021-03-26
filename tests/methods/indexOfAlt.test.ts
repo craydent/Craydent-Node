@@ -3,12 +3,12 @@ describe('indexOfAlt', () => {
     const arr = ['ac', 'ab', 'ab', 'ac'];
     const str = 'acababac';
     it('should return -1 when not found', () => {
-        expect(indexOfAlt(arr, null)).toBe(-1);
-        expect(indexOfAlt(arr, null, () => null)).toBe(-1);
-        expect(indexOfAlt(str, null)).toBe(-1);
+        expect(indexOfAlt(arr, null as any)).toBe(-1);
+        expect(indexOfAlt(arr, null as any, () => null)).toBe(-1);
+        expect(indexOfAlt(str, null as any)).toBe(-1);
         expect(indexOfAlt(str, 'z')).toBe(-1);
         expect(indexOfAlt(str, /z/)).toBe(-1);
-        expect(indexOfAlt(null, null)).toBe(-1);
+        expect(indexOfAlt(null as any, null as any)).toBe(-1);
 
     });
     it('should retrieve index of an array', () => {

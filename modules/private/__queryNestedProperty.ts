@@ -4,7 +4,7 @@ import { AnyObject } from '../models/Generics';
 
 export default function __queryNestedProperty(obj: AnyObject, path: string/*, value*/): any[] {
     if (obj[path]) { return [obj[path]]; }
-    let parts = path.split('.'), values = [];
+    let parts = path.split('.'), values:any[] = [];
     let prop, i = 0;
     while (prop = parts[i++]) {
         /* istanbul ignore if */

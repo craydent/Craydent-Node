@@ -16,5 +16,6 @@ export default function substringStartFrom(str: string, start: string): string {
         return str.substring(str.indexOf(start));
     } catch (e) /* istanbul ignore next */ {
         error && error('Object.substringStartFrom', e);
+        return null as any;
     }
 }

@@ -1,13 +1,13 @@
 import include from '../../compiled/transformedMinor/craydent.include';
 jest.mock('../../compiled/transformedMinor/craydent.clearcache', () => {
     return {
-        "default": (...args) => clearCache.apply(this, args)
+        "default": (...args: any[]) => clearCache.apply(this, args as any)
     }
 });
 let clearCache = () => { }
 jest.mock('../../compiled/transformedMinor/craydent.absolutepath', () => {
     return {
-        "default": (...args) => absolutePath.apply(this, args)
+        "default": (...args: any[]) => absolutePath.apply(this, args as any)
     }
 });
 let absolutePath = () => { }

@@ -27,6 +27,6 @@ export default function remove<T>(arr: T[], value: any, indexOf?: ArrayIterator<
         return objs.splice(index, 1)[0];
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.remove", e);
-        return null;
+        return null as any;
     }
 }

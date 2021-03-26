@@ -7,8 +7,8 @@ export default function _verbPayloadHelper(context: Craydent): boolean | AnyObje
 export default function _verbPayloadHelper(context: Craydent, variable: string, method: Verbs, options?: VerbOptions): boolean | AnyObject;
 export default function _verbPayloadHelper(context: Craydent, variable?: string, method?: Verbs, options?: VerbOptions): boolean | AnyObject {
     let { rawData } = context as any;
-    let defaultData = { get: null, post: null, delete: null, put: null };
-    let data = (rawData || defaultData)[method] || {};
+    let defaultData: any = { get: null, post: null, delete: null, put: null };
+    let data: any = (rawData || defaultData)[method as any] || {};
     let theRawData = rawData || {} as any;
     if (method == 'payload') {
         for (let prop in defaultData) {

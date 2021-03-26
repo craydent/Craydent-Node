@@ -18,7 +18,7 @@ const _isString = isString,
 
 export default function universalTrim(subject: string[], chars?: string | string[], ref?: boolean): string[];
 export default function universalTrim(subject: string, chars?: string | string[]): string;
-export default function universalTrim(subject, chars?, ref?: boolean): string | string[] {
+export default function universalTrim(subject: any, chars?: any, ref?: boolean): string | string[] {
     /*|{
         "info": "Array class extension to remove all white space/chars from the beginning and end of all string values in the array & String class extension to remove characters from the beginning and end of the string.",
         "category": "Array",

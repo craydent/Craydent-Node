@@ -27,7 +27,7 @@ export default function absolutePath(path: string, depth?: number): string {
 
     // first clause is for linux based files systems, second clause is for windows based file system
     if (!(path.startsWith('/') || /^[a-zA-Z]:\/|^\/\/.*/.test(path))) {
-        let stack = new Error().stack.split('\n');
+        let stack = (new Error().stack as any).split('\n');
         /* istanbul ignore if */
         if (~stack[1].indexOf('(eval at absolutePath')) {
             stack = stack.splice(1, 1);

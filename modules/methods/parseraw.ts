@@ -83,6 +83,6 @@ export default function parseRaw(value: any, skipQuotes?: boolean, saveCircular?
         return raw;
     } catch (e) /* istanbul ignore next */ {
         error && error('parseRaw', e);
-        return null;
+        return null as any;
     }
 }

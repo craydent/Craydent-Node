@@ -21,5 +21,6 @@ export default function cuid(msFormat?: boolean): string {
         }) + pt;
     } catch (e) /* istanbul ignore next */ {
         error && error('cuid', e);
+        return null as any;
     }
 }

@@ -4,7 +4,7 @@ import isNull from '../methods/isnull';
 
 export default function endsWithAny(subject: string, args: string[]): string | false;
 export default function endsWithAny(subject: string, ...args: string[]): string | false;
-export default function endsWithAny(subject, ...args): string | false {
+export default function endsWithAny(subject: string, ...args: any[]): string | false {
     /*|{
         "info": "String class extension to check if the string ends with the given string",
         "category": "String",
@@ -39,5 +39,6 @@ export default function endsWithAny(subject, ...args): string | false {
         return false;
     } catch (e) /* istanbul ignore next */ {
         error && error('String.endsWithAny', e);
+        return null as any;
     }
 }

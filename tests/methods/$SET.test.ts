@@ -1,10 +1,10 @@
 import $SET from '../../compiled/transformedMinor/craydent.http.set';
 jest.mock('../../compiled/transformedMinor/craydent.http.set/protected/_set', () => {
     return {
-        "default": (variable, value, defer, options, loc) => _set(variable, value, defer, options, loc)
+        "default": (variable: any, value: any, defer: any, options: any, loc: any) => _set(variable, value, defer, options, loc)
     }
 });
-let _set = (variable, value, defer, options, loc) => loc;
+let _set = (variable: any, value: any, defer: any, options: any, loc: any) => loc;
 describe('$SET', () => {
     describe('NodeJS', () => {
         const win = window;
@@ -15,41 +15,41 @@ describe('$SET', () => {
             (global as any).window = win;
         });
         it('should set location using object', () => {
-            const dis = { location: { search: '', hash: '' } };
+            const dis: any = { location: { search: '', hash: '' } };
             _set = jest.fn().mockImplementationOnce((key, value) => {
                 return { search: `${key}=${value}`, hash: 'value' };
             });
-            $SET.call(dis, { theKey: 'theValue' });
+            ($SET as any).call(dis, { theKey: 'theValue' });
             expect(_set).toHaveBeenCalledWith('theKey', 'theValue', false, {}, { search: '', hash: '' });
             expect(dis.location.search).toBe('theKey=theValue');
             expect(dis.location.hash).toBe('value');
         });
         it('should set location using strings', () => {
-            const dis = { location: { search: '', hash: '' } };
+            const dis: any = { location: { search: '', hash: '' } };
             _set = jest.fn().mockImplementationOnce((key, value) => {
                 return { search: `${key}=${value}`, hash: 'value' };
             });
-            $SET.call(dis, 'theKey', 'theValue');
+            ($SET as any).call(dis, 'theKey', 'theValue');
             expect(_set).toHaveBeenCalledWith('theKey', 'theValue', false, {}, { search: '', hash: '' });
             expect(dis.location.search).toBe('theKey=theValue');
             expect(dis.location.hash).toBe('value');
         });
         it('should set location using array of key/value pairs', () => {
-            const dis = { location: { search: '', hash: '' } };
+            const dis: any = { location: { search: '', hash: '' } };
             _set = jest.fn().mockImplementationOnce((key, value) => {
                 return { search: `${key}=${value}`, hash: 'value' };
             });
-            $SET.call(dis, [{ variable: 'theKey', value: 'theValue' }]);
+            ($SET as any).call(dis, [{ variable: 'theKey', value: 'theValue' }]);
             expect(_set).toHaveBeenCalledWith('theKey', 'theValue', false, {}, { search: '', hash: '' });
             expect(dis.location.search).toBe('theKey=theValue');
             expect(dis.location.hash).toBe('value');
         });
         it('should set location using strings with options', () => {
-            const dis = { location: { search: '', hash: '' } };
+            const dis: any = { location: { search: '', hash: '' } };
             _set = jest.fn().mockImplementationOnce((key, value) => {
                 return { search: `${key}=${value}`, hash: 'value' };
             });
-            $SET.call(dis, 'theKey', 'theValue', { ignoreCase: true });
+            ($SET as any).call(dis, 'theKey', 'theValue', { ignoreCase: true });
             expect(_set).toHaveBeenCalledWith('theKey', 'theValue', false, { ignoreCase: true }, { search: '', hash: '' });
             expect(dis.location.search).toBe('theKey=theValue');
             expect(dis.location.hash).toBe('value');

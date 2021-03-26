@@ -17,5 +17,6 @@ export default function endItWith(str: string, ending: string): string {
         return str + ending;
     } catch (e) /* istanbul ignore next */ {
         error && error('String.endItWith', e);
+        return null as any;
     }
 }

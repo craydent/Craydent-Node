@@ -20,33 +20,33 @@ import rand from '../methods/rand';
 import include from '../methods/include';
 
 
-function _get(url: string, returnData?: AjaxReturnType): Promise<any>;
-function _get(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _get(params, returnData?) {
+function _get(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
+function _get(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
+function _get(this: any, params: any, returnData?: any) {
     params.method = "GET";
-    return ajax.apply(this, arguments);
+    return ajax.apply(this, arguments as any);
 }
-function _delete(url: string, returnData?: AjaxReturnType): Promise<any>;
-function _delete(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _delete(params, returnData?) {
+function _delete(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
+function _delete(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
+function _delete(this: any, params: any, returnData?: any) {
     params.method = "DELETE";
-    return ajax.apply(this, arguments);
+    return ajax.apply(this, arguments as any);
 };
-function _post(url: string, returnData?: AjaxReturnType): Promise<any>;
-function _post(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _post(params, returnData?) {
+function _post(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
+function _post(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
+function _post(this: any, params: any, returnData?: any) {
     params.method = "POST";
-    return ajax.apply(this, arguments);
+    return ajax.apply(this, arguments as any);
 };
-function _put(url: string, returnData?: AjaxReturnType): Promise<any>;
-function _put(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _put(params, returnData?) {
+function _put(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
+function _put(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
+function _put(this: any, params: any, returnData?: any) {
     params.method = "PUT";
-    return ajax.apply(this, arguments);
+    return ajax.apply(this, arguments as any);
 };
-function _ajaxNode(url: string, returnData?: AjaxReturnType): Promise<any>;
-function _ajaxNode(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _ajaxNode(params, returnData): Promise<any> {
+function _ajaxNode(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
+function _ajaxNode(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
+function _ajaxNode(this: any, params: any, returnData: any): Promise<any> {
     try {
         params.protocol = params.protocol || (~params.url.indexOf('https:') ? 'https:' : 'http:')
 
@@ -173,7 +173,7 @@ function _ajaxNode(params, returnData): Promise<any> {
         });
 
         (prms as any)._then = prms.then;
-        prms.then = function (res, rej) {
+        prms.then = function (this: any, res, rej) {
             if (__isTSTranspiledPromise.call(this, arguments)) {
                 return this._then(res, rej);
             }
@@ -182,37 +182,38 @@ function _ajaxNode(params, returnData): Promise<any> {
             return this;
         };
         // }
-        (prms as any).otherwise = (prms as any).catch = function (callback) {
+        (prms as any).otherwise = (prms as any).catch = function (callback: any) {
             return params.onerror.push(callback), this;
         };
-        prms.finally = function (callback) {
+        prms.finally = function (callback: any) {
             return params.oncomplete.push(callback), this;
         };
         return prms;
     } catch (e) /* istanbul ignore next */ {
         error && error("ajax", e);
+        return Promise.resolve();
     }
 }
 
-function _ajaxJS(url: string, returnData?: AjaxReturnType): Promise<any>;
-function _ajaxJS(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _ajaxJS(params, returnData): Promise<any> {
+function _ajaxJS(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
+function _ajaxJS(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
+function _ajaxJS(this: any, params: any, returnData: any): Promise<any> {
     try {
         let url, alwaysResolve = params.alwaysResolve;
         params.jsonp = `${(params.jsonp || "callback")}=`;
 
-        let cbk = (function (res, rej) {
+        let cbk = (function (this: any, res: any, rej: any) {
             /* istanbul ignore next */
             let resrej = alwaysResolve ? res : rej;
             if (params.dataType.toLowerCase() == 'jsonp') {
                 let head = document.getElementsByTagName('head')[0],
                     func: string = params.jsonpCallback || '_cjson' + Math.floor(rand(0, 1000000)),
                     tag = document.createElement('script');
-                while (!params.jsonpCallback && window[func]) {
+                while (!params.jsonpCallback && (window as any)[func]) {
                     func = `_cjson${Math.floor(rand(0, 1000000))}`;
                 }
                 // params.jsonpCallback && (params.onsuccess = window[func]);
-                window[func] = function (data) {
+                (window as any)[func] = function (data: any) {
                     /* istanbul ignore next */
                     let ctx = params.context || params.thiss;
 
@@ -229,9 +230,9 @@ function _ajaxJS(params, returnData): Promise<any> {
                     //     window[func] = params.onsuccess;
                     // } else {
                     try {
-                        delete window[func]
+                        delete (window as any)[func]
                     } catch (e) /* istanbul ignore next */ {
-                        window[func] = undefined;
+                        (window as any)[func] = undefined;
                     }
                     // }
 
@@ -288,7 +289,7 @@ function _ajaxJS(params, returnData): Promise<any> {
 
                 runFuncArray.call(params.context, params.onbefore, [httpRequest, params.hitch, this]);
                 let body = { data: '' }
-                httpRequest.onreadystatechange = function (xp) {
+                httpRequest.onreadystatechange = function (xp: any) {
                     /* istanbul ignore next */
                     const ctx = params.context || this;
                     /* istanbul ignore next */
@@ -353,7 +354,7 @@ function _ajaxJS(params, returnData): Promise<any> {
             prms = new Promise(cbk);
             /* istanbul ignore next */
             (prms as any)._then = prms.then || foo;
-            prms.then = function (res, rej) {
+            prms.then = function (this: any, res, rej) {
                 if (__isTSTranspiledPromise.call(this, arguments)) {
                     return this._then(res, rej);
                 }
@@ -363,26 +364,27 @@ function _ajaxJS(params, returnData): Promise<any> {
             };
         } else {
             prms = cbk(foo, foo);
-            prms.then = function (callback) {
+            prms.then = function (this: any, callback: any) {
                 return params.onsuccess.push(callback), this;
             };
         }
 
-        (prms as any).otherwise = (prms as any).catch = function (callback) {
+        (prms as any).otherwise = (prms as any).catch = function (this: any, callback: any) {
             return params.onerror.push(callback), this;
         };
-        prms['finally'] = function (callback) {
+        prms['finally'] = function (this: any, callback: any) {
             return params.oncomplete.push(callback), this;
         };
         return prms;
     } catch (e) /* istanbul ignore next */ {
         error && error("ajax", e);
+        return Promise.resolve();
     }
 }
-function __isTSTranspiledPromise(args) {
+function __isTSTranspiledPromise(this: any, args: any) {
     // will need to update if the name changes
-    const caller = getProperty(args, 'callee.caller');
-    const arg = isNull(getProperty(args, 'callee.caller.arguments[0]'), {});
+    const caller: any = getProperty(args, 'callee.caller');
+    const arg: any = isNull(getProperty(args, 'callee.caller.arguments[0]'), {});
     return caller && /step/.test(caller.name) && arg.value == this && arg.hasOwnProperty('done');
 }
 export type AjaxReturnType = "response" | "res" | "request" | "req";
@@ -424,7 +426,7 @@ export type AjaxOptions = {
     onsuccess?: (data?: any, hitch?: any, context?: any, statusCode?: number) => void;
     json_parser?: (text?: string, reviver?: Reviver, spaces?: string) => void;
 };
-export function __ajaxServerResponse(response, json_parser?) {
+export function __ajaxServerResponse(response: any, json_parser?: any) {
     try {
         if (response.readyState == 4) {
             let objResponse = tryEval(response.responseText.trim(), json_parser);
@@ -441,7 +443,7 @@ export function __ajaxServerResponse(response, json_parser?) {
 }
 function ajax(url: string, returnData?: AjaxReturnType): Promise<any>;
 function ajax(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function ajax(params, returnData?): Promise<any> {
+function ajax(this: any, params: any, returnData?: any): Promise<any> {
     /*|{
         "info": "Method to make ajax calls",
         "category": "Utility",

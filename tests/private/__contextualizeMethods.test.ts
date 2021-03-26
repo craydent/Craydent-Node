@@ -4,7 +4,7 @@ import __contextualizeMethods from '../../modules/private/__contextualizeMethods
 import * as Common from '../../modules/private/__common';
 
 describe('__contextualizeMethods', () => {
-    let c;
+    let c: any;
 
     const globalizables = [
         'Benchmarker',
@@ -101,11 +101,11 @@ describe('__contextualizeMethods', () => {
     });
     it('should add properties to the context', () => {
         let context = { temp: 0 };
-        const ctx = __contextualizeMethods(context);
+        const ctx: any = __contextualizeMethods(context);
         expect(ctx).toBe(context);
     });
     it('should add properties to the context with no args', () => {
-        const ctx = __contextualizeMethods()
+        const ctx: any = __contextualizeMethods()
         for (let i = 0, len = globalizables.length; i < len; i++) {
             expect(ctx.hasOwnProperty(globalizables[i])).toBe(true);
         }

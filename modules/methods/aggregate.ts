@@ -20,7 +20,7 @@ export default function aggregate<T, TResult>(arr: Documents<T>, pipelines: Mong
         let rtn = arr, pipeline, i = 0, hasGroup = false;
         while (pipeline = pipelines[i++]) {
             if (pipeline["$group"]) { hasGroup = true; }
-            rtn = __processStage(rtn, pipeline);
+            rtn = __processStage(rtn, pipeline) as Documents<T>;
         }
         return rtn.sample && !hasGroup ? rtn.sample : rtn;
     } catch (e) /* istanbul ignore next */ {

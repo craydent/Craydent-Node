@@ -3,7 +3,7 @@ import _replaceAll from '../protected/_replaceAll';
 
 export default function ireplaceAll(str: string, replace: string, subject: string): string;
 export default function ireplaceAll(str: string, replace: string[], subject: string[]): string;
-export default function ireplaceAll(str, replace, subject): string {
+export default function ireplaceAll(str: string, replace: any, subject: any): string {
     /*|{
        "info": "String class extension to replace all substrings ignoring case",
        "category": "String",
@@ -20,5 +20,6 @@ export default function ireplaceAll(str, replace, subject): string {
         return _replaceAll(str, replace, subject, "gi")
     } catch (e) /* istanbul ignore next */ {
         error && error("String.ireplaceAll", e);
+        return str;
     }
 }

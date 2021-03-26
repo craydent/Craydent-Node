@@ -1,7 +1,7 @@
 import error from '../methods/error';
 import _getSession from '../protected/_getSession';
 
-export default function getSessionSync(this: Craydent | void, sid) {
+export default function getSessionSync(this: Craydent | void, sid: string): any {
     /*|{
         "info": "Syncronously retrieve the session object when used in conjunction with createServer",
         "category": "HTTP",
@@ -17,5 +17,6 @@ export default function getSessionSync(this: Craydent | void, sid) {
         return _getSession(this as any, sid);
     } catch (e) /* istanbul ignore next */ {
         error && error('getSessionSync', e);
+        return null as any;
     }
 }

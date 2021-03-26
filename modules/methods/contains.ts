@@ -33,7 +33,7 @@ export default function contains<T, TValue>(arr: T[], val: ContainsValue, operat
 export default function contains<T, TValue>(obj: T, val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
 export default function contains<T, TValue>(str: string, val: ContainsValue): boolean;
 export default function contains<T, TValue>(num: number, val: ContainsValue): boolean;
-export default function contains(obj, val, func?) {
+export default function contains(obj: any, val: any, func?: any): boolean {
     /*|{
         "info": "Object class extension to check if value exists",
         "category": "Array|Object",
@@ -128,6 +128,6 @@ export default function contains(obj, val, func?) {
         return false;
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.contains", e);
-        return null;
+        return null as any;
     }
 }

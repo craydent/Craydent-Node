@@ -15,5 +15,6 @@ export default function isAndroid(this: Craydent | Window): boolean {
         return (/android/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isAndroid', e);
+        return null as any;
     }
 }

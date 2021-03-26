@@ -15,5 +15,6 @@ export default function isIPod(this: Craydent | Window): boolean {
         return (/ipod/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isIPod', e);
+        return null as any;
     }
 }

@@ -39,8 +39,8 @@ describe('No Conflict String', function () {
     expect("cal".highlight(/a/)).toBe("c<span class=\"chighlight\">a</span>l");
     expect("cal".highlight('a', 'chl')).toBe("c<span class=\"chl\">a</span>l");
     expect("cal".highlight(/a/, 'chl')).toBe("c<span class=\"chl\">a</span>l");
-    expect("cal".highlight('a', null, 'div')).toBe("c<div class=\"chighlight\">a</div>l");
-    expect("cal".highlight(/a/, null, 'div')).toBe("c<div class=\"chighlight\">a</div>l");
+    expect("cal".highlight('a', null as any, 'div')).toBe("c<div class=\"chighlight\">a</div>l");
+    expect("cal".highlight(/a/, null as any, 'div')).toBe("c<div class=\"chighlight\">a</div>l");
     expect("cal".highlight('a', "chl", 'div')).toBe("c<div class=\"chl\">a</div>l");
     expect("cal".highlight(/a/, "chl", 'div')).toBe("c<div class=\"chl\">a</div>l");
   });

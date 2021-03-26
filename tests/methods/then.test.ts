@@ -2,7 +2,7 @@ import then from '../../compiled/transformedMinor/craydent.then';
 
 jest.mock('../../compiled/transformedMinor/craydent.on', () => {
     return {
-        "default": (...args) => on.apply(this, args)
+        "default": (...args: any[]) => on.apply(this, args as any)
     }
 });
 let on = () => { }

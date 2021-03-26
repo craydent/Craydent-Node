@@ -50,7 +50,7 @@ if (!$g.$c || __isNewer($g.$c.VERSION.split('.'), _craydent_version.split('.')))
                 continue;
             }
             // filter for address that is IPv4
-            let iface = nics[nic].filter(function (ic) {
+            let iface = nics[nic].filter(function (ic: any) {
                 return ic.family == 'IPv4';
             })[0];
             if (iface) {

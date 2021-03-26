@@ -43,7 +43,7 @@ export interface CreateServerOptions {
 }
 export default function createServer(options: CreateServerOptions): CraydentHttp;
 export default function createServer(callback: Function, options?: CreateServerOptions): CraydentHttp;
-export default function createServer(callback, options?): CraydentHttp {
+export default function createServer(callback: any, options?: any): CraydentHttp {
     /*|{
         "info": "Create http server, ability to run middleware, and define routes.",
         "category": "HTTP",
@@ -65,14 +65,14 @@ export default function createServer(callback, options?): CraydentHttp {
     }
     options = options || {};
     const _syncroit = syncroit;
-    const http: CraydentHttp = (options.createServer || _http.createServer)(function (request, response) {
-        var cray = new ServerManager(request, response);
+    const http: CraydentHttp = (options.createServer || _http.createServer)(function (request: any, response: any) {
+        var cray = new (ServerManager as any)(request, response);
         cray.server = http;
         $c.GarbageCollector = [];
 
         if (request.url == '/favicon.ico') {
             let code = 404;
-            let cb = function (err, data) {
+            let cb = function (err: any, data: any) {
                 if (err) { logit(err); code = 500; }
                 response.writeHead(code, { "Content-Type": "image/x-icon" });
                 response.end(data);
@@ -81,7 +81,7 @@ export default function createServer(callback, options?): CraydentHttp {
             if (options.favicon) {
                 try {
                     code = 200;
-                    fs.readFile(options.favicon, function (err, data) {
+                    fs.readFile(options.favicon, function (err: any, data: any) {
                         /* istanbul ignore next */
                         data = data || cray.RESPONSES[code];
                         cb(err, data);
@@ -115,11 +115,11 @@ export default function createServer(callback, options?): CraydentHttp {
                 }
                 let routes: Route[] = where(http.routes, { method: { $in: methods } });
                 let i = 0, route: Route;
-                var execute = [];
+                var execute: any = [];
                 while (route = routes[i++]) {
                     cray.rest = haveRoutes = true;
 
-                    let cbs = route.callback, no_route = false, vars = {} as AnyObject;
+                    let cbs: any = route.callback, no_route = false, vars = {} as AnyObject;
                     if (route.path != "/*" && route.path != "*") {
                         let rout_parts = condense(strip(route.path, "*").split('/')),
                             requ_parts = url.split('/');
@@ -217,7 +217,7 @@ export default function createServer(callback, options?): CraydentHttp {
                             }
                         }
                         if (bad.length) { return cray.send({ errors: bad }); }
-                        let c = 0, cb;
+                        let c = 0, cb: any;
                         while (cb = cbs[c++]) {
                             execute.push(cb);
                             execute[`v${c}`] = vars;
@@ -225,7 +225,7 @@ export default function createServer(callback, options?): CraydentHttp {
                     }
                 }
 
-                var _complete = (value?) => {
+                var _complete = (value?: any) => {
                     if (isNull(value) && haveRoutes && callback == foo) {
                         return Promise.resolve(cray.send(404, cray.RESPONSES["404"]));
                     }
@@ -255,16 +255,16 @@ export default function createServer(callback, options?): CraydentHttp {
                             app.port = app.port || parseInt(port);
                             let query = request.url.split('?')[1] || "";
                             query && (query = `?${query}`);
-                            return include('http').get(`http://localhost:${app.port}/${path}${query}`).on('response', function (response) {
+                            return include('http').get(`http://localhost:${app.port}/${path}${query}`).on('response', function (response: any) {
                                 let body = '';
-                                response.on('data', function (chunk) { body += chunk; });
+                                response.on('data', function (chunk: any) { body += chunk; });
                                 response.on('end', function () { cray.end(body); });
                             });
                         }
                     }
                     cray.echo.out = "";
 
-                    function _cleanup(val) {
+                    function _cleanup(val: any) {
                         value = isNull(val, value);
 
                         if (!value && !cray.DEFER_END) {
@@ -290,7 +290,7 @@ export default function createServer(callback, options?): CraydentHttp {
                 };
                 if (execute.length) {
 
-                    var setUpNext = (exec, i) => {
+                    var setUpNext = (exec: any, i: any) => {
                         i++;
                         if (isGenerator(exec[0])) {
                             return eval(`(function () {
@@ -318,7 +318,7 @@ export default function createServer(callback, options?): CraydentHttp {
                                 if (exec[0]) {
                                     var e = exec[0].bind(cray);
                                     var next = setUpNext(exec.slice(1), i);
-                                    return e(request, response, execute[`v${i}`], next);
+                                    return e(request, response, (execute as any)[`v${i}`], next);
                                 }
                             }
                         }
@@ -339,7 +339,7 @@ export default function createServer(callback, options?): CraydentHttp {
                             await _complete(result);
                         })()`);
                     }
-                    return _complete(execute[0].call(cray, request, response, execute['v1'], setUpNext(execute.slice(1), 1)));
+                    return _complete(execute[0].call(cray, request, response, (execute as any)['v1'], setUpNext(execute.slice(1), 1)));
                 }
                 return _complete();
             } catch (e) /* istanbul ignore next */ {
@@ -354,7 +354,7 @@ export default function createServer(callback, options?): CraydentHttp {
 
         if (/delete|post|put/i.test(request.method)) {
             let body = "";
-            request.on('data', function (data) {
+            request.on('data', function (data: any) {
                 body += data;
                 // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
                 /* istanbul ignore if */
@@ -388,7 +388,7 @@ export default function createServer(callback, options?): CraydentHttp {
             return onRequestReceived(["all", "get", "middleware"]);
         }
     });
-    http.loadBalance = function (ips): CraydentHttp {
+    http.loadBalance = function (ips: string | string[]): CraydentHttp {
         let list = isString(ips) ? (ips as string).split(',') : ips,
             len = list.length;
         /* istanbul ignore next */
@@ -396,7 +396,7 @@ export default function createServer(callback, options?): CraydentHttp {
 
         /* istanbul ignore else */
         if (isArray(list)) {
-            let ip, i = 0;
+            let ip: any, i = 0;
             while (ip = list[i++]) {
                 /* istanbul ignore if */
                 if (!/^\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3}$/.test(ip)) { break; }
@@ -409,14 +409,14 @@ export default function createServer(callback, options?): CraydentHttp {
     };
 
     http.routes = [];
-    http.use = function (path, callback) {
+    http.use = function (path: string, callback?: Function | Function[]) {
         if ((isFunction(path) || isGenerator(path) || isAsync(path)) && !callback) {
-            callback = path;
+            callback = path as any;
             path = '/*';
         }
         callback = (callback || []) as any;
         if (isFunction(callback) || isGenerator(path) || isAsync(path)) { callback = [callback] as any; }
-        http.routes.push({ path, callback, method: 'middleware' });
+        http.routes.push({ path, callback: callback as any, method: 'middleware' });
     };
 
     http.delete = function (path, callback) { __setPath("delete", http, path, callback); };

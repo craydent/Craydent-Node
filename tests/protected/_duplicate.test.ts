@@ -29,7 +29,7 @@ describe('_duplicate', () => {
             expect(dup.b).not.toBe(b);
         });
         it('should return duplicates of circular dependencies', () => {
-            const circular = { b: null }
+            const circular: any = { b: null }
             const b = { prop: circular }
             circular.b = b;
             const a = { b }
@@ -38,16 +38,16 @@ describe('_duplicate', () => {
             expect(dup.b).toEqual(b);
         });
         it('should return duplicates of classes', () => {
-            function c() { this.myprop = 0 }
+            function c(this: any) { this.myprop = 0 }
             c.prototype.theprop = 0;
-            const cls = new c();
+            const cls = new (c as any)();
             const a = { cls }
             const dup = _duplicate({ b: { prop: true } } as any, a, true);
             expect(dup.cls).toEqual(cls);
             expect(dup.cls).not.toBe(cls);
         });
         it('should return duplicates of functions', () => {
-            function f() { this.myprop = 0 };
+            function f(this: any) { this.myprop = 0 };
             const a = { f }
             const dup = _duplicate({ b: { prop: true } } as any, a, true);
             expect(dup.f.toString()).toEqual(f.toString());

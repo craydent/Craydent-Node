@@ -15,5 +15,6 @@ export default function isPresto(this: Craydent | Window): boolean {
         return (/presto/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isPresto', e);
+        return null as any;
     }
 }

@@ -8,7 +8,7 @@
 import error from '../methods/error';
 import { $c } from '../private/__common';
 
-export default function cout(...args): void {
+export default function cout(...args: any): void {
     /*|{
         "info": "Log to console when DEBUG_MODE is true and when the console is available",
         "category": "Utility",

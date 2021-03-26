@@ -3,7 +3,7 @@ import md5 from '../../compiled/transformedMinor/craydent.md5';
 import { create } from 'domain';
 jest.mock('crypto', () => {
     return {
-        "createHash": (...args) => createHash.apply(this, args)
+        "createHash": (...args: any[]) => createHash.apply(this, args as any)
     }
 });
 let createHash = () => { };

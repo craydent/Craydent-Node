@@ -25,7 +25,7 @@ enum Args {
 
 }
 
-export default function _duplicate<T>(obj: any, original: T, recursive: boolean, ref?: Ref, current_path?: string, exec?: Exec): T {
+export default function _duplicate<T>(obj: any, original: T, recursive: boolean, ref: Ref = { objects: [{ obj: original, path: "obj" }] }, current_path?: string, exec?: Exec): T {
     try {
         if (isNull(obj)) { return obj; }
         if (isNull(original)) { return original; }
@@ -38,7 +38,6 @@ export default function _duplicate<T>(obj: any, original: T, recursive: boolean,
         // var argIndex = 3;
 
         // remove all properties if it is the root level
-        ref = ref || { objects: [{ obj: original, path: "obj" }] };
         current_path = current_path || "obj";
         exec = exec || { command: "" };
 
@@ -80,11 +79,11 @@ export default function _duplicate<T>(obj: any, original: T, recursive: boolean,
             // @ts-ignore
             let i = 0, len = (original).length;
             while (i++ < len) {
-                loop_func.call(obj, i - 1, original, exec);
+                loop_func.call(obj, (i - 1) as any, original, exec);
             }
         } else {
             for (let prop in original) {
-                if (!original.hasOwnProperty(prop)) { continue; }
+                if (!(original as any).hasOwnProperty(prop)) { continue; }
                 loop_func.call(obj, prop, original, exec);
             }
         }
@@ -96,5 +95,6 @@ export default function _duplicate<T>(obj: any, original: T, recursive: boolean,
         return obj;
     } catch (e) /* istanbul ignore next */ {
         error && error('_duplicate', e);
+        return null as any;
     }
 }

@@ -25,7 +25,7 @@ describe('No Conflict Global methods', function () {
     it('ajax success', function () {
         ajax({
             url: "http://www.craydent.com:8000/test/users.js",
-            onsuccess: function (data, req, ctx, status_code) {
+            onsuccess: function (data: any, req: any, ctx: any, status_code: any) {
                 expect(data).toEqual(usersdata);
                 expect(status_code).toBe(200);
             }
@@ -34,7 +34,7 @@ describe('No Conflict Global methods', function () {
     it('ajax error', function () {
         var errored = false, prm1 = ajax({
             url: "http://www.craydent.com:8000/test/userss.js",
-            onsuccess: function (data, req, ctx, status_code) {
+            onsuccess: function (data: any, req: any, ctx: any, status_code: any) {
                 expect('Should not execute').toBe(true);
             },
             onerror: function (data, req, ctx, status_code) {
@@ -43,7 +43,7 @@ describe('No Conflict Global methods', function () {
                 errored = true;
             }
         });
-        (prm1 as any).otherwise(function (data, req, ctx, status_code) {
+        (prm1 as any).otherwise(function (data: any, req: any, ctx: any, status_code: any) {
             expect(status_code).toBe(404);
             expect(errored).toBe(true);
         });
@@ -61,13 +61,13 @@ describe('No Conflict Global methods', function () {
             //	expect(stage).toBe(1);
             //	console.log(arguments,'statechange');
             //},
-            onbefore: function (request, hitch, thiz) {
+            onbefore: function (this: any, request: any, hitch: any, thiz: any) {
                 expect(stage++).toBe(1);
                 expect(hitch).toBe(hobj);
                 expect(thiz).toBe(global);
                 expect(this).toBe(ctx);
             },
-            oncomplete: function (data, hitch, req, status_code) {
+            oncomplete: function (this: any, data: any, hitch: any, req: any, status_code: any) {
                 expect(stage++).toBe(4);
                 expect(hitch).toBe(hobj);
                 expect(data).toEqual(usersdata);
@@ -81,7 +81,7 @@ describe('No Conflict Global methods', function () {
             //	expect(stage++).toBe(1);
             //	console.log(arguments,'loadstart');
             //},
-            onsuccess: function (data, hitch, req, status_code) {
+            onsuccess: function (this: any, data: any, hitch: any, req: any, status_code: any) {
                 expect(stage++).toBe(2);
                 expect(hitch).toBe(hobj);
                 expect(data).toEqual(usersdata);
@@ -89,14 +89,14 @@ describe('No Conflict Global methods', function () {
                 expect(status_code).toBe(200);
             }
         });
-        prm2.then(function (data, req, ctx, status_code) {
+        prm2.then(function (data: any, req: any, ctx: any, status_code: any) {
             expect(stage++).toBe(3);
             expect(data).toEqual(usersdata);
             expect(ctx).toBe(ctx);
             expect(status_code).toBe(200);
         } as any);
 
-        prm2.finally(function (data, hitch, req, status_code) {
+        prm2.finally(function (this: any, data: any, hitch: any, req: any, status_code: any) {
             expect(stage++).toBe(5);
             expect(hitch).toBe(hobj);
             expect(data).toEqual(usersdata);
@@ -171,7 +171,7 @@ describe('No Conflict Global methods', function () {
         expect(suid(5).length).toBe(5);
     });
     describe("syncroit async test", function () {
-        var result = [];
+        var result: any = [];
 
         beforeEach(function (done) {
             syncroit(function* () {

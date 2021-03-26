@@ -24,10 +24,10 @@ export default function removeAll<T>(arr: T[], value?: any, indexOf?: ArrayItera
         let obj = arr as IndexedArray<T>;
         if (value) {
             indexOf = indexOf || obj.indexOf;
-            let removed = [], index = indexOf.call(obj, value);
+            let removed: T[] = [], index = indexOf.call(obj, value);
             if (!~index) { return false; }
             while (~index && _isInt(index)) {
-                removed.push(remove(obj, value, indexOf));
+                removed.push(remove(obj, value, indexOf) as T);
                 index = indexOf.call(obj, value);
             }
             return removed;
@@ -37,6 +37,6 @@ export default function removeAll<T>(arr: T[], value?: any, indexOf?: ArrayItera
 
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.removeAll", e);
-        return null;
+        return null as any;
     }
 }

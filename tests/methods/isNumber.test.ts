@@ -1,7 +1,7 @@
 import isNumber from '../../compiled/transformedMinor/craydent.isnumber';
 jest.mock('../../compiled/transformedMinor/craydent.isnumber/protected/_typeCheck', () => {
     return {
-        "default": (...args) => _typeCheck.apply(this, args)
+        "default": (...args: any[]) => _typeCheck.apply(this, args as any)
     }
 });
 let _typeCheck = () => { }

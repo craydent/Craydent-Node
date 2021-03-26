@@ -19,7 +19,7 @@ export default function $COOKIE(this: Craydent | void): any;
 export default function $COOKIE(this: Craydent | void, key: string, options?: CookieOptions): any;
 export default function $COOKIE(this: Craydent | void, keyValue: AnyObject, options?: CookieOptions): any;
 export default function $COOKIE(this: Craydent | void, key: string, value: string, options?: CookieOptions): any;
-export default function $COOKIE(this: Craydent | void, key?, value?, options?): any {
+export default function $COOKIE(this: Craydent | void, key?: any, value?: any, options?: any): any {
     /*|{
          "info": "Get/set Cookies",
          "category": "HTTP",
@@ -86,7 +86,7 @@ export default function $COOKIE(this: Craydent | void, key?, value?, options?): 
             }
             return true;
         }
-        let cookies = {},
+        let cookies: any = {},
             arr = c.split(/[,;]/);
         for (let i = 0, len = arr.length; i < len; i++) {
             let cookie = arr[i];
@@ -103,5 +103,6 @@ export default function $COOKIE(this: Craydent | void, key?, value?, options?): 
         return cookies;
     } catch (e) /* istanbul ignore next */ {
         error && error('$COOKIE', e);
+        return null as any;
     }
 }

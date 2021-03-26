@@ -5,7 +5,7 @@ import isNull from '../methods/isnull';
 export default function acronymize(str: string, capsOnly?: boolean, delimiter?: string | RegExp): string;
 export default function acronymize(str: string, match?: RegExp): string;
 export default function acronymize(str: string, match?: RegExp, delimiter?: string | RegExp): string;
-export default function acronymize(str: string, capsOnly?, delimiter?): string {
+export default function acronymize(str: string, capsOnly?: any, delimiter?: any): string {
     /*|{
         "info": "String class extension to create an acronym from the given string",
         "category": "String",
@@ -39,10 +39,11 @@ export default function acronymize(str: string, capsOnly?, delimiter?): string {
         let words = str.split(delimiter),
             acronym = "";
         for (let i = 0, len = words.length; i < len; i++) {
-            if (capsOnly.test(words[i])) { acronym += words[i].match(capsOnly)[0]; }
+            if (capsOnly.test(words[i])) { acronym += (words[i].match(capsOnly) as any)[0]; }
         }
         return acronym.toUpperCase();
     } catch (e) /* istanbul ignore next */ {
         error && error("String.acronymize", e);
+        return null as any;
     }
 }

@@ -16,5 +16,6 @@ export default function isKHTML(this: Craydent | Window): boolean {
         return !isWebkit.call(this) && (/khtml/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isKHTML', e);
+        return null as any;
     }
 }

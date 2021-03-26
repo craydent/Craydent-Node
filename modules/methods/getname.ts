@@ -1,7 +1,7 @@
 import error from '../methods/error';
 import _getFuncName from '../protected/_getFuncName';
 
-export default function getName(fn: Function) {
+export default function getName(fn: Function): string {
     /*|{
         "info": "Function class extension to get the name of the function",
         "category": "Function",
@@ -16,5 +16,6 @@ export default function getName(fn: Function) {
         return fn.name || _getFuncName(fn);
     } catch (e) /* istanbul ignore next */ {
         error && error("Function.getName", e);
+        return null as any;
     }
 }

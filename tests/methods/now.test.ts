@@ -1,7 +1,7 @@
 import now from '../../compiled/transformedMinor/craydent.now';
 jest.mock('../../compiled/transformedMinor/craydent.format', () => {
     return {
-        "default": (...args) => format.apply(this, args)
+        "default": (...args: any[]) => format.apply(this, args as any)
     }
 });
 let format = () => { }

@@ -3,7 +3,7 @@ import _replaceAll from '../protected/_replaceAll';
 
 export default function replaceAll(str: string, replace: string, subject: string,): string;
 export default function replaceAll(str: string, replace: string[], subject: string[]): string;
-export default function replaceAll(str, replace, subject): string {
+export default function replaceAll(str: string, replace: any, subject: any): string {
     /*|{
         "info": "String class extension to replace all substrings (case sensitive)",
         "category": "String",

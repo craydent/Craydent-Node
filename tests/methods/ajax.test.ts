@@ -2,22 +2,22 @@ import * as ctx from '../../compiled/transformedMinor/craydent.ajax';
 import ajax, { __ajaxServerResponse } from '../../compiled/transformedMinor/craydent.ajax';
 jest.mock('http', () => {
     return {
-        "request": (...args) => _nodeRequest.apply(this, args)
+        "request": (...args: any[]) => _nodeRequest.apply(this, args as any)
     }
 });
 jest.mock('https', () => {
     return {
-        "request": (...args) => _nodeRequest.apply(this, args)
+        "request": (...args: any[]) => _nodeRequest.apply(this, args as any)
     }
 });
 jest.mock('../../compiled/transformedMinor/craydent.request', () => {
     return {
-        "default": (...args) => _jsRequest.apply(this, args)
+        "default": (...args: any[]) => _jsRequest.apply(this, args as any)
     }
 });
 jest.mock('../../compiled/transformedMinor/craydent.isfunction', () => {
     return {
-        "default": (obj) => !!obj && obj.constructor.name == 'Function'
+        "default": (obj: any) => !!obj && obj.constructor.name == 'Function'
     }
 });
 jest.mock('../../compiled/transformedMinor/craydent.ieversion', () => {
@@ -37,7 +37,7 @@ let _rand = () => { }
 describe('ajax', () => {
     describe('NodeJS', () => {
         const win = window;
-        let res, req;
+        let res: any, req: any;
         beforeAll(() => {
             delete (window as any).window;
         });
@@ -45,12 +45,12 @@ describe('ajax', () => {
             (global as any).window = win;
         });
         beforeEach(() => {
-            _nodeRequest = jest.fn().mockImplementationOnce((data, cb) => {
+            _nodeRequest = jest.fn().mockImplementationOnce((data: any, cb: any) => {
                 setTimeout(() => { cb(res) }, 1)
                 return req;
             });
             res = {
-                on: (ev, method) => {
+                on: (ev: any, method: any) => {
                     switch (ev) {
                         case 'error':
                             break;
@@ -65,19 +65,19 @@ describe('ajax', () => {
                 statusCode: 200
             };
             req = {
-                on: (ev, method) => {
+                on: (ev: any, method: any) => {
                     switch (ev) {
                         case 'error':
                             break;
                     }
                 },
-                setTimeout: (time, method) => { },
+                setTimeout: (time: any, method: any) => { },
                 write: jest.fn(),
                 end: jest.fn()
             }
         });
         it('should handle response error with default values', async () => {
-            res.on = (ev, method) => {
+            res.on = (ev: any, method: any) => {
                 switch (ev) {
                     case 'error':
                         setTimeout(() => {
@@ -183,7 +183,7 @@ describe('ajax', () => {
             expect(params.onsuccess).not.toHaveBeenCalled();
         });
         it('should handle request error with default values', async () => {
-            req.on = (ev, method) => {
+            req.on = (ev: any, method: any) => {
                 switch (ev) {
                     case 'error':
                         setTimeout(() => { method({ errno: "", code: 100 }) }, 1)
@@ -234,10 +234,10 @@ describe('ajax', () => {
                 return req;
             });
 
-            req.setTimeout = (time, method) => {
+            req.setTimeout = (time: any, method: any) => {
                 setTimeout(() => { method() }, 2)
             };
-            req.on = (ev, method) => {
+            req.on = (ev:any, method:any) => {
                 switch (ev) {
                     case 'error':
                         setTimeout(() => { method({ errno: "ETIMEDOUT", code: 100 }) }, 1)
@@ -386,7 +386,7 @@ describe('ajax', () => {
     });
     describe('JS', () => {
         describe('json', () => {
-            let xp = {}, httpRequest;
+            let xp: any = {}, httpRequest: any;
             beforeEach(() => {
                 httpRequest = {
                     responseText: '{"responseText":""}',
@@ -571,7 +571,7 @@ describe('ajax', () => {
             });
             it('should make request with values when Promise is not supported', async () => {
                 const RealPromise = Promise;
-                delete window.Promise;
+                delete (window as any).Promise;
 
                 let params = {
                     url: "http://www.example.com",
@@ -590,13 +590,13 @@ describe('ajax', () => {
                 let result = await ajax(params).then(then);
                 expect(result).toEqual({ responseText: "" });
                 expect(then).toHaveBeenCalledWith({ responseText: "" }, params.hitch, httpRequest, xp, 201);
-                window.Promise = RealPromise;
+                (window as any).Promise = RealPromise;
             });
         });
         describe('jsonp', () => {
-            let tag;
+            let tag: any;
             let doc = window.document;
-            let head = { firstChild: {}, removeChild: jest.fn() };
+            let head:any = { firstChild: {}, removeChild: jest.fn() };
             beforeEach(() => {
                 _rand = () => { }
                 tag = {
@@ -618,7 +618,7 @@ describe('ajax', () => {
                 tag.readyState = 'complete';
                 (window as any).document.createElement = jest.fn().mockImplementationOnce(() => {
                     setTimeout(() => { tag.onload.call(tag) }, 1);
-                    setTimeout(() => { window['_cjson']({ success: {} }) }, 10);
+                    setTimeout(() => { (window as any)['_cjson']({ success: {} }) }, 10);
                     return tag;
                 });
 
@@ -673,13 +673,13 @@ describe('ajax', () => {
 
                 expect(finaly).toHaveBeenCalledWith({ success: {} }, params.hitch, tag, tag, 200);
                 expect(catchIt).not.toHaveBeenCalled();
-                expect(window['_cjson']).toBeUndefined();
+                expect((window as any)['_cjson']).toBeUndefined();
             });
             it('should handle response error with values', async () => {
                 tag.parentNode = null;
                 (window as any).document.createElement = jest.fn().mockImplementationOnce(() => {
                     setTimeout(() => { tag.onload.call(tag) }, 1);
-                    setTimeout(() => { window['_cjson20']({ fail: {} }) }, 10);
+                    setTimeout(() => { (window as any)['_cjson20']({ fail: {} }) }, 10);
                     return tag;
                 });
                 (window as any)['_cjson10'] = () => { }
@@ -709,7 +709,7 @@ describe('ajax', () => {
                 expect(params.onerror).toHaveBeenCalledWith({ fail: {} }, params.hitch, tag, tag, 500);
                 expect(finaly).toHaveBeenCalledWith({ fail: {} }, params.hitch, tag, tag, 500);
                 expect(catchIt).toHaveBeenCalledWith({ fail: {} }, params.hitch, tag, tag, 500);
-                expect(window['_cjson20']).toBeUndefined();
+                expect((window as any)['_cjson20']).toBeUndefined();
 
                 delete (window as any)['_cjson10'];
             });

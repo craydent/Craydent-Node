@@ -6,9 +6,9 @@ import merge from '../methods/merge';
 import { $c } from '../private/__common';
 import isNull from '../methods/isnull';
 
-export default function end(status?: number, output?: string, encoding?: string);
-export default function end(output?: string, encoding?: string);
-export default function end(status?, output?, encoding?) {
+export default function end(this: any, status?: number, output?: any, encoding?: string): void;
+export default function end(this: any, output?: string, encoding?: string): void;
+export default function end(this: any, status?: any, output?: any, encoding?: string): void {
     /*|{
         "info": "Call the next function(s) in queue",
         "category": "HTTP",
@@ -81,7 +81,7 @@ export default function end(status?, output?, encoding?) {
 
         !response.headersSent && response.writeHead(code, headers);
         let args = [isString(output) ? pre + eco + post : output];
-        !isNull(encoding) && args.push(encoding);
+        !isNull(encoding) && args.push(encoding as string);
         response.end.apply(response, args);
         this.response_sent = true;
         logit('end*******************************************************');

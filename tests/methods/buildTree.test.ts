@@ -10,7 +10,7 @@ describe('buildTree', function () {
             { id: 4, share: "shared", odd: false },
             { id: 5, share: "shared1", odd: true },
             { id: 6, share: "noShare", odd: true, index: 11 }
-        ], function (item) {
+        ], function (item: any) {
             return !item.index;
         }, 'share')).toEqual([{
             id: 0, share: "shared", odd: false, children: [
@@ -30,7 +30,7 @@ describe('buildTree', function () {
             { id: 3, p: "30", share: "shared", index: 30, std: 4 },
             { id: 4, share: "shared", odd: false },
             { id: 5, share: "shared1", odd: true }
-        ], function (item) {
+        ], function (item: any) {
             return !item.index;
         }, 'share', { childProperty: "cc" })).toEqual([{
             id: 4, share: "shared", odd: false, cc: [
@@ -46,9 +46,9 @@ describe('buildTree', function () {
             { id: 3, p: "30", share: "shared", index: 30, std: 4 },
             { id: 4, share: "shared", odd: false },
             { id: 5, share: "shared1", odd: true }
-        ], function (item) {
+        ], function (item: any) {
             return !isNull(item.odd);
-        }, function (item) { return !!(item.id % 2); }, { childProperty: "cc" })).toEqual([
+        }, function (item: any) { return !!(item.id % 2); }, { childProperty: "cc" })).toEqual([
             { id: 4, share: "shared", odd: false, cc: [{ id: 2, p: "20", share: "shared", index: 20, std: 4, cc: [] }] },
             { id: 5, share: "shared1", odd: true, cc: [{ id: 1, p: "10", share: "shared", index: 10, std: 4, cc: [] }, { id: 3, p: "30", share: "shared", index: 30, std: 4, cc: [] }] }
         ]);

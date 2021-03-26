@@ -1,6 +1,6 @@
 import { $ROLLBACK as RB } from '../methods/http.commit';
 
-export default function $ROLLBACK() {
+export default function $ROLLBACK(): void {
     /*|{
         "info": "Rollback deferred changes from $GET, $SET, $DEL",
         "category": "Utility",

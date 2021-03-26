@@ -23,7 +23,7 @@ export default function distinct<T>(docs: T[], fields: string | string[], condit
         if (isString(fields)) { fields = (fields as string).split(","); }
 
         const records = group(docs, { field: fields, cond: condition }, true);
-        let arr = [];
+        let arr: any[] = [];
         if (fields.length == 1) {
             for (let i = 0, len = records.length; i < len; i++) {
                 let value = getProperty(records[i], fields[0]);
@@ -31,7 +31,7 @@ export default function distinct<T>(docs: T[], fields: string | string[], condit
             }
             return arr;
         }
-        let i = 0, r;
+        let i = 0, r: any;
         while (r = records[i++]) { !isNullOrEmpty(r) && arr.push(r); }
         return arr;
     } catch (e) /* istanbul ignore next */ {

@@ -5,8 +5,8 @@ jest.mock('../../modules/private/__defineFunction');
 
 declare var $g: any;
 describe('_ext', () => {
-    let g, func;
-    let SomeClass;
+    let g: any, func: any;
+    let SomeClass: any;
     beforeEach(() => {
         Common.scope.eval = jest.fn().mockImplementationOnce(() => '');
         g = (global as any).$g;

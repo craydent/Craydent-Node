@@ -22,5 +22,6 @@ export default function isNull(value: any, defaultValue?: any): boolean | any {
         return isnull ? defaultValue : value;
     } catch (e) /* istanbul ignore next */ {
         error && error('isNull', e);
+        return null as any;
     }
 }

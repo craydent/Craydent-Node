@@ -42,16 +42,16 @@ describe('__setPath', () => {
     })
     it('should accept Route as path with no callback', () => {
         let callback = () => { };
-        __setPath(null, http, { path: 'route3', callback: [callback], method: 'middleware' });
+        __setPath(null as any, http, { path: 'route3', callback: [callback], method: 'middleware' });
         expect(http).toEqual({ routes: [{ method: 'middleware', callback: [callback], path: 'route3' }] });
     })
     it('should accept Route as path with callback and route callback is null', () => {
         let callback = () => { };
-        __setPath(null, http, { path: 'route4', callback: null, method: 'middleware' }, callback);
+        __setPath(null as any, http, { path: 'route4', callback: null, method: 'middleware' } as any, callback);
         expect(http).toEqual({ routes: [{ method: 'middleware', callback: [callback], path: 'route4' }] });
     })
     it('should accept Route as path with no callback and route callback is null', () => {
-        __setPath(null, http, { path: 'route5', callback: null, method: 'middleware' });
+        __setPath(null as any, http, { path: 'route5', callback: null, method: 'middleware' } as any);
         expect(http).toEqual({ routes: [{ method: 'middleware', callback: [], path: 'route5' }] });
     })
     it('should accept asyc function as callback', () => {

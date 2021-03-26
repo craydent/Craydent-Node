@@ -27,6 +27,6 @@ export default function replaceAt<T>(arr: T[], index: number, value: T): T {
         return item;
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.replaceAt", e);
-        return null;
+        return null as any;
     }
 }

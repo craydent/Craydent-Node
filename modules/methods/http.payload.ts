@@ -19,8 +19,9 @@ export default function $PAYLOAD(this: Craydent, variable?: string, options?: Ve
         "returnType": "(Bool|Object)"
     }|*/
     try {
-        return _verbPayloadHelper(this, variable, 'payload', options);
+        return _verbPayloadHelper(this, variable as string, 'payload', options);
     } catch (e) /* istanbul ignore next */ {
         error && error('$PAYLOAD', e);
+        return null as any;
     }
 }

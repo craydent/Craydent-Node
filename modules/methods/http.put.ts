@@ -2,8 +2,9 @@
 import { VerbOptions } from '../models/VerbOptions';
 import error from '../methods/error';
 import _verbPayloadHelper from '../protected/_verbPayloadHelper';
+import { AnyObject } from '../models/Generics';
 
-export default function $PUT(this: Craydent, variable?: string, options?: VerbOptions) {
+export default function $PUT(this: Craydent, variable?: string, options?: VerbOptions): boolean | AnyObject {
     /*|{
         "info": "Retrieve all or specific variables in the Body",
         "category": "HTTP",
@@ -19,8 +20,9 @@ export default function $PUT(this: Craydent, variable?: string, options?: VerbOp
         "returnType": "(Bool|Object)"
     }|*/
     try {
-        return _verbPayloadHelper(this, variable, 'put', options);
+        return _verbPayloadHelper(this, variable as string, 'put', options);
     } catch (e) /* istanbul ignore next */ {
         error('$PUT', e);
+        return null as any;
     }
 }

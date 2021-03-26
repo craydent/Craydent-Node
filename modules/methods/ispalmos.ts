@@ -15,5 +15,6 @@ export default function isPalmOS(this: Craydent | Window): boolean {
         return (/palm/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isPalmOS', e);
+        return null as any;
     }
 }

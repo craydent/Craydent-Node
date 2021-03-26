@@ -39,8 +39,8 @@ export default function pluralize(str: string): string {
         } else { // regular nouns
             str += "s";
         }
-        return str;
     } catch (e) /* istanbul ignore next */ {
         error && error('String.pluralize', e);
     }
+    return str;
 }

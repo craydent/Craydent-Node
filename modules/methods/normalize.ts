@@ -14,9 +14,9 @@ export default function normalize<T, TResult>(arr: T[]): TResult[] {
         "returnType": "(Array<TResult>) returns a normalized version of the objects."
     }|*/
     try {
-        let allProps = {} as any, arrObj = [], len = arr.length;
+        let allProps: any = {} as any, arrObj: any[] = [], len = arr.length;
         for (let i = 0; i < len; i++) {
-            let json = arr[i];
+            let json: any = arr[i];
             if (!isObject(json)) {
                 error && error("normalize", { description: `index: ${i} (skipped) is not an object` } as any);
                 continue;
@@ -29,13 +29,14 @@ export default function normalize<T, TResult>(arr: T[]): TResult[] {
             }
         }
         for (let i = 0; i < len; i++) {
+            let item: any = arr[i];
             for (let prop in allProps) {
-                if (!isObject(arr[i])) { continue; }
+                if (!isObject(item)) { continue; }
                 /* istanbul ignore if */
                 if (!allProps.hasOwnProperty(prop)) { continue; }
-                arr[i][prop] = arr[i][prop] || null;
+                item[prop] = item[prop] || null;
             }
-            arrObj.push(arr[i]);
+            arrObj.push(item);
         }
         return arrObj;
     } catch (e) /* istanbul ignore next */ {

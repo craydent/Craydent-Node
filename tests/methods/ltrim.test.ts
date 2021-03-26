@@ -1,7 +1,7 @@
 import ltrim from '../../compiled/transformedMinor/craydent.ltrim';
 jest.mock('../../compiled/transformedMinor/craydent.ltrim/protected/_generalTrim', () => {
     return {
-        "default": (...args) => _generalTrim.apply(this, args)
+        "default": (...args: any[]) => _generalTrim.apply(this, args as any)
     }
 });
 let _generalTrim = () => { }

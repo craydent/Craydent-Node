@@ -8,7 +8,7 @@ import isObject from '../methods/isobject';
 export default function $GET(this: Craydent | void, options: VerbOptions): AnyObject | string;
 export default function $GET(this: Craydent | void, variable: string, url?: string): AnyObject | string;
 export default function $GET(this: Craydent | void, variable?: string, options?: VerbOptions): AnyObject | string;
-export default function $GET(variable?, options?): AnyObject | string {
+export default function $GET(this: Craydent | void, variable?: any, options?: any): AnyObject | string {
     /*|{
        "info": "Retrieve all or specific variables in the url",
        "category": "HTTP",
@@ -45,8 +45,8 @@ export default function $GET(variable?, options?): AnyObject | string {
                     hash = ""
                 }
             }
-            let allkeyvalues = {},
-                mapFunc = function (value) {
+            let allkeyvalues: any = {},
+                mapFunc = function (value: any) {
                     if (value == "") { return; }
                     let keyvalue = value.split('='),
                         len = keyvalue.length;
@@ -66,10 +66,8 @@ export default function $GET(variable?, options?): AnyObject | string {
         let ignoreCase = (options as any).ignoreCase || options == "ignoreCase" ? "i" : "",
             defer = ((options as any).defer || options == "defer"),
             regex = new RegExp(`[\\?|&|@]?${variable}=`, ignoreCase),
-            attr = "search",
-            loc = { hash: null, search: null } as Location;
-        loc.hash = hash;
-        loc.search = search;
+            attr: 'search' | 'hash' = "search",
+            loc = { hash, search };
 
         if (defer && !isNode) {
             loc.hash = ($COMMIT as any).hash || "";
@@ -92,11 +90,12 @@ export default function $GET(variable?, options?): AnyObject | string {
             attr = 'hash';
             delimiter = "@";
         } else if (!regex.test(loc.search)) {
-            return null;
+            return null as any;
         }
         regex = new RegExp(`(.*)?(${variable}=)(.*?)(([${delimiter}])(.*)|$)`, ignoreCase);
-        return decodeURI(loc[attr].replace(regex, '$3'));
+        return decodeURI((loc[attr] as string).replace(regex, '$3'));
     } catch (e) /* istanbul ignore next */ {
         error && error('$GET', e);
+        return null as any;
     }
 }

@@ -4,8 +4,8 @@ describe('emit', () => {
         function a() {
             return emit('event', 1, 2);
         }
-        a._emit = null;
-        a._event = null;
+        (a as any)._emit = null;
+        (a as any)._event = null;
         expect(a()).toEqual([]);
     });
     it('should invoke events', () => {

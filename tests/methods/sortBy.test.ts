@@ -24,7 +24,7 @@ describe('sortBy', () => {
     it('should sort the array using primer', () => {
         let arr = [{ _id: 2 }, { _id: 1 }, { _id: 3 }, { _id: 4 }];
         const expected = [{ _id: 2 }, { _id: 4 }, { _id: 1 }, { _id: 3 }];
-        const primer = (value, prop) => value % 2;
+        const primer = (value: any, prop: any) => value % 2;
         const lookup = {};
         expect(sortBy(arr, { _id: 1 }, null, primer, lookup)).toEqual(expected);
     });

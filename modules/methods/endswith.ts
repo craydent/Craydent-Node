@@ -1,6 +1,6 @@
 import error from '../methods/error';
 
-export default function endsWith(str: string, searchString: string, length?: number) {
+export default function endsWith(str: string, searchString: string, length?: number): boolean {
     /*|{
         "info": "String class extension to check if the string ends with the given string",
         "category": "String",
@@ -21,6 +21,7 @@ export default function endsWith(str: string, searchString: string, length?: num
         return str.slice(-searchString.length) == searchString;
     } catch (e) /* istanbul ignore next */ {
         error && error('String.endsWith', e);
+        return null as any;
     }
 
 }

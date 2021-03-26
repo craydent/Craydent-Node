@@ -3,7 +3,7 @@ import * as cluster from 'cluster';
 jest.mock('cluster', () => {
     return {
         "isMaster": false,
-        'fork': (...args) => _fork.apply(this, args)
+        'fork': (...args: any[]) => _fork.apply(this, args as any)
     }
 });
 let _fork = () => { }
@@ -26,7 +26,7 @@ describe('clusterit', () => {
             on: expect.any(Function)
         };
         const callback = jest.fn();
-        const func = (...args) => callback.apply(this, args);
+        const func = (...args: any[]) => callback.apply(this, args);
         expect(clusterit(func)).toEqual(expected);
         expect(callback).toHaveBeenCalledWith(cluster);
     })
@@ -40,7 +40,7 @@ describe('clusterit', () => {
             .mockImplementationOnce(() => child)
             .mockImplementationOnce(() => child);
         const callback = jest.fn();
-        const func = (...args) => callback.apply(this, args);
+        const func = (...args: any[]) => callback.apply(this, args);
         const onexit = jest.fn();
         const options = { auto_spawn: true, max_cpu: 1, onexit };
         expect(clusterit(options, func)).toEqual(cluster);
@@ -59,7 +59,7 @@ describe('clusterit', () => {
             .mockImplementationOnce(() => child)
             .mockImplementationOnce(() => child);
         const callback = jest.fn();
-        const func = (...args) => callback.apply(this, args);
+        const func = (...args: any[]) => callback.apply(this, args);
         const options = { auto_spawn: true, max_cpu: 1 };
         expect(clusterit(options, func)).toEqual(cluster);
 

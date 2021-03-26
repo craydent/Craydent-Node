@@ -112,7 +112,7 @@ export default function _subQuery(query: MongoQuery, field: string, index: numbe
                     break;
                 }
 
-                expression += ` && !(${_subQuery(query[prop], field, null, _whereRefs)})`;
+                expression += ` && !(${_subQuery(query[prop], field, null as any, _whereRefs)})`;
                 break;
 
             case '$in':
@@ -120,7 +120,7 @@ export default function _subQuery(query: MongoQuery, field: string, index: numbe
                 expression += ` && ${(prop == '$nin' ? '!' : '')}((values = _qnp(record, '${field}')),_contains(${parseRaw(query[prop])},values))`;
                 break;
             default:
-                expression += ` && ${_subQuery(query[prop], replaceAll(prop, '\'', '\\\''), null, _whereRefs)}`;
+                expression += ` && ${_subQuery(query[prop], replaceAll(prop, '\'', '\\\''), null as any, _whereRefs)}`;
                 break;
         }
     }

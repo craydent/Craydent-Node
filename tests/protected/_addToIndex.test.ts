@@ -51,7 +51,7 @@ describe('__binarySearch', () => {
         expect(_addToIndex.__binarySearch(searchArray, "c")).toBe(1);
     });
     it('should return the correct index with no items', () => {
-        const searchArray = [];
+        const searchArray: any = [];
         expect(_addToIndex.__binarySearch(searchArray, "c")).toBe(0);
     });
 });

@@ -5,7 +5,7 @@
 /*/ (http://craydent.com/license)                           /*/
 /*/---------------------------------------------------------/*/
 /*/---------------------------------------------------------/*/
-declare var $c;
+declare var $c: any;
 /* istanbul ignore next */
 export default function error(fname: string, e: Error): void {
     /*|{

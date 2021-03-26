@@ -16,5 +16,6 @@ export default function isIPhone(this: Craydent | Window): boolean {
         return !isIPad.call(this) && /iphone/i.test(this.navigator.userAgent);
     } catch (e) /* istanbul ignore next */ {
         error && error('isIPhone', e);
+        return null as any;
     }
 }

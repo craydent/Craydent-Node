@@ -16,26 +16,26 @@ export default function _set<T>(variable: string, value: string, defer: boolean,
         //noinspection CommaExpressionJS
         attr = variable.indexOf('@') == 0 ? (symbol = '', "hash") : attr;
 
-        $COMMIT[attr] = $COMMIT[attr] || "";
+        ($COMMIT as any)[attr] = ($COMMIT as any)[attr] || "";
 
         if (defer && !isNode) {
-            $COMMIT[attr] = $COMMIT[attr] || loc[attr];
-            queryStr = regex.test($COMMIT[attr]) ?
-                $COMMIT[attr].replace(regex, `$1$2${value}$4`) :
-                `${$COMMIT[attr]}${symbol}${variable}=${value}`;
+            ($COMMIT as any)[attr] = ($COMMIT as any)[attr] || (loc as any)[attr];
+            queryStr = regex.test(($COMMIT as any)[attr]) ?
+                ($COMMIT as any)[attr].replace(regex, `$1$2${value}$4`) :
+                `${($COMMIT as any)[attr]}${symbol}${variable}=${value}`;
             if (symbol == "&" && queryStr.indexOf('&') == 0) {
                 queryStr = `?${queryStr.substring(1)}`;
             }
-            $COMMIT[attr] = queryStr;
+            ($COMMIT as any)[attr] = queryStr;
             ($COMMIT as any).update = true;
         } else {
-            queryStr = regex.test(loc[attr]) ?
-                loc[attr].replace(regex, `$1$2${value}$4`) :
-                `${loc[attr]}${symbol}${variable}=${value}`;
+            queryStr = regex.test((loc as any)[attr]) ?
+                (loc as any)[attr].replace(regex, `$1$2${value}$4`) :
+                `${(loc as any)[attr]}${symbol}${variable}=${value}`;
             if (symbol == "&" && queryStr.indexOf('&') == 0) {
                 queryStr = `?${queryStr.substring(1)}`;
             }
-            loc[attr] = queryStr;
+            (loc as any)[attr] = queryStr;
             if (attr == 'hash') {
                 $COOKIE("CRAYDENTHASH", (loc as any).hash[0] == '#' ? (loc as any).hash.substring(1) : (loc as any).hash);
                 !isNode && _invokeHashChange();
@@ -44,5 +44,6 @@ export default function _set<T>(variable: string, value: string, defer: boolean,
         return loc;
     } catch (e) /* istanbul ignore next */ {
         error && error("_set", e);
+        return null as any;
     }
 }

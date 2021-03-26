@@ -1,7 +1,7 @@
 import ireplaceAll from '../../compiled/transformedMinor/craydent.ireplaceall';
 jest.mock('../../compiled/transformedMinor/craydent.ireplaceall/protected/_replaceAll', () => {
     return {
-        "default": (...args) => _replaceAll.apply(this, args)
+        "default": (...args: any[]) => _replaceAll.apply(this, args as any)
     }
 });
 let _replaceAll = () => { }

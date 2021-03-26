@@ -6,14 +6,14 @@ export type WhereFunctionOptions<T> = {
     limit?: number
 };
 export default function _whereFunction<T>(options: WhereFunctionOptions<T>): T[] {
-    let objs = options.objs, condition = options.condition || foo;
+    let objs: any[] = options.objs, condition:any = options.condition || foo;
     let limit = 0,
         jlen = objs.length,
-        rarr = [];
+        rarr:any[] = [];
 
     limit = options.limit || jlen;
     for (let j = 0; j < jlen && rarr.length < limit; j++) {
-        let v = objs[j];
+        let v: any = objs[j];
         const cb = condition.bind(v);
         if (cb(j, objs)) {
             rarr.push(v);

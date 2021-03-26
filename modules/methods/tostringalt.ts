@@ -31,5 +31,6 @@ export default function toStringAlt(obj: AnyObject, delimiter?: string, prefix?:
         return str;
     } catch (e) /* istanbul ignore next */ {
         error && error('Object.toStringAlt', e);
+        return "";
     }
 }

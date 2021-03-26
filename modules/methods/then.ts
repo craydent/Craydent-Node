@@ -18,5 +18,6 @@ export default function then(func: Function, callback: Function): Function {
         return on(func, 'then', callback);
     } catch (e) /* istanbul ignore next */ {
         error && error("Function.then", e);
+        return null as any;
     }
 }

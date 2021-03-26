@@ -16,5 +16,6 @@ export default function substringEndAt(str: string, end: string): string {
         return str.substring(0, str.indexOf(end));
     } catch (e) /* istanbul ignore next */ {
         error && error('Object.substringEndAt', e);
+        return null as any;
     }
 }

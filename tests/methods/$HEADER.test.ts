@@ -10,25 +10,25 @@ describe('$HEADER', () => {
             (global as any).window = win;
         });
         it('should return {} when there are no headers', () => {
-            const dis = { request: {} };
+            const dis: any = { request: {} };
             expect($HEADER.call(dis)).toEqual({});
         });
         it('should get all headers', () => {
-            const dis = { request: { headers: { cookie: 'key=value' } } };
+            const dis: any = { request: { headers: { cookie: 'key=value' } } };
             expect($HEADER.call(dis)).toEqual({ cookie: 'key=value' });
         });
         it('should get header', () => {
-            const dis = { request: { headers: { cookie: 'key=value' } } };
+            const dis: any = { request: { headers: { cookie: 'key=value' } } };
             expect($HEADER.call(dis, 'cookie')).toBe('key=value');
         });
         it('should not get header when it does not exist', () => {
-            const dis = { request: { headers: { cookie: 'key=value' } } };
+            const dis: any = { request: { headers: { cookie: 'key=value' } } };
             expect($HEADER.call(dis, 'keys')).toBe(false);
             expect($HEADER.call(dis, 'keys', 'i')).toBe(false);
             expect($HEADER.call(dis, 'keys', {})).toBe(false);
         });
         it('should get header and ignore case', () => {
-            const dis = {
+            const dis: any = {
                 request: { headers: { COOKIE: 'key=value' } },
             };
             expect($HEADER.call(dis, 'cookie', { ignoreCase: true })).toBe('key=value');

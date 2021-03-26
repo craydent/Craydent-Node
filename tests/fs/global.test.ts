@@ -5,38 +5,38 @@ import * as fs from 'fs';
 
 jest.mock("fs", () => {
     return {
-        "access": (...args) => _fsHelper.apply(this, args),
-        "appendFile": (...args) => _fsHelper.apply(this, args),
-        "chmod": (...args) => _fsHelper.apply(this, args),
-        "chown": (...args) => _fsHelper.apply(this, args),
-        "close": (...args) => _fsHelper.apply(this, args),
-        "fdatasync": (...args) => _fsHelper.apply(this, args),
-        "fstat": (...args) => _fsHelper.apply(this, args),
-        "fsync": (...args) => _fsHelper.apply(this, args),
-        "ftruncate": (...args) => _fsHelper.apply(this, args),
-        "lchmod": (...args) => _fsHelper.apply(this, args),
-        "lchown": (...args) => _fsHelper.apply(this, args),
-        "lstat": (...args) => _fsHelper.apply(this, args),
-        "mkdir": (...args) => _fsHelper.apply(this, args),
-        "mkdtemp": (...args) => _fsHelper.apply(this, args),
-        "open": (...args) => _fsHelper.apply(this, args),
-        "read": (...args) => _fsHelper.apply(this, args),
-        "readdir": (...args) => _fsHelper.apply(this, args),
-        "readFile": (...args) => _fsHelper.apply(this, args),
-        "readlink": (...args) => _fsHelper.apply(this, args),
-        "realpath": (...args) => _fsHelper.apply(this, args),
-        "rename": (...args) => _fsHelper.apply(this, args),
-        "rmdir": (...args) => _fsHelper.apply(this, args),
-        "stat": (...args) => _fsHelper.apply(this, args),
-        "truncate": (...args) => _fsHelper.apply(this, args),
-        "unlink": (...args) => _fsHelper.apply(this, args),
-        "write": (...args) => _fsHelper.apply(this, args),
-        "writeFile": (...args) => _fsHelper.apply(this, args),
+        "access": (...args: any[]) => _fsHelper.apply(this, args),
+        "appendFile": (...args: any[]) => _fsHelper.apply(this, args),
+        "chmod": (...args: any[]) => _fsHelper.apply(this, args),
+        "chown": (...args: any[]) => _fsHelper.apply(this, args),
+        "close": (...args: any[]) => _fsHelper.apply(this, args),
+        "fdatasync": (...args: any[]) => _fsHelper.apply(this, args),
+        "fstat": (...args: any[]) => _fsHelper.apply(this, args),
+        "fsync": (...args: any[]) => _fsHelper.apply(this, args),
+        "ftruncate": (...args: any[]) => _fsHelper.apply(this, args),
+        "lchmod": (...args: any[]) => _fsHelper.apply(this, args),
+        "lchown": (...args: any[]) => _fsHelper.apply(this, args),
+        "lstat": (...args: any[]) => _fsHelper.apply(this, args),
+        "mkdir": (...args: any[]) => _fsHelper.apply(this, args),
+        "mkdtemp": (...args: any[]) => _fsHelper.apply(this, args),
+        "open": (...args: any[]) => _fsHelper.apply(this, args),
+        "read": (...args: any[]) => _fsHelper.apply(this, args),
+        "readdir": (...args: any[]) => _fsHelper.apply(this, args),
+        "readFile": (...args: any[]) => _fsHelper.apply(this, args),
+        "readlink": (...args: any[]) => _fsHelper.apply(this, args),
+        "realpath": (...args: any[]) => _fsHelper.apply(this, args),
+        "rename": (...args: any[]) => _fsHelper.apply(this, args),
+        "rmdir": (...args: any[]) => _fsHelper.apply(this, args),
+        "stat": (...args: any[]) => _fsHelper.apply(this, args),
+        "truncate": (...args: any[]) => _fsHelper.apply(this, args),
+        "unlink": (...args: any[]) => _fsHelper.apply(this, args),
+        "write": (...args: any[]) => _fsHelper.apply(this, args),
+        "writeFile": (...args: any[]) => _fsHelper.apply(this, args),
         "constants": { F_OK: 1 }
     }
 });
 $c;
-let _fsHelper = (...args) => { };
+let _fsHelper = (...args: any[]) => { };
 describe('FS', function () {
     afterAll(() => {
         if (win) { (global as any).window = win; }

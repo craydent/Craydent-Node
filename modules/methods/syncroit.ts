@@ -25,7 +25,7 @@ export default function syncroit(gen: GeneratorFunction | Generator | AsyncFunct
             let geno = gen();
             try {
                 if (isGenerator(gen)) {
-                    return (function cb(value) {
+                    return (function cb(value?: any) {
                         let obj = geno.next(value);
 
                         if (!obj.done) {

@@ -26,7 +26,7 @@ const now: typeof INow.default = require('../methods/now').default;
 
 export function _equals(this: Date, compare: any, props?: string[]): boolean;
 export function _equals(this: Date, compare: any): boolean;
-export function _equals(compare, props?): boolean {
+export function _equals(this: Date, compare: any, props?: any): boolean {
     /*|{
         "info": "Object class extension to check if object values are equal",
         "category": "Object",

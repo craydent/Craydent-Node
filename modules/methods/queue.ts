@@ -30,7 +30,7 @@ class Queue<T> extends Array<T> {
             this.push(items[i])
         }
     }
-    public enqueue(value) { return !!this.push(value); };
+    public enqueue(value: T) { return !!this.push(value); };
     public dequeue() { return this.splice(0, 1)[0]; };
 }
 export default Queue;

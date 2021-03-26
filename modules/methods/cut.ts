@@ -8,7 +8,7 @@
 import error from '../methods/error';
 import isNull from '../methods/isnull';
 
-export default function cut(str: string, startIndex: number, endIndex: number, replacement?: string) {
+export default function cut(str: string, startIndex: number, endIndex: number, replacement?: string): string {
     /*|{
         "info": "String class extension to remove between the provided indexes",
         "category": "String",
@@ -23,7 +23,7 @@ export default function cut(str: string, startIndex: number, endIndex: number, r
         "returnType": "(String)"
     }|*/
     try {
-        replacement = replacement || "";
+        replacement = replacement || ""
         if (isNull(startIndex)) { return str; }
         if (isNull(endIndex)) { return str.slice(0, startIndex) + replacement }
         if (endIndex < 0 || endIndex == startIndex) {
@@ -36,6 +36,6 @@ export default function cut(str: string, startIndex: number, endIndex: number, r
         return str.slice(0, startIndex) + replacement + str.slice(endIndex + 1);
     } catch (e) /* istanbul ignore next */ {
         error && error("String.cut", e);
-        return null;
+        return null as any;
     }
 }

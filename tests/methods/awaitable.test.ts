@@ -1,7 +1,7 @@
 import awaitable from '../../compiled/transformedMinor/craydent.awaitable';
 jest.mock('../../compiled/transformedMinor/craydent.yieldable', () => {
     return {
-        "default": (...args) => _yieldable.apply(this, args)
+        "default": (...args: any[]) => _yieldable.apply(this, args as any)
     }
 });
 let _yieldable = () => { }

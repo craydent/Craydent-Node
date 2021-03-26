@@ -5,10 +5,10 @@ import isArray from '../methods/isarray';
 import JSZip from '../methods/JSZip';
 import { AnyObject } from '../models/Generics';
 
-export default function zipit(files: Array<{ name: string, content: string | AnyObject }>);
-export default function zipit(file: { name: string, content: string | AnyObject });
-export default function zipit(filename: string, content: string | AnyObject/*=NULL*/);
-export default function zipit(files, content?) {
+export default function zipit(files: Array<{ name: string, content: string | AnyObject }>): string;
+export default function zipit(file: { name: string, content: string | AnyObject }): string;
+export default function zipit(filename: string, content: string | AnyObject/*=NULL*/): string;
+export default function zipit(files: any, content?: any): string {
     /*|{
         "info": "Download a zip of files from file contents",
         "category": "Utility",
@@ -22,7 +22,7 @@ export default function zipit(files, content?) {
                 {"content": "(String) contents of the file"}]}],
 
         "url": "http://www.craydent.com/library/1.9.3/docs#zipit",
-        "returnType": "(void)"
+        "returnType": "(String)"
     }|*/
     try {
         files = (content && isString(files) && [{
@@ -45,4 +45,5 @@ export default function zipit(files, content?) {
     } catch (e) /* istanbul ignore next */ {
         error && error('zipit', e);
     }
+    return "";
 }

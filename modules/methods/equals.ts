@@ -6,7 +6,7 @@ import { AnyObject } from '../models/Generics';
 
 export default function equals(obj: AnyObject, compare: AnyObject, props?: string[]): boolean;
 export default function equals(item: any, compare: any): boolean;
-export default function equals(obj, compare, props?): boolean {
+export default function equals(obj: any, compare: any, props?: any): boolean {
     /*|{
         "info": "Object class extension to check if object values are equal",
         "category": "Object",
@@ -51,6 +51,6 @@ export default function equals(obj, compare, props?): boolean {
         return (obj.toString() == compare.toString() && obj.constructor == compare.constructor);
     } catch (e) /* istanbul ignore next */ {
         error && error(`${obj.constructor.name}.equals`, e);
-        return null;
+        return null as any;
     }
 }

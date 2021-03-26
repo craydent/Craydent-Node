@@ -74,7 +74,7 @@ export default function update<T>(arr: T[], condition: WhereCondition | string, 
             , "$": 1, "$addToSet": 1, "$pop": 1, "$pullAll": 1, "$pull": 1, "$pushAll": 1, "$push": 1
         };
         for (let prop in setObject) {
-            if (operations[prop]) {
+            if ((operations as any)[prop]) {
                 plainObject = false;
                 break;
             }
@@ -99,14 +99,14 @@ export default function update<T>(arr: T[], condition: WhereCondition | string, 
             _isInt = isInt,
             _getProperty = getProperty,
             _parseBoolean = parseBoolean;
-        let _refs = [], ifblock = _subQuery(condition, null, null, _refs), func = `
+        let _refs: any[] = [], ifblock = _subQuery(condition, null as any, null as any, _refs), func = `
             (function (record,i) {
             	var values,finished;
             	if (${ifblock}) {
             		if(!cb.call(thiz,record,i)) { throw 'keep going'; }
             	}
             })`
-        const cb = function (obj, i) {
+        const cb = function (obj: any, i: number) {
             found = true;
             if (plainObject) {
                 arr.splice(i, 1, setObject);
@@ -268,7 +268,7 @@ export default function update<T>(arr: T[], condition: WhereCondition | string, 
                 }
             }
 
-            return !!options.multi;
+            return !!(options as any).multi;
         };
         if (_refs.length) {
             let varStrings = "";

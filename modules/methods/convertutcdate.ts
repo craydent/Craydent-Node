@@ -23,5 +23,6 @@ export default function convertUTCDate(dateAsString: string, delimiter?: string)
         return parts ? `${parts[2]}/${parts[3]}/${parts[1]} ${parts[4]}:${parts[5]}:${parts[6]}` : dateAsString;
     } catch (e) /* istanbul ignore next */ {
         error && error('String.convertUTCDate', e);
+        return null as any;
     }
 }

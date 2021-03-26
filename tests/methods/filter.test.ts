@@ -6,6 +6,6 @@ describe('filter', () => {
     });
     it('should throw when callback is not a function', () => {
         let arr = [{ id: 1 }, { id: 2 }];
-        expect(filter(arr, null)).toEqual([]);
+        expect(filter(arr, null as any)).toEqual([]);
     });
 });

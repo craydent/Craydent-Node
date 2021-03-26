@@ -26,12 +26,12 @@ export function _orderListHelper<T>(value: T, sorter: SortIterator<T>, arr: T[])
 }
 
 /* istanbul ignore next */
-function iterator(a, b) { if (a < b) { return -1; } if (a > b) { return 1; } return 0; };
+function iterator(a: any, b: any) { if (a < b) { return -1; } if (a > b) { return 1; } return 0; };
 
 class OrderedList<T> extends Array<T> {
     private sorter: SortIterator<T>;
     /* istanbul ignore next */
-    constructor(records: T[] = [], sorter: SortIterator<T> = iterator) {
+    constructor(records: T[] = [], sorter?: SortIterator<T>) {
         /*|{
             "info": "Collection class that filters out duplicate values and maintains an ordered list",
             "category": "Class",
@@ -62,7 +62,7 @@ class OrderedList<T> extends Array<T> {
         this.sort(this.sorter = sorter || iterator);
     }
 
-    public add = function (value: T): boolean {
+    public add = function (this: any, value: T): boolean {
         if (!this.length) { return !!this.push(value); }
         let index = _orderListHelper<T>(value, this.sorter, this);
         /* istanbul ignore if */

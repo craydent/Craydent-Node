@@ -15,5 +15,6 @@ export default function isBlackBerry(this: Craydent | Window): boolean {
         return (/blackberry/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isBlackBerry', e);
+        return null as any;
     }
 }

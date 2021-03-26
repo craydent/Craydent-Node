@@ -19,5 +19,6 @@ export default function isOpera(this: Craydent | Window): boolean {
             && /opera|opr/i.test(nu);
     } catch (e) /* istanbul ignore next */ {
         error && error('isOpera', e);
+        return null as any;
     }
 }

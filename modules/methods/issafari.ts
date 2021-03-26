@@ -17,5 +17,6 @@ export default function isSafari(this: Craydent | Window): boolean {
         return (/safari/i.test(nu));
     } catch (e) /* istanbul ignore next */ {
         error && error('isSafari', e);
+        return null as any;
     }
 }

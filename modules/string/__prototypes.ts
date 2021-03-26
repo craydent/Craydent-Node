@@ -88,10 +88,10 @@ const toDateTime: typeof IToDateTime.default = require('../methods/todatetime').
 const toObject: typeof IToObject.default = require('../methods/toobject').default;
 const universalTrim: typeof IUniversalTrim.default = require('../methods/universaltrim').default;
 //#endregion
-export function _acronymize(capsOnly?: boolean, delimiter?: string | RegExp): string;
-export function _acronymize(match?: RegExp): string;
-export function _acronymize(match?: RegExp, delimiter?: string | RegExp): string;
-export function _acronymize(capsOnly?, delimiter?): string {
+export function _acronymize(this: string, capsOnly?: boolean, delimiter?: string | RegExp): string;
+export function _acronymize(this: string, match?: RegExp): string;
+export function _acronymize(this: string, match?: RegExp, delimiter?: string | RegExp): string;
+export function _acronymize(this: string, capsOnly?: any, delimiter?: any): string {
     /*|{
         "info": "String class extension to create an acronym from the given string",
         "category": "String",
@@ -115,7 +115,7 @@ export function _acronymize(capsOnly?, delimiter?): string {
     }|*/
     return acronymize(this, capsOnly, delimiter);
 }
-export function _capitalize(pos?: number | number[], everyWord?: boolean): string {
+export function _capitalize(this: string, pos?: number | number[], everyWord?: boolean): string {
     /*|{
         "info": "String class extension to capitalize parts of the string",
         "category": "String",
@@ -136,7 +136,7 @@ export function _contains<T, TValue>(this: T[], val: ContainsValue, operator?: C
 export function _contains<T, TValue>(this: T, val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
 export function _contains(this: string, val: ContainsValue): boolean;
 export function _contains(this: number, val: ContainsValue): boolean;
-export function _contains(val, func?) {
+export function _contains(this: any, val: any, func?: any) {
     /*|{
         "info": "Object class extension to check if value exists",
         "category": "Number|Object",
@@ -160,7 +160,7 @@ export function _contains(val, func?) {
 
     return contains(this, val, func);
 }
-export function _convertUTCDate(delimiter: string): string {
+export function _convertUTCDate(this: string, delimiter: string): string {
     /*|{
         "info": "String class extension to convert date string to UTC format",
         "category": "String",
@@ -175,7 +175,7 @@ export function _convertUTCDate(delimiter: string): string {
     return convertUTCDate(this, delimiter);
 }
 
-export function _count(option: WhereCondition | string | RegExp) {
+export function _count(this: string, option: WhereCondition | string | RegExp) {
     /*|{
         "info": "Object class extension to count the properties in the object/elements in arrays/characters in strings.",
         "category": "String|Object",
@@ -196,7 +196,7 @@ export function _count(option: WhereCondition | string | RegExp) {
     }|*/
     return count(this, option);
 }
-export function _cut(startIndex: number, endIndex: number, replacement?: string): string {
+export function _cut(this: string, startIndex: number, endIndex: number, replacement?: string): string {
     /*|{
         "info": "String class extension to remove between the provided indexes",
         "category": "String",
@@ -212,7 +212,7 @@ export function _cut(startIndex: number, endIndex: number, replacement?: string)
     }|*/
     return cut(this, startIndex, endIndex, replacement);
 }
-export function _ellipsis(before: number, after?: number): string {
+export function _ellipsis(this: string, before: number, after?: number): string {
     /*|{
         "info": "String class extension to shorten by ellipsis",
         "category": "String",
@@ -227,27 +227,27 @@ export function _ellipsis(before: number, after?: number): string {
     }|*/
     return ellipsis(this, before, after);
 }
-export function _endItWith(ending: string): string {
+export function _endItWith(this: string, ending: string): string {
     return endItWith(this, ending);
 }
-export function _endsWith(searchString: string, length?: number): boolean {
+export function _endsWith(this: string, searchString: string, length?: number): boolean {
     return endsWith(this, searchString, length);
 }
-export function _endsWithAny(endsWith: string[]): string | false;
-export function _endsWithAny(...args: string[]): string | false;
-export function _endsWithAny() {
+export function _endsWithAny(this: string, endsWith: string[]): string | false;
+export function _endsWithAny(this: string, ...args: string[]): string | false;
+export function _endsWithAny(this: string) {
     let args = [this];
     for (let i = 0, len = arguments.length; i < len; i++) {
         // @ts-ignore
         if (!i && typeof craydent_ctx != 'undefined' && this == arguments[i]) { continue; }
         args.push(arguments[i]);
     }
-    return endsWithAny.apply(void 0, args);
+    return endsWithAny.apply(void 0, args as any);
 }
 
 export function _equals(this: AnyObject, compare: AnyObject, props?: string[]): boolean;
 export function _equals(this: any, compare: any): boolean;
-export function _equals(compare, props?): boolean {
+export function _equals(this: any, compare: any, props?: any): boolean {
     /*|{
         "info": "Object class extension to check if object values are equal",
         "category": "Number|Object",
@@ -265,7 +265,7 @@ export function _equals(compare, props?): boolean {
 export function _getValue(this: string, args?: any[], dflt?: any): any {
     return getValue(this as any, args, dflt);
 }
-export function _highlight(search: string | RegExp, cssClass?: string, tag?: string): string {
+export function _highlight(this: string, search: string | RegExp, cssClass?: string, tag?: string): string {
     /*|{
         "info": "String class extension to surround search words with the given tag(default span) and class (default chighlight)",
         "category": "String",
@@ -281,11 +281,11 @@ export function _highlight(search: string | RegExp, cssClass?: string, tag?: str
     }|*/
     return highlight(this, search, cssClass, tag)
 }
-export function _indexOfAlt<T>(value: any, callback: ArrayIterator<T>): number;
-export function _indexOfAlt(regex: RegExp, pos?: number): number;
-export function _indexOfAlt<T>(value: string, callback: ArrayIterator<T>): number;
-export function _indexOfAlt(regex: RegExp, pos?: number): number;
-export function _indexOfAlt(value, option?): number {
+export function _indexOfAlt<T>(this: string, value: any, callback: ArrayIterator<T>): number;
+export function _indexOfAlt(this: string, regex: RegExp, pos?: number): number;
+export function _indexOfAlt<T>(this: string, value: string, callback: ArrayIterator<T>): number;
+export function _indexOfAlt(this: string, regex: RegExp, pos?: number): number;
+export function _indexOfAlt(this: string, value: any, option?: any): number {
     /*|{
         "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
         "category": "String|Array",
@@ -304,9 +304,9 @@ export function _indexOfAlt(value, option?): number {
     }|*/
     return indexOfAlt(this, value, option);
 }
-export function _ireplaceAll(replace: string[], subject: string[]): string;
-export function _ireplaceAll(replace: string, subject: string): string;
-export function _ireplaceAll(replace, subject): string {
+export function _ireplaceAll(this: string, replace: string[], subject: string[]): string;
+export function _ireplaceAll(this: string, replace: string, subject: string): string;
+export function _ireplaceAll(this: string, replace: any, subject: any): string {
     /*|{
         "info": "String class extension to replace all substrings ignoring case",
         "category": "String",
@@ -321,7 +321,7 @@ export function _ireplaceAll(replace, subject): string {
     }|*/
     return ireplaceAll(this, replace, subject);
 }
-export function _isBlank() {
+export function _isBlank(this: string,) {
     /*|{
         "info": "String class extension to check if the string is empty",
         "category": "String",
@@ -334,7 +334,7 @@ export function _isBlank() {
     }|*/
     return isBlank(this);
 }
-export function _isCuid(msFormat?: boolean): boolean {
+export function _isCuid(this: string, msFormat?: boolean): boolean {
     /*|{
         "info": "String class extension to check if the string is a cuid",
         "category": "String",
@@ -348,7 +348,7 @@ export function _isCuid(msFormat?: boolean): boolean {
     }|*/
     return isCuid(this, msFormat);
 }
-export function _isValidEmail(): boolean {
+export function _isValidEmail(this: string,): boolean {
     /*|{
         "info": "String class extension to check if string is a valid email",
         "category": "String",
@@ -361,7 +361,7 @@ export function _isValidEmail(): boolean {
     }|*/
     return isValidEmail(this);
 }
-export function _lastIndexOfAlt(regex: RegExp, pos?: number): number {
+export function _lastIndexOfAlt(this: string, regex: RegExp, pos?: number): number {
     /*|{
         "info": "String class extension to find the last index based on a regular expression",
         "category": "String",
@@ -376,7 +376,7 @@ export function _lastIndexOfAlt(regex: RegExp, pos?: number): number {
     }|*/
     return lastIndexOfAlt(this, regex, pos);
 }
-export function _ltrim(character?: string | string[]): string {
+export function _ltrim(this: string, character?: string | string[]): string {
     /*|{
         "info": "String class extension to remove characters from the beginning of the string",
         "category": "String",
@@ -390,7 +390,7 @@ export function _ltrim(character?: string | string[]): string {
     }|*/
     return ltrim(this, character);
 }
-export function _pluralize(): string {
+export function _pluralize(this: string,): string {
     /*|{
         "info": "String class extension to do a best guess pluralization of the string",
         "category": "String",
@@ -417,9 +417,9 @@ export function _randIndex(this: string): number {
     }|*/
     return randIndex(this);
 }
-export default function _replaceAll(replace: string, subject: string): string;
-export default function _replaceAll(replace: string[], subject: string[]): string;
-export function _replaceAll(replace, subject) {
+export default function _replaceAll(this: string, replace: string, subject: string): string;
+export default function _replaceAll(this: string, replace: string[], subject: string[]): string;
+export function _replaceAll(this: string, replace: any, subject: any): string {
     /*|{
         "info": "String class extension to replace all substrings (case sensitive)",
         "category": "String",
@@ -434,7 +434,7 @@ export function _replaceAll(replace, subject) {
     }|*/
     return replaceAll(this, replace, subject);
 }
-export function _reverse() {
+export function _reverse(this: string,) {
     /*|{
         "info": "String class extension to reverse the string",
         "category": "String",
@@ -447,7 +447,7 @@ export function _reverse() {
     }|*/
     return reverse(this);
 }
-export function _rtrim(character?: string | string[]): string {
+export function _rtrim(this: string, character?: string | string[]): string {
     /*|{
         "info": "String class extension to remove characters from the end of the string",
         "category": "String",
@@ -461,7 +461,7 @@ export function _rtrim(character?: string | string[]): string {
     }|*/
     return rtrim(this, character);
 }
-export function _sanitize() {
+export function _sanitize(this: string,) {
     /*|{
         "info": "String class extension to remove potential XSS threats",
         "category": "String",
@@ -474,7 +474,7 @@ export function _sanitize() {
     }|*/
     return sanitize(this);
 }
-export function _singularize(): string {
+export function _singularize(this: string,): string {
     /*|{
         "info": "String class extension to do a best guess singularization of the string",
         "category": "String",
@@ -487,7 +487,7 @@ export function _singularize(): string {
     }|*/
     return singularize(this);
 }
-export function _startItWith(starting: string): string {
+export function _startItWith(this: string, starting: string): string {
     /*|{
         "info": "String class extension to guarantee the original string starts with the passed string",
         "category": "String",
@@ -501,21 +501,21 @@ export function _startItWith(starting: string): string {
     }|*/
     return startItWith(this, starting);
 }
-export function _startsWith(searchString: string, start: number): boolean {
-    return startsWith(this, searchString, start);
+export function _startsWith(this: string, searchString: string, start: number): boolean {
+    return startsWith(this, searchString, start) as boolean;
 }
-export function _startsWithAny(startsWith: string[]): string | false;
-export function _startsWithAny(...args: string[]): string | false;
-export function _startsWithAny() {
+export function _startsWithAny(this: string, startsWith: string[]): string | false;
+export function _startsWithAny(this: string, ...args: string[]): string | false;
+export function _startsWithAny(this: string) {
     let args = [this];
     for (let i = 0, len = arguments.length; i < len; i++) {
         // @ts-ignore
         if (!i && typeof craydent_ctx != 'undefined' && this == arguments[i]) { continue; }
         args.push(arguments[i]);
     }
-    return startsWithAny.apply(void 0, args);
+    return startsWithAny.apply(void 0, args as any);
 }
-export function _strip(character?: string | string[]): string {
+export function _strip(this: string, character?: string | string[]): string {
     /*|{
         "info": "String class extension to remove characters from the beginning and end of the string",
         "category": "String",
@@ -529,7 +529,7 @@ export function _strip(character?: string | string[]): string {
     }|*/
     return strip(this, character);
 }
-export function _substringBetween(start?: string, end?: string): string {
+export function _substringBetween(this: string, start?: string, end?: string): string {
     /*|{
         "info": "String class extension to substring by character instead of using indexes",
         "category": "String",
@@ -544,7 +544,7 @@ export function _substringBetween(start?: string, end?: string): string {
     }|*/
     return substringBetween(this, start, end);
 }
-export function _substringStartFrom(start: string): string {
+export function _substringStartFrom(this: string, start: string): string {
     /*|{
         "info": "String class extension to substring by character instead of using indexes",
         "category": "String",
@@ -558,7 +558,7 @@ export function _substringStartFrom(start: string): string {
     }|*/
     return substringStartFrom(this, start);
 }
-export function _substringEndAt(end: string): string {
+export function _substringEndAt(this: string, end: string): string {
     /*|{
         "info": "String class extension to substring by character instead of using indexes",
         "category": "String",
@@ -572,7 +572,7 @@ export function _substringEndAt(end: string): string {
     }|*/
     return substringEndAt(this, end);
 }
-export function _toCurrencyNotation(sep?: string): string {
+export function _toCurrencyNotation(this: string, sep?: string): string {
     /*|{
         "info": "String class extension to change number to use separater character",
         "category": "String",
@@ -586,7 +586,7 @@ export function _toCurrencyNotation(sep?: string): string {
     }|*/
     return toCurrencyNotation(this, sep);
 }
-export function _toDateTime(options?: DateTimeOptions): Date | string {
+export function _toDateTime(this: string, options?: DateTimeOptions): Date | string {
     /*|{
         "info": "String class extension to convert string to datetime",
         "category": "String",
@@ -600,7 +600,7 @@ export function _toDateTime(options?: DateTimeOptions): Date | string {
     }|*/
     return toDateTime(this, options);
 }
-export function _toObject(assignmentChar?: string, delimiter?: string): AnyObject {
+export function _toObject(this: string, assignmentChar?: string, delimiter?: string): AnyObject {
     /*|{
         "info": "String class extension to convert to JSON",
         "category": "String",
@@ -615,7 +615,7 @@ export function _toObject(assignmentChar?: string, delimiter?: string): AnyObjec
     }|*/
     return toObject(this, assignmentChar, delimiter);
 }
-export function _trim(chars: string[]): string {
+export function _trim(this: string, chars: string[]): string {
     /*|{
         "info": "String class extension to remove characters from the beginning and end of the string.",
         "category": "String",

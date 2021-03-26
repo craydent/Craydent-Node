@@ -20,40 +20,40 @@ let _invokeHashChange = () => { };
 describe('_set', () => {
     beforeEach(() => {
         _invokeHashChange = () => { };
-        delete $COMMIT.default['hash'];
-        delete $COMMIT.default['noHistory'];
-        delete $COMMIT.default['onhashchange'];
-        delete $COMMIT.default['search'];
-        delete $COMMIT.default['update'];
+        delete ($COMMIT.default as any)['hash'];
+        delete ($COMMIT.default as any)['noHistory'];
+        delete ($COMMIT.default as any)['onhashchange'];
+        delete ($COMMIT.default as any)['search'];
+        delete ($COMMIT.default as any)['update'];
     });
     it('should set $COMMIT or loc', () => {
         let loc = { search: '&a=value&b=value&c=value', hash: '' };
         expect(_set('A', 'avalue', true, { ignoreCase: true }, loc)).toBe(loc);
-        expect($COMMIT.default['search']).toBe('?a=avalue&b=value&c=value');
+        expect(($COMMIT.default as any)['search']).toBe('?a=avalue&b=value&c=value');
         expect(_set('B', 'bvalue', true, 'ignoreCase', loc)).toBe(loc);
-        expect($COMMIT.default['search']).toBe('?a=avalue&b=bvalue&c=value');
+        expect(($COMMIT.default as any)['search']).toBe('?a=avalue&b=bvalue&c=value');
         expect(_set('C', 'cvalue', true, 'i', loc)).toBe(loc);
-        expect($COMMIT.default['search']).toBe('?a=avalue&b=bvalue&c=value&C=cvalue');
+        expect(($COMMIT.default as any)['search']).toBe('?a=avalue&b=bvalue&c=value&C=cvalue');
     });
     it('should defer update existing search value', () => {
         let loc = { search: 's=something', hash: '' };
-        $COMMIT.default['search'] = '&s=something';
+        ($COMMIT.default as any)['search'] = '&s=something';
         expect(_set('s', 'search', true, 'i', loc)).toBe(loc);
-        expect($COMMIT.default['search']).toBe('?s=search');
-        expect($COMMIT.default['update']).toBe(true);
+        expect(($COMMIT.default as any)['search']).toBe('?s=search');
+        expect(($COMMIT.default as any)['update']).toBe(true);
     });
     it('should defer adding new search value using location argument', () => {
         let loc = { search: '', hash: '' };
         expect(_set('a', 'search', true, 'i', loc)).toBe(loc);
-        expect($COMMIT.default['search']).toBe('?a=search');
-        expect($COMMIT.default['update']).toBe(true);
+        expect(($COMMIT.default as any)['search']).toBe('?a=search');
+        expect(($COMMIT.default as any)['update']).toBe(true);
     });
     it('should defer adding new search value having previous values in $COMMIT', () => {
         let loc = { search: 'something', hash: '' };
-        $COMMIT.default['search'] = '?s=something';
+        ($COMMIT.default as any)['search'] = '?s=something';
         expect(_set('a', 'search', true, 'i', loc)).toBe(loc);
-        expect($COMMIT.default['search']).toBe('?s=something&a=search');
-        expect($COMMIT.default['update']).toBe(true);
+        expect(($COMMIT.default as any)['search']).toBe('?s=something&a=search');
+        expect(($COMMIT.default as any)['update']).toBe(true);
     });
     it('should update existing search value', () => {
         let loc = { search: '&s=something', hash: '' };

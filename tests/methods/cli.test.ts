@@ -2,12 +2,12 @@ import CLI from '../../compiled/transformedMinor/craydent.cli';
 import { _searchRange } from '../../compiled/transformedMinor/craydent.where';
 jest.mock('child_process', () => {
     return {
-        "exec": (...args) => {
+        "exec": (...args: any[]) => {
             return _exec.apply(this, args);
         }
     }
 });
-let _exec = (...args) => { };
+let _exec = (...args: any[]) => { };
 describe('CLI', () => {
     describe('CLI Class', () => {
         let argv = process.argv;
@@ -517,8 +517,8 @@ describe('CLI', () => {
                 default: null,
                 required: false
             });
-            expect(cli).toEqual(expected);
             expect(cli.isValid()).toBe(true);
+            expect(cli).toEqual(expected);
         });
         it('should create new instance and add command with action', async () => {
             process.argv.push('-o');
@@ -570,15 +570,15 @@ describe('CLI', () => {
             };
             const cli = new CLI(params);
             const action = jest.fn();
-            const onAction = (...args) => {
+            const onAction = (...args: any[]) => {
                 return action.apply(this, args);
             }
             const actionGen = jest.fn();
-            const onActionGen = function* (...args) {
+            const onActionGen = function* (this: any, ...args: any) {
                 return actionGen.apply(this, args);
             }
             const actionAsync = jest.fn();
-            const onActionAsync = async (...args) => {
+            const onActionAsync = async (...args: any[]) => {
                 return actionAsync.apply(this, args);
             }
             cli.command('com', {
@@ -611,7 +611,7 @@ describe('CLI', () => {
             const cli = new CLI(params);
             let error;
             try {
-                cli.command(null, {
+                cli.command(null as any, {
                     command: 'com',
                     option: '--optionname,-o',
                     type: 'object',
@@ -780,7 +780,7 @@ describe('CLI', () => {
         });
         afterAll(() => {
             process.stdout.write = write;
-            _exec = (...args) => { };
+            _exec = (...args: any[]) => { };
         });
         it('should not execute command when command is not provided', async () => {
             const result = await CLI.exec('');
@@ -791,10 +791,10 @@ describe('CLI', () => {
                 setTimeout(() => { cb() }, 1);
                 return {
                     stdout: {
-                        on: (ev, cb) => { cb('data'); }
+                        on: (ev: any, cb: any) => { cb('data'); }
                     },
                     stderr: {
-                        on: (ev, cb) => { }
+                        on: (ev: any, cb: any) => { }
                     }
                 };
             });
@@ -809,10 +809,10 @@ describe('CLI', () => {
                 setTimeout(() => { cb() }, 1);
                 return {
                     stdout: {
-                        on: (ev, cb) => { cb('data'); },
+                        on: (ev: any, cb: any) => { cb('data'); },
                     },
                     stderr: {
-                        on: (ev, cb) => { }
+                        on: (ev: any, cb: any) => { }
                     }
                 };
             });
@@ -826,10 +826,10 @@ describe('CLI', () => {
                 setTimeout(() => { cb() }, 1);
                 return {
                     stdout: {
-                        on: (ev, cb) => { cb('data'); },
+                        on: (ev: any, cb: any) => { cb('data'); },
                     },
                     stderr: {
-                        on: (ev, cb) => { }
+                        on: (ev: any, cb: any) => { }
                     }
                 };
             });
@@ -845,10 +845,10 @@ describe('CLI', () => {
                 setTimeout(() => { cb({ code: 10 }) }, 1);
                 return {
                     stdout: {
-                        on: (ev, cb) => { },
+                        on: (ev: any, cb: any) => { },
                     },
                     stderr: {
-                        on: (ev, cb) => { cb('data'); }
+                        on: (ev: any, cb: any) => { cb('data'); }
                     }
                 };
             });
@@ -861,10 +861,10 @@ describe('CLI', () => {
                 setTimeout(() => { cb({ code: 10 }) }, 1);
                 return {
                     stdout: {
-                        on: (ev, cb) => { },
+                        on: (ev: any, cb: any) => { },
                     },
                     stderr: {
-                        on: (ev, cb) => { cb('data'); }
+                        on: (ev: any, cb: any) => { cb('data'); }
                     }
                 };
             });
@@ -877,16 +877,16 @@ describe('CLI', () => {
                 setTimeout(() => { cb({ code: 10 }) }, 1);
                 return {
                     stdout: {
-                        on: (ev, cb) => { }
+                        on: (ev: any, cb: any) => { }
                     },
                     stderr: {
-                        on: (ev, cb) => { cb('data'); }
+                        on: (ev: any, cb: any) => { cb('data'); }
                     }
                 };
             });
             const cli = new CLI();
             const done = jest.fn();
-            const onDone = (...args) => {
+            const onDone = (...args: any[]) => {
                 return done.apply(this, args);
             }
             try {

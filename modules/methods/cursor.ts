@@ -4,7 +4,7 @@ import isObject from '../methods/isobject';
 import { AnyObject } from '../models/Generics';
 import { IteratorItem } from '../models/IteratorItem';
 
-function Cursor(records?: AnyObject | any[]) {
+function Cursor(this: any, records?: AnyObject | any[]) {
     /*|{
         "info": "Cursor class to facilitate iteration",
         "category": "Class",

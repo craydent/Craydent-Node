@@ -2,7 +2,7 @@ import extend from '../../compiled/transformedMinor/craydent.extend';
 import foo from '../../compiled/transformedMinor/craydent.foo';
 jest.mock('../../compiled/transformedMinor/craydent.namespace', () => {
     return {
-        "default": (...args) => _namespace.apply(this, args)
+        "default": (...args: any[]) => _namespace.apply(this, args as any)
     }
 });
 let _namespace = () => { }
@@ -11,16 +11,16 @@ describe('extend', () => {
         _namespace = () => { }
     });
     it('should inherit properties', () => {
-        function classA() {
+        function classA(this: any) {
             this.a = 1;
         }
-        function classB() {
+        function classB(this: any) {
             this.b = 2;
         }
         classB.prototype.temp = 0;
         classB.temp2 = 1;
         extend(classA, classB);
-        const cls = new classA();
+        const cls = new (classA as any)();
 
         expect(cls.a).toBe(1);
         expect(cls.b).toBe(2);
@@ -29,17 +29,17 @@ describe('extend', () => {
         expect(cls.construct).toBe(foo);
     });
     it('should inherit only owned properties', () => {
-        function classA() {
+        function classA(this: any) {
             this.a = 1;
             this.b = 1;
         }
-        function classB() {
+        function classB(this: any) {
             this.b = 2;
         }
         classB.prototype.temp = 0
         classB.temp2 = 1;
         extend(classA, classB, true);
-        const cls = new classA();
+        const cls = new (classA as any)();
         expect(cls.a).toBe(1);
         expect(cls.b).toBe(1);
         expect(cls.temp).toBe(undefined);

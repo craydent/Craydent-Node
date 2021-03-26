@@ -5,10 +5,10 @@ import error from '../methods/error';
 import { __parseCond } from '../private/__whereParsers';
 import parseRaw from '../methods/parseraw';
 
-export default function _redact<T>(docs: Documents<T>, expr: any): Documents<T> {
+export default function _redact<T>(docs: Documents<T>, expr: any): Documents<T> | undefined {
     try {
         docs = isArray(docs) ? docs : [docs as any];
-        let result = [], i = 0, doc;
+        let result: T[] = [], i = 0, doc: any;
         while (doc = docs[i++]) {
             let action = __parseCond(doc, expr);
             /* istanbul ignore else */
@@ -34,6 +34,6 @@ export default function _redact<T>(docs: Documents<T>, expr: any): Documents<T> 
         return result.length ? result : undefined;
     } catch (e) /* istanbul ignore next */ {
         error && error('aggregate._redact', e);
-        return null;
+        return null as any;
     }
 }

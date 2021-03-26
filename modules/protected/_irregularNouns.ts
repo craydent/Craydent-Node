@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-const _irregularNouns = {
+const _irregularNouns: any = {
     "addendum": "addenda",
     "alga": "algae",
     "alumna": "alumnae",

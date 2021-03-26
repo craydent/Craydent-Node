@@ -17,5 +17,6 @@ export default function has(obj: AnyObject, property: string): boolean {
         return Object.prototype.hasOwnProperty.call(obj, property);
     } catch (e) /* istanbul ignore next */ {
         error && error('Object.has', e);
+        return null as any;
     }
 }

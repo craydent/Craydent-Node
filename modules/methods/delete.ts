@@ -18,7 +18,7 @@ import _subQuery from '../protected/_subQuery';
 
 export default function deleteIt<T>(objs: T[], condition?: WhereCondition, justOne?: boolean): T[];
 export default function deleteIt<T>(objs: T[], condition?: WhereCondition, options?: DeleteOptions): T[];
-export default function deleteIt<T>(objs, condition?, justOne?): T[] {
+export default function deleteIt<T>(objs: T[], condition?: WhereCondition, justOne?: any): T[] {
     /*|{
         "info": "Array class extension to delete records",
         "category": "Array",
@@ -58,7 +58,7 @@ export default function deleteIt<T>(objs, condition?, justOne?): T[] {
         justOne = parseBoolean(isNull(justOne) ? true : isNull((justOne as DeleteOptions).justOne, justOne));
         // if no condition was given, remove all
         if (!condition) { return docs.splice(0, justOne ? 1 : docs.length); }
-        let arr = [], indexes = [], cb = function (obj, i) {
+        let arr: any[] = [], indexes: any[] = [], cb = function (obj: any, i: number) {
             if (justOne) {
                 if (docs.__indexed_buckets) {
                     _removeFromIndex(docs.__indexed_buckets, obj);
@@ -70,7 +70,7 @@ export default function deleteIt<T>(objs, condition?, justOne?): T[] {
             return true;
         };
 
-        let _refs = [], ifblock = _subQuery(condition, null, null, _refs),
+        let _refs: any[] = [], ifblock = _subQuery(condition, null as any, null as any, _refs),
             func = `
             (function (record,i) {
             	var values,finished;
@@ -93,7 +93,7 @@ export default function deleteIt<T>(objs, condition?, justOne?): T[] {
         }
 
         for (let i = indexes.length - 1; i >= 0; i--) {
-            let item = docs.splice(indexes[i], 1);
+            let item: any[] = docs.splice(indexes[i], 1);
             if (docs.__indexed_buckets) {
                 _removeFromIndex(docs.__indexed_buckets, item[0]);
             }

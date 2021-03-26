@@ -35,7 +35,7 @@ const namespace: typeof INamespace.default = require('../methods/namespace').def
 
 export function _equals(this: AnyObject, compare: AnyObject, props?: string[]): boolean;
 export function _equals(this: any, compare: any): boolean;
-export function _equals(compare, props?): boolean {
+export function _equals(this: any, compare: any, props?: any): boolean {
 
     /*|{
         "info": "Object class extension to check if object values are equal",

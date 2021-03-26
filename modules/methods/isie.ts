@@ -16,5 +16,6 @@ export default function isIE(this: Craydent | Window): boolean {
         return (!!~IEVersion.call(this));
     } catch (e) /* istanbul ignore next */ {
         error && error('isIE', e);
+        return null as any;
     }
 }

@@ -1,8 +1,8 @@
 import globalize from '../../compiled/transformedMinor/craydent.globalize';
 jest.mock('../../compiled/transformedMinor/craydent.globalize/private/__contextualizeMethods', () => {
     return {
-        "default": (...args) => {
-            return __contextualizeMethods.apply(this, args);
+        "default": (...args: any[]) => {
+            return __contextualizeMethods.apply(this, args as any);
         }
     }
 });

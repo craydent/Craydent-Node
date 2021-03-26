@@ -1,7 +1,7 @@
 import aggregate from '../../compiled/transformedMinor/craydent.aggregate';
 jest.mock('../../compiled/transformedMinor/craydent.where', () => {
     return {
-        "__processStage": (...args) => __processStage.apply(this, args)
+        "__processStage": (...args: any[]) => __processStage.apply(this, args as any)
     }
 });
 let __processStage = () => { };
@@ -15,14 +15,14 @@ describe('aggregate', () => {
         expect(__processStage).toHaveBeenLastCalledWith([], {});
     });
     it('should use __processStage to aggregate and return sample', () => {
-        let sample = [];
+        let sample: any[] = [];
         (sample as any).sample = [{}];
         __processStage = jest.fn().mockImplementationOnce(() => sample);
         expect(aggregate([], [{}])).toEqual([{}]);
         expect(__processStage).toHaveBeenLastCalledWith([], {});
     });
     it('should use __processStage to aggregate using $group', () => {
-        let sample = [];
+        let sample: any[] = [];
         (sample as any).sample = [{}];
         __processStage = jest.fn().mockImplementationOnce(() => sample);
         expect(aggregate([], [{ $group: true }])).toBe(sample);

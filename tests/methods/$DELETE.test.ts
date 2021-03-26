@@ -12,10 +12,10 @@ jest.mock('../../compiled/transformedMinor/craydent.http.delete/protected/_invok
 });
 jest.mock('../../compiled/transformedMinor/craydent.http.delete/protected/_verbPayloadHelper', () => {
     return {
-        "default": (dis, variable, method, options) => { _verbPayloadHelper(dis, variable, method, options); }
+        "default": (dis: any, variable: any, method: any, options: any) => { _verbPayloadHelper(dis, variable, method, options); }
     }
 });
-let _invokeHashChange = () => { }, _verbPayloadHelper = (dis, variable, method, options) => { };
+let _invokeHashChange = () => { }, _verbPayloadHelper = (dis: any, variable: any, method: any, options: any) => { };
 describe('$DELETE', () => {
     describe('NodeJS', () => {
         const win = window;
@@ -29,10 +29,10 @@ describe('$DELETE', () => {
             _verbPayloadHelper = () => { };
         });
         it('should run nodeJS logic', () => {
-            const dis = {};
+            const dis: any = {};
             _verbPayloadHelper = jest.fn();
-            $DELETE.call(dis);
-            expect(_verbPayloadHelper).toHaveBeenCalledWith(dis, undefined, 'delete', undefined);
+            $DELETE.call(dis, '');
+            expect(_verbPayloadHelper).toHaveBeenCalledWith(dis, '', 'delete', undefined);
         });
     });
     describe('JS', () => {
@@ -85,8 +85,8 @@ describe('$DELETE', () => {
             expect($DELETE('variable', { defer: true })).toBe(true);
             expect(window.location.search).toBe('?variable=value');
             expect(_invokeHashChange).not.toHaveBeenCalled();
-            expect($COMMIT.default['search']).toBe('?');
-            expect($COMMIT.default['update']).toBe(true);
+            expect(($COMMIT.default as any)['search']).toBe('?');
+            expect(($COMMIT.default as any)['update']).toBe(true);
         });
         it('should delete single in search without adding history using options object and ignore case', () => {
             _invokeHashChange = jest.fn();

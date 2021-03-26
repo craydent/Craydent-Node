@@ -3,7 +3,7 @@ import isObject from '../methods/isobject';
 import setProperty from '../methods/setproperty';
 
 export default function _stringifyAdvanced(obj: any): string;
-export default function _stringifyAdvanced(obj: any, _nobj?, _objs?, _paths?, _cpath?): string {
+export default function _stringifyAdvanced(obj: any, _nobj?: any, _objs?: any[], _paths?: string[], _cpath?: string): string {
     _nobj = _nobj || (isObject(obj) ? {} : (isArray(obj) ? [] : obj));
     _objs = _objs || [obj];
     _paths = _paths || ["/"];

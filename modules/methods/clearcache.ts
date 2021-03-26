@@ -36,6 +36,6 @@ export default function clearCache(module?: string): boolean {
         return false;
     }
 }
-export const _clearCacheHelper = (module) => {
+export const _clearCacheHelper = (module: string) => {
     return delete require.cache[module];
 }

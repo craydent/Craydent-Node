@@ -7,8 +7,8 @@ describe('isMobile', () => {
         // expect(isMobile.call({ navigator: { userAgent: 'iphone' } })).toBe(true);
         // expect(isMobile.call({ navigator: { userAgent: 'ipod' } })).toBe(true);
         // expect(isMobile.call({ navigator: { userAgent: 'palm' } })).toBe(true);
-        expect(isMobile.call({ navigator: { userAgent: 'webkit symbian' } })).toBe(true);
-        expect(isMobile.call({ navigator: { userAgent: 'windows ce' } })).toBe(true);
-        expect(isMobile.call({ navigator: { userAgent: 'webkit khtml' } })).toBe(false);
+        expect(isMobile.call({ navigator: { userAgent: 'webkit symbian' } } as any)).toBe(true);
+        expect(isMobile.call({ navigator: { userAgent: 'windows ce' } } as any)).toBe(true);
+        expect(isMobile.call({ navigator: { userAgent: 'webkit khtml' } } as any)).toBe(false);
     });
 });

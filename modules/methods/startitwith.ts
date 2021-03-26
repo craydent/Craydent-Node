@@ -17,5 +17,6 @@ export default function startItWith(str: string, starting: string): string {
         return starting + str;
     } catch (e) /* istanbul ignore next */ {
         error && error('String.startItWith', e);
+        return null as any;
     }
 }

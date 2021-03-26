@@ -11,7 +11,7 @@ export default function awaitable(func: Function, context: any): () => Promise<a
 export default function awaitable(func: Function, callbackIndex: number): () => Promise<any>;
 export default function awaitable(func: Function, context: any, callbackIndex: number): () => Promise<any>;
 export default function awaitable(func: Function, context: any, callbackIndex: number, returnIndex?: number): () => Promise<any>;
-export default function awaitable(value, context?, callbackIndex?, returnIndex?): () => Promise<any> {
+export default function awaitable(value: any, context?: any, callbackIndex?: any, returnIndex?: any): () => Promise<any> {
     /*|{
         "info": "Makes a value awaitable via a Promise.",
         "category": "Control Flow|Utility",

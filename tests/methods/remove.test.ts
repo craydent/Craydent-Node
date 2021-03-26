@@ -1,7 +1,7 @@
 import remove from '../../compiled/transformedMinor/craydent.remove';
 jest.mock('../../compiled/transformedMinor/craydent.remove/protected/_removeFromIndex', () => {
     return {
-        "default": (...args) => _removeFromIndex.apply(this, args)
+        "default": (...args: any[]) => _removeFromIndex.apply(this, args as any)
     }
 });
 let _removeFromIndex = () => { }
@@ -15,14 +15,14 @@ describe('remove', () => {
         expect(arr).toEqual([1, 2]);
     });
     it('should remove from the array', () => {
-        let obj = {}
+        let obj:any = {}
         let arr = [1, 2, obj];
         expect(remove(arr, obj)).toBe(obj);
         expect(arr).toEqual([1, 2]);
     });
     it('should remove from the array and index', () => {
         _removeFromIndex = jest.fn();
-        let obj = {}, arr = [obj], expected = [];
+        let obj:any = {}, arr = [obj], expected:any[] = [];
         (expected as any).__indexed_buckets = {};
         (arr as any).__indexed_buckets = {};
         expect(remove(arr, obj)).toBe(obj);

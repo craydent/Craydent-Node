@@ -4,7 +4,7 @@ describe('next', () => {
         function a() {
             return next();
         }
-        a._then = null;
+        (a as any)._then = null;
         expect(a()).toEqual([]);
     });
     it('should invoke next', () => {

@@ -16,5 +16,6 @@ npm install &&
 ./local_scripts/updateMainPackageDependenciesProd.js &&
 ./local_scripts/copyPackageJsonFile.js &&
 ./local_scripts/populateReadmes.sh &&
+./local_scripts/removeTSFiles.js &&
 
 echo 'done'

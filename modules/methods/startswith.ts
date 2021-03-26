@@ -1,6 +1,6 @@
 import error from '../methods/error';
 
-export default function startsWith(str: string, searchString: string, start?: number) {
+export default function startsWith(str: string, searchString: string, start?: number): boolean | string {
     /*|{
         "info": "String class extension to check if the string ends with the given string",
         "category": "String",
@@ -21,6 +21,7 @@ export default function startsWith(str: string, searchString: string, start?: nu
         return str.slice(0, searchString.length) == searchString;
     } catch (e) /* istanbul ignore next */ {
         error && error('String.startsWith', e);
+        return null as any;
     }
 
 }

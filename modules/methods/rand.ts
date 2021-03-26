@@ -18,7 +18,7 @@ export default function rand(num1?: number, num2?: number, inclusive?: boolean):
     }|*/
     try {
         const rn = Math.random()
-        if (num1 == null && num2 == null) {
+        if (num1 == null || num2 == null || num1 == undefined || num2 == undefined) {
             return rn;
         }
         let val = (num2 - num1) * rn + num1;

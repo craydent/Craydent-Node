@@ -3,7 +3,7 @@ import parseRaw from '../methods/parseraw';
 import isNumber from '../methods/isnumber';
 
 /* istanbul ignore next */
-export default function wait(condition) { // TODO: allow for nested wait calls
+export default function wait(condition: any) { // TODO: allow for nested wait calls
     /*|{
         "info": "Stops execution until the condition is satisfied",
         "category": "Utility",
@@ -16,7 +16,7 @@ export default function wait(condition) { // TODO: allow for nested wait calls
         "returnType": "(void)"
     }|*/
     try {
-        let args = arguments.callee.caller.arguments,
+        let args: any[] = arguments.callee.caller.arguments,
             funcOriginal = arguments.callee.caller.toString().
                 replace(/\/\/.*?[\r\n]/gi, '').
                 replace(/[\t\r\n]*/gi, '').
@@ -25,7 +25,7 @@ export default function wait(condition) { // TODO: allow for nested wait calls
             funcArgNames = func.trim().replace(/^function\s*?\((.*?)\).*/, '$1').replace(/\s*/gi, '').split(','),
             fname = func.replace(/function\s*?(.*?)\s*?\(.*/, '$1'),
             fnBefore = func.substr(0, func.indexOf('return wait')),
-            variableGroups = fnBefore.match(/var .*?;/gi),
+            variableGroups = fnBefore.match(/var .*?;/gi) || [] as string[],
             cond = func.replace(/.*?(return)*\s*?wait\((.*?)\);.*/, '$2'),
             fregex = /\s*?function\s*?\(\s*?\)\s*?\{/;
         func = func.replace(fname, '').replace(/(function\s*?\(.*?\)\s*?\{).*?(return)*\s*?wait\((.*?)\);/, '$1');
@@ -50,7 +50,7 @@ export default function wait(condition) { // TODO: allow for nested wait calls
                 values = fnBefore.match(regex) || [];
                 for (let k = values.length - 1; k >= 0; k--) {
                     try {
-                        let value = eval(values[k].replace(/.*?=\s*?(.*?)\s*?;/, '$1').trim());
+                        let value: any = eval(values[k].replace(/.*?=\s*?(.*?)\s*?;/, '$1').trim());
                         func = func.replace(fregex, `function(){var ${variable}=${parseRaw(value)};`);
                     } catch (e) {
                         error("wait.eval-value", e)

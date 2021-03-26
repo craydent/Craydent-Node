@@ -16,5 +16,6 @@ export default function copyObject<T>(obj: T): T {
         return _duplicate({} as T, obj, true);
     } catch (e) /* istanbul ignore next */ {
         error && error("Object.copyObject", e);
+        return null as any;
     }
 }

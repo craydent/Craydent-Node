@@ -1,7 +1,7 @@
 import isOdd from '../../compiled/transformedMinor/craydent.isodd';
 jest.mock('../../compiled/transformedMinor/craydent.isodd/protected/_even', () => {
     return {
-        "default": (...args) => _even.apply(this, args)
+        "default": (...args: any[]) => _even.apply(this, args as any)
     }
 });
 let _even = () => { }

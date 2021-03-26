@@ -9,7 +9,7 @@ import clearCache from '../methods/clearcache';
 import absolutePath from '../methods/absolutepath';
 import startsWithAny from '../methods/startswithany';
 
-export default function include(path?: string, refresh?: boolean): any {
+export default function include(path: string, refresh?: boolean): any {
     /*|{
         "info": "Require without erroring when module does not exist.",
         "category": "Utility",

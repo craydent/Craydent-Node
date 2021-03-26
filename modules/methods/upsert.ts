@@ -41,7 +41,7 @@ export type UpsertIterator<T> = (value?: T, ref?: T, collection?: Array<T>) => b
 export default function upsert<T>(arr: T[], records: T[] | T): UpsertResults<T>;
 export default function upsert<T>(arr: T[], records: T[] | T, callback: UpsertIterator<T>): UpsertResults<T>;
 export default function upsert<T>(arr: T[], records: T[] | T, prop: string, callback?: Function): UpsertResults<T>;
-export default function upsert<T>(arr, records, prop?, callback?): UpsertResults<T> {
+export default function upsert<T>(arr: any, records: any, prop?: any, callback?: any): UpsertResults<T> {
     /*|{
         "info": "Array class extension to upsert records to array",
         "category": "Array",
@@ -70,7 +70,7 @@ export default function upsert<T>(arr, records, prop?, callback?): UpsertResults
         }
         if (!prop) { prop = "_id"; }
 
-        let ids = [], refs = {} as { [key: string]: UpsertItemRef<T> }, insert = [];
+        let ids: any[] = [], refs = {} as { [key: string]: UpsertItemRef<T> }, insert: any[] = [];
         for (let i = 0, len = records.length; i < len; i++) {
             let record = records[i];
             refs[record[prop]] = { record: record, index: i };
@@ -78,10 +78,10 @@ export default function upsert<T>(arr, records, prop?, callback?): UpsertResults
         }
 
 
-        let condition = {}, uIndex = [], iIndex = [], sIndex = [], uArr = [], iArr = [], sArr = [], j = 0;
+        let condition: any = {}, uIndex: any[] = [], iIndex: any[] = [], sIndex: any[] = [], uArr: any[] = [], iArr: any[] = [], sArr: any[] = [], j = 0;
         condition[prop] = { $in: ids };
 
-        const cb = function (obj, i) {
+        const cb = function (obj: any, i: number) {
             let ref = refs[obj[prop]],
                 record = ref.record,
                 isEqual = callback && callback(obj, record),
@@ -117,8 +117,8 @@ export default function upsert<T>(arr, records, prop?, callback?): UpsertResults
             _isInt = isInt,
             _getProperty = getProperty,
             _parseBoolean = parseBoolean;
-        let _refs = [],
-            ifblock = _subQuery(condition, null, null, _refs),
+        let _refs: any[] = [],
+            ifblock = _subQuery(condition, null as any, null as any, _refs),
             func = `
             (function (record,i) {
                 var values,finished;

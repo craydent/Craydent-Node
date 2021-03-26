@@ -1,7 +1,7 @@
 import error from '../methods/error';
 import echo from '../methods/echo';
 
-export default function var_dump(...args) {
+export default function var_dump(...args: any[]) {
     /*|{
         "info": "Dump of variables to response.",
         "category": "HTTP",

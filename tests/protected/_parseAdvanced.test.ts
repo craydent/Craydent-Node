@@ -51,7 +51,7 @@ describe('_parseAdvanced', () => {
             "a.prop": []
         };
         const templateValues = { domain: "property", bb: { b: "baby" } };
-        const expected = { routes: { num: 0, reg: /pattern/, cls: new TempFunctionClass(), baby: (property) => { }, property: "baby" }, "o.prop": {}, "a.prop": [] };
+        const expected = { routes: { num: 0, reg: /pattern/, cls: new (TempFunctionClass as any)(), baby: (property: any) => { }, property: "baby" }, "o.prop": {}, "a.prop": [] };
         const result = _parseAdvanced(objWithType, null, templateValues)
         expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
         delete $g.TempFunctionClass;

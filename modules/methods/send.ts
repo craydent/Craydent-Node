@@ -1,8 +1,8 @@
 import isNull from '../methods/isnull';
 
-export default function send(status: number, data: any): void;
-export default function send(data: any): void;
-export default function send(status, data?): void {
+export default function send(this: any, status: number, data: any): void;
+export default function send(this: any, data: any): void;
+export default function send(this: any, status: any, data?: any): void {
     /*|{
         "info": "Recursively require the entire directory and returns an object containing the required modules.",
         "category": "HTTP",

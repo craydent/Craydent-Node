@@ -3,7 +3,7 @@ import ajax from '../../compiled/transformedMinor/craydent.ajax';
 $c;
 describe('Global methods', function () {
     describe("syncroit async test", function () {
-        var result = [];
+        var result: any = [];
         let win = (global as any).window;
         beforeAll(() => { delete (global as any).window; });
         afterAll(() => { (global as any).window = win; });
@@ -52,7 +52,7 @@ describe('Global methods', function () {
         });
         it('yieldable', function () {
             syncroit(function* () {
-                function delay(callback) {
+                function delay(callback: any) {
                     setTimeout(function () { callback("done") }, 10);
                 }
                 expect(yield yieldable(delay)()).toBe("done");

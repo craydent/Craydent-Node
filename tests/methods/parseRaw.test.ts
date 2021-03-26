@@ -1,7 +1,7 @@
 import parseRaw from '../../compiled/transformedMinor/craydent.parseraw';
 jest.mock('../../compiled/transformedMinor/craydent.suid', () => {
     return {
-        "default": (...args) => suid.apply(this, args)
+        "default": (...args: any[]) => suid.apply(this, args as any)
     }
 });
 let suid = () => { };
@@ -21,7 +21,7 @@ describe('parseRaw', () => {
         expect(parseRaw(function () { })).toBe('function () { }');
 
         suid = jest.fn(() => 's8F7Fx9p8a')
-        const item = { item: null };
+        const item: any = { item: null };
         item.item = item;
         expect(parseRaw({ a: { item } }, false, true)).toBe('{"a": {"item": {"item": $g[\'s8F7Fx9p8a\']}}}');
 
@@ -32,7 +32,7 @@ describe('parseRaw', () => {
     it('should parse as raw value', () => {
 
         suid = jest.fn(() => 's8F7Fx9p8a')
-        const item = { item: null };
+        const item:any = { item: null };
         item.item = item;
         expect(parseRaw({ a: { item } }, false)).toBe('{"a": {"item": {"item": {}}}}');
     })

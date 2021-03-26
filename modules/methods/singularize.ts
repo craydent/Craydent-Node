@@ -40,5 +40,6 @@ export default function singularize(str: string): string {
         return str;
     } catch (e) /* istanbul ignore next */ {
         error && error('String.singularize', e);
+        return null as any;
     }
 }

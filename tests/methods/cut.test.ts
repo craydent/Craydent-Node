@@ -3,8 +3,8 @@ describe('cut', () => {
     it('should cut a section of the string', () => {
         expect(cut("0123456", 1, 4)).toBe("056");
         expect(cut("0123456", 1, 4, "replace")).toBe("0replace56");
-        expect(cut("0123456", 1, null)).toBe("0");
-        expect(cut("0123456", 1, null, "replace")).toBe("0replace");
+        expect(cut("0123456", 1, null as any)).toBe("0");
+        expect(cut("0123456", 1, null as any, "replace")).toBe("0replace");
     });
     it('should not cut a section of the string when start and end are equal', () => {
         expect(cut("0123456", 0, 0)).toBe("0123456");
@@ -15,7 +15,7 @@ describe('cut', () => {
         expect(cut("0123456", -2, -2, "replace")).toBe("01234replace56");
     });
     it('should not cut a section of the string when either start index is null', () => {
-        expect(cut("0123456", null, 4)).toBe("0123456");
+        expect(cut("0123456", null as any, 4)).toBe("0123456");
     });
     it('should handle when end index is greater than start index', () => {
         expect(cut("0123456", 1, 0)).toBe("0123456");

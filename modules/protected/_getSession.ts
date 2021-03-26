@@ -18,7 +18,7 @@ export default function _getSession(ctx: Craydent, sid: string, callback?: (data
         let cookies, sessionCookieKey = "NODEJSSESSION";
         cookies = (getProperty(request, 'headers.cookie') || '').split('; ');
         // get thes session cookie cuid from the cookie
-        let sessionCookie = cookies.filter(function (c) { return ~c.indexOf(`${sessionCookieKey}=`); })[0];
+        let sessionCookie = cookies.filter(function (c: any) { return ~c.indexOf(`${sessionCookieKey}=`); })[0];
         if (sessionCookie) {
             (ctx as any).sessionid = sessionCookie.substring(sessionCookieKey.length + 1);
         } else {
@@ -46,5 +46,6 @@ export default function _getSession(ctx: Craydent, sid: string, callback?: (data
         }
     } catch (e) /* istanbul ignore next */ {
         error && error('_getSession', e);
+        return null as any;
     }
 }

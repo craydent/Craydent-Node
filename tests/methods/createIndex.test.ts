@@ -5,7 +5,7 @@ describe('createIndex', () => {
         const items = [{ id: 1, value: 'value' }]
         expect(createIndex(items, '')).toBe(items);
         expect(createIndex(items, [])).toBe(items);
-        expect(createIndex(items, null)).toBe(items);
+        expect(createIndex(items, null as any)).toBe(items);
 
     });
     it('should create index on a single field', () => {

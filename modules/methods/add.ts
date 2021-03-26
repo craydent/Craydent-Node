@@ -25,6 +25,6 @@ export default function add<T>(arr: T[], obj: any): boolean {
         return true;
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.add", e);
-        return null;
+        return null as any;
     }
 }

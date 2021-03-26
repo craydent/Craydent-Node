@@ -49,12 +49,12 @@ let _template_config = {
     FOR: {
         "begin": /(?:\$\{for (.*?);(.*?);(.*?\}?)\})|(?:\{\{for (.*?);(.*?);(.*?\}?)\}\})/i,
         "end": /(\$\{end for\})|(\{\{end for\}\})/i,
-        "helper": function (this: FillTemplate, code, body, options: HelperOptions) {
+        "helper": function (this: FillTemplate, code: any, body: any, options: HelperOptions) {
             /* istanbul ignore next */
             let ttc = $c.TEMPLATE_TAG_CONFIG,
                 match = options.removeNewLineFromLogicalSyntax ? new RegExp(ttc.FOR.begin.source + '', ttc.FOR.begin.flags) : ttc.FOR.begin,
-                mresult = code.match(match),
-                condition, exec, dvars, vars = "", ovars = {}, code_result = "";
+                mresult: any = code.match(match),
+                condition: any, exec: any, dvars: any, vars = "", ovars: any = {}, code_result = "";
 
             for (let j = 1, jlen = mresult.length; j < jlen; j++) {
                 if (!mresult[j]) { continue; }
@@ -88,11 +88,11 @@ let _template_config = {
 
             return code_result;
         },
-        "parser": function (this: FillTemplate, code, ref_obj, bind, options: HelperOptions) {
+        "parser": function (this: FillTemplate, code: string, ref_obj: any, bind: any, options: HelperOptions) {
             let ttc = $c.TEMPLATE_TAG_CONFIG,
                 FOR = ttc.FOR,
                 blocks = __processBlocks(FOR.begin, FOR.end, code, options),
-                code_result = "", obj;
+                code_result = "", obj: any;
             var i = 0;
 
             while (obj = blocks[i++]) {
@@ -129,10 +129,10 @@ let _template_config = {
     FOREACH: {
         "begin": /(?:\$\{foreach (.*?)\s+in\s+(.*?)\s*\})|(?:\{\{foreach (.*?)\s+in\s+(.*?)\s*\}\})/i,
         "end": /(?:\$\{end foreach\})|(?:\{\{end foreach\}\})/i,
-        "helper": function (code: string, body: string, rtnObject: AnyObject, uid: string, obj?: AnyObject, bind?: string, ref_obj?: AnyObject): string {
+        "helper": function (this: FillTemplate, code: string, body: string, rtnObject: AnyObject, uid: string, obj?: AnyObject, bind?: string, ref_obj?: AnyObject): string {
             let ttc = $c.TEMPLATE_TAG_CONFIG,
                 FOREACH = ttc.FOREACH,
-                mresult = code.match(FOREACH.begin),
+                mresult: any = code.match(FOREACH.begin),
                 objs, var_name,
                 code_result = "";
 
@@ -142,7 +142,7 @@ let _template_config = {
             }
             /* istanbul ignore next */
             let value = mresult[2] || mresult[4];
-            objs = tryEval(value, ((val) => eval(val)).bind(this));
+            objs = tryEval(value, ((val: any) => eval(val)).bind(this));
             if (!objs && startsWithAny(value, "${", "{{") && !value.endsWith("}")) {
                 return code;
             }
@@ -171,9 +171,9 @@ let _template_config = {
             let ttc = $c.TEMPLATE_TAG_CONFIG,
                 FOREACH = ttc.FOREACH,
                 uid = `##${suid()}##`,
-                result_obj = {},
+                result_obj: any = {},
                 code_result = "", post = "",
-                blocks = __processBlocks(FOREACH.begin, FOREACH.end, code, options), obj;
+                blocks = __processBlocks(FOREACH.begin, FOREACH.end, code, options), obj: any;
             var i = 0;
 
             result_obj[uid] = "";
@@ -221,11 +221,11 @@ let _template_config = {
     WHILE: {
         "begin": /(?:\$\{while\s*\((.*?)\)\s*\})|(?:\{\{while\s*\((.*?)\)\s*\}\})/i,
         "end": /(?:\$\{end while\})|(?:\{\{end while\}\})/i,
-        "helper": function (code: string, body: string): string {
+        "helper": function (this: any, code: string, body: string): string {
             let ttc = $c.TEMPLATE_TAG_CONFIG,
                 WHILE = ttc.WHILE,
-                mresult = code.match(WHILE.begin),
-                vars = "", ovars = {}, code_result = "",
+                mresult: any = code.match(WHILE.begin),
+                vars = "", ovars: any = {}, code_result = "",
                 declared = this.declared,
                 loop_limit = 100000;
             for (let prop in declared) {
@@ -264,12 +264,12 @@ let _template_config = {
 
             return variable_initialization + code_result;
         },
-        "parser": function (code: string, ref_obj: AnyObject, bind: string, options: HelperOptions): string {
+        "parser": function (this: any, code: string, ref_obj: AnyObject, bind: string, options: HelperOptions): string {
             let ttc = $c.TEMPLATE_TAG_CONFIG,
                 WHILE = ttc.WHILE,
                 lookups = {},
                 blocks = __processBlocks(WHILE.begin, WHILE.end, code, options, lookups),
-                code_result = "", vars = "", declared = this.declared, post = "", obj;
+                code_result = "", vars = "", declared = this.declared, post = "", obj: any;
             var i = 0;
 
             while (obj = blocks[i++]) {
@@ -299,7 +299,7 @@ let _template_config = {
                     var_match_name = ttc.VARIABLE_NAME(var_match),
                     var_match_index = code_result.indexOf(var_match),
                     before, after;
-                const evaluated = tryEval(`${var_match_name};`, ((val) => eval(val)).bind(this));
+                const evaluated = tryEval(`${var_match_name};`, ((val: any) => eval(val)).bind(this));
                 if (evaluated !== null) {
                     var_match_index += var_match.length;
                 }
@@ -322,7 +322,7 @@ let _template_config = {
         "elseif": /\$\{elseif\s+\((.*?)(?!\{)\)\s*\}|\{\{elseif\s+\((.*?)(?!\{)\)\s*\}\}/i,
         "else": /\$\{else\}|\{\{else\}\}/i,
         "end": /\$\{end if\}|\{\{end if\}\}/i,
-        "helper": function (code: string): string {
+        "helper": function (this: FillTemplate, code: string): string {
             let IF = $c.TEMPLATE_TAG_CONFIG.IF,
                 ifmatch = condense((code.match(IF.begin) || [])),
                 endlength = (code.match(IF.end) || [[]])[0].length,
@@ -339,7 +339,7 @@ let _template_config = {
                     ifsyntax = new RegExp(`${IF.begin.source}|${IF.elseif.source}|${IF["else"].source}`, 'i');
 
                 if (!code.match(new RegExp(`${IF.elseif.source}|${IF["else"].source}`, 'ig'))) {
-                    if ("undefined" == ifmatch[1] || !tryEval(ifmatch[1], ((val) => eval(val)).bind(this))) {
+                    if ("undefined" == ifmatch[1] || !tryEval(ifmatch[1], ((val: any) => eval(val)).bind(this))) {
                         return pre + post;
                     }
                     return pre + code.substring(startindex + (ifmatch[0] as string).length, endindex) + post;
@@ -349,9 +349,9 @@ let _template_config = {
                 ifmatch = condense(match);
                 for (let i = 0, len = ifmatch.length; i < len; i++) {
                     let ifm2 = ifmatch[i] as string,
-                        ife = condense(ifm2.match(ifsyntax)),
-                        condition = ife[1],
-                        value = "undefined" == condition ? false : tryEval(condition, ((val) => eval(val)).bind(this)),
+                        ife = condense(ifm2.match(ifsyntax) as any),
+                        condition: any = ife[1],
+                        value = "undefined" == condition ? false : tryEval(condition, ((val: any) => eval(val)).bind(this)),
                         sindex = code.indexOf(ifm2) + ifm2.length;
 
                     if (condition && condition.length && condition != 'null' && !contains(condition, vsyntax) && value === null) {
@@ -372,11 +372,11 @@ let _template_config = {
             }
             return code;
         },
-        "parser": function (code: string, oobj: AnyObject, bind: string, options: HelperOptions): string {
+        "parser": function (this: FillTemplate, code: string, oobj: AnyObject, bind: string, options: HelperOptions): string {
             let IF = $c.TEMPLATE_TAG_CONFIG.IF,
                 blocks = __processBlocks(IF.begin, IF.end, code, options),
                 code_result = "",
-                i = 0, obj;
+                i = 0, obj: any;
             while (obj = blocks[i++]) {
                 let block = obj.block,
                     id = obj.id;
@@ -396,7 +396,7 @@ let _template_config = {
         "case": /(?:\$\{case\s+(.*?)\s*?:\})|(?:\{\{case\s+(.*?)\s*?:\}\})/i,
         "default": /(\$\{default\})|(\{\{default\}\})/i,
         "break": /(\$\{break\})|(\{\{break\}\})/i,
-        "helper": function (code: string): string {
+        "helper": function (this: FillTemplate, code: string): string {
             let SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
                 switchmatch = condense((code.match(SWITCH.begin) || [])),
                 endlength = (code.match(SWITCH.end) || [[]])[0].length,
@@ -411,9 +411,9 @@ let _template_config = {
                     switchmatch[j] = replaceAll(swmatch, ['\\[', '\\]'], ['[', ']']).toString();
                 }
                 let pre = code.substring(0, startindex), post = code.substring(endindex + endlength),
-                    val = tryEval(switchmatch[2], ((val) => eval(val)).bind(this)) || switchmatch[2],
+                    val = tryEval(switchmatch[2], ((val: any) => eval(val)).bind(this)) || switchmatch[2],
                     cgsyntax = addFlags(SWITCH["case"], "g"),
-                    cases = code.match(cgsyntax),
+                    cases: any = code.match(cgsyntax),
                     /* istanbul ignore next */
                     swmatch = switchmatch[0] || "";
                 code = code.substring(startindex + swmatch.length, endindex);
@@ -422,15 +422,15 @@ let _template_config = {
                     return pre + cut(code, startindex, endindex + endlength) + post;
                 }
                 if (defaultIndex === 0) {
-                    return pre + code.substring(defaultIndex + code.match(dflt)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
+                    return pre + code.substring(defaultIndex + (code.match(dflt) as any)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
                 }
                 for (let i = 0, len = cases.length; i < len; i++) {
-                    let cse = cases[i],
-                        cs = cse.match(SWITCH["case"]),
+                    let cse: any = cases[i],
+                        cs: any = cse.match(SWITCH["case"]),
                         /* istanbul ignore next */
                         cvalue = cs[1] || cs[2];
                     /* istanbul ignore next */
-                    cvalue = tryEval(cvalue, ((val) => eval(val)).bind(this)) || cvalue;
+                    cvalue = tryEval(cvalue, ((val: any) => eval(val)).bind(this)) || cvalue;
                     if (val == cvalue) {
                         let cindex = code.indexOf(cse),
                             bindex = indexOfAlt(code, brk, cindex);
@@ -441,15 +441,15 @@ let _template_config = {
                 }
                 /* istanbul ignore else */
                 if (~defaultIndex) {
-                    return pre + code.substring(defaultIndex + code.match(dflt)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
+                    return pre + code.substring(defaultIndex + (code.match(dflt) as any)[0].length).replace(cgsyntax, '').replace(brk, '') + post;
                 }
             }
             return code;
         },
-        "parser": function (code: string, oobj: AnyObject, bind: string, options: HelperOptions): string {
+        "parser": function (this: FillTemplate, code: string, oobj: AnyObject, bind: string, options: HelperOptions): string {
             let SWITCH = $c.TEMPLATE_TAG_CONFIG.SWITCH,
                 blocks = __processBlocks(SWITCH.begin, SWITCH.end, code, options),
-                code_result = "", i = 0, obj;
+                code_result = "", i = 0, obj: any;
             while (obj = blocks[i++]) {
                 let block = obj.block,
                     id = obj.id;
@@ -471,18 +471,18 @@ let _template_config = {
     SCRIPT: {
         "begin": /(\$\{script\})|(\{\{script\}\})/i,
         "end": /(\$\{end script\})|(\{\{end script\}\})/i,
-        "parser": function (code: string, oobj: AnyObject, bind: string, options: HelperOptions): string {
+        "parser": function (this: FillTemplate, code: string, oobj: AnyObject, bind: string, options: HelperOptions): string {
             let SCRIPT = $c.TEMPLATE_TAG_CONFIG.SCRIPT;
             let blocks = __processBlocks(SCRIPT.begin, SCRIPT.end, code, options),
                 code_result = "",
-                i = 0, obj;
+                i = 0, obj: any;
             while (obj = blocks[i++]) {
                 let body = obj.body.replace(/(##.*?##)/g, 'echo(\'$1\')'),
                     id = obj.id;
                 code_result = code_result || obj.code;
                 /* istanbul ignore if */
                 if (!~code_result.indexOf(id)) { continue; }
-                let echo = function (value) {
+                let echo = function (value: any) {
                     echo.out += value;
                 } as EchoFunction;
                 echo.out = "";
@@ -516,10 +516,10 @@ let _template_config = {
             }
 
             let tindex = indexOfAlt(code, TRY.begin),
-                body = code.substring(tindex + code.match(TRY.begin)[0].length, tend).replace(suidRegex, suidReplacer),
-                pre = code.substring(0, tindex), post = code.substring(eindex + code.match(TRY.end)[0].length),
+                body = code.substring(tindex + (code.match(TRY.begin) as any)[0].length, tend).replace(suidRegex, suidReplacer),
+                pre = code.substring(0, tindex), post = code.substring(eindex + (code.match(TRY.end) as any)[0].length),
                 str = "",
-                echo = function (value) {
+                echo = function (value: string) {
                     echo.out += value;
                 } as EchoFunction;
             echo.out = "";
@@ -533,7 +533,7 @@ let _template_config = {
                 if (~cindex) {
                     tend = ~findex ? findex : eindex;
                     let catchBlock = code.substring(cindex, tend),
-                        catchLine = catchBlock.match(TRY["catch"]),
+                        catchLine: any = catchBlock.match(TRY["catch"]),
                         errorString = replaceAll(e.toString(), '\'', '\\\'');
                     catchBlock = catchBlock.replace(catchLine[0], '').replace(suidRegex, suidReplacer);
 
@@ -542,17 +542,17 @@ let _template_config = {
                 }
             } finally {
                 if (~findex) {
-                    let finallyCode = code.substring(findex + code.match(TRY["finally"])[0].length, eindex).replace(suidRegex, suidReplacer);
+                    let finallyCode = code.substring(findex + (code.match(TRY["finally"]) as any)[0].length, eindex).replace(suidRegex, suidReplacer);
                     str += eval(`(function(){${finallyCode};return echo.out; })()`);
                 }
             }
             return pre + str + post;
         },
-        "parser": function (code: string, oobj: AnyObject, bind: string, options: HelperOptions): string {
+        "parser": function (this: FillTemplate, code: string, oobj: AnyObject, bind: string, options: HelperOptions): string {
             let TRY = $c.TEMPLATE_TAG_CONFIG.TRY,
-                lookups = {},
+                lookups: any = {},
                 blocks = __processBlocks(TRY.begin, TRY.end, code, options, lookups),
-                code_result = "", i = 0, obj;
+                code_result = "", i = 0, obj: any;
             while (obj = blocks[i++]) {
                 let block = obj.block,
                     id = obj.id;
@@ -572,7 +572,7 @@ let _template_config = {
 
     /* tokens config */
     VARIABLE: /(?:\$\{((?!\$)\S)*?\})|(?:\{\{((?!\{\{)\S)*?\}\})/gi,
-    VARIABLE_NAME: function (match) {
+    VARIABLE_NAME: function (match: string) {
         return match.slice(2, ~match.indexOf('}}') ? -2 : -1);
     },
     OR: {
@@ -583,13 +583,13 @@ let _template_config = {
     },
     DECLARE: {
         "syntax": /(?:\$\{declare (.*?);?\})|(?:\{\{declare (.*?);?\}\})/i,
-        "parser": function (htmlTemplate, declare) {
-            let matches = declare.match($c.TEMPLATE_TAG_CONFIG.DECLARE.syntax);
+        "parser": function (this: any, htmlTemplate: string, declare: string) {
+            let matches: any = declare.match($c.TEMPLATE_TAG_CONFIG.DECLARE.syntax);
             /*,
              var_nameValue = (matches[1]||matches[2]).strip(';').split("=");
 
              $c.fillTemplate.declared[var_nameValue[0]] = var_nameValue[1];*/
-            merge(this.declared, tryEval(`({${replaceAll(matches[1], '=', ':')}})`, ((val) => eval(val)).bind(this)));
+            merge(this.declared, tryEval(`({${replaceAll(matches[1], '=', ':')}})`, ((val: any) => eval(val)).bind(this)));
             return replaceAll(htmlTemplate, declare, '');
         }
     }
@@ -599,7 +599,7 @@ let _template_config = {
 $c.TEMPLATE_TAG_CONFIG = $c.TEMPLATE_TAG_CONFIG || _template_config;
 $c.TEMPLATE_VARS = $c.TEMPLATE_VARS || [];
 
-export function __add_fillTemplate_ref(obj: AnyObject): string {
+export function __add_fillTemplate_ref(this: any, obj: AnyObject): string {
     try {
         const uid = suid();
         this.refs[`ref_${this.refs.length}`] = uid;
@@ -609,9 +609,10 @@ export function __add_fillTemplate_ref(obj: AnyObject): string {
     } catch (e) {
         /* istanbul ignore next */
         error && error('fillTemplate.__add_fillTemplate_ref', e);
+        return null as any;
     }
 }
-export function __and(...args): any {
+export function __and(...args: any[]): any {
     try {
         let a = 0;
         for (let len = arguments.length; a < len; a++) {
@@ -630,11 +631,12 @@ export function __count(arr: any[]): number {
     } catch (e) {
         /* istanbul ignore next */
         error && error('fillTemplate.count', e);
+        return null as any;
     }
 }
 export function __enum(props: string[], delimiter?: string, prePost?: [string, string]): string
 export function __enum(obj: AnyObject, delimiter?: string, prePost?: [string, string]): string
-export function __enum(obj, delimiter?, prePost?): string {
+export function __enum(obj: any, delimiter?: any, prePost?: any): string {
     try {
         delimiter = delimiter || ", ";
         prePost = prePost || ["", ""];
@@ -661,11 +663,12 @@ export function __enum(obj, delimiter?, prePost?): string {
     } catch (e) {
         /* istanbul ignore next */
         error && error('fillTemplate.enum', e);
+        return null as any;
     }
 }
-export function __logic_parser(code: string, obj?: AnyObject, bind?: string, options?: HelperOptions): string {
+export function __logic_parser(this: any, code: string, obj?: AnyObject, bind?: string, options?: HelperOptions): string {
     if (!code) { return ""; }
-    let ttc = $c.TEMPLATE_TAG_CONFIG, indexes = [], logic = {};
+    let ttc = $c.TEMPLATE_TAG_CONFIG, indexes: any[] = [], logic: any = {};
     eachProperty(ttc, function (value) {
         if (!value.begin) { return; }
         let index = indexOfAlt(code, value.begin);
@@ -679,7 +682,7 @@ export function __logic_parser(code: string, obj?: AnyObject, bind?: string, opt
 
     return code.substring(0, index) + logic[index].parser.call(this, code.substring(index), obj, bind, options);
 }
-export function __or(...args): any {
+export function __or(...args: any[]): any {
     try {
         for (let a = 0, len = arguments.length; a < len; a++) {
             let arg = arguments[a];
@@ -693,7 +696,7 @@ export function __or(...args): any {
 }
 export function __processBlocks(start: RegExp, end: RegExp, code: string, options: HelperOptions, lookups?: AnyObject): Block[] {
     lookups = lookups || {};
-    let blocks: Block[] = [], sindexes = [], sindex = 0, eindexes = [], eindex = 0;
+    let blocks: Block[] = [], sindexes: any[] = [], sindex = 0, eindexes: any[] = [], eindex = 0;
     while (~(sindex = indexOfAlt(code, start, sindex))) {
         ~sindex && (sindexes.push(sindex), sindex++);
     }
@@ -706,7 +709,7 @@ export function __processBlocks(start: RegExp, end: RegExp, code: string, option
         return blocks;
     }
     /* istanbul ignore next */
-    let pairs = new OrderedList([], function (a, b) {
+    let pairs = new OrderedList<any>([], function (a, b) {
         if (a.end < b.end) { return -1; }
         if (a.end > b.end) { return 1; }
         return 0;
@@ -723,12 +726,12 @@ export function __processBlocks(start: RegExp, end: RegExp, code: string, option
         removeAt(eindexes, 0);
     }
 
-    let endlength = code.match(end)[0].length;
-    let k = 0, pair;
+    let endlength = (code.match(end) as any)[0].length;
+    let k = 0, pair: any;
     while (pair = pairs[k++]) {
         let uid = `##${suid()}##`,
             block = code.slice(pair.begin, pair.end + endlength),
-            beginLength = block.match(start)[0].length,
+            beginLength = (block.match(start) as any)[0].length,
             bodyfull = code.slice(pair.begin + beginLength, pair.end),
             body = bodyfull;
         code = code.replace(block, uid);
@@ -742,7 +745,7 @@ export function __processBlocks(start: RegExp, end: RegExp, code: string, option
         blocks.push({ id: uid, block, body, code });
         lookups[uid] = block;
 
-        let i = k, pair2;
+        let i = k, pair2: any;
         while (pair2 = pairs[i++]) {
             let offset = block.length - uid.length;
             pair2.end -= offset;
@@ -755,19 +758,19 @@ export function __processBlocks(start: RegExp, end: RegExp, code: string, option
 
     return blocks.reverse();
 }
-export function __run_replace(reg: RegExp, template: string, use_run: boolean, obj: AnyObject): string {
+export function __run_replace(this: any, reg: RegExp, template: string, use_run: boolean, obj: AnyObject): string {
     try {
-        let pre = "", post = "", split_param: string | RegExp = "|", match: RegExpExecArray;
+        let pre = "", post = "", split_param: string | RegExp = "|", match: RegExpExecArray | null;
         use_run && (pre = "RUN[", post = "]", split_param = /;(?!\\)/);
 
         while ((match = reg.exec(template)) && match[1]) {
-            let funcValue = [],
+            let funcValue: any[] = [],
                 func = "";
 
             funcValue = replaceAll(match[1], ['\\[', '\\]'], ['[', ']']).split(split_param);
             while (count(funcValue[0], "{") != count(funcValue[0], "}")) {
                 /* istanbul ignore if */
-                if (tryEval(funcValue[0], ((val) => eval(val)).bind(this))) { break; }
+                if (tryEval(funcValue[0], ((val: any) => eval(val)).bind(this))) { break; }
                 /* istanbul ignore next */
                 funcValue[0] += (isString(split_param) ? split_param : ";") + funcValue[1];
                 funcValue.splice(1, 1);
@@ -783,24 +786,25 @@ export function __run_replace(reg: RegExp, template: string, use_run: boolean, o
                 } catch (e) { }
             }
             __count([]);
-            funcValue = funcValue.map(function (item) {
+            funcValue = funcValue.map(function (this: any, item: any) {
                 /* istanbul ignore else */
-                return tryEval(item, ((val) => eval(val)).bind(this)) || item;
+                return tryEval(item, ((val: any) => eval(val)).bind(this)) || item;
             });
             /* istanbul ignore next */
             template = ~template.indexOf(match[1]) ? template.replace(match[1], (match[1] = replaceAll(match[1], ['\\[', '\\]'], ['[', ']']))) : template;
             /* istanbul ignore next */
-            const replacer = (getProperty($g, func) ? getProperty($g, func) : (tryEval(`(${func})`, ((val) => eval(val)).bind(this)) || foo)).apply(obj, funcValue) || "";
+            const replacer = (getProperty($g, func) ? getProperty($g, func) : (tryEval(`(${func})`, ((val: any) => eval(val)).bind(this)) || foo)).apply(obj, funcValue) || "";
             template = replaceAll(template, `\${${pre + match[1] + post}}`, replacer)
         }
         return template;
     } catch (e) {
         /* istanbul ignore next */
         error && error('fillTemplate.__run_replace', e);
+        return null as any;
     }
 }
 export function __mapIgnoreChars(): string[] {
-    return ($c.TEMPLATE_TAG_CONFIG.IGNORE_CHARS || []).map(function (char) {
+    return ($c.TEMPLATE_TAG_CONFIG.IGNORE_CHARS || []).map(function (char: string) {
         if (char == "\n") {
             return "this.refs['newline']";
         }
@@ -847,7 +851,7 @@ export function __processVariables(
     this: FillTemplate, template: string, obj: AnyObject, property: string, expression: string, newlineToHtml: boolean, hasDataProps: boolean
 ): string {
     let objval;
-    if (~template.indexOf(expression) && !isNull(objval = getProperty(obj, property, null, { noInheritance: true }))) {
+    if (~template.indexOf(expression) && !isNull(objval = getProperty(obj, property, undefined, { noInheritance: true }))) {
         if (typeof objval == "object") {
             objval = `this.refs['${__add_fillTemplate_ref.call(this, objval)}']`;
         } else {
@@ -880,7 +884,7 @@ export function __processDeclarations(this: FillTemplate, template: string): str
     }
     return template;
 }
-export function __processLogicals(template: string, obj: AnyObject): string {
+export function __processLogicals(this: any, template: string, obj: AnyObject): string {
     let tmp, skiplogicals = false, ttc = $c.TEMPLATE_TAG_CONFIG;
 
     while (!skiplogicals && ~template.indexOf('||') && (tmp = ttc.OR.syntax.exec(template)) && tmp[1]) {
@@ -935,7 +939,7 @@ export function __processLeftoverRunners(this: FillTemplate, template: string, o
 function fillTemplate(htmlTemplate: string, objs?: AnyObjects | AnyObject): string;
 function fillTemplate(htmlTemplate: string, objs: AnyObjects | AnyObject, options?: HelperOptions): string;
 function fillTemplate(htmlTemplate: string, objs: AnyObjects | AnyObject, offset?: number, max?: number, newlineToHtml?: boolean, preserve_nonmatching?: boolean, removeNewLineFromLogicalSyntax?: boolean, removeWhitespaceFromLogicalSyntax?: boolean): string;
-function fillTemplate(htmlTemplate, objs?, offset?, max?, newlineToHtml?, preserve_nonmatching?, removeNewLineFromLogicalSyntax?, removeWhitespaceFromLogicalSyntax?): string {
+function fillTemplate(htmlTemplate: string, objs?: any, offset?: any, max?: any, newlineToHtml?: any, preserve_nonmatching?: any, removeNewLineFromLogicalSyntax?: any, removeWhitespaceFromLogicalSyntax?: any): string {
     /*|{
         "info": "Function for templetizing",
         "category": "Template",
@@ -977,7 +981,7 @@ class FillTemplate {
         this.refs = [];
     }
 
-    fill(htmlTemplate, objs?, offset?, max?, newlineToHtml?, preserve_nonmatching?, removeNewLineFromLogicalSyntax?, removeWhitespaceFromLogicalSyntax?): string {
+    fill(htmlTemplate: string, objs?: any, offset?: any, max?: any, newlineToHtml?: any, preserve_nonmatching?: any, removeNewLineFromLogicalSyntax?: any, removeWhitespaceFromLogicalSyntax?: any): string {
         try {
             $c.TEMPLATE_TAG_CONFIG.IGNORE_CHARS = __mapIgnoreChars();
 
@@ -1022,7 +1026,7 @@ class FillTemplate {
                 template = __processThisAndIndex.call(this, template, obj, i);
                 template = __processThisProps.call(this, template, obj);
 
-                let expression;
+                let expression: any;
                 for (let j = 0, jlen = props.length; j < jlen; j++) {
                     expression = props[j];
                     let property = isFunction(vnsyntax) ? vnsyntax(expression) : vnsyntax.exec && vnsyntax.exec(expression)[1];

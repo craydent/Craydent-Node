@@ -1,5 +1,5 @@
 
-type EvaluatorMethod = (expression: any) => any;
+type EvaluatorMethod = (expression: any, ...args: any[]) => any;
 
 export default function tryEval(expression: any, evaluator?: EvaluatorMethod) {
     /*|{

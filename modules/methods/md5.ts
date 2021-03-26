@@ -19,5 +19,6 @@ export default function md5(str: string): string {
         return md5sum.digest('hex');
     } catch (e) /* istanbul ignore next */ {
         error && error('md5', e);
+        return null as any;
     }
 }

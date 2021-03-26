@@ -15,7 +15,7 @@ export default function getKeys(obj: AnyObject): string[] {
     }|*/
     try {
         if (isNull(obj)) {
-            return null;
+            return null as any;
         }
         if (Object.keys) {
             return Object.keys(obj);

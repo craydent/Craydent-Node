@@ -30,17 +30,18 @@ export default function _sessionFileCreateAndRetrieve(filepath: string, sync?: b
             return tryEval(fs.readFileSync(filepath).toString()) || {};
         }
         return new Promise((res) => {
-            callback = callback || res;
-            fs.access(filepath, function (err) {
+            const cb = callback || res;
+            fs.access(filepath, function (err: any) {
                 if (err) {
                     // create all missing parent directories async then create the file
-                    return mkdirRecursive(directory, function () { fs.open(filepath, 'w+', function () { callback({}); }); });
+                    return mkdirRecursive(directory, function () { fs.open(filepath, 'w+', function () { cb({}); }); });
                 }
-                fs.readFile(filepath, function (err, data) { callback(tryEval(data)); });
+                fs.readFile(filepath, function (err: any, data: any) { cb(tryEval(data)); });
             });
         });
 
     } catch (e) /* istanbul ignore next */ {
         error && error('_sessionFileCreateAndRetrieve', e);
+        return null as any;
     }
 }

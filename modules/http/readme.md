@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.11.1
+# Craydent 0.11.2
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -75,17 +75,17 @@ ANDROID (Boolean) |IE_VERSION (Number) |REFERER (String) |
 BLACKBERRY (Boolean) |IPAD (Boolean) |REFERER_IP (String) |
 BROWSER (Object) |IPHONE (Boolean) |RESPONSES (Object) |
 CHROME (Boolean) |IPOD (Boolean) |SAFARI (Boolean) |
-CHROME_VERSION (String) |KHTML (Boolean) |SAFARI_VERSION (String) |
+CHROME_VERSION (Number) |KHTML (Boolean) |SAFARI_VERSION (Number) |
 CLIENT (Object) |LINUX (Boolean) |SERVER (String) |
 CONSOLE_COLORS (Object) |LOCAL_IP (String) |SERVER_PATH (String) |
 CORES_SUPPORT (Boolean) |MAC (Boolean) |SYMBIAN (Boolean) |
 DEBUG_MODE (Boolean) |MODULES_LOADED (Object) |TEMPLATE_TAG_CONFIG (Object) |
 DEVICE (Object) |OPERA (Boolean) |VERBOSE_LOGS (String) |
-ENGINE (Object) |OPERA_VERSION (String) |TEMPLATE_VARS (Array) |
+ENGINE (Object) |OPERA_VERSION (Number) |TEMPLATE_VARS (Array) |
 ERROR_TYPES (Array) |ORIGIN (String) |TRIDENT (Boolean) |
 EXPOSE_ROUTE_API (String) |OS (Object) |VERSION (String) |
 FIREFOX (Boolean) |PAGE_NAME (String) |WEBKIT (Boolean) |
-FIREFOX_VERSION (String) |PAGE_NAME_RAW (String) |WINDOWS (Boolean) |
+FIREFOX_VERSION (Number) |PAGE_NAME_RAW (String) |WINDOWS (Boolean) |
 GEKKO (Boolean) |PALM (Boolean) |WINDOWS_MOBILE (Boolean) |
 HTTP_STATUS_TEMPLATE (Object) |PRAGMA (String) |
 IE (Boolean) |PRESTO (Boolean) |

@@ -1,7 +1,7 @@
 import isArray from '../methods/isarray';
 import runFuncArray from '../methods/runfuncarray';
 
-export default function next(...arg: any): void {
+export default function next(this: any, ...arg: any): any[] | Promise<any[]> {
     /*|{
         "info": "Call the next function(s) in queue",
         "category": "Function",
@@ -23,8 +23,8 @@ export default function next(...arg: any): void {
             }
             args.callee = arguments.callee;
         }
-        return runFuncArray.call(this, (arguments.callee.caller as any)._then, arguments);
+        return runFuncArray.call(this, (arguments.callee.caller as any)._then, arguments as any);
     } catch (e) {
-        return e != 'catch' && runFuncArray.call(this, arguments.callee.caller['_catch'], args);
+        return e != 'catch' && runFuncArray.call(this, (arguments.callee.caller as any)['_catch'], args as any) || [];
     }
 }

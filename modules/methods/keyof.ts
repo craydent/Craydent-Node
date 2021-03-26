@@ -20,7 +20,7 @@ export default function keyOf<T>(obj: T, value: any): string {
         }
         for (let prop in obj) {
             /* istanbul ignore else */
-            if (obj.hasOwnProperty(prop)) {
+            if ((obj as any).hasOwnProperty(prop)) {
                 if (equals(obj[prop], value)) { return prop; }
             }
         }

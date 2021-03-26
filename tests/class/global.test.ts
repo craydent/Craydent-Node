@@ -10,7 +10,7 @@ describe('No Conflict Global classes', function () {
     //
     //});
     it('Cursor - array', function () {
-        var cursor = new Cursor(arr);
+        var cursor = new (Cursor as any)(arr);
         expect(cursor.current).toBe(1);
         expect(cursor.hasNext()).toBe(true);
         cursor.setNextIndex(10);
@@ -25,7 +25,7 @@ describe('No Conflict Global classes', function () {
         expect(cursor.current).toBe(1);
     });
     it('Cursor - object', function () {
-        var cursor = new Cursor(obj);
+        var cursor = new (Cursor as any)(obj);
         expect(cursor.current).toBe(1);
         expect(cursor.hasNext()).toBe(true);
         cursor.setNextIndex(10);
@@ -72,7 +72,7 @@ describe('No Conflict Global classes', function () {
         expect(ol[2].p).toBe(3);
     });
     it('Queue', function () {
-        var queue = new Queue(oarr);
+        var queue: any = new Queue(oarr);
         expect([].concat(queue)).toEqual([{ p: 1 }, { p: 2 }, { p: 4 }, { p: 5 }, { p: 6 }]);
         // expect(queue.hasNext()).toBe(true);
         queue.enqueue({ p: 7 });
@@ -86,7 +86,7 @@ describe('No Conflict Global classes', function () {
         // expect(queue.next()).toEqual({ value: { p: 7 }, done: true });
     });
     it('Set', function () {
-        var set = new $c.Set(setarr);
+        var set: any = new $c.Set(setarr);
         expect([].concat(set)).toEqual([{ p: 1 }, { p: 2 }, { p: 4 }, { p: 5 }, { p: 6 }]);
         // expect(set.hasNext()).toBe(true);
         expect(set.push({ p: 1 })).toBe(6);

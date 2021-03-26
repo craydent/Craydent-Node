@@ -16,37 +16,38 @@ describe('$GET', () => {
         });
 
         it('should return {} when there are no values', () => {
-            const dis = { location: {} }
+            const dis: any = { location: {} }
             expect($GET.call(dis)).toEqual({});
         });
         it('should get all values', () => {
-            const dis = { location: { search: 'key=value', hash: '@key2=value2' } };
+            const dis: any = { location: { search: 'key=value', hash: '@key2=value2' } };
             expect($GET.call(dis,)).toEqual({ key: 'value', key2: 'value2' });
             expect($GET.call(dis,)).toEqual({ key: 'value', key2: 'value2' });
         });
         it('should get all values from provided url', () => {
-            const dis = { location: { search: 'key=value', hash: '@key2=value2' } };
-            expect($GET.call(dis, { url: '?keys=values#@keys2=values2' })).toEqual({ keys: 'values', keys2: 'values2' });
-            expect($GET.call(dis, { url: '?keys=values' })).toEqual({ keys: 'values' });
-            expect($GET.call(dis, { url: 'http://www.example.com?keys=values=value' })).toEqual({ keys: 'values=value' });
-            expect($GET.call(dis, 'keys', 'http://www.example.com?keys=values=value#@keys2=values2')).toEqual('values=value');
-            expect($GET.call(dis, 'keys2', 'http://www.example.com?keys=values=value#@keys2=values2')).toEqual('values2');
+            const dis: any = { location: { search: 'key=value', hash: '@key2=value2' } };
+            const get: any = $GET.bind(dis);
+            expect(get({ url: '?keys=values#@keys2=values2' })).toEqual({ keys: 'values', keys2: 'values2' });
+            expect(get({ url: '?keys=values' })).toEqual({ keys: 'values' });
+            expect(get({ url: 'http://www.example.com?keys=values=value' })).toEqual({ keys: 'values=value' });
+            expect(get('keys', 'http://www.example.com?keys=values=value#@keys2=values2')).toEqual('values=value');
+            expect(get('keys2', 'http://www.example.com?keys=values=value#@keys2=values2')).toEqual('values2');
         });
         it('should get value', () => {
-            const dis = { location: { search: 'key=value' } };
+            const dis: any = { location: { search: 'key=value' } };
             expect($GET.call(dis, 'key')).toBe('value');
         });
         it('should get value ignoring case', () => {
-            const dis = { location: { search: 'KEY=value' } };
+            const dis: any = { location: { search: 'KEY=value' } };
             expect($GET.call(dis, 'key', { ignoreCase: true })).toBe('value');
             expect($GET.call(dis, 'key', 'ignoreCase')).toBe('value');
         });
         it('should get value from option', () => {
-            const dis = { location: { search: 'key=value' } };
+            const dis: any = { location: { search: 'key=value' } };
             expect($GET.call(dis, 'key', { url: 'key=thevalue' })).toBe('thevalue');
         });
         it('should not get value', () => {
-            const dis = { location: { search: 'key=value' } };
+            const dis: any = { location: { search: 'key=value' } };
             expect($GET.call(dis, 'keys')).toBe(null);
         });
     });

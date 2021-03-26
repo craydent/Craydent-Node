@@ -7,5 +7,6 @@ export default function _even(num: number): boolean {
         return !(num & 1);
     } catch (e) /* istanbul ignore next */ {
         error && error('_even', e);
+        return null as any;
     }
 }

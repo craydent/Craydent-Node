@@ -14,5 +14,5 @@ export default function duplicate<T>(obj: T, recursive?: boolean): T {
         "returnType": "(any)"
     }|*/
     if (isNull(obj)) { return obj; }
-    return _duplicate(new ((obj as any).constructor)(), obj, recursive);
+    return _duplicate(new ((obj as any).constructor)(), obj, recursive as any);
 }

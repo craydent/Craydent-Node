@@ -4,35 +4,35 @@ import requireDirectory from '../../compiled/transformedMinor/craydent.requiredi
 
 jest.mock('fs', () => {
     return {
-        "readdirSync": (...args) => readdirSync.apply(this, args),
-        "statSync": (...args) => statSync.apply(this, args),
-        "readdir": (...args) => readdir.apply(this, args),
-        "stat": (...args) => stat.apply(this, args)
+        "readdirSync": (...args: any[]) => readdirSync.apply(this, args as any),
+        "statSync": (...args: any[]) => statSync.apply(this, args as any),
+        "readdir": (...args: any[]) => readdir.apply(this, args as any),
+        "stat": (...args: any[]) => stat.apply(this, args as any)
     }
 });
 jest.mock('../../compiled/transformedMinor/craydent.absolutepath', () => {
     return {
-        "default": (...args) => absolutePath.apply(this, args)
+        "default": (...args: any[]) => absolutePath.apply(this, args as any)
     }
 });
 jest.mock('../../compiled/transformedMinor/craydent.include', () => {
     return {
-        "default": (...args) => include.apply(this, args)
+        "default": (...args: any[]) => include.apply(this, args as any)
     }
 });
-let absolutePath = (path) => { }
-let include = (name) => {
+let absolutePath = (path: any) => { }
+let include = (name: any) => {
     return {
-        "readdirSync": (...args) => readdirSync.apply(this, args),
-        "statSync": (...args) => statSync.apply(this, args),
-        "readdir": (...args) => readdir.apply(this, args),
-        "stat": (...args) => stat.apply(this, args)
+        "readdirSync": (...args: any[]) => readdirSync.apply(this, args as any),
+        "statSync": (...args: any[]) => statSync.apply(this, args as any),
+        "readdir": (...args: any[]) => readdir.apply(this, args as any),
+        "stat": (...args: any[]) => stat.apply(this, args as any)
     }
 }
-let statSync = (path) => { }
-let readdirSync = (path) => { }
-let readdir = (path, cb) => { }
-let stat = (path, cb) => { }
+let statSync = (path: any) => { }
+let readdirSync = (path: any) => { }
+let readdir = (path: any, cb: any) => { }
+let stat = (path: any, cb: any) => { }
 
 describe('requireDirectory', () => {
     afterAll(() => {
@@ -42,10 +42,10 @@ describe('requireDirectory', () => {
         absolutePath = () => { }
         include = () => {
             return {
-                "readdirSync": (...args) => readdirSync.apply(this, args),
-                "statSync": (...args) => statSync.apply(this, args),
-                "readdir": (...args) => readdir.apply(this, args),
-                "stat": (...args) => stat.apply(this, args)
+                "readdirSync": (...args: any[]) => readdirSync.apply(this, args as any),
+                "statSync": (...args: any[]) => statSync.apply(this, args as any),
+                "readdir": (...args: any[]) => readdir.apply(this, args as any),
+                "stat": (...args: any[]) => stat.apply(this, args as any)
             }
         }
         statSync = () => { }
@@ -55,15 +55,15 @@ describe('requireDirectory', () => {
     });
     describe('syncronous', () => {
         it('should require all files in a directory excluding files starting with . or _', () => {
-            absolutePath = jest.fn((path) => '/absolute/./path/');
-            include = jest.fn((name) => ({
-                "readdirSync": (...args) => readdirSync.apply(this, args),
-                "statSync": (...args) => statSync.apply(this, args),
-                "readdir": (...args) => readdir.apply(this, args),
-                "stat": (...args) => stat.apply(this, args)
+            absolutePath = jest.fn((path: any) => '/absolute/./path/');
+            include = jest.fn((name: any) => ({
+                "readdirSync": (...args: any[]) => readdirSync.apply(this, args as any),
+                "statSync": (...args: any[]) => statSync.apply(this, args as any),
+                "readdir": (...args: any[]) => readdir.apply(this, args as any),
+                "stat": (...args: any[]) => stat.apply(this, args as any)
             }));
-            statSync = jest.fn((path) => ({ isDirectory: () => false }));
-            readdirSync = jest.fn((path) => ['_file', '.file', 'thefile'])
+            statSync = jest.fn((path: any) => ({ isDirectory: () => false }));
+            readdirSync = jest.fn((path: any) => ['_file', '.file', 'thefile'])
 
             expect(requireDirectory('./path', 's')).toEqual({
                 "/thefile": {
@@ -76,40 +76,40 @@ describe('requireDirectory', () => {
         });
 
         it('should require all files in a directory excluding subdirectories and files starting with . or _', () => {
-            absolutePath = jest.fn((path) => '/absolute/./path/');
-            include = jest.fn((name) => ({
-                "readdirSync": (...args) => readdirSync.apply(this, args),
-                "statSync": (...args) => statSync.apply(this, args),
-                "readdir": (...args) => readdir.apply(this, args),
-                "stat": (...args) => stat.apply(this, args)
+            absolutePath = jest.fn((path: any) => '/absolute/./path/');
+            include = jest.fn((name: any) => ({
+                "readdirSync": (...args: any[]) => readdirSync.apply(this, args as any),
+                "statSync": (...args: any[]) => statSync.apply(this, args as any),
+                "readdir": (...args: any[]) => readdir.apply(this, args as any),
+                "stat": (...args: any[]) => stat.apply(this, args as any)
             }));
             statSync = jest.fn()
-                .mockImplementationOnce((path) => ({ isDirectory: () => false }))
-                .mockImplementationOnce((path) => ({ isDirectory: () => false }))
-                .mockImplementationOnce((path) => ({ isDirectory: () => true }))
-                .mockImplementationOnce((path) => ({ isDirectory: () => false }));
+                .mockImplementationOnce((path: any) => ({ isDirectory: () => false }))
+                .mockImplementationOnce((path: any) => ({ isDirectory: () => false }))
+                .mockImplementationOnce((path: any) => ({ isDirectory: () => true }))
+                .mockImplementationOnce((path: any) => ({ isDirectory: () => false }));
             readdirSync = jest.fn()
-                .mockImplementationOnce((path) => ['_file', '.file', 'directory'])
-                .mockImplementationOnce((path) => ['thefile']);
+                .mockImplementationOnce((path: any) => ['_file', '.file', 'directory'])
+                .mockImplementationOnce((path: any) => ['thefile']);
 
             expect(requireDirectory('./path', 's')).toEqual({});
         });
         it('should require all files in a directory recursively excluding files starting with . or _', () => {
-            absolutePath = jest.fn((path) => '/absolute/./path/');
-            include = jest.fn((name) => ({
-                "readdirSync": (...args) => readdirSync.apply(this, args),
-                "statSync": (...args) => statSync.apply(this, args),
-                "readdir": (...args) => readdir.apply(this, args),
-                "stat": (...args) => stat.apply(this, args)
+            absolutePath = jest.fn((path: any) => '/absolute/./path/');
+            include = jest.fn((name: any) => ({
+                "readdirSync": (...args: any[]) => readdirSync.apply(this, args as any),
+                "statSync": (...args: any[]) => statSync.apply(this, args as any),
+                "readdir": (...args: any[]) => readdir.apply(this, args as any),
+                "stat": (...args: any[]) => stat.apply(this, args as any)
             }));
             statSync = jest.fn()
-                .mockImplementationOnce((path) => ({ isDirectory: () => false }))
-                .mockImplementationOnce((path) => ({ isDirectory: () => false }))
-                .mockImplementationOnce((path) => ({ isDirectory: () => true }))
-                .mockImplementationOnce((path) => ({ isDirectory: () => false }));
+                .mockImplementationOnce((path: any) => ({ isDirectory: () => false }))
+                .mockImplementationOnce((path: any) => ({ isDirectory: () => false }))
+                .mockImplementationOnce((path: any) => ({ isDirectory: () => true }))
+                .mockImplementationOnce((path: any) => ({ isDirectory: () => false }));
             readdirSync = jest.fn()
-                .mockImplementationOnce((path) => ['_file', '.file', 'directory'])
-                .mockImplementationOnce((path) => ['thefile']);
+                .mockImplementationOnce((path: any) => ['_file', '.file', 'directory'])
+                .mockImplementationOnce((path: any) => ['thefile']);
 
             expect(requireDirectory('./path', 'sr')).toEqual({
                 "/directory/thefile": {
@@ -123,15 +123,15 @@ describe('requireDirectory', () => {
     });
     describe('asyncronous', () => {
         it('should require all files in a directory excluding files starting with . or _', async () => {
-            absolutePath = jest.fn((path) => '/absolute/./path/');
-            include = jest.fn((name) => ({
-                "readdirSync": (...args) => readdirSync.apply(this, args),
-                "statSync": (...args) => statSync.apply(this, args),
-                "readdir": (...args) => readdir.apply(this, args),
-                "stat": (...args) => stat.apply(this, args)
+            absolutePath = jest.fn((path: any) => '/absolute/./path/');
+            include = jest.fn((name: any) => ({
+                "readdirSync": (...args: any[]) => readdirSync.apply(this, args as any),
+                "statSync": (...args: any[]) => statSync.apply(this, args as any),
+                "readdir": (...args: any[]) => readdir.apply(this, args as any),
+                "stat": (...args: any[]) => stat.apply(this, args as any)
             }));
-            stat = jest.fn((path, cb) => cb(null, { isDirectory: () => false }));
-            readdir = jest.fn((path, cb) => cb(null, ['_file', '.file', 'thefile']))
+            stat = jest.fn((path: any, cb: any) => cb(null, { isDirectory: () => false }));
+            readdir = jest.fn((path: any, cb: any) => cb(null, ['_file', '.file', 'thefile']))
 
             expect(await requireDirectory('./path')).toEqual({
                 "/thefile": {
@@ -144,40 +144,40 @@ describe('requireDirectory', () => {
         });
 
         it('should require all files in a directory excluding subdirectories and files starting with . or _', async () => {
-            absolutePath = jest.fn((path) => '/absolute/./path/');
-            include = jest.fn((name) => ({
-                "readdirSync": (...args) => readdirSync.apply(this, args),
-                "statSync": (...args) => statSync.apply(this, args),
-                "readdir": (...args) => readdir.apply(this, args),
-                "stat": (...args) => stat.apply(this, args)
+            absolutePath = jest.fn((path: any) => '/absolute/./path/');
+            include = jest.fn((name: any) => ({
+                "readdirSync": (...args: any[]) => readdirSync.apply(this, args as any),
+                "statSync": (...args: any[]) => statSync.apply(this, args as any),
+                "readdir": (...args: any[]) => readdir.apply(this, args as any),
+                "stat": (...args: any[]) => stat.apply(this, args as any)
             }));
             stat = jest.fn()
-                .mockImplementationOnce((path, cb) => cb(null, { isDirectory: () => false }))
-                .mockImplementationOnce((path, cb) => cb(null, { isDirectory: () => false }))
-                .mockImplementationOnce((path, cb) => cb(null, { isDirectory: () => true }))
-                .mockImplementationOnce((path, cb) => cb(null, { isDirectory: () => false }));
+                .mockImplementationOnce((path: any, cb: any) => cb(null, { isDirectory: () => false }))
+                .mockImplementationOnce((path: any, cb: any) => cb(null, { isDirectory: () => false }))
+                .mockImplementationOnce((path: any, cb: any) => cb(null, { isDirectory: () => true }))
+                .mockImplementationOnce((path: any, cb: any) => cb(null, { isDirectory: () => false }));
             readdir = jest.fn()
-                .mockImplementationOnce((path, cb) => cb(null, ['_file', '.file', 'directory']))
-                .mockImplementationOnce((path, cb) => cb(null, ['thefile']));
+                .mockImplementationOnce((path: any, cb: any) => cb(null, ['_file', '.file', 'directory']))
+                .mockImplementationOnce((path: any, cb: any) => cb(null, ['thefile']));
 
             expect(await requireDirectory('./path')).toEqual({});
         });
         it('should require all files in a directory recursively excluding files starting with . or _', async () => {
-            absolutePath = jest.fn((path) => '/absolute/./path/');
-            include = jest.fn((name) => ({
-                "readdirSync": (...args) => readdirSync.apply(this, args),
-                "statSync": (...args) => statSync.apply(this, args),
-                "readdir": (...args) => readdir.apply(this, args),
-                "stat": (...args) => stat.apply(this, args)
+            absolutePath = jest.fn((path: any) => '/absolute/./path/');
+            include = jest.fn((name: any) => ({
+                "readdirSync": (...args: any[]) => readdirSync.apply(this, args as any),
+                "statSync": (...args: any[]) => statSync.apply(this, args as any),
+                "readdir": (...args: any[]) => readdir.apply(this, args as any),
+                "stat": (...args: any[]) => stat.apply(this, args as any)
             }));
             stat = jest.fn()
-                .mockImplementationOnce((path, cb) => cb(null, { isDirectory: () => false }))
-                .mockImplementationOnce((path, cb) => cb(null, { isDirectory: () => false }))
-                .mockImplementationOnce((path, cb) => cb(null, { isDirectory: () => true }))
-                .mockImplementationOnce((path, cb) => cb(null, { isDirectory: () => false }));
+                .mockImplementationOnce((path: any, cb: any) => cb(null, { isDirectory: () => false }))
+                .mockImplementationOnce((path: any, cb: any) => cb(null, { isDirectory: () => false }))
+                .mockImplementationOnce((path: any, cb: any) => cb(null, { isDirectory: () => true }))
+                .mockImplementationOnce((path: any, cb: any) => cb(null, { isDirectory: () => false }));
             readdir = jest.fn()
-                .mockImplementationOnce((path, cb) => cb(null, ['_file', '.file', 'directory']))
-                .mockImplementationOnce((path, cb) => cb(null, ['thefile']));
+                .mockImplementationOnce((path: any, cb: any) => cb(null, ['_file', '.file', 'directory']))
+                .mockImplementationOnce((path: any, cb: any) => cb(null, ['thefile']));
 
             expect(await requireDirectory('./path', 'r')).toEqual({
                 "/directory/thefile": {

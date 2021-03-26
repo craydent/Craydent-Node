@@ -15,5 +15,6 @@ export default function isAmaya(this: Craydent | Window): boolean {
         return (/amaya/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isAmaya', e);
+        return null as any;
     }
 }

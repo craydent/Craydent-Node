@@ -23,6 +23,6 @@ export default function insert<T>(objs: T[], value: any | any[]): boolean {
         return true;
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.insert", e);
-        return null;
+        return null as any;
     }
 }

@@ -14,7 +14,7 @@ const _isFunction = isFunction,
 
 export default function getValue(obj: any, dflt?: any): any;
 export default function getValue(obj: Function, args?: any[], dflt?: any): any;
-export default function getValue(obj, args?, dflt?): any {
+export default function getValue(obj: any, args?: any, dflt?: any): any {
     /*|{
         "info": "Object class extension to retrieve value of an object property",
         "category": "Array|Object",

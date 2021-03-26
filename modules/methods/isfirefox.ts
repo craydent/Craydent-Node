@@ -20,5 +20,6 @@ export default function isFirefox(this: Craydent | Window): boolean {
             && /firefox/i.test(nu));
     } catch (e) /* istanbul ignore next */ {
         error && error('isFirefox', e);
+        return null as any;
     }
 }

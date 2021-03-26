@@ -1,7 +1,7 @@
 import insertAfter from '../../compiled/transformedMinor/craydent.insertafter';
 jest.mock('../../compiled/transformedMinor/craydent.insertafter/protected/_addToIndex', () => {
     return {
-        "default": (...args) => __addToIndex.apply(this, args)
+        "default": (...args: any[]) => __addToIndex.apply(this, args as any)
     }
 });
 let __addToIndex = () => { }

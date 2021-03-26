@@ -35,7 +35,7 @@ export function _contains<T, TValue>(this: T[], val: ContainsValue, operator: Co
 export function _contains<T, TValue>(this: T, val: ContainsValue, func: ContainsObjectIterator<T, TValue>): boolean;
 export function _contains(this: string, val: ContainsValue): boolean;
 export function _contains(this: number, val: ContainsValue): boolean;
-export function _contains(val, func?) {
+export function _contains(this: any, val: any, func?: any) {
     /*|{
         "info": "Object class extension to check if value exists",
         "category": "Number|Object",
@@ -61,7 +61,7 @@ export function _contains(val, func?) {
 }
 export function _equals(this: AnyObject, compare: AnyObject, props?: string[]): boolean;
 export function _equals(this: any, compare: any): boolean;
-export function _equals(compare, props?): boolean {
+export function _equals(this: any, compare: any, props?: any): boolean {
     /*|{
         "info": "Object class extension to check if object values are equal",
         "category": "Number|Object",
@@ -80,7 +80,7 @@ export function _equals(compare, props?): boolean {
 export function _getValue(this: number, args?: any[], dflt?: any): any {
     return getValue(this as any, args, dflt);
 }
-export function _aboutEqualTo(compare, giveOrTake): boolean {
+export function _aboutEqualTo(this: number, compare: number, giveOrTake: number): boolean {
     /*|{
         "info": "Number class extension to check if values are approximately equal",
         "category": "Number",
@@ -95,7 +95,7 @@ export function _aboutEqualTo(compare, giveOrTake): boolean {
     }|*/
     return aboutEqualTo(this, compare, giveOrTake);
 }
-export function _isBetween(lowerBound: number, upperBound: number, inclusive?: boolean): boolean {
+export function _isBetween(this: number, lowerBound: number, upperBound: number, inclusive?: boolean): boolean {
     /*|{
             "info": "Object class extension to check if object is between lower and upper bounds",
             "category": "Number|Object",
@@ -111,7 +111,7 @@ export function _isBetween(lowerBound: number, upperBound: number, inclusive?: b
         }|*/
     return isBetween(this, lowerBound, upperBound, inclusive);
 }
-export function _isEven() {
+export function _isEven(this: number) {
     /*|{
         "info": "Number class extension to check if number is even",
         "category": "Number",
@@ -124,7 +124,7 @@ export function _isEven() {
     }|*/
     return isEven(this);
 }
-export function _isOdd() {
+export function _isOdd(this: number) {
     /*|{
             "info": "Number class extension to check if number is odd",
             "category": "Number",

@@ -1,6 +1,6 @@
 import on from '../../compiled/transformedMinor/craydent.on';
 describe('on', () => {
-    let func = () => { };
+    let func: any = () => { };
     beforeEach(() => {
         func = () => { };
     });

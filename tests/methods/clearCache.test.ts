@@ -12,7 +12,7 @@ describe('clearCache', () => {
     })
     it('should remove modules', () => {
         const spy = jest.spyOn(CC, '_clearCacheHelper');
-        const finder = (call, value) => { return call[0] == value };
+        const finder = (call: any, value: any) => { return call[0] == value };
         const isNullPath = require.resolve('../../compiled/transformedMinor/craydent.isnull');
         const isNullOrEmpty = require.resolve('../../compiled/transformedMinor/craydent.isnullorempty');
         require('../../compiled/transformedMinor/craydent.isnull');

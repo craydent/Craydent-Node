@@ -26,7 +26,7 @@ export default function eachProperty<T>(obj: AnyObject, callback: EachIterator<T
         for (let prop in obj) {
             /* istanbul ignore next */
             if (!obj.hasOwnProperty(prop)) { continue; }
-            if (callback.call(obj, obj[prop], prop)) { break; }
+            if (callback.call(obj as any, obj[prop], prop)) { break; }
         }
     } catch (e) /* istanbul ignore next */ {
         error && error('Object.eachProperty', e);

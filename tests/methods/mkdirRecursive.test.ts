@@ -2,16 +2,16 @@ import mkdirRecursive from '../../compiled/transformedMinor/craydent.mkdirrecurs
 import * as path from 'path';
 jest.mock('fs', () => {
     return {
-        "access": (...args) => access.apply(this, args),
-        "mkdir": (...args) => mkdir.apply(this, args)
+        "access": (...args: any[]) => access.apply(this, args as any),
+        "mkdir": (...args: any[]) => mkdir.apply(this, args as any)
     }
 });
 jest.mock('path', () => {
     return {};
 });
 jest.mock('process', () => ({ cwd }));
-let access = (path, cb) => { };
-let mkdir = (path, cb) => { };
+let access = (path: any, cb: any) => { };
+let mkdir = (path: any, cb: any) => { };
 let cwd = () => { };
 describe('mkdirRecursive linux based', () => {
     beforeEach(() => {
@@ -26,27 +26,27 @@ describe('mkdirRecursive linux based', () => {
 
     });
     it('should handle existing path', async () => {
-        access = jest.fn((path, cb) => cb(null));
-        mkdir = jest.fn((path, cb) => cb(null));
+        access = jest.fn((path: any, cb: any) => cb(null));
+        mkdir = jest.fn((path: any, cb: any) => cb(null));
         expect(await mkdirRecursive('/path')).toBe('/path');
         expect(mkdir).not.toHaveBeenCalled();
 
     });
     it('should handle when path creation fails', async () => {
-        access = jest.fn((path, cb) => cb(true));
-        mkdir = jest.fn((path, cb) => cb('failed'));
+        access = jest.fn((path: any, cb: any) => cb(true));
+        mkdir = jest.fn((path: any, cb: any) => cb('failed'));
         expect(await mkdirRecursive('/path')).toBe('failed');
 
     });
     it('should make directories using absolute path', async () => {
-        access = jest.fn((path, cb) => cb(true));
-        mkdir = jest.fn((path, cb) => cb(null));
+        access = jest.fn((path: any, cb: any) => cb(true));
+        mkdir = jest.fn((path: any, cb: any) => cb(null));
         expect(await mkdirRecursive('/path')).toBe('/path');
 
     });
     it('should make directories using relative path', async () => {
-        access = jest.fn((path, cb) => cb(true));
-        mkdir = jest.fn((path, cb) => cb(null));
+        access = jest.fn((path: any, cb: any) => cb(true));
+        mkdir = jest.fn((path: any, cb: any) => cb(null));
         expect(await mkdirRecursive('./path')).toBe(`/./path`);
 
     });
@@ -64,27 +64,27 @@ describe('mkdirRecursive windows based', () => {
 
     });
     it('should handle existing path', async () => {
-        access = jest.fn((path, cb) => cb(null));
-        mkdir = jest.fn((path, cb) => cb(null));
+        access = jest.fn((path: any, cb: any) => cb(null));
+        mkdir = jest.fn((path: any, cb: any) => cb(null));
         expect(await mkdirRecursive('C:\\path')).toBe('\\path');
         expect(mkdir).not.toHaveBeenCalled();
 
     });
     it('should handle when path creation fails', async () => {
-        access = jest.fn((path, cb) => cb(true));
-        mkdir = jest.fn((path, cb) => cb('failed'));
+        access = jest.fn((path: any, cb: any) => cb(true));
+        mkdir = jest.fn((path: any, cb: any) => cb('failed'));
         expect(await mkdirRecursive('C:\\path')).toBe('failed');
 
     });
     it('should make directories using absolute path', async () => {
-        access = jest.fn((path, cb) => cb(true));
-        mkdir = jest.fn((path, cb) => cb(null));
+        access = jest.fn((path: any, cb: any) => cb(true));
+        mkdir = jest.fn((path: any, cb: any) => cb(null));
         expect(await mkdirRecursive('C:\\path')).toBe('\\path');
 
     });
     it('should make directories using relative path', async () => {
-        access = jest.fn((path, cb) => cb(true));
-        mkdir = jest.fn((path, cb) => cb(null));
+        access = jest.fn((path: any, cb: any) => cb(true));
+        mkdir = jest.fn((path: any, cb: any) => cb(null));
         expect(await mkdirRecursive('\\path')).toBe('\\path');
 
     });

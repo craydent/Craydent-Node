@@ -21,19 +21,19 @@ interface TemplateTagConfig {
         begin: RegExp;
         end: RegExp;
         helper: (code: string, body: string, options: HelperOptions) => string;
-        parser: (code: string, oobj, bind, options: HelperOptions) => string;
+        parser: (code: string, oobj: any, bind: any, options: HelperOptions) => string;
     };
     FOREACH: {
         begin: RegExp;
         end: RegExp;
-        helper: (code: string, body: string, rtnObject: any, uid: string, obj: BlockofCode, bind, ref_obj) => string;
-        parser: (code: string, ref_obj: any, bind) => string;
+        helper: (code: string, body: string, rtnObject: any, uid: string, obj: BlockofCode, bind: any, ref_obj: any) => string;
+        parser: (code: string, ref_obj: any, bind: any) => string;
     };
     WHILE: {
         begin: RegExp;
         end: RegExp;
         helper: (code: string, body: string) => string;
-        parser: (code: string, ref_obj: any, bind) => string;
+        parser: (code: string, ref_obj: any, bind: any) => string;
     };
     IF: {
         begin: RegExp;
@@ -41,7 +41,7 @@ interface TemplateTagConfig {
         else: RegExp;
         end: RegExp;
         helper: (code: string) => string;
-        parser: (code: string, oobj, bind) => string;
+        parser: (code: string, oobj: any, bind: any) => string;
     };
     OR: {
         syntax: RegExp
@@ -53,20 +53,20 @@ interface TemplateTagConfig {
         break: RegExp;
         end: RegExp;
         helper: (code: string) => string;
-        parser: (code: string, oobj, bind) => string;
+        parser: (code: string, oobj: any, bind: any) => string;
     };
     SCRIPT: {
         begin: RegExp;
         end: RegExp;
-        parser: (code: string, obj, bind) => string;
+        parser: (code: string, obj: any, bind: any) => string;
     };
     TRY: {
         begin: RegExp;
         catch: RegExp;
         finally: RegExp;
         end: RegExp;
-        helper: (code: string, lookups: { [key: string]: string }, exec) => string;
-        parser: (code: string, oobj, bind) => string;
+        helper: (code: string, lookups: { [key: string]: string }, exec: any) => string;
+        parser: (code: string, oobj: any, bind: any) => string;
     };
     VARIABLE: RegExp;
     VARIABLE_NAME: RegExp | ((match: string) => string);

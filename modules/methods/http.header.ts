@@ -3,7 +3,7 @@ import { VerbOptions } from '../models/VerbOptions';
 import error from '../methods/error';
 import { AnyObject } from '../models/Generics';
 
-export default function $HEADER(variable?: string, options?: VerbOptions): boolean | AnyObject {
+export default function $HEADER(this: any, variable?: string, options?: VerbOptions): boolean | AnyObject {
     /*|{
         "info": "Retrieve all or specific variables in the headers",
         "category": "HTTP",
@@ -19,7 +19,7 @@ export default function $HEADER(variable?: string, options?: VerbOptions): boole
         "returnType": "(Bool|Object)"
     }|*/
     try {
-        if (typeof window != 'undefined') { return null; }
+        if (typeof window != 'undefined') { return null as any; }
         this.request.headers = this.request.headers || {};
 
         if (!variable) { return this.request.headers; }
@@ -35,5 +35,6 @@ export default function $HEADER(variable?: string, options?: VerbOptions): boole
         return false;
     } catch (e) /* istanbul ignore next */ {
         error && error('$HEADER', e);
+        return null as any;
     }
 }

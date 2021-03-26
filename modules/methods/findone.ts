@@ -27,6 +27,6 @@ export default function findOne<T>(arr: T[], condition: WhereCondition | string,
         return where<T>(arr, condition, projection, 1)[0];
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.where", e);
-        return null;
+        return null as any;
     }
 }

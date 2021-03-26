@@ -29,14 +29,14 @@ class Set<T> extends Array<T> {
             "returnType": "(ISet<T, TResult>)"
         }|*/
         super();
-        const copy = duplicate(records, true);
+        const copy: any = duplicate(records, true);
         Object.setPrototypeOf(this, Object.create(Set.prototype))
         for (let i = 0, len = copy.length; i < len; i++) {
             this.push(copy[i]);
         }
         this.clean();
     }
-    public add = function (value: T): boolean {
+    public add = function (this: any, value: T): boolean {
         let push = true;
         for (let i = 0, len = this.length; i < len; i++) {
             if (equals(value, this[i])) {
@@ -47,7 +47,7 @@ class Set<T> extends Array<T> {
         if (push) { return !!this.push(value); }
         return false;
     };
-    public clear(val?: any, indexOf?: ArrayIterator<T>): void { removeAll(this, val, indexOf); }
-    public clean(): void { toSet(this) }
+    public clear(this: any, val?: any, indexOf?: ArrayIterator<T>): void { removeAll(this, val, indexOf); }
+    public clean(this: any,): void { toSet(this) }
 }
 export default Set;

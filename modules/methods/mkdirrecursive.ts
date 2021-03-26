@@ -11,7 +11,7 @@ import startsWithAny from '../methods/startswithany';
 import include from '../methods/include';
 import * as mpath from 'path';
 
-export default function mkdirRecursive(path: string, callback?: (err: NodeJS.ErrnoException, processedPath?: string) => void): Promise<any> {
+export default function mkdirRecursive(path: string, callback: (err: NodeJS.ErrnoException, processedPath?: string) => void = foo): Promise<any> {
     /*|{
         "info": "Recursively create folders.",
         "category": "Utility",
@@ -26,10 +26,9 @@ export default function mkdirRecursive(path: string, callback?: (err: NodeJS.Err
     }|*/
     const fs = include('fs');
     try {
-        callback = callback || foo;
         let _processedPath = arguments[2] || process.cwd();
         return new Promise((res) => {
-            const _cb = (err, path?) => {
+            const _cb = (err: any, path?: any) => {
                 callback(err, path);
                 res(err || path);
             }
@@ -48,9 +47,9 @@ export default function mkdirRecursive(path: string, callback?: (err: NodeJS.Err
                 return _cb(null, _processedPath);
             }
 
-            fs.access(dirPath, function (err) {
+            fs.access(dirPath, function (err: any) {
                 if (err) {
-                    fs.mkdir(dirPath, function (err) {
+                    fs.mkdir(dirPath, function (err: any) {
                         if (err) { return _cb(err); }
                         //@ts-ignore
                         return mkdirRecursive(dirparts.splice(1, dirparts.length - 1).join(mpath.sep), _cb, `${_processedPath}${mpath.sep}${dir}`);
@@ -63,5 +62,6 @@ export default function mkdirRecursive(path: string, callback?: (err: NodeJS.Err
         })
     } catch (e) /* istanbul ignore next */ {
         error && error('fs.mkdirRecursive', e);
+        return Promise.resolve();
     }
 }

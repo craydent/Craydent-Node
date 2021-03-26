@@ -3,7 +3,7 @@ import isNull from '../methods/isnull';
 
 export default function randIndex(str: string): number;
 export default function randIndex(arr: any[]): number;
-export default function randIndex(subject): number {
+export default function randIndex(subject: any): number {
     /*|{
         "info": "Return a random index without the bounds",
         "category": "Utility",

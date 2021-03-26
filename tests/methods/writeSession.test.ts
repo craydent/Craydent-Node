@@ -3,20 +3,20 @@ import { $c } from '../../compiled/transformedMinor/craydent.writesession/privat
 
 jest.mock('fs', () => {
     return {
-        writeFile: (...args) => {
+        writeFile: (...args: any[]) => {
             return fsMocks.writeFile.apply(this, args)
         }
     }
 });
 let fsMocks = {
-    writeFile: (...args) => {
+    writeFile: (...args: any[]) => {
     }
 }
 describe('writeSession', () => {
     it('should write to the session', () => {
         fsMocks.writeFile = jest.fn();
         const setHeader = jest.fn();
-        const dis = {
+        const dis: any = {
             response: { setHeader },
             sessionid: 'id',
             session: {}
@@ -28,7 +28,7 @@ describe('writeSession', () => {
     it('should write to the session but not set headers when headers have been sent', () => {
         fsMocks.writeFile = jest.fn();
         const setHeader = jest.fn();
-        const dis = {
+        const dis: any = {
             response: { setHeader, headersSent: true },
             sessionid: 'id',
             session: {}
@@ -42,7 +42,7 @@ describe('writeSession', () => {
         const bsl = $c.BALANCE_SERVER_LIST;
         $c.BALANCE_SERVER_LIST = [1];
         const setHeader = jest.fn();
-        const dis = {
+        const dis: any = {
             response: { setHeader },
             sessionid: 'id',
             session: {}

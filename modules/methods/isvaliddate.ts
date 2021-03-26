@@ -15,6 +15,6 @@ export default function isValidDate(date: Date): boolean {
         return !isNaN(date.getTime());
     } catch (e) /* istanbul ignore next */ {
         error && error("Date.isValidDate", e);
-        return null;
+        return null as any;
     }
 }

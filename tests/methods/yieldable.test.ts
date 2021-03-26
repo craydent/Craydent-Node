@@ -2,7 +2,7 @@ import yieldable from '../../compiled/transformedMinor/craydent.yieldable';
 
 // jest.mock('../../compiled/transformedMinor/craydent.syncroit', () => {
 //     return {
-//         "default": (...args) => syncroit.apply(this, args)
+//         "default": (...args: any[]) => syncroit.apply(this, args)
 //     }
 // });
 // let syncroit = () => { }
@@ -22,7 +22,7 @@ describe('yieldable', () => {
     });
     it('should return a yieldable using options', () => {
         const options = {
-            method: function (cb) { cb(10) },
+            method: function (cb: any) { cb(10) },
             context: {},
             callbackIndex: 0,
             returnIndex: 0
@@ -32,7 +32,7 @@ describe('yieldable', () => {
     });
     it('should return a yieldable using returnIndex as boolean', () => {
         const options = {
-            method: function (a, b, cb) { cb(false, true) },
+            method: function (a: any, b: any, cb: any) { cb(false, true) },
             context: {},
             returnIndex: true
         };
@@ -40,7 +40,7 @@ describe('yieldable', () => {
     });
     it('should return a yieldable using returnIndex as number', () => {
         const options = {
-            method: function (a, b, cb) { cb(false, true) },
+            method: function (a: any, b: any, cb: any) { cb(false, true) },
             context: {},
             returnIndex: 1
         };
@@ -48,7 +48,7 @@ describe('yieldable', () => {
     });
     it('should return a yieldable without returnIndex', () => {
         const options = {
-            method: function (a, b, cb) { cb(false, true) },
+            method: function (a: any, b: any, cb: any) { cb(false, true) },
             context: {}
         };
         expect(yieldable(options)('a', 'b')).toEqual(expect.any(Promise));

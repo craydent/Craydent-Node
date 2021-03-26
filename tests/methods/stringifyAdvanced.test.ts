@@ -2,7 +2,7 @@ import stringifyAdvanced from '../../compiled/transformedMinor/craydent.stringif
 
 jest.mock('../../compiled/transformedMinor/craydent.stringifyadvanced/protected/_stringifyAdvanced', () => {
     return {
-        "default": (...args) => _stringifyAdvanced.apply(this, args)
+        "default": (...args: any[]) => _stringifyAdvanced.apply(this, args as any)
     }
 });
 let _stringifyAdvanced = () => { }

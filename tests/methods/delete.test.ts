@@ -1,7 +1,7 @@
 import deleteit from '../../compiled/transformedMinor/craydent.delete';
 jest.mock('../../compiled/transformedMinor/craydent.delete/protected/_removeFromIndex', () => {
     return {
-        "default": (...args) => _removeFromIndex.apply(this, args)
+        "default": (...args: any[]) => _removeFromIndex.apply(this, args as any)
     }
 });
 let _removeFromIndex = () => { }
@@ -30,7 +30,7 @@ describe('deleteit no index', () => {
     });
     it('should delete all', () => {
         const arr = [{ id: 1 }, { id: 1 }, { id: 2 }];
-        const expected = [];
+        const expected: any = [];
         const result = deleteit(arr, null, false);
         expect(arr).toEqual(expected);
         expect(result).toEqual([{ id: 1 }, { id: 1 }, { id: 2 }]);

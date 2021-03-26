@@ -24,5 +24,6 @@ export default function removeAt<T>(arr: T[], index: number): T | boolean {
         return obj.splice(index, 1)[0];
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.removeAt", e);
+        return false;
     }
 }

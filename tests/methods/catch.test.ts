@@ -1,7 +1,7 @@
 import catchIt from '../../compiled/transformedMinor/craydent.catch';
 jest.mock('../../compiled/transformedMinor/craydent.on', () => {
     return {
-        "default": (...args) => _on.apply(this, args)
+        "default": (...args: any[]) => _on.apply(this, args as any)
     }
 });
 let _on = () => { }

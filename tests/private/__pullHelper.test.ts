@@ -1,7 +1,7 @@
 import __pullHelper from '../../modules/private/__pullHelper';
 jest.mock('../../modules/methods/removeat', () => {
     return {
-        "default": (...args) => removeAt.apply(this, args)
+        "default": (...args: any[]) => removeAt.apply(this, args as any)
     }
 });
 let removeAt = () => { }

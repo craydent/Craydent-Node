@@ -12,13 +12,13 @@ export default function _processClause(clause: string): any {
             clause = clause.replace(/between( .*? )and( .*?)( |$)/gi, 'between$1&and$2$3');
         }
 
-        let ORs = clause.split(/ or /i), query = { "$or": [] }, i = 0, or;
+        let ORs = clause.split(/ or /i), query = { "$or": [] as any[] }, i = 0, or: any;
         while (or = ORs[i++]) {
             let ANDs = or.split(/ and /i),
-                aquery = { '$and': [] }, j = 0, and;
+                aquery = { '$and': [] as any[] }, j = 0, and: any;
             while (and = ANDs[j++]) {
                 let predicateClause = and,
-                    cond = {};
+                    cond: any = {};
 
                 //=, <>, >, >=, <, <=, IN, BETWEEN, LIKE, IS NULL or IS NOT NULL
                 switch (true) {
@@ -69,7 +69,7 @@ export default function _processClause(clause: string): any {
                         aquery['$and'].push(cond);
                         break;
                     case !!~(index = indexOfAlt(predicateClause, / like /i)):
-                        let likeVal = `^${replaceAll(_generalTrim(predicateClause.substring(index + 6), null, [' ', "'", '"']), "%", ".*?")}$`;
+                        let likeVal = `^${replaceAll(_generalTrim(predicateClause.substring(index + 6), undefined, [' ', "'", '"']), "%", ".*?")}$`;
                         cond[predicateClause.substring(0, index).trim()] = { '$regex': new RegExp(likeVal, 'i') };
                         aquery['$and'].push(cond);
                         break;

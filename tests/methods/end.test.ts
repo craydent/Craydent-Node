@@ -4,7 +4,7 @@ import { $c } from '../../compiled/transformedMinor/craydent.end/private/__commo
 import logit from '../../compiled/transformedMinor/craydent.logit';
 jest.mock('../../compiled/transformedMinor/craydent.logit', () => {
     return {
-        "default": (...args) => _logit.apply(this, args)
+        "default": (...args: any[]) => _logit.apply(this, args as any)
     }
 });
 let _logit = () => { }
@@ -50,7 +50,7 @@ describe('end', () => {
             echo: { out: "world" },
             $GET: () => "cb"
         };
-        end.apply(httpMock, [{}, response]);
+        end.apply(httpMock, [{}, response] as any);
         expect(response.end).toHaveBeenCalledWith({});
     });
     it('should end the request when given as status', () => {
@@ -63,7 +63,7 @@ describe('end', () => {
             echo: { out: "world" },
             $GET: () => "cb"
         };
-        end.apply(httpMock, [200]);
+        end.apply(httpMock, [200] as any);
         expect(response.end).not.toHaveBeenCalled();
     });
     it('should end the request when not given status', () => {
@@ -78,7 +78,7 @@ describe('end', () => {
             echo: { out: "world" },
             $GET: () => "cb"
         };
-        end.apply(httpMock, [{}, "encoding"]);
+        end.apply(httpMock, [{}, "encoding"] as any);
         expect(httpMock.response.end).toHaveBeenCalledWith({}, "encoding");
         expect(_logit).toHaveBeenCalledTimes(2);
     });
@@ -94,7 +94,7 @@ describe('end', () => {
             echo: { out: "world" },
             $GET: () => { throw ''; }
         };
-        end.apply(httpMock, [{}, "encoding"]);
+        end.apply(httpMock, [{}, "encoding"] as any);
         expect(httpMock.response.writeHead).toHaveBeenCalledWith(500, { 'content-type': 'json' });
         expect(httpMock.response.end).toHaveBeenCalledWith("{}");
         expect(_logit).toHaveBeenCalledTimes(1);
@@ -110,7 +110,7 @@ describe('end', () => {
             $c.RESPONSES = { 404: { status: 404 } };
             $c.HTTP_STATUS_TEMPLATE = { 404: output };
             _logit = jest.fn();
-            const httpMock = {
+            const httpMock:any = {
                 response_sent: false,
                 response: { headersSent: false, writeHead: jest.fn(), end: jest.fn() },
                 writeSession: jest.fn(),
@@ -119,7 +119,7 @@ describe('end', () => {
                 $GET: () => ""
             };
             httpMock.header.headers[prop] = contentType
-            end.apply(httpMock, [200, "", "encoding"]);
+            end.apply(httpMock, [200, "", "encoding"] as any);
             expect(httpMock.response.end).toHaveBeenCalledWith(output, "encoding");
         });
     it('should short circuit if response has already been sent', () => {

@@ -14,7 +14,7 @@ import parallelEach from '../methods/paralleleach';
 
 export type Executables = Array<Executable> | Executable;
 export type Executable = Function | AsyncFunction | GeneratorFunction;
-export default function runFuncArray(funcs: Executables, args: any[] = []): any[] | Promise<any[]> {
+export default function runFuncArray(this: any, funcs: Executables, args: any[] = []): any[] | Promise<any[]> {
     /*|{
         "info": "Executes array of methods",
         "category": "Utility",
@@ -29,10 +29,10 @@ export default function runFuncArray(funcs: Executables, args: any[] = []): any[
     }|*/
     let self = this;
     !isArray(funcs) && (funcs = [funcs as Executable]);
-    let i = 0, func,
-        rtn = [],
+    let i = 0, func: any,
+        rtn: any = [],
         usePromise = false;
-    while (func = funcs[i++]) {
+    while (func = (funcs as any)[i++]) {
         try {
             /* istanbul ignore else */
             if (isGenerator(func) || isAsync(func)) {

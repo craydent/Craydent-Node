@@ -15,5 +15,6 @@ export default function _getFuncArgs(func: Function): string[] {
         return condense(_generalTrim(strip(func.toString(), '(')).replace(/\s*/gi, '').replace(/\/\*.*?\*\//g, '').replace(/.*?\((.*?)\).*/, '$1').split(','));
     } catch (e) /* istanbul ignore next */ {
         error && error('_getFuncArgs', e);
+        return null as any;
     }
 }

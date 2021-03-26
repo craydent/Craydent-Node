@@ -1,9 +1,9 @@
 import _fsHelper from '../protected/_fsHelper';
 import * as fs from 'fs';
 
-export default function writeFile(path: string | number | Buffer | URL, data: any, options: fs.WriteFileOptions): Promise<NodeJS.ErrnoException | void>;
-export default function writeFile(path: string | number | Buffer | URL, data: any): Promise<NodeJS.ErrnoException | void>;
-export default function writeFile(path, data, options?): Promise<any> {
+export default function writeFile(this: any, path: string | number | Buffer | URL, data: any, options: fs.WriteFileOptions): Promise<NodeJS.ErrnoException | void>;
+export default function writeFile(this: any, path: string | number | Buffer | URL, data: any): Promise<NodeJS.ErrnoException | void>;
+export default function writeFile(this: any, path: any, data: any, options?: any): Promise<any> {
     /*|{
         "info": "A promisified version of writeFile.  The arguments are the same as the native fs methods minus the callback.",
         "category": "FS",

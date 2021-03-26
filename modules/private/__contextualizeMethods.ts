@@ -7,12 +7,13 @@ export default function __contextualizeMethods<T>(ctx?: T): T {
         ctx = ctx || {};
 
         for (let i = 0, len = globalizables.length; i < len; i++) {
-            $c[globalizables[i]] && (ctx[globalizables[i]] = $c[globalizables[i]]);
+            $c[globalizables[i]] && ((ctx as any)[globalizables[i]] = $c[globalizables[i]]);
         }
 
-        return ctx;
+        return ctx as T;
     } catch (e) /* istanbul ignore next */ {
         error && error('__contextualizeMethods', e);
+        return null as any;
     }
 }
 let fsmethods = [

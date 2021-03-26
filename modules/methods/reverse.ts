@@ -17,5 +17,6 @@ export default function reverse(str: string): string {
         return str.split('').reverse().join('');
     } catch (e) /* istanbul ignore next */ {
         error && error("String.reverse", e);
+        return str;
     }
 }

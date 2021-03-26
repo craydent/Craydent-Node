@@ -15,11 +15,11 @@ export default function on(obj: Function, ev: string, func: Function): Function 
     }|*/
     try {
         const eventName = `_${ev}`;
-        obj[eventName] = obj[eventName] || [];
-        obj[eventName].push(func);
+        (obj as any)[eventName] = (obj as any)[eventName] || [];
+        (obj as any)[eventName].push(func);
         return obj;
     } catch (e) /* istanbul ignore next */ {
         error && error("Function.on", e);
-        return null;
+        return null as any;
     }
 }

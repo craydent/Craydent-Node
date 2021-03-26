@@ -11,10 +11,10 @@ import { __processExpression } from '../private/__whereParsers';
 
 export default function _unwind<T>(docs: Documents<T>, path: string | UnwindOptions): any[] {
     try {
-        let results = [], doc, i = 0, options: UnwindOptions = {};
+        let results: T[] = [], doc: any, i = 0, options: UnwindOptions = {};
         if (isObject(path)) {
             options = path as UnwindOptions;
-            path = options.path;
+            path = options.path as string;
         }
         while (doc = docs[i++]) {
             let arr = __processExpression(doc, path);
@@ -31,11 +31,11 @@ export default function _unwind<T>(docs: Documents<T>, path: string | UnwindOpti
                 throw `Exception: Value at end of $unwind field path '${path}' must be an Array, but is a ${capitalize(typeof arr)}.`;
             }
             let ppath = path;
-            if (path[0] == "$") {
+            if ((path as any)[0] == "$") {
                 ppath = (path as string).substr(1);
             }
             for (let j = 0, jlen = arr.length; j < jlen; j++) {
-                let dup = duplicate(doc);
+                let dup: any = duplicate(doc);
                 if (options.includeArrayIndex) {
                     dup[options.includeArrayIndex] = j;
                 }
@@ -46,6 +46,6 @@ export default function _unwind<T>(docs: Documents<T>, path: string | UnwindOpti
         return results;
     } catch (e) /* istanbul ignore next */ {
         error && error('aggregate._unwind', e);
-        return null;
+        return null as any;
     }
 }

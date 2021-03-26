@@ -1,55 +1,55 @@
 import _sessionFileCreateAndRetrieve from '../../modules/protected/_sessionFileCreateAndRetrieve';
 jest.mock('fs', () => {
     return {
-        accessSync: (...args) => {
+        accessSync: (...args: any[]) => {
             return fsMocks.accessSync.apply(this, args)
         },
-        openSync: (...args) => {
+        openSync: (...args: any[]) => {
             return fsMocks.openSync.apply(this, args)
         },
-        mkdirSync: (...args) => {
+        mkdirSync: (...args: any[]) => {
             return fsMocks.mkdirSync.apply(this, args)
         },
-        access: (...args) => {
+        access: (...args: any[]) => {
             return fsMocks.access.apply(this, args)
         },
-        readFileSync: (...args) => {
+        readFileSync: (...args: any[]) => {
             return fsMocks.readFileSync.apply(this, args)
         },
-        readFile: (...args) => {
+        readFile: (...args: any[]) => {
             return fsMocks.readFile.apply(this, args)
         },
-        open: (...args) => {
+        open: (...args: any[]) => {
             return fsMocks.open.apply(this, args)
         }
     }
 });
 let fsMocks = {
-    accessSync: (...args) => {
+    accessSync: (...args: any[]) => {
 
     },
-    openSync: (...args) => {
+    openSync: (...args: any[]) => {
 
     },
-    mkdirSync: (...args) => {
+    mkdirSync: (...args: any[]) => {
 
     },
-    access: (...args) => {
+    access: (...args: any[]) => {
 
     },
-    readFileSync: (...args) => {
+    readFileSync: (...args: any[]) => {
 
     },
-    readFile: (...args) => {
+    readFile: (...args: any[]) => {
 
     },
-    open: (...args) => {
+    open: (...args: any[]) => {
 
     }
 }
 jest.mock('../../modules/methods/mkdirrecursive', () => {
     return {
-        "default": (directory, cb) => {
+        "default": (directory: any, cb: any) => {
             return cb({});
         }
     }

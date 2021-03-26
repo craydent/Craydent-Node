@@ -16,13 +16,14 @@ export default function substringBetween(str: string, start?: string, end?: stri
         "returnType": "(String)"
     }|*/
     try {
-        if (isNull(start)) { return substringEndAt(str, end); }
-        if (isNull(end)) { return str.substring(str.indexOf(start) + 1); }
-        let si = str.indexOf(start), ei = str.indexOf(end);
+        if (isNull(start)) { return substringEndAt(str, end as any); }
+        if (isNull(end)) { return str.substring(str.indexOf(start as any) + 1); }
+        let si = str.indexOf(start as any), ei = str.indexOf(end as any);
         if (!~si) { si = -1; }
         if (!~ei) { ei = str.length + 1; }
         return str.slice(si + 1, ei);
     } catch (e) /* istanbul ignore next */ {
         error && error('Object.substringBetween', e);
+        return null as any;
     }
 }

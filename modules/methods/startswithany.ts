@@ -10,8 +10,8 @@ import error from '../methods/error';
 import isNull from '../methods/isnull';
 
 export default function startsWithAny(subject: string, startsWith: string[]): string | false;
-export default function startsWithAny(subject: string, ...args): string | false;
-export default function startsWithAny(subject) {
+export default function startsWithAny(subject: string, ...args: any[]): string | false;
+export default function startsWithAny(subject: string, ...args: any) {
     /*|{
         "info": "String class extension to check if the string starts with the given string",
         "category": "String",
@@ -41,6 +41,6 @@ export default function startsWithAny(subject) {
         return false;
     } catch (e) /* istanbul ignore next */ {
         error && error('String.startsWith', e);
-        return null;
+        return null as any;
     }
 }

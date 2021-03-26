@@ -12,7 +12,7 @@ describe('_typeCheck', () => {
         expect(_typeCheck(function () { }, Function)).toBe(true);
         expect(_typeCheck(/a/, RegExp)).toBe(true);
         function a() { }
-        const value = new a();
+        const value = new (a as any)();
         expect(_typeCheck(value, a)).toBe(true);
     });
     it('should return true/false when using backward_compatible flag', () => {
@@ -22,7 +22,7 @@ describe('_typeCheck', () => {
         expect(_typeCheck(function () { }, "Function", true)).toBe(true);
         expect(_typeCheck(/a/, "RegExp", true)).toBe(true);
         function a() { }
-        const value = new a();
+        const value = new (a as any)();
         expect(_typeCheck(value, "a", true)).toBe(true);
     });
 });

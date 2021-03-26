@@ -174,7 +174,7 @@ const timezones = {
 };
 const _isInt = isInt;
 
-export default function format(date: Date, format: string, options?: DateOptions): string {
+export default function format(date: Date, format: string, options: DateOptions = { offset: undefined }): string {
     /*|{
         "info": "Date class extension to convert to formatted string",
         "category": "Date",
@@ -193,9 +193,8 @@ export default function format(date: Date, format: string, options?: DateOptions
     }|*/
     try {
         if (!isValidDate(date)) { return ""; }
-        options = options || { offset: null };
         let localTimeZoneOffset = getGMTOffset(date),
-            datetime = !isNull(options.offset) ? new Date(date.valueOf() - (options.offset + (options.offset ? -1 : 1) * localTimeZoneOffset) * 60 * 60000) : date;
+            datetime = !isNull(options.offset) ? new Date(date.valueOf() - ((options as any).offset + ((options as any).offset ? -1 : 1) * localTimeZoneOffset) * 60 * 60000) : date;
 
         const ct = datetime.toTimeString().replace(/.*?\((.*?)\).*?/, '$1');
         let hour = datetime.getHours(),
@@ -203,7 +202,7 @@ export default function format(date: Date, format: string, options?: DateOptions
         const ctkey = keyOf(timezones, ct);
 
         /* istanbul ignore next */
-        let currentTimezone = `\\${(!ctkey ? (timezones[ct] || "") : ct).split('').join("\\")}`,
+        let currentTimezone = `\\${(!ctkey ? ((timezones as any)[ct] || "") : ct).split('').join("\\")}`,
             /* istanbul ignore next */
             currentTimezoneLong = `\\${(ctkey || ct).split('').join("\\")}`,
             GMTDiff = options.offset || hour - (hour > uhour ? 24 : 0) - uhour;

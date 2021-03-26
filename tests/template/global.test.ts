@@ -2,7 +2,7 @@ import $c from '../../compiled/transformedMajor/template/global';
 
 describe('No Conflict Global methods', function () {
     $c.TEMPLATE_VARS.push({ variable: "TNAME", value: "this template var" });
-    (global as any).tempFunc = function (o) { return o.a + " & " + o.b; }
+    (global as any).tempFunc = function (o:any) { return o.a + " & " + o.b; }
     it('fillTemplate - nested props', function () {
         expect(fillTemplate("<div>${this.a.hello}${index}<div>", { a: { hello: "world" } })).toBe("<div>world0<div>");
     });

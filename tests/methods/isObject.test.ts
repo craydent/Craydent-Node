@@ -3,7 +3,7 @@ import isObject from '../../compiled/transformedMinor/craydent.isobject';
 describe('isObject', () => {
     it('should check if value is an Object', () => {
         function a() { }
-        const obj = new a();
+        const obj = new (a as any)();
         expect(isObject(null)).toBe(false);
         expect(isObject(1)).toBe(false);
 

@@ -1,7 +1,7 @@
 import insert from '../../compiled/transformedMinor/craydent.insert';
 jest.mock('../../compiled/transformedMinor/craydent.add', () => {
     return {
-        "default": (...args) => add.apply(this, args)
+        "default": (...args: any[]) => add.apply(this, args as any)
     }
 });
 let add = () => { }

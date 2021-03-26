@@ -20,8 +20,8 @@ export default function buildTree<T, TResult>(arr: T[], parentFinder: TreeParent
     }|*/
     try {
         options = options || {};
-        let rtnArr = [];
-        let i = 0, objt, cats = [], catDict = {}, tmp = {}, singles = {};
+        let rtnArr: any[] = [];
+        let i = 0, objt: any, cats: any[] = [], catDict: any = {}, tmp: any = {}, singles: any = {};
         let cprop = options.childProperty || "children";
         while (objt = arr[i++]) {
             let cat = isFunction(childFinder) ? (childFinder as TreeChildFinder<T>)(objt) : objt[childFinder as string],
@@ -60,7 +60,7 @@ export default function buildTree<T, TResult>(arr: T[], parentFinder: TreeParent
             }
             rtnArr = rtnArr.concat(singles[prop]);
         }
-        return rtnArr;
+        return rtnArr as any;
     } catch (e) /* istanbul ignore next */ {
         error && error('Array.buildTree', e);
         return [];

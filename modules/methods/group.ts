@@ -56,7 +56,7 @@ export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps
 
         if (isString(key)) { key = key.split(','); }
         if (isArray(key)) {
-            let tmp = {};
+            let tmp: any = {};
             for (let i = 0, len = key.length; i < len; i++) {
                 tmp[key[i]] = 1;
             }
@@ -65,8 +65,8 @@ export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps
 
         let props = getKeys(initial),
             fields = getKeys(key),
-            arr = [], result = {}, id = suid(),
-            cb = function (doc, i) {
+            arr: any[] = [], result: any = {}, id = suid(),
+            cb = function (doc: any, i: number) {
                 // _groupFieldHelper creates a grouping string based on the field value pairs
                 if (!fields && keyf) {
                     fields = getValue(keyf, [doc]);
@@ -75,7 +75,7 @@ export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps
                         key[fields[i]] = 1;
                     }
                 }
-                let objs = [];
+                let objs: any[] = [];
                 for (let f = 0, flen = fields.length; f < flen; f++) {
                     let field = fields[f];
                     if (isArray(getProperty(doc, field))) {
@@ -141,8 +141,8 @@ export default function group<T>(docs: T[], params: GroupOptions<T>, removeProps
             _cm = _containsMod,
             _getProperty = getProperty,
             _parseBoolean = parseBoolean,
-            _refs = [],
-            ifblock = _subQuery(condition, null, null, _refs),
+            _refs: any[] = [],
+            ifblock = _subQuery(condition, null as any, null as any, _refs),
             func = `(function (record,i) {
                 var values,finished;
                 if (${ifblock}) {

@@ -23,7 +23,7 @@ export type ActionCallback = (this: CLI, arg: string) => any;
 export type Output = { output: string, code: number } | string | false | undefined;
 function _cli_exec(command: string, callback: ExecCallback): Promise<Output>;
 function _cli_exec(command: string, options?: ExecOptions, callback?: ExecCallback): Promise<Output>;
-function _cli_exec(command, options?, callback?) {
+function _cli_exec(command: string, options?: any, callback?: any) {
     let child: typeof IChildProcess = include('child_process');
     if (isFunction(options)) {
         callback = options;
@@ -36,7 +36,7 @@ function _cli_exec(command, options?, callback?) {
             options.silent = !!options.silent;
 
             let output = '';
-            const cprocess = child.exec(command, { env: process.env, maxBuffer: 20 * 1024 * 1024 }, function (err) {
+            const cprocess = child.exec(command, { env: process.env, maxBuffer: 20 * 1024 * 1024 }, function (err: any) {
                 const fin = !err || options.alwaysResolve ? res : rej
                 if (options.outputOnly) {
                     if (callback) { callback.call(cprocess, output); }
@@ -52,12 +52,12 @@ function _cli_exec(command, options?, callback?) {
                 fin({ code, output });
             });
 
-            cprocess.stdout.on('data', function (data) {
+            (cprocess.stdout as any).on('data', function (data: any) {
                 output += data;
                 if (!options.silent) { process.stdout.write(data); }
             });
 
-            cprocess.stderr.on('data', function (data) {
+            (cprocess.stderr as any).on('data', function (data: any) {
                 output += data;
                 if (!options.silent) { process.stdout.write(data); }
             });
@@ -77,7 +77,7 @@ function add(opt: Option, self: CLI): CLI {
         self._commandIndex.push(opt.command);
         if (!isNull(self._potentialCommand) && self._potentialCommand == opt.command) {
             self.CommandName = self._potentialCommand;
-            self._potentialCommand = null;
+            self._potentialCommand = null as any;
         }
         if (self.CommandName == opt.command) {
             /* istanbul ignore else */
@@ -90,13 +90,13 @@ function add(opt: Option, self: CLI): CLI {
         let v;
         for (let i = 0, len = popt.length; i < len /* && !isNull(value) */; i++) {
             if (!isNull(v)) {
-                self[(popt[i] as any)._property] = v;
+                (self as any)[(popt[i] as any)._property] = v;
                 continue;
             }
             // if (isNull(val)) {
             v = !isNull(value) ? value : opt.default;
             // }
-            switch (popt[i].type.toLowerCase()) {
+            switch ((popt[i] as any).type.toLowerCase()) {
                 case "number":
                     v = Number(v);
                     v = isNaN(v) ? Number(popt[i].default) : v;
@@ -114,16 +114,16 @@ function add(opt: Option, self: CLI): CLI {
                     v = isNull(tmp) ? v : tmp;
                     break;
             }
-            self[(popt[i] as any)._property] = v;
+            (self as any)[(popt[i] as any)._property] = v;
         }
         if (!opt.command || opt.command == '*') { self.Options.push(opt); }
         options.push(opt);
-        return self;
     } catch (e) /* istanbul ignore next */ {
         error('CLI.add', e);
     }
+    return self;
 }
-function processOptions(option: Option, self): { options: Option[], value?: any } {
+function processOptions(option: Option, self: CLI): { options: Option[], value?: any } {
     /* istanbul ignore if */
     if (!isObject(option)) {
         throw `Error: Option [${JSON.stringify(option)}] must be an object.  Option will be ignored.`;
@@ -134,7 +134,7 @@ function processOptions(option: Option, self): { options: Option[], value?: any 
     for (let i = 0, len = o.length; i < len; i++) {
         let prop = strip(o[i], '-');
         // if (prop != "name" && self[prop]) { value.value = self[prop]; }
-        if (self[prop]) { value = self[prop]; }
+        if ((self as any)[prop]) { value = (self as any)[prop]; }
         options.push({
             option: o[i],
             type: option.type || 'string',
@@ -177,31 +177,31 @@ function validate(self: CLI): void {
     for (let i = 0, len = options.length; i < len; i++) {
         const option = options[i], copt = strip(option.option.split(',')[0], '-');
         /* istanbul ignore else */
-        if (self[copt] === undefined) {
+        if ((self as any)[copt] === undefined) {
             /* istanbul ignore next */
-            self[copt] = self.UsingLabels && self.Arguments[i] || option.default;
+            (self as any)[copt] = self.UsingLabels && self.Arguments[i] || option.default;
         }
         /* istanbul ignore else */
-        if (option.required && isNull(self[copt])) {
+        if (option.required && isNull((self as any)[copt])) {
             throw `Option ${option.option} is required.`;
-        } else if (option.type && !isNull(self[copt])) {
+        } else if (option.type && !isNull((self as any)[copt])) {
             let type = option.type.toLowerCase();
             switch (type) {
                 case "number":
-                    self[copt] = isNaN(Number(self[copt])) ? self[copt] : Number(self[copt]);
+                    (self as any)[copt] = isNaN(Number((self as any)[copt])) ? (self as any)[copt] : Number((self as any)[copt]);
                     break;
                 case "array":
                 case "object":
-                    self[copt] = tryEval(self[copt], parseAdvanced) || self[copt];
+                    (self as any)[copt] = tryEval((self as any)[copt], parseAdvanced) || (self as any)[copt];
                     break;
                 case "bool":
                 case "boolean":
                     type = 'boolean';
-                    const tmp = parseBoolean(self[copt]);
-                    self[copt] = isNull(tmp) ? self[copt] : tmp;
+                    const tmp = parseBoolean((self as any)[copt]);
+                    (self as any)[copt] = isNull(tmp) ? (self as any)[copt] : tmp;
                     break;
             }
-            if (_getFuncName(self[copt].constructor).toLowerCase() != type) {
+            if (_getFuncName((self as any)[copt].constructor).toLowerCase() != type) {
                 throw `Option ${option.option} must be a ${option.type}.`;
             }
         }
@@ -248,7 +248,7 @@ class CLI {
         params = params || {};
         let args = process.argv,
             self = this,
-            cself = self,
+            cself: any = self,
             sindex = 2;
         this._commandIndex = [];
         this._potentialCommand = args[sindex];
@@ -256,7 +256,7 @@ class CLI {
 
         this.Interpreter = args[0];
         this.ScriptPath = args[1];
-        this.ScriptName = this.ScriptPath.substring(self.ScriptPath.lastIndexOf('/') + 1);
+        this.ScriptName = this.ScriptPath.substring(this.ScriptPath.lastIndexOf('/') + 1);
         this.Name = params.name || "";
         this.Info = params.info || "";
         this.Synopsis = params.synopsis || "";
@@ -275,11 +275,11 @@ class CLI {
         command:"",
         required:false
         }*/];
-        self.Arguments = [];
-        self.Notes = params.notes || "";
-        self.isMan = false;
-        self.isHelp = false;
-        self.waitForPending = [];
+        this.Arguments = [];
+        this.Notes = params.notes || "";
+        this.isMan = false;
+        this.isHelp = false;
+        this.waitForPending = [];
         const command = args[2];
 
         if (!~self._commandIndex.indexOf('*') && command && command[0] == "-") {
@@ -311,7 +311,7 @@ class CLI {
                 self.Arguments.push(arg);
                 self.Arguments.push(args[i]);
             } else if (arg.startsWith('-')) { // this is a single char label
-                const opts = strip(arg, '-');
+                const opts: string = strip(arg, '-');
                 if (opts.length == 1) {
                     // check if next arg is an option.  if it is then this is a flag
                     if (!args[i + 1] || args[i + 1][0] == '-') {
@@ -361,7 +361,7 @@ class CLI {
             /* istanbul ignore else */
             if (!isArray(opts)) { opts = [opts] as any; }
             for (let i = 0, len = (opts as Option[]).length; i < len; i++) {
-                var opt = opts[i];
+                var opt: any = (opts as Option[])[i];
                 /* istanbul ignore next */
                 if (!isObject(opt)) {
                     error('CLI.command', new Error(`Option [${JSON.stringify(opt)}] must be an object.  Option will be ignored.`));
@@ -380,7 +380,7 @@ class CLI {
     }
     public action(cb: ActionCallback | GeneratorFunction | AsyncFunction): this;
     public action(name: string, cb?: ActionCallback): this;
-    public action(name, cb?): this {
+    public action(name: any, cb?: any): this {
         let args = process.argv,
             self = this;
         /* istanbul ignore else */
@@ -421,6 +421,7 @@ class CLI {
             return content;
         } catch (e) /* istanbul ignore next */ {
             error('CLI.renderMan', e);
+            return "";
         }
     }
     public renderHelp(): string {
@@ -442,13 +443,18 @@ class CLI {
             return content;
         } catch (e) /* istanbul ignore next */ {
             error('CLI.renderMan', e);
+            return "";
         }
 
     }
-    public static exec(command, options?, callback?): Promise<Output> {
+    public static exec(command: string, callback: ExecCallback): Promise<Output>;
+    public static exec(command: string, options?: ExecOptions, callback?: ExecCallback): Promise<Output>;
+    public static exec(command: string, options?: any, callback?: any): Promise<Output> {
         return _cli_exec(command, options, callback);
     }
-    public exec(command, options?, callback?): Promise<Output> {
+    public exec(command: string, callback: ExecCallback): Promise<Output>;
+    public exec(command: string, options?: ExecOptions, callback?: ExecCallback): Promise<Output>;
+    public exec(command: string, options?: any, callback?: any): Promise<Output> {
         return CLI.exec(command, options, callback);
     }
 }

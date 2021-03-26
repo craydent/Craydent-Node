@@ -15,5 +15,6 @@ export default function isIPad(this: Craydent | Window): boolean {
         return (/iPad|iPhone OS 3_[1|2]_2/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isIPad', e);
+        return null as any;
     }
 }

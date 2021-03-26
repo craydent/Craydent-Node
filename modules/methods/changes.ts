@@ -24,17 +24,17 @@ export default function changes(obj: AnyObject, compare: AnyObject): CompareResu
         if (obj.constructor != Object || compare.constructor != Object) {
             throw new TypeError();
         }
-        let rtn = { $length: 0, $add: [], $update: [], $delete: [] };
+        let rtn = { $length: 0, $add: [] as any[], $update: [] as any[], $delete: [] as any[] };
         // loop through each property of the original
         for (let prop in obj) {
             /* istanbul ignore else */
             if (obj.hasOwnProperty(prop)) {
                 if (!compare.hasOwnProperty(prop)) {
-                    rtn[prop] = null;
+                    (rtn as any)[prop] = null;
                     rtn.$delete.push(prop);
                     rtn.$length++;
                 } else if (!equals(compare[prop], obj[prop])) {
-                    rtn[prop] = compare[prop];
+                    (rtn as any)[prop] = compare[prop];
                     rtn.$update.push(prop);
                     rtn.$length++;
                 }
@@ -44,7 +44,7 @@ export default function changes(obj: AnyObject, compare: AnyObject): CompareResu
         // there are no properties from compare missing from the original
         for (let prop in compare) {
             if (compare.hasOwnProperty(prop) && !obj.hasOwnProperty(prop)) {
-                rtn[prop] = compare[prop];
+                (rtn as any)[prop] = compare[prop];
                 rtn.$add.push(prop);
                 rtn.$length++;
             }
@@ -53,6 +53,6 @@ export default function changes(obj: AnyObject, compare: AnyObject): CompareResu
 
     } catch (e) /* istanbul ignore next */ {
         error && error("Object.changes", e);
-        return null;
+        return null as any;
     }
 }

@@ -11,7 +11,7 @@ export type KeyValuePair = { key: string, value: string };
 export default function $SET(this: Craydent | void, keyValuePairs: AnyObject | KeyValuePair, options?: VerbOptions): void;
 export default function $SET(this: Craydent | void, key: string, value: string): void;
 export default function $SET(this: Craydent | void, key: string, value: string, options: VerbOptions): void;
-export default function $SET(this: Craydent | void, keyValuePairs, options?): void {
+export default function $SET(this: Craydent | void, keyValuePairs: any, options?: any): void {
     /*|{
         "info": "Store variable in the url",
         "category": "Utility",

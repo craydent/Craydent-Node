@@ -26,7 +26,7 @@ describe('upsert', () => {
     })
     it('should upsert a single item using callback', () => {
         let arr = [{ _id: 1 }, { _id: 2 }]
-        expect(upsert(arr, { _id: 2 }, (value, ref) => { return value._id == ref._id; })).toEqual({
+        expect(upsert(arr, { _id: 2 }, (value: any, ref: any) => { return value._id == ref._id; })).toEqual({
             insertedIndexes: [],
             updatedIndexes: [],
             unchangedIndexes: [1],
@@ -38,7 +38,7 @@ describe('upsert', () => {
     })
     it('should upsert a single item using prop and callback', () => {
         let arr = [{ a: 1 }, { a: 2 }]
-        expect(upsert(arr, { a: 2 }, 'a', (value, ref) => { return value.a == ref.a; })).toEqual({
+        expect(upsert(arr, { a: 2 }, 'a', (value: any, ref: any) => { return value.a == ref.a; })).toEqual({
             insertedIndexes: [],
             updatedIndexes: [],
             unchangedIndexes: [1],

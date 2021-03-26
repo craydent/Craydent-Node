@@ -4,15 +4,15 @@ describe('lastIndexOfAlt', () => {
     const str = 'acababac';
     '01234567'
     it('should return -1 when not found or invalid', () => {
-        expect(lastIndexOfAlt(arr, null)).toBe(-1);
-        expect(lastIndexOfAlt(arr, null, () => null)).toBe(-1);
-        expect(lastIndexOfAlt(str, null)).toBe(-1);
+        expect(lastIndexOfAlt(arr, null as any)).toBe(-1);
+        expect(lastIndexOfAlt(arr, null as any, () => null)).toBe(-1);
+        expect(lastIndexOfAlt(str, null as any)).toBe(-1);
         expect(lastIndexOfAlt(str, 'z')).toBe(-1);
         expect(lastIndexOfAlt(str, 'c', -1)).toBe(-1);
         expect(lastIndexOfAlt(str, 'c', 0)).toBe(-1);
         expect(lastIndexOfAlt(str, /z/)).toBe(-1);
-        expect(lastIndexOfAlt(null, null)).toBe(-1);
-        expect(lastIndexOfAlt(1 as any, null)).toBe(-1);
+        expect(lastIndexOfAlt(null as any, null as any)).toBe(-1);
+        expect(lastIndexOfAlt(1 as any, null as any)).toBe(-1);
 
     });
     it('should retrieve index of an array', () => {

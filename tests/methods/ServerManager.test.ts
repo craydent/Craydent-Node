@@ -42,7 +42,7 @@ describe('ServerManager', () => {
             }
         };
         const res = {};
-        const sm = new ServerManager(req as any, res as any);
+        const sm = new (ServerManager as any)(req as any, res as any);
         expect(sm.sessionid).toBe(null);
         expect(sm.session).toBe(null);
         expect(sm.request).toBe(req);
@@ -251,7 +251,7 @@ describe('ServerManager', () => {
             }
         };
         const res = {};
-        const sm = new ServerManager(req as any, res as any);
+        const sm = new (ServerManager as any)(req as any, res as any);
 
         expect(sm.$l).toEqual({
             hash: 'cookie',

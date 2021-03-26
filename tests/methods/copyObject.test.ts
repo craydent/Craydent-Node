@@ -1,7 +1,7 @@
 import copyObject from '../../compiled/transformedMinor/craydent.copyobject';
 jest.mock('../../compiled/transformedMinor/craydent.copyobject/protected/_duplicate', () => {
     return {
-        "default": (...args) => _duplicate.apply(this, args)
+        "default": (...args: any[]) => _duplicate.apply(this, args as any)
     }
 });
 let _duplicate = () => { }

@@ -1,7 +1,7 @@
 import innerJoin from '../../compiled/transformedMinor/craydent.innerjoin';
 jest.mock('../../compiled/transformedMinor/craydent.where', () => {
     return {
-        "_joinHelper": (...args) => _joinHelper.apply(this, args)
+        "_joinHelper": (...args: any[]) => _joinHelper.apply(this, args as any)
     }
 });
 let _joinHelper = () => { }

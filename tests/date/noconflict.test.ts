@@ -58,7 +58,7 @@ describe('No Conflict Date', function () {
     });
     it('format - timezone', function () {
         // Timezone
-        expect($c.format(new Date(), 'e')).toBe(/\((.*)\)/.exec(new Date().toString())[1]);
+        expect($c.format(new Date(), 'e')).toBe((/\((.*)\)/.exec(new Date().toString()) as any)[1]);
         expect($c.format(date, 'I')).toBe('1');
         expect($c.format(date, 'O')).toBe('-0800');
         expect($c.format(date, 'P')).toBe('-08:00');

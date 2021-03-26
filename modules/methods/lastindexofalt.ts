@@ -12,7 +12,7 @@ export default function lastIndexOfAlt<T>(obj: any[], value: any, callback: Arra
 export default function lastIndexOfAlt(obj: any[], regex: RegExp, pos?: number): number;
 export default function lastIndexOfAlt<T>(obj: string, value: string, pos?: number): number;
 export default function lastIndexOfAlt(obj: string, regex: RegExp, pos?: number): number;
-export default function lastIndexOfAlt(obj, value, func, pos?): number {
+export default function lastIndexOfAlt(obj: any, value: any, func: any, pos?: any): number {
     /*|{
         "info": "String class extension to find the last index based on a regular expression",
         "category": "String",

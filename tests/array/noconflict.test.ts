@@ -280,7 +280,7 @@ describe('No Conflict Array', function () {
         });
         it('$out', function () {
             // $out
-            var arrOut = [];
+            var arrOut: any[] = [];
             expect($c.aggregate([
                 { id: 1, p: "10", share: "shared", index: 10, std: 4 },
                 { id: 2, p: "20", share: "shared", index: 20, std: 4 },
@@ -309,7 +309,7 @@ describe('No Conflict Array', function () {
                 { id: 3, p: "30", share: "shared", index: 30, std: 4 },
                 { id: 4, share: "shared", odd: false },
                 { id: 5, share: "shared1", odd: true }
-            ], function (item) {
+            ], function (item: any) {
                 return !item.index;
             }, 'share')).toEqual([{
                 id: 4, share: "shared", odd: false, children: [
@@ -326,7 +326,7 @@ describe('No Conflict Array', function () {
                 { id: 3, p: "30", share: "shared", index: 30, std: 4 },
                 { id: 4, share: "shared", odd: false },
                 { id: 5, share: "shared1", odd: true }
-            ], function (item) {
+            ], function (item: any) {
                 return !item.index;
             }, 'share', { childProperty: "cc" })).toEqual([{
                 id: 4, share: "shared", odd: false, cc: [
@@ -342,9 +342,9 @@ describe('No Conflict Array', function () {
                 { id: 3, p: "30", share: "shared", index: 30, std: 4 },
                 { id: 4, share: "shared", odd: false },
                 { id: 5, share: "shared1", odd: true }
-            ], function (item) {
+            ], function (item: any) {
                 return !isNull(item.odd);
-            }, function (item) { return !!(item.id % 2); }, { childProperty: "cc" })).toEqual([
+            }, function (item: any) { return !!(item.id % 2); }, { childProperty: "cc" })).toEqual([
                 { id: 4, share: "shared", odd: false, cc: [{ id: 2, p: "20", share: "shared", index: 20, std: 4, cc: [] }] },
                 { id: 5, share: "shared1", odd: true, cc: [{ id: 1, p: "10", share: "shared", index: 10, std: 4, cc: [] }, { id: 3, p: "30", share: "shared", index: 30, std: 4, cc: [] }] }
             ]);
@@ -622,8 +622,8 @@ describe('No Conflict Array', function () {
     });
     it('every', function () {
         var arr = ['a', '', 'b', 0, 'c', false, 'd', null, 'e', undefined];
-        expect($c.every(arr, function (item, i, arr) { return !isNull(item); })).toBe(false);
-        expect($c.every($c.condense(arr), function (item, i, arr) { return !isNull(item); })).toBe(true);
+        expect($c.every(arr, function (item: any, i: any, arr: any) { return !isNull(item); })).toBe(false);
+        expect($c.every($c.condense(arr), function (item: any, i: any, arr: any) { return !isNull(item); })).toBe(true);
     });
     it('filter', function () {
         var arr = ['a', '', 'b', 0, 'c', false, 'd', null, 'e', undefined];
@@ -701,7 +701,7 @@ describe('No Conflict Array', function () {
             { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
             { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
             { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
-            { "_id": 5, "sku": null, description: "Incomplete" },
+            { "_id": 5, "sku": null as any, description: "Incomplete" },
             { "_id": 6 }
         ];
         it('full', function () {
@@ -766,7 +766,7 @@ describe('No Conflict Array', function () {
             { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
             { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
             { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
-            { "_id": 5, "sku": null, description: "Incomplete" },
+            { "_id": 5, "sku": null as any, description: "Incomplete" },
             { "_id": 6 }];
             var arrLookup = [{ "_id": 1, "item": "abc", "price": 12, "quantity": 2 }, { "_id": 2, "item": "jkl", "price": 20, "quantity": 1 }, { "_id": 3 }];
             expect($c.joinLeft(arrLookup, duplicate(arr, true), "_id=_id")).toEqual([
@@ -787,7 +787,7 @@ describe('No Conflict Array', function () {
             { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
             { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
             { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
-            { "_id": 5, "sku": null, description: "Incomplete" },
+            { "_id": 5, "sku": null as any, description: "Incomplete" },
             { "_id": 6 }];
             var arrLookup = [{ "_id": 1, "item": "abc", "price": 12, "quantity": 2 }, { "_id": 2, "item": "jkl", "price": 20, "quantity": 1 }, { "_id": 3 }];
             expect($c.joinLeft(arrLookup, arr, "_id")).toEqual([
@@ -811,7 +811,7 @@ describe('No Conflict Array', function () {
             { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
             { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
             { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
-            { "_id": 5, "sku": null, description: "Incomplete" },
+            { "_id": 5, "sku": null as any, description: "Incomplete" },
             { "_id": 6 }];
             var arrLookup = [{ "_id": 1, "item": "abc", "price": 12, "quantity": 2 }, { "_id": 2, "item": "jkl", "price": 20, "quantity": 1 }, { "_id": 3 }];
             expect($c.joinRight(arr, arrLookup, "_id=_id")).toEqual([
@@ -832,7 +832,7 @@ describe('No Conflict Array', function () {
             { "_id": 2, "sku": "def", description: "product 2", "instock": 80 },
             { "_id": 3, "sku": "ijk", description: "product 3", "instock": 60 },
             { "_id": 4, "sku": "jkl", description: "product 4", "instock": 70 },
-            { "_id": 5, "sku": null, description: "Incomplete" },
+            { "_id": 5, "sku": null as any, description: "Incomplete" },
             { "_id": 6 }];
             var arrLookup = [{ "_id": 1, "item": "abc", "price": 12, "quantity": 2 }, { "_id": 2, "item": "jkl", "price": 20, "quantity": 1 }, { "_id": 3 }];
             expect($c.joinRight(arr, arrLookup, "_id")).toEqual([
@@ -863,7 +863,7 @@ describe('No Conflict Array', function () {
             { id: 1, p: "10", share: "shared", index: 10, std: 4 },
             { id: 2, p: "20", share: "shared", index: 20, std: 4 },
             { id: 3, p: "30", share: "shared", index: 30, std: 4 },
-            { id: 4, std: 4 }], function (item) { item.p = 10; return item; }))
+            { id: 4, std: 4 }], function (item: any) { item.p = 10; return item; }))
             .toEqual([
                 { id: 1, p: 10, share: "shared", index: 10, std: 4 },
                 { id: 2, p: 10, share: "shared", index: 20, std: 4 },
@@ -898,10 +898,10 @@ describe('No Conflict Array', function () {
     }];
 
     describe('mapReduce', function () {
-        var reduceFunction1 = function (keyCustId, valuesPrices) {
+        var reduceFunction1 = function (keyCustId: any, valuesPrices: any) {
             return valuesPrices.sum();
         };
-        var mapFunction1 = function () {
+        var mapFunction1 = function (this: any) {
             $c.emit(this.cust_id, this.price);
         };
         it('simple', function () {
@@ -917,7 +917,7 @@ describe('No Conflict Array', function () {
                 .toEqual([{ _id: 'abc123', value: 25 }]);
         });
         it('out', function () {
-            var rarr = [];
+            var rarr: any[] = [];
             expect($c.mapReduce(duplicate(arr, true), mapFunction1, reduceFunction1, { out: rarr }))
                 .toBe(rarr);
         });
@@ -960,16 +960,16 @@ describe('No Conflict Array', function () {
         beforeEach(function (done) {
             syncroit(function* () {
                 results = yield $c.parallelEach([
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
-                    function* () { return yield ajax('http://craydent.com:8000/test/users.js'); },
+                    function* (): any { return yield ajax('http://craydent.com:8000/test/users.js'); },
+                    function* (): any { return yield ajax('http://craydent.com:8000/test/users.js'); },
+                    function* (): any { return yield ajax('http://craydent.com:8000/test/users.js'); },
+                    function* (): any { return yield ajax('http://craydent.com:8000/test/users.js'); },
+                    function* (): any { return yield ajax('http://craydent.com:8000/test/users.js'); },
+                    function* (): any { return yield ajax('http://craydent.com:8000/test/users.js'); },
+                    function* (): any { return yield ajax('http://craydent.com:8000/test/users.js'); },
+                    function* (): any { return yield ajax('http://craydent.com:8000/test/users.js'); },
+                    function* (): any { return yield ajax('http://craydent.com:8000/test/users.js'); },
+                    function* (): any { return yield ajax('http://craydent.com:8000/test/users.js'); },
 
 
                     ajax('http://craydent.com:8000/test/users.js'),
@@ -983,16 +983,16 @@ describe('No Conflict Array', function () {
                     ajax('http://craydent.com:8000/test/users.js'),
                     ajax('http://craydent.com:8000/test/users.js'),
 
-                    function (a) { return 1 + a; },
-                    function (a) { return 2 + a; },
-                    function (a) { return 3 + a; },
-                    function (a) { return 4 + a; },
-                    function (a) { return 5 + a; },
-                    function (a) { return 6 + a; },
-                    function (a) { return 7 + a; },
-                    function (a) { return 8 + a; },
-                    function (a) { return 9 + a; },
-                    function (a) { return 10 + a; },
+                    function (a: any): any { return 1 + a; },
+                    function (a: any): any { return 2 + a; },
+                    function (a: any): any { return 3 + a; },
+                    function (a: any): any { return 4 + a; },
+                    function (a: any): any { return 5 + a; },
+                    function (a: any): any { return 6 + a; },
+                    function (a: any): any { return 7 + a; },
+                    function (a: any): any { return 8 + a; },
+                    function (a: any): any { return 9 + a; },
+                    function (a: any): any { return 10 + a; },
                     "asdf"
 
                 ], [1]);
@@ -1060,7 +1060,7 @@ describe('No Conflict Array', function () {
                 { id: 3, p: "30", share: "shared", index: 30, std: 4 },
                 { id: 4, std: 4 }];
             // expect($c.removeAll(temp, "10", function (item) { return item.p; })).toEqual([]);
-            expect($c.removeAll(temp, "10", function (value) { return $c.indexOfAlt(this, value, function (item, value, arr) { return (item as any).p == value; }); }))
+            expect($c.removeAll(temp, "10", function (this: any, value: any) { return $c.indexOfAlt(this, value, function (item, value, arr) { return (item as any).p == value; }); }))
                 .toEqual([{ id: 1, p: "10", share: "shared", index: 10, std: 4 }]);;
             expect(temp).toEqual([
                 { id: 2, p: '20', share: 'shared', index: 20, std: 4 },
@@ -1137,7 +1137,7 @@ describe('No Conflict Array', function () {
             expect($c.sortBy([{ id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }, { id: 4, s: 3 }, { id: 5, s: 2 }], 's,!id', true)).toEqual([{ id: 3, s: 6 }, { id: 1, s: 5 }, { id: 2, s: 5 }, { id: 4, s: 3 }, { id: 5, s: 2 }]);
         });
         it('primer', function () {
-            var primer = function (val) { if (val % 2) { return val - 1; } return val; };
+            var primer = function (val: any) { if (val % 2) { return val - 1; } return val; };
             expect($c.sortBy([{ id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }, { id: 4, s: 3 }, { id: 5, s: 2 }], ['s', 'id'], false, primer)).toEqual([{ id: 4, s: 3 }, { id: 5, s: 2 }, { id: 1, s: 5 }, { id: 2, s: 5 }, { id: 3, s: 6 }]);
         });
         it('lookup', function () {
@@ -1181,7 +1181,7 @@ describe('No Conflict Array', function () {
         var arr = ["     string 1    ", "  string 2  ", " string 3 ", "string 4"];
         expect($c.trim(arr)).toEqual(["string 1", "string 2", "string 3", "string 4"]);
         expect(arr).toEqual(["     string 1    ", "  string 2  ", " string 3 ", "string 4"]);
-        $c.trim(arr, null, true);
+        $c.trim(arr, null as any, true);
         expect(arr).toEqual(["string 1", "string 2", "string 3", "string 4"]);
     });
     describe('update', function () {
@@ -1443,7 +1443,7 @@ describe('No Conflict Array', function () {
                 { id: 2, p: "20", share: "shared", index: 20, std: 4 },
                 { id: 3, p: "30", share: "shared", index: 30, std: 4 },
                 { id: 4, std: 4 }];
-            expect($c.upsert(temp, { id: 5, p: "10", share: "shared", index: 10, std: 4 }, "id", function (doc, record) {
+            expect($c.upsert(temp, { id: 5, p: "10", share: "shared", index: 10, std: 4 }, "id", function (doc: any, record: any) {
                 return true;
             })).toEqual({
                 insertedIndexes: [4],
@@ -1536,7 +1536,7 @@ describe('No Conflict Array', function () {
                 { id: 2, p: "20", share: "shared", index: 20, std: 4 },
                 { id: 3, p: "30", share: "shared", index: 30, std: 4 },
                 { id: 4, std: 4 }];
-            expect($c.upsert(temp, [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }], "id", function (doc, record) {
+            expect($c.upsert(temp, [{ id: 5, p: "10", share: "shared", index: 10, std: 4 }], "id", function (doc: any, record: any) {
                 return true;
             })).toEqual({
                 insertedIndexes: [4],
@@ -1690,11 +1690,11 @@ describe('No Conflict Array', function () {
             expect($c.where(arrObjs, { $where: function () { return this.index < 20; } })).toEqual([
                 { id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
             var tempValue = 20;
-            expect($c.where(arrObjs, { $where: function () { return this.index < tempValue; } })).toEqual([
+            expect($c.where(arrObjs, { $where: function (this: any) { return this.index < tempValue; } })).toEqual([
                 { id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
         });
         it('function', function () {
-            expect($c.where(arrObjs, function () { return this.index < 20; })).toEqual([
+            expect($c.where(arrObjs, function (this: any) { return this.index < 20; })).toEqual([
                 { id: 1, p: "10", share: "shared", index: 10, std: 4 }]);
         });
         it('$all', function () {

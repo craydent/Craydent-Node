@@ -26,7 +26,7 @@ try {
 
     **/
 
-    JSZip = function (compression?: string) {
+    JSZip = function (this: any, compression?: string) {
         // default : no compression
         this.compression = (compression || "STORE").toUpperCase();
         this.files = [];
@@ -55,7 +55,7 @@ try {
      * @param   o     File options
      * @return  this JSZip object
      */
-    JSZip.prototype.file = function (name, data, o) {
+    JSZip.prototype.file = function (name: any, data: any, o: any) {
         o = o || {};
         name = this.root + name;
         if (o.base64 === true && o.binary == null) o.binary = true;
@@ -152,7 +152,7 @@ try {
      * @return  An array of objects representing the matched files. In the form
      *          {name: "filename", data: "file data", dir: true/false}
      */
-    JSZip.prototype.find = function (needle) {
+    JSZip.prototype.find = function (needle: any) {
         let result = [], re;
         if (typeof needle === "string") {
             re = new RegExp("^" + needle + "$");
@@ -180,7 +180,7 @@ try {
      * @param   name  the name of the file to delete
      * @return  this JSZip object
      */
-    JSZip.prototype.remove = function (name) {
+    JSZip.prototype.remove = function (name: any) {
         let file = this.files[name];
         if (!file) {
             // Look for any folders
@@ -216,7 +216,7 @@ try {
      * Generate the complete zip file
      * @return  A base64 encoded string of the zip file
      */
-    JSZip.prototype.generate = function (asBytes) {
+    JSZip.prototype.generate = function (asBytes: any) {
         asBytes = asBytes || false;
 
         // The central directory, and files data
@@ -295,7 +295,7 @@ try {
     JSZip.compressions = {
         "STORE": {
             magic: "\x00\x00",
-            compress: function (content) {
+            compress: function (content: any) {
                 return content; // no compression
             }
         }
@@ -303,7 +303,7 @@ try {
 
     // Utility functions
 
-    JSZip.prototype.decToHex = function (dec, bytes) {
+    JSZip.prototype.decToHex = function (dec: any, bytes: any) {
         let hex = "";
         for (let i = 0; i < bytes; i++) {
             hex += String.fromCharCode(dec & 0xff);
@@ -319,7 +319,7 @@ try {
      *
      **/
 
-    JSZip.prototype.crc32 = function (str, crc) {
+    JSZip.prototype.crc32 = function (str: any, crc: any) {
 
         if (str === "") return "\x00\x00\x00\x00";
 
@@ -356,10 +356,10 @@ try {
     };
 
 
-    JSZip.prototype.utf8encode = function (input) {
+    JSZip.prototype.utf8encode = function (input: any) {
         input = encodeURIComponent(input);
 
-        input = input.replace(/%.{2,2}/g, function (m) {
+        input = input.replace(/%.{2,2}/g, function (m: any) {
 
             let hex = m.substring(1);
 
@@ -384,7 +384,7 @@ try {
 
         return {
             // public method for encoding
-            encode: function (input, utf8?) {
+            encode: function (input: any, utf8?: any) {
                 let output = "",
                     chr1, chr2, chr3, enc1, enc2, enc3, enc4,
                     i = 0;
@@ -412,7 +412,7 @@ try {
             },
             // public method for decoding
 
-            decode: function (input, utf8?) {
+            decode: function (input: any, utf8?: any) {
                 let output = "",
                     chr1, chr2, chr3,
                     enc1, enc2, enc3, enc4,
@@ -443,7 +443,7 @@ try {
             }
         };
     }();
-    JSZip.prototype.add = function (name, data, o) {
+    JSZip.prototype.add = function (name: any, data: any, o: any) {
         o = o || {};
         name = this.root + name;
         if (o.base64 === true && o.binary == null) o.binary = true;

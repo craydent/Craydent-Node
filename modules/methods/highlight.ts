@@ -35,5 +35,6 @@ export default function highlight(str: string, search: string | RegExp, cssClass
         return str.replace(addFlags((new RegExp(txt)), flags), `<${tag} class="${cssClass}">$1</${tag}>`);
     } catch (e) /* istanbul ignore next */ {
         error && error("String.highlight", e);
+        return null as any;
     }
 }

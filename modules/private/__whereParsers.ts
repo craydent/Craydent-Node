@@ -74,7 +74,7 @@ const literalKeys = ['$literal'],
     dateKeys = ['$dayOfYear', '$dayOfMonth', '$dayOfWeek', '$year', '$month', '$week', '$hour', '$minute', '$second', '$millisecond', '$dateToString'],
     conditionalKeys = ['$cond', '$ifNull'];
 
-export function __processAccumulator<T>(doc: T, accumulator: any, previousValue_arg: any, meta: AccumulatorMeta<T>): any[] | number {
+export function __processAccumulator<T>(doc: T, accumulator: any, previousValue_arg: any, meta: AccumulatorMeta<T>): any[] | number | undefined {
     let value = __processExpression(doc,
         accumulator['$sum'] ||
         accumulator['$avg'] ||
@@ -167,7 +167,7 @@ export function __processExpression<T>(doc: T, expression: string | object): any
     for (let field in expr) {
         /* istanbul ignore if */
         if (!expr.hasOwnProperty(field)) { continue; }
-        let value = expr[field];
+        let value: any = (expr as any)[field];
 
         switch (true) {
             case !!~literalKeys.indexOf(field):
@@ -197,9 +197,9 @@ export function __processExpression<T>(doc: T, expression: string | object): any
 }
 export function __processGroup<T>(docs: Documents<T>, expr: any): Documents<T> {
     try {
-        let _ids = expr._id, i = 0, groupings = {}, results = [], meta: Meta = { index: 0, length: docs.length, sample: docs.sample }, doc;
+        let _ids = expr._id, i = 0, groupings: any = {}, results: any[] = [], meta: Meta = { index: 0, length: docs.length, sample: docs.sample as any[] }, doc: any;
         while (doc = docs[meta.index = i++]) {
-            let result, key = "null", keys = null;
+            let result, key = "null", keys: any = null;
             if (isString(_ids)) {
                 keys = __processExpression(doc, _ids);
             } else if (isObject(_ids)) {
@@ -225,7 +225,7 @@ export function __processGroup<T>(docs: Documents<T>, expr: any): Documents<T> {
         return results;
     } catch (e) /* istanbul ignore next */ {
         error && error('aggregate.__processGroup', e);
-        return null;
+        return null as any;
     }
 }
 
@@ -255,12 +255,14 @@ export function __parseArithmeticExpr<T>(doc: T, expr: MongoExpression, field: s
         case '$mod':
             return __processExpression(doc, expr['$mod'][0]) % __processExpression(doc, expr['$mod'][1]);
     }
+    return 0;
 }
 export function __parseArrayExpr<T>(doc: T, expr: MongoExpression, field: string): number {
     switch (field) {
         case '$size':
             return (__processExpression(doc, expr[field]) || []).length;
     }
+    return 0;
 }
 export function __parseBooleanExpr<T>(doc: T, expr: MongoExpression, field: string): any {
     let arr = [], i = 0, obj;
@@ -305,9 +307,9 @@ export function __parseComparisonExpr<T>(doc: T, expr: MongoExpression, field: s
         typeof Timestamp != 'undefined' ? Timestamp : 'Timestamp',
         RegExp
     ],
-        value1 = __processExpression(doc, expr[field][0]),
-        value2 = __processExpression(doc, expr[field][1]),
-        cmp = null;
+        value1: any = __processExpression(doc, (expr as any)[field][0]),
+        value2: any = __processExpression(doc, (expr as any)[field][1]),
+        cmp: any = null;
 
     if (value1 == value2) { cmp = 0; }
     if (value1 < value2) { cmp = -1; }
@@ -336,6 +338,7 @@ export function __parseComparisonExpr<T>(doc: T, expr: MongoExpression, field: s
         case '$ne':
             return cmp !== 0;
     }
+    return false;
 }
 export function __parseCond<T>(doc: T, expr: any): any {
     if (!isObject(expr) || !expr['$cond']) { return expr; }
@@ -363,9 +366,10 @@ export function __parseConditionalExpr<T>(doc: T, expr: MongoExpression, field: 
             let value = __processExpression(doc, expr['$ifNull'][0]);
             return isNull(value, __processExpression(doc, expr['$ifNull'][1]));
     }
+    return false;
 }
 export function __parseDateExpr<T>(doc: T, expr: MongoExpression, field: string): number | string {
-    let dt = __processExpression(doc, expr[field]);
+    let dt: any = __processExpression(doc, (expr as any)[field]);
     switch (field) {
         case '$dayOfYear':
             return getDayOfYear(dt);
@@ -391,9 +395,10 @@ export function __parseDateExpr<T>(doc: T, expr: MongoExpression, field: string)
             dt = __processExpression(doc, expr[field].date);
             return format(dt, expr[field].format);
     }
+    return "";
 }
 export function __parseSetExpr<T>(doc: T, expr: MongoExpression, field: string): boolean | Set<T> {
-    let i = 1, exp, j = 0, jlen, st, set1, set2, rtnSet, errorMessage, arr1, arr2, falseCondition;
+    let i = 1, exp, j = 0, jlen: number, st: T, set1: any, set2: any, rtnSet: any, errorMessage: string, arr1: T[], arr2: T[], falseCondition: any[];
     switch (field) {
         case '$setEquals':
             while (exp = expr[field][i++]) {
@@ -501,6 +506,7 @@ export function __parseSetExpr<T>(doc: T, expr: MongoExpression, field: string):
             }
             return true;
     }
+    return false;
 }
 export function __parseStringExpr<T>(doc: T, expr: MongoExpression, field: string): any {
     let processValue;
@@ -544,9 +550,9 @@ export function __parseVariableExpr<T>(doc: T, expr: MongoExpression, field: str
                 v_in = expr[field]['in'];
 
             for (let i = 0, len = input.length; i < len; i++) {
-                doc[v_as] = input[i];
+                (doc as any)[v_as] = input[i];
                 input[i] = __processExpression(doc, v_in);
-                delete doc[v_as];
+                delete (doc as any)[v_as];
             }
             return input;
         case '$let':
@@ -555,12 +561,12 @@ export function __parseVariableExpr<T>(doc: T, expr: MongoExpression, field: str
             for (let prop in vars) {
                 /* istanbul ignore if */
                 if (!vars.hasOwnProperty(prop)) { continue; }
-                doc[`$${prop}`] = __processExpression(doc, vars[prop]);
+                (doc as any)[`$${prop}`] = __processExpression(doc, vars[prop]);
                 rmProps.push(prop);
             }
             rtn = __processExpression(doc, expr[field]['in']);
             for (let j = 0, jlen = rmProps.length; j < jlen; j++) {
-                delete doc[rmProps[j]];
+                delete (doc as any)[rmProps[j]];
             }
             return rtn;
     }

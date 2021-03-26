@@ -23,23 +23,23 @@ export default function map<T>(objs: T[] | T, callback: ArrayIterator<T> | Objec
         context = context || global;
         if (isArray(objs)) {
             //@ts-ignore
-            let other = new Array(objs.length);
+            let other: any = new Array(objs.length);
             //@ts-ignore
             for (let i = 0, n = objs.length; i < n; i++) {
-                other[i] = callback.call(context, objs[i], i, objs);
+                other[i] = (callback as ArrayIterator<T>).call(context, (objs as T[])[i], i, objs as any);
             }
             return other;
         }
-        let obj = duplicate(objs as T);
+        let obj: any = duplicate(objs as T);
         for (let prop in obj) {
             /* istanbul ignore else */
             if (obj.hasOwnProperty(prop)) {
-                obj[prop] = callback.call(context, obj[prop], prop, obj);
+                obj[prop] = (callback as ObjectIterator<T>).call(context, obj[prop], prop, obj);
             }
         }
         return obj;
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.map", e);
-        return null;
+        return null as any;
     }
 }

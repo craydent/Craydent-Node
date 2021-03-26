@@ -19,8 +19,9 @@ export default function $POST(this: Craydent, variable?: string, options?: VerbO
         "returnType": "(Bool|Object)"
     }|*/
     try {
-        return _verbPayloadHelper(this, variable, 'post', options);
+        return _verbPayloadHelper(this, variable as string, 'post', options);
     } catch (e) /* istanbul ignore next */ {
         error('$POST', e);
+        return null as any;
     }
 }

@@ -2,6 +2,7 @@
 const root = require.resolve('../package.json').replace('/package.json', '');
 const fs = require('fs');
 const path = require('path');
+const util = require('util');
 const CONSOLE_COLORS = {
     RED: '\x1b[31m%s\x1b[0m',
     GREEN: '\x1b[32m%s\x1b[0m',
@@ -55,6 +56,7 @@ async function start(pkgPrefix) {
     promises.push(updateMainModule(pkgPrefix));
     await Promise.all(promises);
     await createMethodPackages(pkgPrefix);
+    console.log('\n');
     console.log(CONSOLE_COLORS.GREEN, 'all done');
 }
 async function updateMainModule(pkgPrefix) {
@@ -145,7 +147,10 @@ async function processModule(name, pkgPrefix) {
     await Promise.all(writePromises);
     await createPackageJSONMajor(name, pkgPrefix, dependencies);
 
-    console.log(CONSOLE_COLORS.GREEN, `completed transform for ${name}`)
+    // console.log(CONSOLE_COLORS.GREEN, `completed transform for ${name}`)
+    process.stdout.clearLine();
+    process.stdout.cursorTo(0);
+    process.stdout.write(util.format(CONSOLE_COLORS.GREEN, `completed transform for ${name}\r`));
 }
 
 async function getDependencies(pkgPrefix, filePath, results = [], alterFiles = [], modules = []) {
@@ -153,7 +158,10 @@ async function getDependencies(pkgPrefix, filePath, results = [], alterFiles = [
         if (~results.indexOf(filePath)) {
             return results;
         }
-        console.log(CONSOLE_COLORS.GREEN, `processing ${filePath}`);
+        // console.log(CONSOLE_COLORS.GREEN, `processing ${filePath}`);
+        process.stdout.clearLine();
+        process.stdout.cursorTo(0);
+        process.stdout.write(util.format(CONSOLE_COLORS.GREEN, `processing ${filePath}\r`));
         const fileContent = (await readFile(`${filePath}`, 'utf8')) || "";
         // if (!fileContent.indexOf) { console.log(fileContent); console.log('-------------------------------------------------------'); }
         if (~fileContent.indexOf('<reference path="../globalTypes/') && !/index.template$/.test(filePath)) { alterFiles.push(filePath); }
@@ -209,7 +217,10 @@ async function createPackageJSONMajor(folder, pkgPrefix, dependencies) {
     package.dependencies = dependencies;
 
     await writeFile(`${path}/package.json`, JSON.stringify(package, null, 4)).then(() => {
-        console.log(CONSOLE_COLORS.GREEN, `saved: ${path}/package.json`)
+        // console.log(CONSOLE_COLORS.GREEN, `saved: ${path}/package.json`)
+        process.stdout.clearLine();
+        process.stdout.cursorTo(0);
+        process.stdout.write(util.format(CONSOLE_COLORS.GREEN, `saved: ${path}/package.json\r`));
     });
 }
 async function createPackageJSONMinor(file, pkgPrefix, dependencies) {
@@ -224,7 +235,10 @@ async function createPackageJSONMinor(file, pkgPrefix, dependencies) {
     package.dependencies = dependencies;
 
     await writeFile(`${path}/package.json`, JSON.stringify(package, null, 4)).then(() => {
-        console.log(CONSOLE_COLORS.GREEN, `saved: ${path}/package.json`)
+        // console.log(CONSOLE_COLORS.GREEN, `saved: ${path}/package.json`)
+        process.stdout.clearLine();
+        process.stdout.cursorTo(0);
+        process.stdout.write(util.format(CONSOLE_COLORS.GREEN, `saved: ${path}/package.json\r`));
     });
 }
 async function createMethodPackages(pkgPrefix) {

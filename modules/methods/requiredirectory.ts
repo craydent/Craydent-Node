@@ -68,12 +68,12 @@ export default function requireDirectory(path: string, options?: 'r' | 's' | 'rs
             return __objs;
         }
         return new Promise(function (res) {
-            __fs.readdir(path, function (err, files) {
+            __fs.readdir(path, function (err: any, files: any) {
                 /* istanbul ignore if */
                 if (err) { return res(err); }
-                let recFunc = function (rpath, name) {
+                let recFunc = function (rpath: any, name: any) {
                     return new Promise(function (res2) {
-                        __fs.stat(rpath, function (err, stat) {
+                        __fs.stat(rpath, function (err: any, stat: any) {
                             /* istanbul ignore if */
                             if (err) { res2(err); }
                             if (stat.isDirectory()) {
@@ -100,10 +100,11 @@ export default function requireDirectory(path: string, options?: 'r' | 's' | 'rs
         });
     } catch (e) /* istanbul ignore next */ {
         error && error('fs.requireDirectory', e);
+        return Promise.resolve(undefined as any);
     }
 }
 
-function validModule(rpath: string, filename): boolean {
+function validModule(rpath: string, filename: string): boolean {
     if (!rpath.endsWith('/')) {
         if (!startsWithAny(filename, ['_', '.'])) {
             return true;

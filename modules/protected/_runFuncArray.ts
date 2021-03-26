@@ -10,14 +10,14 @@ const _isArray = isArray,
     _isGenerator = isGenerator,
     _isAsync = isAsync;
 
-export default function _runFuncArray(funcs: Function | Function[], args?: any[]) {
+export default function _runFuncArray(this: any, funcs: Function | Function[], args?: any[]): any[] {
     const sc = syncroit;
     args = args || [];
     let self = this;
     // @ts-ignore
     !_isArray(funcs) && (funcs = [funcs]);
-    let i = 0, func, rtn = [];
-    while (func = funcs[i++]) {
+    let i = 0, func: any, rtn: any[] = [];
+    while (func = (funcs as Function[])[i++]) {
         try {
             if (_isGenerator(func)) {
                 tryEval('rtn = rtn.concat(sc(function *(){return yield func.apply(self,args);}));', (val) => eval(val));

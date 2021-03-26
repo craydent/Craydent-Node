@@ -23,5 +23,6 @@ export default function isMobile(this: Craydent | Window): boolean {
         return isAndroid.call(this) || isBlackBerry.call(this) || isIPad.call(this) || isIPhone.call(this) || isIPod.call(this) || isPalmOS.call(this) || isSymbian.call(this) || isWindowsMobile.call(this);
     } catch (e) /* istanbul ignore next */ {
         error && error('isMobile', e);
+        return null as any;
     }
 }

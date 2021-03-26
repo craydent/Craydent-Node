@@ -1,7 +1,7 @@
 import addObjectPrototype from '../../compiled/transformedMinor/craydent.addobjectprototype';
 jest.mock('../../compiled/transformedMinor/craydent.addobjectprototype/private/__defineFunction', () => {
     return {
-        "default": (...args) => __defineFunction.apply(this, args)
+        "default": (...args: any[]) => __defineFunction.apply(this, args as any)
     }
 });
 let __defineFunction = () => { };
@@ -32,21 +32,21 @@ describe('addObjectPrototype', () => {
         addObjectPrototype('get', fn);
         (global as any).Object = RealObject;
 
-        expect(OBJ.prototype['get']).not.toBe(fn);
+        expect((OBJ.prototype as any)['get']).not.toBe(fn);
         expect(__defineFunction).toHaveBeenLastCalledWith('get', fn);
         __defineFunction = jest.fn();
         addObjectPrototype('set', fn);
-        expect(OBJ.prototype['set']).not.toBe(fn);
+        expect((OBJ.prototype as any)['set']).not.toBe(fn);
         expect(__defineFunction).toHaveBeenLastCalledWith('set', fn);
     });
     it('should not add prototypes when it exists', () => {
         let OBJ = (global as any).Object = { prototype: {}, defineProperty: jest.fn(), keys: RealObject.keys };
 
         const fn = () => { };
-        OBJ.prototype['newProto'] = fn;
+        (OBJ.prototype as any)['newProto'] = fn;
         addObjectPrototype('newProto', () => { });
         (global as any).Object = RealObject;
-        expect(OBJ.prototype['newProto']).toBe(fn);
+        expect((OBJ.prototype as any)['newProto']).toBe(fn);
         expect(__defineFunction).toHaveBeenLastCalledWith('newProto', expect.any(Function));
     });
     it('should not add prototypes when mode is noConflict', () => {
@@ -76,7 +76,7 @@ describe('addObjectPrototype', () => {
     it('should add prototypes when the name exists but override is set to true', () => {
         const fn = () => { }, expected = () => { };
         let OBJ = (global as any).Object = { prototype: {}, defineProperty: jest.fn(), keys: RealObject.keys };
-        OBJ.prototype['newProto'] = fn;
+        (OBJ.prototype as any)['newProto'] = fn;
         addObjectPrototype('newProto', expected, true);
         (global as any).Object = RealObject;
         expect(OBJ.defineProperty).toHaveBeenCalledWith(OBJ.prototype, 'newProto', {
@@ -106,12 +106,12 @@ describe('addObjectPrototype', () => {
         (global as any).Number = RealNumber;
         (global as any).Boolean = RealBoolean;
 
-        expect(ARR.prototype[name]).toBe(expected);
-        expect(ERR.prototype[name]).toBe(expected);
-        expect(FUN.prototype[name]).toBe(expected);
-        expect(STR.prototype[name]).toBe(expected);
-        expect(NUM.prototype[name]).toBe(expected);
-        expect(BOO.prototype[name]).toBe(expected);
+        expect((ARR.prototype as any)[name]).toBe(expected);
+        expect((ERR.prototype as any)[name]).toBe(expected);
+        expect((FUN.prototype as any)[name]).toBe(expected);
+        expect((STR.prototype as any)[name]).toBe(expected);
+        expect((NUM.prototype as any)[name]).toBe(expected);
+        expect((BOO.prototype as any)[name]).toBe(expected);
         expect((global as any).GeoLocation.prototype[name]).toBe(expected);
         expect(__defineFunction).toHaveBeenLastCalledWith(name, expected);
     });
@@ -134,12 +134,12 @@ describe('addObjectPrototype', () => {
         (global as any).Number = RealNumber;
         (global as any).Boolean = RealBoolean;
 
-        expect(ARR.prototype[name]).toBe(expected);
-        expect(ERR.prototype[name]).toBe(expected);
-        expect(FUN.prototype[name]).toBe(expected);
-        expect(STR.prototype[name]).toBe(expected);
-        expect(NUM.prototype[name]).toBe(expected);
-        expect(BOO.prototype[name]).toBe(expected);
+        expect((ARR.prototype as any)[name]).toBe(expected);
+        expect((ERR.prototype as any)[name]).toBe(expected);
+        expect((FUN.prototype as any)[name]).toBe(expected);
+        expect((STR.prototype as any)[name]).toBe(expected);
+        expect((NUM.prototype as any)[name]).toBe(expected);
+        expect((BOO.prototype as any)[name]).toBe(expected);
         expect((global as any).GeoLocation.prototype[name]).toBe(expected);
         expect(__defineFunction).toHaveBeenLastCalledWith(name, expected);
     });

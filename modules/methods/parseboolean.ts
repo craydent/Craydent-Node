@@ -22,7 +22,7 @@ export default function parseBoolean(value: any, strict?: boolean): boolean | un
     try {
         if (_isString(value)) {
             value = value.toLowerCase();
-            let valids = strict ? { "true": true, "false": false } : { "true": true, "false": false, "0": false, "1": true };
+            let valids: any = strict ? { "true": true, "false": false } : { "true": true, "false": false, "0": false, "1": true };
             return valids[value];
         } else if (_isNumber(value) && !strict) {
             return (value === 1 ? true : value === 0 ? false : undefined);
@@ -32,6 +32,6 @@ export default function parseBoolean(value: any, strict?: boolean): boolean | un
         return undefined;
     } catch (e) /* istanbul ignore next */ {
         error && error('parseBoolean', e);
-        return null;
+        return null as any;
     }
 }

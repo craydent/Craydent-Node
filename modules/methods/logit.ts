@@ -3,7 +3,7 @@ import cout from '../methods/cout';
 import { $c } from '../private/__common';
 
 
-export default function logit(...args): void {
+export default function logit(this: any, ...args: any[]): void {
     /*|{
         "info": "Log to console when DEBUG_MODE is true and when the console is available",
         "category": "Utility",

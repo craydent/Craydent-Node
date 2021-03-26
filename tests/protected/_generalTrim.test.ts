@@ -21,16 +21,16 @@ describe('_generalTrim', () => {
         expect(_generalTrim("cal   ", 'r')).toBe("cal");
     });
     it('should not trim characters when characters is not a string|string[]', () => {
-        expect(_generalTrim("aaaacalaaaa", null, 1 as any)).toBe("aaaacalaaaa");
+        expect(_generalTrim("aaaacalaaaa", null as any, 1 as any)).toBe("aaaacalaaaa");
     });
     it('should trim characters on both sides', () => {
-        expect(_generalTrim("aaaacalaaaa", null, 'a')).toBe("cal");
-        expect(_generalTrim("aaaacal", null, 'a')).toBe("cal");
-        expect(_generalTrim("calaaaa", null, 'a')).toBe("cal");
+        expect(_generalTrim("aaaacalaaaa", null as any, 'a')).toBe("cal");
+        expect(_generalTrim("aaaacal", null as any, 'a')).toBe("cal");
+        expect(_generalTrim("calaaaa", null as any, 'a')).toBe("cal");
 
-        expect(_generalTrim("ababababcalabababab", null, ['a', 'b'])).toBe("cal");
-        expect(_generalTrim("ababababcal", null, ['a', 'b'])).toBe("cal");
-        expect(_generalTrim("calabababab", null, ['a', 'b'])).toBe("cal");
+        expect(_generalTrim("ababababcalabababab", null as any, ['a', 'b'])).toBe("cal");
+        expect(_generalTrim("ababababcal", null as any, ['a', 'b'])).toBe("cal");
+        expect(_generalTrim("calabababab", null as any, ['a', 'b'])).toBe("cal");
     });
     it('should trim characters on left side', () => {
         expect(_generalTrim("aaaacalaaaa", 'l', 'a')).toBe("calaaaa");

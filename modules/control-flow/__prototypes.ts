@@ -17,10 +17,10 @@ const yieldable: typeof IYieldable.default = require('../methods/yieldable').def
 const syncroit: typeof ISyncroit.default = require('../methods/syncroit').default;
 //#endregion
 
-export function _parallelEach(args: any[]): Promise<any[]>;
-export function _parallelEach(gen: Yieldables, args?: any[]): Promise<any[]>;
+export function _parallelEach(this: any[], args: any[]): Promise<any[]>;
+export function _parallelEach(this: any[], gen: Yieldables, args?: any[]): Promise<any[]>;
 export function _parallelEach(this: Yieldables[]): Promise<any[]>;
-export function _parallelEach(gen?, args?): Promise<any[]> {
+export function _parallelEach(this: any, gen?: any, args?: any): Promise<any[]> {
     /*|{
         "info": "Array class extension to perform push and update indexes if used",
         "category": "Array",

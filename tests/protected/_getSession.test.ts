@@ -1,7 +1,7 @@
 import _getSession from '../../modules/protected/_getSession';
 jest.mock('../../modules/protected/_sessionFileCreateAndRetrieve', () => {
     return {
-        "default": (path, sync, f: Function) => {
+        "default": (path: any, sync: any, f: Function) => {
             if (sync) {
                 return { data: 1 };
             } else {
@@ -13,7 +13,7 @@ jest.mock('../../modules/protected/_sessionFileCreateAndRetrieve', () => {
 
 declare var __GLOBALSESSION: any;
 describe('_getSession', () => {
-    let session;
+    let session: any;
     let ctx: any;
     beforeAll(() => {
         session = (global as any).__GLOBALSESSION;
@@ -72,7 +72,7 @@ describe('_getSession', () => {
         const ctx: any = { request: { headers: { cookie: '' } } };
         __GLOBALSESSION.length = 1000001;
 
-        _getSession(ctx, null, (d) => { return d; });
+        _getSession(ctx, null as any, (d) => { return d; });
         expect(ctx.sessionid).not.toBeUndefined();
         expect(__GLOBALSESSION[ctx.sessionid]).toEqual(data);
         expect(ctx.session).toEqual(data);
@@ -82,7 +82,7 @@ describe('_getSession', () => {
         const ctx: any = { request: { headers: { cookie: '' } } };
         __GLOBALSESSION.length = 1000001;
 
-        _getSession(ctx, null,);
+        _getSession(ctx, null as any);
         expect(ctx.sessionid).not.toBeUndefined();
         expect(__GLOBALSESSION[ctx.sessionid]).toEqual(data);
         expect(ctx.session).toEqual(data);

@@ -15,5 +15,6 @@ export default function isMac(this: Craydent | Window): boolean {
         return /mac/i.test(this.navigator.platform);
     } catch (e) /* istanbul ignore next */ {
         error && error('isMac', e);
+        return null as any;
     }
 }

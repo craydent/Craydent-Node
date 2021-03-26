@@ -1,22 +1,22 @@
 import parseAdvanced from '../../compiled/transformedMinor/craydent.parseadvanced';
 jest.mock('../../compiled/transformedMinor/craydent.parseadvanced/protected/_parseAdvanced', () => {
     return {
-        "default": (...args) => _parseAdvanced.apply(this, args)
+        "default": (...args: any[]) => _parseAdvanced.apply(this, args as any)
     }
 });
 jest.mock('../../compiled/transformedMinor/craydent.absolutepath', () => {
     return {
-        "default": (...args) => absolutePath.apply(this, args)
+        "default": (...args: any[]) => absolutePath.apply(this, args as any)
     }
 });
 jest.mock('../../compiled/transformedMinor/craydent.include', () => {
     return {
-        "default": (...args) => include.apply(this, args)
+        "default": (...args: any[]) => include.apply(this, args as any)
     }
 });
 let _parseAdvanced = () => { };
-let absolutePath = (p) => { };
-let include = (p) => { };
+let absolutePath = (p: any) => { };
+let include = (p: any) => { };
 describe('parseAdvanced', () => {
     beforeEach(() => {
         _parseAdvanced = () => { };
@@ -63,7 +63,7 @@ describe('parseAdvanced', () => {
     it('should parse with a basepath', () => {
         _parseAdvanced = jest.fn();
         absolutePath = jest.fn();
-        parseAdvanced('{}', null, null, 'basepath');
+        parseAdvanced('{}', null as any, null as any, 'basepath');
         expect(_parseAdvanced).toHaveBeenCalledWith({}, null, null, 'basepath/', 1);
     });
 });

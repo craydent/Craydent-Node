@@ -1,7 +1,7 @@
 import isBoolean from '../../compiled/transformedMinor/craydent.isboolean';
 jest.mock('../../compiled/transformedMinor/craydent.isboolean/protected/_typeCheck', () => {
     return {
-        "default": (...args) => _typeCheck.apply(this, args)
+        "default": (...args: any[]) => _typeCheck.apply(this, args as any)
     }
 });
 let _typeCheck = () => { }

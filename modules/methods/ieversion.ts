@@ -1,7 +1,7 @@
 ///<reference path="../globalTypes/global.base.d.ts" />
 import error from '../methods/error';
 
-export default function IEVersion(this: Craydent | Window) {
+export default function IEVersion(this: Craydent | Window): number {
     /*|{
         "info": "Get Internet Explorer version",
         "category": "HTTP",
@@ -33,5 +33,6 @@ export default function IEVersion(this: Craydent | Window) {
         return rv;
     } catch (e) /* istanbul ignore next */ {
         error && error('IEVersion', e);
+        return null as any;
     }
 }

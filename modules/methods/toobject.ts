@@ -20,7 +20,7 @@ export default function toObject(str: string, assignmentChar?: string, delimiter
         }
         assignmentChar = assignmentChar || "=";
         delimiter = delimiter || "&";
-        let rtn = {}, kv_pairs = str.split(delimiter);
+        let rtn: any = {}, kv_pairs = str.split(delimiter);
         for (let i = 0, len = kv_pairs.length; i < len; i++) {
             let kv = kv_pairs[i].split(assignmentChar);
             rtn[kv[0]] = kv[1];
@@ -28,5 +28,6 @@ export default function toObject(str: string, assignmentChar?: string, delimiter
         return rtn;
     } catch (e) /* istanbul ignore next */ {
         error && error("String.toObject", e);
+        return null as any;
     }
 }

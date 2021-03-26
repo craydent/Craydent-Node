@@ -47,8 +47,8 @@ describe('No Conflict Object', function () {
         expect($c.contains({ q: "asdf", b: "abbb" }, "asdfb")).toBe(false);
     });
     it('copyObject', function () {
-        function B() { this.hi = "hello"; }
-        var b = new B();
+        function B(this: any) { this.hi = "hello"; }
+        var b = new (B as any)();
         var tb = $c.copyObject(b);
         expect(tb).toEqual({ hi: "hello" });
         expect(tb.constructor).not.toEqual(B);
@@ -62,8 +62,8 @@ describe('No Conflict Object', function () {
         expect(tobj.o).not.toBe(obj.o);
     });
     it('duplicate - class', function () {
-        function B() { this.hi = "hello"; }
-        var b = new B();
+        function B(this: any) { this.hi = "hello"; }
+        var b = new (B as any)();
         var tb = $c.duplicate(b);
         expect(tb).toEqual({ hi: "hello" });
         expect(tb.constructor).toEqual(B);
@@ -79,7 +79,7 @@ describe('No Conflict Object', function () {
         expect(obj3.use).toBe(obj.use);
     });
     it('eachProperty', function () {
-        var arrp = [], arrv = [], obj = { a: "a1", b: 'b1', c: 'c1' };
+        var arrp: any = [], arrv: any = [], obj = { a: "a1", b: 'b1', c: 'c1' };
         $c.eachProperty(obj, function (val, prop) {
             arrp.push(prop);
             arrv.push(val);
@@ -108,17 +108,17 @@ describe('No Conflict Object', function () {
 
     });
     it('every - array', function () {
-        expect($c.every(['a', 'b', 'c'], function (val, prop, arr) { return val; })).toBe(true);
-        expect($c.every(['a', '', 'c'], function (val, prop, arr) { return val; })).toBe(false);
+        expect($c.every(['a', 'b', 'c'], function (val: any, prop: any, arr: any) { return val; })).toBe(true);
+        expect($c.every(['a', '', 'c'], function (val: any, prop: any, arr: any) { return val; })).toBe(false);
     });
     it('every - object', function () {
-        expect($c.every({ a: 'a', b: 'b', c: 'c' }, function (val, prop, arr) { return val; })).toBe(true);
-        expect($c.every({ a: 'a', b: '', c: 'c' }, function (val, prop, arr) { return val; })).toBe(false);
+        expect($c.every({ a: 'a', b: 'b', c: 'c' }, function (val: any, prop: any, arr: any) { return val; })).toBe(true);
+        expect($c.every({ a: 'a', b: '', c: 'c' }, function (val: any, prop: any, arr: any) { return val; })).toBe(false);
 
     });
     it('getClass', function () {
         function C1() { }
-        var c = new C1();
+        var c = new (C1 as any)();
         expect($c.getClass(c)).toBe("C1");
     });
     it('get', function () {
@@ -133,11 +133,11 @@ describe('No Conflict Object', function () {
         expect($c.getProperty(o, "path.arr.foo")).toBe(undefined);
         expect($c.getProperty(o, "path.arr.0.foo")).toBe("bar");
     });
-    var f = function (num) { return (num || 0) + 1; };
-    var n = 10;
-    var s = "s";
-    var o = {};
-    var a = [];
+    var f = function (num: any) { return (num || 0) + 1; };
+    var n: any = 10;
+    var s: any = "s";
+    var o: any = {};
+    var a: any = [];
     it('getValue - no default', function () {
         expect($c.getValue(f)).toBe(1);
         expect($c.getValue(n)).toBe(10);
@@ -286,7 +286,7 @@ describe('No Conflict Object', function () {
     });
     it('isGeolocation', function () {
         function Geolocation() { };
-        var g = new Geolocation();
+        var g = new (Geolocation as any)();
         expect($c.isGeolocation([])).toBe(false);
         expect($c.isGeolocation(g)).toBe(true);
     });
@@ -392,7 +392,7 @@ describe('No Conflict Object', function () {
     });
     it('map', function () {
         var obj = { hi: "hello", world: "world", index: 1 };
-        var obj2 = $c.map(obj, function (val) { return val += 10; });
+        var obj2 = $c.map(obj, function (val: any) { return val += 10; });
         expect(obj).toEqual({ hi: "hello", world: "world", index: 1 });
         expect(obj2).toEqual({ hi: "hello10", world: "world10", index: 11 });
     });

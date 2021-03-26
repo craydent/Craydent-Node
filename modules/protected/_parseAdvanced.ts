@@ -16,7 +16,7 @@ const $g: any = global;
 
 export default function _parseAdvanced(obj: any): any;
 export default function _parseAdvanced(obj: any, original: any, values: AnyObject | AnyObjects, base_path?: string, depth?: number): any;
-export default function _parseAdvanced(obj, original?, values?, base_path?, depth?, _parents?, _current_path?, _processedObjects?): any {
+export default function _parseAdvanced(obj: any, original?: any, values?: any, base_path?: string, depth?: number, _parents?: any, _current_path?: string, _processedObjects?: any[]): any {
     values = values || [];
     base_path = base_path || "";
     depth = depth || 0;

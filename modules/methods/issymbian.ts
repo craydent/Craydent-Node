@@ -17,5 +17,6 @@ export default function isSymbian(this: Craydent | Window): boolean {
         return (isWebkit.call(this) && (/series60/i.test(nu) || /symbian/i.test(nu)));
     } catch (e) /* istanbul ignore next */ {
         error && error('isSymbian', e);
+        return null as any;
     }
 }

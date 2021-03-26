@@ -27,6 +27,6 @@ export default function addFlags(regex: RegExp, flags: string): RegExp {
         return new RegExp(regex.source, flags);
     } catch (e) /* istanbul ignore next */ {
         error && error("RegExp.addFlags", e);
-        return null;
+        return null as any;
     }
 }

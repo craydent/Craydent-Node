@@ -19,21 +19,21 @@ export default function every<T>(objs: T[] | T, callback: ArrayIterator<T> | Obj
         "returnType": "(Bool)"
     }|*/
     try {
-        const thiss = context || objs;
+        const thiss: any = context || objs;
         if (isArray(objs)) {
             //@ts-ignore
             for (let i = 0, len = objs.length; i < len; i++) {
-                if (!callback.call(thiss, objs[i], i, objs)) { return false; }
+                if (!(callback as ArrayIterator<T>).call(thiss, (objs as any)[i], i, objs as any)) { return false; }
             }
         } else {
             for (let prop in thiss)
-                if (!callback.call(thiss, objs[prop], prop, objs)) {
+                if (!(callback as ObjectIterator<T>).call(thiss, (objs as any)[prop], prop, objs as any)) {
                     return false;
                 }
         }
         return true;
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.every", e);
-        return null;
+        return null as any;
     }
 }

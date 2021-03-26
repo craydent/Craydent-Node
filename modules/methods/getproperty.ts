@@ -9,10 +9,10 @@ export interface GetPropertyOptions {
     validPath?: boolean | number;
 }
 
-export default function getProperty(obj, path: string, delimiter?: string, options?: GetPropertyOptions): any;
-export default function getProperty(obj, path: RegExp): any;
-export default function getProperty(obj, path: string, options?: GetPropertyOptions): any;
-export default function getProperty(obj, path, delimiter?, options?): any {
+export default function getProperty(obj: any, path: string, delimiter?: string, options?: GetPropertyOptions): any;
+export default function getProperty(obj: any, path: RegExp): any;
+export default function getProperty(obj: any, path: string, options?: GetPropertyOptions): any;
+export default function getProperty(obj: any, path: any, delimiter?: any, options?: any): any {
     /*|{
         "info": "Object class extension to retrieve nested properties without error when property path does not exist",
         "category": "Object",

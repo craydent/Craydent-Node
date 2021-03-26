@@ -17,5 +17,6 @@ export default function toPromise(gen: GeneratorFunction): Promise<any> {
         return syncroit(gen);
     } catch (e) /* istanbul ignore next */ {
         error && error("Generator.toPromise", e);
+        return Promise.resolve();
     }
 }

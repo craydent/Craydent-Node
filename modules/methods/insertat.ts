@@ -26,6 +26,6 @@ export default function insertAt<T>(arr: T[], index: number, value: any): boolea
         return true;
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.insertAt", e);
-        return null;
+        return null as any;
     }
 }

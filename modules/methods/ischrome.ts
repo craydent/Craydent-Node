@@ -17,5 +17,6 @@ export default function isChrome(this: Craydent | Window): boolean {
     } catch (e) /* istanbul ignore next */ {
         /* istanbul ignore next */
         error && error('isChrome', e);
+        return null as any;
     }
 }

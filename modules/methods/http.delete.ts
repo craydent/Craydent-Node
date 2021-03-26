@@ -6,7 +6,7 @@ import isString from '../methods/isstring';
 import _invokeHashChange from '../protected/_invokeHashChange';
 
 
-export default function $DELETE(this: Craydent | void, variable?: string | string[], options?: VerbOptions) {
+export default function $DELETE(this: Craydent | void, variable: string | string[], options?: VerbOptions) {
     /*|{
         "info": "Retrieve all or specific variables in the Body",
         "category": "HTTP",
@@ -22,11 +22,11 @@ export default function $DELETE(this: Craydent | void, variable?: string | strin
         "returnType": "(Bool|Object)"
     }|*/
     if (typeof window == 'undefined') {
-        return _node$DELETE.call(this, variable, options);
+        return _node$DELETE.call(this as Craydent, variable as string, options);
     }
     return _js$DELETE.call(this, variable, options);
 }
-function _node$DELETE(this: Craydent, variable?: string, options?: VerbOptions) {
+function _node$DELETE(this: Craydent, variable: string, options?: VerbOptions) {
     /*|{
         "info": "Retrieves all or specific variables in the DELETE request body",
         "category": "HTTP",
@@ -47,7 +47,7 @@ function _node$DELETE(this: Craydent, variable?: string, options?: VerbOptions) 
         error && error('$DELETE', e);
     }
 }
-function _js$DELETE(variables?: string[] | string, options?: VerbOptions) {
+function _js$DELETE(variables: string[] | string, options?: VerbOptions) {
     /*|{
         "info": "Delete variable in url",
         "category": "Utility",
@@ -75,9 +75,9 @@ function _js$DELETE(variables?: string[] | string, options?: VerbOptions) {
                 'search': location.search || "",
                 'hash': location.hash || ""
             },
-            regex, attr;
+            regex: RegExp, attr: 'hash' | 'search';
         for (let i = 0, len = variables.length; i < len; i++) {
-            let variable = variables[i];
+            let variable: string = variables[i];
             regex = new RegExp(`[\\?|&|@]${variable}=`, ignoreCase);
             attr = "search";
             if (regex.test(location.hash)) {
@@ -106,10 +106,10 @@ function _js$DELETE(variables?: string[] | string, options?: VerbOptions) {
                     _invokeHashChange();
                 }
             } else {
-                $COMMIT[attr] = $COMMIT[attr] || "";
-                $COMMIT[attr] = $COMMIT[attr] || location[attr];
-                $COMMIT[attr] = $COMMIT[attr].replace(regex, '');
-                $COMMIT['update'] = true;
+                ($COMMIT as any)[attr] = ($COMMIT as any)[attr] || "";
+                ($COMMIT as any)[attr] = ($COMMIT as any)[attr] || location[attr];
+                ($COMMIT as any)[attr] = ($COMMIT as any)[attr].replace(regex, '');
+                ($COMMIT as any)['update'] = true;
             }
         }
         return true;

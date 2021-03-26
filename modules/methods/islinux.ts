@@ -15,5 +15,6 @@ export default function isLinux(this: Craydent | Window): boolean {
         return /linux/i.test(this.navigator.platform);
     } catch (e) /* istanbul ignore next */ {
         error && error('isLinux', e);
+        return null as any;
     }
 }

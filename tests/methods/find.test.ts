@@ -1,7 +1,7 @@
 import find from '../../compiled/transformedMinor/craydent.find';
 jest.mock('../../compiled/transformedMinor/craydent.where', () => {
     return {
-        "default": (...args) => _where.apply(this, args)
+        "default": (...args: any[]) => _where.apply(this, args as any)
     }
 });
 let _where = () => { }

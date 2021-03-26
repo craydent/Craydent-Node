@@ -16,14 +16,14 @@ class Benchmarker {
         "returnType": "(IBenchmarker)"
     }|*/
     public executionTime: number = 0;
-    protected _start: Date;
-    protected _end: Date;
+    protected _start: Date = 0 as any;
+    protected _end: Date = 0 as any;
 
-    public start = function (): void {
+    public start = function (this: any): void {
         this._start = new Date();
         this._end = 0;
     }
-    public stop = function (): number {
+    public stop = function (this: any): number {
         this._end = new Date();
         return this.executionTime = (this._end - this._start) / 1000;
     }

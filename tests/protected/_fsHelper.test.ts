@@ -1,10 +1,10 @@
 import _fsHelper from '../../modules/protected/_fsHelper';
 jest.mock('fs', () => {
     return {
-        "name": (...args) => fs.apply(this, args)
+        "name": (...args: any[]) => fs.apply(this, args)
     }
 });
-let fs = (...args) => { }
+let fs = (...args: any[]) => { }
 describe('_fsHelper', () => {
     it('should return error when error is not null', async () => {
         fs = jest.fn((a, b, c, cb) => { cb({ error: 1 }) });

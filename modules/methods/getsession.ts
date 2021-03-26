@@ -2,7 +2,7 @@ import error from '../methods/error';
 import foo from '../methods/foo';
 import _getSession from '../protected/_getSession';
 
-export default function getSession(this: Craydent | void, sid: string, callback?: (data: any) => void) {
+export default function getSession(this: Craydent | void, sid: string, callback: (data: any) => void = foo): Promise<any> {
     /*|{
         "info": "Asynchronous retrieval of the session object when used in conjunction with createServer",
         "category": "HTTP",
@@ -19,15 +19,16 @@ export default function getSession(this: Craydent | void, sid: string, callback?
         // if (arguments.length == 1) {
         //     return this.getSessionSync(sid);
         // }
+        const self = this as Craydent;
         return new Promise(function (res, rej) {
-            callback = callback || foo;
-            const cb = function (sessionObject) {
+            const cb = function (sessionObject: any) {
                 callback(sessionObject);
                 res(sessionObject);
             };
-            _getSession(this, sid, cb);
+            _getSession(self, sid, cb);
         });
     } catch (e) /* istanbul ignore next */ {
         error && error('getSession', e);
+        return Promise.resolve(null as any);
     }
 }

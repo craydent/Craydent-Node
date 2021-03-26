@@ -11,8 +11,8 @@ describe('randIndex', () => {
     it('should return -1', () => {
         expect(randIndex([])).toBe(-1);
         expect(randIndex("")).toBe(-1);
-        expect(randIndex(undefined)).toBe(-1);
-        expect(randIndex(null)).toBe(-1);
+        expect(randIndex(undefined as any)).toBe(-1);
+        expect(randIndex(null as any)).toBe(-1);
     });
     it('should provide a random index of an array', () => {
         expect(randIndex([1, 2])).toBe(0);

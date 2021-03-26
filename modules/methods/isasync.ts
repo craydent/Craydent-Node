@@ -32,6 +32,6 @@ export default function isAsync(obj: any): boolean {
         return fConstruct.name == 'async' || fConstruct.name == 'AsyncFunction';
     } catch (e) /* istanbul ignore next */ {
         error && error('isAsync', e);
-        return null;
+        return null as any;
     }
 }

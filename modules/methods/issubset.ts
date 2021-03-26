@@ -8,7 +8,7 @@ import isNull from '../methods/isnull';
 
 export default function isSubset<T, R>(arr: T[], compare: R[], sharesAny?: boolean): boolean;
 export default function isSubset<T, R>(obj: T, compare: R, sharesAny?: boolean): boolean;
-export default function isSubset(obj, compare, sharesAny?): boolean {
+export default function isSubset(obj: any, compare: any, sharesAny?: any): boolean {
     /*|{
         "info": "Object class extension to check if item is a subset",
         "category": "Array|Object",
@@ -46,6 +46,6 @@ export default function isSubset(obj, compare, sharesAny?): boolean {
 
     } catch (e) /* istanbul ignore next */ {
         error && error('Object.isSubset', e);
-        return null;
+        return null as any;
     }
 }

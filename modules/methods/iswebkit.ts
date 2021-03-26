@@ -15,5 +15,6 @@ export default function isWebkit(this: Craydent | Window): boolean {
         return (/webkit/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isWebkit', e);
+        return null as any;
     }
 }

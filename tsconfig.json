@@ -1,6 +1,12 @@
 {
     "compilerOptions": {
         "noImplicitUseStrict": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
         "outDir": "./compiled",
         "baseUrl": "./",
         "declaration": true,

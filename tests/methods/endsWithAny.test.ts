@@ -5,6 +5,6 @@ describe('endsWithAny', () => {
         expect(endsWithAny('path/', 's', '/')).toBe('/');
         expect(endsWithAny('', 's', '/')).toBe(false);
         expect(endsWithAny('path', 's', '/')).toBe(false);
-        expect(endsWithAny('path', null)).toBe(false);
+        expect(endsWithAny('path', null as any)).toBe(false);
     })
 });

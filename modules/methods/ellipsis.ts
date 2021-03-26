@@ -19,8 +19,9 @@ export default function ellipsis(str: string, before: number, after?: number): s
         const afterIsNull = isNull(after);
         after = after || 0;
         if (before + after > str.length) { return str; }
-        return cut(str, before, afterIsNull ? null : -1 * after, "...");
+        return cut(str, before, afterIsNull ? (null as any) : -1 * after, "...");
     } catch (e) /* istanbul ignore next */ {
         error && error('String.ellipsis', e);
+        return undefined as any;
     }
 }

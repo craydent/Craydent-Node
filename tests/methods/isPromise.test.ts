@@ -1,7 +1,7 @@
 import isPromise from '../../compiled/transformedMinor/craydent.ispromise';
 jest.mock('../../compiled/transformedMinor/craydent.ispromise/protected/_typeCheck', () => {
     return {
-        "default": (...args) => _typeCheck.apply(this, args)
+        "default": (...args: any[]) => _typeCheck.apply(this, args as any)
     }
 });
 let _typeCheck = () => { }

@@ -26,6 +26,6 @@ export default function insertBefore<T>(arr: T[], index: number, value: any): bo
         return true;
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.insertBefore", e);
-        return null;
+        return null as any;
     }
 }

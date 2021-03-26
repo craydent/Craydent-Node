@@ -3,18 +3,18 @@ import where, { __processStage, _joinHelper, _copyWithProjection, _createFuncAnd
 import { IndexedBucket, IndexedArray } from '../../compiled/transformedMinor/craydent.where/models/Arrays';
 jest.mock('../../compiled/transformedMinor/craydent.where/protected/_redact', () => {
     return {
-        "default": (...args) => _redact.apply(this, args)
+        "default": (...args: any[]) => _redact.apply(this, args as any)
     }
 });
 jest.mock('../../compiled/transformedMinor/craydent.where/protected/_unwind', () => {
     return {
-        "default": (...args) => _unwind.apply(this, args)
+        "default": (...args: any[]) => _unwind.apply(this, args as any)
     }
 });
 jest.mock('../../compiled/transformedMinor/craydent.where/private/__whereParsers', () => {
     return {
-        "__processGroup": (...args) => __processGroup.apply(this, args),
-        "__processExpression": (...args) => __processExpression.apply(this, args)
+        "__processGroup": (...args: any[]) => __processGroup.apply(this, args as any),
+        "__processExpression": (...args: any[]) => __processExpression.apply(this, args as any)
     }
 });
 let _redact = () => { }
@@ -29,7 +29,7 @@ describe('where', () => {
         __processExpression = () => { }
     })
     it('should return blank array when give null', () => {
-        expect(where(null)).toEqual([]);
+        expect(where(null as any)).toEqual([]);
     });
     it('should return blank array when give no items', () => {
         expect(where([])).toEqual([]);
@@ -39,10 +39,10 @@ describe('where', () => {
     });
     it('should return copy array when give no condition', () => {
         expect(where([])).toEqual([]);
-        expect(where([{ a: 1 }, {}, {}], null, null, 1)).toEqual([{ a: 1 }]);
+        expect(where([{ a: 1 }, {}, {}], null as any, null as any, 1)).toEqual([{ a: 1 }]);
     });
     it('should return filtered array using function as condition', () => {
-        expect(where([{ a: 0 }, { a: 1 }], function () { return this.a })).toEqual([{ a: 1 }]);
+        expect(where([{ a: 0 }, { a: 1 }], function (this: any) { return this.a })).toEqual([{ a: 1 }]);
     });
     it('should return filtered array with simple condition', () => {
         expect(where([{ a: 0 }, { a: 1 }], { a: 1 })).toEqual([{ a: 1 }]);
@@ -69,7 +69,7 @@ describe('where', () => {
         expect(where(iarr, { a: 2, b: 1, c: 1 })).toEqual([{ a: 2, b: 1, c: 1 }]);
     });
     describe('__processStage', () => {
-        let docs = [];
+        let docs: any[] = [];
         beforeEach(() => {
             _redact = () => { }
             _unwind = () => { }
@@ -113,12 +113,12 @@ describe('where', () => {
             expect((global as any).out).toEqual([{ a: 1, b: 1 }, { a: 2, b: 2 }]);
             delete (global as any).out;
 
-            let arr = [];
+            let arr: any[] = [];
             expect(__processStage(docs, { $out: arr })).toEqual([{ a: 1, b: 1 }, { a: 2, b: 2 }]);
             expect(arr).toEqual([{ a: 1, b: 1 }, { a: 2, b: 2 }]);
         });
         it('should process $sample', () => {
-            expect(__processStage([{ a: 1, b: 1 }], { $sample: { size: 1 } }).sample).toEqual([{ a: 1, b: 1 }]);
+            expect((__processStage([{ a: 1, b: 1 }], { $sample: { size: 1 } }) as any).sample).toEqual([{ a: 1, b: 1 }]);
         });
         it('should process $lookup', () => {
             const stage = { $lookup: { from: docs, localField: 'key', foreignField: 'a', as: 'count' } };
@@ -168,7 +168,7 @@ describe('where', () => {
         });
         it('should return copy when projection is * or null', () => {
             expect(_copyWithProjection(obj, '*')).toEqual({ id: 1, a: 1, b: 1 });
-            expect(_copyWithProjection(obj, null)).toEqual({ id: 1, a: 1, b: 1 });
+            expect(_copyWithProjection(obj, null as any)).toEqual({ id: 1, a: 1, b: 1 });
         });
     });
     describe('_createFunc', () => {
@@ -186,7 +186,7 @@ describe('where', () => {
     });
     describe('_recordRange', () => {
         it('should handle no ranges', () => {
-            const range = [];
+            const range: any[] = [];
             expect(_recordRange(range, 0, 0)).toBeUndefined();
             expect(range).toEqual([[0, 0]]);
         });
@@ -256,7 +256,7 @@ describe('where', () => {
     });
     describe('_reverseRange', () => {
         it('should return blank array when end less than range end', () => {
-            const expected = [];
+            const expected: any[] = [];
             (expected as any).items = 0;
             expect(_reverseRange([[1, 4]], 1, 2)).toEqual(expected);
         });

@@ -17,5 +17,6 @@ export default function getParameters(fn: Function): string[] {
         return _getFuncArgs(fn);
     } catch (e) /* istanbul ignore next */ {
         error && error("Function.getParameters", e);
+        return null as any;
     }
 }

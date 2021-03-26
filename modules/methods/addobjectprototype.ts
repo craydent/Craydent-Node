@@ -33,7 +33,7 @@ export default function addObjectPrototype(name: string, fn: Function, override?
             if (eval(`typeof(${name})`) == "undefined") {
                 shouldOverride = true;
             }
-            (!override && Object.prototype[name]) || Object.defineProperty(Object.prototype, name, {
+            (!override && (Object.prototype as any)[name]) || Object.defineProperty(Object.prototype, name, {
                 writable: true,
                 enumerable: false,
                 configurable: true,
@@ -44,18 +44,18 @@ export default function addObjectPrototype(name: string, fn: Function, override?
     } catch (e) {
         error && error("addPrototype", e);
         try {
-            Array.prototype[name] = !override && Array.prototype[name] || fn;
-            Function.prototype[name] = !override && Function.prototype[name] || fn;
-            (String.prototype as any)[name] = !override && String.prototype[name] || fn;
-            Number.prototype[name] = !override && Number.prototype[name] || fn;
-            Boolean.prototype[name] = !override && Boolean.prototype[name] || fn;
-            Error.prototype[name] = !override && Error.prototype[name] || fn;
+            (Array.prototype as any)[name] = !override && (Array.prototype as any)[name] || fn;
+            (Function.prototype as any)[name] = !override && (Function.prototype as any)[name] || fn;
+            (String.prototype as any)[name] = !override && (String.prototype as any)[name] || fn;
+            (Number.prototype as any)[name] = !override && (Number.prototype as any)[name] || fn;
+            (Boolean.prototype as any)[name] = !override && (Boolean.prototype as any)[name] || fn;
+            (Error.prototype as any)[name] = !override && (Error.prototype as any)[name] || fn;
 
             /* istanbul ignore else */
             // @ts-ignore
             if (typeof GeoLocation !== 'undefined') {
                 // @ts-ignore
-                GeoLocation.prototype[name] = !override && GeoLocation.prototype[name] || fn;
+                (GeoLocation.prototype as any)[name] = !override && (GeoLocation.prototype as any)[name] || fn;
             }
         } catch (e) /* istanbul ignore next */ {
             error && error("addPrototype:Non-ECMAScript 5", e);

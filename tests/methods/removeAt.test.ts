@@ -1,7 +1,7 @@
 import removeAt from '../../compiled/transformedMinor/craydent.removeat';
 jest.mock('../../compiled/transformedMinor/craydent.removeat/protected/_removeFromIndex', () => {
     return {
-        "default": (...args) => _removeFromIndex.apply(this, args)
+        "default": (...args: any[]) => _removeFromIndex.apply(this, args as any)
     }
 });
 let _removeFromIndex = () => { }

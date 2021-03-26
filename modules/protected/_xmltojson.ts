@@ -11,7 +11,7 @@ import isEmpty from '../methods/isempty';
 import isNull from '../methods/isnull';
 
 export function __processChildren(nodename: string, children: string[], xml: string, refs: any, ignoreAttributes?: boolean): AnyObject {
-    let child, i = 0, obj = {};
+    let child, i = 0, obj: any = {};
     if (!children.length && !ignoreAttributes) {
         const attributes = __processAttributes(xml, refs);
         if (isEmpty(attributes)) {
@@ -45,7 +45,7 @@ export function __processChildren(nodename: string, children: string[], xml: str
     return obj;
 }
 export function __processSiblings(xml: string, refs: any, ignoreAttributes?: boolean): AnyObject {
-    let parts = xml.split('<'), obj = {},
+    let parts = xml.split('<'), obj: any = {},
         tag = "", node = "", etag, tagCount = 0;
     obj['#text'] = obj['#text'] || "";
     for (let i = 0; i < parts.length; i++) {
@@ -201,6 +201,6 @@ export default function xmlToJson(xml: string | XMLDocument, ignoreAttributes?: 
         return rtn;
     } catch (e) /* istanbul ignore next */ {
         error && error('xmlToJson', e);
-        return null;
+        return null as any;
     }
 }

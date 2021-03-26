@@ -124,11 +124,11 @@ export default function ServerManager(this: Craydent, req: IHttp.IncomingMessage
     self.isMac = isMac;
     self.isLinux = isLinux;
 
-    let parts = req.headers.host.split(":"),
-        queryparts = req.url.split("?"),
+    let parts = (req as any).headers.host.split(":"),
+        queryparts = (req as any).url.split("?"),
         query = queryparts.length > 1 ? queryparts.splice(1).join('?') : "",
-        protocol = `http${(req.connection as any).encrypted ? "s" : ""}`,
-        cookies = (req.headers.cookie || "").split('; '),
+        protocol = `http${((req as any).connection as any).encrypted ? "s" : ""}`,
+        cookies = ((req as any).headers.cookie || "").split('; '),
         hash = "";
 
     for (let i = 0, len = cookies.length; i < len; i++) {
@@ -140,27 +140,27 @@ export default function ServerManager(this: Craydent, req: IHttp.IncomingMessage
 
     self.location = self.$l = {
         hash: hash,
-        host: req.headers.host,
+        host: (req as any).headers.host,
         hostname: parts[0],
-        href: `${protocol}://${req.headers.host}${req.url}${hash && "#" + hash}`,
-        method: req.headers.method,
-        origin: `${protocol}://${req.headers.host}`,
-        pathname: req.url,
+        href: `${protocol}://${(req as any).headers.host}${(req as any).url}${hash && "#" + hash}`,
+        method: (req as any).headers.method,
+        origin: `${protocol}://${(req as any).headers.host}`,
+        pathname: (req as any).url,
         port: parseInt(parts[1]) || protocol == 'http' ? 80 : 443,
         protocol: protocol,
         search: query
     } as any;
-    self.navigator = { userAgent: req.headers['user-agent'], platform: req.headers.platform || req.headers['user-agent'] } as Navigator;
+    self.navigator = { userAgent: (req as any).headers['user-agent'], platform: (req as any).headers.platform || (req as any).headers['user-agent'] } as Navigator;
 
     self.PROTOCOL = self.$l.protocol;
     self.SERVER = self.$l.host;
     self.SERVER_PATH = self.$l.pathname;
-    self.REFERER = req.headers.referer;
-    self.ORIGIN = req.headers.origin as string;
-    self.PRAGMA = req.headers.pragma;
-    self.ACCEPT_ENCODING = req.headers["accept-encoding"] as string;
-    self.ACCEPT_LANGUAGE = req.headers["accept-language"] as string;
-    self.REFERER_IP = (req.headers['x-forwarded-for'] || req.connection.remoteAddress) as string;
+    self.REFERER = (req as any).headers.referer;
+    self.ORIGIN = (req as any).headers.origin as string;
+    self.PRAGMA = (req as any).headers.pragma;
+    self.ACCEPT_ENCODING = (req as any).headers["accept-encoding"] as string;
+    self.ACCEPT_LANGUAGE = (req as any).headers["accept-language"] as string;
+    self.REFERER_IP = ((req as any).headers['x-forwarded-for'] || (req as any).connection.remoteAddress) as string;
     self.PUBLIC_IP = $c.PUBLIC_IP;
     self.LOCAL_IP = $c.LOCAL_IP;
 

@@ -2,7 +2,7 @@ import isError from '../../compiled/transformedMinor/craydent.iserror';
 import { $c } from '../../compiled/transformedMinor/craydent.iserror/private/__common';
 jest.mock('../../compiled/transformedMinor/craydent.iserror/protected/_typeCheck', () => {
     return {
-        "default": (...args) => _typeCheck.apply(this, args)
+        "default": (...args: any[]) => _typeCheck.apply(this, args as any)
     }
 });
 let _typeCheck = () => { }
@@ -21,7 +21,7 @@ describe('isError', () => {
     it('should check if value is a custom error', () => {
         function CustomError() { }
         $c.ERROR_TYPES.push(CustomError)
-        expect(isError(new CustomError())).toBe(true);
+        expect(isError(new (CustomError as any)())).toBe(true);
         expect(isError(CustomError)).toBe(true);
     });
 });

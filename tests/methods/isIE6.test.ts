@@ -1,7 +1,7 @@
 import isIE6 from '../../compiled/transformedMinor/craydent.isie6';
 jest.mock('../../compiled/transformedMinor/craydent.ieversion', () => {
     return {
-        "default": (...args) => IEVersion.apply(this, args)
+        "default": (...args: any[]) => IEVersion.apply(this, args as any)
     }
 });
 let IEVersion = () => { }
@@ -13,7 +13,7 @@ describe('isIE6', () => {
         IEVersion = jest.fn()
             .mockImplementationOnce(() => 6)
             .mockImplementationOnce(() => -1);
-        const dis = {};
+        const dis: any = {};
         expect(isIE6.call(dis)).toBe(true);
         expect(isIE6.call(dis)).toBe(false);
     });

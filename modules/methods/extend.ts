@@ -20,8 +20,8 @@ export default function extend(func: VoidFunction, extendee: VoidFunction, inher
     }|*/
     try {
         let className = _getFuncName(func),
-            cls = new extendee();
-        namespace[className] = namespace && namespace[className];
+            cls: any = new (extendee as any)();
+        (namespace as any)[className] = namespace && (namespace as any)[className];
         for (let prop in cls) {
             if (inheritAsOwn && !cls.hasOwnProperty(prop)) { continue; }
             func.prototype[prop] = /* func[prop] || */ func.prototype[prop] || cls[prop];
@@ -32,7 +32,7 @@ export default function extend(func: VoidFunction, extendee: VoidFunction, inher
                 if (!extendee.hasOwnProperty(prop)) {
                     continue;
                 }
-                func[prop] = func[prop] || extendee[prop];
+                (func as any)[prop] = (func as any)[prop] || (extendee as any)[prop];
             }
         }
         func.prototype.construct = func.prototype.construct || (cls as any).construct || foo;
@@ -40,5 +40,6 @@ export default function extend(func: VoidFunction, extendee: VoidFunction, inher
         return func;
     } catch (e) /* istanbul ignore next */ {
         error && error("Function.extend", e);
+        return null as any;
     }
 }

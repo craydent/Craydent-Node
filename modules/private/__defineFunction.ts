@@ -30,5 +30,6 @@ export default function __defineFunction(name: string, func: Function/* , overri
         return scope.eval(`$c.${name} = ${fnew}`);
     } catch (e) /* istanbul ignore next */ {
         error && error("__defineFunction", e);
+        return null as any;
     }
 }

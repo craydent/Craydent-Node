@@ -15,11 +15,11 @@ export default function last<T>(arr: T[]): T {
     }|*/
     try {
         if (isNull(arr) || !arr.length) {
-            return null;
+            return null as any;
         }
         return arr[arr.length - 1];
     } catch (e) /* istanbul ignore next */ {
         error && error('Array.last', e);
-        return null;
+        return null as any;
     }
 }

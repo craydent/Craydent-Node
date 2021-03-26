@@ -8,7 +8,7 @@ import absolutePath from '../methods/absolutepath';
 import { AnyObject } from '../models/Generics';
 import { Reviver } from '../models/Reviver';
 
-export default function parseAdvanced(text: string | AnyObject, reviver?: Reviver, values?: AnyObject, base_path?: string): AnyObject {
+export default function parseAdvanced(text: string | AnyObject, reviver?: Reviver | null, values?: AnyObject, base_path?: string): AnyObject {
     /*|{
         "info": "JSON Parser that can handle types and refs",
         "category": "JSON Parser",
@@ -32,13 +32,13 @@ export default function parseAdvanced(text: string | AnyObject, reviver?: Revive
                 text = text.replace(/""(\d{16,})""/g, "\"$1\"");
             }
         }
-        let parsedObject: AnyObject;
+        let parsedObject: AnyObject = undefined as any;
         if (isObject(text)) {
             parsedObject = text as AnyObject;
         } else {
-            try { parsedObject = JSON.parse(text as string, reviver) || text; } catch (e) { err = e; }
+            try { parsedObject = JSON.parse(text as string, reviver as Reviver) || text; } catch (e) { err = e; }
         }
-        if (!isObject(parsedObject)) {
+        if (!isObject(parsedObject as any)) {
             base_path = text.substring(0, text.lastIndexOf('/'));
             parsedObject = include(absolutePath(text as string));
             if (!parsedObject) { throw err; }
@@ -46,8 +46,9 @@ export default function parseAdvanced(text: string | AnyObject, reviver?: Revive
         if (base_path && base_path.slice(-1) != "/") {
             base_path += "/";
         }
-        return _parseAdvanced(duplicate(parsedObject, true), null, values, base_path, 1);
+        return _parseAdvanced(duplicate(parsedObject, true), null, values as any, base_path, 1);
     } catch (e) /* istanbul ignore next */ {
         error && error('JSON.parseAdvanced', e);
+        return undefined as any;
     }
 }

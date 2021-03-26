@@ -42,5 +42,6 @@ export default function _generalTrim(str: string, side?: string, characters?: st
         return temp.toString();
     } catch (e) /* istanbul ignore next */ {
         error && error("_generalTrim", e);
+        return str;
     }
 }

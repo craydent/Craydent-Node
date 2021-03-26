@@ -4,7 +4,7 @@ import error from '../methods/error';
 import { $c } from '../private/__common';
 import include from '../methods/include';
 
-export default function writeSession() {
+export default function writeSession(this: any): void {
     /*|{
         "info": "Writes session to filesystem to be retrieved later.",
         "category": "HTTP",
@@ -21,7 +21,7 @@ export default function writeSession() {
         /* istanbul ignore else */
         if (sessionid) {
             if ($c.BALANCE_SERVER_LIST) {
-                const otherServers = $c.BALANCE_SERVER_LIST.filter(function (ip) {
+                const otherServers = $c.BALANCE_SERVER_LIST.filter(function (ip: any) {
                     return $c.PUBLIC_IP != ip;
                 });
                 // save session to other load balanced servers

@@ -17,5 +17,6 @@ export default function isIE6(this: Craydent | Window): boolean {
         return !!(~rv && rv < 7.0);
     } catch (e) /* istanbul ignore next */ {
         error && error('isIE6', e);
+        return null as any;
     }
 }

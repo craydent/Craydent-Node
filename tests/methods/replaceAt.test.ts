@@ -2,12 +2,12 @@ import replaceAt from '../../compiled/transformedMinor/craydent.replaceat';
 
 jest.mock('../../compiled/transformedMinor/craydent.replaceat/protected/_removeFromIndex', () => {
     return {
-        "default": (...args) => _removeFromIndex.apply(this, args)
+        "default": (...args: any[]) => _removeFromIndex.apply(this, args as any)
     }
 });
 jest.mock('../../compiled/transformedMinor/craydent.replaceat/protected/_addToIndex', () => {
     return {
-        "default": (...args) => _addToIndex.apply(this, args)
+        "default": (...args: any[]) => _addToIndex.apply(this, args as any)
     }
 });
 let _addToIndex = () => { },
@@ -18,7 +18,7 @@ describe('replaceAt', () => {
         _removeFromIndex = () => { }
     });
     it('should replace at the index when index does not exist', () => {
-        let arr = [];
+        let arr: any[] = [];
         expect(replaceAt(arr, 0, {})).toBe(undefined);
         expect(arr).toEqual([{}]);
         expect((arr as any).__indexed_buckets).toBeUndefined();

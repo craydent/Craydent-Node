@@ -31,17 +31,17 @@ export default function createIndex<T>(objs: T[], indexes: string | string[]): I
             let prop = indexes[i].trim();
             subArr = subArr.slice();
 
-            let bucket = arr.__indexed_buckets[prop] = {} as IndexedBucket<T>;
-            let keys = bucket.__bucket_keys = [];
+            let bucket: any = arr.__indexed_buckets[prop] = {} as IndexedBucket<T>;
+            let keys: any[] = bucket.__bucket_keys = [];
 
-            subArr.sort(function (a, b) {
+            subArr.sort(function (a: any, b: any) {
                 if (a[prop] < b[prop]) { return -1; }
                 if (a[prop] > b[prop]) { return 1; }
                 return 0;
             });
             let last_key = '';
             for (let j = 0, jlen = subArr.length; j < jlen; j++) {
-                let item = subArr[j];
+                let item: any = subArr[j];
                 if (last_key !== item[prop]) {
                     last_key = item[prop];
                     keys.push(item[prop]);

@@ -18,19 +18,19 @@ export default function setProperty<T>(obj: T, path: string, value: any, delimit
         "returnType": "(Bool)"
     }|*/
     try {
-        const original = obj;
+        let original: any = obj;
         delimiter = delimiter || ".";
         path = strip(path, delimiter);
         if (/\[\d*?\]/.test(path)) {
             path = path.replace(/\[(\d*?)\]/g, '.$1');
         }
         let props = path.split(delimiter);
-        let i = 0, prop, len = props.length, pobj, pprop;
+        let i = 0, prop: string, len = props.length, pobj: any, pprop: string = "";
         while (prop = props[i++]) {
             if (i == len) {
-                return obj[prop] = value, true;
+                return original[prop] = value, true;
             }
-            if (pobj && pprop && !isArray(pobj[pprop]) && parseInt(prop) >= 0 && !obj.hasOwnProperty(prop)) {
+            if (pobj && pprop && !isArray(pobj[pprop]) && parseInt(prop) >= 0 && !original.hasOwnProperty(prop)) {
                 let tmp = pobj[pprop];
                 pobj[pprop] = [];
                 for (let p in tmp) {
@@ -42,15 +42,16 @@ export default function setProperty<T>(obj: T, path: string, value: any, delimit
                         pobj[pprop][p] = tmp[p];
                     }
                 }
-                obj = pobj[pprop];
+                original = pobj[pprop];
             }
-            obj[prop] = obj[prop] || {};
-            pobj = obj;
+            original[prop] = original[prop] || {};
+            pobj = original;
             pprop = prop;
-            obj = obj[prop];
+            original = original[prop];
         }
+        return true
     } catch (e) /* istanbul ignore next */ {
         error && error('Object.setProperty', e);
-        return null;
+        return false;
     }
 }

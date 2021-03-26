@@ -15,6 +15,6 @@ export default function isBlank(str: string): boolean {
         return !str.length;
     } catch (e) /* istanbul ignore next */ {
         error && error("String.isBlank", e);
-        return null;
+        return null as any;
     }
 }

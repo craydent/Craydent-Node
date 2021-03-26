@@ -1,23 +1,23 @@
 import write from '../../compiled/transformedMinor/craydent.write';
 jest.mock('fs', () => {
     return {
-        "write": (...args) => {
+        "write": (...args: any[]) => {
             _write.apply(this, args);
         }
     }
 });
-let _write = (...args) => { args[args.length - 1](); };
+let _write = (...args: any[]) => { args[args.length - 1](); };
 describe('write', () => {
     beforeEach(() => {
-        _write = (...args) => { args[args.length - 1](); };
+        _write = (...args: any[]) => { args[args.length - 1](); };
     })
     it('should return null when there are no errors', async () => {
-        _write = jest.fn().mockImplementationOnce((...args) => { args[args.length - 1](null); });
+        _write = jest.fn().mockImplementationOnce((...args: any[]) => { args[args.length - 1](null); });
         expect(await write(1, '')).toBe(null);
         expect(_write).toHaveBeenLastCalledWith(1, '', expect.any(Function))
     })
     it('should return error when there are errors', async () => {
-        _write = jest.fn().mockImplementationOnce((...args) => { args[args.length - 1]({}); });
+        _write = jest.fn().mockImplementationOnce((...args: any[]) => { args[args.length - 1]({}); });
         expect(await write(1, '')).toEqual({});
         expect(_write).toHaveBeenLastCalledWith(1, '', expect.any(Function));
     })

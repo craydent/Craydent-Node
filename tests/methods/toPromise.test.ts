@@ -2,7 +2,7 @@ import toPromise from '../../compiled/transformedMinor/craydent.topromise';
 
 jest.mock('../../compiled/transformedMinor/craydent.syncroit', () => {
     return {
-        "default": (...args) => syncroit.apply(this, args)
+        "default": (...args: any[]) => syncroit.apply(this, args as any)
     }
 });
 let syncroit = () => { }

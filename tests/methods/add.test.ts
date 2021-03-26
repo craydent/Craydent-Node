@@ -2,7 +2,7 @@ import add from '../../compiled/transformedMinor/craydent.add';
 
 jest.mock('../../compiled/transformedMinor/craydent.add/protected/_addToIndex', () => {
     return {
-        "default": (...args) => __addToIndex.apply(this, args)
+        "default": (...args: any[]) => __addToIndex.apply(this, args as any)
     }
 });
 let __addToIndex = () => { }
@@ -11,14 +11,14 @@ describe('add', () => {
         __addToIndex = () => { }
     });
     it('should add to the array', () => {
-        let arr = [];
+        let arr: any[] = [];
         expect(add(arr, {})).toBe(true);
         expect(arr).toEqual([{}]);
         expect((arr as any).__indexed_buckets).toBeUndefined();
     });
     it('should add to the array and index', () => {
         __addToIndex = jest.fn();
-        let arr = [], obj = {}, expected = [{}];
+        let arr: any[] = [], obj: any = {}, expected = [{}];
         (expected as any).__indexed_buckets = {};
         (arr as any).__indexed_buckets = {};
         expect(add(arr, obj)).toBe(true);

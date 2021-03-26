@@ -15,5 +15,6 @@ export default function isTrident(this: Craydent | Window): boolean {
         return (/trident/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isTrident', e);
+        return null as any;
     }
 }

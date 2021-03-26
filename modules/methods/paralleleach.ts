@@ -17,7 +17,7 @@ const _isArray = isArray,
 export default function parallelEach(obj: any[], args: any[]): Promise<any[]>;
 export default function parallelEach(obj: any[], gen: Yieldables, args?: any[]): Promise<any>;
 export default function parallelEach(obj: Yieldables[]): Promise<any[]>;
-export default function parallelEach(obj, gen?, args?): Promise<any[]> {
+export default function parallelEach(obj: any, gen?: any, args?: any): Promise<any[]> {
     /*|{
         "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
         "category": "Array|Control Flow",
@@ -72,7 +72,7 @@ export default function parallelEach(obj, gen?, args?): Promise<any[]> {
                 } else if (_isAsync(arr[i])) {
                     eval(`(async function () { results[${i}] = await arr[${i}].apply(self,args); if (++completed == len) { res(results); } })();`);
                 } else if (_isPromise(arr[i])) {
-                    arr[i].then((result) => {
+                    arr[i].then((result: any) => {
                         results[i] = result;
                         if (++completed == len) { res(results); }
                     })
@@ -86,6 +86,6 @@ export default function parallelEach(obj, gen?, args?): Promise<any[]> {
         });
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.parallelEach", e);
-        return null;
+        return null as any;
     }
 }

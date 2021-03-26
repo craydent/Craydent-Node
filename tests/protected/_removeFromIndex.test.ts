@@ -19,9 +19,9 @@ describe('_removeFromIndex', () => {
         const expected = {
             prop: { value: [], __bucket_keys: ['value'] }
         }
-        _removeFromIndex(buckets, null);
+        _removeFromIndex(buckets, null as any);
         expect(buckets).toEqual(expected);
-        _removeFromIndex(buckets, undefined);
+        _removeFromIndex(buckets, undefined as any);
         expect(buckets).toEqual(expected);
     });
     it('should remove not from index when value does not exist', () => {

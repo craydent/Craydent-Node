@@ -19,7 +19,7 @@ export type MergeIterator = (original: any, comparison: any) => boolean;
 
 export default function merge<T, R, TResult>(obj: T[], secondary: R[], condition?: MergeIterator): TResult;
 export default function merge<T, R, TResult>(obj: T, secondary: R, condition?: MergeEnums | MergeOptions): TResult;
-export default function merge<TResult>(obj, secondary, condition?): TResult {
+export default function merge<TResult>(obj: any, secondary: any, condition?: any): TResult {
     /*|{
         "info": "Object class extension to merge objects",
         "category": "Object",
@@ -73,6 +73,6 @@ export default function merge<TResult>(obj, secondary, condition?): TResult {
         return (intersect ? intersectObj : objtmp) as TResult;
     } catch (e) /* istanbul ignore next */ {
         error && error('Object.merge', e);
-        return null;
+        return null as any;
     }
 }

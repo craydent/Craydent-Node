@@ -12,7 +12,7 @@ export default function indexOfAlt<T>(obj: any[], value: any, callback: ArrayIte
 export default function indexOfAlt(obj: any[], regex: RegExp, pos?: number): number;
 export default function indexOfAlt<T>(obj: string, value: string, pos?: number): number;
 export default function indexOfAlt(obj: string, regex: RegExp, pos?: number): number;
-export default function indexOfAlt(obj, value, func, pos?): number {
+export default function indexOfAlt(obj: any, value: any, func: any, pos?: any): number {
     /*|{
         "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
         "category": "Array",

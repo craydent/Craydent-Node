@@ -15,5 +15,6 @@ export default function isPrince(this: Craydent | Window): boolean {
         return (/prince/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isPrince', e);
+        return null as any;
     }
 }

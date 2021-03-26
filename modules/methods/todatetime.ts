@@ -33,7 +33,7 @@ export default function toDateTime(strDatetime: string, options?: DateTimeOption
             dt = new Date(strDatetime.replace(/(am|pm)/i, ' $1'));
         }
         if (!dt.getDate()) {
-            let parts = [],
+            let parts: any = [],
                 dtstring = strDatetime[0] == "(" ? strDatetime.substring(1, strDatetime.length - 1) : strDatetime,
                 chars = ["\\.", "\\/", "-", "\\s*?"], c, i = 0;
 
@@ -93,5 +93,6 @@ export default function toDateTime(strDatetime: string, options?: DateTimeOption
         return options.format ? format(dt, options.format) : dt;
     } catch (e) /* istanbul ignore next */ {
         error && error("String.toDateTime", e);
+        return null as any;
     }
 }

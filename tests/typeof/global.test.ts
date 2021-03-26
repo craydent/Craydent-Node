@@ -125,7 +125,7 @@ describe('No Conflict Object', function () {
 	});
 	it('isGeolocation', function () {
 		function Geolocation() { };
-		var g = new Geolocation();
+		var g = new (Geolocation as any)();
 		expect(isGeolocation([])).toBe(false);
 		expect(isGeolocation(g)).toBe(true);
 	});

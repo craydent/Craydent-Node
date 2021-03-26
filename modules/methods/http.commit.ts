@@ -3,7 +3,7 @@ import _invokeHashChange from '../protected/_invokeHashChange';
 import $COOKIE from '../methods/http.cookie';
 import { VerbOptions } from '../models/VerbOptions';
 
-export default function $COMMIT(options?: VerbOptions) {
+export default function $COMMIT(options?: VerbOptions): void {
     /*|{
         "info": "Commit changes using $GET, $SET, and $DEL with defer flag",
         "category": "Utility",
@@ -46,11 +46,11 @@ export default function $COMMIT(options?: VerbOptions) {
 }
 export function $ROLLBACK() {
     try {
-        delete $COMMIT['update'];
-        delete $COMMIT['noHistory'];
-        delete $COMMIT['search'];
-        delete $COMMIT['hash'];
-        delete $COMMIT['onhashchange'];
+        delete ($COMMIT as any)['update'];
+        delete ($COMMIT as any)['noHistory'];
+        delete ($COMMIT as any)['search'];
+        delete ($COMMIT as any)['hash'];
+        delete ($COMMIT as any)['onhashchange'];
     } catch (e) /* istanbul ignore next */ {
         error && error('$ROLLBACK', e);
     }

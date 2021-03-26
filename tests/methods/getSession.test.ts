@@ -1,13 +1,13 @@
 import getSession from '../../compiled/transformedMinor/craydent.getsession';
 jest.mock('../../compiled/transformedMinor/craydent.getsession/protected/_getSession', () => {
     return {
-        "default": (...args) => _getSession.apply(this, args)
+        "default": (...args: any[]) => _getSession.apply(this, args as any)
     }
 });
-let _getSession = (ctx, sid, cb) => { }
+let _getSession = (ctx: any, sid: any, cb: any) => { }
 describe('getSession', () => {
     beforeEach(() => {
-        _getSession = (ctx, sid, cb) => { }
+        _getSession = (ctx: any, sid: any, cb: any) => { }
     });
     it('should retrieve session', async () => {
         const sessionObject = { res: true };

@@ -1,7 +1,7 @@
 import isDate from '../../compiled/transformedMinor/craydent.isdate';
 jest.mock('../../compiled/transformedMinor/craydent.isdate/protected/_typeCheck', () => {
     return {
-        "default": (...args) => _typeCheck.apply(this, args)
+        "default": (...args: any[]) => _typeCheck.apply(this, args as any)
     }
 });
 let _typeCheck = () => { }

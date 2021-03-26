@@ -17,5 +17,6 @@ export default function isGecko(this: Craydent | Window): boolean {
         return !isWebkit.call(this) && !isKHTML.call(this) && (/gecko/i.test(this.navigator.userAgent));
     } catch (e) /* istanbul ignore next */ {
         error && error('isGecko', e);
+        return null as any;
     }
 }

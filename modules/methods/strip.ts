@@ -23,6 +23,6 @@ export default function strip(str: string, character?: string | string[]): strin
         return _generalTrim(str, undefined, character);
     } catch (e) /* istanbul ignore next */ {
         error && error("_strip", e);
-        return null;
+        return null as any;
     }
 }

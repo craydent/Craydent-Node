@@ -8,6 +8,6 @@ export default function _typeCheck(obj: any, cls: any, backward_compatible?: boo
         return obj.constructor == cls;
     } catch (e) /* istanbul ignore next */ {
         error && error(`is${cls.constructor.name}`, e);
-        return null;
+        return null as any;
     }
 }

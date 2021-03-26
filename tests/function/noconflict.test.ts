@@ -2,7 +2,7 @@ import $c from '../../compiled/transformedMajor/function/noConflict';
 import foo from '../../compiled/transformedMinor/craydent.foo'
 
 describe('No Conflict Function', function () {
-	function temp(par1, par2) {
+	function temp(this: any, par1: any, par2: any) {
 		this.p = 1;
 		this.p2 = 2;
 	}
@@ -13,11 +13,11 @@ describe('No Conflict Function', function () {
 		expect($c.getName(temp)).toEqual('temp');
 	});
 	it('extends', function () {
-		function cls() {
+		function cls(this: any) {
 			this.p3 = 0;
 		}
 		$c.extend(cls, temp as any);
-		var clz = new cls();
+		var clz = new (cls as any)();
 		//console.log(cls.extends(temp).toString(), (new cls()).p1, cls.prototype);
 		expect(clz.p).toEqual(1);
 		expect(clz.p2).toEqual(2);

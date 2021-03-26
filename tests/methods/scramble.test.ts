@@ -2,7 +2,7 @@ import scramble from '../../compiled/transformedMinor/craydent.scramble';
 
 jest.mock('../../compiled/transformedMinor/craydent.rand', () => {
     return {
-        "default": (...args) => rand.apply(this, args)
+        "default": (...args: any[]) => rand.apply(this, args as any)
     }
 });
 let rand = () => { }

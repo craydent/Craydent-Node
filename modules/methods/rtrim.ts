@@ -17,5 +17,6 @@ export default function rtrim(str: string, character?: string | string[]): strin
         return _generalTrim(str, 'r', character);
     } catch (e) /* istanbul ignore next */ {
         error && error("String.rtrim", e);
+        return str;
     }
 }

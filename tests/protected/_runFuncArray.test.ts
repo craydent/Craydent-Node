@@ -11,18 +11,18 @@ describe('_runFuncArray', () => {
     function* generator() {
         return 'generator';
     }
-    function funcWithArgs(value) {
+    function funcWithArgs(value: any) {
         return value;
     }
-    async function asyncWithArgs(value) {
+    async function asyncWithArgs(value: any) {
         return value;
     }
-    function* generatorWithArgs(value) {
+    function* generatorWithArgs(value: any) {
         return value;
     }
     it('should return [] when given null, undefined, or non executable', () => {
-        expect(_runFuncArray(null)).toEqual([]);
-        expect(_runFuncArray(undefined)).toEqual([]);
+        expect(_runFuncArray(null as any)).toEqual([]);
+        expect(_runFuncArray(undefined as any)).toEqual([]);
         expect(_runFuncArray(true as any)).toEqual([]);
     });
     it('should run a function', () => {

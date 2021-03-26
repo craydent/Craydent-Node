@@ -31,7 +31,7 @@ describe('contains', () => {
     it('should check if object contains item', () => {
         expect(contains({ prop: "a", prop1: "b" }, "b")).toBe(true);
         expect(contains({ prop: "a", prop1: "b" }, "c")).toBe(false);
-        expect(contains({ prop: "a", prop1: "b" }, (val, prop, obj) => val == "a")).toBe(true);
+        expect(contains({ prop: "a", prop1: "b" }, (val: any, prop: any, obj: any) => val == "a")).toBe(true);
     });
     it('should check if string contains string', () => {
         expect(contains("ab", "b")).toBe(true);
@@ -46,7 +46,7 @@ describe('contains', () => {
         expect(contains(/g/, 1)).toBe(false);
     });
     it('should check if array contains item using iterator', () => {
-        expect(contains({ prop: "a", prop1: "b" }, (val, prop, obj) => val == "b")).toBe(true);
+        expect(contains({ prop: "a", prop1: "b" }, (val: any, prop: any, obj: any) => val == "b")).toBe(true);
     });
     it('should check if object contains item', () => {
         expect(contains(["a", "b"], "b")).toBe(true);

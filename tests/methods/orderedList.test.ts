@@ -1,13 +1,13 @@
 import OrderedList, { _orderListHelper } from '../../compiled/transformedMinor/craydent.orderedlist';
 
 describe('OrderedList', () => {
-    const sorter = (a, b) => {
+    const sorter = (a: any, b: any) => {
         if (a > b) { return 1; }
         if (a < b) { return -1; }
         return 0
     }
     it('should not fail when given null', () => {
-        let ol = new OrderedList(null, null);
+        let ol = new OrderedList(null as any, null as any);
         expect(ol.add).toEqual(expect.any(Function));
     });
     it('should create a new ordered list', () => {

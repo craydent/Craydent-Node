@@ -5,7 +5,7 @@ import tryEval from '../methods/tryeval';
 
 
 export default function __processAttributes(node: string, refs: any): AnyObject {
-    let obj = {},
+    let obj: any = {},
         tagend = node.indexOf('>'),
         tag = node.substring(1, tagend),
         attIndex = tag.search(/\s|>/),

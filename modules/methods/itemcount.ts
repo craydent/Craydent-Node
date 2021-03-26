@@ -19,5 +19,5 @@ export default function itemCount(obj: any): number {
         }
         return count;
     }
-    return null;
+    return null as any;
 }

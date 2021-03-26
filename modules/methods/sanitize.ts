@@ -1,6 +1,6 @@
 import error from '../methods/error';
 
-const chars = {
+const chars: any = {
     '&': '&#38;',
     '#': '&#35;',
     '%': '&#37;',
@@ -33,5 +33,6 @@ export default function sanitize(str: string): string {
         return sanitizedString;
     } catch (e) /* istanbul ignore next */ {
         error && error("String.sanitize", e);
+        return str;
     }
 }

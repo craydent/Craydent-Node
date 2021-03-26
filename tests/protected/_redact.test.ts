@@ -2,7 +2,7 @@ import _redact from '../../modules/protected/_redact';
 
 jest.mock('../../modules/private/__whereParsers', () => {
     return {
-        "__parseCond": (...args) => __parseCond.apply(this, args)
+        "__parseCond": (...args: any[]) => __parseCond.apply(this, args as any)
     }
 });
 let __parseCond = () => { }

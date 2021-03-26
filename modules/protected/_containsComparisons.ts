@@ -6,7 +6,7 @@ export function _containsMatches(vals: string[], val: RegExp): boolean {
 }
 export function _containsLessThan(vals: Array<number>, val: number): boolean;
 export function _containsLessThan(vals: Array<string>, val: string): boolean;
-export function _containsLessThan(vals, val): boolean {
+export function _containsLessThan(vals: Array<any>, val: any): boolean {
     for (var i = 0, len = vals.length; i < len; i++) {
         if (vals[i] < val) { return true; }
     }
@@ -14,7 +14,7 @@ export function _containsLessThan(vals, val): boolean {
 }
 export function _containsGreaterThan(vals: Array<number>, val: number): boolean;
 export function _containsGreaterThan(vals: Array<string>, val: string): boolean;
-export function _containsGreaterThan(vals, val): boolean {
+export function _containsGreaterThan(vals: Array<any>, val: any): boolean {
     for (var i = 0, len = vals.length; i < len; i++) {
         if (vals[i] > val) { return true; }
     }
@@ -22,7 +22,7 @@ export function _containsGreaterThan(vals, val): boolean {
 }
 export function _containsLessThanEqual(vals: Array<number>, val: number): boolean;
 export function _containsLessThanEqual(vals: Array<string>, val: string): boolean;
-export function _containsLessThanEqual(vals, val): boolean {
+export function _containsLessThanEqual(vals: Array<any>, val: any): boolean {
     for (var i = 0, len = vals.length; i < len; i++) {
         if (vals[i] <= val) { return true; }
     }
@@ -30,7 +30,7 @@ export function _containsLessThanEqual(vals, val): boolean {
 }
 export function _containsGreaterThanEqual(vals: Array<number>, val: number): boolean;
 export function _containsGreaterThanEqual(vals: Array<string>, val: string): boolean;
-export function _containsGreaterThanEqual(vals, val): boolean {
+export function _containsGreaterThanEqual(vals: Array<any>, val: any): boolean {
     for (var i = 0, len = vals.length; i < len; i++) {
         if (vals[i] >= val) { return true; }
     }

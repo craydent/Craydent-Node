@@ -3,9 +3,9 @@ import _getFuncName from '../protected/_getFuncName';
 import getProperty from '../methods/getproperty';
 import setProperty from '../methods/setproperty';
 
-let raw = {};
+let raw: any = {};
 
-export default function namespace(name, clazz: Function, callback?: Function): Function {
+export default function namespace(name: string, clazz: Function, callback?: Function): Function {
     /*|{
         "info": "Adds the class to a namespace instead of the global space",
         "category": "Utility",
@@ -31,12 +31,13 @@ export default function namespace(name, clazz: Function, callback?: Function): F
         raw[name].string = raw[name].string + clazz.toString()
         setProperty(raw, cpath, clazz);
         setProperty(namespace, prop, clazz);
-        namespace[name].toString = function () {
+        (namespace as any)[name].toString = function () {
             return raw[name].string;
         };
         callback && callback.call(clazz);
         return clazz;
     } catch (e) /* istanbul ignore next */ {
         error && error('namespace', e);
+        return null as any;
     }
 }

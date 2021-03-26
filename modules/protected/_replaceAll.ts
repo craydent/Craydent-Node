@@ -4,7 +4,7 @@ import isArray from '../methods/isarray';
 
 export default function _replaceAll(str: string, replace: string, subject: string, flag?: string): string;
 export default function _replaceAll(str: string, replace: string[], subject: string[], flag?: string): string;
-export default function _replaceAll(str, replace, subject, flag?): string {
+export default function _replaceAll(str: string, replace: any, subject: any, flag?: string): string {
     try {
         if (!isArray(replace)) {
             replace = [replace];

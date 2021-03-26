@@ -17,7 +17,7 @@ export default function count(obj: AnyObject): number;
 export default function count(arr: string[], option?: string | RegExp): number;
 export default function count(objs: AnyObjects, option?: WhereCondition): number;
 export default function count(str: string, option?: string | RegExp): number;
-export default function count(obj, option?): number {
+export default function count(obj: any, option?: any): number {
     /*|{
           "info": "Object class extension to count the properties in the object/elements in arrays/characters in strings.",
           "category": "Array|Object",

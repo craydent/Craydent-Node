@@ -34,12 +34,12 @@ describe('merge', () => {
         });
         it('should compare function', () => {
             let original = [{ a: 1 }];
-            expect(merge(original, [{ a: 1, b: 2 }, { a: 2, b: 2 }], (orig, comp) => orig.a == comp.a)).toBe(original);
+            expect(merge(original, [{ a: 1, b: 2 }, { a: 2, b: 2 }], (orig:any, comp:any) => orig.a == comp.a)).toBe(original);
             expect(original).toEqual([{ a: 1, b: 2 }, { a: 2, b: 2 }]);
         });
         it('should compare function as object', () => {
             let original = [{ a: 1 }];
-            expect(merge(original, [{ a: 1, b: 2 }, { a: 2, b: 2 }], { compareFunction: (orig, comp) => orig.a == comp.a })).toBe(original);
+            expect(merge(original, [{ a: 1, b: 2 }, { a: 2, b: 2 }], { compareFunction: (orig:any, comp:any) => orig.a == comp.a })).toBe(original);
             expect(original).toEqual([{ a: 1, b: 2 }, { a: 2, b: 2 }]);
         });
 

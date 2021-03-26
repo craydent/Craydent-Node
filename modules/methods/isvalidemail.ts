@@ -21,5 +21,6 @@ export default function isValidEmail(str: string): boolean {
         return false;
     } catch (e) /* istanbul ignore next */ {
         error && error("String.isValidEmail", e);
+        return null as any;
     }
 }

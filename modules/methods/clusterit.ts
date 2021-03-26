@@ -28,7 +28,7 @@ export interface ClusterReturnType {
 
 export default function clusterit(callback: (data: typeof ICluster | ICluster.Worker) => void): ClusterReturnType | typeof ICluster;
 export default function clusterit(options: ClusterOptions, callback?: (data: typeof ICluster | ICluster.Worker) => void): ClusterReturnType | typeof ICluster;
-export default function clusterit(options, callback?) {
+export default function clusterit(options: any, callback?: any): ClusterReturnType | typeof ICluster {
     /*|{
         "info": "Enable clustering",
         "category": "Utility",
@@ -57,7 +57,7 @@ export default function clusterit(options, callback?) {
                 (options.onfork || foo)(child);
                 /* istanbul ignore else */
                 if (options.auto_spawn) {
-                    child.on('exit', function (code, signal) {
+                    child.on('exit', function (code: any, signal: any) {
                         (options.onexit || foo)(child, code, signal);
                         callback(cluster.fork());
                     });
@@ -83,5 +83,6 @@ export default function clusterit(options, callback?) {
         }
     } catch (e) /* istanbul ignore next */ {
         error && error('clusterit', e);
+        return null as any;
     }
 }

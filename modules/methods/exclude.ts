@@ -21,16 +21,16 @@ export default function exclude(list: string[]): void {
             let name = list[i] || "";
             if (~name.indexOf(':')) {
                 let parts = name.split(':');
-                delete $g[capitalize((parts[0] || "").toLowerCase())];
+                delete ($g as any)[capitalize((parts[0] || "").toLowerCase())];
                 continue;
             }
 
-            delete Array.prototype[name];
-            delete Function.prototype[name];
-            delete String.prototype[name];
-            delete Number.prototype[name];
-            delete Boolean.prototype[name];
-            delete Date.prototype[name];
+            delete (Array.prototype as any)[name];
+            delete (Function.prototype as any)[name];
+            delete (String.prototype as any)[name];
+            delete (Number.prototype as any)[name];
+            delete (Boolean.prototype as any)[name];
+            delete (Date.prototype as any)[name];
         }
     } catch (e) {
         error && error('exclude', e);

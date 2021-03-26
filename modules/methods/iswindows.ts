@@ -15,5 +15,6 @@ export default function isWindows(this: Craydent | Window): boolean {
         return /win/i.test(this.navigator.platform);
     } catch (e) /* istanbul ignore next */ {
         error && error('isWindows', e);
+        return null as any;
     }
 }

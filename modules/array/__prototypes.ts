@@ -209,7 +209,7 @@ export function _contains<T, TValue>(this: T[], val: ContainsValue, operator?: C
 export function _contains<T, TValue>(this: T, val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
 export function _contains(this: string, val: ContainsValue): boolean;
 export function _contains(this: number, val: ContainsValue): boolean;
-export function _contains(val, func?) {
+export function _contains(this: any, val: any, func?: any) {
     /*|{
         "info": "Object class extension to check if value exists",
         "category": "Array|Object",
@@ -236,7 +236,7 @@ export function _count(this: AnyObject): number;
 export function _count(this: AnyObjects, option?: WhereCondition): number;
 export function _count(this: string[], option?: string | RegExp): number;
 export function _count(this: string, option?: string | RegExp): number;
-export function _count(option?): number {
+export function _count(this: any, option?: any): number {
     /*|{
           "info": "Object class extension to count the properties in the object/elements in arrays/characters in strings.",
           "category": "Array|Object",
@@ -277,7 +277,7 @@ export function _createIndex<T>(this: T[], indexes: string | string[]): IndexedA
 }
 export function _delete<T>(this: T[], condition?: WhereCondition, justOne?: boolean): T[];
 export function _delete<T>(this: T[], condition?: WhereCondition, options?: DeleteOptions): T[];
-export function _delete<T>(this: T[], condition, justOne?): T[] {
+export function _delete<T>(this: T[], condition: any, justOne?: any): T[] {
     /*|{
         "info": "Array class extension to delete records",
         "category": "Array",
@@ -315,7 +315,7 @@ export function _distinct<T>(this: T[], fields: string | string[], condition?: W
 }
 export function _equals(this: any[], compare: any, props?: string[]): boolean;
 export function _equals(this: any[], compare: any): boolean;
-export function _equals(compare, props?): boolean {
+export function _equals(this: any[], compare: any, props?: any): boolean {
     /*|{
            "info": "Object class extension to check if object values are equal",
            "category": "Array|Object",
@@ -447,7 +447,7 @@ export function _group<T>(this: T[], params: GroupOptions<T>, removeProps?: bool
 }
 export function _indexOfAlt<T>(this: any[], value: any, callback: ArrayIterator<T>): number;
 export function _indexOfAlt(this: any[], regex: RegExp, pos: number): number;
-export function _indexOfAlt(value, option): number {
+export function _indexOfAlt(this: any, value: any, option: any): number {
     /*|{
         "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
         "category": "Array",
@@ -560,7 +560,7 @@ export function _isEmpty(this: any[]): boolean {
 }
 export function _isSubset<T, R>(this: T[], compare: R[], sharesAny?: boolean): boolean;
 export function _isSubset<T, R>(this: T, compare: R, sharesAny?: boolean): boolean;
-export function _isSubset(compare, sharesAny?): boolean {
+export function _isSubset(this: any, compare: any, sharesAny?: any): boolean {
     /*|{
         "info": "Object class extension to check if item is a subset",
         "category": "Array|Object",
@@ -669,7 +669,7 @@ export function _mapReduce<T, TResult>(this: T[], map: ArrayIterator<T>, reduce:
         "typeParameter": "<T, TResult>",
         "returnType": "(Array<TResult>) returns the map reduced array."
     }|*/
-    return mapReduce(this, map, reduce, options);
+    return mapReduce(this, map as any, reduce, options);
 }
 export function _normalize(this: AnyObjects) {
     /*|{
@@ -688,7 +688,7 @@ export function _normalize(this: AnyObjects) {
 export function _parallelEach(this: any[], args: any[]): Promise<any[]>;
 export function _parallelEach(this: any[], gen: Yieldables, args?: any[]): Promise<any[]>;
 export function _parallelEach(this: Yieldables[]): Promise<any[]>;
-export function _parallelEach(gen?, args?): Promise<any[]> {
+export function _parallelEach(this: any, gen?: any, args?: any): Promise<any[]> {
     /*|{
         "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
         "category": "Array|Control Flow",
@@ -801,7 +801,7 @@ export function _scramble(this: any[]): any[] {
     }|*/
     return scramble(this);
 }
-export function _sortBy<T>(props: string | string[], rev?: boolean, primer?: ISortBy.SortPrimer<T>, lookup?, options?: ISortBy.SortOptions): T[] {
+export function _sortBy<T>(this: any[], props: string | string[], rev?: boolean, primer?: ISortBy.SortPrimer<T>, lookup?: any, options?: ISortBy.SortOptions): T[] {
     /*|{
         "info": "Array class extension to sort the array",
         "category": "Array",
@@ -943,7 +943,7 @@ export function _update<T>(this: T[], condition: WhereCondition, setClause: Mong
 export function _upsert<T>(this: T[], records: T[] | T): IUpsert.UpsertResults<T>;
 export function _upsert<T>(this: T[], records: T[] | T, callback: IUpsert.UpsertIterator<T>): IUpsert.UpsertResults<T>;
 export function _upsert<T>(this: T[], records: T[] | T, prop: string, callback?: IUpsert.UpsertIterator<T>): IUpsert.UpsertResults<T>;
-export function _upsert<T>(records, prop?, callback?): IUpsert.UpsertResults<T> {
+export function _upsert<T>(this: any, records: any, prop?: any, callback?: any): IUpsert.UpsertResults<T> {
     /*|{
         "info": "Array class extension to upsert records to array",
         "category": "Array",
@@ -969,7 +969,7 @@ export function _upsert<T>(records, prop?, callback?): IUpsert.UpsertResults<T> 
 export function _where<T>(this: AnyObjects, condition?: IWhere.MongoQuery, limit?: number): T[];
 export function _where<T>(this: AnyObjects, condition?: IWhere.MongoQuery, useReference?: boolean, limit?: number): T[];
 export function _where<T>(this: AnyObjects, condition?: IWhere.MongoQuery, projection?: any, limit?: number): T[];
-export function _where<T>(condition?, projection?, limit?): T[] {
+export function _where<T>(this: any, condition?: any, projection?: any, limit?: any): T[] {
     /*|{
         "info": "Array class extension to use mongo or sql queries",
         "category": "Array",

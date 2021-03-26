@@ -1,13 +1,13 @@
 import Queue from '../../compiled/transformedMinor/craydent.queue';
 
 describe('Queue', () => {
-    const sorter = (a, b) => {
+    const sorter = (a: any, b: any) => {
         if (a > b) { return 1; }
         if (a < b) { return -1; }
         return 0
     }
     it('should not fail when given null', () => {
-        let ol = new Queue(null);
+        let ol = new Queue(null as any);
         expect(ol.enqueue).toEqual(expect.any(Function));
         expect(ol.dequeue).toEqual(expect.any(Function));
     });

@@ -12,8 +12,8 @@ export type SortPrimer<T> = (value: T, property: string) => any;
 export type SortProps = string | string[] | { [key: string]: -1 | 1 }
 
 export default function sortBy<T>(arr: T[], props: SortProps, options?: SortOptions): T[];
-export default function sortBy<T>(arr: T[], props: SortProps, rev?: boolean, primer?: SortPrimer<T>, lookup?: any, options?: SortOptions): T[];
-export default function sortBy<T>(arr, props, rev?, primer?, lookup?, options?): T[] {
+export default function sortBy<T>(arr: T[], props: SortProps, rev?: boolean | null, primer?: SortPrimer<T> | null, lookup?: any, options?: SortOptions): T[];
+export default function sortBy<T>(arr: T[], props: SortProps, rev?: any, primer?: SortPrimer<T> | null, lookup?: any, options?: any): T[] {
     /*|{
         "info": "Array class extension to sort the array",
         "category": "Array",
@@ -90,16 +90,16 @@ export default function sortBy<T>(arr, props, rev?, primer?, lookup?, options?):
             for (let prop in props as any) {
                 /* istanbul ignore if */
                 if (!props.hasOwnProperty(prop)) { continue; }
-                if (props[prop] == 1) { sortProps.push(prop); }
-                if (!~props[prop]) { sortProps.push(`!${prop}`); }
+                if ((props as any)[prop] == 1) { sortProps.push(prop); }
+                if (!~(props as any)[prop]) { sortProps.push(`!${prop}`); }
             }
             props = sortProps;
         }
 
         let tmpVal;
-        let prop_sort = function (a, b, p?) {
+        let prop_sort = function (a: any, b: any, p?: any): any {
             p = p || 0;
-            let prop = props[p],
+            let prop = (props as any)[p],
                 reverseProp = false;
 
             if (!prop) { return 0; }
@@ -110,8 +110,8 @@ export default function sortBy<T>(arr, props, rev?, primer?, lookup?, options?):
             const alookUp = getProperty(lookup, `${a[prop] || a}.${prop}`);
             const blookUp = getProperty(lookup, `${b[prop] || b}.${prop}`);
 
-            let aVal = primer.call(a, isNull(alookUp, a[prop]), prop),
-                bVal = primer.call(b, isNull(blookUp, b[prop]), prop);
+            let aVal = (primer as SortPrimer<T>).call(a, isNull(alookUp, a[prop]), prop),
+                bVal = (primer as SortPrimer<T>).call(b, isNull(blookUp, b[prop]), prop);
 
             if (options.i && aVal && bVal) {
                 aVal = aVal.toString().toLowerCase();

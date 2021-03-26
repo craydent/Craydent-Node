@@ -26,6 +26,6 @@ export default function insertAfter<T>(arr: T[], index: number, value: any): boo
         return true;
     } catch (e) /* istanbul ignore next */ {
         error && error("Array.insertAfter", e);
-        return null;
+        return null as any;
     }
 }
