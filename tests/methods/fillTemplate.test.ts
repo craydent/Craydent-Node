@@ -37,7 +37,7 @@ describe('fillTemplate', function () {
             return uid;
         };
     });
-    describe.skip('main', () => {
+    describe('main', () => {
         $g.tempFunc = function (o: any) { return `${o.a} & ${o.b}`; }
         let tv = [...$c.TEMPLATE_VARS];
         beforeAll(() => {
@@ -357,7 +357,7 @@ describe('fillTemplate', function () {
             expect(__processBlocks(start, end, code, { removeNewLineFromLogicalSyntax: true })).toEqual(expected);
         });
     });
-    describe.skip('__run_replace', () => {
+    describe('__run_replace', () => {
         it('should replace the value based on the function return', () => {
             const func = "function(a, b) { return a + b; }";
             expect(__run_replace(/\$\{RUN\[(.+?)\]\}/, `\${RUN[${func};1;2]}`, true, { a: 1, b: 1 })).toBe('3');
@@ -454,7 +454,7 @@ describe('fillTemplate', function () {
             expect($c.TEMPLATE_TAG_CONFIG.DECLARE.parser).toBeCalledWith('${var}', '${var}');
         });
     });
-    describe.skip('__processLogicals', () => {
+    describe('__processLogicals', () => {
         let ttc = $c.TEMPLATE_TAG_CONFIG;
         afterEach(() => {
             $c.TEMPLATE_TAG_CONFIG = ttc;
