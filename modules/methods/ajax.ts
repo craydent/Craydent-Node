@@ -144,7 +144,7 @@ function _ajaxNode(this: any, params: any, returnData: any): Promise<any> {
                     });
                 });
                 req.on('error', function (e) {
-                    if ((e as any).errno != "ETIMEDOUT") {
+                    if ((e as any).code != "ETIMEDOUT") {
                         runFuncArray.call(params.context, params.onerror, [null, params.hitch, req, (e as any).code]);
                         runFuncArray.call(params.context, params.oncomplete, [null, params.hitch, req, (e as any).code]);
                         return resrej(e);
@@ -384,6 +384,15 @@ function _ajaxJS(this: any, params: any, returnData: any): Promise<any> {
 function __isTSTranspiledPromise(this: any, args: any) {
     // will need to update if the name changes
     const caller: any = getProperty(args, 'callee.caller');
+    if (!caller) {
+        try {
+            const stack = (new Error()).stack || '';
+            return !!~stack.split('\n')[3].trim().indexOf('at step') && args[0].name == 'fulfilled' && args[1].name == 'rejected';
+        } catch (e) {
+            error && error("ajax.__isTSTranspiledPromise", e);
+            return false;
+        }
+    }
     const arg: any = isNull(getProperty(args, 'callee.caller.arguments[0]'), {});
     return caller && /step/.test(caller.name) && arg.value == this && arg.hasOwnProperty('done');
 }
@@ -397,7 +406,7 @@ export type AjaxOptions = {
     data?: any | string;
     timeout?: number;
     context?: any;
-    header?: AnyObject;
+    headers?: AnyObject;
     method?: string;
     contentType?: string;
     run?: string;
