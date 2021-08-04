@@ -75,6 +75,13 @@
             "string"
         ]
     },
+    "logger": {
+        "description": "Node module to manage logging and log rotation",
+        "keywords": [
+            "log",
+            "logger"
+        ]
+    },
     "number": {
         "description": "Node module to extend number functionality and simplify code for maintainability and readability",
         "keywords": []

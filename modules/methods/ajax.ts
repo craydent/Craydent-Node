@@ -539,7 +539,7 @@ ajax['delete'] = _delete;
 ajax['post'] = _post;
 ajax['put'] = _put;
 declare namespace ajax {
-    // @ts-ignore
+    // @ts-ignoresaa
     export { _get as get };
     // @ts-ignore
     export { _post as post };

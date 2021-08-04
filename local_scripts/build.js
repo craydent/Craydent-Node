@@ -90,13 +90,28 @@ async function processModule(name, pkgPrefix) {
     if (name in { 'object': 1, 'typeof': 1 }) {
         prototypesContent = prototypesContent.replace('./private/__common', `${pkgPrefix}craydent.addobjectprototype/private/__common`);
     }
-    if (~prototypesContent.indexOf('craydent.cli') || ~prototypesContent.indexOf('craydent.xmltojson')
-        || ~contents.indexOf('craydent.cli') || ~contents.indexOf('craydent.xmltojson')) {
-        prototypesContent = prototypesContent.replace(new RegExp(`${pkgPrefix}craydent\\.xmltojson`, 'ig'), './methods/xmlToJson').replace(new RegExp(`${pkgPrefix}craydent\\.cli`, 'ig'), './methods/cli')
-        contents = contents.replace(new RegExp(`${pkgPrefix}craydent\\.xmltojson`, 'ig'), './methods/xmlToJson').replace(new RegExp(`${pkgPrefix}craydent\\.cli`, 'ig'), './methods/cli')
-        noConflictContents = noConflictContents.replace(new RegExp(`${pkgPrefix}craydent\\.xmltojson`, 'ig'), './methods/xmlToJson').replace(new RegExp(`${pkgPrefix}craydent\\.cli`, 'ig'), './methods/cli')
-        baseContents = baseContents.replace(new RegExp(`${pkgPrefix}craydent\\.xmltojson`, 'ig'), './methods/xmlToJson').replace(new RegExp(`${pkgPrefix}craydent\\.cli`, 'ig'), './methods/cli')
-        globalContents = globalContents.replace(new RegExp(`${pkgPrefix}craydent\\.xmltojson`, 'ig'), './methods/xmlToJson').replace(new RegExp(`${pkgPrefix}craydent\\.cli`, 'ig'), './methods/cli')
+    if (~prototypesContent.indexOf('craydent.cli') || ~prototypesContent.indexOf('craydent.xmltojson') || ~prototypesContent.indexOf('craydent.logger')
+        || ~contents.indexOf('craydent.cli') || ~contents.indexOf('craydent.xmltojson') || ~contents.indexOf('craydent.logger')) {
+        prototypesContent = prototypesContent
+            .replace(new RegExp(`${pkgPrefix}craydent\\.xmltojson`, 'ig'), './methods/xmlToJson')
+            .replace(new RegExp(`${pkgPrefix}craydent\\.cli`, 'ig'), './methods/cli')
+            .replace(new RegExp(`${pkgPrefix}craydent\\.logger`, 'ig'), './methods/logger')
+        contents = contents
+            .replace(new RegExp(`${pkgPrefix}craydent\\.xmltojson`, 'ig'), './methods/xmlToJson')
+            .replace(new RegExp(`${pkgPrefix}craydent\\.cli`, 'ig'), './methods/cli')
+            .replace(new RegExp(`${pkgPrefix}craydent\\.logger`, 'ig'), './methods/logger')
+        noConflictContents = noConflictContents
+            .replace(new RegExp(`${pkgPrefix}craydent\\.xmltojson`, 'ig'), './methods/xmlToJson')
+            .replace(new RegExp(`${pkgPrefix}craydent\\.cli`, 'ig'), './methods/cli')
+            .replace(new RegExp(`${pkgPrefix}craydent\\.logger`, 'ig'), './methods/logger')
+        baseContents = baseContents
+            .replace(new RegExp(`${pkgPrefix}craydent\\.xmltojson`, 'ig'), './methods/xmlToJson')
+            .replace(new RegExp(`${pkgPrefix}craydent\\.cli`, 'ig'), './methods/cli')
+            .replace(new RegExp(`${pkgPrefix}craydent\\.logger`, 'ig'), './methods/logger')
+        globalContents = globalContents
+            .replace(new RegExp(`${pkgPrefix}craydent\\.xmltojson`, 'ig'), './methods/xmlToJson')
+            .replace(new RegExp(`${pkgPrefix}craydent\\.cli`, 'ig'), './methods/cli')
+            .replace(new RegExp(`${pkgPrefix}craydent\\.logger`, 'ig'), './methods/logger')
         promises.push(_cli_exec(`mkdir -p  ${destination}/methods`));
     }
     promises.push(_cli_exec(`mkdir -p  ${destination}/models`));
@@ -170,6 +185,7 @@ async function getDependencies(pkgPrefix, filePath, results = [], alterFiles = [
             .replace(/['"]\.\.?\/methods\/(.*)?['"]/g, (str, captured) => `'${pkgPrefix}craydent.${captured.toLowerCase().replace('$', '')}'`)
             .replace(new RegExp(`${pkgPrefix}craydent\\.xmltojson`, 'ig'), '../methods/xmlToJson')
             .replace(new RegExp(`${pkgPrefix}craydent\\.cli`, 'ig'), '../methods/cli')
+            .replace(new RegExp(`${pkgPrefix}craydent\\.logger`, 'ig'), '../methods/logger')
             .match(/from ['"](.*?)['"]/g);
 
         if (!matches || !matches.length) { return []; }

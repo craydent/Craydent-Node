@@ -16,6 +16,7 @@ import '${prefix}craydent-fs';
 import '${prefix}craydent-function';
 import '${prefix}craydent-http';
 import '${prefix}craydent-json-parser';
+import '${prefix}craydent-logger';
 import '${prefix}craydent-number';
 import '${prefix}craydent-object';
 import '${prefix}craydent-regexp';

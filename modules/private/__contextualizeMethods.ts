@@ -146,6 +146,7 @@ let fsmethods = [
         'isObject',
         'isRegExp',
         'isString',
+        'logger',
         'logit',
         'md5',
         'mkdirRecursive',

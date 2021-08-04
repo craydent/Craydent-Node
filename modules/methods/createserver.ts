@@ -65,12 +65,12 @@ export default function createServer(callback: any, options?: any): CraydentHttp
     }
     options = options || {};
     const _syncroit = syncroit;
-    const http: CraydentHttp = (options.createServer || _http.createServer)(function (request: any, response: any) {
+    const http: CraydentHttp = (options.createServer || _http.createServer)(function (request: _http.IncomingMessage, response: _http.ServerResponse) {
         var cray = new (ServerManager as any)(request, response);
         cray.server = http;
         $c.GarbageCollector = [];
 
-        if (request.url == '/favicon.ico') {
+        if (request?.url == '/favicon.ico') {
             let code = 404;
             let cb = function (err: any, data: any) {
                 if (err) { logit(err); code = 500; }
@@ -104,7 +104,8 @@ export default function createServer(callback: any, options?: any): CraydentHttp
                     isStringLocal = isString;
 
                 body = body || {};
-                let url = strip(request.url.split(/[?#]/)[0], '/'),
+                request.url = request.url || '';
+                let url = strip((request?.url || '').split(/[?#]/)[0], '/'),
                     /* istanbul ignore next */
                     params = merge<any, AnyObject, any>(body, cray.$GET() || {}),
                     haveRoutes = false;
@@ -253,7 +254,7 @@ export default function createServer(callback: any, options?: any): CraydentHttp
                         }
                         if (app.port || port) {
                             app.port = app.port || parseInt(port);
-                            let query = request.url.split('?')[1] || "";
+                            let query = (request.url || '').split('?')[1] || "";
                             query && (query = `?${query}`);
                             return include('http').get(`http://localhost:${app.port}/${path}${query}`).on('response', function (response: any) {
                                 let body = '';
@@ -352,7 +353,7 @@ export default function createServer(callback: any, options?: any): CraydentHttp
             }
         }
 
-        if (/delete|post|put/i.test(request.method)) {
+        if (/delete|post|put/i.test(request?.method || '')) {
             let body = "";
             request.on('data', function (data: any) {
                 body += data;
@@ -365,7 +366,7 @@ export default function createServer(callback: any, options?: any): CraydentHttp
             });
             request.on('end', function () {
                 cray.raw = body;
-                let method = request.method.toLowerCase();
+                let method = (request?.method || '').toLowerCase();
                 // if ( == "post") { body = cray.$PAYLOAD(); }
                 /* istanbul ignore next */
                 let ct = cray.$HEADER('content-type', 'i') || "";
@@ -382,7 +383,7 @@ export default function createServer(callback: any, options?: any): CraydentHttp
                     cray.rawData[method] = body;
                 }
 
-                return onRequestReceived(["all", request.method.toLowerCase(), "middleware"], body);
+                return onRequestReceived(["all", (request?.method || '').toLowerCase(), "middleware"], body);
             });
         } else {
             return onRequestReceived(["all", "get", "middleware"]);
