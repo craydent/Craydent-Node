@@ -54,8 +54,8 @@ export interface LoggerConfig {
     ignorePatterns?: Array<string | RegExp | IgnoreIterator>;
     logFilePath?: string;
     loggerName?: string;
-    maxSize: string | number;
-    rotate: number;
+    maxSize?: string | number;
+    rotate?: number;
     sendToStdout?: boolean;
     onBeforeWrite?: (json: any) => any
     formatMessage?: (message: string, level: LogLevel, data: any) => any
@@ -140,6 +140,7 @@ function shouldRotate(currentLogger: LoggerMetaData, dayDiff: number, message: s
     if (!config.maxSize) {
         return false;
     }
+    // @ts-ignore
     return dayDiff >= config.rotate || currentLogger.size + message.length > config.maxSize;
 }
 function _stdWrite(message: string, level: LogLevel = 'INFO', data?: MessageMetaData) {

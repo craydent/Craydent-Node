@@ -21,6 +21,7 @@ async function start(prefix, publish) {
         pkg.dependencies[prefix + "craydent-date"] = pkg.version;
         pkg.dependencies[prefix + "craydent-fs"] = pkg.version;
         pkg.dependencies[prefix + "craydent-function"] = pkg.version;
+        pkg.dependencies[prefix + "craydent-logger"] = pkg.version;
         pkg.dependencies[prefix + "craydent-http"] = pkg.version;
         pkg.dependencies[prefix + "craydent-json-parser"] = pkg.version;
         pkg.dependencies[prefix + "craydent-number"] = pkg.version;
@@ -41,6 +42,7 @@ async function start(prefix, publish) {
         pkg.dependencies[prefix + "craydent-date"] = "file:./compiled/transformedMajor/date";
         pkg.dependencies[prefix + "craydent-fs"] = "file:./compiled/transformedMajor/fs";
         pkg.dependencies[prefix + "craydent-function"] = "file:./compiled/transformedMajor/function";
+        pkg.dependencies[prefix + "craydent-logger"] = "file:./compiled/transformedMajor/logger";
         pkg.dependencies[prefix + "craydent-http"] = "file:./compiled/transformedMajor/http";
         pkg.dependencies[prefix + "craydent-json-parser"] = "file:./compiled/transformedMajor/json-parser";
         pkg.dependencies[prefix + "craydent-number"] = "file:./compiled/transformedMajor/number";
