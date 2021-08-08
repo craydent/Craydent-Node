@@ -274,7 +274,9 @@ function _performance(label: string, startTime: number) {
 }
 function initLoggerMeta(logPath: string) {
     if (!(logger as any)[logPath]) {
-        const stats = fs.statSync(logPath);
+        let stats;
+        try { stats = fs.statSync(logPath); }
+        catch (e) { stats = { size: 0 }; }
         const size = stats.size;
         (logger as any)[logPath] = {
             date: new Date(),

@@ -10,7 +10,8 @@ for dir2 in */; do
     then
         cd $dir2
         rm -rf node_modules;
-        npm publish;
+        npm publish &;
         cd ..
     fi
 done
+wait
