@@ -80,7 +80,7 @@ function close() {
     let archiveFilename = generateArchiveFileName(logPath, currentLogger.date);
     exec(`mv ${logPath} ${archiveFilename}`, (error, out, err) => {
         if (error) {
-            let message = '[pxp-bff] failed to archive log file';
+            let message = 'Failed to archive log file';
             try { message = JSON.stringify(error); } catch (e) { }
             let obj = (config.formatMessage as any)(message, 'ERROR');
 
@@ -291,8 +291,8 @@ function parseMaxSize(config: LoggerConfig) {
         config.maxSize = parseInt((config.maxSize as string).toLowerCase()
             .replace(/,/g, '')
             .replace('k', '000')
-            .replace('M', '000000')
-            .replace('G', '000000000'));
+            .replace('m', '000000')
+            .replace('g', '000000000'));
     }
     return config;
 

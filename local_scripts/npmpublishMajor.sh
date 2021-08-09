@@ -10,12 +10,12 @@ for dir in */; do
     then
         cd $dir
         rm -rf node_modules;
-        npm publish &;
+        npm publish &
         cd ..
     fi
 done
 
 cd $BASEDIR/..;
 rm -rf node_modules;
-npm publish &;
+npm publish &
 wait
