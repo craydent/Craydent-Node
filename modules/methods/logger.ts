@@ -57,8 +57,9 @@ export interface LoggerConfig {
     maxSize?: string | number;
     rotate?: number;
     sendToStdout?: boolean;
-    onBeforeWrite?: (json: any) => any
-    formatMessage?: (message: string, level: LogLevel, data: any) => any
+    shouldSkip?: (message: string) => boolean;
+    onBeforeWrite?: (json: any) => any;
+    formatMessage?: (message: string, level: LogLevel, data: any) => any;
 }
 export interface LoggerMetaData {
     date: Date;
@@ -85,7 +86,10 @@ function close() {
             let obj = (config.formatMessage as any)(message, 'ERROR');
 
             obj = (config.onBeforeWrite as any)(obj) || obj;
-            currentLogger.buffer += `${JSON.stringify(obj)}\n`;
+            let formattedMessage = `${JSON.stringify(obj)}\n`;
+            if (!(config.shouldSkip as any)(formattedMessage)) {
+                currentLogger.buffer += formattedMessage;
+            }
         }
         setupStream();
         process.nextTick(stream.write.bind(stream), currentLogger.buffer);
@@ -152,11 +156,12 @@ function _stdWrite(message: string, level: LogLevel = 'INFO', data?: MessageMeta
 
         obj = (config.onBeforeWrite as any)(obj) || obj;
         let formattedMessage = isObject(obj) ? `${JSON.stringify(obj)}\n` : obj;
+        if ((config.shouldSkip as any)(formattedMessage)) { return; }
         let dayDiff = getDayOfYear(now) - getDayOfYear(currentLogger.date);
         if (!saving && shouldRotate(currentLogger, dayDiff, message)) {
             saving = true;
-            if (stream) {
-                stream.close && process.nextTick(stream.close.bind(stream));
+            if (stream && stream.close) {
+                process.nextTick(stream.close.bind(stream));
             }
             currentLogger.buffer += formattedMessage;
         } else if (saving) {
@@ -201,8 +206,8 @@ function onResFinished(this: LoggerResponse, err: Error) {
 }
 function _enable() {
     if (config.logFilePath) {
-        process.stdout.write = (message: string) => _stdWrite(message, 'INFO');
-        process.stderr.write = (message: string) => _stdWrite(message, 'ERROR');
+        process.stdout.write = ((message: string) => _stdWrite(message, 'INFO')) as any;
+        process.stderr.write = ((message: string) => _stdWrite(message, 'ERROR')) as any;
         console.debug = function (...args) {
             consoleDebug.apply(console, args);
             reset();
@@ -304,6 +309,9 @@ function _once(settings: LoggerConfig) {
     if (!isFunction(config.onBeforeWrite)) {
         config.onBeforeWrite = (obj) => obj;
     }
+    if (!isFunction(config.shouldSkip)) {
+        config.shouldSkip = (message) => false;
+    }
     config.logFilePath != oldConfig.logFilePath && setupStream();
     const logPath = config.logFilePath as string;
     initLoggerMeta(logPath);
@@ -320,6 +328,9 @@ function _configure(settings: LoggerConfig) {
         if (!isFunction(config.onBeforeWrite)) {
             config.onBeforeWrite = (obj) => obj;
         }
+        if (!isFunction(config.shouldSkip)) {
+            config.shouldSkip = (message) => false;
+        }
         if (!isFunction(config.formatMessage)) {
             config.formatMessage = (message, level) => message;
         }
@@ -327,9 +338,11 @@ function _configure(settings: LoggerConfig) {
     }
     oldConfig = config;
     config = parseMaxSize({ ...config, ...settings });
-    config.logFilePath = config.logFilePath;
     if (!isFunction(config.onBeforeWrite)) {
         config.onBeforeWrite = (obj) => obj;
+    }
+    if (!isFunction(config.shouldSkip)) {
+        config.shouldSkip = (message) => false;
     }
     if (!isFunction(config.formatMessage)) {
         config.formatMessage = (message, level) => message;
