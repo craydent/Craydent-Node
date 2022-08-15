@@ -14,6 +14,7 @@ import * as IIsFunction from '../methods/isfunction';
 import * as IIsGenerator from '../methods/isgenerator';
 import * as IIsGeolocation from '../methods/isgeolocation';
 import * as IIsInt from '../methods/isint';
+import * as IIsJSON from '../methods/isjson';
 import * as IIsNull from '../methods/isnull';
 import * as IIsNullOrEmpty from '../methods/isnullorempty';
 import * as IIsNumber from '../methods/isnumber';
@@ -49,6 +50,7 @@ const isFunction: typeof IIsFunction.default = require('../methods/isfunction').
 const isGenerator: typeof IIsGenerator.default = require('../methods/isgenerator').default;
 const isGeolocation: typeof IIsGeolocation.default = require('../methods/isgeolocation').default;
 const isInt: typeof IIsInt.default = require('../methods/isint').default;
+const isJSON: typeof IIsJSON.default = require('../methods/isjson').default;
 const isNull: typeof IIsNull.default = require('../methods/isnull').default;
 const isNullOrEmpty: typeof IIsNullOrEmpty.default = require('../methods/isnullorempty').default;
 const isNumber: typeof IIsNumber.default = require('../methods/isnumber').default;
@@ -79,6 +81,7 @@ export {
     isGenerator,
     isGeolocation,
     isInt,
+    isJSON,
     isNull,
     isNullOrEmpty,
     isNumber,

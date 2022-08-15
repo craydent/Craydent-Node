@@ -26,6 +26,7 @@ import * as IIsFunction from '../methods/isfunction';
 import * as IIsGenerator from '../methods/isgenerator';
 import * as IIsGeolocation from '../methods/isgeolocation';
 import * as IIsInt from '../methods/isint';
+import * as IIsJSON from '../methods/isjson';
 import * as IIsNull from '../methods/isnull';
 import * as IIsNullOrEmpty from '../methods/isnullorempty';
 import * as IIsNumber from '../methods/isnumber';
@@ -59,6 +60,7 @@ declare global {
         isGenerator: typeof IIsGenerator.default;
         isGeolocation: typeof IIsGeolocation.default;
         isInt: typeof IIsInt.default;
+        isJSON: typeof IIsJSON.default;
         isNull: typeof IIsNull.default;
         isNullOrEmpty: typeof IIsNullOrEmpty.default;
         isNumber: typeof IIsNumber.default;
@@ -101,6 +103,7 @@ declare global {
             isGenerator: typeof IIsGenerator.default;
             isGeolocation: typeof IIsGeolocation.default;
             isInt: typeof IIsInt.default;
+            isJSON: typeof IIsJSON.default;
             isNull: typeof IIsNull.default;
             isNullOrEmpty: typeof IIsNullOrEmpty.default;
             isNumber: typeof IIsNumber.default;
@@ -131,6 +134,7 @@ declare global {
         isGenerator: typeof IIsGenerator.default;
         isGeolocation: typeof IIsGeolocation.default;
         isInt: typeof IIsInt.default;
+        isJSON: typeof IIsJSON.default;
         isNull: typeof IIsNull.default;
         isNullOrEmpty: typeof IIsNullOrEmpty.default;
         isNumber: typeof IIsNumber.default;
@@ -159,6 +163,7 @@ declare global {
     var isGenerator: typeof IIsGenerator.default;
     var isGeolocation: typeof IIsGeolocation.default;
     var isInt: typeof IIsInt.default;
+    var isJSON: typeof IIsJSON.default;
     var isNull: typeof IIsNull.default;
     var isNullOrEmpty: typeof IIsNullOrEmpty.default;
     var isNumber: typeof IIsNumber.default;
@@ -195,6 +200,7 @@ if (!$c.MODULES_LOADED[info.name]) {
     $c.isGenerator = $c.isGenerator || prototypes.isGenerator;
     $c.isGeolocation = $c.isGeolocation || prototypes.isGeolocation;
     $c.isInt = $c.isInt || prototypes.isInt;
+    $c.isJSON = $c.isJSON || prototypes.isJSON;
     $c.isNull = $c.isNull || prototypes.isNull;
     $c.isNullOrEmpty = $c.isNullOrEmpty || prototypes.isNullOrEmpty;
     $c.isNumber = $c.isNumber || prototypes.isNumber;
