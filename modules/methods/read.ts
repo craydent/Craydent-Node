@@ -1,8 +1,7 @@
 import _fsHelper from '../protected/_fsHelper';
-import * as fs from 'fs';
 import { FSByteData } from '../models/FSByteData';
 
-export default function read<TBuffer extends fs.BinaryData>(this: any, fd: number, buffer: TBuffer, offset: number, length: number, position: number): Promise<NodeJS.ErrnoException | FSByteData<TBuffer>> {
+export default function read<TBuffer extends NodeJS.ArrayBufferView>(this: any, fd: number, buffer: TBuffer, offset: number, length: number, position: number): Promise<NodeJS.ErrnoException | FSByteData<TBuffer>> {
     /*|{
         "info": "A promisified version of read.  The arguments are the same as the native fs methods minus the callback.",
         "category": "FS",
