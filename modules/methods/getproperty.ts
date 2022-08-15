@@ -7,6 +7,8 @@ import strip from '../methods/strip';
 export interface GetPropertyOptions {
     noInheritance?: boolean;
     validPath?: boolean | number;
+    lastValue?: any;
+    lastPath?: string;
 }
 
 export default function getProperty(obj: any, path: string, delimiter?: string, options?: GetPropertyOptions): any;
@@ -64,7 +66,11 @@ export default function getProperty(obj: any, path: any, delimiter?: any, option
         let value = obj, i = 0, prop: string;
         while (prop = props[i++]) {
             if (isNull(value[prop]) || (options.noInheritance && !value.hasOwnProperty(prop))) {
-                if (!value.hasOwnProperty(prop)) { options.validPath = 0; }
+                if (!value.hasOwnProperty(prop)) {
+                    options.validPath = 0;
+                    options.lastPath = props.slice(0, i - 1).join(delimiter);
+                    options.lastValue = value;
+                }
                 return undefined;
             }
             value = value[prop];
