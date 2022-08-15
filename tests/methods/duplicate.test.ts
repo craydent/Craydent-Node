@@ -14,9 +14,14 @@ describe('duplicate', () => {
         expect(duplicate(null)).toBe(null);
         expect(_duplicate).not.toHaveBeenCalled();
     });
-    it('should should call _duplicate', () => {
+    it('should not call _duplicate when object is a valid JSON', () => {
         _duplicate = jest.fn();
         duplicate({}, true);
-        expect(_duplicate).toHaveBeenCalledWith({}, {}, true);
+        expect(_duplicate).not.toHaveBeenCalledWith({}, {}, true);
+    });
+    it('should call _duplicate when object is not a valid JSON', () => {
+        _duplicate = jest.fn();
+        duplicate({ hi: /abc/ }, true);
+        expect(_duplicate).toHaveBeenCalledWith({}, { hi: /abc/ }, true);
     });
 });

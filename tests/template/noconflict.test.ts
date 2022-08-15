@@ -78,8 +78,12 @@ False
             .toBe("<div>operation<div>b8888operation9999c8888operation9999</div></div><div>operation<div>b8888operation9999c8888operation9999</div></div>")
     });
     it('fillTemplate - script/try', function () {
+        let errorMessage: any = '';
+        try { var a: any = null; a.foo } catch (e) {
+            errorMessage = new Error(e.toString());
+        }
         expect($c.fillTemplate("<div>${script}var a = 0;a += 20;echo('${a} number is: ');echo(a);echo(10);${end script}<div>", { a: 'monday', b: 'tuesday' })).toBe("<div>monday number is: 2010<div>");
-        expect($c.fillTemplate("<div>${try}echo('asdf');var a = null; a.foo;${catch (e)}echo(e);${finally}echo('finallyy')${end try}<div>", { a: 'monday', b: 'tuesday' })).toBe("<div>asdfError: TypeError: Cannot read property 'foo' of nullfinallyy<div>");
+        expect($c.fillTemplate("<div>${try}echo('asdf');var a = null; a.foo;${catch (e)}echo(e);${finally}echo('finallyy')${end try}<div>", { a: 'monday', b: 'tuesday' })).toBe(`<div>asdf${errorMessage}finallyy<div>`);
     });
     it('fillTemplate - switch', function () {
         expect($c.fillTemplate("<div>" +

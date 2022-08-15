@@ -389,6 +389,8 @@ describe('format', () => {
         expect(format(dateWith0, 'l')).toBe('Sunday');
         expect(format(dateWith0, 'N')).toBe('7');
         expect(format(dateWith0, 'S')).toBe('nd');
+        debugger;
+        expect(format(dateWith0, 'jS')).toBe('2nd');
         expect(format(dateWith0, '%w')).toBe('1');
         expect(format(dateWith0, 'w')).toBe('0');
         expect(format(dateWith0, 'z')).toBe('32');

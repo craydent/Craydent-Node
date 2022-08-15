@@ -2,7 +2,7 @@ import _subQuery from '../../modules/protected/_subQuery';
 import average from '../../compiled/transformedMinor/craydent.average';
 describe('_subQuery', () => {
     it('should generate condition when query is not an object', () => {
-        expect(_subQuery('' as any, 'name.first', 0)).toBe('_equals(_getProperty(record,\'name.first\'), "")');
+        expect(_subQuery('' as any, 'name.first', 0)).toBe('((values = _qnp(record, \'name.first\')), _contains(values, function(val){return _equals(val,\"\");}))');
         expect(_subQuery('' as any, 'name', 0)).toBe('_equals(record[\'name\'], "")');
     })
     it('should generate $equals/$eq/$regex/$ne condition', () => {
@@ -85,8 +85,8 @@ describe('_subQuery', () => {
 
     })
     it('should generate $in/$nin condition', () => {
-        let expected = "true && ((values = _qnp(record, 'name')),_contains([1,2],values))";
-        expected += " && !((values = _qnp(record, 'name')),_contains([3,4],values))";
+        let expected = "true && ((values = _qnp(record, 'name')),_contains(values,[1,2]))";
+        expected += " && !((values = _qnp(record, 'name')),_contains(values,[3,4]))";
         expect(_subQuery({ $in: [1, 2], $nin: [3, 4] }, 'name', 0)).toBe(expected);
 
     })

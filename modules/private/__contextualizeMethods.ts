@@ -139,6 +139,7 @@ let fsmethods = [
         'isGenerator',
         'isGeolocation',
         'isInt',
+        'isJSON',
         'isNull',
         'isNullOrEmpty',
         'isNumber',

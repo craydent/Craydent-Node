@@ -19,6 +19,8 @@ describe('parseRaw', () => {
         expect(parseRaw(/a/)).toBe('/a/');
         expect(parseRaw(new Date('Thu Aug 13 2020 14:15:26 GMT-0700 (Pacific Daylight Time)'))).toBe('new Date(\'Thu Aug 13 2020 14:15:26 GMT-0700 (Pacific Daylight Time)\')');
         expect(parseRaw(function () { })).toBe('function () { }');
+        function a() { }
+        expect(parseRaw(new (a as any)())).toBe('{}');
 
         suid = jest.fn(() => 's8F7Fx9p8a')
         const item: any = { item: null };
@@ -32,7 +34,7 @@ describe('parseRaw', () => {
     it('should parse as raw value', () => {
 
         suid = jest.fn(() => 's8F7Fx9p8a')
-        const item:any = { item: null };
+        const item: any = { item: null };
         item.item = item;
         expect(parseRaw({ a: { item } }, false)).toBe('{"a": {"item": {"item": {}}}}');
     })

@@ -193,7 +193,7 @@ describe('fillTemplate', function () {
         ${"for nested"} | ${"${for ${i=0,len=${arr}.length};${i<len};${i++}}${for ${j=0,jlen=${arr}.length};${j<jlen};${j++}}${i}${j}${end for}${end for}"}             | ${[{ arr: [{ hi: 'ab' }, { hi: 'ab' }] }]}                                                                            | ${"00011011"}
         ${"while"}      | ${"<div>${name}<div>${declare i=0,len=${arr}.length}${while (${i}<${len})}${${arr}[i].hi}8888${name}9999${i++,null}${end while}</div></div>"} | ${[{ arr: [{ hi: "b" }, { hi: "c" }], name: "operation" }, { arr: [{ hi: "b" }, { hi: "c" }], name: "operation" }]}   | ${"<div>operation<div>b8888operation9999c8888operation9999</div></div><div>operation<div>b8888operation9999c8888operation9999</div></div>"}
         ${"script"}     | ${"<div>${script}var a = 0;a += 20;echo('${a} number is: ');echo(a);echo(10);${end script}<div>"}                                             | ${{ a: 'monday', b: 'tuesday' }}                                                                                      | ${"<div>monday number is: 2010<div>"}
-        ${"try"}        | ${"<div>${try}echo('asdf');var a = null; a.foo;${catch (e)}echo(e);${finally}echo('finallyy')${end try}<div>"}                                | ${{ a: 'monday', b: 'tuesday' }}                                                                                      | ${"<div>asdfError: TypeError: Cannot read property 'foo' of nullfinallyy<div>"}
+        ${"try"}        | ${"<div>${try}echo('asdf');var a = null; a.foo;${catch (e)}echo(e);${finally}echo('finallyy')${end try}<div>"}                                | ${{ a: 'monday', b: 'tuesday' }}                                                                                      | ${"<div>asdfError: TypeError: Cannot read properties of null (reading 'foo')finallyy<div>"}
         `('should process $token', function ({ template, values, expected }) {
                 let i = 0, uids = ['GVXzQ5eb8Y', 'H8ymTivWJS', 'AH2CLLmoMl', 'RXDiKxX6cq', 'ooNrVIUebI'];
                 genSuid = () => {
@@ -766,7 +766,10 @@ describe('fillTemplate', function () {
             it('should process parser', () => {
                 const TRY = $c.TEMPLATE_TAG_CONFIG.TRY
                 const code = "${try}echo('asdf');var a = null; a.foo;${catch (e)}echo(e);${finally}echo('finallyy')${end try}";
-                const errorMessage = "Error: TypeError: Cannot read property 'foo' of null";
+                let errorMessage: any = '';
+                try { var a: any = null; a.foo } catch (e) {
+                    errorMessage = new Error(e.toString());
+                }
                 const template = `begin${code}\${variable}${code}end`;
                 let dis = { refs: [] };
                 const expected = `beginasdf${errorMessage}finallyy\${variable}asdf${errorMessage}finallyyend`;
@@ -801,14 +804,21 @@ describe('fillTemplate', function () {
                 const code = "${try}echo('as')${try}echo('df')${catch (e)}echo('catch')${end try};var a = null; a.foo;${catch (e)}echo(e)${try}echo('asdf');var a = null; a.foo;${catch (e)}echo(e);${finally}echo('finallyy')${end try};${finally}echo('finallyy')${end try}";
                 const template = `begin${code}end`;
                 let dis = { refs: [] };
-                const errorMessage = "Error: TypeError: Cannot read property 'foo' of null";
+                let errorMessage: any = '';
+                try { var a: any = null; a.foo } catch (e) {
+                    errorMessage = new Error(e.toString());
+                }
                 const expected = `beginasdf${errorMessage}asdf${errorMessage}finallyyfinallyyend`;
                 expect(TRY.parser.call(dis, template, {}, '', {})).toBe(expected);
             });
             it('should process helper', () => {
+                debugger
                 const TRY = $c.TEMPLATE_TAG_CONFIG.TRY;
                 const code = `##${uid}##\${try}echo('asdf');var a = null; a.foo;\${catch (e)}echo(e);\${finally}echo('finallyy')\${end try}`;
-                const errorMessage = "Error: TypeError: Cannot read property 'foo' of null";
+                let errorMessage: any = '';
+                try { var a: any = null; a.foo } catch (e) {
+                    errorMessage = new Error(e.toString());
+                }
                 let dis = { refs: [] };
                 const expected = `##${uid}##asdf${errorMessage}finallyy`;
                 expect(TRY.helper.call(dis, code)).toBe(expected);
