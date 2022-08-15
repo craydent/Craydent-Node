@@ -261,8 +261,8 @@ export default function format(date: Date, format: string, options: DateOptions 
         // replace all N's with ISO-8601 numeric representation of the day of the week
         /*option N*/replace(/([^\\])N|^N/g, `$1${day == 0 ? 7 : day.toString()}`).replace(/([^\\])N|^N/g, `$1${day == 0 ? 7 : day.toString()}`).
         // replace all S's with English ordinal suffix for the day of the month, 2 characters
-        /*option S*/replace(/([^\\%]S)|^S/g, `$1${dt > 3 ? '\\t\\h' : (dt == 1 ? '\\s\\t' : (dt == 2 ? '\\n\\d' : '\\r\\d'))}`).
-            replace(/([^\\%]S)|^S/g, `$1${dt > 3 ? '\\t\\h' : (dt == 1 ? '\\s\\t' : (dt == 2 ? '\\n\\d' : '\\r\\d'))}`).
+        /*option S*/replace(/([^\\%])S|^S/g, `$1${dt > 3 ? '\\t\\h' : (dt == 1 ? '\\s\\t' : (dt == 2 ? '\\n\\d' : '\\r\\d'))}`).
+            replace(/([^\\%])S|^S/g, `$1${dt > 3 ? '\\t\\h' : (dt == 1 ? '\\s\\t' : (dt == 2 ? '\\n\\d' : '\\r\\d'))}`).
         // replace all %w's with Numeric representation of the day of the week (starting from 0)
         /*option %w*/replace(/([^\\])%w|^%w/g, (day + 1).toString()).replace(/([^\\])%w|^%w/g, (day + 1).toString()).
         // replace all w's with Numeric representation of the day of the week (starting from 1)
