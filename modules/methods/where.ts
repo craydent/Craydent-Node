@@ -97,7 +97,7 @@ export function __processStage<T>(docs: Documents<T>, stage: Stage): Documents<T
             case "$group":
                 return __processGroup(docs, value);
             case "$sort":
-                let sorter = [];
+                let sorter: any[] = [];
                 for (let prop in value) {
                     /* istanbul ignore next */
                     if (!value.hasOwnProperty(prop)) { continue; }
@@ -461,7 +461,7 @@ export function _searchRange<T>(sarr_arg: IndexedBucket<T>, options: SearchRange
                         }
                         break;
                     case '$nin':
-                        let rng = [];
+                        let rng: any = [];
                         for (let i = 0, len = condition[cprop].length; i < len; i++) {
                             found_index = sarr.__bucket_keys.indexOf(condition[cprop][i]);
                             rng.push([found_index, found_index]);
@@ -584,7 +584,7 @@ export default function where<T>(objs: any, condition?: any, projection?: any, l
         }
 
         // determine if indexes can be utilized
-        let indexProps = [], ipi = 0, qcount = 0;
+        let indexProps: any[] = [], ipi = 0, qcount = 0;
         if (records.__indexed_buckets) {
             for (let prop in condition) {
                 /* istanbul ignore else */
@@ -600,7 +600,7 @@ export default function where<T>(objs: any, condition?: any, projection?: any, l
         if (ipHasLength) {
             let prop, i = 0;
 
-            let orderedLists = [], fi = 0, len = arr.length, oli = 0;
+            let orderedLists: any[] = [], fi = 0, len = arr.length, oli = 0;
             while (prop = indexProps[i++]) {
                 let ordered = _searchRange((arr.__indexed_buckets as any)[prop], {
                     // prop: prop,

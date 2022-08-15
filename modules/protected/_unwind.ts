@@ -7,7 +7,9 @@ import isEmpty from '../methods/isempty';
 import duplicate from '../methods/duplicate';
 import error from '../methods/error';
 import setProperty from '../methods/setproperty';
-import { __processExpression } from '../private/__whereParsers';
+import { __processPath } from '../private/__whereParsers';
+import { GetPropertyOptions } from '../methods/getproperty';
+import strip from '../methods/strip';
 
 export default function _unwind<T>(docs: Documents<T>, path: string | UnwindOptions): any[] {
     try {
@@ -17,9 +19,20 @@ export default function _unwind<T>(docs: Documents<T>, path: string | UnwindOpti
             path = options.path as string;
         }
         while (doc = docs[i++]) {
-            let arr = __processExpression(doc, path);
+            let getOptions = {} as GetPropertyOptions;
+            let arr = __processPath(doc, path as string, getOptions);
+            if (isArray(getOptions.lastValue)) {
+                let nextPath = strip((path as string).replace((getOptions.lastPath as string), ''), '.');
+                let unwound = _unwind(getOptions.lastValue, { ...options, path: nextPath });
+                let dup: any = duplicate(doc, true);
+
+                setProperty(dup, (getOptions.lastPath as string), unwound);
+                results.push(dup);
+                continue;
+            }
+
             if (isNull(arr) || isArray(arr) && isEmpty(arr)) {
-                doc = duplicate(doc);
+                doc = duplicate(doc, true);
                 if (options.includeArrayIndex) {
                     doc[options.includeArrayIndex] = 0;
                 }
@@ -32,14 +45,14 @@ export default function _unwind<T>(docs: Documents<T>, path: string | UnwindOpti
             }
             let ppath = path;
             if ((path as any)[0] == "$") {
-                ppath = (path as string).substr(1);
+                ppath = (path as string).substring(1);
             }
             for (let j = 0, jlen = arr.length; j < jlen; j++) {
-                let dup: any = duplicate(doc);
+                let dup: any = duplicate(doc, true);
                 if (options.includeArrayIndex) {
                     dup[options.includeArrayIndex] = j;
                 }
-                setProperty(dup, (ppath as string), arr[j]);
+                setProperty(dup, (ppath as string), duplicate(arr[j]));
                 results.push(dup);
             }
         }

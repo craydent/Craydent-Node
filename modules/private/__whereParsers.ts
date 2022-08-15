@@ -2,7 +2,7 @@ import isNull from '../methods/isnull';
 import average from '../methods/average';
 import stdev from '../methods/stdev';
 import isString from '../methods/isstring';
-import getProperty from '../methods/getproperty';
+import getProperty, { GetPropertyOptions } from '../methods/getproperty';
 import isObject from '../methods/isobject';
 import isArray from '../methods/isarray';
 import getDayOfYear from '../methods/getdayofyear';
@@ -151,15 +151,18 @@ export function __processAccumulator<T>(doc: T, accumulator: any, previousValue_
             return isNull(previousValue) ? null : previousValue;
     }
 }
+export function __processPath<T>(doc: T, expression: string, options?: GetPropertyOptions) {
+    let expr_str = expression as string;
+    let isVar = false;
+    if (expr_str[0] == '$') {
+        isVar = true;
+        expr_str = expr_str.substring(1);
+    }
+    return isNull(getProperty(doc, expr_str.replace('$CURRENT.', ''), options), isVar ? undefined : expr_str);
+}
 export function __processExpression<T>(doc: T, expression: string | object): any {
     if (isString(expression)) {
-        let expr_str = expression as string;
-        let isVar = false;
-        if (expr_str[0] == '$') {
-            isVar = true;
-            expr_str = expr_str.substr(1);
-        }
-        return isNull(getProperty(doc, expr_str.replace('$CURRENT.', '')), isVar ? undefined : expr_str);
+        return __processPath(doc, expression as string);
     }
     if (!isObject(expression)) { return expression; }
 
@@ -557,7 +560,7 @@ export function __parseVariableExpr<T>(doc: T, expr: MongoExpression, field: str
             return input;
         case '$let':
             let vars = expr[field].vars,
-                rmProps = [], rtn = null;
+                rmProps: string[] = [], rtn = null;
             for (let prop in vars) {
                 /* istanbul ignore if */
                 if (!vars.hasOwnProperty(prop)) { continue; }

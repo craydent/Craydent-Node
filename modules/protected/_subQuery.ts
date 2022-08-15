@@ -8,21 +8,21 @@ import isArray from '../methods/isarray';
 import replaceAll from '../methods/replaceall';
 
 export type MongoQuery = any;
-
+const comparison_map = {
+    '$lt': '_clt',
+    '$lte': '_clte',
+    '$gt': '_cgt',
+    '$gte': '_cgte'
+};
 export default function _subQuery(query: MongoQuery, field: string, index: number, _whereRefs_arg?: any[]): string | boolean {
     let _whereRefs = _whereRefs_arg || [];
     if (!isObject(query)) {
         if (~field.indexOf('.')) {
-            return `_equals(_getProperty(record,'${field}'), ${parseRaw(query)})`;
+            return `((values = _qnp(record, '${field}')), _contains(values, function(val){return _equals(val,${parseRaw(query)});}))`;
         }
         return `_equals(record['${field}'], ${parseRaw(query)})`;
     }
-    let expression = 'true', comparison_map = {
-        '$lt': '_clt',
-        '$lte': '_clte',
-        '$gt': '_cgt',
-        '$gte': '_cgte'
-    };
+    let expression = 'true';
 
 
     // prep multiple subqueries
@@ -117,7 +117,7 @@ export default function _subQuery(query: MongoQuery, field: string, index: numbe
 
             case '$in':
             case '$nin':
-                expression += ` && ${(prop == '$nin' ? '!' : '')}((values = _qnp(record, '${field}')),_contains(${parseRaw(query[prop])},values))`;
+                expression += ` && ${(prop == '$nin' ? '!' : '')}((values = _qnp(record, '${field}')),_contains(values,${parseRaw(query[prop])}))`;
                 break;
             default:
                 expression += ` && ${_subQuery(query[prop], replaceAll(prop, '\'', '\\\''), null as any, _whereRefs)}`;
