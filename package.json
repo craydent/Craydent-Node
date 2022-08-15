@@ -1,6 +1,6 @@
 {
     "name": "craydent",
-    "version": "0.13.5",
+    "version": "0.14.0",
     "description": "node library based on craydent-1.9.3",
     "main": "index.js",
     "scripts": {
@@ -60,31 +60,31 @@
     "license": "MIT",
     "homepage": "https://bitbucket.org/craydent/node-library#readme",
     "dependencies": {
-        "craydent-array": "0.13.5",
-        "craydent-class": "0.13.5",
-        "craydent-cli": "0.13.5",
-        "craydent-control-flow": "0.13.5",
-        "craydent-date": "0.13.5",
-        "craydent-fs": "0.13.5",
-        "craydent-function": "0.13.5",
-        "craydent-logger": "0.13.5",
-        "craydent-http": "0.13.5",
-        "craydent-json-parser": "0.13.5",
-        "craydent-number": "0.13.5",
-        "craydent-object": "0.13.5",
-        "craydent-regexp": "0.13.5",
-        "craydent-string": "0.13.5",
-        "craydent-template": "0.13.5",
-        "craydent-typeof": "0.13.5",
-        "craydent-utility": "0.13.5",
-        "craydent-xml-to-json": "0.13.5"
+        "craydent-array": "0.14.0",
+        "craydent-class": "0.14.0",
+        "craydent-cli": "0.14.0",
+        "craydent-control-flow": "0.14.0",
+        "craydent-date": "0.14.0",
+        "craydent-fs": "0.14.0",
+        "craydent-function": "0.14.0",
+        "craydent-logger": "0.14.0",
+        "craydent-http": "0.14.0",
+        "craydent-json-parser": "0.14.0",
+        "craydent-number": "0.14.0",
+        "craydent-object": "0.14.0",
+        "craydent-regexp": "0.14.0",
+        "craydent-string": "0.14.0",
+        "craydent-template": "0.14.0",
+        "craydent-typeof": "0.14.0",
+        "craydent-utility": "0.14.0",
+        "craydent-xml-to-json": "0.14.0"
     },
     "devDependencies": {
         "@types/jest": "^26.0.3",
-        "@types/node": "^11.9.4",
+        "@types/node": "^18.7.3",
         "jest": "^26.1.0",
         "ts-jest": "^26.1.1",
-        "typescript": "^4.1.5"
+        "typescript": "^4.7.4"
     },
     "jest": {
         "transform": {
