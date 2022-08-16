@@ -1,7 +1,7 @@
 import error from '../methods/error';
 import on from '../methods/on';
 
-export default function then(func: Function, callback: Function): Function {
+export default function then<T>(func: T, callback: Function): T {
     /*|{
         "info": "Function listener to register the then event",
         "category": "Function",
@@ -15,7 +15,7 @@ export default function then(func: Function, callback: Function): Function {
         "returnType": "(Function)"
     }|*/
     try {
-        return on(func, 'then', callback);
+        return on<T>(func, 'then', callback);
     } catch (e) /* istanbul ignore next */ {
         error && error("Function.then", e);
         return null as any;

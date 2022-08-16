@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.14.0
+# Craydent 0.15.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -879,22 +879,6 @@ navigator (Object) |session (Object) |
 >* data: (Object) Object to send in response.
 
 *** 
-#### _varDump_ 
-***
-
-**Info:** Dump of variables to response.
-
-**Return:** (void)
-
-**Parameters:**
-
->* ...infinite: (any) any number of arguments can be passed.
-
-**Overloads:**
-
->None
-
-*** 
 #### _writeSession_ 
 ***
 
@@ -905,6 +889,22 @@ navigator (Object) |session (Object) |
 **Parameters:**
 
 >None
+
+**Overloads:**
+
+>None
+
+*** 
+#### _varDump_ 
+***
+
+**Info:** Dump of variables to response.
+
+**Return:** (void)
+
+**Parameters:**
+
+>* ...infinite: (any) any number of arguments can be passed.
 
 **Overloads:**
 

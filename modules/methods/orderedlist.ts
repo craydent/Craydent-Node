@@ -62,7 +62,7 @@ class OrderedList<T> extends Array<T> {
         this.sort(this.sorter = sorter || iterator);
     }
 
-    public add = function (this: any, value: T): boolean {
+    public add = function <T>(this: any, value: T): boolean {
         if (!this.length) { return !!this.push(value); }
         let index = _orderListHelper<T>(value, this.sorter, this);
         /* istanbul ignore if */

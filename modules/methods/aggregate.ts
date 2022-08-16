@@ -2,7 +2,7 @@ import error from '../methods/error';
 import { Documents, MongoPipelines } from '../models/Arrays';
 import { __processStage } from '../methods/where';
 
-export default function aggregate<T, TResult>(arr: Documents<T>, pipelines: MongoPipelines[]): TResult[] {
+export default function aggregate<T>(arr: Documents<T>, pipelines: MongoPipelines[]): Documents<T> {
     /*|{
         "info": "Array class extension to perform mongo style aggregation",
         "category": "Array",

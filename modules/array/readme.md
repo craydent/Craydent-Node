@@ -1,6 +1,6 @@
 <img src="http://craydent.com/JsonObjectEditor/img/svgs/craydent-logo.svg" width=75 height=75/>
 
-# Craydent 0.14.0
+# Craydent 0.15.0
 **by Clark Inada**
 
 Craydent is all inclusive utility library.  There are several ways to use the library in NodeJS.
@@ -739,6 +739,22 @@ HTTP_STATUS_TEMPLATE (Object) |RESPONSES (Object) |
 >* primer: (SortPrimer<T>|null|undefined) Function to apply to values in the array.
 >* lookup: (Object) Look up object to use as values instead of the array values.
 >* options: (Object) Options to pass. Valid options are:<br />i<br />ignoreCase
+
+*** 
+#### _toMap_ 
+***
+
+**Info:** Array class extension to convert the array to a set
+
+**Return:** (Set<T>) returns a Set from the array Values
+
+**Parameters:**
+
+>None
+
+**Overloads:**
+
+>None
 
 *** 
 #### _toSet_ 

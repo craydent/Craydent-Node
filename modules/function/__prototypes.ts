@@ -60,8 +60,8 @@ export function _getParameters(this: Function,): string[] {
 export function _getName(this: Function): string {
     return getName(this);
 }
-export function _getValue(this: Function, args?: any[], dftl?: any): any {
-    return getValue(this, args, dftl);
+export function _getValue<T>(this: Function, args?: any[], dftl?: any): T {
+    return getValue<T>(this, args, dftl) as T;
 }
 export function _on<T>(this: T, ev: string, func: Function): T {
     /*|{
@@ -76,15 +76,15 @@ export function _on<T>(this: T, ev: string, func: Function): T {
         "url": "http://www.craydent.com/library/1.9.3/docs#function.on",
         "returnType": "(Function)"
     }|*/
-    return on(this as any, ev, func) as any;
+    return on(this, ev, func) as T;
 }
-export function _toPromise(this: GeneratorFunction): Promise<any> {
-    return toPromise(this);
+export function _toPromise<T>(this: GeneratorFunction): Promise<T> {
+    return toPromise<T>(this);
 }
-export function _then(this: Function, callback: Function): Function {
-    return then(this, callback);
+export function _then<T>(this: T, callback: Function): T {
+    return then<T>(this, callback);
 }
-export function _catch(this: Function, callback: Function): Function {
-    return catchit(this, callback);
+export function _catch<T>(this: T, callback: Function): T {
+    return catchit<T>(this, callback);
 }
 export { next, emit, namespace };

@@ -20,33 +20,33 @@ import rand from '../methods/rand';
 import include from '../methods/include';
 
 
-function _get(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
-function _get(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _get(this: any, params: any, returnData?: any) {
+function _get<T>(this: any, url: string, returnData?: AjaxReturnType): Promise<T>;
+function _get<T>(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<T>;
+function _get<T>(this: any, params: any, returnData?: any): Promise<T> {
     params.method = "GET";
-    return ajax.apply(this, arguments as any);
+    return ajax.apply(this, arguments as any) as Promise<T>;
 }
-function _delete(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
-function _delete(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _delete(this: any, params: any, returnData?: any) {
+function _delete<T>(this: any, url: string, returnData?: AjaxReturnType): Promise<T>;
+function _delete<T>(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<T>;
+function _delete<T>(this: any, params: any, returnData?: any): Promise<T> {
     params.method = "DELETE";
-    return ajax.apply(this, arguments as any);
+    return ajax.apply(this, arguments as any) as Promise<T>;
 };
-function _post(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
-function _post(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _post(this: any, params: any, returnData?: any) {
+function _post<T>(this: any, url: string, returnData?: AjaxReturnType): Promise<T>;
+function _post<T>(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<T>;
+function _post<T>(this: any, params: any, returnData?: any): Promise<T> {
     params.method = "POST";
-    return ajax.apply(this, arguments as any);
+    return ajax.apply(this, arguments as any) as Promise<T>;
 };
-function _put(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
-function _put(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _put(this: any, params: any, returnData?: any) {
+function _put<T>(this: any, url: string, returnData?: AjaxReturnType): Promise<T>;
+function _put<T>(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<T>;
+function _put<T>(this: any, params: any, returnData?: any): Promise<T> {
     params.method = "PUT";
-    return ajax.apply(this, arguments as any);
+    return ajax.apply(this, arguments as any) as Promise<T>;
 };
-function _ajaxNode(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
-function _ajaxNode(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _ajaxNode(this: any, params: any, returnData: any): Promise<any> {
+function _ajaxNode<T>(this: any, url: string, returnData?: AjaxReturnType): Promise<T>;
+function _ajaxNode<T>(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<T>;
+function _ajaxNode<T>(this: any, params: any, returnData: any): Promise<T> {
     try {
         params.protocol = params.protocol || (~params.url.indexOf('https:') ? 'https:' : 'http:')
 
@@ -191,13 +191,13 @@ function _ajaxNode(this: any, params: any, returnData: any): Promise<any> {
         return prms;
     } catch (e) /* istanbul ignore next */ {
         error && error("ajax", e);
-        return Promise.resolve();
+        return Promise.resolve() as Promise<any>;
     }
 }
 
-function _ajaxJS(this: any, url: string, returnData?: AjaxReturnType): Promise<any>;
-function _ajaxJS(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function _ajaxJS(this: any, params: any, returnData: any): Promise<any> {
+function _ajaxJS<T>(this: any, url: string, returnData?: AjaxReturnType): Promise<T>;
+function _ajaxJS<T>(this: any, params: AjaxOptions, returnData?: AjaxReturnType): Promise<T>;
+function _ajaxJS<T>(this: any, params: any, returnData: any): Promise<T> {
     try {
         let url, alwaysResolve = params.alwaysResolve;
         params.jsonp = `${(params.jsonp || "callback")}=`;
@@ -378,10 +378,10 @@ function _ajaxJS(this: any, params: any, returnData: any): Promise<any> {
         return prms;
     } catch (e) /* istanbul ignore next */ {
         error && error("ajax", e);
-        return Promise.resolve();
+        return Promise.resolve() as Promise<any>;
     }
 }
-function __isTSTranspiledPromise(this: any, args: any) {
+function __isTSTranspiledPromise(this: any, args: any): boolean {
     // will need to update if the name changes
     const caller: any = getProperty(args, 'callee.caller');
     if (!caller) {
@@ -450,9 +450,9 @@ export function __ajaxServerResponse(response: any, json_parser?: any) {
         return false;
     }
 }
-function ajax(url: string, returnData?: AjaxReturnType): Promise<any>;
-function ajax(params: AjaxOptions, returnData?: AjaxReturnType): Promise<any>;
-function ajax(this: any, params: any, returnData?: any): Promise<any> {
+function ajax<T>(url: string, returnData?: AjaxReturnType): Promise<T>;
+function ajax<T>(params: AjaxOptions, returnData?: AjaxReturnType): Promise<T>;
+function ajax<T>(this: any, params: any, returnData?: any): Promise<T> {
     /*|{
         "info": "Method to make ajax calls",
         "category": "Utility",
@@ -529,9 +529,9 @@ function ajax(this: any, params: any, returnData?: any): Promise<any> {
     }
     params.data = params.data || params.query;
     if (typeof window != 'undefined') {
-        return _ajaxJS.call(this, params, returnData);
+        return _ajaxJS.call(this, params, returnData) as Promise<T>;
     }
-    return _ajaxNode.call(this, params, returnData);
+    return _ajaxNode.call(<T>this, params, returnData) as Promise<T>;
 }
 
 ajax['get'] = _get;

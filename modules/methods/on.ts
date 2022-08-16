@@ -1,6 +1,6 @@
 import error from '../methods/error';
 
-export default function on(obj: Function, ev: string, func: Function): Function {
+export default function on<T>(obj: T, ev: string, func: Function): T {
     /*|{
         "info": "Function listener to register events",
         "category": "Function",

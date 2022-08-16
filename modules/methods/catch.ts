@@ -1,7 +1,7 @@
 import error from '../methods/error';
 import on from '../methods/on';
 
-export default function (func: Function, callback: Function): Function {
+export default function <T>(func: T, callback: Function): T {
     /*|{
         "info": "Function listener to register the catch event",
         "category": "Function",
@@ -15,7 +15,7 @@ export default function (func: Function, callback: Function): Function {
         "returnType": "(Function)"
     }|*/
     try {
-        return on(func, 'catch', callback);
+        return on<T>(func, 'catch', callback);
     } catch (e) /* istanbul ignore next*/ {
         error && error("Function.catch", e);
         return null as any;

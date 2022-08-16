@@ -17,13 +17,13 @@ export interface YieldableOption {
     returnIndex?: number | boolean;
     method: GeneratorFunction | AsyncFunction | Promise<any> | Function;
 }
-export default function yieldable(this: any, value: GeneratorFunction | AsyncFunction | Promise<any> | YieldableOption): (...args: any[]) => Promise<any>;
-export default function yieldable(this: any, value: Function): (...args: any[]) => Promise<any>;
-export default function yieldable(this: any, func: Function, context: any): (...args: any[]) => Promise<any>;
-export default function yieldable(this: any, func: Function, callbackIndex: number): (...args: any[]) => Promise<any>;
-export default function yieldable(this: any, func: Function, context: any, callbackIndex: number): (...args: any[]) => Promise<any>;
-export default function yieldable(this: any, func: Function, context: any, callbackIndex: number, returnIndex?: number): (...args: any[]) => Promise<any>;
-export default function yieldable(this: any, value: any, context?: any, callbackIndex?: any, returnIndex?: any): (...args: any[]) => Promise<any> {
+export default function yieldable<T>(this: any, value: GeneratorFunction | AsyncFunction | Promise<any> | YieldableOption): (...args: any[]) => Promise<T>;
+export default function yieldable<T>(this: any, value: Function): (...args: any[]) => Promise<T>;
+export default function yieldable<T>(this: any, func: Function, context: any): (...args: any[]) => Promise<T>;
+export default function yieldable<T>(this: any, func: Function, callbackIndex: number): (...args: any[]) => Promise<T>;
+export default function yieldable<T>(this: any, func: Function, context: any, callbackIndex: number): (...args: any[]) => Promise<T>;
+export default function yieldable<T>(this: any, func: Function, context: any, callbackIndex: number, returnIndex?: number): (...args: any[]) => Promise<T>;
+export default function yieldable<T>(this: any, value: T | YieldableOption, context?: any, callbackIndex?: any, returnIndex?: any): (...args: any[]) => Promise<T> {
     /*|{
         "info": "Makes a value yieldable via a Promise.",
         "category": "Control Flow|Utility",
@@ -55,20 +55,20 @@ export default function yieldable(this: any, value: any, context?: any, callback
     }|*/
     try {
         if (arguments.length == 1 && isObject(value)) {
-            context = value.context;
-            callbackIndex = value.callbackIndex;
-            returnIndex = value.returnIndex;
-            value = value.method;
+            context = (value as YieldableOption).context;
+            callbackIndex = (value as YieldableOption).callbackIndex;
+            returnIndex = (value as YieldableOption).returnIndex;
+            value = (value as YieldableOption).method as any;
         }
         context = context || this;
-        if (isAsync(value)) { return value; }
-        if (isPromise(value)) { return ((...args: any[]) => value).bind(context) }
-        if (isGenerator(value)) { return ((...args: any[]) => syncroit(value)).bind(context) }
+        if (isAsync(value)) { return value as any; }
+        if (isPromise(value)) { return ((...args: any[]) => value as any).bind(context) }
+        if (isGenerator(value)) { return ((...args: any[]) => syncroit(value as any)).bind(context) }
         if (isFunction(value)) {
             return (function (...args: any[]) {
                 /* istanbul ignore next */
                 args = args || [];
-                return new Promise(function (res) {
+                return new Promise<T>(function (res) {
                     let fn = function () {
                         let args = arguments;
                         if (args.length == 1) {
@@ -80,21 +80,21 @@ export default function yieldable(this: any, value: any, context?: any, callback
                             }
                         }
                         if (isNumber(returnIndex)) { return res(args[returnIndex]); }
-                        return res(args);
+                        return res(args as any);
                     };
                     if (isNull(callbackIndex)) {
                         args.push(fn);
                     } else {
                         insertAt(args, callbackIndex, fn);
                     }
-                    value.apply(context, args);
+                    (value as any).apply(context, args);
                 });
             }).bind(context);
         }
-        return ((...args: any[]) => new Promise(function (res) { return res(value); })).bind(context);
+        return ((...args: any[]) => new Promise<T>(function (res) { return res(value as T); }) as Promise<T>).bind(context);
 
     } catch (e) /* istanbul ignore next */ {
         error && error('yieldable', e);
     }
-    return (...args: any[]) => Promise.resolve();
+    return (...args: any[]) => Promise.resolve() as Promise<any>;
 }

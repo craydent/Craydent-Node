@@ -14,10 +14,10 @@ const _isArray = isArray,
     _isGenerator = isGenerator,
     _isPromise = isPromise;
 
-export default function parallelEach(obj: any[], args: any[]): Promise<any[]>;
-export default function parallelEach(obj: any[], gen: Yieldables, args?: any[]): Promise<any>;
-export default function parallelEach(obj: Yieldables[]): Promise<any[]>;
-export default function parallelEach(obj: any, gen?: any, args?: any): Promise<any[]> {
+export default function parallelEach<T>(obj: any[], args: any[]): Promise<T[]>;
+export default function parallelEach<T>(obj: any[], gen: Yieldables, args?: any[]): Promise<T[]>;
+export default function parallelEach<T>(obj: Yieldables[]): Promise<T[]>;
+export default function parallelEach<T>(obj: any[], gen?: any, args?: any): Promise<T[]> {
     /*|{
         "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
         "category": "Array|Control Flow",

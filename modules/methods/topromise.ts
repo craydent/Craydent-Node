@@ -1,7 +1,7 @@
 import error from '../methods/error';
 import syncroit from '../methods/syncroit';
 
-export default function toPromise(gen: GeneratorFunction): Promise<any> {
+export default function toPromise<T>(gen: GeneratorFunction): Promise<T> {
     /*|{
         "info": "Function listener to register events",
         "category": "Function",
@@ -17,6 +17,6 @@ export default function toPromise(gen: GeneratorFunction): Promise<any> {
         return syncroit(gen);
     } catch (e) /* istanbul ignore next */ {
         error && error("Generator.toPromise", e);
-        return Promise.resolve();
+        return Promise.resolve() as any;
     }
 }

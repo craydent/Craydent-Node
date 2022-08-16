@@ -90,7 +90,7 @@ export function _getGMTOffset(this: Date): number {
     return getGMTOffset(this);
 }
 
-export function _getValue(this: Date, args?: any[], dflt?: any): any {
+export function _getValue<T>(this: Date, args?: any[], dflt?: any): T {
     /*|{
         "info": "Object class extension to retrieve value of an object property",
         "category": "Object",
@@ -107,7 +107,7 @@ export function _getValue(this: Date, args?: any[], dflt?: any): any {
         "url": "http://www.craydent.com/library/1.9.3/docs#object.getProperty",
         "returnType": "(Mixed)"
     }|*/
-    return getValue(this as any, args, dflt);
+    return getValue<T>(this as any, args, dflt) as T;
 }
 
 export function _getWeek(this: Date): number {

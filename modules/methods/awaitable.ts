@@ -1,4 +1,4 @@
-import yieldable from '../methods/yieldable';
+import yieldable, { YieldableOption } from '../methods/yieldable';
 import { AsyncFunction } from '../models/AsyncFunction';
 export interface AwaitableOption {
     context: any;
@@ -6,12 +6,12 @@ export interface AwaitableOption {
     returnIndex: number;
     method: GeneratorFunction | AsyncFunction | Promise<any> | Function;
 }
-export default function awaitable(value: GeneratorFunction | AsyncFunction | Promise<any> | Function | AwaitableOption): () => Promise<any>;
-export default function awaitable(func: Function, context: any): () => Promise<any>;
-export default function awaitable(func: Function, callbackIndex: number): () => Promise<any>;
-export default function awaitable(func: Function, context: any, callbackIndex: number): () => Promise<any>;
-export default function awaitable(func: Function, context: any, callbackIndex: number, returnIndex?: number): () => Promise<any>;
-export default function awaitable(value: any, context?: any, callbackIndex?: any, returnIndex?: any): () => Promise<any> {
+export default function awaitable<T>(value: GeneratorFunction | AsyncFunction | Promise<any> | Function | AwaitableOption): () => Promise<T>;
+export default function awaitable<T>(func: Function, context: any): () => Promise<T>;
+export default function awaitable<T>(func: Function, callbackIndex: number): () => Promise<T>;
+export default function awaitable<T>(func: Function, context: any, callbackIndex: number): () => Promise<T>;
+export default function awaitable<T>(func: Function, context: any, callbackIndex: number, returnIndex?: number): () => Promise<T>;
+export default function awaitable<T>(value: T | YieldableOption, context?: any, callbackIndex?: any, returnIndex?: any): () => Promise<T> {
     /*|{
         "info": "Makes a value awaitable via a Promise.",
         "category": "Control Flow|Utility",
@@ -41,5 +41,5 @@ export default function awaitable(value: any, context?: any, callbackIndex?: any
         "url": "http://www.craydent.com/library/1.9.3/docs#awaitable",
         "returnType": "(Promise<any>)"
     }|*/
-    return yieldable(value, context, callbackIndex, returnIndex)
+    return yieldable<T>(value as any, context, callbackIndex, returnIndex)
 }

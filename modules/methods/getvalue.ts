@@ -12,9 +12,9 @@ import isNull from '../methods/isnull';
 const _isFunction = isFunction,
     _isArray = isArray;
 
-export default function getValue(obj: any, dflt?: any): any;
-export default function getValue(obj: Function, args?: any[], dflt?: any): any;
-export default function getValue(obj: any, args?: any, dflt?: any): any {
+export default function getValue<T>(obj: any, dflt?: any): T;
+export default function getValue<T>(obj: Function, args?: any, dflt?: any): T;
+export default function getValue<T>(obj: any, args?: any, dflt?: any): T {
     /*|{
         "info": "Object class extension to retrieve value of an object property",
         "category": "Array|Object",
@@ -43,6 +43,6 @@ export default function getValue(obj: any, args?: any, dflt?: any): any {
         return rtn === undefined ? dflt : rtn;
     } catch (e) /* istanbul ignore next */ {
         error && error(`${obj.constructor.name}.getValue`, e);
-        return null;
+        return null as any;
     }
 }

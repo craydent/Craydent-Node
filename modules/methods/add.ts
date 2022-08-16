@@ -2,7 +2,7 @@ import error from '../methods/error';
 import { IndexedArray } from '../models/Arrays';
 import _addToIndex from '../protected/_addToIndex';
 
-export default function add<T>(arr: T[], obj: any): boolean {
+export default function add<T>(arr: T[], obj: T): boolean {
     /*|{
         "info": "Array class extension to perform push and update indexes if used",
         "category": "Array",
