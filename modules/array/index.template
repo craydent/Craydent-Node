@@ -54,6 +54,7 @@ import * as IScramble from '../methods/scramble';
 import * as ISortBy from '../methods/sortby';
 import * as IStdev from '../methods/stdev';
 import * as ISum from '../methods/sum';
+import * as IToMap from '../methods/tomap';
 import * as IToSet from '../methods/toset';
 import * as IUniversalTrim from '../methods/universaltrim';
 import * as IUpdate from '../methods/update';
@@ -108,6 +109,7 @@ declare global {
         sortBy: typeof ISortBy.default;
         stdev: typeof IStdev.default;
         sum: typeof ISum.default;
+        toMap: typeof IToMap.default;
         toSet: typeof IToSet.default;
         trim: typeof IUniversalTrim.default;
         update: typeof IUpdate.default;
@@ -154,6 +156,7 @@ declare global {
         sortBy: typeof IPrototypes._sortBy;
         stdev: typeof IPrototypes._stdev;
         sum: typeof IPrototypes._sum;
+        toMap: typeof IPrototypes._toMap;
         toSet: typeof IPrototypes._toSet;
         trim: typeof IPrototypes._trim;
         update: typeof IPrototypes._update;
@@ -235,6 +238,7 @@ if (!$c.MODULES_LOADED[info.name]) {
     ext(Array, 'sortBy', prototypes._sortBy, true);
     ext(Array, 'stdev', prototypes._stdev, true);
     ext(Array, 'sum', prototypes._sum, true);
+    ext(Array, 'toMap', prototypes._toMap, true);
     ext(Array, 'toSet', prototypes._toSet, true);
     ext(Array, 'trim', prototypes._trim, true);
     ext(Array, 'update', prototypes._update, true);

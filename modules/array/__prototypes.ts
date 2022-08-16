@@ -60,6 +60,7 @@ import * as IScramble from '../methods/scramble';
 import * as ISortBy from '../methods/sortby';
 import * as IStdev from '../methods/stdev';
 import * as ISum from '../methods/sum';
+import * as IToMap from '../methods/tomap';
 import * as IToSet from '../methods/toset';
 import * as IUpdate from '../methods/update';
 import * as IUniversalTrim from '../methods/universaltrim';
@@ -116,6 +117,7 @@ const scramble: typeof IScramble.default = require('../methods/scramble').defaul
 const sortBy: typeof ISortBy.default = require('../methods/sortby').default;
 const stdev: typeof IStdev.default = require('../methods/stdev').default;
 const sum: typeof ISum.default = require('../methods/sum').default;
+const toMap: typeof IToMap.default = require('../methods/tomap').default;
 const toSet: typeof IToSet.default = require('../methods/toset').default;
 const universalTrim: typeof IUniversalTrim.default = require('../methods/universaltrim').default;
 const update: typeof IUpdate.default = require('../methods/update').default;
@@ -123,7 +125,7 @@ const upsert: typeof IUpsert.default = require('../methods/upsert').default;
 const where: typeof IWhere.default = require('../methods/where').default;
 //#endregion
 
-export function _add(this: any[], item: any): boolean {
+export function _add<T>(this: T[], item: T): boolean {
     /*|{
         "info": "Array class extension to perform push and update indexes if used",
         "category": "Array",
@@ -137,7 +139,7 @@ export function _add(this: any[], item: any): boolean {
         "typeParameter": "",
         "returnType": "(Bool) Value to indicate success or failure"
     }|*/
-    return add(this, item);
+    return add<T>(this, item);
 }
 export function _aggregate<T>(this: Documents<T>, pipelines: MongoPipelines[]): Documents<T> {
     /*|{
@@ -153,7 +155,7 @@ export function _aggregate<T>(this: Documents<T>, pipelines: MongoPipelines[]): 
         "typeParameter": "<T>",
         "returnType": "(Documents<T>) returns an array of aggregates"
     }|*/
-    return aggregate(this, pipelines);
+    return aggregate<T>(this, pipelines);
 }
 export function _average(this: number[],): number {
     /*|{
@@ -185,9 +187,9 @@ export function _buildTree<T, TResult>(this: T[], parentFinder: TreeParentFinder
         "typeParameter": "<T, TResult>",
         "returnType": "(Array<TResult>) returns a hierarchical array."
     }|*/
-    return buildTree(this, parentFinder, childFinder, options);
+    return buildTree<T, TResult>(this, parentFinder, childFinder, options);
 }
-export function _condense(this: any[], check_values?: boolean): any[] {
+export function _condense<T>(this: any[], check_values?: boolean): any[] {
     /*|{
         "info": "Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls",
         "category": "Array",
@@ -201,7 +203,7 @@ export function _condense(this: any[], check_values?: boolean): any[] {
         "typeParameter": "<T>",
         "returnType": "(Array<T>) returns a condensed version of the array."
     }|*/
-    return condense(this, check_values);
+    return condense<T>(this, check_values);
 }
 export function _contains<T, TValue>(this: T[], func: ContainsObjectIterator<T, TValue>): boolean;
 export function _contains<T, TValue>(this: T[], val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
@@ -209,7 +211,7 @@ export function _contains<T, TValue>(this: T[], val: ContainsValue, operator?: C
 export function _contains<T, TValue>(this: T, val: ContainsValue, func?: ContainsObjectIterator<T, TValue>): boolean;
 export function _contains(this: string, val: ContainsValue): boolean;
 export function _contains(this: number, val: ContainsValue): boolean;
-export function _contains(this: any, val: any, func?: any) {
+export function _contains<T, TValue>(this: any, val: TValue, func?: any) {
     /*|{
         "info": "Object class extension to check if value exists",
         "category": "Array|Object",
@@ -230,7 +232,7 @@ export function _contains(this: any, val: any, func?: any) {
         "typeParameter": "<T, TValue>",
         "returnType": "(Bool) returns if there was a match."
     }|*/
-    return contains(this, val, func);
+    return contains<T, TValue>(this, val, func);
 }
 export function _count(this: AnyObject): number;
 export function _count(this: AnyObjects, option?: WhereCondition): number;
@@ -273,7 +275,7 @@ export function _createIndex<T>(this: T[], indexes: string | string[]): IndexedA
         "typeParameter": "<T>",
         "returnType": "(Array<T> | Bool) returns the Array<T> if successfull otherwise false."
     }|*/
-    return createIndex(this, indexes);
+    return createIndex<T>(this, indexes);
 }
 export function _delete<T>(this: T[], condition?: WhereCondition, justOne?: boolean): T[];
 export function _delete<T>(this: T[], condition?: WhereCondition, options?: DeleteOptions): T[];
@@ -295,7 +297,7 @@ export function _delete<T>(this: T[], condition: any, justOne?: any): T[] {
         "returnType": "(Array<T>) returns a list of the deleted objects."
     }|*/
     // @ts-ignore
-    return deleteIt(this, condition, justOne);
+    return deleteIt<T>(this, condition, justOne);
 }
 export function _distinct<T>(this: T[], fields: string | string[], condition?: WhereCondition | string): T[] {
     /*|{
@@ -311,7 +313,7 @@ export function _distinct<T>(this: T[], fields: string | string[], condition?: W
         "typeParameter": "<T>",
         "returnType": "(Array<T>) returns an array with distinct values"
     }|*/
-    return distinct(this, fields, condition);
+    return distinct<T>(this, fields, condition);
 }
 export function _equals(this: any[], compare: any, props?: string[]): boolean;
 export function _equals(this: any[], compare: any): boolean;
@@ -345,7 +347,7 @@ export function _every<T>(this: T[], callback: ArrayIterator<T>, thisObject?: an
         "typeParameter": "<T>",
         "returnType": "(Bool)"
     }|*/
-    return every(this, callback, thisObject);
+    return every<T>(this, callback, thisObject);
 }
 export function _filter<T>(this: T[], callback: ArrayIterator<T>, context?: any): T[] {
     /*|{
@@ -361,7 +363,7 @@ export function _filter<T>(this: T[], callback: ArrayIterator<T>, context?: any)
         "typeParameter": "<T>",
         "returnType": "(Array<T>)"
     }|*/
-    return filter(this, callback, context);
+    return filter<T>(this, callback, context);
 }
 export function _find<T>(this: T[], condition: WhereCondition | string, projection?: string | Fields | boolean): T[] {
     /*|{
@@ -384,7 +386,7 @@ export function _find<T>(this: T[], condition: WhereCondition | string, projecti
         "typeParameter": "<T>",
         "returnType": "(Array<T>)"
     }|*/
-    return find(this, condition, projection);
+    return find<T>(this, condition, projection);
 }
 export function _findOne<T>(this: T[], condition: WhereCondition | string, projection?: string | Fields | boolean): T {
     /*|{
@@ -407,9 +409,9 @@ export function _findOne<T>(this: T[], condition: WhereCondition | string, proje
         "typeParameter": "<T>",
         "returnType": "(T)"
     }|*/
-    return findOne(this, condition, projection);
+    return findOne<T>(this, condition, projection);
 }
-export function _getValue(this: any[], args?: any[], dflt?: any): any {
+export function _getValue<T>(this: any[], args?: any[], dflt?: any): T {
     /*|{
         "info": "Object class extension to retrieve value of an object property",
         "category": "Array|Object",
@@ -427,7 +429,7 @@ export function _getValue(this: any[], args?: any[], dflt?: any): any {
         "typeParameter": "<T>",
         "returnType": "(any) the value of any type.  if the type is a method, it will execute the methed and use its return value."
     }|*/
-    return getValue(this as any, args, dflt);
+    return getValue<T>(this as any, args, dflt) as T;
 }
 export function _group<T>(this: T[], params: GroupOptions<T>, removeProps?: boolean): T[] {
     /*|{
@@ -443,11 +445,11 @@ export function _group<T>(this: T[], params: GroupOptions<T>, removeProps?: bool
         "typeParameter": "<T>",
         "returnType": "(Array<T>)"
     }|*/
-    return group(this, params, removeProps);
+    return group<T>(this, params, removeProps);
 }
 export function _indexOfAlt<T>(this: any[], value: any, callback: ArrayIterator<T>): number;
-export function _indexOfAlt(this: any[], regex: RegExp, pos: number): number;
-export function _indexOfAlt(this: any, value: any, option: any): number {
+export function _indexOfAlt<T>(this: any[], regex: RegExp, pos: number): number;
+export function _indexOfAlt<T>(this: any, value: any, option: any): number {
     /*|{
         "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
         "category": "Array",
@@ -464,7 +466,7 @@ export function _indexOfAlt(this: any, value: any, option: any): number {
         "typeParameter": "<T, TResult>",
         "returnType": "(Int) returns the index of the item that matches or -1. "
     }|*/
-    return indexOfAlt(this, value, option);
+    return indexOfAlt<T>(this, value, option);
 
 }
 export function _innerJoin<T, R, TResult>(this: T[], arr: R[], on: string): TResult[] {
@@ -481,7 +483,7 @@ export function _innerJoin<T, R, TResult>(this: T[], arr: R[], on: string): TRes
         "typeParameter": "<T, TResult>",
         "returnType": "(Array<TResult>) resulting array of the join."
     }|*/
-    return innerJoin(this, arr, on);
+    return innerJoin<T, R, TResult>(this, arr, on);
 }
 export function _insert(this: any[], value: any): boolean {
     /*|{
@@ -590,7 +592,7 @@ export function _joinLeft<T, R, TResult>(this: T[], arr: R[], on: string): TResu
         "typeParameter": "<T, TResult>",
         "returnType": "(Array<TResult>) resulting array of the join."
     }|*/
-    return joinLeft(this, arr, on);
+    return joinLeft<T, R, TResult>(this, arr, on);
 }
 export function _joinRight<T, R, TResult>(this: T[], arr: R[], on: string): TResult[] {
     /*|{
@@ -606,9 +608,9 @@ export function _joinRight<T, R, TResult>(this: T[], arr: R[], on: string): TRes
         "typeParameter": "<T, TResult>",
         "returnType": "(Array<TResult>) resulting array of the join."
     }|*/
-    return joinRight(this, arr, on);
+    return joinRight<T, R, TResult>(this, arr, on);
 }
-export function _last<T>(this: any[]): T {
+export function _last<T>(this: T[]): T {
     /*|{
         "info": "Array class extension to retrieve the last item in the array.",
         "category": "Array",
@@ -620,9 +622,9 @@ export function _last<T>(this: any[]): T {
         "typeParameter": "<T>",
         "returnType": "(T) returns the last item in the array."
     }|*/
-    return last(this);
+    return last<T>(this);
 }
-export function _limit<T>(this: any[], max: number, skip?: number): T[] {
+export function _limit<T>(this: T[], max: number, skip?: number): T[] {
     /*|{
         "info": "Array class extension to return a limited amount of items",
         "category": "Array",
@@ -636,7 +638,7 @@ export function _limit<T>(this: any[], max: number, skip?: number): T[] {
         "typeParameter": "<T>",
         "returnType": "(Array<T>) returns the first n items in the array."
     }|*/
-    return limit(this, max, skip);
+    return limit<T>(this, max, skip);
 }
 export function _map<T>(this: any[], callback: ArrayIterator<T>, context: any): T[] {
     /*|{
@@ -652,7 +654,7 @@ export function _map<T>(this: any[], callback: ArrayIterator<T>, context: any): 
         "typeParameter": "<T, TResult>",
         "returnType": "(Array<TResult>) returns the resulting array."
     }|*/
-    return map(this, callback, context) as any;
+    return map<T>(this, callback, context) as any;
 }
 export function _mapReduce<T, TResult>(this: T[], map: ArrayIterator<T>, reduce: MongoReducer<TResult>, options?: MongoMapReduceOptions<TResult>): TResult[] {
     /*|{
@@ -669,9 +671,9 @@ export function _mapReduce<T, TResult>(this: T[], map: ArrayIterator<T>, reduce:
         "typeParameter": "<T, TResult>",
         "returnType": "(Array<TResult>) returns the map reduced array."
     }|*/
-    return mapReduce(this, map as any, reduce, options);
+    return mapReduce<T, TResult>(this, map as any, reduce, options);
 }
-export function _normalize(this: AnyObjects) {
+export function _normalize<T, TResult>(this: T[]): TResult[] {
     /*|{
         "info": "Array class extension to normalize all properties in the object array",
         "category": "Array",
@@ -683,12 +685,12 @@ export function _normalize(this: AnyObjects) {
         "typeParameter": "<T, TResult>",
         "returnType": "(Array<TResult>) returns a normalized version of the objects."
     }|*/
-    return normalize(this);
+    return normalize<T, TResult>(this);
 }
-export function _parallelEach(this: any[], args: any[]): Promise<any[]>;
-export function _parallelEach(this: any[], gen: Yieldables, args?: any[]): Promise<any[]>;
-export function _parallelEach(this: Yieldables[]): Promise<any[]>;
-export function _parallelEach(this: any, gen?: any, args?: any): Promise<any[]> {
+export function _parallelEach<T>(this: any[], args: any[]): Promise<T[]>;
+export function _parallelEach<T>(this: any[], gen: Yieldables, args?: any[]): Promise<T[]>;
+export function _parallelEach<T>(this: Yieldables[]): Promise<T[]>;
+export function _parallelEach<T>(this: any, gen?: any, args?: any): Promise<T[]> {
     /*|{
         "info": "Array class extension to execute each array item in parallel or run each item against a generator/function in parallel",
         "category": "Array|Control Flow",
@@ -708,9 +710,9 @@ export function _parallelEach(this: any, gen?: any, args?: any): Promise<any[]> 
         "typeParameter": "<T, TResult>",
         "returnType": "(Promise<Array<T>>) returns a promise of the resulting items in the array."
     }|*/
-    return parallelEach(this, gen, args);
+    return parallelEach<T>(this, gen, args);
 }
-export function _randIndex<T>(this: T[]): number {
+export function _randIndex(this: any[]): number {
     /*|{
         "info": "Return a random index without the bounds",
         "category": "Array",
@@ -738,7 +740,7 @@ export function _remove<T>(this: T[], value: any, indexOf?: ArrayIterator<T>): T
         "typeParameter": "<T>",
         "returnType": "(T | undefined) returns the removed item."
     }|*/
-    return remove(this, value, indexOf);
+    return remove<T>(this, value, indexOf);
 }
 export function _removeAll<T>(this: T[], value?: any, indexOf?: ArrayIterator<T>): T[] | boolean {
     /*|{
@@ -754,7 +756,7 @@ export function _removeAll<T>(this: T[], value?: any, indexOf?: ArrayIterator<T>
         "typeParameter": "<T>",
         "returnType": "(Array<T>) returns an array of all the removed items."
     }|*/
-    return removeAll(this, value, indexOf);
+    return removeAll<T>(this, value, indexOf);
 }
 export function _removeAt<T>(this: T[], index: number): T | boolean {
     /*|{
@@ -769,7 +771,7 @@ export function _removeAt<T>(this: T[], index: number): T | boolean {
         "typeParameter": "<T>",
         "returnType": "(T | undefined) returns the removed item."
     }|*/
-    return removeAt(this, index);
+    return removeAt<T>(this, index);
 }
 export function _replaceAt<T>(this: T[], index: number, value: T): T {
     /*|{
@@ -785,9 +787,9 @@ export function _replaceAt<T>(this: T[], index: number, value: T): T {
         "typeParameter": "<T>",
         "returnType": "(T | undefined) returns the item removed."
     }|*/
-    return replaceAt(this, index, value);
+    return replaceAt<T>(this, index, value);
 }
-export function _scramble(this: any[]): any[] {
+export function _scramble<T>(this: T[]): T[] {
     /*|{
         "info": "Array class extension to scramble the order.",
         "category": "Array",
@@ -799,7 +801,7 @@ export function _scramble(this: any[]): any[] {
         "typeParameter": "<T>",
         "returnType": "(Array<T>)"
     }|*/
-    return scramble(this);
+    return scramble<T>(this);
 }
 export function _sortBy<T>(this: any[], props: string | string[], rev?: boolean, primer?: ISortBy.SortPrimer<T>, lookup?: any, options?: ISortBy.SortOptions): T[] {
     /*|{
@@ -860,7 +862,7 @@ export function _sortBy<T>(this: any[], props: string | string[], rev?: boolean,
         "typeParameter": "<T>",
         "returnType": "(Array<T>)"
     }|*/
-    return sortBy(this, props, rev, primer, lookup, options);
+    return sortBy<T>(this, props, rev, primer, lookup, options);
 }
 export function _stdev(this: number[]): number {
     /*|{
@@ -892,6 +894,21 @@ export function _sum(this: number[]): number {
     }|*/
     return sum(this);
 }
+export function _toMap<T>(this: any[], key: string): { [key: string]: T; } {
+    /*|{
+        "info": "Array class extension to convert the array to a set",
+        "category": "Array",
+        "parameters":[],
+
+        "overloads":[],
+
+        "url": "http://www.craydent.com/library/1.9.3/docs#array.toSet",
+        "typeParameter": "<T>",
+        "returnType": "(Set<T>) returns a Set from the array Values"
+    }|*/
+
+    return toMap<T>(this, key);
+}
 export function _toSet<T>(this: any[]): Set<T> {
     /*|{
         "info": "Array class extension to convert the array to a set",
@@ -905,7 +922,7 @@ export function _toSet<T>(this: any[]): Set<T> {
         "returnType": "(Set<T>) returns a Set from the array Values"
     }|*/
 
-    return toSet(this);
+    return toSet<T>(this);
 }
 export function _trim(this: string[], chars?: string | string[], ref?: boolean): string[] {
     /*|{
@@ -938,7 +955,7 @@ export function _update<T>(this: T[], condition: WhereCondition, setClause: Mong
         "typeParameter": "<T>",
         "returnType": "(Array<T>)"
     }|*/
-    return update(this, condition, setClause, options);
+    return update<T>(this, condition, setClause, options);
 }
 export function _upsert<T>(this: T[], records: T[] | T): IUpsert.UpsertResults<T>;
 export function _upsert<T>(this: T[], records: T[] | T, callback: IUpsert.UpsertIterator<T>): IUpsert.UpsertResults<T>;
@@ -964,7 +981,7 @@ export function _upsert<T>(this: any, records: any, prop?: any, callback?: any):
         "typeParameter": "<T>",
         "returnType": "(UpsertResult<T>) returns the information for resulting operation."
     }|*/
-    return upsert(this, records, prop, callback);
+    return upsert<T>(this, records, prop, callback);
 }
 export function _where<T>(this: AnyObjects, condition?: IWhere.MongoQuery, limit?: number): T[];
 export function _where<T>(this: AnyObjects, condition?: IWhere.MongoQuery, useReference?: boolean, limit?: number): T[];
@@ -1027,6 +1044,6 @@ export function _where<T>(this: any, condition?: any, projection?: any, limit?: 
         "typeParameter": "<T>",
         "returnType": "(Array<T>) returns a filtered subset of the array."
     }|*/
-    return where(this, condition, projection, limit);
+    return where<T>(this, condition, projection, limit);
 
 }
