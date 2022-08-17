@@ -6,7 +6,7 @@ import error from '../methods/error';
 
 export default function _isJSON(obj: any, topLevel = true): boolean {
     try {
-        if (topLevel && obj === null) {
+        if (!topLevel && obj === null) {
             return true;
         }
         const validTypes = [Array, Boolean, Object, Number, String];
@@ -24,7 +24,7 @@ export default function _isJSON(obj: any, topLevel = true): boolean {
         } else if (isArray(obj)) {
             let i = 0, value;
             while (value = obj[i++]) {
-                if (!_isJSON(value)) {
+                if (!_isJSON(value, false)) {
                     return false;
                 }
             }

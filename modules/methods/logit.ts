@@ -79,7 +79,7 @@ type Color = {
     style?: "bright" | "dim" | "underscore" | "blink" | "reverse" | "hidden"
 };
 logit.custom = (value: Color, ...args: any[]): void => {
-    let colors = [], fgColor = "", bgColor = "", style = "";
+    let colors: string[] = [], fgColor = "", bgColor = "", style = "";
     if (value.fgColor && COLORS[fgColor = value.fgColor.toLowerCase()]) {
         colors.push(COLORS[fgColor]);
     }
@@ -91,42 +91,42 @@ logit.custom = (value: Color, ...args: any[]): void => {
     }
     logit.apply(undefined, colors.concat(args, _reset));
 }
-declare namespace logit {
-    //     // @ts-ignore
-    //     export { _black as black };
-    //     // @ts-ignore
-    //     export { _red as red };
-    //     // @ts-ignore
-    //     export { _green as green };
-    //     // @ts-ignore
-    //     export { _yellow as yellow };
-    //     // @ts-ignore
-    //     export { _blue as blue };
-    //     // @ts-ignore
-    //     export { _magenta as magenta };
-    //     // @ts-ignore
-    //     export { _cyan as cyan };
-    //     // @ts-ignore
-    //     export { _white as white };
+// declare namespace logit {
+//         // @ts-ignore
+//         export { _black as black };
+//         // @ts-ignore
+//         export { _red as red };
+//         // @ts-ignore
+//         export { _green as green };
+//         // @ts-ignore
+//         export { _yellow as yellow };
+//         // @ts-ignore
+//         export { _blue as blue };
+//         // @ts-ignore
+//         export { _magenta as magenta };
+//         // @ts-ignore
+//         export { _cyan as cyan };
+//         // @ts-ignore
+//         export { _white as white };
 
-    //     // @ts-ignore
-    //     export { _bgBlack as bgBlack };
-    //     // @ts-ignore
-    //     export { _bgRed as bgRed };
-    //     // @ts-ignore
-    //     export { _bgGreen as bgGreen };
-    //     // @ts-ignore
-    //     export { _bgYellow as bgYellow };
-    //     // @ts-ignore
-    //     export { _bgBlue as bgBlue };
-    //     // @ts-ignore
-    //     export { _bgMagenta as bgMagenta };
-    //     // @ts-ignore
-    //     export { _bgCyan as bgCyan };
-    //     // @ts-ignore
-    //     export { _bgWhite as bgWhite };
+//         // @ts-ignore
+//         export { _bgBlack as bgBlack };
+//         // @ts-ignore
+//         export { _bgRed as bgRed };
+//         // @ts-ignore
+//         export { _bgGreen as bgGreen };
+//         // @ts-ignore
+//         export { _bgYellow as bgYellow };
+//         // @ts-ignore
+//         export { _bgBlue as bgBlue };
+//         // @ts-ignore
+//         export { _bgMagenta as bgMagenta };
+//         // @ts-ignore
+//         export { _bgCyan as bgCyan };
+//         // @ts-ignore
+//         export { _bgWhite as bgWhite };
 
-    // @ts-ignore
-    export { black, red, green, yellow, blue, magenta, cyan, white, bgBlack, bgRed, bgGreen, bgYellow, bgBlue, bgMagenta, bgCyan, bgWhite, custom };
-}
+//     // @ts-ignore
+//     export { black, red, green, yellow, blue, magenta, cyan, white, bgBlack, bgRed, bgGreen, bgYellow, bgBlue, bgMagenta, bgCyan, bgWhite, custom };
+// }
 export default logit;
