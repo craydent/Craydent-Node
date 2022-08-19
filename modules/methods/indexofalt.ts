@@ -8,8 +8,8 @@ import isString from '../methods/isstring';
 import isNumber from '../methods/isnumber';
 import { ArrayIterator } from '../models/Arrays';
 
-export default function indexOfAlt<T>(obj: any[], value: any, callback: ArrayIterator<T>, pos?: number): number;
-export default function indexOfAlt(obj: any[], regex: RegExp, pos?: number): number;
+export default function indexOfAlt<T>(obj: T[], value: any, callback: ArrayIterator<T>, pos?: number): number;
+export default function indexOfAlt<T>(obj: T[], regex: RegExp, pos?: number): number;
 export default function indexOfAlt<T>(obj: string, value: string, pos?: number): number;
 export default function indexOfAlt(obj: string, regex: RegExp, pos?: number): number;
 export default function indexOfAlt(obj: any, value: any, func: any, pos?: any): number {

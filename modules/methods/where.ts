@@ -491,10 +491,10 @@ export function _searchRange<T>(sarr_arg: IndexedBucket<T>, options: SearchRange
 
 export type MongoQuery = any;
 export type WhereProjection = string | string[] | boolean | Fields;
-export default function where<T>(objs: AnyObjects, condition?: MongoQuery, limit?: number): T[];
-export default function where<T>(objs: AnyObjects, condition?: MongoQuery, useReference?: boolean, limit?: number): T[];
-export default function where<T>(objs: AnyObjects, condition?: MongoQuery, projection?: WhereProjection, limit?: number): T[];
-export default function where<T>(objs: any, condition?: any, projection?: any, limit?: any): T[] {
+export default function where<T>(objs: T[], condition?: MongoQuery, limit?: number): T[];
+export default function where<T>(objs: T[], condition?: MongoQuery, useReference?: boolean, limit?: number): T[];
+export default function where<T>(objs: T[], condition?: MongoQuery, projection?: WhereProjection, limit?: number): T[];
+export default function where<T>(objs: T[], condition?: any, projection?: any, limit?: any): T[] {
     /*|{
         "info": "Array class extension to use mongo or sql queries",
         "category": "Array",

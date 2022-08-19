@@ -189,7 +189,7 @@ export function _buildTree<T, TResult>(this: T[], parentFinder: TreeParentFinder
     }|*/
     return buildTree<T, TResult>(this, parentFinder, childFinder, options);
 }
-export function _condense<T>(this: any[], check_values?: boolean): any[] {
+export function _condense<T>(this: any[], check_values?: boolean): T[] {
     /*|{
         "info": "Array class extension to reduce the size of the Array removing blank strings, undefined's, and nulls",
         "category": "Array",
@@ -411,7 +411,7 @@ export function _findOne<T>(this: T[], condition: WhereCondition | string, proje
     }|*/
     return findOne<T>(this, condition, projection);
 }
-export function _getValue<T>(this: any[], args?: any[], dflt?: any): T {
+export function _getValue<T>(this: T[], args?: any[], dflt?: any): T {
     /*|{
         "info": "Object class extension to retrieve value of an object property",
         "category": "Array|Object",
@@ -447,9 +447,9 @@ export function _group<T>(this: T[], params: GroupOptions<T>, removeProps?: bool
     }|*/
     return group<T>(this, params, removeProps);
 }
-export function _indexOfAlt<T>(this: any[], value: any, callback: ArrayIterator<T>): number;
-export function _indexOfAlt<T>(this: any[], regex: RegExp, pos: number): number;
-export function _indexOfAlt<T>(this: any, value: any, option: any): number {
+export function _indexOfAlt<T>(this: T[], value: any, callback: ArrayIterator<T>): number;
+export function _indexOfAlt<T>(this: T[], regex: RegExp, pos: number): number;
+export function _indexOfAlt<T>(this: T[], value: any, option: any): number {
     /*|{
         "info": "Array class extension to find index of a value based on a callback function & String class extension to find the index based on a regular expression",
         "category": "Array",
@@ -485,7 +485,7 @@ export function _innerJoin<T, R, TResult>(this: T[], arr: R[], on: string): TRes
     }|*/
     return innerJoin<T, R, TResult>(this, arr, on);
 }
-export function _insert(this: any[], value: any): boolean {
+export function _insert<T>(this: T[], value: any): boolean {
     /*|{
         "info": "Array class extension to add to the array",
         "category": "Array",
@@ -495,9 +495,9 @@ export function _insert(this: any[], value: any): boolean {
         "url": "http://www.craydent.com/library/1.9.3/docs#array.insert",
         "returnType": "(Bool)"
     }|*/
-    return insert(this, value);
+    return insert<T>(this, value);
 }
-export function _insertAfter(this: any[], index: number, value: any): boolean {
+export function _insertAfter<T>(this: T[], index: number, value: any): boolean {
     /*|{
         "info": "Array class extension to add to the array after a specific index",
         "category": "Array",
@@ -511,9 +511,9 @@ export function _insertAfter(this: any[], index: number, value: any): boolean {
         "typeParameter": "<T>",
         "returnType": "(Bool) returns true for success and false for failure."
     }|*/
-    return insertAfter(this, index, value);
+    return insertAfter<T>(this, index, value);
 }
-export function _insertAt(this: any[], index: number, value: any): boolean {
+export function _insertAt<T>(this: T[], index: number, value: any): boolean {
     /*|{
         "info": "Array class extension to add to the array at a specific index and push the all indexes down",
         "category": "Array",
@@ -528,9 +528,9 @@ export function _insertAt(this: any[], index: number, value: any): boolean {
         "returnType": "(Bool) returns true for success and false for failure."
     }|*/
 
-    return insertAt(this, index, value);
+    return insertAt<T>(this, index, value);
 }
-export function _insertBefore(this: any[], index: number, value: any): boolean {
+export function _insertBefore<T>(this: T[], index: number, value: any): boolean {
     /*|{
         "info": "Array class extension to add to the array before a specific index",
         "category": "Array",
@@ -544,7 +544,7 @@ export function _insertBefore(this: any[], index: number, value: any): boolean {
         "typeParameter": "<T>",
         "returnType": "(Bool) returns true for success and false for failure."
     }|*/
-    return insertBefore(this, index, value);
+    return insertBefore<T>(this, index, value);
 }
 export function _isEmpty(this: any[]): boolean {
     /*|{
@@ -562,7 +562,7 @@ export function _isEmpty(this: any[]): boolean {
 }
 export function _isSubset<T, R>(this: T[], compare: R[], sharesAny?: boolean): boolean;
 export function _isSubset<T, R>(this: T, compare: R, sharesAny?: boolean): boolean;
-export function _isSubset(this: any, compare: any, sharesAny?: any): boolean {
+export function _isSubset<T, R>(this: T, compare: R, sharesAny?: any): boolean {
     /*|{
         "info": "Object class extension to check if item is a subset",
         "category": "Array|Object",
@@ -576,7 +576,7 @@ export function _isSubset(this: any, compare: any, sharesAny?: any): boolean {
         "returnType": "(Bool) returns true if the array is a subset, otherwise false."
     }|*/
 
-    return isSubset(this, compare, sharesAny);
+    return isSubset<T, R>(this, compare, sharesAny);
 }
 export function _joinLeft<T, R, TResult>(this: T[], arr: R[], on: string): TResult[] {
     /*|{
@@ -640,7 +640,7 @@ export function _limit<T>(this: T[], max: number, skip?: number): T[] {
     }|*/
     return limit<T>(this, max, skip);
 }
-export function _map<T>(this: any[], callback: ArrayIterator<T>, context: any): T[] {
+export function _map<T, TResult>(this: T[], callback: ArrayIterator<T>, context: any): TResult[] {
     /*|{
         "info": "Array class extension to implement map",
         "category": "Array",
@@ -654,7 +654,7 @@ export function _map<T>(this: any[], callback: ArrayIterator<T>, context: any): 
         "typeParameter": "<T, TResult>",
         "returnType": "(Array<TResult>) returns the resulting array."
     }|*/
-    return map<T>(this, callback, context) as any;
+    return map<T, TResult>(this, callback, context) as any;
 }
 export function _mapReduce<T, TResult>(this: T[], map: ArrayIterator<T>, reduce: MongoReducer<TResult>, options?: MongoMapReduceOptions<TResult>): TResult[] {
     /*|{
@@ -803,7 +803,7 @@ export function _scramble<T>(this: T[]): T[] {
     }|*/
     return scramble<T>(this);
 }
-export function _sortBy<T>(this: any[], props: string | string[], rev?: boolean, primer?: ISortBy.SortPrimer<T>, lookup?: any, options?: ISortBy.SortOptions): T[] {
+export function _sortBy<T>(this: T[], props: string | string[], rev?: boolean, primer?: ISortBy.SortPrimer<T>, lookup?: any, options?: ISortBy.SortOptions): T[] {
     /*|{
         "info": "Array class extension to sort the array",
         "category": "Array",
@@ -894,7 +894,7 @@ export function _sum(this: number[]): number {
     }|*/
     return sum(this);
 }
-export function _toMap<T>(this: any[], key: string): { [key: string]: T; } {
+export function _toMap<T>(this: T[], key: string): { [key: string]: T; } {
     /*|{
         "info": "Array class extension to convert the array to a set",
         "category": "Array",
@@ -909,7 +909,7 @@ export function _toMap<T>(this: any[], key: string): { [key: string]: T; } {
 
     return toMap<T>(this, key);
 }
-export function _toSet<T>(this: any[]): Set<T> {
+export function _toSet<T>(this: T[]): Set<T> {
     /*|{
         "info": "Array class extension to convert the array to a set",
         "category": "Array",
@@ -960,7 +960,7 @@ export function _update<T>(this: T[], condition: WhereCondition, setClause: Mong
 export function _upsert<T>(this: T[], records: T[] | T): IUpsert.UpsertResults<T>;
 export function _upsert<T>(this: T[], records: T[] | T, callback: IUpsert.UpsertIterator<T>): IUpsert.UpsertResults<T>;
 export function _upsert<T>(this: T[], records: T[] | T, prop: string, callback?: IUpsert.UpsertIterator<T>): IUpsert.UpsertResults<T>;
-export function _upsert<T>(this: any, records: any, prop?: any, callback?: any): IUpsert.UpsertResults<T> {
+export function _upsert<T>(this: T[], records: any, prop?: any, callback?: any): IUpsert.UpsertResults<T> {
     /*|{
         "info": "Array class extension to upsert records to array",
         "category": "Array",
@@ -983,10 +983,10 @@ export function _upsert<T>(this: any, records: any, prop?: any, callback?: any):
     }|*/
     return upsert<T>(this, records, prop, callback);
 }
-export function _where<T>(this: AnyObjects, condition?: IWhere.MongoQuery, limit?: number): T[];
-export function _where<T>(this: AnyObjects, condition?: IWhere.MongoQuery, useReference?: boolean, limit?: number): T[];
-export function _where<T>(this: AnyObjects, condition?: IWhere.MongoQuery, projection?: any, limit?: number): T[];
-export function _where<T>(this: any, condition?: any, projection?: any, limit?: any): T[] {
+export function _where<T>(this: T[], condition?: IWhere.MongoQuery, limit?: number): T[];
+export function _where<T>(this: T[], condition?: IWhere.MongoQuery, useReference?: boolean, limit?: number): T[];
+export function _where<T>(this: T[], condition?: IWhere.MongoQuery, projection?: any, limit?: number): T[];
+export function _where<T>(this: T[], condition?: any, projection?: any, limit?: any): T[] {
     /*|{
         "info": "Array class extension to use mongo or sql queries",
         "category": "Array",

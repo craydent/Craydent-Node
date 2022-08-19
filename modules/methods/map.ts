@@ -5,7 +5,7 @@ import duplicate from '../methods/duplicate';
 import { ObjectIterator } from '../models/ObjectIterator';
 
 
-export default function map<T>(objs: T[] | T, callback: ArrayIterator<T> | ObjectIterator<T>, context?: any): T[] | T {
+export default function map<T,TResult>(objs: T[] | T, callback: ArrayIterator<T> | ObjectIterator<T>, context?: any): TResult[] | T {
     /*|{
         "info": "Array class extension to implement map",
         "category": "Array",
